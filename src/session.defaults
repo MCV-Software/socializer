@@ -1,0 +1,6 @@
+[vk]
+user = string(default="")
+password = string(default="")
+token = string(default="")
+[general]
+reverse_timelines = boolean(default=False)

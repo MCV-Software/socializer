@@ -1,0 +1,4 @@
+[app-settings]
+username = string(default="")
+password = string(default="")
+language = string(default="system")
