@@ -1,6 +1,6 @@
 # socializer 
 
-A desktop application for handling vk.com in an easy way.
+A desktop application for handling [vk.com](http://vk.com) in an easy way.
 
 ## Warning
 
@@ -14,6 +14,7 @@ I have started this effort as an open source  project on Feb 13, 2016. Pull requ
 * [wxPython](http://www.wxpython.org) for Python 2.7, version 3.0.2.0
 * [Python windows extensions (pywin32)](http://www.sourceforge.net/projects/pywin32/) for python 2.7, build 220
 * [PyEnchant,](http://pythonhosted.org/pyenchant/) version 1.6.6.
+* [VK API bindings for Python](https://github.com/dimka665/vk) (already included in the SRC directory)
 * pypubsub
 * configobj
 * requests-oauthlib
