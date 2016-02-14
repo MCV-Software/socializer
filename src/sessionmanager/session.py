@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import time
 import arrow
 import languageHandler
 import paths
@@ -216,6 +217,8 @@ class vkSession(object):
 				return "no specified community"
 
 	def get_users(self, user_ids=None, group_ids=None):
+		time.sleep(1)
+		print len(user_ids.split(","))
 		if user_ids != None:
 			u = self.vk.client.users.get(user_ids=user_ids, fields="uid, first_name, last_name")
 			for i in u:
