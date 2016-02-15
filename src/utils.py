@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import requests
 import re
 
 url_re = re.compile("(?:\w+://|www\.)[^ ,.?!#%=+][^ ]*")
@@ -32,3 +33,20 @@ def seconds_to_string(seconds, precision=0):
 
 def find_urls_in_text(text):
 	return [s.strip(bad_chars) for s in url_re.findall(text)]
+
+def download_file(url, local_filename, window):
+	r = requests.get(url, stream=True)
+	window.change_status(_(u"Downloading {0}").format(local_filename,))
+	total_length = r.headers.get("content-length")
+	dl = 0
+	total_length = int(total_length)
+	with open(local_filename, 'wb') as f:
+		for chunk in r.iter_content(chunk_size=64): 
+			if chunk: # filter out keep-alive new chunks
+				dl += len(chunk)
+				f.write(chunk)
+				done = int(100 * dl / total_length)
+				msg = _(u"Downloading {0} ({1}%)").format(local_filename, done)
+				window.change_status(msg)
+	window.change_status(_(u"Ready"))
+	return local_filename

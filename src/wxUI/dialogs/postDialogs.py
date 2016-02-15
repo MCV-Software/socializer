@@ -140,3 +140,8 @@ class audio(widgetUtils.BaseDialog):
 		bbox.Add(self.download, 0, wx.ALL, 5)
 		bbox.Add(close, 0, wx.ALL, 5)
 
+	def get_destination_path(self, filename):
+		saveFileDialog = wx.FileDialog(self, _(u"Save this file"), "", filename, _(u"Audio Files(*.mp3)|*.mp3"), wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT)
+		if saveFileDialog.ShowModal() == wx.ID_OK:
+			return saveFileDialog.GetPath()
+		saveFileDialog.Destroy()

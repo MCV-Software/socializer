@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 import arrow
 import messages
 import languageHandler
@@ -193,6 +194,7 @@ class audio(postController):
 		self.post = postObject
 		self.dialog = postDialogs.audio()
 		self.fill_information()
+		widgetUtils.connect_event(self.dialog.download, widgetUtils.BUTTON_PRESSED, self.download)
 
 	def fill_information(self):
 		if self.post.has_key("artist"):
@@ -208,3 +210,9 @@ class audio(postController):
 		if self.post.has_key("lyrics_id"):
 			l = self.session.vk.client.audio.getLyrics(lyrics_id=int(self.post["lyrics_id"]))
 			self.dialog.set("lyric", l["text"])
+
+	def download(self, *args, **kwargs):
+		f = u"{0} - {1}.mp3".format(self.post["title"], self.post["artist"])
+		path = self.dialog.get_destination_path(f)
+		if path != None:
+			pub.sendMessage("download-file", url=self.post["url"], filename=f)

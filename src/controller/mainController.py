@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+import utils
 import widgetUtils
 import messages
 import buffers
 from pubsub import pub
 from mysc.repeating_timer import RepeatingTimer
+from mysc.thread_utils import call_threaded
 from sessionmanager import session
 from wxUI import (mainWindow)
 
@@ -39,6 +41,7 @@ class Controller(object):
 		self.buffers.append(audio)
 		self.window.add_buffer(audio.tab, _(u"My audios"))
 		pub.subscribe(self.in_post, "posted")
+		pub.subscribe(self.download, "download-file")
 
 	def login(self):
 		self.window.change_status(_(u"Logging in VK"))
@@ -61,3 +64,6 @@ class Controller(object):
 			if hasattr(i, "get_items"):
 				i.get_items()
 				print "executed for %s" % (i.name)
+
+	def download(self, url, filename):
+		call_threaded(utils.download_file, url, filename, self.window)
