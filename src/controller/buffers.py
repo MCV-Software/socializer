@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import widgetUtils
 import messages
+import player
 import utils
 from wxUI.tabs import home
 from pubsub import pub
@@ -70,3 +71,13 @@ class feedBuffer(baseBuffer):
 class audioBuffer(feedBuffer):
 	def create_tab(self, parent):
 		self.tab = home.audioTab(parent)
+
+	def connect_events(self):
+		widgetUtils.connect_event(self.tab.post, widgetUtils.BUTTON_PRESSED, self.post)
+		widgetUtils.connect_event(self.tab.play, widgetUtils.BUTTON_PRESSED, self.play_audio)
+
+	def play_audio(self, *args, **kwargs):
+		selected = self.tab.list.get_selected()
+		player.player.play(self.session.db[self.name]["items"][selected]["url"])
+
+player.setup()

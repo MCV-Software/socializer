@@ -55,6 +55,15 @@ class audioTab(homeTab):
 		self.list.set_size()
 		self.list.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnKeyDown)
 
+	def create_post_buttons(self):
+		self.post = wx.Button(self, -1, _(u"Post"))
+		self.play = wx.Button(self, -1, _(u"Play"))
+		self.play_all = wx.Button(self, -1, _(u"Play All"))
+		self.postBox = wx.BoxSizer(wx.HORIZONTAL)
+		self.postBox.Add(self.post, 0, wx.ALL, 5)
+		self.postBox.Add(self.play, 0, wx.ALL, 5)
+		self.postBox.Add(self.play_all, 0, wx.ALL, 5)
+
 class notificationsTab(homeTab):
 	def __init__(self, parent):
 		super(notificationsTab, self).__init__(parent=parent)

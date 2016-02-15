@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import widgetUtils
 import messages
-from wxUI import (mainWindow)
 import buffers
 from pubsub import pub
 from mysc.repeating_timer import RepeatingTimer
 from sessionmanager import session
+from wxUI import (mainWindow)
 
 class Controller(object):
 
