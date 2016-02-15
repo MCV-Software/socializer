@@ -14,7 +14,7 @@ class homeTab(wx.Panel):
 		self.list.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnKeyDown)
 
 	def create_post_buttons(self):
-		self.post = wx.Button(self, -1, _(u"Post in facebook"))
+		self.post = wx.Button(self, -1, _(u"Post"))
 		self.postBox = wx.BoxSizer(wx.HORIZONTAL)
 		self.postBox.Add(self.post, 0, wx.ALL, 5)
 

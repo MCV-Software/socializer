@@ -4,7 +4,7 @@ import widgetUtils
 
 class textMessage(widgetUtils.BaseDialog):
 	def __init__(self, *args, **kwargs):
-		super(textLimited, self).__init__(parent=None, *args, **kwargs)
+		super(textMessage, self).__init__(parent=None, *args, **kwargs)
 
 	def createTextArea(self, message="", text=""):
 		self.panel = wx.Panel(self)
