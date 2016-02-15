@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import wx
 import widgetUtils
 import messages
 import player
@@ -6,6 +7,7 @@ import utils
 from wxUI.tabs import home
 from pubsub import pub
 from sessionmanager import session
+from mysc.thread_utils import call_threaded
 
 class baseBuffer(object):
 	def __init__(self, parent=None, name="", session=None, composefunc=None, *args, **kwargs):
@@ -22,7 +24,6 @@ class baseBuffer(object):
 
 	def create_tab(self, parent):
 		self.tab = home.homeTab(parent)
-
 
 	def insert(self, item, reversed=False):
 		item_ = getattr(session, self.compose_function)(item, self.session)
@@ -52,9 +53,29 @@ class baseBuffer(object):
 			self.session.post_wall_status(message=msg, friends_only=privacy_opts, attachments=attachments)
 			pub.sendMessage("posted", buffer=self.name)
 
-
 	def connect_events(self):
 		widgetUtils.connect_event(self.tab.post, widgetUtils.BUTTON_PRESSED, self.post)
+		widgetUtils.connect_event(self.tab.list.list, widgetUtils.KEYPRESS, self.get_event)
+
+	def get_event(self, ev):
+		if ev.GetKeyCode() == wx.WXK_RETURN and ev.ControlDown(): event = "play_audio"
+		elif ev.GetKeyCode() == wx.WXK_RETURN: event = "open_url"
+		elif ev.GetKeyCode() == wx.WXK_F5: event = "volume_down"
+		elif ev.GetKeyCode() == wx.WXK_F6: event = "volume_up"
+		else:
+			event = None
+			ev.Skip()
+		if event != None:
+			try:
+				getattr(self, event)()
+			except AttributeError:
+				pass
+
+	def volume_down(self):
+		player.player.volume = player.player.volume-5
+
+	def volume_up(self):
+		player.player.volume = player.player.volume+5
 
 class feedBuffer(baseBuffer):
 
@@ -68,16 +89,17 @@ class feedBuffer(baseBuffer):
 			else:
 				[self.insert(i) for i in self.session.db[self.name]["items"][:num]]
 
+
 class audioBuffer(feedBuffer):
 	def create_tab(self, parent):
 		self.tab = home.audioTab(parent)
 
 	def connect_events(self):
-		widgetUtils.connect_event(self.tab.post, widgetUtils.BUTTON_PRESSED, self.post)
 		widgetUtils.connect_event(self.tab.play, widgetUtils.BUTTON_PRESSED, self.play_audio)
+		super(audioBuffer, self).connect_events()
 
 	def play_audio(self, *args, **kwargs):
 		selected = self.tab.list.get_selected()
-		player.player.play(self.session.db[self.name]["items"][selected]["url"])
+		call_threaded(player.player.play, self.session.db[self.name]["items"][selected]["url"])
 
 player.setup()
