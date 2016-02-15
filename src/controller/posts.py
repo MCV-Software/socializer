@@ -195,6 +195,7 @@ class audio(postController):
 		self.dialog = postDialogs.audio()
 		self.fill_information()
 		widgetUtils.connect_event(self.dialog.download, widgetUtils.BUTTON_PRESSED, self.download)
+		widgetUtils.connect_event(self.dialog.play, widgetUtils.BUTTON_PRESSED, self.play)
 
 	def fill_information(self):
 		if self.post.has_key("artist"):
@@ -216,3 +217,6 @@ class audio(postController):
 		path = self.dialog.get_destination_path(f)
 		if path != None:
 			pub.sendMessage("download-file", url=self.post["url"], filename=f)
+
+	def play(self, *args, **kwargs):
+		pub.sendMessage("play-audio", audio_object=self.post["url"])

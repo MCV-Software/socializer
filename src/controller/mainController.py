@@ -3,6 +3,7 @@ import utils
 import widgetUtils
 import messages
 import buffers
+import player
 from pubsub import pub
 from mysc.repeating_timer import RepeatingTimer
 from mysc.thread_utils import call_threaded
@@ -20,6 +21,7 @@ class Controller(object):
 	def __init__(self):
 		super(Controller, self).__init__()
 		self.buffers = []
+		player.setup()
 		self.window = mainWindow.mainWindow()
 		self.window.change_status(_(u"Ready"))
 		self.session = session.sessions[session.sessions.keys()[0]]
@@ -42,6 +44,7 @@ class Controller(object):
 		self.window.add_buffer(audio.tab, _(u"My audios"))
 		pub.subscribe(self.in_post, "posted")
 		pub.subscribe(self.download, "download-file")
+		pub.subscribe(self.play_audio, "play-audio")
 
 	def login(self):
 		self.window.change_status(_(u"Logging in VK"))
@@ -67,3 +70,6 @@ class Controller(object):
 
 	def download(self, url, filename):
 		call_threaded(utils.download_file, url, filename, self.window)
+
+	def play_audio(self, audio_object):
+		call_threaded(player.player.play, audio_object)

@@ -2,9 +2,9 @@
 import wx
 import widgetUtils
 import messages
-import player
 import utils
 import posts
+import player
 from wxUI.tabs import home
 from pubsub import pub
 from sessionmanager import session
@@ -101,11 +101,10 @@ class audioBuffer(feedBuffer):
 
 	def play_audio(self, *args, **kwargs):
 		selected = self.tab.list.get_selected()
-		call_threaded(player.player.play, self.session.db[self.name]["items"][selected]["url"])
+		pub.sendMessage("play-audio", audio_object=self.session.db[self.name]["items"][selected]["url"])
 
 	def open_post(self):
 		selected = self.tab.list.get_selected()
 		a = posts.audio(self.session, self.session.db[self.name]["items"][selected])
 		a.dialog.get_response()
 
-player.setup()
