@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-from sessionmanager import session
 import widgetUtils
 import messages
+import utils
 from wxUI.tabs import home
 from pubsub import pub
+from sessionmanager import session
 
 class baseBuffer(object):
 	def __init__(self, parent=None, name="", session=None, composefunc=None, *args, **kwargs):
@@ -41,7 +42,13 @@ class baseBuffer(object):
 		if p.message.get_response() == widgetUtils.OK:
 			msg = p.message.get_text().encode("utf-8")
 			privacy_opts = p.get_privacy_options()
-			self.session.post_wall_status(message=msg, friends_only=privacy_opts)
+			attachments = ""
+			urls = utils.find_urls_in_text(msg)
+			if len(urls) != 0:
+				if len(attachments) == 0: attachments = urls[0]
+				else: attachments += urls[0]
+				msg = msg.replace(urls[0], "")
+			self.session.post_wall_status(message=msg, friends_only=privacy_opts, attachments=attachments)
 			pub.sendMessage("posted", buffer=self.name)
 
 

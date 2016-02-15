@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+import re
+
+url_re = re.compile("(?:\w+://|www\.)[^ ,.?!#%=+][^ ]*")
+bad_chars = '\'\\.,[](){}:;"'
 
 def seconds_to_string(seconds, precision=0):
 	day = seconds // 86400
@@ -25,3 +29,6 @@ def seconds_to_string(seconds, precision=0):
 	else:
 		string += _(u"%s seconds") % sec_string
 	return string
+
+def find_urls_in_text(text):
+	return [s.strip(bad_chars) for s in url_re.findall(text)]
