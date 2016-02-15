@@ -22,3 +22,7 @@ I have started this effort as an open source  project on Feb 13, 2016. Pull requ
 * arrow==0.6
 * microsofttranslator
 
+## Running
+
+Just open the main.py file with the python interpreter. This file is located in the src directory. If you haven't configured your VK account, you'll have to press "new account" in the first dialogue, a new dialogue will  prompt for an user email and the password for your account. Even if the session manager, in theory, allows to configure more than one account, the application will initialize only the first detected account. Take into account that the provided information will be saved in a config file as plain text. This application will need your email and password for renegotiating the access token when it expires.
+
