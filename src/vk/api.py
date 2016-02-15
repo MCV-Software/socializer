@@ -93,7 +93,7 @@ class Session(object):
         if AUTHORIZATION_FAILED in error_codes:  # invalid access token
             logger.info('Authorization failed. Access token will be dropped')
             self.access_token = None
-            return self.make_request(method_request)
+            return False
         else:
             raise VkAPIMethodError(errors[0])
 

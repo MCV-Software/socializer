@@ -15,3 +15,4 @@ class vkObject(object):
 	def login_access_token(self, token):
 		s = Session(access_token=token)
 		self.client = API(s)
+		return self.client.account.getProfileInfo()

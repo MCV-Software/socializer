@@ -42,7 +42,7 @@ class Controller(object):
 
 	def login(self):
 		self.window.change_status(_(u"Logging in VK"))
-		self.session.authorise()
+		self.session.login()
 		self.window.change_status(_(u"Ready"))
 		for i in self.buffers:
 			if hasattr(i, "get_items"):

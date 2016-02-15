@@ -136,19 +136,18 @@ class vkSession(object):
 		if the user account isn't authorised, it needs to call self.authorise() before login."""
 
 		if self.settings["vk"]["token"] != None:
-			self.vk.login_access_token(self.settings["vk"]["token"])
+			result = self.vk.login_access_token(self.settings["vk"]["token"])
 			self.logged = True
 			log.debug("Logged.")
+			if result == False:
+				self.authorise()
 		else:
-			self.logged = False
-			raise Exceptions.RequireCredentialsSessionError
+			self.authorise()
 
 	def authorise(self):
-		if self.logged == True:
-			raise Exceptions.AlreadyAuthorisedError("The authorisation process is not needed at this time.")
-		else:
-			self.vk.login(self.settings["vk"]["user"], self.settings["vk"]["password"])
-			self.settings["vk"]["token"] = self.vk.client._session.access_token
+		self.vk.login(self.settings["vk"]["user"], self.settings["vk"]["password"])
+		self.settings["vk"]["token"] = self.vk.client._session.access_token
+		self.settings.write()
 
 	def post_wall_status(self, message, *args, **kwargs):
 		response = self.vk.client.wall.post(message=message, *args, **kwargs)
@@ -218,7 +217,6 @@ class vkSession(object):
 
 	def get_users(self, user_ids=None, group_ids=None):
 		time.sleep(1)
-		print len(user_ids.split(","))
 		if user_ids != None:
 			u = self.vk.client.users.get(user_ids=user_ids, fields="uid, first_name, last_name")
 			for i in u:
