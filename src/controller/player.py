@@ -40,7 +40,8 @@ class audioPlayer(object):
 
 	@volume.setter
 	def volume(self, vol):
-		self.vol = vol
+		if vol <= 100 and vol >= 0:
+			self.vol = vol
 		if self.stream != None:
-			self.stream.volume = vol/100.0
+			self.stream.volume = self.vol/100.0
 
