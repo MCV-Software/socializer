@@ -6,12 +6,12 @@ import widgetUtils
 import output
 import wx
 import webbrowser
+import utils
 from pubsub import pub
 from wxUI.dialogs import postDialogs, urlList
 from extra import SpellChecker, translator
 from mysc.thread_utils import call_threaded
 from wxUI import menus
-from utils import find_urls
 
 class postController(object):
 	def __init__(self, session, postObject):
@@ -187,3 +187,24 @@ class comment(object):
 		lk = self.session.like(self.comment["id"])
 		self.get_likes()
 
+class audio(postController):
+	def __init__(self, session, postObject):
+		self.session = session
+		self.post = postObject
+		self.dialog = postDialogs.audio()
+		self.fill_information()
+
+	def fill_information(self):
+		if self.post.has_key("artist"):
+			self.dialog.set("artist", self.post["artist"])
+		if self.post.has_key("title"):
+			self.dialog.set("title", self.post["title"])
+		if self.post.has_key("duration"):
+			self.dialog.set("duration", utils.seconds_to_string(self.post["duration"]))
+		self.dialog.set_title(u"{0} - {1}".format(self.post["title"], self.post["artist"]))
+		call_threaded(self.get_lyrics)
+
+	def get_lyrics(self):
+		if self.post.has_key("lyrics_id"):
+			l = self.session.vk.client.audio.getLyrics(lyrics_id=int(self.post["lyrics_id"]))
+			self.dialog.set("lyric", l["text"])

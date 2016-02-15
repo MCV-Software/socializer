@@ -4,6 +4,7 @@ import widgetUtils
 import messages
 import player
 import utils
+import posts
 from wxUI.tabs import home
 from pubsub import pub
 from sessionmanager import session
@@ -59,7 +60,7 @@ class baseBuffer(object):
 
 	def get_event(self, ev):
 		if ev.GetKeyCode() == wx.WXK_RETURN and ev.ControlDown(): event = "play_audio"
-		elif ev.GetKeyCode() == wx.WXK_RETURN: event = "open_url"
+		elif ev.GetKeyCode() == wx.WXK_RETURN: event = "open_post"
 		elif ev.GetKeyCode() == wx.WXK_F5: event = "volume_down"
 		elif ev.GetKeyCode() == wx.WXK_F6: event = "volume_up"
 		else:
@@ -101,5 +102,10 @@ class audioBuffer(feedBuffer):
 	def play_audio(self, *args, **kwargs):
 		selected = self.tab.list.get_selected()
 		call_threaded(player.player.play, self.session.db[self.name]["items"][selected]["url"])
+
+	def open_post(self):
+		selected = self.tab.list.get_selected()
+		a = posts.audio(self.session, self.session.db[self.name]["items"][selected])
+		a.dialog.get_response()
 
 player.setup()
