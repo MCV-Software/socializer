@@ -13,7 +13,6 @@ class post(object):
 		self.message.set_title(title)
 		widgetUtils.connect_event(self.message.spellcheck, widgetUtils.BUTTON_PRESSED, self.spellcheck)
 		widgetUtils.connect_event(self.message.translateButton, widgetUtils.BUTTON_PRESSED, self.translate)
-#  self.text_processor()
 		self.image = None
 #		widgetUtils.connect_event(self.message.upload_image, widgetUtils.BUTTON_PRESSED, self.upload_image)
 
@@ -37,51 +36,6 @@ class post(object):
 			output.speak(_(u"Translated"))
 		else:
 			return
-
-# def shorten(self, event=None):
-#  urls = utils.find_urls_in_text(self.message.get_text())
-#  if len(urls) == 0:
-#   output.speak(_(u"There's no URL to be shortened"))
-#   self.message.text_focus()
-#  elif len(urls) == 1:
-#   self.message.set_text(self.message.get_text().replace(urls[0], url_shortener.shorten(urls[0])))
-#   output.speak(_(u"URL shortened"))
-#   self.message.text_focus()
-#  elif len(urls) > 1:
-#   list_urls = urlList.urlList()
-#   list_urls.populate_list(urls)
-#   if list_urls.get_response() == widgetUtils.OK:
-#    self.message.set_text(self.message.get_text().replace(urls[list_urls.get_item()], url_shortener.shorten(list_urls.get_string())))
-#    output.speak(_(u"URL shortened"))
-#    self.message.text_focus()
-
-# def unshorten(self, event=None):
-#  urls = utils.find_urls_in_text(self.message.get_text())
-#  if len(urls) == 0:
-#   output.speak(_(u"There's no URL to be expanded"))
-#   self.message.text_focus()
-#  elif len(urls) == 1:
-#   self.message.set_text(self.message.get_text().replace(urls[0], url_shortener.unshorten(urls[0])))
-#   output.speak(_(u"URL expanded"))
-#   self.message.text_focus()
-#  elif len(urls) > 1:
-#   list_urls = urlList.urlList()
-#   list_urls.populate_list(urls)
-#   if list_urls.get_response() == widgetUtils.OK:
-#    self.message.set_text(self.message.get_text().replace(urls[list_urls.get_item()], url_shortener.unshorten(list_urls.get_string())))
-#    output.speak(_(u"URL expanded"))
-#    self.message.text_focus()
-
-# def text_processor(self, *args, **kwargs):
-#  self.message.set_title(_(u"%s - %s of 140 characters") % (self.title, len(self.message.get_text())))
-#  if len(self.message.get_text()) > 1:
-#   self.message.enable_button("shortenButton")
-#   self.message.enable_button("unshortenButton")
-#  else:
-#   self.message.disable_button("shortenButton")
-#   self.message.disable_button("unshortenButton")
-#  if len(self.message.get_text()) > 140:
-#   self.session.sound.play("max_length.ogg")
 
 	def spellcheck(self, event=None):
 		text = self.message.get_text()
