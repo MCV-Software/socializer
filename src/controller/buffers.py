@@ -78,6 +78,11 @@ class baseBuffer(object):
 	def volume_up(self):
 		player.player.volume = player.player.volume+5
 
+	def play_audio(self, *args, **kwargs):
+		post = self.session.db[self.name]["items"][self.tab.list.get_selected()]
+		if post.has_key("type") and post["type"] == "audio":
+			pub.sendMessage("play-audio", audio_object=post["audio"][1]["url"])
+
 class feedBuffer(baseBuffer):
 
 	def get_items(self, no_next=True):

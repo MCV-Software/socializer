@@ -36,7 +36,7 @@ If you have used [TWBlue](https://github.com/manuelcortez/twblue) before, the so
 * A status bar where the program will put some useful information about what it's doing at the moment.
 * And a menu bar, that is not used yet.
 
-When socializer starts, it will try to load your news items, wall and audios. At the moment there are only supported actions for the audio's buffer. You can play the currently selected song, view the song's details (including lyrics, if available) and download it to a desired place in your hard drive. There are no supported actions for posts yet.
+When socializer starts, it will try to load your news items, wall and audios. At the moment there are only supported actions for  audio items. You can play the currently selected song, view the song's details (including lyrics, if available) and download it to a desired place in your hard drive. There are no supported actions for posts yet.
 
 ### Making a post
 
@@ -45,6 +45,8 @@ When you press the post button, a new dialogue will show up. This dialogue allow
 ### Working with songs
 
 If you want to play or view your audio's details, you'll have to navigate to the tree view, and, using the down arrow, look for "my audios". You will see two more buttons, play and play all. The play button will play the currently selected audio, and the play all button is not implemented yet. You can go to the song's list, look for a desired song and press the play button, or Ctrl+return, which is a keyboard shorcut.
+
+You can play audio from any buffer, just press ctrl+return for making the audio playback possible.
 
 When an  audio file is playing, you can press f5 and f6 for decreasing and increasing volume, respectively.
 
