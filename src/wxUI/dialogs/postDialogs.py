@@ -145,3 +145,17 @@ class audio(widgetUtils.BaseDialog):
 		if saveFileDialog.ShowModal() == wx.ID_OK:
 			return saveFileDialog.GetPath()
 		saveFileDialog.Destroy()
+
+class friendship(widgetUtils.BaseDialog):
+	def __init__(self):
+		super(friendship, self).__init__(parent=None)
+		panel = wx.Panel(self)
+		sizer = wx.BoxSizer(wx.VERTICAL)
+		self.friends = widgetUtils.list(panel, [_(u"Friend")], style=wx.LC_REPORT)
+		sizer.Add(self.friends.list, 0, wx.ALL, 5)
+		close = wx.Button(panel, wx.ID_CANCEL)
+		btnbox = wx.BoxSizer(wx.HORIZONTAL)
+		btnbox.Add(close, 0, wx.ALL, 5)
+		sizer.Add(btnbox, 0, wx.ALL, 5)
+		panel.SetSizer(sizer)
+		self.SetClientSize(sizer.CalcMin())

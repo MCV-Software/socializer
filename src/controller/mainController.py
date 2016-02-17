@@ -4,6 +4,7 @@ import widgetUtils
 import messages
 import buffers
 import player
+import posts
 from pubsub import pub
 from mysc.repeating_timer import RepeatingTimer
 from mysc.thread_utils import call_threaded
@@ -45,6 +46,7 @@ class Controller(object):
 		pub.subscribe(self.in_post, "posted")
 		pub.subscribe(self.download, "download-file")
 		pub.subscribe(self.play_audio, "play-audio")
+		pub.subscribe(self.view_post, "open-post")
 
 	def login(self):
 		self.window.change_status(_(u"Logging in VK"))
@@ -73,3 +75,8 @@ class Controller(object):
 
 	def play_audio(self, audio_object):
 		call_threaded(player.player.play, audio_object)
+
+	def view_post(self, post_object, controller_):
+		print controller_
+		p = getattr(posts, controller_)(self.session, post_object)
+		p.dialog.get_response()

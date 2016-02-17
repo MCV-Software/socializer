@@ -83,6 +83,16 @@ class baseBuffer(object):
 		if post.has_key("type") and post["type"] == "audio":
 			pub.sendMessage("play-audio", audio_object=post["audio"][1]["url"])
 
+	def open_post(self):
+		post = self.session.db[self.name]["items"][self.tab.list.get_selected()]
+		if post.has_key("type") and post["type"] == "audio":
+			a = posts.audio(self.session, post["audio"][1])
+			a.dialog.get_response()
+		elif post.has_key("type") and post["type"] == "friend":
+			pub.sendMessage("open-post", post_object=post, controller_="friendship")
+		else:
+			pub.sendMessage("open-post", post_object=post, controller_="postController")
+
 class feedBuffer(baseBuffer):
 
 	def get_items(self, no_next=True):

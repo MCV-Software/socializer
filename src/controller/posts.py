@@ -8,6 +8,7 @@ import output
 import wx
 import webbrowser
 import utils
+from sessionmanager import session # We'll use some functions from there
 from pubsub import pub
 from wxUI.dialogs import postDialogs, urlList
 from extra import SpellChecker, translator
@@ -21,34 +22,29 @@ class postController(object):
 		self.post = postObject
 		self.dialog = postDialogs.post()
 		self.dialog.comments.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.show_comment)
-		from_ = self.session.get_user_name(self.post["from_id"])
-#		if self.post.has_key("owner_id"):
-#			to_ = [i["name"] for i in self.post["to"]["data"]]
-#			title = _(u"Post from {0} in {1}").format(from_, "".join(to_))
-#		else:
-		title = _(u"Post from {0}").format(from_,)
-		self.dialog.set_title(title)
-		message = story = u""
-		if self.post.has_key("message"):
-			message = self.post["message"]
-		if self.post.has_key("story"):
-			story = self.post["story"]
-		if self.post.has_key("name") and self.post.has_key("link"):
-			message += u". {0}, {1}".format(self.post["name"], self.post["link"])
-		if story != "":
-			final_msg = u"{0} \n\n{1}".format(story, message)
-		else:
-			final_msg = message
-		self.dialog.set_post(final_msg)
 #  widgetUtils.connect_event(self.message.spellcheck, widgetUtils.BUTTON_PRESSED, self.spellcheck)
 #  widgetUtils.connect_event(self.message.translateButton, widgetUtils.BUTTON_PRESSED, self.translate)
-#  self.text_processor()
 		widgetUtils.connect_event(self.dialog.like, widgetUtils.BUTTON_PRESSED, self.post_like)
 		widgetUtils.connect_event(self.dialog.comment, widgetUtils.BUTTON_PRESSED, self.add_comment)
 		widgetUtils.connect_event(self.dialog.tools, widgetUtils.BUTTON_PRESSED, self.show_tools_menu)
 		self.dialog.Bind(wx.EVT_LIST_ITEM_RIGHT_CLICK, self.show_menu, self.dialog.comments.list)
 		self.dialog.Bind(wx.EVT_LIST_KEY_DOWN, self.show_menu_by_key, self.dialog.comments.list)
-		call_threaded(self.load_all_components)
+#		call_threaded(self.load_all_components)
+		self.get_post_information()
+
+	def get_post_information(self):
+		if self.post.has_key("type"):
+			if self.post["type"] == "post":
+				from_ = self.session.get_user_name(self.post["source_id"])
+				title = _(u"Post from {0}").format(from_,)
+				self.dialog.set_title(title)
+				message = u""
+				if self.post.has_key("text"):
+					message = self.post["text"]
+				if self.post.has_key("attachment"):
+					print self.post["attachment"].keys()
+				message = message+session.add_attachment(self.post["attachment"])
+				self.dialog.set_post(message)
 
 	def load_all_components(self):
 		self.get_likes()
@@ -220,3 +216,23 @@ class audio(postController):
 
 	def play(self, *args, **kwargs):
 		pub.sendMessage("play-audio", audio_object=self.post["url"])
+
+class friendship(object):
+
+	def __init__(self, session, post):
+		self.session = session
+		self.post = post
+		self.dialog = postDialogs.friendship()
+		list_of_friends = self.get_friend_names()
+		from_ = self.session.get_user_name(self.post["source_id"])
+		title = _(u"{0} added the following friends").format(from_,)
+		self.dialog.set_title(title)
+		self.set_friends_list(list_of_friends)
+
+	def get_friend_names(self):
+		self.friends = self.post["friends"][1:]
+		return [self.session.get_user_name(i["uid"]) for i in self.friends]
+
+	def set_friends_list(self, friendslist):
+		for i in friendslist:
+			self.dialog.friends.insert_item(False, *[i])
