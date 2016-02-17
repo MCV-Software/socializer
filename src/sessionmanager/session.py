@@ -25,6 +25,7 @@ def find_item(list, item):
 		if item.has_key(i):
 			identifier = i
 	if identifier == None:
+		# if there are objects that can't be processed by lack of identifier, let's print  keys for finding one.
 		print item.keys()
 	for i in list:
 		if i.has_key(identifier) and i[identifier] == item[identifier]:
@@ -70,13 +71,9 @@ def compose_new(status, session):
 	elif status["type"] == "audio":
 		message = _(u"{0} has posted an audio: {1}").format(user, u", ".join(compose_audio(status["audio"][1], session)),)
 	elif status["type"] == "friend":
-		ids = ""
-		for i in status["friends"][1:]:
-			ids = ids + "{0}, ".format(i["uid"])
-		users = session.vk.client.users.get(user_ids=ids, fields="uid, first_name, last_name")
 		msg_users = u""
-		for i in users:
-			msg_users = msg_users + u"{0} {1}, ".format(i["first_name"], i["last_name"])
+		for i in status["friends"][1:]:
+			msg_users = msg_users + u"{0}, ".format(session.get_user_name(i["uid"]))
 		message = _(u"{0} hadded friends: {1}").format(user, msg_users)
 	else:
 		if status["type"] != "post": print status["type"]
@@ -176,16 +173,8 @@ class vkSession(object):
 	def get_newsfeed(self, name="newsfeed", no_next=True, endpoint="", *args, **kwargs):
 		data = getattr(self.vk.client.newsfeed, "get")(*args, **kwargs)
 		if data != None:
+			self.process_usernames(data)
 			num = self.order_buffer(name, data["items"][:-1], "post_id")
-			ids = ""
-			gids = ""
-			for i in data["items"][:-1]:
-				if i.has_key("source_id"):
-					if i["source_id"] > 0:
-						if str(i["source_id"]) not in ids: ids += "{0},".format(i["source_id"])
-					else:
-						if str(i["source_id"]) not in gids: gids += "{0},".format(abs(i["source_id"]))
-			self.get_users(ids, gids)
 			return num
 
 	def get_page(self, name="", no_next=True, endpoint="", *args, **kwargs):
@@ -232,7 +221,6 @@ class vkSession(object):
 				return "no specified community"
 
 	def get_users(self, user_ids=None, group_ids=None):
-		time.sleep(1)
 		if user_ids != None:
 			u = self.vk.client.users.get(user_ids=user_ids, fields="uid, first_name, last_name")
 			for i in u:
@@ -241,3 +229,9 @@ class vkSession(object):
 			g = self.vk.client.groups.getById(group_ids=group_ids, fields="name")
 			for i in g:
 				self.db["groups"][i["gid"]] = i["name"]
+
+	def process_usernames(self, data):
+		for i in data["profiles"]:
+			self.db["users"][i["uid"]] = u"{0} {1}".format(i["first_name"], i["last_name"])
+		for i in data["groups"]:
+			self.db["groups"][i["gid"]] = i["name"]
