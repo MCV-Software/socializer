@@ -36,7 +36,7 @@ class baseBuffer(object):
 		if no_next == True:
 			if self.tab.list.get_count() > 0 and num > 0:
 				print "inserting a value"
-				[self.insert(i, True) for i in self.session.db[self.name]["items"][-num:]]
+				[self.insert(i, True) for i in self.session.db[self.name]["items"][num:]]
 			else:
 				[self.insert(i) for i in self.session.db[self.name]["items"][:num]]
 

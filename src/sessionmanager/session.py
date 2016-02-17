@@ -11,6 +11,26 @@ log = logging.getLogger("vk.session")
 
 sessions = {}
 
+# Saves possible set of identifier keys for VK'S data types
+# see https://vk.com/dev/datatypes for more information.
+# I've added the Date identifier (this is a field in unix time format), for special objects (like friendships indicators) because these objects doesn't have an own identifier.
+identifiers = ["aid", "gid", "uid", "pid", "id", "post_id", "nid", "date"]
+
+def find_item(list, item):
+	""" Finds an item in a list  by taking an identifier"""
+	# determines the kind of identifier that we are using
+	global identifiers
+	identifier = None
+	for i in identifiers:
+		if item.has_key(i):
+			identifier = i
+	if identifier == None:
+		print item.keys()
+	for i in list:
+		if i.has_key(identifier) and i[identifier] == item[identifier]:
+			return True
+	return False
+
 def add_attachment(attachment):
 	""" Adds information about the attachment files in posts. It only adds the text, I mean, no attachment file is added here.
 	This will produce a result like 'Title of a web page: http://url.xxx', etc."""
@@ -48,7 +68,7 @@ def compose_new(status, session):
 		if message == "":
 			message = "no description available"
 	elif status["type"] == "audio":
-		message = u"{0} has posted an audio: {1}".format(user, u", ".join(compose_audio(status["audio"][1], session)),)
+		message = _(u"{0} has posted an audio: {1}").format(user, u", ".join(compose_audio(status["audio"][1], session)),)
 	elif status["type"] == "friend":
 		ids = ""
 		for i in status["friends"][1:]:
@@ -57,19 +77,16 @@ def compose_new(status, session):
 		msg_users = u""
 		for i in users:
 			msg_users = msg_users + u"{0} {1}, ".format(i["first_name"], i["last_name"])
-		message = u"{0} hadded friends: {1}".format(user, msg_users)
+		message = _(u"{0} hadded friends: {1}").format(user, msg_users)
 	else:
 		if status["type"] != "post": print status["type"]
 	return [user, message, created_at]
 
 def compose_status(status, session):
-#	print status.keys()
 	user = session.get_user_name(status["from_id"])
 	message = ""
-#	user = status["copy_owner_id"]
 	original_date = arrow.get(status["date"])
 	created_at = original_date.humanize(locale=languageHandler.getLanguage())
-#	created_at = str(status["date"])
 	if status["post_type"] == "post":
 		message += add_text(status)
 	if status.has_key("attachment") and len(status["attachment"]) > 0:
@@ -79,32 +96,34 @@ def compose_status(status, session):
 	return [user, message, created_at]
 
 def compose_audio(audio, session):
-#	print audio
 	return [audio["title"], audio["artist"], utils.seconds_to_string(audio["duration"])]
 
 class vkSession(object):
 
 	def order_buffer(self, name, data, field):
 
-		""" Put the new items on the local database. Useful for cursored buffers
+		""" Put new items on the local database. Useful for cursored buffers
 		name str: The name for the buffer stored in the dictionary.
 		data list: A list with items and some information about cursors.
 		returns the number of items that has been added in this execution"""
-
+		first_addition = False
 		num = 0
 		if self.db.has_key(name) == False:
 			self.db[name] = {}
 			self.db[name]["items"] = []
+			first_addition = True
 		for i in data:
-#			print i.keys()
-#			print i.keys()
-#			print i["type"]
-#			if i.has_key(field) and find_item(i[field], self.db[name]["items"], field) == None:
 			if i.has_key("type") and i["type"] == "wall_photo": continue
-			if i not in self.db[name]["items"]:
-				if self.settings["general"]["reverse_timelines"] == False: self.db[name]["items"].append(i)
-				else: self.db[name]["items"].insert(0, i)
+			if find_item(self.db[name]["items"], i) == False:
+#			if i not in self.db[name]["items"]:
+				if first_addition:
+					if self.settings["general"]["reverse_timelines"] == False: self.db[name]["items"].append(i)
+					else: self.db[name]["items"].insert(0, i)
+				else:
+					if self.settings["general"]["reverse_timelines"] == False: self.db[name]["items"].insert(0, i)
+					else: self.db[name]["items"].append(i)
 				num = num+1
+
 		return num
 
 	def __init__(self, session_id):
@@ -133,7 +152,8 @@ class vkSession(object):
 
 	def login(self):
 		""" Login  using  credentials from settings.
-		if the user account isn't authorised, it needs to call self.authorise() before login."""
+		if the user account isn't authorised, it'll call self.authorise() before login.
+		If the access_token has expired, it will call authorise() too, for getting a new access token."""
 
 		if self.settings["vk"]["token"] != None:
 			result = self.vk.login_access_token(self.settings["vk"]["token"])
@@ -150,16 +170,12 @@ class vkSession(object):
 		self.settings.write()
 
 	def post_wall_status(self, message, *args, **kwargs):
+		""" Sends a post to an user, group or community wall."""
 		response = self.vk.client.wall.post(message=message, *args, **kwargs)
-#		print response
 
 	def get_newsfeed(self, name="newsfeed", no_next=True, endpoint="", *args, **kwargs):
 		data = getattr(self.vk.client.newsfeed, "get")(*args, **kwargs)
-#			print data
 		if data != None:
-#			try:
-#			num = self.order_buffer(name, data[1:])
-#			except:
 			num = self.order_buffer(name, data["items"][:-1], "post_id")
 			ids = ""
 			gids = ""
