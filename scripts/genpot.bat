@@ -1,0 +1,3 @@
+@echo off
+echo Generating application translation strings...
+C:\python27x86\python.exe pygettext.py -v -d socializer ../src/*.pyw ../src/*.py ../src/*/*.py ../src/*/*.pyw ../src/*/*/*.py ../src/*/*/*.pyw ../src/*/*/*/*.py ../src/*/*/*/*.pyw ../src/*/*/*/*/*.py ../src/*/*/*/*/*.pyw
