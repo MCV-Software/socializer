@@ -42,7 +42,7 @@ class sessionManagerWindow(widgetUtils.BaseDialog):
 		self.EndModal(wx.ID_OK)
 
 	def new_account_dialog(self):
-		return wx.MessageDialog(self, _(u"The request for the required facebook authorization to continue will be opened on your browser. You only need to do it once. Would you like to autorhise a new account now?"), _(u"Authorisation"), wx.YES_NO).ShowModal()
+		return wx.MessageDialog(self, _(u"Would you like to autorhise a new account now?"), _(u"Authorisation"), wx.YES_NO).ShowModal()
 
 	def add_new_session_to_list(self):
 		total = self.list.get_count()
