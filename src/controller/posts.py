@@ -212,7 +212,7 @@ class audio(postController):
 		f = u"{0} - {1}.mp3".format(self.post["title"], self.post["artist"])
 		path = self.dialog.get_destination_path(f)
 		if path != None:
-			pub.sendMessage("download-file", url=self.post["url"], filename=f)
+			pub.sendMessage("download-file", url=self.post["url"], filename=path)
 
 	def play(self, *args, **kwargs):
 		pub.sendMessage("play-audio", audio_object=self.post["url"])

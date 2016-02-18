@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 import requests
 import re
 
@@ -46,7 +47,7 @@ def download_file(url, local_filename, window):
 				dl += len(chunk)
 				f.write(chunk)
 				done = int(100 * dl / total_length)
-				msg = _(u"Downloading {0} ({1}%)").format(local_filename, done)
+				msg = _(u"Downloading {0} ({1}%)").format(os.path.basename(local_filename), done)
 				window.change_status(msg)
 	window.change_status(_(u"Ready"))
 	return local_filename
