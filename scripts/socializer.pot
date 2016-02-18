@@ -1,0 +1,855 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2016-02-18 09:08+Hora estándar central (México)\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: ENCODING\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: ../src\controller\buffers.py:44
+msgid "Write your post"
+msgstr ""
+
+#: ../src\controller\mainController.py:27
+#: ../src\controller\mainController.py:54
+#: ../src\controller\mainController.py:59 ../src\utils.py:51
+msgid "Ready"
+msgstr ""
+
+#: ../src\controller\mainController.py:36
+msgid "Home"
+msgstr ""
+
+#: ../src\controller\mainController.py:42
+msgid "My wall"
+msgstr ""
+
+#: ../src\controller\mainController.py:45
+msgid "My audios"
+msgstr ""
+
+#: ../src\controller\mainController.py:52
+msgid "Logging in VK"
+msgstr ""
+
+#: ../src\controller\mainController.py:57
+msgid "Loading items for {0}"
+msgstr ""
+
+#: ../src\controller\messages.py:21 ../src\wxUI\dialogs\message.py:20
+msgid "Friends of friends"
+msgstr ""
+
+#: ../src\controller\messages.py:23 ../src\wxUI\dialogs\message.py:20
+msgid "All users"
+msgstr ""
+
+#: ../src\controller\messages.py:36 ../src\controller\posts.py:138
+msgid "Translated"
+msgstr ""
+
+#: ../src\controller\messages.py:59 ../src\controller\messages.py:67
+msgid "Discard image"
+msgstr ""
+
+#: ../src\controller\messages.py:62
+msgid "Discarded"
+msgstr ""
+
+#: ../src\controller\messages.py:63 ../src\wxUI\dialogs\message.py:61
+msgid "Upload a picture"
+msgstr ""
+
+#: ../src\controller\messages.py:72
+msgid "New comment"
+msgstr ""
+
+#: ../src\controller\posts.py:39
+msgid "Post from {0}"
+msgstr ""
+
+#: ../src\controller\posts.py:82
+msgid "Add a comment"
+msgstr ""
+
+#: ../src\controller\posts.py:87
+msgid "You've posted a comment"
+msgstr ""
+
+#: ../src\controller\posts.py:123
+msgid "You do like this comment"
+msgstr ""
+
+#: ../src\controller\posts.py:128
+msgid "You don't like this comment"
+msgstr ""
+
+#: ../src\controller\posts.py:161
+msgid "Opening URL..."
+msgstr ""
+
+#: ../src\controller\posts.py:175
+msgid "Comment from {0}"
+msgstr ""
+
+#: ../src\controller\posts.py:228
+msgid "{0} added the following friends"
+msgstr ""
+
+#: ../src\extra\SpellChecker\spellchecker.py:46
+msgid "Misspelled word: %s"
+msgstr ""
+
+#: ../src\extra\SpellChecker\wx_ui.py:27
+msgid "Misspelled word"
+msgstr ""
+
+#: ../src\extra\SpellChecker\wx_ui.py:32
+msgid "Context"
+msgstr ""
+
+#: ../src\extra\SpellChecker\wx_ui.py:37
+msgid "Suggestions"
+msgstr ""
+
+#: ../src\extra\SpellChecker\wx_ui.py:42
+msgid "Ignore"
+msgstr ""
+
+#: ../src\extra\SpellChecker\wx_ui.py:43
+msgid "Ignore all"
+msgstr ""
+
+#: ../src\extra\SpellChecker\wx_ui.py:44
+msgid "Replace"
+msgstr ""
+
+#: ../src\extra\SpellChecker\wx_ui.py:45
+msgid "Replace all"
+msgstr ""
+
+#: ../src\extra\SpellChecker\wx_ui.py:76
+msgid "An error has occurred. There are no dictionaries available for the selected language in {0}"
+msgstr ""
+
+#: ../src\extra\SpellChecker\wx_ui.py:76
+msgid "Error"
+msgstr ""
+
+#: ../src\extra\SpellChecker\wx_ui.py:79
+msgid "Spell check complete."
+msgstr ""
+
+#: ../src\extra\translator\translator.py:10
+msgid "Afrikaans"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:11
+msgid "Albanian"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:12
+msgid "Amharic"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:13
+msgid "Arabic"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:14
+msgid "Armenian"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:15
+msgid "Azerbaijani"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:16
+msgid "Basque"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:17
+msgid "Belarusian"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:18
+msgid "Bengali"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:19
+msgid "Bihari"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:20
+msgid "Bulgarian"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:21
+msgid "Burmese"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:22
+msgid "Catalan"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:23
+msgid "Cherokee"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:24
+msgid "Chinese"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:25
+msgid "Chinese_simplified"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:26
+msgid "Chinese_traditional"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:27
+msgid "Croatian"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:28
+msgid "Czech"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:29
+msgid "Danish"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:30
+msgid "Dhivehi"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:31
+msgid "Dutch"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:32
+msgid "English"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:33
+msgid "Esperanto"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:34
+msgid "Estonian"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:35
+msgid "Filipino"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:36
+msgid "Finnish"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:37
+msgid "French"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:38
+msgid "Galician"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:39
+msgid "Georgian"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:40
+msgid "German"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:41
+msgid "Greek"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:42
+msgid "Guarani"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:43
+msgid "Gujarati"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:44
+msgid "Hebrew"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:45
+msgid "Hindi"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:46
+msgid "Hungarian"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:47
+msgid "Icelandic"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:48
+msgid "Indonesian"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:49
+msgid "Inuktitut"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:50
+msgid "Irish"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:51
+msgid "Italian"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:52
+msgid "Japanese"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:53
+msgid "Kannada"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:54
+msgid "Kazakh"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:55
+msgid "Khmer"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:56
+msgid "Korean"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:57
+msgid "Kurdish"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:58
+msgid "Kyrgyz"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:59
+msgid "Laothian"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:60
+msgid "Latvian"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:61
+msgid "Lithuanian"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:62
+msgid "Macedonian"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:63
+msgid "Malay"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:64
+msgid "Malayalam"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:65
+msgid "Maltese"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:66
+msgid "Marathi"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:67
+msgid "Mongolian"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:68
+msgid "Nepali"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:69
+msgid "Norwegian"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:70
+msgid "Oriya"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:71
+msgid "Pashto"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:72
+msgid "Persian"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:73
+msgid "Polish"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:74
+msgid "Portuguese"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:75
+msgid "Punjabi"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:76
+msgid "Romanian"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:77
+msgid "Russian"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:78
+msgid "Sanskrit"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:79
+msgid "Serbian"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:80
+msgid "Sindhi"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:81
+msgid "Sinhalese"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:82
+msgid "Slovak"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:83
+msgid "Slovenian"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:84
+msgid "Spanish"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:85
+msgid "Swahili"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:86
+msgid "Swedish"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:87
+msgid "Tajik"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:88
+msgid "Tamil"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:89
+msgid "Tagalog"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:90
+msgid "Telugu"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:91
+msgid "Thai"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:92
+msgid "Tibetan"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:93
+msgid "Turkish"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:94
+msgid "Ukrainian"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:95
+msgid "Urdu"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:96
+msgid "Uzbek"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:97
+msgid "Uighur"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:98
+msgid "Vietnamese"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:99
+msgid "Welsh"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:100
+msgid "Yiddish"
+msgstr ""
+
+#: ../src\extra\translator\translator.py:107
+msgid "autodetect"
+msgstr ""
+
+#: ../src\extra\translator\wx_ui.py:25 ../src\wxUI\dialogs\message.py:64
+#: ../src\wxUI\dialogs\message.py:101
+msgid "Translate message"
+msgstr ""
+
+#: ../src\extra\translator\wx_ui.py:28
+msgid "Source language"
+msgstr ""
+
+#: ../src\extra\translator\wx_ui.py:31
+msgid "Target language"
+msgstr ""
+
+#: ../src\languageHandler.py:94
+msgid "User default"
+msgstr ""
+
+#: ../src\sessionmanager\session.py:72
+msgid "{0} has posted an audio: {1}"
+msgstr ""
+
+#: ../src\sessionmanager\session.py:77
+msgid "{0} hadded friends: {1}"
+msgstr ""
+
+#: ../src\sessionmanager\wxUI.py:17 ../src\sessionmanager\wxUI.py:55
+msgid "Remove account"
+msgstr ""
+
+#: ../src\sessionmanager\wxUI.py:39
+msgid "Account Error"
+msgstr ""
+
+#: ../src\sessionmanager\wxUI.py:39
+msgid "You need to configure an account."
+msgstr ""
+
+#: ../src\sessionmanager\wxUI.py:45
+msgid "Authorisation"
+msgstr ""
+
+#: ../src\sessionmanager\wxUI.py:45
+msgid "Would you like to autorhise a new account now?"
+msgstr ""
+
+#: ../src\sessionmanager\wxUI.py:49
+msgid "Authorised account %d"
+msgstr ""
+
+#: ../src\sessionmanager\wxUI.py:55
+msgid "Do you really want delete this account?"
+msgstr ""
+
+#: ../src\sessionmanager\wxUI.py:65
+msgid "Authorise VK"
+msgstr ""
+
+#: ../src\sessionmanager\wxUI.py:67
+msgid "Email address"
+msgstr ""
+
+#: ../src\sessionmanager\wxUI.py:69
+msgid "Password"
+msgstr ""
+
+#: ../src\utils.py:17
+msgid "%d day, "
+msgstr ""
+
+#: ../src\utils.py:19
+msgid "%d days, "
+msgstr ""
+
+#: ../src\utils.py:21
+msgid "%d hour, "
+msgstr ""
+
+#: ../src\utils.py:23
+msgid "%d hours, "
+msgstr ""
+
+#: ../src\utils.py:25
+msgid "%d minute, "
+msgstr ""
+
+#: ../src\utils.py:27
+msgid "%d minutes, "
+msgstr ""
+
+#: ../src\utils.py:29
+msgid "%s second"
+msgstr ""
+
+#: ../src\utils.py:31
+msgid "%s seconds"
+msgstr ""
+
+#: ../src\utils.py:39
+msgid "Downloading {0}"
+msgstr ""
+
+#: ../src\utils.py:49
+msgid "Downloading {0} ({1}%)"
+msgstr ""
+
+#: ../src\wxUI\commonMessages.py:6
+msgid "Information needed"
+msgstr ""
+
+#: ../src\wxUI\commonMessages.py:6
+msgid "You must provide Both user and password."
+msgstr ""
+
+#: ../src\wxUI\commonMessages.py:9
+msgid "Your {0} version is up to date"
+msgstr ""
+
+#: ../src\wxUI\commonMessages.py:9 ../src\wxUI\menus.py:20
+msgid "Update"
+msgstr ""
+
+#: ../src\wxUI\dialogs\message.py:19
+msgid "Privacy"
+msgstr ""
+
+#: ../src\wxUI\dialogs\message.py:63 ../src\wxUI\dialogs\message.py:100
+msgid "Spelling correction"
+msgstr ""
+
+#: ../src\wxUI\dialogs\message.py:65 ../src\wxUI\dialogs\message.py:102
+msgid "Send"
+msgstr ""
+
+#: ../src\wxUI\dialogs\message.py:67 ../src\wxUI\dialogs\message.py:104
+#: ../src\wxUI\dialogs\postDialogs.py:49
+msgid "Close"
+msgstr ""
+
+#: ../src\wxUI\dialogs\message.py:90
+msgid "Image files (*.png, *.jpg, *.gif)|*.png; *.jpg; *.gif"
+msgstr ""
+
+#: ../src\wxUI\dialogs\message.py:90
+msgid "Select the picture to be uploaded"
+msgstr ""
+
+#: ../src\wxUI\dialogs\player.py:8
+msgid "Audio player"
+msgstr ""
+
+#: ../src\wxUI\dialogs\postDialogs.py:15
+msgid "Message"
+msgstr ""
+
+#: ../src\wxUI\dialogs\postDialogs.py:24
+msgid "Comment"
+msgstr ""
+
+#: ../src\wxUI\dialogs\postDialogs.py:24
+msgid "Likes"
+msgstr ""
+
+#: ../src\wxUI\dialogs\postDialogs.py:24 ../src\wxUI\tabs\home.py:9
+msgid "Date"
+msgstr ""
+
+#: ../src\wxUI\dialogs\postDialogs.py:24 ../src\wxUI\tabs\home.py:9
+#: ../src\wxUI\tabs\home.py:91
+msgid "User"
+msgstr ""
+
+#: ../src\wxUI\dialogs\postDialogs.py:30 ../src\wxUI\dialogs\postDialogs.py:34
+msgid "Loading data..."
+msgstr ""
+
+#: ../src\wxUI\dialogs\postDialogs.py:38 ../src\wxUI\menus.py:9
+#: ../src\wxUI\menus.py:30
+msgid "Like"
+msgstr ""
+
+#: ../src\wxUI\dialogs\postDialogs.py:39 ../src\wxUI\menus.py:13
+msgid "Add comment"
+msgstr ""
+
+#: ../src\wxUI\dialogs\postDialogs.py:46
+msgid "Actions"
+msgstr ""
+
+#: ../src\wxUI\dialogs\postDialogs.py:64
+msgid "{0} people like this"
+msgstr ""
+
+#: ../src\wxUI\dialogs\postDialogs.py:70
+msgid "Shared {0} times"
+msgstr ""
+
+#: ../src\wxUI\dialogs\postDialogs.py:111 ../src\wxUI\tabs\home.py:51
+msgid "Title"
+msgstr ""
+
+#: ../src\wxUI\dialogs\postDialogs.py:117 ../src\wxUI\tabs\home.py:51
+msgid "Artist"
+msgstr ""
+
+#: ../src\wxUI\dialogs\postDialogs.py:123 ../src\wxUI\tabs\home.py:51
+msgid "Duration"
+msgstr ""
+
+#: ../src\wxUI\dialogs\postDialogs.py:129
+msgid "Lyric"
+msgstr ""
+
+#: ../src\wxUI\dialogs\postDialogs.py:135 ../src\wxUI\tabs\home.py:60
+msgid "Play"
+msgstr ""
+
+#: ../src\wxUI\dialogs\postDialogs.py:136
+msgid "Download"
+msgstr ""
+
+#: ../src\wxUI\dialogs\postDialogs.py:144
+msgid "Audio Files(*.mp3)|*.mp3"
+msgstr ""
+
+#: ../src\wxUI\dialogs\postDialogs.py:144
+msgid "Save this file"
+msgstr ""
+
+#: ../src\wxUI\dialogs\postDialogs.py:154
+msgid "Friend"
+msgstr ""
+
+#: ../src\wxUI\dialogs\select_album.py:6
+msgid "Select the album where you will upload the photo"
+msgstr ""
+
+#: ../src\wxUI\dialogs\urlList.py:6
+msgid "Select URL"
+msgstr ""
+
+#: ../src\wxUI\mainWindow.py:9
+msgid "Update current buffer"
+msgstr ""
+
+#: ../src\wxUI\mainWindow.py:11
+msgid "Load previous items"
+msgstr ""
+
+#: ../src\wxUI\mainWindow.py:13
+msgid "Buffer"
+msgstr ""
+
+#: ../src\wxUI\mainWindow.py:15
+msgid "About {0}"
+msgstr ""
+
+#: ../src\wxUI\mainWindow.py:17
+msgid "Check for updates"
+msgstr ""
+
+#: ../src\wxUI\mainWindow.py:19
+msgid "Help"
+msgstr ""
+
+#: ../src\wxUI\mainWindow.py:39
+msgid "Connection error"
+msgstr ""
+
+#: ../src\wxUI\mainWindow.py:39
+msgid "There is a connection error. Check your internet connection and try again later."
+msgstr ""
+
+#: ../src\wxUI\menus.py:7 ../src\wxUI\menus.py:28
+msgid "Open"
+msgstr ""
+
+#: ../src\wxUI\menus.py:11 ../src\wxUI\menus.py:32
+msgid "Unlike"
+msgstr ""
+
+#: ../src\wxUI\menus.py:15
+msgid "Post to this profile"
+msgstr ""
+
+#: ../src\wxUI\menus.py:22 ../src\wxUI\menus.py:36
+msgid "Delete"
+msgstr ""
+
+#: ../src\wxUI\menus.py:42
+msgid "Mark as read"
+msgstr ""
+
+#: ../src\wxUI\menus.py:48
+msgid "Open URL"
+msgstr ""
+
+#: ../src\wxUI\menus.py:51
+msgid "Translate"
+msgstr ""
+
+#: ../src\wxUI\menus.py:53
+msgid "Check Spelling"
+msgstr ""
+
+#: ../src\wxUI\tabs\home.py:9
+msgid "Text"
+msgstr ""
+
+#: ../src\wxUI\tabs\home.py:17 ../src\wxUI\tabs\home.py:59
+msgid "Post"
+msgstr ""
+
+#: ../src\wxUI\tabs\home.py:61
+msgid "Play All"
+msgstr ""
+
+#: ../src\wxUI\tabs\home.py:77
+msgid "Notification"
+msgstr ""
+
+#: ../src\wxUI\tabs\home.py:91
+msgid "Created at"
+msgstr ""
+
+#: ../src\wxUI\tabs\home.py:91
+msgid "Description"
+msgstr ""
+
+#: ../src\wxUI\tabs\home.py:91
+msgid "Photos"
+msgstr ""
+
+#: ../src\wxUI\tabs\home.py:91 ../src\wxUI\tabs\home.py:105
+msgid "Name"
+msgstr ""
+
