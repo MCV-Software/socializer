@@ -36,11 +36,19 @@ If you have used [TWBlue](https://github.com/manuelcortez/twblue) before, the so
 * A status bar where the program will put some useful information about what it's doing at the moment.
 * And a menu bar, that is not used yet.
 
-When socializer starts, it will try to load your news items, wall and audios. At the moment there are only supported actions for  audio items. You can play the currently selected song, view the song's details (including lyrics, if available) and download it to a desired place in your hard drive. There are no supported actions for posts yet.
+When socializer starts, it will try to load your news items, wall and audios. At the moment there are only a few supported actions for   these items:
+
+* Audio files: You can play the currently selected song, view the song's details (including lyrics, if available) and download it to a desired place in your hard drive. You can find audio files in your news feed or in your own audios buffer.
+* News feed's post: In your news feed buffer, you can press return in any posts and socializer will open a new dialogue which can be different, depending in the kind of post you are when the return key was pressed.
+* At the moment you can't open your wall posts.
 
 ### Making a post
 
 When you press the post button, a new dialogue will show up. This dialogue allows you to post something in your wall. In this dialogue you have to write a message. You can translate your message and fix your spelling mistakes. Also you can post an URL address, socializer will try to add it as an attachment, so you will not have to worry about this. When you're ready, just press the send button and it'll done.
+
+### Working with posts in news feed
+
+You can press the return key in any post in your news feed for opening a new dialogue with some information. The information and dialogue will be different if you are viewing a friendship's notification  (when someone has added some friends), an audio file, or a regular posts. At the moment, there are no more actions for these kind of posts, you can read the full text for a post, view the new added friends in a list and  there are some kind of posts that aren't handled. It should be improved.
 
 ### Working with songs
 
@@ -53,4 +61,3 @@ When an  audio file is playing, you can press f5 and f6 for decreasing and incre
 If you want to see  some details for the selected audio file, you can do it by pressing the return key. You will be able to read some useful information  (title, artist, duration and the lyric, if available). Also you will be able to download the song to your hard drive, you have to press the download button in the details' dialogue.
 
 When the download starts, you can close the details dialogue and check the status bar in the main window for seeing the current progress.
-
