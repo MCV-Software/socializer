@@ -59,6 +59,7 @@ class baseBuffer(object):
 		widgetUtils.connect_event(self.tab.list.list, widgetUtils.KEYPRESS, self.get_event)
 
 	def get_event(self, ev):
+		if ev.GetKeyCode() == wx.WXK_RETURN and ev.ControlDown() and ev.ShiftDown(): event = "pause_audio"
 		if ev.GetKeyCode() == wx.WXK_RETURN and ev.ControlDown(): event = "play_audio"
 		elif ev.GetKeyCode() == wx.WXK_RETURN: event = "open_post"
 		elif ev.GetKeyCode() == wx.WXK_F5: event = "volume_down"
@@ -92,6 +93,9 @@ class baseBuffer(object):
 			pub.sendMessage("open-post", post_object=post, controller_="friendship")
 		else:
 			pub.sendMessage("open-post", post_object=post, controller_="postController")
+
+	def pause_audio(self, *args, **kwargs):
+		player.player.pause()
 
 class feedBuffer(baseBuffer):
 

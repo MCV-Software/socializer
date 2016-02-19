@@ -35,8 +35,11 @@ class audioPlayer(object):
 			self.stream.stop()
 
 	def pause(self):
-		if self.stream != None and self.stream.is_playing == True:
-			self.stream.pause()
+		if self.stream != None:
+			if self.stream.is_playing == True:
+				self.stream.pause()
+			else:
+				self.stream.play()
 
 	@property
 	def volume(self):
