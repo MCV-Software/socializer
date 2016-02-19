@@ -190,8 +190,42 @@ class audio(postController):
 		self.post = postObject
 		self.dialog = postDialogs.audio()
 		self.fill_information()
+		if self.post["owner_id"] == self.session.user_id:
+			self.dialog.change_state("remove", True)
+		else:
+			self.dialog.change_state("add", True)
 		widgetUtils.connect_event(self.dialog.download, widgetUtils.BUTTON_PRESSED, self.download)
 		widgetUtils.connect_event(self.dialog.play, widgetUtils.BUTTON_PRESSED, self.play)
+		widgetUtils.connect_event(self.dialog.add, widgetUtils.BUTTON_PRESSED, self.add_to_library)
+		widgetUtils.connect_event(self.dialog.remove, widgetUtils.BUTTON_PRESSED, self.remove_from_library)
+
+	def add_to_library(self, *args, **kwargs):
+		args = {}
+		args["audio_id"] = self.post["aid"]
+		if self.post.has_key("album_id"):
+			args["album_id"] = self.post["album_id"]
+		args["owner_id"] = self.post["owner_id"]
+		audio = self.session.vk.client.audio.add(**args)
+		if audio != None and int(audio) > 21:
+			self.audio_id = audio
+			self.owner_id = self.session.user_id
+			self.dialog.change_state("add", False)
+			self.dialog.change_state("remove", True)
+
+	def remove_from_library(self, *args, **kwargs):
+		args = {}
+		if hasattr(self, "audio_id"):
+			args["audio_id"] = self.audio_id
+			args["owner_id"] = self.owner_id
+			del self.audio_id, self.owner_id
+		else:
+			args["audio_id"] = self.post["aid"]
+			args["owner_id"] = self.post["owner_id"]
+		result = self.session.vk.client.audio.delete(**args)
+		print result
+		if int(result) == 1:
+			self.dialog.change_state("add", True)
+			self.dialog.change_state("remove", False)
 
 	def fill_information(self):
 		if self.post.has_key("artist"):

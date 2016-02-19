@@ -134,11 +134,20 @@ class audio(widgetUtils.BaseDialog):
 		sizer.Add(lbox, 0, wx.ALL, 5)
 		self.play = wx.Button(panel, wx.NewId(), _(u"Play"))
 		self.download = wx.Button(panel, wx.NewId(), _(u"Download"))
+		self.add = wx.Button(panel, wx.NewId(), _(u"Add to your library"))
+		self.remove = wx.Button(panel, wx.NewId(), _(u"Remove from your library"))
+		self.add.Enable(False)
+		self.remove.Enable(False)
 		close = wx.Button(panel, wx.ID_CANCEL)
 		bbox = wx.BoxSizer(wx.HORIZONTAL)
 		bbox.Add(self.play, 0, wx.ALL, 5)
 		bbox.Add(self.download, 0, wx.ALL, 5)
+		bbox.Add(self.add, 0, wx.ALL, 5)
+		bbox.Add(self.remove, 0, wx.ALL, 5)
 		bbox.Add(close, 0, wx.ALL, 5)
+
+	def change_state(self, button_name, state):
+		getattr(self, button_name).Enable(state)
 
 	def get_destination_path(self, filename):
 		saveFileDialog = wx.FileDialog(self, _(u"Save this file"), "", filename, _(u"Audio Files(*.mp3)|*.mp3"), wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT)
