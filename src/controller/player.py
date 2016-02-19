@@ -17,13 +17,18 @@ class audioPlayer(object):
 		self.is_playing = False
 		self.stream = None
 		self.vol = 100
+		self.is_working = False
 
 	def play(self, url):
 		if self.stream != None and self.stream.is_playing == True:
 			self.stream.stop()
-		self.stream = URLStream(url=url)
-		self.stream.volume = self.vol/100.0
-		self.stream.play()
+		# Make sure that  there are no other sounds trying to be played.
+		if self.is_working == False:
+			self.is_working = True
+			self.stream = URLStream(url=url)
+			self.stream.volume = self.vol/100.0
+			self.stream.play()
+			self.is_working = False
 
 	def stop(self):
 		if self.stream != None and self.stream.is_playing == True:

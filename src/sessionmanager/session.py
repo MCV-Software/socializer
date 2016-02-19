@@ -93,6 +93,7 @@ def compose_status(status, session):
 	return [user, message, created_at]
 
 def compose_audio(audio, session):
+	if audio == False: return [_(u"Audio removed from library"), "", ""]
 	return [audio["title"], audio["artist"], utils.seconds_to_string(audio["duration"])]
 
 class vkSession(object):
@@ -160,6 +161,7 @@ class vkSession(object):
 				self.authorise()
 		else:
 			self.authorise()
+		self.get_my_data()
 
 	def authorise(self):
 		self.vk.login(self.settings["vk"]["user"], self.settings["vk"]["password"])
@@ -235,3 +237,6 @@ class vkSession(object):
 			self.db["users"][i["uid"]] = u"{0} {1}".format(i["first_name"], i["last_name"])
 		for i in data["groups"]:
 			self.db["groups"][i["gid"]] = i["name"]
+
+	def get_my_data(self):
+		self.user_id = self.vk.client.users.get(fields="uid")[0]["uid"]
