@@ -9,6 +9,6 @@ author = u"Manuel Cortéz"
 authorEmail = "manuel@manuelcortez.net"
 copyright = u"Copyright (C) 2016, Manuel cortéz."
 description = unicode(name+" Is an accessible VK client for Windows.")
-
+url = "https://github.com/manuelcortez/socializer"
 # The short name will be used for detecting translation files. See languageHandler for more details.
 short_name = "socializer"
