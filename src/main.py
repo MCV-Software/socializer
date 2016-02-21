@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+import sys
+import fixes
+if hasattr(sys, "frozen"):
+	fixes.setup()
 import platform
 import languageHandler
 import widgetUtils
