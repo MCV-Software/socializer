@@ -60,7 +60,7 @@ class baseBuffer(object):
 
 	def get_event(self, ev):
 		if ev.GetKeyCode() == wx.WXK_RETURN and ev.ControlDown() and ev.ShiftDown(): event = "pause_audio"
-		if ev.GetKeyCode() == wx.WXK_RETURN and ev.ControlDown(): event = "play_audio"
+		elif ev.GetKeyCode() == wx.WXK_RETURN and ev.ControlDown(): event = "play_audio"
 		elif ev.GetKeyCode() == wx.WXK_RETURN: event = "open_post"
 		elif ev.GetKeyCode() == wx.WXK_F5: event = "volume_down"
 		elif ev.GetKeyCode() == wx.WXK_F6: event = "volume_up"
@@ -70,7 +70,7 @@ class baseBuffer(object):
 		if event != None:
 			try:
 				getattr(self, event)()
-			except AttributeError:
+			except KeyError:
 				pass
 
 	def volume_down(self):
