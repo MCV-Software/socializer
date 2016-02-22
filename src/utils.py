@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+""" Some utilities. I no have idea how I should put these, so..."""
 import os
 import requests
 import re
@@ -51,3 +52,8 @@ def download_file(url, local_filename, window):
 				window.change_status(msg)
 	window.change_status(_(u"Ready"))
 	return local_filename
+
+def clean_text(text):
+	""" Replaces all HTML entities and put the plain text equivalent if it's possible."""
+	text = text.replace("<br>", "\n")
+	return text 

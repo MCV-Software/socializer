@@ -43,10 +43,10 @@ class postController(object):
 				self.dialog.set_title(title)
 				message = u""
 				if self.post.has_key("text"):
-					message = self.post["text"]
+					message = utils.clean_text(self.post["text"])
 				if self.post.has_key("attachment"):
 					print self.post["attachment"].keys()
-				message = message+session.add_attachment(self.post["attachment"])
+					message = message+session.add_attachment(self.post["attachment"])
 				self.dialog.set_post(message)
 
 	def load_all_components(self):

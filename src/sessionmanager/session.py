@@ -51,9 +51,9 @@ def add_text(status):
 	message = ""
 	if status.has_key("text"):
 		if len(status["text"]) < 140:
-			message = status["text"]
+			message = utils.clean_text(status["text"])
 		else:
-			message = status["text"][:139]
+			message = utils.clean_text(status["text"][:139])
 	return message
 
 def compose_new(status, session):
@@ -88,7 +88,6 @@ def compose_status(status, session):
 	created_at = original_date.humanize(locale=languageHandler.getLanguage())
 	if status.has_key("copy_owner_id"):
 		user = _(u"{0} has shared the {1}'s post").format(user, session.get_user_name(status["copy_owner_id"]))
-		print status.keys()
 	if status["post_type"] == "post" or status["post_type"] == "copy":
 		message += add_text(status)
 	if status.has_key("attachment") and len(status["attachment"]) > 0:
