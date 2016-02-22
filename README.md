@@ -61,3 +61,11 @@ When an  audio file is playing, you can press f5 and f6 for decreasing and incre
 If you want to see  some details for the selected audio file, you can do it by pressing the return key. You will be able to read some useful information  (title, artist, duration and the lyric, if available). Also you will be able to download the song to your hard drive, you have to press the download button in the details' dialogue.
 
 When the download starts, you can close the details dialogue and check the status bar in the main window for seeing the current progress.
+
+## Contributing
+
+If you are interested in this project, you can help it by [translating this program](https://github.com/manuelcortez/socializer/wiki/translate) into your native language and give more people the possibility of using it. Thank you in advance!
+
+## contact
+
+If you have questions, don't esitate to contact me in [Twitter,](https://twitter.com/manuelcortez00) or sending me an email to manuel(at)manuelcortez(dot)net. Just replace the words in parentheses with the original signs.
