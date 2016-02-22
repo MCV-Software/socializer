@@ -29,10 +29,6 @@ def setup():
 	from sessionmanager import sessionManager
 	app = widgetUtils.mainLoopObject()
 	sm = sessionManager.sessionManagerController()
-	sm.fill_list()
-	if len(sm.sessions) == 0: sm.show()
-	else:
-		sm.do_ok()
 	del sm
 	r = mainController.Controller()
 	call_threaded(r.login)
