@@ -59,6 +59,8 @@ def add_text(status):
 def compose_new(status, session):
 	""" This method is used to compose an item of the news feed."""
 	user = session.get_user_name(status["source_id"])
+	if status.has_key("copy_owner_id"):
+		user = _(u"{0} has shared the {1}'s post").format(user, session.get_user_name(status["copy_owner_id"]))
 	message = ""
 	original_date = arrow.get(status["date"])
 	created_at = original_date.humanize(locale=languageHandler.getLanguage())
@@ -69,7 +71,7 @@ def compose_new(status, session):
 		if message == "":
 			message = "no description available"
 	elif status["type"] == "audio":
-		message = _(u"{0} has posted an audio: {1}").format(user, u", ".join(compose_audio(status["audio"][1], session)),)
+		message = _(u"{0} has added  an audio: {1}").format(user, u", ".join(compose_audio(status["audio"][1], session)),)
 	elif status["type"] == "friend":
 		msg_users = u""
 		for i in status["friends"][1:]:
@@ -84,7 +86,10 @@ def compose_status(status, session):
 	message = ""
 	original_date = arrow.get(status["date"])
 	created_at = original_date.humanize(locale=languageHandler.getLanguage())
-	if status["post_type"] == "post":
+	if status.has_key("copy_owner_id"):
+		user = _(u"{0} has shared the {1}'s post").format(user, session.get_user_name(status["copy_owner_id"]))
+		print status.keys()
+	if status["post_type"] == "post" or status["post_type"] == "copy":
 		message += add_text(status)
 	if status.has_key("attachment") and len(status["attachment"]) > 0:
 		message += add_attachment(status["attachment"])

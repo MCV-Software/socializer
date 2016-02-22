@@ -70,7 +70,7 @@ class baseBuffer(object):
 		if event != None:
 			try:
 				getattr(self, event)()
-			except KeyError:
+			except AttributeError:
 				pass
 
 	def volume_down(self):

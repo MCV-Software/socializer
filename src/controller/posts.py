@@ -36,7 +36,10 @@ class postController(object):
 		if self.post.has_key("type"):
 			if self.post["type"] == "post":
 				from_ = self.session.get_user_name(self.post["source_id"])
-				title = _(u"Post from {0}").format(from_,)
+				if self.post.has_key("copy_owner_id"):
+					title = _(u"repost from {0}").format(from_,)
+				else:
+					title = _(u"Post from {0}").format(from_,)
 				self.dialog.set_title(title)
 				message = u""
 				if self.post.has_key("text"):
