@@ -53,6 +53,7 @@ class baseBuffer(object):
 				msg = msg.replace(urls[0], "")
 			self.session.post_wall_status(message=msg, friends_only=privacy_opts, attachments=attachments)
 			pub.sendMessage("posted", buffer=self.name)
+		p.message.Destroy()
 
 	def connect_events(self):
 		widgetUtils.connect_event(self.tab.post, widgetUtils.BUTTON_PRESSED, self.post)
@@ -89,6 +90,7 @@ class baseBuffer(object):
 		if post.has_key("type") and post["type"] == "audio":
 			a = posts.audio(self.session, post["audio"][1])
 			a.dialog.get_response()
+			a.dialog.Destroy()
 		elif post.has_key("type") and post["type"] == "friend":
 			pub.sendMessage("open-post", post_object=post, controller_="friendship")
 		else:
@@ -126,4 +128,4 @@ class audioBuffer(feedBuffer):
 		selected = self.tab.list.get_selected()
 		a = posts.audio(self.session, self.session.db[self.name]["items"][selected])
 		a.dialog.get_response()
-
+		a.dialog.Destroy()

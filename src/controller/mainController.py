@@ -26,9 +26,9 @@ class Controller(object):
 		self.window = mainWindow.mainWindow()
 		self.window.change_status(_(u"Ready"))
 		self.session = session.sessions[session.sessions.keys()[0]]
-#		self.session.authorise()
 		self.create_controls()
 		self.window.Show()
+		self.connect_events()
 
 	def create_controls(self):
 		home = buffers.baseBuffer(parent=self.window.tb, name="home_timeline", session=self.session, composefunc="compose_new", endpoint="newsfeed", identifier="id")
@@ -36,17 +36,25 @@ class Controller(object):
 		self.window.add_buffer(home.tab, _(u"Home"))
 		self.repeatedUpdate = RepeatingTimer(180, self.update_all_buffers)
 		self.repeatedUpdate.start()
-
 		feed = buffers.feedBuffer(parent=self.window.tb, name="me_feed", composefunc="compose_status", session=self.session, endpoint="get", parent_endpoint="wall", identifier="id")
 		self.buffers.append(feed)
 		self.window.add_buffer(feed.tab, _(u"My wall"))
 		audio = buffers.audioBuffer(parent=self.window.tb, name="me_audio", composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, identifier="aid")
 		self.buffers.append(audio)
 		self.window.add_buffer(audio.tab, _(u"My audios"))
+
+	def connect_events(self):
 		pub.subscribe(self.in_post, "posted")
 		pub.subscribe(self.download, "download-file")
 		pub.subscribe(self.play_audio, "play-audio")
 		pub.subscribe(self.view_post, "open-post")
+		widgetUtils.connect_event(self.window, widgetUtils.CLOSE_EVENT, self.exit)
+
+	def disconnect_events(self):
+		pub.unsubscribe(self.in_post, "posted")
+		pub.unsubscribe(self.download, "download-file")
+		pub.unsubscribe(self.play_audio, "play-audio")
+		pub.unsubscribe(self.view_post, "open-post")
 
 	def login(self):
 		self.window.change_status(_(u"Logging in VK"))
@@ -80,3 +88,9 @@ class Controller(object):
 		print controller_
 		p = getattr(posts, controller_)(self.session, post_object)
 		p.dialog.get_response()
+		p.dialog.Destroy()
+
+	def exit(self, *args, **kwargs):
+		self.disconnect_events()
+		self.window.Destroy()
+#		wx.GetApp().ExitMainloop()
