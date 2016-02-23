@@ -71,11 +71,18 @@ def compose_new(status, session):
 		if message == "":
 			message = "no description available"
 	elif status["type"] == "audio":
-		message = _(u"{0} has added  an audio: {1}").format(user, u", ".join(compose_audio(status["audio"][1], session)),)
+		if status["audio"]["count"] == 1:
+			message = _(u"{0} has added  an audio: {1}").format(user, u", ".join(compose_audio(status["audio"]["items"][0], session)),)
+		else:
+			prem = ""
+			for i in xrange(0, status["audio"]["count"]):
+				composed_audio = compose_audio(status["audio"]["items"][i], session)
+				prem += u"{0} - {1}, ".format(composed_audio[0], composed_audio[1])
+			message = _(u"{0} has posted {1} audios: {2}").format(user, status["audio"]["count"], prem)
 	elif status["type"] == "friend":
 		msg_users = u""
-		for i in status["friends"][1:]:
-			msg_users = msg_users + u"{0}, ".format(session.get_user_name(i["uid"]))
+		for i in status["friends"]["items"]:
+			msg_users = msg_users + u"{0}, ".format(session.get_user_name(i["user_id"]))
 		message = _(u"{0} hadded friends: {1}").format(user, msg_users)
 	else:
 		if status["type"] != "post": print status["type"]
@@ -102,7 +109,7 @@ def compose_audio(audio, session):
 
 class vkSession(object):
 
-	def order_buffer(self, name, data, field):
+	def order_buffer(self, name, data, show_nextpage):
 
 		""" Put new items on the local database. Useful for cursored buffers
 		name str: The name for the buffer stored in the dictionary.
@@ -118,7 +125,7 @@ class vkSession(object):
 			if i.has_key("type") and i["type"] == "wall_photo": continue
 			if find_item(self.db[name]["items"], i) == False:
 #			if i not in self.db[name]["items"]:
-				if first_addition:
+				if first_addition or show_nextpage == True:
 					if self.settings["general"]["reverse_timelines"] == False: self.db[name]["items"].append(i)
 					else: self.db[name]["items"].insert(0, i)
 				else:
@@ -176,42 +183,31 @@ class vkSession(object):
 		""" Sends a post to an user, group or community wall."""
 		response = self.vk.client.wall.post(message=message, *args, **kwargs)
 
-	def get_newsfeed(self, name="newsfeed", no_next=True, endpoint="", *args, **kwargs):
+	def get_newsfeed(self, name="newsfeed", show_nextpage=False, endpoint="", *args, **kwargs):
+		if show_nextpage == True:
+			kwargs["start_from"] = self.db[name]["cursor"]
+			kwargs["v"] = "5.21"
 		data = getattr(self.vk.client.newsfeed, "get")(*args, **kwargs)
 		if data != None:
-			self.process_usernames(data)
-			num = self.order_buffer(name, data["items"][:-1], "post_id")
+			if show_nextpage == False:
+				self.process_usernames(data)
+			else:
+				print data.keys()
+			num = self.order_buffer(name, data["items"][:-1], show_nextpage)
+			print data.keys()
+			self.db[name]["cursor"] = data["next_from"]
 			return num
 
-	def get_page(self, name="", no_next=True, endpoint="", *args, **kwargs):
+	def get_page(self, name="", show_nextpage=False, endpoint="", *args, **kwargs):
 		data = None
-		full_list = False
 		if kwargs.has_key("parent_endpoint"):
 			p = kwargs["parent_endpoint"]
 			kwargs.pop("parent_endpoint")
-		if kwargs.has_key("full_list"):
-			print kwargs
-			full_list = True
-			kwargs.pop("full_list")
-		if kwargs.has_key("identifier"):
-			identifier = kwargs["identifier"]
-			kwargs.pop("identifier")
 		p = getattr(self.vk.client, p)
 		data = getattr(p, endpoint)(*args, **kwargs)
-#			print data
 		if data != None:
-#			try:
-			if full_list == False:
-				num = self.order_buffer(name, data[1:], identifier)
-			else:
-				num = self.order_buffer(name, data, identifier)
-#			except:
-#				num = self.order_buffer(name, data["items"][:-1])
+			num = self.order_buffer(name, data["items"], show_nextpage)
 			ids = ""
-			for i in data[1:]:
-				if i.has_key("from_id"):
-					if str(i["from_id"]) not in ids: ids += "{0},".format(i["from_id"])
-			self.get_users(ids)
 			return num
 
 	def get_user_name(self, user_id):
@@ -230,17 +226,17 @@ class vkSession(object):
 		if user_ids != None:
 			u = self.vk.client.users.get(user_ids=user_ids, fields="uid, first_name, last_name")
 			for i in u:
-				self.db["users"][i["uid"]] = u"{0} {1}".format(i["first_name"], i["last_name"])
+				self.db["users"][i["id"]] = u"{0} {1}".format(i["first_name"], i["last_name"])
 		if group_ids != None:
 			g = self.vk.client.groups.getById(group_ids=group_ids, fields="name")
 			for i in g:
-				self.db["groups"][i["gid"]] = i["name"]
+				self.db["groups"][i["id"]] = i["name"]
 
 	def process_usernames(self, data):
 		for i in data["profiles"]:
-			self.db["users"][i["uid"]] = u"{0} {1}".format(i["first_name"], i["last_name"])
+			self.db["users"][i["id"]] = u"{0} {1}".format(i["first_name"], i["last_name"])
 		for i in data["groups"]:
-			self.db["groups"][i["gid"]] = i["name"]
+			self.db["groups"][i["id"]] = i["name"]
 
 	def get_my_data(self):
-		self.user_id = self.vk.client.users.get(fields="uid")[0]["uid"]
+		self.user_id = self.vk.client.users.get(fields="uid")[0]["id"]

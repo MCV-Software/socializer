@@ -19,6 +19,13 @@ class Controller(object):
 				return self.buffers[i]
 		return False
 
+	def get_current_buffer(self):
+		""" Get the current bufferObject"""
+		buffer = self.window.get_current_buffer()
+		if hasattr(buffer, "name"):
+			buffer = self.search(buffer.name)
+			return buffer
+
 	def __init__(self):
 		super(Controller, self).__init__()
 		self.buffers = []
@@ -49,6 +56,7 @@ class Controller(object):
 		pub.subscribe(self.play_audio, "play-audio")
 		pub.subscribe(self.view_post, "open-post")
 		widgetUtils.connect_event(self.window, widgetUtils.CLOSE_EVENT, self.exit)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.update_buffer, menuitem=self.window.update_buffer)
 
 	def disconnect_events(self):
 		pub.unsubscribe(self.in_post, "posted")
@@ -94,3 +102,8 @@ class Controller(object):
 		self.disconnect_events()
 		self.window.Destroy()
 #		wx.GetApp().ExitMainloop()
+
+	def update_buffer(self, *args, **kwargs):
+		b = self.get_current_buffer()
+		b.update()
+		print "updated"

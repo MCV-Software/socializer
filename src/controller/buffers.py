@@ -30,15 +30,21 @@ class baseBuffer(object):
 		item_ = getattr(session, self.compose_function)(item, self.session)
 		self.tab.list.insert_item(reversed, *item_)
 
-	def get_items(self, no_next=True):
-		num = getattr(self.session, "get_newsfeed")(no_next=no_next, name=self.name, *self.args, **self.kwargs)
+	def get_items(self, show_nextpage=False):
+		num = getattr(self.session, "get_newsfeed")(show_nextpage=show_nextpage, name=self.name, *self.args, **self.kwargs)
 		print num
-		if no_next == True:
+		if show_nextpage  == False:
 			if self.tab.list.get_count() > 0 and num > 0:
 				print "inserting a value"
 				[self.insert(i, True) for i in self.session.db[self.name]["items"][:num]]
 			else:
 				[self.insert(i) for i in self.session.db[self.name]["items"][:num]]
+		else:
+			if num > 0:
+				[self.insert(i, False) for i in self.session.db[self.name]["items"][:num]]
+
+	def update(self):
+		self.get_items(show_nextpage=True)
 
 	def post(self, *args, **kwargs):
 		p = messages.post(title=_(u"Write your post"), caption="", text="")
@@ -101,10 +107,10 @@ class baseBuffer(object):
 
 class feedBuffer(baseBuffer):
 
-	def get_items(self, no_next=True):
-		num = getattr(self.session, "get_page")(no_next=no_next, name=self.name, *self.args, **self.kwargs)
+	def get_items(self, show_nextpage=False):
+		num = getattr(self.session, "get_page")(show_nextpage=show_nextpage, name=self.name, *self.args, **self.kwargs)
 		print num
-		if no_next == True:
+		if show_nextpage  == False:
 			if self.tab.list.get_count() > 0 and num > 0:
 				print "inserting a value"
 				[self.insert(i, True) for i in self.session.db[self.name]["items"][-num:]]

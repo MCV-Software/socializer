@@ -204,7 +204,7 @@ class audio(postController):
 
 	def add_to_library(self, *args, **kwargs):
 		args = {}
-		args["audio_id"] = self.post["aid"]
+		args["audio_id"] = self.post["id"]
 		if self.post.has_key("album_id"):
 			args["album_id"] = self.post["album_id"]
 		args["owner_id"] = self.post["owner_id"]

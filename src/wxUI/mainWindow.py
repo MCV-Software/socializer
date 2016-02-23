@@ -6,8 +6,7 @@ class mainWindow(wx.Frame):
 	def makeMenu(self):
 		mb = wx.MenuBar()
 		buffer = wx.Menu()
-		self.update = buffer.Append(wx.NewId(), _(u"Update current buffer"))
-		self.update.Enable(False)
+		self.update_buffer = buffer.Append(wx.NewId(), _(u"Update current buffer"))
 		self.load_previous_items = buffer.Append(wx.NewId(), _(u"Load previous items"))
 		self.load_previous_items.Enable(False)
 		mb.Append(buffer, _(u"Buffer"))
