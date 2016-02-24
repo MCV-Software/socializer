@@ -6,6 +6,7 @@ from pubsub import pub
 class homeTab(wx.Panel):
 
 	def create_list(self):
+		self.lbl = wx.StaticText(self, wx.NewId(), _(u"Posts"))
 		self.list = widgetUtils.list(self, *[_(u"User"), _(u"Text"), _(u"Date")], style=wx.LC_REPORT)
 		self.list.set_windows_size(0, 80)
 		self.list.set_windows_size(1, 190)
@@ -24,9 +25,9 @@ class homeTab(wx.Panel):
 		self.create_post_buttons()
 		sizer.Add(self.postBox, 0, wx.ALL, 5)
 		self.create_list()
+		sizer.Add(self.lbl, 0, wx.ALL, 5)
 		sizer.Add(self.list.list, 0, wx.ALL, 5)
 		self.SetSizer(sizer)
-		self.SetClientSize(sizer.CalcMin())
 
 	def OnKeyDown(self, ev=None):
 		pub.sendMessage("show-current-status", buffer=self.name)
@@ -48,6 +49,7 @@ class feedTab(homeTab):
 
 class audioTab(homeTab):
 	def create_list(self):
+		self.lbl = wx.StaticText(self, wx.NewId(), _(u"Music"))
 		self.list = widgetUtils.list(self, *[_(u"Title"), _(u"Artist"), _(u"Duration")], style=wx.LC_REPORT)
 		self.list.set_windows_size(0, 80)
 		self.list.set_windows_size(1, 190)
