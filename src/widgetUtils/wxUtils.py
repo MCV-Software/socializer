@@ -54,6 +54,7 @@ RADIOBUTTON = wx.EVT_RADIOBUTTON
 # Taskbar mouse clicks.
 TASKBAR_RIGHT_CLICK = wx.EVT_TASKBAR_RIGHT_DOWN
 TASKBAR_LEFT_CLICK = wx.EVT_TASKBAR_LEFT_DOWN
+LISTBOX_CHANGED = wx.EVT_LISTBOX
 
 def exit_application():
 	""" Closes the current window cleanly. """

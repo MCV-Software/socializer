@@ -94,7 +94,8 @@ class baseBuffer(object):
 	def open_post(self):
 		post = self.session.db[self.name]["items"][self.tab.list.get_selected()]
 		if post.has_key("type") and post["type"] == "audio":
-			a = posts.audio(self.session, post["audio"][1])
+			print "opening audio"
+			a = posts.audio(self.session, post["audio"]["items"])
 			a.dialog.get_response()
 			a.dialog.Destroy()
 		elif post.has_key("type") and post["type"] == "friend":
@@ -132,6 +133,7 @@ class audioBuffer(feedBuffer):
 
 	def open_post(self):
 		selected = self.tab.list.get_selected()
-		a = posts.audio(self.session, self.session.db[self.name]["items"][selected])
+		audios = [self.session.db[self.name]["items"][selected]]
+		a = posts.audio(self.session, audios)
 		a.dialog.get_response()
 		a.dialog.Destroy()

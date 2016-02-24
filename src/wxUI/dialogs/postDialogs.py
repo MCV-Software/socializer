@@ -108,6 +108,12 @@ class audio(widgetUtils.BaseDialog):
 		super(audio, self).__init__(parent=None, *args, **kwargs)
 		panel = wx.Panel(self)
 		sizer = wx.BoxSizer(wx.VERTICAL)
+		lbl_list = wx.StaticText(panel, wx.NewId(), _(u"Audio files"))
+		self.list = wx.ListBox(panel, wx.NewId())
+		listS = wx.BoxSizer(wx.HORIZONTAL)
+		listS.Add(lbl_list, 0, wx.ALL, 5)
+		listS.Add(self.list, 0, wx.ALL, 5)
+		sizer.Add(listS, 0, wx.ALL, 5)
 		lbl_title = wx.StaticText(panel, wx.NewId(), _(u"Title"))
 		self.title = wx.TextCtrl(panel, wx.NewId(), size=(413, -1), style=wx.TE_READONLY|wx.TE_MULTILINE)
 		titleBox = wx.BoxSizer(wx.HORIZONTAL)
@@ -154,6 +160,12 @@ class audio(widgetUtils.BaseDialog):
 		if saveFileDialog.ShowModal() == wx.ID_OK:
 			return saveFileDialog.GetPath()
 		saveFileDialog.Destroy()
+
+	def insert_audio(self, audio_):
+		self.list.Append(audio_)
+
+	def get_audio(self):
+		return self.list.GetSelection()
 
 class friendship(widgetUtils.BaseDialog):
 	def __init__(self):

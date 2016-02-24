@@ -189,70 +189,91 @@ class comment(object):
 
 class audio(postController):
 	def __init__(self, session, postObject):
+		self.added_audios = {}
 		self.session = session
 		self.post = postObject
 		self.dialog = postDialogs.audio()
-		self.fill_information()
-		if self.post["owner_id"] == self.session.user_id:
-			self.dialog.change_state("remove", True)
-		else:
-			self.dialog.change_state("add", True)
+		widgetUtils.connect_event(self.dialog.list, widgetUtils.LISTBOX_CHANGED, self.handle_changes)
+		print "loading audios..."
+		self.load_audios()
+		print "Filling information..."
+		self.fill_information(0)
 		widgetUtils.connect_event(self.dialog.download, widgetUtils.BUTTON_PRESSED, self.download)
 		widgetUtils.connect_event(self.dialog.play, widgetUtils.BUTTON_PRESSED, self.play)
 		widgetUtils.connect_event(self.dialog.add, widgetUtils.BUTTON_PRESSED, self.add_to_library)
 		widgetUtils.connect_event(self.dialog.remove, widgetUtils.BUTTON_PRESSED, self.remove_from_library)
 
 	def add_to_library(self, *args, **kwargs):
+		post = self.post[self.dialog.get_audio()]
 		args = {}
-		args["audio_id"] = self.post["id"]
-		if self.post.has_key("album_id"):
-			args["album_id"] = self.post["album_id"]
-		args["owner_id"] = self.post["owner_id"]
+		args["audio_id"] = post["id"]
+		if post.has_key("album_id"):
+			args["album_id"] = post["album_id"]
+		args["owner_id"] = post["owner_id"]
 		audio = self.session.vk.client.audio.add(**args)
 		if audio != None and int(audio) > 21:
-			self.audio_id = audio
-			self.owner_id = self.session.user_id
+			self.added_audios[post["id"]] = audio
 			self.dialog.change_state("add", False)
 			self.dialog.change_state("remove", True)
 
 	def remove_from_library(self, *args, **kwargs):
+		post = self.post[self.dialog.get_audio()]
 		args = {}
-		if hasattr(self, "audio_id"):
-			args["audio_id"] = self.audio_id
-			args["owner_id"] = self.owner_id
-			del self.audio_id, self.owner_id
+		if self.added_audios.has_key(post["id"]):
+			args["audio_id"] = self.added_audios[post["id"]]
+			args["owner_id"] = self.session.user_id
 		else:
-			args["audio_id"] = self.post["aid"]
-			args["owner_id"] = self.post["owner_id"]
+			args["audio_id"] = post["id"]
+			args["owner_id"] = post["owner_id"]
 		result = self.session.vk.client.audio.delete(**args)
-		print result
 		if int(result) == 1:
 			self.dialog.change_state("add", True)
 			self.dialog.change_state("remove", False)
+			if self.added_audios.has_key(post["id"]):
+				self.added_audios.pop(post["id"])
 
-	def fill_information(self):
-		if self.post.has_key("artist"):
-			self.dialog.set("artist", self.post["artist"])
-		if self.post.has_key("title"):
-			self.dialog.set("title", self.post["title"])
-		if self.post.has_key("duration"):
-			self.dialog.set("duration", utils.seconds_to_string(self.post["duration"]))
-		self.dialog.set_title(u"{0} - {1}".format(self.post["title"], self.post["artist"]))
+	def fill_information(self, index):
+		post = self.post[index]
+		if post.has_key("artist"):
+			self.dialog.set("artist", post["artist"])
+		if post.has_key("title"):
+			self.dialog.set("title", post["title"])
+		if post.has_key("duration"):
+			self.dialog.set("duration", utils.seconds_to_string(post["duration"]))
+		self.dialog.set_title(u"{0} - {1}".format(post["title"], post["artist"]))
 		call_threaded(self.get_lyrics)
+		if  post["owner_id"] == self.session.user_id or self.added_audios.has_key(post["id"]) == True:
+			self.dialog.change_state("remove", True)
+			self.dialog.change_state("add", False)
+		else:
+			self.dialog.change_state("add", True)
+			self.dialog.change_state("remove", False)
 
 	def get_lyrics(self):
-		if self.post.has_key("lyrics_id"):
-			l = self.session.vk.client.audio.getLyrics(lyrics_id=int(self.post["lyrics_id"]))
+		post = self.post[self.dialog.get_audio()]
+		if post.has_key("lyrics_id"):
+			l = self.session.vk.client.audio.getLyrics(lyrics_id=int(post["lyrics_id"]))
 			self.dialog.set("lyric", l["text"])
 
 	def download(self, *args, **kwargs):
-		f = u"{0} - {1}.mp3".format(self.post["title"], self.post["artist"])
+		post = self.post[self.dialog.get_audio()]
+		f = u"{0} - {1}.mp3".format(post["title"], post["artist"])
 		path = self.dialog.get_destination_path(f)
 		if path != None:
-			pub.sendMessage("download-file", url=self.post["url"], filename=path)
+			pub.sendMessage("download-file", url=post["url"], filename=path)
 
 	def play(self, *args, **kwargs):
-		pub.sendMessage("play-audio", audio_object=self.post["url"])
+		post = self.post[self.dialog.get_audio()]
+		pub.sendMessage("play-audio", audio_object=post["url"])
+
+	def load_audios(self):
+		for i in self.post:
+			s = u"{0} - {1}. {2}".format(i["title"], i["artist"], utils.seconds_to_string(i["duration"]))
+			self.dialog.insert_audio(s)
+
+	def handle_changes(self, *args, **kwargs):
+		p = self.dialog.get_audio()
+		self.fill_information(p)
 
 class friendship(object):
 
