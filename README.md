@@ -24,7 +24,7 @@ I have started this effort as an open source  project on Feb 13, 2016. Pull requ
 
 ## Running
 
-Just open the main.py file with the python interpreter. This file is located in the src directory. If you haven't configured your VK account, you'll have to press "new account" in the first dialogue, a new dialogue will  prompt for an user email and the password for your account. Even if the session manager, in theory, allows to configure more than one account, the application will initialize only the first detected account. Take into account that the provided information will be saved in a config file as plain text. This application will need your email and password for renegotiating the access token when it expires.
+Just open the main.py file with the python interpreter. This file is located in the src directory. If you haven't configured your VK account, you will see a dialogue, just press yes and a new dialogue will  prompt for an user email and the password for your account.  Take into account that the provided information will be saved in a config file as plain text. This application will need your email and password for renegotiating the access token when it expires.
 
 ## Main interface
 
@@ -38,17 +38,17 @@ If you have used [TWBlue](https://github.com/manuelcortez/twblue) before, the so
 
 When socializer starts, it will try to load your news items, wall and audios. At the moment there are only a few supported actions for   these items:
 
-* Audio files: You can play the currently selected song, view the song's details (including lyrics, if available) and download it to a desired place in your hard drive. You can find audio files in your news feed or in your own audios buffer.
-* News feed's post: In your news feed buffer, you can press return in any posts and socializer will open a new dialogue which can be different, depending in the kind of post you are when the return key was pressed.
+* Audio files: You can play the currently selected song, view the song's details (including lyrics, if available), add or remove from your library, and download it to a desired place in your hard drive. You can find audio files in your news feed or in your own audios buffer.
+* News feed's post: In your news feed buffer, you can press return in any post and socializer will open a new dialogue which can be different, depending in the kind of post you are when the return key was pressed.
 * At the moment you can't open your wall posts.
 
 ### Making a post
 
-When you press the post button, a new dialogue will show up. This dialogue allows you to post something in your wall. In this dialogue you have to write a message. You can translate your message and fix your spelling mistakes. Also you can post an URL address, socializer will try to add it as an attachment, so you will not have to worry about this. When you're ready, just press the send button and it'll done.
+When you press the post button, a new dialogue will show up. This dialogue allows you to post something in your wall. In this dialogue you have to write a message. You can translate your message and fix your spelling mistakes. Also you can post an URL address, socializer will try to add it as an attachment, so you will not have to worry about this. When you're ready, just press the send button and it'll be done.
 
 ### Working with posts in news feed
 
-You can press the return key in any post in your news feed for opening a new dialogue with some information. The information and dialogue will be different if you are viewing a friendship's notification  (when someone has added some friends), an audio file, or a regular posts. At the moment, there are no more actions for these kind of posts, you can read the full text for a post, view the new added friends in a list and  there are some kind of posts that aren't handled. It should be improved.
+You can press the return key in any post in your news feed for opening a new dialogue with some information. The information and dialogue will be different if you are viewing a friendship's notification  (when someone has added some friends), an audio file, or a regular post. At the moment, there are no more actions for these kind of posts, you can read the full text for a post, view the new added friends in a list and  there are some kind of posts that aren't handled. It should be improved.
 
 ### Working with songs
 
@@ -56,7 +56,9 @@ If you want to play or view your audio's details, you'll have to navigate to the
 
 You can play audio from any buffer, just press ctrl+return for making the audio playback possible.
 
-When an  audio file is playing, you can press f5 and f6 for decreasing and increasing volume, respectively.
+If someone has added multiple audios at once to his library, you will see something like this in your newsfeed: "(friend) has added 4 audios: audio 1, audio2, audio3 and audio4". You can press return in the  post for opening the audio's details dialogue, where you will be able to see a list with these audios. By default the first detected song is selected, which means that you could read its details by pressing tab, download or add it to your library. If you change the audio in the list, the information will be updated and you will see details and actions will take effect in the new selected audio.
+
+When an  audio file is playing, you can press f5 and f6 for decreasing and increasing volume, respectively, or control+shift+return for play/pause.
 
 If you want to see  some details for the selected audio file, you can do it by pressing the return key. You will be able to read some useful information  (title, artist, duration and the lyric, if available). Also you will be able to download the song to your hard drive, you have to press the download button in the details' dialogue.
 
