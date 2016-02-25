@@ -38,15 +38,15 @@ class Controller(object):
 		self.connect_events()
 
 	def create_controls(self):
-		home = buffers.baseBuffer(parent=self.window.tb, name="home_timeline", session=self.session, composefunc="compose_new", endpoint="newsfeed", identifier="id")
+		home = buffers.baseBuffer(parent=self.window.tb, name="home_timeline", session=self.session, composefunc="compose_new", endpoint="newsfeed")
 		self.buffers.append(home)
 		self.window.add_buffer(home.tab, _(u"Home"))
 		self.repeatedUpdate = RepeatingTimer(180, self.update_all_buffers)
 		self.repeatedUpdate.start()
-		feed = buffers.feedBuffer(parent=self.window.tb, name="me_feed", composefunc="compose_status", session=self.session, endpoint="get", parent_endpoint="wall", identifier="id")
+		feed = buffers.feedBuffer(parent=self.window.tb, name="me_feed", composefunc="compose_status", session=self.session, endpoint="get", parent_endpoint="wall")
 		self.buffers.append(feed)
 		self.window.add_buffer(feed.tab, _(u"My wall"))
-		audio = buffers.audioBuffer(parent=self.window.tb, name="me_audio", composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, identifier="aid")
+		audio = buffers.audioBuffer(parent=self.window.tb, name="me_audio", composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True)
 		self.buffers.append(audio)
 		self.window.add_buffer(audio.tab, _(u"My audios"))
 
@@ -93,7 +93,6 @@ class Controller(object):
 		call_threaded(player.player.play, audio_object)
 
 	def view_post(self, post_object, controller_):
-		print controller_
 		p = getattr(posts, controller_)(self.session, post_object)
 		p.dialog.get_response()
 		p.dialog.Destroy()
@@ -105,5 +104,4 @@ class Controller(object):
 
 	def update_buffer(self, *args, **kwargs):
 		b = self.get_current_buffer()
-		b.update()
-		print "updated"
+		b.get_items()

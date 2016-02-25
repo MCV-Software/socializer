@@ -14,16 +14,17 @@ sessions = {}
 # Saves possible set of identifier keys for VK'S data types
 # see https://vk.com/dev/datatypes for more information.
 # I've added the Date identifier (this is a field in unix time format), for special objects (like friendships indicators) because these objects doesn't have an own identifier.
-identifiers = ["aid", "gid", "uid", "pid", "id", "post_id", "nid", "date"]
+identifiers = ["date", "aid", "gid", "uid", "pid", "id", "post_id", "nid", "date"]
 
 def find_item(list, item):
 	""" Finds an item in a list  by taking an identifier"""
 	# determines the kind of identifier that we are using
 	global identifiers
-	identifier = None
-	for i in identifiers:
-		if item.has_key(i):
-			identifier = i
+	identifier = "date"
+#	for i in identifiers:
+#		if item.has_key(i):
+#			identifier =   i
+#			break
 	if identifier == None:
 		# if there are objects that can't be processed by lack of identifier, let's print  keys for finding one.
 		print item.keys()
@@ -125,14 +126,14 @@ class vkSession(object):
 			if i.has_key("type") and i["type"] == "wall_photo": continue
 			if find_item(self.db[name]["items"], i) == False:
 #			if i not in self.db[name]["items"]:
-				if first_addition or show_nextpage == True:
+				if first_addition == True or show_nextpage == True:
 					if self.settings["general"]["reverse_timelines"] == False: self.db[name]["items"].append(i)
 					else: self.db[name]["items"].insert(0, i)
 				else:
 					if self.settings["general"]["reverse_timelines"] == False: self.db[name]["items"].insert(0, i)
 					else: self.db[name]["items"].append(i)
 				num = num+1
-
+		print len(self.db[name]["items"])
 		return num
 
 	def __init__(self, session_id):
@@ -186,14 +187,14 @@ class vkSession(object):
 	def get_newsfeed(self, name="newsfeed", show_nextpage=False, endpoint="", *args, **kwargs):
 		if show_nextpage == True:
 			kwargs["start_from"] = self.db[name]["cursor"]
-			kwargs["v"] = "5.21"
+			print kwargs
 		data = getattr(self.vk.client.newsfeed, "get")(*args, **kwargs)
 		if data != None:
 			if show_nextpage == False:
 				self.process_usernames(data)
-			else:
-				print data.keys()
-			num = self.order_buffer(name, data["items"][:-1], show_nextpage)
+#			else:
+#				print data.keys(), len(data["items"]), data["next_from"]
+			num = self.order_buffer(name, data["items"], show_nextpage)
 			print data.keys()
 			self.db[name]["cursor"] = data["next_from"]
 			return num

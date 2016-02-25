@@ -118,6 +118,8 @@ class feedBuffer(baseBuffer):
 			else:
 				[self.insert(i) for i in self.session.db[self.name]["items"][:num]]
 
+	def update(self):
+		output.speak(_(u"Wall buffers can't get up to 100 items."))
 
 class audioBuffer(feedBuffer):
 	def create_tab(self, parent):
