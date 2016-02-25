@@ -27,21 +27,21 @@ class post(object):
 	def translate(self, *args, **kwargs):
 		dlg = translator.gui.translateDialog()
 		if dlg.get_response() == widgetUtils.OK:
-			text_to_translate = self.message.get_text().encode("utf-8")
+			text_to_translate = self.message.get_text()
 			source = [x[0] for x in translator.translator.available_languages()][dlg.get("source_lang")]
 			dest = [x[0] for x in translator.translator.available_languages()][dlg.get("dest_lang")]
 			msg = translator.translator.translate(text_to_translate, source, dest)
 			self.message.set_text(msg)
 			self.message.text_focus()
 			output.speak(_(u"Translated"))
-		else:
-			return
+		dlg.Destroy()
 
 	def spellcheck(self, event=None):
 		text = self.message.get_text()
 		checker = SpellChecker.spellchecker.spellChecker(text, "")
 		if hasattr(checker, "fixed_text"):
 			self.message.set_text(checker.fixed_text)
+		checker.clean()
 
 # def attach(self, *args, **kwargs):
 #  def completed_callback():
