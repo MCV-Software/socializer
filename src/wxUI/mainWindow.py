@@ -14,7 +14,7 @@ class mainWindow(wx.Frame):
 		self.about = help_.Append(wx.NewId(), _(u"About {0}").format(application.name,))
 		self.about.Enable(False)
 		self.check_for_updates = help_.Append(wx.NewId(), _(u"Check for updates"))
-		self.check_for_updates.Enable(False)
+
 		mb.Append(help_, _(u"Help"))
 		self.SetMenuBar(mb)
 

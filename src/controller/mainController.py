@@ -9,7 +9,8 @@ from pubsub import pub
 from mysc.repeating_timer import RepeatingTimer
 from mysc.thread_utils import call_threaded
 from sessionmanager import session
-from wxUI import (mainWindow)
+from wxUI import (mainWindow, commonMessages)
+from update import updater
 
 class Controller(object):
 
@@ -36,6 +37,7 @@ class Controller(object):
 		self.create_controls()
 		self.window.Show()
 		self.connect_events()
+		call_threaded(updater.do_update)
 
 	def create_controls(self):
 		home = buffers.baseBuffer(parent=self.window.tb, name="home_timeline", session=self.session, composefunc="compose_new", endpoint="newsfeed")
@@ -57,6 +59,7 @@ class Controller(object):
 		pub.subscribe(self.view_post, "open-post")
 		widgetUtils.connect_event(self.window, widgetUtils.CLOSE_EVENT, self.exit)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.update_buffer, menuitem=self.window.update_buffer)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.check_for_updates, menuitem=self.window.check_for_updates)
 
 	def disconnect_events(self):
 		pub.unsubscribe(self.in_post, "posted")
@@ -105,3 +108,8 @@ class Controller(object):
 	def update_buffer(self, *args, **kwargs):
 		b = self.get_current_buffer()
 		b.get_items()
+
+	def check_for_updates(self, *args, **kwargs):
+		update = updater.do_update()
+		if update == False:
+			commonMessages.no_update_available()
