@@ -67,3 +67,7 @@ class spellChecker(object):
 	def replaceAll(self, ev):
 		self.checker.replace_always(self.dialog.get_selected_suggestion())
 		self.check()
+
+	def clean(self):
+		if hasattr(self, "dialog"):
+			self.dialog.Destroy()

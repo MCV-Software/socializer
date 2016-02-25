@@ -79,7 +79,7 @@ def compose_new(status, session):
 			for i in xrange(0, status["audio"]["count"]):
 				composed_audio = compose_audio(status["audio"]["items"][i], session)
 				prem += u"{0} - {1}, ".format(composed_audio[0], composed_audio[1])
-			message = _(u"{0} has posted {1} audios: {2}").format(user, status["audio"]["count"], prem)
+			message = _(u"{0} has added  {1} audios: {2}").format(user, status["audio"]["count"], prem)
 	elif status["type"] == "friend":
 		msg_users = u""
 		for i in status["friends"]["items"]:

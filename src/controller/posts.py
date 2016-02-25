@@ -194,9 +194,7 @@ class audio(postController):
 		self.post = postObject
 		self.dialog = postDialogs.audio()
 		widgetUtils.connect_event(self.dialog.list, widgetUtils.LISTBOX_CHANGED, self.handle_changes)
-		print "loading audios..."
 		self.load_audios()
-		print "Filling information..."
 		self.fill_information(0)
 		widgetUtils.connect_event(self.dialog.download, widgetUtils.BUTTON_PRESSED, self.download)
 		widgetUtils.connect_event(self.dialog.play, widgetUtils.BUTTON_PRESSED, self.play)
@@ -270,6 +268,7 @@ class audio(postController):
 		for i in self.post:
 			s = u"{0} - {1}. {2}".format(i["title"], i["artist"], utils.seconds_to_string(i["duration"]))
 			self.dialog.insert_audio(s)
+		self.dialog.list.SetSelection(0)
 
 	def handle_changes(self, *args, **kwargs):
 		p = self.dialog.get_audio()
