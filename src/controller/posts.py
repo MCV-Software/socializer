@@ -269,6 +269,9 @@ class audio(postController):
 			s = u"{0} - {1}. {2}".format(i["title"], i["artist"], utils.seconds_to_string(i["duration"]))
 			self.dialog.insert_audio(s)
 		self.dialog.list.SetSelection(0)
+		if len(self.post) == 1:
+			self.dialog.list.Enable(False)
+			self.dialog.title.SetFocus()
 
 	def handle_changes(self, *args, **kwargs):
 		p = self.dialog.get_audio()
