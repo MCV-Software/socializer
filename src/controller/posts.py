@@ -252,6 +252,8 @@ class audio(postController):
 		if post.has_key("lyrics_id"):
 			l = self.session.vk.client.audio.getLyrics(lyrics_id=int(post["lyrics_id"]))
 			self.dialog.set("lyric", l["text"])
+		else:
+			self.dialog.change_state("lyric", False)
 
 	def download(self, *args, **kwargs):
 		post = self.post[self.dialog.get_audio()]
