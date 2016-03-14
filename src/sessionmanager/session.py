@@ -240,4 +240,6 @@ class vkSession(object):
 			self.db["groups"][i["id"]] = i["name"]
 
 	def get_my_data(self):
-		self.user_id = self.vk.client.users.get(fields="uid")[0]["id"]
+		user = self.vk.client.users.get(fields="uid, first_name, last_name")
+		self.user_id = user[0]["id"]
+		self.db["users"][self.user_id] = u"{0} {1}".format(user[0]["first_name"], user[0]["last_name"])
