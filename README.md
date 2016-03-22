@@ -30,7 +30,7 @@ Just open the main.py file with the python interpreter. This file is located in 
 
 If you have used [TWBlue](https://github.com/manuelcortez/twblue) before, the socializer's interface is quite similar. Once you have authorised your account, you will see a window with the following elements:
 
-* A tree view at the left of the window, where you will see the list of buffers (at the moment, there are only three of these: news feed, my wall and my audios).
+* A tree view at the left of the window, where you will see the list of buffers (at the moment, there are only five  of these: news feed, my wall, my audios, popular audios and recommended audios).
 * A button for making a post to your wall.
 * A list where you will see the posts for the currently selected buffer.
 * A status bar where the program will put some useful information about what it's doing at the moment.
@@ -38,7 +38,7 @@ If you have used [TWBlue](https://github.com/manuelcortez/twblue) before, the so
 
 When socializer starts, it will try to load your news items, wall and audios. At the moment there are only a few supported actions for   these items:
 
-* Audio files: You can play the currently selected song, view the song's details (including lyrics, if available), add or remove from your library, and download it to a desired place in your hard drive. You can find audio files in your news feed or in your own audios buffer.
+* Audio files: You can play the currently selected song, view the song's details (including lyrics, if available), add or remove from your library, and download it to a desired place in your hard drive. You can find audio files in your news feed or in your own audios buffers.
 * News feed's post: In your news feed buffer, you can press return in any post and socializer will open a new dialogue which can be different, depending in the kind of post you are when the return key was pressed.
 * At the moment you can't open your wall posts.
 
@@ -52,7 +52,7 @@ You can press the return key in any post in your news feed for opening a new dia
 
 ### Working with songs
 
-If you want to play or view your audio's details, you'll have to navigate to the tree view, and, using the down arrow, look for "my audios". You will see two more buttons, play and play all. The play button will play the currently selected audio, and the play all button is not implemented yet. You can go to the song's list, look for a desired song and press the play button, or Ctrl+return, which is a keyboard shorcut.
+If you want to play or view  audio's details, you'll have to navigate to the tree view, and, using the down arrow, look for "my audios", "popular audios" or "Recommendations". You will see two more buttons, play and play all. The play button will play the currently selected audio, and the play all button is not implemented yet. You can go to the song's list, look for a desired song and press the play button, or Ctrl+return, which is a keyboard shorcut.
 
 You can play audio from any buffer, just press ctrl+return for making the audio playback possible.
 
