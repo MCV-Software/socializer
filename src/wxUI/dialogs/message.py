@@ -16,7 +16,7 @@ class textMessage(widgetUtils.BaseDialog):
 		self.textBox.Add(self.text, 0, wx.ALL, 5)
 
 	def create_privacy_box(self):
-		lbl = wx.StaticText(self.panel, wx.NewId(), _(u"Privacy"))
+		lbl = wx.StaticText(self.panel, wx.NewId(), _(u"&Privacy"))
 		self.privacy = wx.ComboBox(self.panel, wx.NewId(), choices=[_(u"All users"), _(u"Friends of friends"),], value=_(u"All users"), style=wx.CB_READONLY)
 		self.privacyBox = wx.BoxSizer(wx.HORIZONTAL)
 		self.privacyBox.Add(lbl, 0, wx.ALL, 5)
@@ -58,10 +58,10 @@ class post(textMessage):
 		self.mainBox.Add(self.textBox, 0, wx.ALL, 5)
 		self.create_privacy_box()
 		self.mainBox.Add(self.privacyBox, 0, wx.ALL, 5)
-		self.upload_image = wx.Button(self.panel, -1, _(u"Upload a picture"), size=wx.DefaultSize)
+		self.upload_image = wx.Button(self.panel, -1, _(u"Upload a &picture"), size=wx.DefaultSize)
 		self.upload_image.Enable(False)
-		self.spellcheck = wx.Button(self.panel, -1, _("Spelling correction"), size=wx.DefaultSize)
-		self.translateButton = wx.Button(self.panel, -1, _(u"Translate message"), size=wx.DefaultSize)
+		self.spellcheck = wx.Button(self.panel, -1, _("Spelling &correction"), size=wx.DefaultSize)
+		self.translateButton = wx.Button(self.panel, -1, _(u"&Translate message"), size=wx.DefaultSize)
 		self.okButton = wx.Button(self.panel, wx.ID_OK, _(u"Send"), size=wx.DefaultSize)
 		self.okButton.SetDefault()
 		cancelButton = wx.Button(self.panel, wx.ID_CANCEL, _(u"Close"), size=wx.DefaultSize)

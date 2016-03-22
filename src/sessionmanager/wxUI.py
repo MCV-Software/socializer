@@ -9,9 +9,9 @@ class newSessionDialog(widgetUtils.BaseDialog):
 	def __init__(self):
 		super(newSessionDialog, self).__init__(parent=None, id=wx.NewId(), title=_(u"Authorise VK"))
 		panel = wx.Panel(self)
-		lbl1 = wx.StaticText(panel, -1, _(u"Email address"))
+		lbl1 = wx.StaticText(panel, -1, _(u"&Email address"))
 		self.email = wx.TextCtrl(panel, -1)
-		lbl2 = wx.StaticText(panel, -1, _(u"Password"))
+		lbl2 = wx.StaticText(panel, -1, _(u"&Password"))
 		self.passw = wx.TextCtrl(panel, -1, style=wx.TE_PASSWORD)
 		sizer = wx.BoxSizer()
 		b1 = wx.BoxSizer(wx.HORIZONTAL)
