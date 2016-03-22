@@ -11,11 +11,18 @@ from sessionmanager import session
 from mysc.thread_utils import call_threaded
 
 class baseBuffer(object):
+	""" a basic representation of a buffer. Other buffers should be derived from this class"""
 	def __init__(self, parent=None, name="", session=None, composefunc=None, *args, **kwargs):
+		""" parent wx.Treebook: parent for the buffer panel,
+		name str: Name for saving this buffer's data in the local storage variable,
+		session sessionmanager.session.vkSession: Session for performing operations in the Vk API. This session should be logged in when this class is instanciated.
+		composefunc str: This function will be called for composing the result which will be put in the listCtrl. Composefunc should existss in the sessionmanager.session module.
+		args and kwargs will be passed to get_items()"""
 		super(baseBuffer, self).__init__()
 		self.args = args
 		self.kwargs = kwargs
 		self.create_tab(parent)
+		# Add the name to the new control so we could look for it when needed.
 		self.tab.name = name
 		self.session = session
 		self.compose_function = composefunc
@@ -24,15 +31,18 @@ class baseBuffer(object):
 		self.connect_events()
 
 	def create_tab(self, parent):
+		""" Creates the Wx panel."""
 		self.tab = home.homeTab(parent)
 
 	def insert(self, item, reversed=False):
+		""" Add a new item to the list. Uses session.composefunc for parsing the dictionary and create a valid result for putting it in the list."""
 		item_ = getattr(session, self.compose_function)(item, self.session)
 		self.tab.list.insert_item(reversed, *item_)
 
 	def get_items(self, show_nextpage=False):
+		""" Retrieves items from the VK API. This function is called repeatedly by the main controller and users could call it as well with the update buffer option.
+		show_nextpage boolean: If it's true, it will try to load previous results."""
 		num = getattr(self.session, "get_newsfeed")(show_nextpage=show_nextpage, name=self.name, *self.args, **self.kwargs)
-		print num
 		if show_nextpage  == False:
 			if self.tab.list.get_count() > 0 and num > 0:
 				print "inserting a value"
@@ -139,3 +149,4 @@ class audioBuffer(feedBuffer):
 		a = posts.audio(self.session, audios)
 		a.dialog.get_response()
 		a.dialog.Destroy()
+
