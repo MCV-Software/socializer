@@ -207,8 +207,10 @@ class vkSession(object):
 		p = getattr(self.vk.client, p)
 		data = getattr(p, endpoint)(*args, **kwargs)
 		if data != None:
-			num = self.order_buffer(name, data["items"], show_nextpage)
-			ids = ""
+			if type(data) == dict:
+				num = self.order_buffer(name, data["items"], show_nextpage)
+			else:
+				num = self.order_buffer(name, data, show_nextpage)
 			return num
 
 	def get_user_name(self, user_id):

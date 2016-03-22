@@ -51,6 +51,12 @@ class Controller(object):
 		audio = buffers.audioBuffer(parent=self.window.tb, name="me_audio", composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True)
 		self.buffers.append(audio)
 		self.window.add_buffer(audio.tab, _(u"My audios"))
+		p_audio = buffers.audioBuffer(parent=self.window.tb, name="popular_audio", composefunc="compose_audio", session=self.session, endpoint="getPopular", parent_endpoint="audio", full_list=True)
+		self.buffers.append(p_audio)
+		self.window.add_buffer(p_audio.tab, _(u"Popular audios"))
+		r_audio = buffers.audioBuffer(parent=self.window.tb, name="recommended_audio", composefunc="compose_audio", session=self.session, endpoint="getRecommendations", parent_endpoint="audio", full_list=True)
+		self.buffers.append(r_audio)
+		self.window.add_buffer(r_audio.tab, _(u"Recommendations"))
 
 	def connect_events(self):
 		pub.subscribe(self.in_post, "posted")
