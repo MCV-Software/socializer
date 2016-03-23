@@ -46,7 +46,9 @@ class baseBuffer(object):
 		if show_nextpage  == False:
 			if self.tab.list.get_count() > 0 and num > 0:
 				print "inserting a value"
-				[self.insert(i, True) for i in self.session.db[self.name]["items"][:num]]
+				v = [i for i in self.session.db[self.name]["items"][:num]]
+				v.reverse()
+				[self.insert(i, True) for i in v]
 			else:
 				[self.insert(i) for i in self.session.db[self.name]["items"][:num]]
 		else:
@@ -124,7 +126,9 @@ class feedBuffer(baseBuffer):
 		if show_nextpage  == False:
 			if self.tab.list.get_count() > 0 and num > 0:
 				print "inserting a value"
-				[self.insert(i, True) for i in self.session.db[self.name]["items"][-num:]]
+				v = [i for i in self.session.db[self.name]["items"][:num]]
+				v.reverse()
+				[self.insert(i, True) for i in v]
 			else:
 				[self.insert(i) for i in self.session.db[self.name]["items"][:num]]
 
