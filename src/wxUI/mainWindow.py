@@ -6,6 +6,9 @@ class mainWindow(wx.Frame):
 	def makeMenu(self):
 		mb = wx.MenuBar()
 		buffer = wx.Menu()
+		self.new_buffer = wx.Menu()
+		self.search_audios = self.new_buffer.Append(wx.NewId(), _(u"Audio"))
+		buffer.AppendMenu(wx.NewId(), _(u"New buffer"), self.new_buffer)
 		self.update_buffer = buffer.Append(wx.NewId(), _(u"Update current buffer"))
 		self.load_previous_items = buffer.Append(wx.NewId(), _(u"Load previous items"))
 		self.load_previous_items.Enable(False)

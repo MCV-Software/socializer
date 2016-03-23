@@ -11,6 +11,7 @@ from mysc.repeating_timer import RepeatingTimer
 from mysc.thread_utils import call_threaded
 from sessionmanager import session
 from wxUI import (mainWindow, commonMessages)
+from wxUI.dialogs import search as searchDialogs
 from update import updater
 
 class Controller(object):
@@ -75,6 +76,7 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.update_buffer, menuitem=self.window.update_buffer)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.check_for_updates, menuitem=self.window.check_for_updates)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.window.about_dialog, menuitem=self.window.about)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.search_audios, menuitem=self.window.search_audios)
 
 	def disconnect_events(self):
 		pub.unsubscribe(self.in_post, "posted")
@@ -122,7 +124,7 @@ class Controller(object):
 	def exit(self, *args, **kwargs):
 		self.disconnect_events()
 		self.window.Destroy()
-		wx.GetApp().ExitMainloop()
+		wx.GetApp().ExitMainLoop()
 
 	def update_buffer(self, *args, **kwargs):
 		b = self.get_current_buffer()
@@ -132,3 +134,16 @@ class Controller(object):
 		update = updater.do_update()
 		if update == False:
 			commonMessages.no_update_available()
+
+	def search_audios(self, *args, **kwargs):
+		dlg = searchDialogs.searchAudioDialog()
+		if dlg.get_response() == widgetUtils.OK:
+			q = dlg.get("term").encode("utf-8")
+			count = 300
+			auto_complete = 1
+			lyrics = 0
+			performer_only = 0
+			newbuff = buffers.audioBuffer(parent=self.window.tb, name=u"{0}_audiosearch".format(q.decode("utf-8"),), session=self.session, composefunc="compose_audio", parent_endpoint="audio", endpoint="search", q=q, count=count, auto_complete=auto_complete, lyrics=lyrics, performer_only=performer_only)
+			self.buffers.append(newbuff)
+			call_threaded(newbuff.get_items)
+			self.window.insert_buffer(newbuff.tab, _(u"Search for {0}").format(q.decode("utf-8"),), self.window.search("audios"))
