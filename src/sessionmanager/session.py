@@ -50,18 +50,21 @@ def add_attachment(attachment):
 def add_text(status):
 	""" This shorts the text to 140 characters for displaying it in the list control."""
 	message = ""
-	if status.has_key("text"):
-		if len(status["text"]) < 140:
-			message = utils.clean_text(status["text"])
-		else:
-			message = utils.clean_text(status["text"][:139])
+	if status.has_key("copy_history"):
+		txt = status["copy_history"][0]["text"]
+	else:
+		txt = status["text"]
+	if len(txt) < 140:
+		message = utils.clean_text(txt)
+	else:
+		message = utils.clean_text(txt[:139])
 	return message
 
 def compose_new(status, session):
 	""" This method is used to compose an item of the news feed."""
 	user = session.get_user_name(status["source_id"])
-	if status.has_key("copy_owner_id"):
-		user = _(u"{0} has shared the {1}'s post").format(user, session.get_user_name(status["copy_owner_id"]))
+	if status.has_key("copy_history"):
+		user = _(u"{0} has shared the {1}'s post").format(user, session.get_user_name(status["copy_history"][0]["owner_id"]))
 	message = ""
 	original_date = arrow.get(status["date"])
 	created_at = original_date.humanize(locale=languageHandler.getLanguage())
