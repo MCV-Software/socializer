@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import wx
 import utils
 import widgetUtils
 import messages
@@ -59,7 +60,7 @@ class Controller(object):
 		self.window.insert_buffer(audio.tab, _(u"My audios"), self.window.search("audios"))
 		p_audio = buffers.audioBuffer(parent=self.window.tb, name="popular_audio", composefunc="compose_audio", session=self.session, endpoint="getPopular", parent_endpoint="audio", full_list=True)
 		self.buffers.append(p_audio)
-		self.window.insert_buffer(p_audio.tab, _(u"Popular audios"), self.window.search("audios"))
+		self.window.insert_buffer(p_audio.tab, _(u"Populars"), self.window.search("audios"))
 		r_audio = buffers.audioBuffer(parent=self.window.tb, name="recommended_audio", composefunc="compose_audio", session=self.session, endpoint="getRecommendations", parent_endpoint="audio", full_list=True)
 		self.buffers.append(r_audio)
 		self.window.insert_buffer(r_audio.tab, _(u"Recommendations"), self.window.search("audios"))
@@ -121,7 +122,7 @@ class Controller(object):
 	def exit(self, *args, **kwargs):
 		self.disconnect_events()
 		self.window.Destroy()
-#		wx.GetApp().ExitMainloop()
+		wx.GetApp().ExitMainloop()
 
 	def update_buffer(self, *args, **kwargs):
 		b = self.get_current_buffer()
