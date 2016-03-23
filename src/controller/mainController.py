@@ -67,6 +67,7 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.CLOSE_EVENT, self.exit)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.update_buffer, menuitem=self.window.update_buffer)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.check_for_updates, menuitem=self.window.check_for_updates)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.window.about_dialog, menuitem=self.window.about)
 
 	def disconnect_events(self):
 		pub.unsubscribe(self.in_post, "posted")
