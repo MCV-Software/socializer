@@ -52,7 +52,7 @@ You can press the return key in any post in your news feed for opening a new dia
 
 ### Working with songs
 
-If you want to play or view  audio's details, you'll have to navigate to the tree view, and, using the down arrow, look for "my audios", "popular audios" or "Recommendations". You will see two more buttons, play and play all. The play button will play the currently selected audio, and the play all button is not implemented yet. You can go to the song's list, look for a desired song and press the play button, or Ctrl+return, which is a keyboard shorcut.
+If you want to play or view  audio's details, you'll have to navigate to the tree view, and, using the down arrow, look for "my audios", "popular audios" or "Recommendations". You will see two more buttons, play and play all. The play button will play the currently selected audio, and the play all button will play audios in the current buffer, starting with the current selected item. You can go to the song's list, look for a desired song and press the play button, or Ctrl+return, which is a keyboard shorcut. Take in to account that there are some keyboard shorcuts that only work in the list of items.
 
 You can play audio from any buffer, just press ctrl+return for making the audio playback possible.
 
