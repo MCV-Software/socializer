@@ -141,6 +141,7 @@ class audioBuffer(feedBuffer):
 
 	def connect_events(self):
 		widgetUtils.connect_event(self.tab.play, widgetUtils.BUTTON_PRESSED, self.play_audio)
+		widgetUtils.connect_event(self.tab.play_all, widgetUtils.BUTTON_PRESSED, self.play_all)
 		super(audioBuffer, self).connect_events()
 
 	def play_audio(self, *args, **kwargs):
@@ -154,3 +155,7 @@ class audioBuffer(feedBuffer):
 		a.dialog.get_response()
 		a.dialog.Destroy()
 
+	def play_all(self, *args, **kwargs):
+		selected = self.tab.list.get_selected()
+		audios = [i["url"] for i in self.session.db[self.name]["items"][selected:]]
+		pub.sendMessage("play-audios", audios=audios)

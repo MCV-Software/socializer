@@ -2,6 +2,7 @@
 import sound_lib
 from sound_lib.output import Output
 from sound_lib.stream import URLStream
+from mysc.repeating_timer import RepeatingTimer
 
 player = None
 
@@ -18,28 +19,43 @@ class audioPlayer(object):
 		self.stream = None
 		self.vol = 100
 		self.is_working = False
+		self.queue = []
+		self.stopped = True
 
 	def play(self, url):
 		if self.stream != None and self.stream.is_playing == True:
 			self.stream.stop()
+			self.stopped = True
+		if hasattr(self, "worker") and self.worker != None:
+			self.worker.cancel()
+			self.worker = None
+			self.queue = []
 		# Make sure that  there are no other sounds trying to be played.
 		if self.is_working == False:
 			self.is_working = True
 			self.stream = URLStream(url=url)
 			self.stream.volume = self.vol/100.0
 			self.stream.play()
+			self.stopped = False
 			self.is_working = False
 
 	def stop(self):
 		if self.stream != None and self.stream.is_playing == True:
 			self.stream.stop()
+			self.stopped = True
+		if hasattr(self, "worker") and self.worker != None:
+			self.worker.cancel()
+			self.worker = None
+			self.queue = []
 
 	def pause(self):
 		if self.stream != None:
 			if self.stream.is_playing == True:
 				self.stream.pause()
+				self.stopped = True
 			else:
 				self.stream.play()
+				self.stopped = False
 
 	@property
 	def volume(self):
@@ -53,3 +69,21 @@ class audioPlayer(object):
 		if self.stream != None:
 			self.stream.volume = self.vol/100.0
 
+	def play_all(self, list_of_urls):
+		if len(self.queue) == 0:
+			self.queue = list_of_urls
+		else:
+			for i in list_of_urls:
+				self.queue.append(i)
+		self.play(self.queue[0])
+		self.queue.remove(self.queue[0])
+		self.worker = RepeatingTimer(5, self.player_function)
+		self.worker.start()
+
+	def player_function(self):
+		if self.stream != None and self.stream.is_playing == False and self.stopped == False:
+			if len(self.queue) == 0:
+				self.worker.cancel()
+				return
+			self.play(self.queue[0])
+			self.queue.remove(self.queue[0])

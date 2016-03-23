@@ -62,6 +62,7 @@ class Controller(object):
 		pub.subscribe(self.in_post, "posted")
 		pub.subscribe(self.download, "download-file")
 		pub.subscribe(self.play_audio, "play-audio")
+		pub.subscribe(self.play_audios, "play-audios")
 		pub.subscribe(self.view_post, "open-post")
 		widgetUtils.connect_event(self.window, widgetUtils.CLOSE_EVENT, self.exit)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.update_buffer, menuitem=self.window.update_buffer)
@@ -71,6 +72,7 @@ class Controller(object):
 		pub.unsubscribe(self.in_post, "posted")
 		pub.unsubscribe(self.download, "download-file")
 		pub.unsubscribe(self.play_audio, "play-audio")
+		pub.unsubscribe(self.play_audios, "play-audios")
 		pub.unsubscribe(self.view_post, "open-post")
 
 	def login(self):
@@ -100,6 +102,9 @@ class Controller(object):
 
 	def play_audio(self, audio_object):
 		call_threaded(player.player.play, audio_object)
+
+	def play_audios(self, audios):
+		player.player.play_all(audios)
 
 	def view_post(self, post_object, controller_):
 		p = getattr(posts, controller_)(self.session, post_object)
