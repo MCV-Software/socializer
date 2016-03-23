@@ -85,8 +85,18 @@ def compose_new(status, session):
 		for i in status["friends"]["items"]:
 			msg_users = msg_users + u"{0}, ".format(session.get_user_name(i["user_id"]))
 		message = _(u"{0} hadded friends: {1}").format(user, msg_users)
+	elif status["type"] == "video":
+		if status["video"]["count"] == 1:
+			message = _(u"{0} has added  a video: {1}").format(user, u", ".join(compose_video(status["video"]["items"][0], session)),)
+		else:
+			prem = ""
+			for i in xrange(0, status["video"]["count"]):
+				composed_video = compose_video(status["video"]["items"][i], session)
+				prem += u"{0} - {1}, ".format(composed_video[0], composed_video[1])
+			message = _(u"{0} has added  {1} videos: {2}").format(user, status["video"]["count"], prem)
+
 	else:
-		if status["type"] != "post": print status["type"]
+		if status["type"] != "post": print status
 	return [user, message, created_at]
 
 def compose_status(status, session):
@@ -107,6 +117,10 @@ def compose_status(status, session):
 def compose_audio(audio, session):
 	if audio == False: return [_(u"Audio removed from library"), "", ""]
 	return [audio["title"], audio["artist"], utils.seconds_to_string(audio["duration"])]
+
+def compose_video(video, session):
+	if video == False: return [_(u"Audio removed from library"), "", ""]
+	return [video["title"], utils.seconds_to_string(video["duration"])]
 
 class vkSession(object):
 
