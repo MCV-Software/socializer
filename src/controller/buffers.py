@@ -157,6 +157,8 @@ class audioBuffer(feedBuffer):
 
 	def play_all(self, *args, **kwargs):
 		selected = self.tab.list.get_selected()
+		if selected == -1:
+			selected = 0
 		audios = [i["url"] for i in self.session.db[self.name]["items"][selected:]]
 		pub.sendMessage("play-audios", audios=audios)
 
