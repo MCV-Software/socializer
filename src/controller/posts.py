@@ -36,7 +36,7 @@ class postController(object):
 		if self.post.has_key("type"):
 			if self.post["type"] == "post":
 				from_ = self.session.get_user_name(self.post["source_id"])
-				if self.post.has_key("copy_owner_id"):
+				if self.post.has_key("copy_history"):
 					title = _(u"repost from {0}").format(from_,)
 				else:
 					title = _(u"Post from {0}").format(from_,)
@@ -44,6 +44,8 @@ class postController(object):
 				message = u""
 				if self.post.has_key("text"):
 					message = utils.clean_text(self.post["text"])
+				if self.post.has_key("copy_history") and message == "":
+					message = utils.clean_text(self.post["copy_history"][0]["text"])
 				if self.post.has_key("attachment"):
 					print self.post["attachment"].keys()
 					message = message+session.add_attachment(self.post["attachment"])
