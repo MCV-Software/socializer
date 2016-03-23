@@ -40,7 +40,7 @@ class baseBuffer(object):
 		self.tab.list.insert_item(reversed, *item_)
 
 	def get_items(self, show_nextpage=False):
-		""" Retrieves items from the VK API. This function is called repeatedly by the main controller and users could call it as well with the update buffer option.
+		""" Retrieves items from the VK API. This function is called repeatedly by the main controller and users could call it implicitly as well with the update buffer option.
 		show_nextpage boolean: If it's true, it will try to load previous results."""
 		num = getattr(self.session, "get_newsfeed")(show_nextpage=show_nextpage, name=self.name, *self.args, **self.kwargs)
 		if show_nextpage  == False:
@@ -106,7 +106,6 @@ class baseBuffer(object):
 	def open_post(self):
 		post = self.session.db[self.name]["items"][self.tab.list.get_selected()]
 		if post.has_key("type") and post["type"] == "audio":
-			print "opening audio"
 			a = posts.audio(self.session, post["audio"]["items"])
 			a.dialog.get_response()
 			a.dialog.Destroy()

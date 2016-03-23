@@ -292,8 +292,8 @@ class friendship(object):
 		self.set_friends_list(list_of_friends)
 
 	def get_friend_names(self):
-		self.friends = self.post["friends"][1:]
-		return [self.session.get_user_name(i["uid"]) for i in self.friends]
+		self.friends = self.post["friends"]["items"]
+		return [self.session.get_user_name(i["user_id"]) for i in self.friends]
 
 	def set_friends_list(self, friendslist):
 		for i in friendslist:
