@@ -159,3 +159,15 @@ class audioBuffer(feedBuffer):
 		selected = self.tab.list.get_selected()
 		audios = [i["url"] for i in self.session.db[self.name]["items"][selected:]]
 		pub.sendMessage("play-audios", audios=audios)
+
+class empty(object):
+
+	def __init__(self, name=None, parent=None, *args, **kwargs):
+		self.tab = home.empty(parent=parent, name=name)
+		self.name = name
+
+	def get_items(self, *args, **kwargs):
+		pass
+
+	def update(self, *args, **kwargs):
+		pass

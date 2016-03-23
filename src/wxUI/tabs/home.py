@@ -108,3 +108,9 @@ class friendsTab(homeTab):
 		self.list.set_windows_size(0, 400)
 		self.list.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnKeyDown)
 
+class empty(wx.Panel):
+	def __init__(self, parent, name):
+		super(empty, self).__init__(parent=parent, name=name)
+		self.name = name
+		sizer = wx.BoxSizer(wx.VERTICAL)
+		self.SetSizer(sizer)
