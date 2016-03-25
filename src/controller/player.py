@@ -26,10 +26,10 @@ class audioPlayer(object):
 		if self.stream != None and self.stream.is_playing == True:
 			self.stream.stop()
 			self.stopped = True
-		if hasattr(self, "worker") and self.worker != None:
-			self.worker.cancel()
-			self.worker = None
-			self.queue = []
+			if hasattr(self, "worker") and self.worker != None:
+				self.worker.cancel()
+				self.worker = None
+				self.queue = []
 		# Make sure that  there are no other sounds trying to be played.
 		if self.is_working == False:
 			self.is_working = True
