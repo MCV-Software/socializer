@@ -30,11 +30,12 @@ Just open the main.py file with the python interpreter. This file is located in 
 
 If you have used [TWBlue](https://github.com/manuelcortez/twblue) before, the socializer's interface is quite similar. Once you have authorised your account, you will see a window with the following elements:
 
-* A tree view at the left of the window, where you will see the list of buffers (at the moment, there are only five  of these: news feed, my wall, my audios, popular audios and recommended audios).
+* A tree view at the left of the window, where you will see the list of buffers (at the moment, there are only five  of these: news feed, my wall, my audios, populars and recommended). These buffers are divided in two categories, posts and music. You could expand each category for seeing the child buffers.
 * A button for making a post to your wall.
+* In audio buffers, Two buttons: Play and play all.
 * A list where you will see the posts for the currently selected buffer.
 * A status bar where the program will put some useful information about what it's doing at the moment.
-* And a menu bar, that is not used yet.
+* And a menu bar, which could be used for making a search for audio files in VK, or check for updates.
 
 When socializer starts, it will try to load your news items, wall and audios. At the moment there are only a few supported actions for   these items:
 
@@ -48,11 +49,11 @@ When you press the post button, a new dialogue will show up. This dialogue allow
 
 ### Working with posts in news feed
 
-You can press the return key in any post in your news feed for opening a new dialogue with some information. The information and dialogue will be different if you are viewing a friendship's notification  (when someone has added some friends), an audio file, or a regular post. At the moment, there are no more actions for these kind of posts, you can read the full text for a post, view the new added friends in a list and  there are some kind of posts that aren't handled. It should be improved.
+You can press the return key in any post in your news feed for opening a new dialogue with some information. The information and dialogue will be different if you are viewing a friendship's notification  (when someone has added some friends), an audio file, or a regular post. At the moment, there are no more actions for these kind of posts, you can read the full text for a post and its comments, view the new added friends in a list and  there are some kind of posts that aren't handled. It should be improved.
 
 ### Working with songs
 
-If you want to play or view  audio's details, you'll have to navigate to the tree view, and, using the down arrow, look for "my audios", "popular audios" or "Recommendations". You will see two more buttons, play and play all. The play button will play the currently selected audio, and the play all button will play audios in the current buffer, starting with the current selected item. You can go to the song's list, look for a desired song and press the play button, or Ctrl+return, which is a keyboard shorcut. Take in to account that there are some keyboard shorcuts that only work in the list of items.
+If you want to play or view  audio's details, you'll have to navigate to the tree view, and, using the down arrow, look for "my audios", "populars" or "Recommendations". You will see two more buttons, play and play all. The play button will play the currently selected audio, and the play all button will play audios in the current buffer, starting with the current selected item. You can go to the song's list, look for a desired song and press the play button, or Ctrl+return, which is a keyboard shorcut. Take in to account that there are some keyboard shorcuts that only work in the list of items.
 
 You can play audio from any buffer, just press ctrl+return for making the audio playback possible.
 
@@ -63,6 +64,17 @@ When an  audio file is playing, you can press f5 and f6 for decreasing and incre
 If you want to see  some details for the selected audio file, you can do it by pressing the return key. You will be able to read some useful information  (title, artist, duration and the lyric, if available). Also you will be able to download the song to your hard drive, you have to press the download button in the details' dialogue.
 
 When the download starts, you can close the details dialogue and check the status bar in the main window for seeing the current progress.
+
+## menu Bar
+
+You can go to the menu bar by pressing ALT. Right now, there are only two menus, buffer and help:
+
+### Buffer menu
+
+* New buffer: This submenu  allows you to create a new buffer, at the moment, you can create only a kind of buffer, an audio search. The audio search will be located in the music category and will have the last 299 results of your query. It isn't possible to delete the buffers until you restart the client.
+* Update current buffer: perform an update operation in the selected buffer, which will retrieve the new items.
+
+The help menu is self explanatory.
 
 ## Contributing
 
