@@ -15,6 +15,13 @@ from extra import SpellChecker, translator
 from mysc.thread_utils import call_threaded
 from wxUI import menus
 
+def get_user(id, profiles):
+	for i in profiles:
+		print i.keys()
+		if i["id"] == id:
+			return "{0} {0}".format(i["first_name"], i["last_name"])
+	return "Unknown username"
+
 class postController(object):
 	def __init__(self, session, postObject):
 		super(postController, self).__init__()
@@ -31,6 +38,25 @@ class postController(object):
 		self.dialog.Bind(wx.EVT_LIST_KEY_DOWN, self.show_menu_by_key, self.dialog.comments.list)
 #		call_threaded(self.load_all_components)
 		self.get_post_information()
+		call_threaded(self.get_comments)
+
+	def get_comments(self):
+		user = self.post["source_id"]
+		id = self.post["post_id"]
+		comments = self.session.vk.client.wall.getComments(owner_id=user, post_id=id, need_likes=1, count=100, extended=1, preview_length=0)
+		print comments.keys()
+		comments_ = []
+		for i in comments["items"]:
+			from_ = get_user(i["from_id"], comments["profiles"])
+			if len(i["text"]) > 140:
+				text = i["text"][:141]
+			else:
+				text = i["text"]
+			original_date = arrow.get(i["date"])
+			created_at = original_date.humanize(locale=languageHandler.getLanguage())
+			likes = str(i["likes"]["count"])
+			comments_.append((from_, text, created_at, likes))
+		self.dialog.insert_comments(comments_)
 
 	def get_post_information(self):
 		if self.post.has_key("type"):
@@ -68,20 +94,20 @@ class postController(object):
 		self.shares = self.session.fb.client.get_connections(id=self.post["id"], connection_name="sharedposts")
 		self.dialog.set_shares(str(len(self.shares["data"])))
 
-	def get_comments(self):
-		self.comments = self.session.fb.client.get_connections(id=self.post["id"], connection_name="comments", filter="stream")
-		comments = []
-		for i in self.comments["data"]:
-			from_ = i["from"]["name"]
-			if len(i["message"]) > 100:
-				comment = i["message"][:100]
-			else:
-				comment = i["message"]
-			original_date = arrow.get(i["created_time"], "YYYY-MM-DTHH:m:sZ", locale="en")
-			created_at = original_date.humanize(locale=languageHandler.getLanguage())
-			likes = str(i["like_count"])
-			comments.append([from_, comment, created_at, likes,])
-		self.dialog.insert_comments(comments)
+#	def get_comments(self):
+#		self.comments = self.session.fb.client.get_connections(id=self.post["id"], connection_name="comments", filter="stream")
+#		comments = []
+#		for i in self.comments["items"]:
+#			from_ = i["from"]["name"]
+#			if len(i["message"]) > 100:
+#				comment = i["message"][:100]
+#			else:
+#				comment = i["message"]
+#			original_date = arrow.get(i["created_time"], "YYYY-MM-DTHH:m:sZ", locale="en")
+#			created_at = original_date.humanize(locale=languageHandler.getLanguage())
+#			likes = str(i["like_count"])
+#			comments.append([from_, comment, created_at, likes,])
+#		self.dialog.insert_comments(comments)
 
 	def add_comment(self, *args, **kwargs):
 		comment = messages.comment(title=_(u"Add a comment"), caption="", text="")
