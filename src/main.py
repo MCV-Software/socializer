@@ -23,7 +23,7 @@ def setup():
 	log.debug("Application path is %s" % (paths.app_path(),))
 	log.debug("config path  is %s" % (paths.config_path(),))
 	output.setup()
-	languageHandler.setLanguage("system")
+	languageHandler.setLanguage(config.app["app-settings"]["language"])
 	keys.setup()
 	from controller import mainController
 	from sessionmanager import sessionManager
