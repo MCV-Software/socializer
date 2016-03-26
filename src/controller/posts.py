@@ -17,9 +17,8 @@ from wxUI import menus
 
 def get_user(id, profiles):
 	for i in profiles:
-		print i.keys()
 		if i["id"] == id:
-			return "{0} {0}".format(i["first_name"], i["last_name"])
+			return "{0} {1}".format(i["first_name"], i["last_name"])
 	return "Unknown username"
 
 class postController(object):
