@@ -291,7 +291,7 @@ class audio(postController):
 
 	def play(self, *args, **kwargs):
 		post = self.post[self.dialog.get_audio()]
-		pub.sendMessage("play-audio", audio_object=post["url"])
+		pub.sendMessage("play-audio", audio_object=post)
 
 	def load_audios(self):
 		for i in self.post:
