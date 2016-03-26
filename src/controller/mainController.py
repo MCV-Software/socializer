@@ -72,6 +72,7 @@ class Controller(object):
 		pub.subscribe(self.play_audio, "play-audio")
 		pub.subscribe(self.play_audios, "play-audios")
 		pub.subscribe(self.view_post, "open-post")
+		pub.subscribe(self.update_status_bar, "update-status-bar")
 		widgetUtils.connect_event(self.window, widgetUtils.CLOSE_EVENT, self.exit)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.update_buffer, menuitem=self.window.update_buffer)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.check_for_updates, menuitem=self.window.check_for_updates)
@@ -84,6 +85,7 @@ class Controller(object):
 		pub.unsubscribe(self.play_audio, "play-audio")
 		pub.unsubscribe(self.play_audios, "play-audios")
 		pub.unsubscribe(self.view_post, "open-post")
+		pub.unsubscribe(self.update_status_bar, "update-status-bar")
 
 	def login(self):
 		self.window.change_status(_(u"Logging in VK"))
@@ -148,3 +150,6 @@ class Controller(object):
 			self.buffers.append(newbuff)
 			call_threaded(newbuff.get_items)
 			self.window.insert_buffer(newbuff.tab, _(u"Search for {0}").format(q.decode("utf-8"),), self.window.search("audios"))
+
+	def update_status_bar(self, status):
+		self.window.change_status(status)

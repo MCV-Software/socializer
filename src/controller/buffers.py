@@ -101,7 +101,7 @@ class baseBuffer(object):
 	def play_audio(self, *args, **kwargs):
 		post = self.session.db[self.name]["items"][self.tab.list.get_selected()]
 		if post.has_key("type") and post["type"] == "audio":
-			pub.sendMessage("play-audio", audio_object=post["audio"][1]["url"])
+			pub.sendMessage("play-audio", audio_object=post["audio"]["items"][0])
 
 	def open_post(self):
 		post = self.session.db[self.name]["items"][self.tab.list.get_selected()]
@@ -145,7 +145,7 @@ class audioBuffer(feedBuffer):
 
 	def play_audio(self, *args, **kwargs):
 		selected = self.tab.list.get_selected()
-		pub.sendMessage("play-audio", audio_object=self.session.db[self.name]["items"][selected]["url"])
+		pub.sendMessage("play-audio", audio_object=self.session.db[self.name]["items"][selected])
 
 	def open_post(self):
 		selected = self.tab.list.get_selected()
@@ -158,7 +158,7 @@ class audioBuffer(feedBuffer):
 		selected = self.tab.list.get_selected()
 		if selected == -1:
 			selected = 0
-		audios = [i["url"] for i in self.session.db[self.name]["items"][selected:]]
+		audios = [i for i in self.session.db[self.name]["items"][selected:]]
 		pub.sendMessage("play-audios", audios=audios)
 
 class empty(object):

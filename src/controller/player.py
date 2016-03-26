@@ -3,6 +3,7 @@ import sound_lib
 from sound_lib.output import Output
 from sound_lib.stream import URLStream
 from mysc.repeating_timer import RepeatingTimer
+from pubsub import pub
 
 player = None
 
@@ -33,7 +34,9 @@ class audioPlayer(object):
 		# Make sure that  there are no other sounds trying to be played.
 		if self.is_working == False:
 			self.is_working = True
-			self.stream = URLStream(url=url)
+			self.stream = URLStream(url=url["url"])
+			msg = _(u"Playing {0} by {1}").format(url["title"], url["artist"])
+			pub.sendMessage("update-status-bar", status=msg)
 			self.stream.volume = self.vol/100.0
 			self.stream.play()
 			self.stopped = False
