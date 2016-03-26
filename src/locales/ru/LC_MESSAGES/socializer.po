@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2016-03-25 05:28+Hora estándar central (México)\n"
-"PO-Revision-Date: 2016-03-25 16:33+0400\n"
+"PO-Revision-Date: 2016-03-26 19:50+0400\n"
 "Last-Translator: Valeria <luciana.lu3a@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -38,10 +38,9 @@ msgstr "Публикации"
 
 #: ../src\controller\mainController.py:50
 msgid "Home"
-msgstr "Домой"
+msgstr "Главное"
 
 #: ../src\controller\mainController.py:55
-#, fuzzy
 msgid "My wall"
 msgstr "Стена"
 
@@ -105,11 +104,11 @@ msgid "New comment"
 msgstr "Новый комментарий"
 
 #: ../src\controller\posts.py:66
-#, fuzzy
 msgid "repost from {0}"
 msgstr "Репост от {0}"
 
 #: ../src\controller\posts.py:68
+#, fuzzy
 msgid "Post from {0}"
 msgstr "Публикация {0}"
 
@@ -131,7 +130,7 @@ msgstr "Мне не нравится"
 
 #: ../src\controller\posts.py:192
 msgid "Opening URL..."
-msgstr ""
+msgstr "Открываем URL..."
 
 #: ../src\controller\posts.py:206
 msgid "Comment from {0}"
@@ -147,7 +146,7 @@ msgstr "Слово с орфографической ошибкой: %s"
 
 #: ../src\extra\SpellChecker\wx_ui.py:27
 msgid "&Misspelled word"
-msgstr "&Слово с орфографической ошибкой"
+msgstr "Слово с орфографической ошибкой"
 
 #: ../src\extra\SpellChecker\wx_ui.py:32
 msgid "Con&text"
@@ -163,7 +162,7 @@ msgstr "&Игнорировать"
 
 #: ../src\extra\SpellChecker\wx_ui.py:43
 msgid "Ignore &all"
-msgstr "Игнорировать &Все"
+msgstr "Игнорироват&Все"
 
 #: ../src\extra\SpellChecker\wx_ui.py:44
 #, fuzzy
@@ -186,7 +185,7 @@ msgstr "Ошибка"
 
 #: ../src\extra\SpellChecker\wx_ui.py:79
 msgid "Spell check complete."
-msgstr ""
+msgstr "Проверка орфографии завершена."
 
 #: ../src\extra\translator\translator.py:10
 msgid "Afrikaans"
@@ -675,37 +674,38 @@ msgstr ""
 
 #: ../src\update\wxUpdater.py:17
 msgid "Downloading the new version..."
-msgstr ""
+msgstr "Загрузка новой версии..."
 
 #: ../src\update\wxUpdater.py:27
 msgid "Updating... %s of %s"
-msgstr ""
+msgstr "Обновляемся... %s из %s"
 
 #: ../src\update\wxUpdater.py:30
 msgid "Done!"
-msgstr ""
+msgstr "Готово!"
 
 #: ../src\update\wxUpdater.py:30
 msgid ""
 "The update has been downloaded and installed successfully. Press OK to "
 "continue."
 msgstr ""
+"Обновление было успешно загружено и установлено. Нажмите ОК для продолжения."
 
 #: ../src\utils.py:41
 msgid "Downloading {0}"
-msgstr ""
+msgstr "Загрузка {0}"
 
 #: ../src\utils.py:51
 msgid "Downloading {0} ({1}%)"
-msgstr ""
+msgstr "Загрузка {0} ({1}%)"
 
 #: ../src\wxUI\commonMessages.py:6
 msgid "Information needed"
-msgstr ""
+msgstr "Нужная информация"
 
 #: ../src\wxUI\commonMessages.py:6
 msgid "You must provide Both user and password."
-msgstr ""
+msgstr "Вы должны предоставить имя пользователя и пароль"
 
 #: ../src\wxUI\commonMessages.py:9
 msgid "Your {0} version is up to date"
@@ -713,15 +713,15 @@ msgstr ""
 
 #: ../src\wxUI\commonMessages.py:9 ../src\wxUI\menus.py:20
 msgid "Update"
-msgstr ""
+msgstr "Обновить"
 
 #: ../src\wxUI\dialogs\message.py:19
 msgid "&Privacy"
-msgstr ""
+msgstr "Приватность"
 
 #: ../src\wxUI\dialogs\message.py:61
 msgid "Upload a &picture"
-msgstr ""
+msgstr "Загрузить фотографию"
 
 #: ../src\wxUI\dialogs\message.py:63
 msgid "Spelling &correction"
@@ -729,16 +729,16 @@ msgstr ""
 
 #: ../src\wxUI\dialogs\message.py:64
 msgid "&Translate message"
-msgstr ""
+msgstr "Перевести сооб&щение"
 
 #: ../src\wxUI\dialogs\message.py:65 ../src\wxUI\dialogs\message.py:102
 msgid "Send"
-msgstr ""
+msgstr "Отправить"
 
 #: ../src\wxUI\dialogs\message.py:67 ../src\wxUI\dialogs\message.py:104
 #: ../src\wxUI\dialogs\postDialogs.py:49
 msgid "Close"
-msgstr ""
+msgstr "Закрыть"
 
 #: ../src\wxUI\dialogs\message.py:90
 msgid "Image files (*.png, *.jpg, *.gif)|*.png; *.jpg; *.gif"
@@ -758,45 +758,45 @@ msgstr ""
 
 #: ../src\wxUI\dialogs\postDialogs.py:15
 msgid "Message"
-msgstr ""
+msgstr "Сообщение"
 
 #: ../src\wxUI\dialogs\postDialogs.py:24
 msgid "Comment"
-msgstr ""
+msgstr "Комментарий"
 
 #: ../src\wxUI\dialogs\postDialogs.py:24
 msgid "Likes"
-msgstr ""
+msgstr "Лайки"
 
 #: ../src\wxUI\dialogs\postDialogs.py:24 ../src\wxUI\tabs\home.py:10
 msgid "Date"
-msgstr ""
+msgstr "Дата"
 
 #: ../src\wxUI\dialogs\postDialogs.py:24 ../src\wxUI\tabs\home.py:10
 #: ../src\wxUI\tabs\home.py:93
 msgid "User"
-msgstr ""
+msgstr "Пользователь"
 
 #: ../src\wxUI\dialogs\postDialogs.py:30 ../src\wxUI\dialogs\postDialogs.py:34
 msgid "Loading data..."
-msgstr ""
+msgstr "Загрузка данных..."
 
 #: ../src\wxUI\dialogs\postDialogs.py:38 ../src\wxUI\menus.py:9
 #: ../src\wxUI\menus.py:30
 msgid "Like"
-msgstr ""
+msgstr "Лайк"
 
 #: ../src\wxUI\dialogs\postDialogs.py:39 ../src\wxUI\menus.py:13
 msgid "Add comment"
-msgstr ""
+msgstr "Комментировать.."
 
 #: ../src\wxUI\dialogs\postDialogs.py:46
 msgid "Actions"
-msgstr ""
+msgstr "Активность"
 
 #: ../src\wxUI\dialogs\postDialogs.py:64
 msgid "{0} people like this"
-msgstr ""
+msgstr "{0} лайков"
 
 #: ../src\wxUI\dialogs\postDialogs.py:70
 msgid "Shared {0} times"
@@ -804,87 +804,87 @@ msgstr ""
 
 #: ../src\wxUI\dialogs\postDialogs.py:111
 msgid "Audio &files"
-msgstr ""
+msgstr "Аудио файлы"
 
 #: ../src\wxUI\dialogs\postDialogs.py:117
 msgid "&Title"
-msgstr ""
+msgstr "Название"
 
 #: ../src\wxUI\dialogs\postDialogs.py:123
 msgid "&Artist"
-msgstr ""
+msgstr "Исполнитель"
 
 #: ../src\wxUI\dialogs\postDialogs.py:129
 msgid "&Duration"
-msgstr ""
+msgstr "Продолжительность"
 
 #: ../src\wxUI\dialogs\postDialogs.py:135
 msgid "&Lyric"
-msgstr ""
+msgstr "Описание"
 
 #: ../src\wxUI\dialogs\postDialogs.py:141
 msgid "&Play"
-msgstr ""
+msgstr "Воспроизвести"
 
 #: ../src\wxUI\dialogs\postDialogs.py:142
 msgid "&Download"
-msgstr ""
+msgstr "Скачать"
 
 #: ../src\wxUI\dialogs\postDialogs.py:143
 msgid "&Add to your library"
-msgstr ""
+msgstr "Добавить в вашу библиотеку"
 
 #: ../src\wxUI\dialogs\postDialogs.py:144
 msgid "&Remove from your library"
-msgstr ""
+msgstr "Удалить из вашей библиотеки"
 
 #: ../src\wxUI\dialogs\postDialogs.py:159
 msgid "Audio Files(*.mp3)|*.mp3"
-msgstr ""
+msgstr "Аудио файлы(*.mp3)|*.mp3"
 
 #: ../src\wxUI\dialogs\postDialogs.py:159
 msgid "Save this file"
-msgstr ""
+msgstr "Сохранить файл"
 
 #: ../src\wxUI\dialogs\postDialogs.py:175
 msgid "Friend"
-msgstr ""
+msgstr "Друг"
 
 #: ../src\wxUI\dialogs\search.py:10
 msgid "audio Search"
-msgstr ""
+msgstr "Поиск Аудиозаписей"
 
 #: ../src\wxUI\dialogs\search.py:11
 msgid "&Search"
-msgstr ""
+msgstr "Поиск"
 
 #: ../src\wxUI\dialogs\search.py:18
 msgid "&OK"
-msgstr ""
+msgstr "&ОК"
 
 #: ../src\wxUI\dialogs\search.py:20
 msgid "&Close"
-msgstr ""
+msgstr "За&крыть"
 
 #: ../src\wxUI\dialogs\select_album.py:6
 msgid "Select the album where you will upload the photo"
-msgstr ""
+msgstr "Выберите альбом, в который будет загружено это изображение"
 
 #: ../src\wxUI\dialogs\urlList.py:6
 msgid "Select URL"
-msgstr ""
+msgstr "Выберите URL"
 
 #: ../src\wxUI\mainWindow.py:10
 msgid "Audio"
-msgstr ""
+msgstr "Аудиозапись"
 
 #: ../src\wxUI\mainWindow.py:11
 msgid "New buffer"
-msgstr ""
+msgstr "Новый буфер"
 
 #: ../src\wxUI\mainWindow.py:12
 msgid "Update current buffer"
-msgstr ""
+msgstr "Обновить текущий буфер"
 
 #: ../src\wxUI\mainWindow.py:13
 msgid "Load previous items"
@@ -892,37 +892,38 @@ msgstr ""
 
 #: ../src\wxUI\mainWindow.py:15
 msgid "Buffer"
-msgstr ""
+msgstr "Буфер"
 
 #: ../src\wxUI\mainWindow.py:17
 msgid "About {0}"
-msgstr ""
+msgstr "О {0}"
 
 #: ../src\wxUI\mainWindow.py:18
 msgid "Check for updates"
-msgstr ""
+msgstr "Проверить на наличие обновлений"
 
 #: ../src\wxUI\mainWindow.py:20
 msgid "Help"
-msgstr ""
+msgstr "Помощь"
 
 #: ../src\wxUI\mainWindow.py:40
 msgid "Connection error"
-msgstr ""
+msgstr "Ошибка подключения"
 
 #: ../src\wxUI\mainWindow.py:40
 msgid ""
 "There is a connection error. Check your internet connection and try again "
 "later."
 msgstr ""
+"Ошибка соединения. Проверьте ваше подключение к интернету и попробуйте позже."
 
 #: ../src\wxUI\menus.py:7 ../src\wxUI\menus.py:28
 msgid "Open"
-msgstr ""
+msgstr "Открыть"
 
 #: ../src\wxUI\menus.py:11 ../src\wxUI\menus.py:32
 msgid "Unlike"
-msgstr ""
+msgstr "Не нравится"
 
 #: ../src\wxUI\menus.py:15
 msgid "Post to this profile"
@@ -958,11 +959,11 @@ msgstr "Текст"
 
 #: ../src\wxUI\tabs\home.py:18 ../src\wxUI\tabs\home.py:61
 msgid "&Post"
-msgstr "Пуб&ликация"
+msgstr "&Публикация"
 
 #: ../src\wxUI\tabs\home.py:52
 msgid "Mu&sic"
-msgstr "Му&зыка"
+msgstr "Муз&ыка"
 
 #: ../src\wxUI\tabs\home.py:53
 msgid "Artist"
@@ -982,14 +983,13 @@ msgstr "&Воспроизвести"
 
 #: ../src\wxUI\tabs\home.py:63
 msgid "Play &All"
-msgstr "Воспроизвести &Все"
+msgstr "Вос&произвести все"
 
 #: ../src\wxUI\tabs\home.py:79
 msgid "Notification"
 msgstr "Уведомление"
 
 #: ../src\wxUI\tabs\home.py:93
-#, fuzzy
 msgid "Created at"
 msgstr "Опубликованно"
 

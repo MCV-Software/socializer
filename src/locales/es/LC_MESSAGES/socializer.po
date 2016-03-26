@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2016-03-25 05:28+Hora estándar central (México)\n"
-"PO-Revision-Date: 2016-03-25 06:31-0600\n"
+"PO-Revision-Date: 2016-03-25 10:45-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -553,15 +553,15 @@ msgstr ""
 
 #: ../src\extra\translator\wx_ui.py:25 ../src\wxUI\dialogs\message.py:101
 msgid "Translate message"
-msgstr ""
+msgstr "\vTraducir"
 
 #: ../src\extra\translator\wx_ui.py:28
 msgid "&Source language"
-msgstr ""
+msgstr "idioma de &origen"
 
 #: ../src\extra\translator\wx_ui.py:31
 msgid "&Target language"
-msgstr ""
+msgstr "Idioma de &destino"
 
 #: ../src\languageHandler.py:94
 msgid "User default"
@@ -604,54 +604,56 @@ msgid ""
 "In order to continue, you need to configure your VK account before. Would "
 "you like to autorhise a new account now?"
 msgstr ""
+"Para continuar, debes configurar tu cuenta de VK antes. ¿Te gustaría "
+"autorizar una nueva cuenta ahora mismo?"
 
 #: ../src\sessionmanager\wxUI.py:10
 msgid "Authorise VK"
-msgstr ""
+msgstr "Autorizar cuenta de VK"
 
 #: ../src\sessionmanager\wxUI.py:12
 msgid "&Email or phone number"
-msgstr ""
+msgstr "Correo &electrónico o número de teléfono"
 
 #: ../src\sessionmanager\wxUI.py:14
 msgid "&Password"
-msgstr ""
+msgstr "&Contraseña"
 
 #: ../src\update\utils.py:27 ../src\utils.py:19
 msgid "%d day, "
-msgstr ""
+msgstr "%d día"
 
 #: ../src\update\utils.py:29 ../src\utils.py:21
 msgid "%d days, "
-msgstr ""
+msgstr "%d días"
 
 #: ../src\update\utils.py:31 ../src\utils.py:23
 msgid "%d hour, "
-msgstr ""
+msgstr "%d hora"
 
 #: ../src\update\utils.py:33 ../src\utils.py:25
 msgid "%d hours, "
-msgstr ""
+msgstr "%d horas"
 
 #: ../src\update\utils.py:35 ../src\utils.py:27
 msgid "%d minute, "
-msgstr ""
+msgstr "%d minuto"
 
 #: ../src\update\utils.py:37 ../src\utils.py:29
 msgid "%d minutes, "
-msgstr ""
+msgstr "%d minutos"
 
 #: ../src\update\utils.py:39 ../src\utils.py:31
 msgid "%s second"
-msgstr ""
+msgstr "%s segundo"
 
 #: ../src\update\utils.py:41 ../src\utils.py:33
 msgid "%s seconds"
-msgstr ""
+msgstr "%s segundos"
 
 #: ../src\update\wxUpdater.py:9
 msgid "New version for %s"
-msgstr ""
+msgstr "Nueva versión de %s"
 
 #: ../src\update\wxUpdater.py:9
 msgid ""
@@ -662,253 +664,263 @@ msgid ""
 "Changes:\n"
 "%s"
 msgstr ""
+"Hay una nueva versión de %s disponible. ¿Te gustaría descargarla ahora?\n"
+"\n"
+" %s Versión: %s\n"
+"\n"
+"Cambios:\n"
+"%s"
 
 #: ../src\update\wxUpdater.py:17
 msgid "Download in Progress"
-msgstr ""
+msgstr "Descarga en progreso"
 
 #: ../src\update\wxUpdater.py:17
 msgid "Downloading the new version..."
-msgstr ""
+msgstr "Descargando la nueva versión..."
 
 #: ../src\update\wxUpdater.py:27
 msgid "Updating... %s of %s"
-msgstr ""
+msgstr "Actualizando... %s de %s"
 
 #: ../src\update\wxUpdater.py:30
 msgid "Done!"
-msgstr ""
+msgstr "¡Hecho!"
 
 #: ../src\update\wxUpdater.py:30
 msgid ""
 "The update has been downloaded and installed successfully. Press OK to "
 "continue."
 msgstr ""
+"La actualización ha sido descargada e instalada con éxito. Pulsa aceptar "
+"para continuar."
 
 #: ../src\utils.py:41
 msgid "Downloading {0}"
-msgstr ""
+msgstr "Descargando {0}"
 
 #: ../src\utils.py:51
 msgid "Downloading {0} ({1}%)"
-msgstr ""
+msgstr "Descargando {0} ({1}%)"
 
 #: ../src\wxUI\commonMessages.py:6
 msgid "Information needed"
-msgstr ""
+msgstr "Información necesaria"
 
 #: ../src\wxUI\commonMessages.py:6
 msgid "You must provide Both user and password."
-msgstr ""
+msgstr "Debes proporcionar un usuario y contraseña"
 
 #: ../src\wxUI\commonMessages.py:9
 msgid "Your {0} version is up to date"
-msgstr ""
+msgstr "Tu versión de {0} está actualizada"
 
 #: ../src\wxUI\commonMessages.py:9 ../src\wxUI\menus.py:20
 msgid "Update"
-msgstr ""
+msgstr "Actualizar"
 
 #: ../src\wxUI\dialogs\message.py:19
 msgid "&Privacy"
-msgstr ""
+msgstr "&privacidad"
 
 #: ../src\wxUI\dialogs\message.py:61
 msgid "Upload a &picture"
-msgstr ""
+msgstr "Subir una &foto"
 
 #: ../src\wxUI\dialogs\message.py:63
 msgid "Spelling &correction"
-msgstr ""
+msgstr "Corrección &ortográfica"
 
 #: ../src\wxUI\dialogs\message.py:64
 msgid "&Translate message"
-msgstr ""
+msgstr "&traducir"
 
 #: ../src\wxUI\dialogs\message.py:65 ../src\wxUI\dialogs\message.py:102
 msgid "Send"
-msgstr ""
+msgstr "&Enviar"
 
 #: ../src\wxUI\dialogs\message.py:67 ../src\wxUI\dialogs\message.py:104
 #: ../src\wxUI\dialogs\postDialogs.py:49
 msgid "Close"
-msgstr ""
+msgstr "&Cerrar"
 
 #: ../src\wxUI\dialogs\message.py:90
 msgid "Image files (*.png, *.jpg, *.gif)|*.png; *.jpg; *.gif"
-msgstr ""
+msgstr "Archivos de imagen (*.png, *.jpg, *.gif)|*.png; *.jpg; *.gif"
 
 #: ../src\wxUI\dialogs\message.py:90
 msgid "Select the picture to be uploaded"
-msgstr ""
+msgstr "Selecciona la foto que será cargada"
 
 #: ../src\wxUI\dialogs\message.py:100
 msgid "Spelling correction"
-msgstr ""
+msgstr "Corrección ortográfica"
 
 #: ../src\wxUI\dialogs\player.py:8
 msgid "Audio player"
-msgstr ""
+msgstr "Reproductor de audio"
 
 #: ../src\wxUI\dialogs\postDialogs.py:15
 msgid "Message"
-msgstr ""
+msgstr "mensaje"
 
 #: ../src\wxUI\dialogs\postDialogs.py:24
 msgid "Comment"
-msgstr ""
+msgstr "Comentario"
 
 #: ../src\wxUI\dialogs\postDialogs.py:24
 msgid "Likes"
-msgstr ""
+msgstr "Me gusta"
 
 #: ../src\wxUI\dialogs\postDialogs.py:24 ../src\wxUI\tabs\home.py:10
 msgid "Date"
-msgstr ""
+msgstr "Fecha"
 
 #: ../src\wxUI\dialogs\postDialogs.py:24 ../src\wxUI\tabs\home.py:10
 #: ../src\wxUI\tabs\home.py:93
 msgid "User"
-msgstr ""
+msgstr "usuario"
 
 #: ../src\wxUI\dialogs\postDialogs.py:30 ../src\wxUI\dialogs\postDialogs.py:34
 msgid "Loading data..."
-msgstr ""
+msgstr "Cargando información..."
 
 #: ../src\wxUI\dialogs\postDialogs.py:38 ../src\wxUI\menus.py:9
 #: ../src\wxUI\menus.py:30
 msgid "Like"
-msgstr ""
+msgstr "Me gusta"
 
 #: ../src\wxUI\dialogs\postDialogs.py:39 ../src\wxUI\menus.py:13
 msgid "Add comment"
-msgstr ""
+msgstr "Añadir comentario"
 
 #: ../src\wxUI\dialogs\postDialogs.py:46
 msgid "Actions"
-msgstr ""
+msgstr "Acciones"
 
 #: ../src\wxUI\dialogs\postDialogs.py:64
 msgid "{0} people like this"
-msgstr ""
+msgstr "a {0} personas les gusta esto"
 
 #: ../src\wxUI\dialogs\postDialogs.py:70
 msgid "Shared {0} times"
-msgstr ""
+msgstr "Compartido {0} veces"
 
 #: ../src\wxUI\dialogs\postDialogs.py:111
 msgid "Audio &files"
-msgstr ""
+msgstr "&Archivos de audio"
 
 #: ../src\wxUI\dialogs\postDialogs.py:117
 msgid "&Title"
-msgstr ""
+msgstr "&Título"
 
 #: ../src\wxUI\dialogs\postDialogs.py:123
 msgid "&Artist"
-msgstr ""
+msgstr "A&rtista"
 
 #: ../src\wxUI\dialogs\postDialogs.py:129
 msgid "&Duration"
-msgstr ""
+msgstr "&Duración"
 
 #: ../src\wxUI\dialogs\postDialogs.py:135
 msgid "&Lyric"
-msgstr ""
+msgstr "&Letra"
 
 #: ../src\wxUI\dialogs\postDialogs.py:141
 msgid "&Play"
-msgstr ""
+msgstr "&Reproducir"
 
 #: ../src\wxUI\dialogs\postDialogs.py:142
 msgid "&Download"
-msgstr ""
+msgstr "&Descargar"
 
 #: ../src\wxUI\dialogs\postDialogs.py:143
 msgid "&Add to your library"
-msgstr ""
+msgstr "Añad&ir a mi biblioteca"
 
 #: ../src\wxUI\dialogs\postDialogs.py:144
 msgid "&Remove from your library"
-msgstr ""
+msgstr "Remo&ver de mi biblioteca"
 
 #: ../src\wxUI\dialogs\postDialogs.py:159
 msgid "Audio Files(*.mp3)|*.mp3"
-msgstr ""
+msgstr "Archivos de audio(*.mp3)|*.mp3"
 
 #: ../src\wxUI\dialogs\postDialogs.py:159
 msgid "Save this file"
-msgstr ""
+msgstr "Guardar este archivo"
 
 #: ../src\wxUI\dialogs\postDialogs.py:175
 msgid "Friend"
-msgstr ""
+msgstr "Amigo"
 
 #: ../src\wxUI\dialogs\search.py:10
 msgid "audio Search"
-msgstr ""
+msgstr "Bu&scar"
 
 #: ../src\wxUI\dialogs\search.py:11
 msgid "&Search"
-msgstr ""
+msgstr "&Buscar"
 
 #: ../src\wxUI\dialogs\search.py:18
 msgid "&OK"
-msgstr ""
+msgstr "&Aceptar"
 
 #: ../src\wxUI\dialogs\search.py:20
 msgid "&Close"
-msgstr ""
+msgstr "&Cerrar"
 
 #: ../src\wxUI\dialogs\select_album.py:6
 msgid "Select the album where you will upload the photo"
-msgstr ""
+msgstr "Selecciona el álbum a donde se cargará la fotografía"
 
 #: ../src\wxUI\dialogs\urlList.py:6
 msgid "Select URL"
-msgstr ""
+msgstr "Selecciona la URl"
 
 #: ../src\wxUI\mainWindow.py:10
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #: ../src\wxUI\mainWindow.py:11
 msgid "New buffer"
-msgstr ""
+msgstr "Nuevo buffer"
 
 #: ../src\wxUI\mainWindow.py:12
 msgid "Update current buffer"
-msgstr ""
+msgstr "Actualizar buffer"
 
 #: ../src\wxUI\mainWindow.py:13
 msgid "Load previous items"
-msgstr ""
+msgstr "Cargar elementos anteriores"
 
 #: ../src\wxUI\mainWindow.py:15
 msgid "Buffer"
-msgstr ""
+msgstr "Buffer"
 
 #: ../src\wxUI\mainWindow.py:17
 msgid "About {0}"
-msgstr ""
+msgstr "Sobre {0}"
 
 #: ../src\wxUI\mainWindow.py:18
 msgid "Check for updates"
-msgstr ""
+msgstr "Comprobar actualizaciones"
 
 #: ../src\wxUI\mainWindow.py:20
 msgid "Help"
-msgstr ""
+msgstr "Ayuda"
 
 #: ../src\wxUI\mainWindow.py:40
 msgid "Connection error"
-msgstr ""
+msgstr "Error de conexión"
 
 #: ../src\wxUI\mainWindow.py:40
 msgid ""
 "There is a connection error. Check your internet connection and try again "
 "later."
 msgstr ""
+"hay un error en la conexión. Revisa tu conexión a internet e inténtalo de "
+"nuevo más tarde."
 
 #: ../src\wxUI\menus.py:7 ../src\wxUI\menus.py:28
 msgid "Open"
