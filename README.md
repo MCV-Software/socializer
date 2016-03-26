@@ -10,7 +10,7 @@ Before downloading, take in to account the following: This source code is comple
 
 Version: 2016.03.23  
 Build date: March 23 2016  
-[https://github.com/manuelcortez/socializer/blob/master/nightly/socializer-nightly-build.zip?raw=true](Download socializer Nightly build)
+[Download socializer Nightly build](https://github.com/manuelcortez/socializer/blob/master/nightly/socializer-nightly-build.zip?raw=true)
 
 I have started this effort as an open source  project on Feb 13, 2016. Pull requests and bug reports are welcome. Socializer is not a definitive name for this project, it could be changed in future.
 
