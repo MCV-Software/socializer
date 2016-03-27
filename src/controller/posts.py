@@ -27,17 +27,15 @@ class postController(object):
 		self.session = session
 		self.post = postObject
 		self.dialog = postDialogs.post()
-		self.dialog.comments.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.show_comment)
+#		self.dialog.comments.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.show_comment)
 #  widgetUtils.connect_event(self.message.spellcheck, widgetUtils.BUTTON_PRESSED, self.spellcheck)
 #  widgetUtils.connect_event(self.message.translateButton, widgetUtils.BUTTON_PRESSED, self.translate)
-		widgetUtils.connect_event(self.dialog.like, widgetUtils.BUTTON_PRESSED, self.post_like)
+#		widgetUtils.connect_event(self.dialog.like, widgetUtils.BUTTON_PRESSED, self.post_like)
 		widgetUtils.connect_event(self.dialog.comment, widgetUtils.BUTTON_PRESSED, self.add_comment)
 		widgetUtils.connect_event(self.dialog.tools, widgetUtils.BUTTON_PRESSED, self.show_tools_menu)
 		self.dialog.Bind(wx.EVT_LIST_ITEM_RIGHT_CLICK, self.show_menu, self.dialog.comments.list)
 		self.dialog.Bind(wx.EVT_LIST_KEY_DOWN, self.show_menu_by_key, self.dialog.comments.list)
-#		call_threaded(self.load_all_components)
-		self.get_post_information()
-		call_threaded(self.get_comments)
+		call_threaded(self.load_all_components)
 
 	def get_comments(self):
 		user = self.post["source_id"]
@@ -77,36 +75,20 @@ class postController(object):
 				self.dialog.set_post(message)
 
 	def load_all_components(self):
+		self.get_post_information()
 		self.get_likes()
-		self.get_shares()
+		self.get_reposts()
 		self.get_comments()
 
-	def post_like(self, *args, **kwargs):
+	def _post_like(self, *args, **kwargs):
 		lk = self.session.like(self.post["id"])
 		self.get_likes()
 
 	def get_likes(self):
-		self.likes = self.session.fb.client.get_connections(id=self.post["id"], connection_name="likes", summary=True)
-		self.dialog.set_likes(self.likes["summary"]["total_count"])
+		self.dialog.set_likes(self.post["likes"]["count"])
 
-	def get_shares(self):
-		self.shares = self.session.fb.client.get_connections(id=self.post["id"], connection_name="sharedposts")
-		self.dialog.set_shares(str(len(self.shares["data"])))
-
-#	def get_comments(self):
-#		self.comments = self.session.fb.client.get_connections(id=self.post["id"], connection_name="comments", filter="stream")
-#		comments = []
-#		for i in self.comments["items"]:
-#			from_ = i["from"]["name"]
-#			if len(i["message"]) > 100:
-#				comment = i["message"][:100]
-#			else:
-#				comment = i["message"]
-#			original_date = arrow.get(i["created_time"], "YYYY-MM-DTHH:m:sZ", locale="en")
-#			created_at = original_date.humanize(locale=languageHandler.getLanguage())
-#			likes = str(i["like_count"])
-#			comments.append([from_, comment, created_at, likes,])
-#		self.dialog.insert_comments(comments)
+	def get_reposts(self):
+		self.dialog.set_shares(self.post["reposts"]["count"])
 
 	def add_comment(self, *args, **kwargs):
 		comment = messages.comment(title=_(u"Add a comment"), caption="", text="")
@@ -126,7 +108,7 @@ class postController(object):
 	def clear_comments_list(self):
 		self.dialog.comments.clear()
 
-	def show_comment(self, *args, **kwargs):
+	def _show_comment(self, *args, **kwargs):
 		c = comment(self.session, self.comments["data"][self.dialog.comments.get_selected()])
 		c.dialog.get_response()
 

@@ -119,7 +119,7 @@ class Controller(object):
 		player.player.play_all(audios)
 
 	def view_post(self, post_object, controller_):
-		print post_object
+#		print post_object
 		p = getattr(posts, controller_)(self.session, post_object)
 		p.dialog.get_response()
 		p.dialog.Destroy()
