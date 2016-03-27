@@ -55,7 +55,11 @@ When you press the post button, a new dialogue will show up. This dialogue allow
 
 ### Working with posts in news feed
 
-You can press the return key in any post in your news feed for opening a new dialogue with some information. The information and dialogue will be different if you are viewing a friendship's notification  (when someone has added some friends), an audio file, or a regular post. At the moment, there are no more actions for these kind of posts, you can read the full text for a post and its comments, view the new added friends in a list and  there are some kind of posts that aren't handled. It should be improved.
+You can press the return key in any post in your news feed for opening a new dialogue with some information. The information and dialogue will be different if you are viewing a friendship's notification  (when someone has added some friends), an audio file, or a regular post.
+
+If you open a regular post in your newsfeed, you will be able to see the comments in a list, indicate if you do like or dislike the post, or add a new comment.
+
+For friend notifications, you can only view the new added friends in a list and  there are some kind of posts that aren't handled. It should be improved.
 
 ### Working with songs
 
@@ -79,6 +83,7 @@ You can go to the menu bar by pressing ALT. Right now, there are only two menus,
 
 * New buffer: This submenu  allows you to create a new buffer, at the moment, you can create only a kind of buffer, an audio search. The audio search will be located in the music category and will have the last 299 results of your query. It isn't possible to delete the buffers until you restart the client.
 * Update current buffer: perform an update operation in the selected buffer, which will retrieve the new items.
+* Remove buffer: Tries to remove the current buffer. It only works with audio searches, because the default buffers shouldn't be removed.
 
 The help menu is self explanatory.
 
