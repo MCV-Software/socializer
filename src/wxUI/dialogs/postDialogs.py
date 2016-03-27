@@ -21,8 +21,10 @@ class basicPost(widgetUtils.BaseDialog):
 		return box
 
 	def create_comments_list(self):
+		lbl = wx.StaticText(self.panel, -1, _(u"Comments"))
 		self.comments = widgetUtils.list(self.panel, _(u"User"), _(u"Comment"), _(u"Date"), _(u"Likes"), style=wx.LC_REPORT)
 		box = wx.BoxSizer(wx.HORIZONTAL)
+		box.Add(lbl, 0, wx.ALL, 5)
 		box.Add(self.comments.list, 0, wx.ALL, 5)
 		return box
 

@@ -18,8 +18,8 @@ from wxUI import menus
 def get_user(id, profiles):
 	for i in profiles:
 		if i["id"] == id:
-			return "{0} {1}".format(i["first_name"], i["last_name"])
-	return "Unknown username"
+			return u"{0} {1}".format(i["first_name"], i["last_name"])
+	return _(u"Unknown username")
 
 class postController(object):
 	def __init__(self, session, postObject):
@@ -42,11 +42,11 @@ class postController(object):
 	def get_comments(self):
 		user = self.post["source_id"]
 		id = self.post["post_id"]
-		comments = self.session.vk.client.wall.getComments(owner_id=user, post_id=id, need_likes=1, count=100, extended=1, preview_length=0)
-		print comments.keys()
+		self.comments = self.session.vk.client.wall.getComments(owner_id=user, post_id=id, need_likes=1, count=100, extended=1, preview_length=0)
+		print self.comments.keys()
 		comments_ = []
-		for i in comments["items"]:
-			from_ = get_user(i["from_id"], comments["profiles"])
+		for i in self.comments["items"]:
+			from_ = get_user(i["from_id"], self.comments["profiles"])
 			if len(i["text"]) > 140:
 				text = i["text"][:141]
 			else:
@@ -113,9 +113,11 @@ class postController(object):
 		if comment.message.get_response() == widgetUtils.OK:
 			msg = comment.message.get_text().encode("utf-8")
 			try:
-				self.session.fb.client.put_comment(self.post["id"], msg)
+				user = self.post["source_id"]
+				id = self.post["post_id"]
+				self.session.vk.client.wall.addComment(owner_id=user, post_id=id, text=msg)
 				output.speak(_(u"You've posted a comment"))
-				if len(self.comments["data"]) < 25:
+				if self.comments["count"] < 100:
 					self.clear_comments_list()
 					self.get_comments()
 			except Exception as msg:
