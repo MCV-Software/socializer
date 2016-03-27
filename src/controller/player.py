@@ -74,13 +74,12 @@ class audioPlayer(object):
 			self.stream.volume = self.vol/100.0
 
 	def play_all(self, list_of_urls):
-		if len(self.queue) == 0:
-			self.queue = list_of_urls
-		else:
-			for i in list_of_urls:
-				self.queue.append(i)
+		self.queue = list_of_urls
 		self.play(self.queue[0])
 		self.queue.remove(self.queue[0])
+		if hasattr(self, "worker") and self.worker != None:
+			self.worker.cancel()
+			self.worker = None
 		self.worker = RepeatingTimer(5, self.player_function)
 		self.worker.start()
 
