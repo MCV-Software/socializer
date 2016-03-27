@@ -6,7 +6,7 @@ import re
 import requests
 
 
-STRING_TYPES = (str, bytes, bytearray)
+STRING_TYPES = (str, bytes, bytearray, unicode)
 
 logger = logging.getLogger('vk')
 

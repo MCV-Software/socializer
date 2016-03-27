@@ -37,7 +37,8 @@ class basicPost(widgetUtils.BaseDialog):
 		return self.shares
 
 	def create_action_buttons(self, comment=True):
-		self.like = wx.Button(self.panel, -1, _(u"Like"))
+		self.like = wx.Button(self.panel, -1, _(u"&Like"))
+		self.repost = wx.Button(self.panel, -1, _(u"Repost"))
 		if comment: self.comment = wx.Button(self.panel, -1, _(u"Add comment"))
 		box = wx.BoxSizer(wx.HORIZONTAL)
 		box.Add(self.like, 0, wx.ALL, 5)

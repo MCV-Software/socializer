@@ -108,6 +108,12 @@ class BaseDialog(wx.Dialog):
 	def get_title(self):
 		return self.GetTitle()
 
+	def enable(self, control):
+		getattr(self, control).Enable(True)
+
+	def disable(self, control):
+		getattr(self, control).Enable(False)
+
 class mainLoopObject(wx.App):
 
 	def __init__(self):

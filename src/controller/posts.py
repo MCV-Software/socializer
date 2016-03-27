@@ -28,9 +28,7 @@ class postController(object):
 		self.post = postObject
 		self.dialog = postDialogs.post()
 #		self.dialog.comments.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.show_comment)
-#  widgetUtils.connect_event(self.message.spellcheck, widgetUtils.BUTTON_PRESSED, self.spellcheck)
-#  widgetUtils.connect_event(self.message.translateButton, widgetUtils.BUTTON_PRESSED, self.translate)
-#		widgetUtils.connect_event(self.dialog.like, widgetUtils.BUTTON_PRESSED, self.post_like)
+		widgetUtils.connect_event(self.dialog.like, widgetUtils.BUTTON_PRESSED, self.post_like)
 		widgetUtils.connect_event(self.dialog.comment, widgetUtils.BUTTON_PRESSED, self.add_comment)
 		widgetUtils.connect_event(self.dialog.tools, widgetUtils.BUTTON_PRESSED, self.show_tools_menu)
 		self.dialog.Bind(wx.EVT_LIST_ITEM_RIGHT_CLICK, self.show_menu, self.dialog.comments.list)
@@ -79,10 +77,29 @@ class postController(object):
 		self.get_likes()
 		self.get_reposts()
 		self.get_comments()
+		if self.post["comments"]["can_post"] == 0:
+			self.dialog.disable("add_comment")
+		if self.post["likes"]["can_like"] == 0 and self.post["likes"]["user_likes"] == 0:
+			self.dialog.disable("like")
+		elif self.post["likes"]["user_likes"] == 1:
+			self.dialog.set("like", _(u"&Dislike"))
+		if self.post["likes"]["can_publish"] == 0:
+			self.dialog.disable("repost")
 
-	def _post_like(self, *args, **kwargs):
-		lk = self.session.like(self.post["id"])
-		self.get_likes()
+	def post_like(self, *args, **kwargs):
+		user = int(self.post["source_id"])
+		id = int(self.post["post_id"])
+		type_ = self.post["type"]
+		if self.dialog.get("like") == _(u"&Dislike"):
+			l = self.session.vk.client.likes.delete(owner_id=user, item_id=id, type=type_)
+			output.speak(_(u"You don't like this"))
+			self.dialog.set("like", _(u"&Like"))
+		else:
+			l = self.session.vk.client.likes.add(owner_id=user, item_id=id, type=type_)
+			output.speak(_(u"You liked this"))
+			self.dialog.set("like", _(u"&Dislike"))
+		self.dialog.set_likes(l["likes"])
+
 
 	def get_likes(self):
 		self.dialog.set_likes(self.post["likes"]["count"])
