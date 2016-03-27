@@ -7,3 +7,6 @@ def no_data_entered():
 
 def no_update_available():
 	return wx.MessageDialog(None, _(u"Your {0} version is up to date").format(application.name,), _(u"Update"), style=wx.OK).ShowModal()
+
+def remove_buffer():
+	return wx.MessageDialog(None, _(u"Do you really want to dismiss  this buffer?"), _(u"Attention"), style=wx.ICON_QUESTION|wx.YES_NO).ShowModal()

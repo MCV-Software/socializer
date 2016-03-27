@@ -5,10 +5,12 @@ import messages
 import utils
 import posts
 import player
+import output
 from wxUI.tabs import home
 from pubsub import pub
 from sessionmanager import session
 from mysc.thread_utils import call_threaded
+from wxUI import commonMessages
 
 class baseBuffer(object):
 	""" a basic representation of a buffer. Other buffers should be derived from this class"""
@@ -117,6 +119,8 @@ class baseBuffer(object):
 	def pause_audio(self, *args, **kwargs):
 		player.player.pause()
 
+	def remove_buffer(self): return False
+
 class feedBuffer(baseBuffer):
 
 	def get_items(self, show_nextpage=False):
@@ -161,6 +165,19 @@ class audioBuffer(feedBuffer):
 		audios = [i for i in self.session.db[self.name]["items"][selected:]]
 		pub.sendMessage("play-audios", audios=audios)
 
+	def remove_buffer(self):
+		if "me_audio" == self.name or "popular_audio" == self.name or "recommended_audio" == self.name:
+			output.speak(_(u"This buffer can't be deleted"))
+			return False
+		else:
+			dlg = commonMessages.remove_buffer()
+			if dlg == widgetUtils.YES:
+				self.session.db.pop(self.name)
+				return True
+			else:
+				return False
+
+
 class empty(object):
 
 	def __init__(self, name=None, parent=None, *args, **kwargs):
@@ -172,3 +189,5 @@ class empty(object):
 
 	def update(self, *args, **kwargs):
 		pass
+
+	def remove_buffer(self): return False

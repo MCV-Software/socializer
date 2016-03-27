@@ -78,6 +78,7 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.check_for_updates, menuitem=self.window.check_for_updates)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.window.about_dialog, menuitem=self.window.about)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.search_audios, menuitem=self.window.search_audios)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU,self.remove_buffer, menuitem=self.window.remove_buffer_)
 
 	def disconnect_events(self):
 		pub.unsubscribe(self.in_post, "posted")
@@ -153,3 +154,13 @@ class Controller(object):
 
 	def update_status_bar(self, status):
 		self.window.change_status(status)
+
+	def remove_buffer(self, *args, **kwargs):
+		buffer = self.get_current_buffer()
+		buff = self.window.search(buffer.name)
+		answer = buffer.remove_buffer()
+		if answer == False:
+			return
+		self.window.remove_buffer(buff)
+		self.buffers.remove(buffer)
+		del buffer

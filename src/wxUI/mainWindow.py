@@ -12,6 +12,7 @@ class mainWindow(wx.Frame):
 		self.update_buffer = buffer.Append(wx.NewId(), _(u"Update current buffer"))
 		self.load_previous_items = buffer.Append(wx.NewId(), _(u"Load previous items"))
 		self.load_previous_items.Enable(False)
+		self.remove_buffer_ = buffer.Append(wx.NewId(), _(u"&Remove buffer"))
 		mb.Append(buffer, _(u"Buffer"))
 		help_ = wx.Menu()
 		self.about = help_.Append(wx.NewId(), _(u"About {0}").format(application.name,))
@@ -84,13 +85,5 @@ class mainWindow(wx.Frame):
 		info.AddDeveloper(application.author)
 		wx.AboutBox(info)
 
-	def about_dialog(self, *args, **kwargs):
-		info = wx.AboutDialogInfo()
-		info.SetName(application.name)
-		info.SetVersion(application.version)
-		info.SetDescription(application.description)
-		info.SetCopyright(application.copyright)
-#		info.SetTranslators(application.translators)
-#		info.SetLicence(application.licence)
-		info.AddDeveloper(application.author)
-		wx.AboutBox(info)
+	def remove_buffer(self, pos):
+		self.tb.DeletePage(pos)
