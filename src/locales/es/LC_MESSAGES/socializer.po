@@ -5,29 +5,33 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2016-03-25 05:28+Hora estándar central (México)\n"
-"PO-Revision-Date: 2016-03-25 10:45-0600\n"
+"POT-Creation-Date: 2016-03-27 10:21+Hora estándar central (México)\n"
+"PO-Revision-Date: 2016-03-27 10:24-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: pygettext.py 1.5\n"
 "X-Generator: Poedit 1.6.11\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: es\n"
 
-#: ../src\controller\buffers.py:62
+#: ../src\controller\buffers.py:64
 msgid "Write your post"
 msgstr "Escribe tu publicación"
 
-#: ../src\controller\buffers.py:135
+#: ../src\controller\buffers.py:139
 msgid "Wall buffers can't get up to 100 items."
 msgstr "El muro solo puede obtener un máximo de 100 elementos"
 
+#: ../src\controller\buffers.py:170
+msgid "This buffer can't be deleted"
+msgstr ""
+
 #: ../src\controller\mainController.py:37
-#: ../src\controller\mainController.py:91
-#: ../src\controller\mainController.py:96 ../src\utils.py:53
+#: ../src\controller\mainController.py:94
+#: ../src\controller\mainController.py:99 ../src\utils.py:53
 msgid "Ready"
 msgstr "Listo"
 
@@ -59,15 +63,15 @@ msgstr "Populares"
 msgid "Recommendations"
 msgstr "Recomendaciones"
 
-#: ../src\controller\mainController.py:89
+#: ../src\controller\mainController.py:92
 msgid "Logging in VK"
 msgstr "Iniciando sesión en vk"
 
-#: ../src\controller\mainController.py:94
+#: ../src\controller\mainController.py:97
 msgid "Loading items for {0}"
 msgstr "Cargando elementos para {0}"
 
-#: ../src\controller\mainController.py:150
+#: ../src\controller\mainController.py:153
 msgid "Search for {0}"
 msgstr "Buscar {0}"
 
@@ -99,15 +103,44 @@ msgstr "Subir fotografía"
 msgid "New comment"
 msgstr "nuevo comentario"
 
-#: ../src\controller\posts.py:66
+#: ../src\controller\player.py:39
+#, fuzzy
+msgid "Playing {0} by {1}"
+msgstr "Descargando {0} ({1}%)"
+
+#: ../src\controller\posts.py:22
+msgid "Unknown username"
+msgstr ""
+
+#: ../src\controller\posts.py:61
 msgid "repost from {0}"
 msgstr "Repost de {0}"
 
-#: ../src\controller\posts.py:68
+#: ../src\controller\posts.py:63
 msgid "Post from {0}"
 msgstr "Publicación de {0}"
 
-#: ../src\controller\posts.py:113
+#: ../src\controller\posts.py:85 ../src\controller\posts.py:93
+#: ../src\controller\posts.py:100
+msgid "&Dislike"
+msgstr ""
+
+#: ../src\controller\posts.py:95
+#, fuzzy
+msgid "You don't like this"
+msgstr "Ya no te gusta este comentario"
+
+#: ../src\controller\posts.py:96 ../src\wxUI\dialogs\postDialogs.py:40
+#, fuzzy
+msgid "&Like"
+msgstr "Me gusta"
+
+#: ../src\controller\posts.py:99
+#, fuzzy
+msgid "You liked this"
+msgstr "Te gusta este comentario"
+
+#: ../src\controller\posts.py:111
 msgid "Add a comment"
 msgstr "Añadir comentario"
 
@@ -719,6 +752,15 @@ msgstr "Tu versión de {0} está actualizada"
 msgid "Update"
 msgstr "Actualizar"
 
+#: ../src\wxUI\commonMessages.py:12
+#, fuzzy
+msgid "Attention"
+msgstr "Acciones"
+
+#: ../src\wxUI\commonMessages.py:12
+msgid "Do you really want to dismiss  this buffer?"
+msgstr ""
+
 #: ../src\wxUI\dialogs\message.py:19
 msgid "&Privacy"
 msgstr "&privacidad"
@@ -740,7 +782,7 @@ msgid "Send"
 msgstr "&Enviar"
 
 #: ../src\wxUI\dialogs\message.py:67 ../src\wxUI\dialogs\message.py:104
-#: ../src\wxUI\dialogs\postDialogs.py:49
+#: ../src\wxUI\dialogs\postDialogs.py:52
 msgid "Close"
 msgstr "&Cerrar"
 
@@ -765,92 +807,96 @@ msgid "Message"
 msgstr "mensaje"
 
 #: ../src\wxUI\dialogs\postDialogs.py:24
+#, fuzzy
+msgid "Comments"
+msgstr "Comentario"
+
+#: ../src\wxUI\dialogs\postDialogs.py:25
 msgid "Comment"
 msgstr "Comentario"
 
-#: ../src\wxUI\dialogs\postDialogs.py:24
+#: ../src\wxUI\dialogs\postDialogs.py:25
 msgid "Likes"
 msgstr "Me gusta"
 
-#: ../src\wxUI\dialogs\postDialogs.py:24 ../src\wxUI\tabs\home.py:10
+#: ../src\wxUI\dialogs\postDialogs.py:25 ../src\wxUI\tabs\home.py:10
 msgid "Date"
 msgstr "Fecha"
 
-#: ../src\wxUI\dialogs\postDialogs.py:24 ../src\wxUI\tabs\home.py:10
+#: ../src\wxUI\dialogs\postDialogs.py:25 ../src\wxUI\tabs\home.py:10
 #: ../src\wxUI\tabs\home.py:93
 msgid "User"
 msgstr "usuario"
 
-#: ../src\wxUI\dialogs\postDialogs.py:30 ../src\wxUI\dialogs\postDialogs.py:34
+#: ../src\wxUI\dialogs\postDialogs.py:32 ../src\wxUI\dialogs\postDialogs.py:36
 msgid "Loading data..."
 msgstr "Cargando información..."
 
-#: ../src\wxUI\dialogs\postDialogs.py:38 ../src\wxUI\menus.py:9
-#: ../src\wxUI\menus.py:30
-msgid "Like"
-msgstr "Me gusta"
+#: ../src\wxUI\dialogs\postDialogs.py:41
+msgid "Repost"
+msgstr ""
 
-#: ../src\wxUI\dialogs\postDialogs.py:39 ../src\wxUI\menus.py:13
+#: ../src\wxUI\dialogs\postDialogs.py:42 ../src\wxUI\menus.py:13
 msgid "Add comment"
 msgstr "Añadir comentario"
 
-#: ../src\wxUI\dialogs\postDialogs.py:46
+#: ../src\wxUI\dialogs\postDialogs.py:49
 msgid "Actions"
 msgstr "Acciones"
 
-#: ../src\wxUI\dialogs\postDialogs.py:64
+#: ../src\wxUI\dialogs\postDialogs.py:67
 msgid "{0} people like this"
 msgstr "a {0} personas les gusta esto"
 
-#: ../src\wxUI\dialogs\postDialogs.py:70
+#: ../src\wxUI\dialogs\postDialogs.py:73
 msgid "Shared {0} times"
 msgstr "Compartido {0} veces"
 
-#: ../src\wxUI\dialogs\postDialogs.py:111
+#: ../src\wxUI\dialogs\postDialogs.py:114
 msgid "Audio &files"
 msgstr "&Archivos de audio"
 
-#: ../src\wxUI\dialogs\postDialogs.py:117
+#: ../src\wxUI\dialogs\postDialogs.py:120
 msgid "&Title"
 msgstr "&Título"
 
-#: ../src\wxUI\dialogs\postDialogs.py:123
+#: ../src\wxUI\dialogs\postDialogs.py:126
 msgid "&Artist"
 msgstr "A&rtista"
 
-#: ../src\wxUI\dialogs\postDialogs.py:129
+#: ../src\wxUI\dialogs\postDialogs.py:132
 msgid "&Duration"
 msgstr "&Duración"
 
-#: ../src\wxUI\dialogs\postDialogs.py:135
+#: ../src\wxUI\dialogs\postDialogs.py:138
 msgid "&Lyric"
 msgstr "&Letra"
 
-#: ../src\wxUI\dialogs\postDialogs.py:141
+#: ../src\wxUI\dialogs\postDialogs.py:144
 msgid "&Play"
 msgstr "&Reproducir"
 
-#: ../src\wxUI\dialogs\postDialogs.py:142
+#: ../src\wxUI\dialogs\postDialogs.py:145
 msgid "&Download"
 msgstr "&Descargar"
 
-#: ../src\wxUI\dialogs\postDialogs.py:143
+#: ../src\wxUI\dialogs\postDialogs.py:146
 msgid "&Add to your library"
 msgstr "Añad&ir a mi biblioteca"
 
-#: ../src\wxUI\dialogs\postDialogs.py:144
+#: ../src\wxUI\dialogs\postDialogs.py:147
 msgid "&Remove from your library"
 msgstr "Remo&ver de mi biblioteca"
 
-#: ../src\wxUI\dialogs\postDialogs.py:159
+#: ../src\wxUI\dialogs\postDialogs.py:162
 msgid "Audio Files(*.mp3)|*.mp3"
 msgstr "Archivos de audio(*.mp3)|*.mp3"
 
-#: ../src\wxUI\dialogs\postDialogs.py:159
+#: ../src\wxUI\dialogs\postDialogs.py:162
 msgid "Save this file"
 msgstr "Guardar este archivo"
 
-#: ../src\wxUI\dialogs\postDialogs.py:175
+#: ../src\wxUI\dialogs\postDialogs.py:178
 msgid "Friend"
 msgstr "Amigo"
 
@@ -895,26 +941,31 @@ msgid "Load previous items"
 msgstr "Cargar elementos anteriores"
 
 #: ../src\wxUI\mainWindow.py:15
+#, fuzzy
+msgid "&Remove buffer"
+msgstr "Nuevo buffer"
+
+#: ../src\wxUI\mainWindow.py:16
 msgid "Buffer"
 msgstr "Buffer"
 
-#: ../src\wxUI\mainWindow.py:17
+#: ../src\wxUI\mainWindow.py:18
 msgid "About {0}"
 msgstr "Sobre {0}"
 
-#: ../src\wxUI\mainWindow.py:18
+#: ../src\wxUI\mainWindow.py:19
 msgid "Check for updates"
 msgstr "Comprobar actualizaciones"
 
-#: ../src\wxUI\mainWindow.py:20
+#: ../src\wxUI\mainWindow.py:21
 msgid "Help"
 msgstr "Ayuda"
 
-#: ../src\wxUI\mainWindow.py:40
+#: ../src\wxUI\mainWindow.py:41
 msgid "Connection error"
 msgstr "Error de conexión"
 
-#: ../src\wxUI\mainWindow.py:40
+#: ../src\wxUI\mainWindow.py:41
 msgid ""
 "There is a connection error. Check your internet connection and try again "
 "later."
@@ -925,6 +976,10 @@ msgstr ""
 #: ../src\wxUI\menus.py:7 ../src\wxUI\menus.py:28
 msgid "Open"
 msgstr "Abrir"
+
+#: ../src\wxUI\menus.py:9 ../src\wxUI\menus.py:30
+msgid "Like"
+msgstr "Me gusta"
 
 #: ../src\wxUI\menus.py:11 ../src\wxUI\menus.py:32
 msgid "Unlike"
