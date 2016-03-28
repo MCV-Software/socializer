@@ -31,6 +31,7 @@ class postController(object):
 		widgetUtils.connect_event(self.dialog.like, widgetUtils.BUTTON_PRESSED, self.post_like)
 		widgetUtils.connect_event(self.dialog.comment, widgetUtils.BUTTON_PRESSED, self.add_comment)
 		widgetUtils.connect_event(self.dialog.tools, widgetUtils.BUTTON_PRESSED, self.show_tools_menu)
+		widgetUtils.connect_event(self.dialog.repost, widgetUtils.BUTTON_PRESSED, self.post_repost)
 		self.dialog.Bind(wx.EVT_LIST_ITEM_RIGHT_CLICK, self.show_menu, self.dialog.comments.list)
 		self.dialog.Bind(wx.EVT_LIST_KEY_DOWN, self.show_menu_by_key, self.dialog.comments.list)
 		call_threaded(self.load_all_components)
@@ -100,6 +101,12 @@ class postController(object):
 			self.dialog.set("like", _(u"&Dislike"))
 		self.dialog.set_likes(l["likes"])
 
+	def post_repost(self, *args, **kwargs):
+		object_id = "wall{0}_{1}".format(self.post["source_id"], self.post["post_id"])
+		p = messages.post(title=_(u"Repost"), caption=_(u"Add your comment here"), text="")
+		if p.message.get_response() == widgetUtils.OK:
+			msg = p.message.get_text().encode("utf-8")
+			self.session.vk.client.wall.repost(object=object_id, message=msg)
 
 	def get_likes(self):
 		self.dialog.set_likes(self.post["likes"]["count"])
