@@ -202,7 +202,7 @@ class vkSession(object):
 		response = self.vk.client.wall.post(message=message, *args, **kwargs)
 
 	def get_newsfeed(self, name="newsfeed", show_nextpage=False, endpoint="", *args, **kwargs):
-		if show_nextpage == True:
+		if show_nextpage == True and self.db[name].has_key("cursor"):
 			kwargs["start_from"] = self.db[name]["cursor"]
 			print kwargs
 		data = getattr(self.vk.client.newsfeed, "get")(*args, **kwargs)
@@ -213,7 +213,8 @@ class vkSession(object):
 #				print data.keys(), len(data["items"]), data["next_from"]
 			num = self.order_buffer(name, data["items"], show_nextpage)
 			print data.keys()
-			self.db[name]["cursor"] = data["next_from"]
+			if data.has_key("next_from"):
+				self.db[name]["cursor"] = data["next_from"]
 			return num
 
 	def get_page(self, name="", show_nextpage=False, endpoint="", *args, **kwargs):
