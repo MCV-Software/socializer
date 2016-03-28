@@ -8,8 +8,8 @@ Socializer's functionality is far to be perfect, in fact there are lots of metho
 
 Before downloading, take in to account the following: This source code is completely experimental. The current functionality in this application is not very useful. If you decide to use nightly build versions, take into account that this doesn't work as an application for everyday use yet.
 
-Version: 2016.03.23  
-Build date: March 23 2016  
+Version: 2016.03.28  
+Build date: March 28 2016  
 [Download socializer Nightly build](https://github.com/manuelcortez/socializer/blob/master/nightly/socializer-nightly-build.zip?raw=true)
 
 I have started this effort as an open source  project on Feb 13, 2016. Pull requests and bug reports are welcome. Socializer is not a definitive name for this project, it could be changed in future.
