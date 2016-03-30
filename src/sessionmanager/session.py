@@ -97,13 +97,14 @@ def compose_new(status, session):
 				composed_video = compose_video(status["video"]["items"][i], session)
 				prem += u"{0} - {1}, ".format(composed_video[0], composed_video[1])
 			message = _(u"{0} has added  {1} videos: {2}").format(user, status["video"]["count"], prem)
-
 	else:
 		if status["type"] != "post": print status
 	return [user, message, created_at]
 
 def compose_status(status, session):
 	user = session.get_user_name(status["from_id"])
+	if status.has_key("copy_history"):
+		user = _(u"{0} has shared the {1}'s post").format(user, session.get_user_name(status["copy_history"][0]["owner_id"]))
 	message = ""
 	original_date = arrow.get(status["date"])
 	created_at = original_date.humanize(locale=languageHandler.getLanguage())
@@ -227,6 +228,8 @@ class vkSession(object):
 		if data != None:
 			if type(data) == dict:
 				num = self.order_buffer(name, data["items"], show_nextpage)
+				if data.has_key("profiles") and data.has_key("groups"):
+					self.process_usernames(data)
 			else:
 				num = self.order_buffer(name, data, show_nextpage)
 			return num

@@ -50,7 +50,7 @@ class Controller(object):
 		self.window.insert_buffer(home.tab, _(u"Home"), self.window.search("posts"))
 		self.repeatedUpdate = RepeatingTimer(180, self.update_all_buffers)
 		self.repeatedUpdate.start()
-		feed = buffers.feedBuffer(parent=self.window.tb, name="me_feed", composefunc="compose_status", session=self.session, endpoint="get", parent_endpoint="wall")
+		feed = buffers.feedBuffer(parent=self.window.tb, name="me_feed", composefunc="compose_status", session=self.session, endpoint="get", parent_endpoint="wall", extended=1)
 		self.buffers.append(feed)
 		self.window.insert_buffer(feed.tab, _(u"My wall"), self.window.search("posts"))
 		audios = buffers.empty(parent=self.window.tb, name="audios")
