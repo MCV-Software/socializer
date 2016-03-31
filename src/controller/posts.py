@@ -26,6 +26,13 @@ class postController(object):
 		super(postController, self).__init__()
 		self.session = session
 		self.post = postObject
+		# Posts from newsfeed contains this source_id instead from_id in walls.
+		if self.post.has_key("source_id"):
+			self.user_identifier = "source_id"
+			self.post_identifier = "post_id"
+		else:
+			self.user_identifier = "from_id"
+			self.post_identifier = "id"
 		self.dialog = postDialogs.post()
 #		self.dialog.comments.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.show_comment)
 		widgetUtils.connect_event(self.dialog.like, widgetUtils.BUTTON_PRESSED, self.post_like)
@@ -37,10 +44,9 @@ class postController(object):
 		call_threaded(self.load_all_components)
 
 	def get_comments(self):
-		user = self.post["source_id"]
-		id = self.post["post_id"]
+		user = self.post[self.user_identifier]
+		id = self.post[self.post_identifier]
 		self.comments = self.session.vk.client.wall.getComments(owner_id=user, post_id=id, need_likes=1, count=100, extended=1, preview_length=0)
-		print self.comments.keys()
 		comments_ = []
 		for i in self.comments["items"]:
 			from_ = get_user(i["from_id"], self.comments["profiles"])
@@ -55,23 +61,21 @@ class postController(object):
 		self.dialog.insert_comments(comments_)
 
 	def get_post_information(self):
-		if self.post.has_key("type"):
-			if self.post["type"] == "post":
-				from_ = self.session.get_user_name(self.post["source_id"])
-				if self.post.has_key("copy_history"):
-					title = _(u"repost from {0}").format(from_,)
-				else:
-					title = _(u"Post from {0}").format(from_,)
-				self.dialog.set_title(title)
-				message = u""
-				if self.post.has_key("text"):
-					message = utils.clean_text(self.post["text"])
-				if self.post.has_key("copy_history") and message == "":
-					message = utils.clean_text(self.post["copy_history"][0]["text"])
-				if self.post.has_key("attachment"):
-					print self.post["attachment"].keys()
-					message = message+session.add_attachment(self.post["attachment"])
-				self.dialog.set_post(message)
+		from_ = self.session.get_user_name(self.post[self.user_identifier])
+		if self.post.has_key("copy_history"):
+			title = _(u"repost from {0}").format(from_,)
+		else:
+			title = _(u"Post from {0}").format(from_,)
+		self.dialog.set_title(title)
+		message = u""
+		if self.post.has_key("text"):
+			message = utils.clean_text(self.post["text"])
+		if self.post.has_key("copy_history") and message == "":
+			message = utils.clean_text(self.post["copy_history"][0]["text"])
+		if self.post.has_key("attachment"):
+			print self.post["attachment"].keys()
+			message = message+session.add_attachment(self.post["attachment"])
+		self.dialog.set_post(message)
 
 	def load_all_components(self):
 		self.get_post_information()
@@ -88,8 +92,8 @@ class postController(object):
 			self.dialog.disable("repost")
 
 	def post_like(self, *args, **kwargs):
-		user = int(self.post["source_id"])
-		id = int(self.post["post_id"])
+		user = int(self.post[self.user_identifier])
+		id = int(self.post[self.post_identifier])
 		type_ = self.post["type"]
 		if self.dialog.get("like") == _(u"&Dislike"):
 			l = self.session.vk.client.likes.delete(owner_id=user, item_id=id, type=type_)
@@ -102,7 +106,7 @@ class postController(object):
 		self.dialog.set_likes(l["likes"])
 
 	def post_repost(self, *args, **kwargs):
-		object_id = "wall{0}_{1}".format(self.post["source_id"], self.post["post_id"])
+		object_id = "wall{0}_{1}".format(self.post[self.user_identifier], self.post[self.post_identifier])
 		p = messages.post(title=_(u"Repost"), caption=_(u"Add your comment here"), text="")
 		if p.message.get_response() == widgetUtils.OK:
 			msg = p.message.get_text().encode("utf-8")
@@ -119,8 +123,8 @@ class postController(object):
 		if comment.message.get_response() == widgetUtils.OK:
 			msg = comment.message.get_text().encode("utf-8")
 			try:
-				user = self.post["source_id"]
-				id = self.post["post_id"]
+				user = self.post[self.user_identifier]
+				id = self.post[self.post_identifier]
 				self.session.vk.client.wall.addComment(owner_id=user, post_id=id, text=msg)
 				output.speak(_(u"You've posted a comment"))
 				if self.comments["count"] < 100:
