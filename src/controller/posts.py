@@ -16,10 +16,19 @@ from mysc.thread_utils import call_threaded
 from wxUI import menus
 
 def get_user(id, profiles):
+	""" Returns an user name and surname based in the id receibed."""
 	for i in profiles:
 		if i["id"] == id:
 			return u"{0} {1}".format(i["first_name"], i["last_name"])
 	return _(u"Unknown username")
+
+def get_message(status):
+	message = ""
+	message = utils.clean_text(status["text"])
+	if status.has_key("attachment"):
+		print status["attachment"].keys()
+		message = message+session.add_attachment(status["attachment"])
+	return message
 
 class postController(object):
 	def __init__(self, session, postObject):
@@ -68,13 +77,12 @@ class postController(object):
 			title = _(u"Post from {0}").format(from_,)
 		self.dialog.set_title(title)
 		message = u""
-		if self.post.has_key("text"):
-			message = utils.clean_text(self.post["text"])
-		if self.post.has_key("copy_history") and message == "":
-			message = utils.clean_text(self.post["copy_history"][0]["text"])
-		if self.post.has_key("attachment"):
-			print self.post["attachment"].keys()
-			message = message+session.add_attachment(self.post["attachment"])
+		message = get_message(self.post)
+		if self.post.has_key("copy_history"):
+			nm = u"\n"
+			for i in self.post["copy_history"]:
+				nm += u"{0}: {1}\n\n".format(self.session.get_user_name(i["from_id"]),  get_message(i))
+			message += nm
 		self.dialog.set_post(message)
 
 	def load_all_components(self):
