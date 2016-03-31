@@ -57,7 +57,7 @@ class baseBuffer(object):
 			if num > 0:
 				[self.insert(i, False) for i in self.session.db[self.name]["items"][:num]]
 
-	def update(self):
+	def get_more_items(self):
 		self.get_items(show_nextpage=True)
 
 	def post(self, *args, **kwargs):
@@ -135,9 +135,6 @@ class feedBuffer(baseBuffer):
 			else:
 				[self.insert(i) for i in self.session.db[self.name]["items"][:num]]
 
-	def update(self):
-		output.speak(_(u"Wall buffers can't get up to 100 items."))
-
 class audioBuffer(feedBuffer):
 	def create_tab(self, parent):
 		self.tab = home.audioTab(parent)
@@ -178,6 +175,9 @@ class audioBuffer(feedBuffer):
 				return False
 
 
+	def get_more_items(self, *args, **kwargs):
+		output.speak(_(u"This buffer doesn't support getting more items."))
+
 class empty(object):
 
 	def __init__(self, name=None, parent=None, *args, **kwargs):
@@ -187,7 +187,7 @@ class empty(object):
 	def get_items(self, *args, **kwargs):
 		pass
 
-	def update(self, *args, **kwargs):
-		pass
+	def get_more_items(self, *args, **kwargs):
+		output.speak(_(u"This buffer doesn't support getting more items."))
 
 	def remove_buffer(self): return False

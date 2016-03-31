@@ -79,6 +79,7 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.window.about_dialog, menuitem=self.window.about)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.search_audios, menuitem=self.window.search_audios)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU,self.remove_buffer, menuitem=self.window.remove_buffer_)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.get_more_items, menuitem=self.window.load_previous_items)
 
 	def disconnect_events(self):
 		pub.unsubscribe(self.in_post, "posted")
@@ -133,6 +134,10 @@ class Controller(object):
 	def update_buffer(self, *args, **kwargs):
 		b = self.get_current_buffer()
 		b.get_items()
+
+	def get_more_items(self, *args, **kwargs):
+		b = self.get_current_buffer()
+		b.get_more_items()
 
 	def check_for_updates(self, *args, **kwargs):
 		update = updater.do_update()
