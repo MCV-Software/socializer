@@ -144,10 +144,11 @@ class Controller(object):
 		if dlg.get_response() == widgetUtils.OK:
 			q = dlg.get("term").encode("utf-8")
 			count = 300
-			auto_complete = 1
-			lyrics = 0
-			performer_only = 0
-			newbuff = buffers.audioBuffer(parent=self.window.tb, name=u"{0}_audiosearch".format(q.decode("utf-8"),), session=self.session, composefunc="compose_audio", parent_endpoint="audio", endpoint="search", q=q, count=count, auto_complete=auto_complete, lyrics=lyrics, performer_only=performer_only)
+			auto_complete = dlg.get_checkable("auto_complete")
+			lyrics = dlg.get_checkable("lyrics")
+			performer_only = dlg.get_checkable("artist_only")
+			sort = dlg.get_sort_order()
+			newbuff = buffers.audioBuffer(parent=self.window.tb, name=u"{0}_audiosearch".format(q.decode("utf-8"),), session=self.session, composefunc="compose_audio", parent_endpoint="audio", endpoint="search", q=q, count=count, auto_complete=auto_complete, lyrics=lyrics, performer_only=performer_only, sort=sort)
 			self.buffers.append(newbuff)
 			call_threaded(newbuff.get_items)
 			self.window.insert_buffer(newbuff.tab, _(u"Search for {0}").format(q.decode("utf-8"),), self.window.search("audios"))
