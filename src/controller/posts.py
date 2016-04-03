@@ -16,18 +16,34 @@ from mysc.thread_utils import call_threaded
 from wxUI import menus
 
 def get_user(id, profiles):
-	""" Returns an user name and surname based in the id receibed."""
+	""" Returns an user name and last name  based in the id receibed."""
 	for i in profiles:
 		if i["id"] == id:
 			return u"{0} {1}".format(i["first_name"], i["last_name"])
 	return _(u"Unknown username")
 
+def add_attachment(attachment):
+	msg = u""
+	tpe = ""
+	if attachment["type"] == "link":
+		msg = u"{0}: {1}".format(attachment["link"]["title"], attachment["link"]["url"])
+		tpe = _(u"Link")
+	elif attachment["type"] == "photo":
+		tpe = _(u"Photo")
+		msg = attachment["photo"]["text"]
+		if msg == "":
+			msg = "photo with no description available"
+	elif attachment["type"] == "video":
+		msg = u"{0}".format(attachment["video"]["title"],)
+		tpe = _(u"Video")
+	return [tpe, msg]
+
 def get_message(status):
 	message = ""
 	message = utils.clean_text(status["text"])
-	if status.has_key("attachment"):
-		print status["attachment"].keys()
-		message = message+session.add_attachment(status["attachment"])
+	if status.has_key("attachments"):
+		print status["attachments"]
+#		message = message+session.add_attachment(status["attachment"])
 	return message
 
 class postController(object):
@@ -35,7 +51,7 @@ class postController(object):
 		super(postController, self).__init__()
 		self.session = session
 		self.post = postObject
-		# Posts from newsfeed contains this source_id instead from_id in walls.
+		# Posts from newsfeed contains this source_id instead from_id in walls. Also it uses post_id and walls use just id.
 		if self.post.has_key("source_id"):
 			self.user_identifier = "source_id"
 			self.post_identifier = "post_id"
@@ -51,6 +67,8 @@ class postController(object):
 		self.dialog.Bind(wx.EVT_LIST_ITEM_RIGHT_CLICK, self.show_menu, self.dialog.comments.list)
 		self.dialog.Bind(wx.EVT_LIST_KEY_DOWN, self.show_menu_by_key, self.dialog.comments.list)
 		call_threaded(self.load_all_components)
+		print self.post.keys()
+		self.attachments = []
 
 	def get_comments(self):
 		user = self.post[self.user_identifier]
@@ -78,12 +96,25 @@ class postController(object):
 		self.dialog.set_title(title)
 		message = u""
 		message = get_message(self.post)
+		self.get_attachments(self.post)
 		if self.post.has_key("copy_history"):
 			nm = u"\n"
 			for i in self.post["copy_history"]:
 				nm += u"{0}: {1}\n\n".format(self.session.get_user_name(i["from_id"]),  get_message(i))
+				self.get_attachments(i)
 			message += nm
 		self.dialog.set_post(message)
+
+	def get_attachments(self, post):
+		attachments = []
+		if post.has_key("attachments"):
+			for i in post["attachments"]:
+				attachments.append(add_attachment(i))
+		if len(attachments) > 0:
+			self.attachments.extend(attachments)
+		if len(self.attachments) > 0:
+			self.dialog.attachments.list.Enable(True)
+			self.dialog.insert_attachments(self.attachments)
 
 	def load_all_components(self):
 		self.get_post_information()
@@ -100,18 +131,29 @@ class postController(object):
 			self.dialog.disable("repost")
 
 	def post_like(self, *args, **kwargs):
-		user = int(self.post[self.user_identifier])
+		if self.post.has_key("owner_id") == False:
+			user = int(self.post[self.user_identifier])
+		else:
+			user = int(self.post["owner_id"])
 		id = int(self.post[self.post_identifier])
-		type_ = self.post["type"]
+		if self.post.has_key("type"):
+			type_ = self.post["type"]
+		else:
+			type_ = "post"
 		if self.dialog.get("like") == _(u"&Dislike"):
 			l = self.session.vk.client.likes.delete(owner_id=user, item_id=id, type=type_)
 			output.speak(_(u"You don't like this"))
+			self.post["likes"]["count"] = l["likes"]
+			self.post["likes"]["user_likes"] = 2
+			self.get_likes()
 			self.dialog.set("like", _(u"&Like"))
 		else:
 			l = self.session.vk.client.likes.add(owner_id=user, item_id=id, type=type_)
 			output.speak(_(u"You liked this"))
 			self.dialog.set("like", _(u"&Dislike"))
-		self.dialog.set_likes(l["likes"])
+			self.post["likes"]["count"] = l["likes"]
+			self.post["likes"]["user_likes"] = 1
+			self.get_likes()
 
 	def post_repost(self, *args, **kwargs):
 		object_id = "wall{0}_{1}".format(self.post[self.user_identifier], self.post[self.post_identifier])
@@ -144,7 +186,7 @@ class postController(object):
 	def clear_comments_list(self):
 		self.dialog.comments.clear()
 
-	def _show_comment(self, *args, **kwargs):
+	def show_comment(self, *args, **kwargs):
 		c = comment(self.session, self.comments["data"][self.dialog.comments.get_selected()])
 		c.dialog.get_response()
 

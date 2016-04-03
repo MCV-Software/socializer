@@ -28,6 +28,14 @@ class basicPost(widgetUtils.BaseDialog):
 		box.Add(self.comments.list, 0, wx.ALL, 5)
 		return box
 
+	def create_attachments(self):
+		lbl = wx.StaticText(self.panel, -1, _(u"Attachments"))
+		self.attachments = widgetUtils.list(self.panel, _(u"Type"), _(u"Title"), style=wx.LC_REPORT)
+		box = wx.BoxSizer(wx.HORIZONTAL)
+		box.Add(lbl, 0, wx.ALL, 5)
+		box.Add(self.attachments.list, 0, wx.ALL, 5)
+		return box
+
 	def create_likes_box(self):
 		self.likes = wx.Button(self.panel, -1, _(u"Loading data..."))
 		return self.likes
@@ -62,6 +70,10 @@ class basicPost(widgetUtils.BaseDialog):
 		for i in comments:
 			self.comments.insert_item(False, *i)
 
+	def insert_attachments(self, attachments):
+		for i in attachments:
+			self.attachments.insert_item(False, *i)
+
 	def set_likes(self, likes):
 		if hasattr(self, "likes"):
 			self.likes.SetLabel(_(u"{0} people like this").format(likes,))
@@ -79,6 +91,9 @@ class post(basicPost):
 		super(post, self).__init__(*args, **kwargs)
 		post_view_box = self.create_post_view()
 		self.sizer.Add(post_view_box, 0, wx.ALL, 5)
+		attachments_box = self.create_attachments()
+		self.sizer.Add(attachments_box, 0, wx.ALL, 5)
+		self.attachments.list.Enable(False)
 		self.create_tools_button()
 		self.sizer.Add(self.tools, 0, wx.ALL, 5)
 		likes_box = self.create_likes_box()
