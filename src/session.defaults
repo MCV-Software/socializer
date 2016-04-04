@@ -4,3 +4,7 @@ password = string(default="")
 token = string(default="")
 [general]
 reverse_timelines = boolean(default=False)
+
+[buffers]
+count_for_audio_buffers = integer(default=100)
+count_for_wall_buffers = integer(default=100)
