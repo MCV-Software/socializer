@@ -11,13 +11,12 @@ class mainWindow(wx.Frame):
 		buffer.AppendMenu(wx.NewId(), _(u"New buffer"), self.new_buffer)
 		self.update_buffer = buffer.Append(wx.NewId(), _(u"Update current buffer"))
 		self.load_previous_items = buffer.Append(wx.NewId(), _(u"Load previous items"))
-
 		self.remove_buffer_ = buffer.Append(wx.NewId(), _(u"&Remove buffer"))
 		mb.Append(buffer, _(u"Buffer"))
 		help_ = wx.Menu()
 		self.about = help_.Append(wx.NewId(), _(u"About {0}").format(application.name,))
 		self.check_for_updates = help_.Append(wx.NewId(), _(u"Check for updates"))
-
+		self.changelog = help_.Append(wx.NewId(), _(u"Chan&gelog"))
 		mb.Append(help_, _(u"Help"))
 		self.SetMenuBar(mb)
 

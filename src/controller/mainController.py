@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 import wx
 import utils
 import widgetUtils
@@ -6,6 +7,7 @@ import messages
 import buffers
 import player
 import posts
+import webbrowser
 from pubsub import pub
 from mysc.repeating_timer import RepeatingTimer
 from mysc.thread_utils import call_threaded
@@ -80,6 +82,7 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.search_audios, menuitem=self.window.search_audios)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU,self.remove_buffer, menuitem=self.window.remove_buffer_)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.get_more_items, menuitem=self.window.load_previous_items)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.changelog, menuitem=self.window.changelog)
 
 	def disconnect_events(self):
 		pub.unsubscribe(self.in_post, "posted")
@@ -170,3 +173,8 @@ class Controller(object):
 		self.window.remove_buffer(buff)
 		self.buffers.remove(buffer)
 		del buffer
+
+	def changelog(self, *args, **kwargs):
+		os.chdir("documentation")
+		webbrowser.open("changelog.html")
+		os.chdir("../")
