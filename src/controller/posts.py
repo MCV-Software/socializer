@@ -36,6 +36,9 @@ def add_attachment(attachment):
 	elif attachment["type"] == "video":
 		msg = u"{0}".format(attachment["video"]["title"],)
 		tpe = _(u"Video")
+	elif attachment["type"] == "audio":
+		msg = u"{0}".format(" ".join(session.compose_audio(attachment["audio"])))
+		tpe = _(u"Audio")
 	return [tpe, msg]
 
 def get_message(status):

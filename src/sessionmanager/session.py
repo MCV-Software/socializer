@@ -118,11 +118,11 @@ def compose_status(status, session):
 			message = "no description available"
 	return [user, message, created_at]
 
-def compose_audio(audio, session):
+def compose_audio(audio, session=None):
 	if audio == False: return [_(u"Audio removed from library"), "", ""]
 	return [audio["title"], audio["artist"], utils.seconds_to_string(audio["duration"])]
 
-def compose_video(video, session):
+def compose_video(video, session=None):
 	if video == False: return [_(u"Audio removed from library"), "", ""]
 	return [video["title"], utils.seconds_to_string(video["duration"])]
 
