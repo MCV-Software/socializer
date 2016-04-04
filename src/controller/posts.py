@@ -43,10 +43,8 @@ def add_attachment(attachment):
 
 def get_message(status):
 	message = ""
-	message = utils.clean_text(status["text"])
-	if status.has_key("attachments"):
-		print status["attachments"]
-#		message = message+session.add_attachment(status["attachment"])
+	if status.has_key("text"):
+		message = utils.clean_text(status["text"])
 	return message
 
 class postController(object):
@@ -58,6 +56,7 @@ class postController(object):
 		if self.post.has_key("source_id"):
 			self.user_identifier = "source_id"
 			self.post_identifier = "post_id"
+			print self.post["type"]
 		else:
 			self.user_identifier = "from_id"
 			self.post_identifier = "id"
@@ -67,8 +66,8 @@ class postController(object):
 		widgetUtils.connect_event(self.dialog.comment, widgetUtils.BUTTON_PRESSED, self.add_comment)
 		widgetUtils.connect_event(self.dialog.tools, widgetUtils.BUTTON_PRESSED, self.show_tools_menu)
 		widgetUtils.connect_event(self.dialog.repost, widgetUtils.BUTTON_PRESSED, self.post_repost)
-		self.dialog.Bind(wx.EVT_LIST_ITEM_RIGHT_CLICK, self.show_menu, self.dialog.comments.list)
-		self.dialog.Bind(wx.EVT_LIST_KEY_DOWN, self.show_menu_by_key, self.dialog.comments.list)
+#		self.dialog.Bind(wx.EVT_LIST_ITEM_RIGHT_CLICK, self.show_menu, self.dialog.comments.list)
+#		self.dialog.Bind(wx.EVT_LIST_KEY_DOWN, self.show_menu_by_key, self.dialog.comments.list)
 		call_threaded(self.load_all_components)
 		print self.post.keys()
 		self.attachments = []
@@ -113,11 +112,11 @@ class postController(object):
 		if post.has_key("attachments"):
 			for i in post["attachments"]:
 				attachments.append(add_attachment(i))
-		if len(attachments) > 0:
-			self.attachments.extend(attachments)
+				self.attachments.append(i)
 		if len(self.attachments) > 0:
 			self.dialog.attachments.list.Enable(True)
-			self.dialog.insert_attachments(self.attachments)
+			self.dialog.attachments.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.open_attachment)
+			self.dialog.insert_attachments(attachments)
 
 	def load_all_components(self):
 		self.get_post_information()
@@ -255,6 +254,41 @@ class postController(object):
 		if url != None:
 			output.speak(_(u"Opening URL..."), True)
 			webbrowser.open_new_tab(url)
+
+	def open_attachment(self, *args, **kwargs):
+		index = self.dialog.attachments.get_selected()
+		attachment = self.attachments[index]
+		if attachment["type"] == "audio":
+			a = audio(session=self.session, postObject=[attachment["audio"]])
+			a.dialog.get_response()
+			a.dialog.Destroy()
+		if attachment["type"] == "link":
+			output.speak(_(u"Opening URL..."), True)
+			webbrowser.open_new_tab(attachment["link"]["url"])
+		elif attachment["type"] == "video":
+			# it seems VK doesn't like to attach video links as normal URLS, so we'll have to
+			# get the full video object and use its "player" key  which will open a webbrowser in their site with a player for the video.
+			# see https://vk.com/dev/attachments_w and and https://vk.com/dev/video.get
+			# However, the flash player  isn't good  for visually impaired people (when you press play you won't be able to close the window with alt+f4), so it could be good to use the HTML5 player.
+			# For firefox,  see https://addons.mozilla.org/ru/firefox/addon/force-html5-video-player-at-vk/
+			# May be I could use a dialogue here for inviting people to use this addon in firefox. It seems it isn't possible to use this html5 player from the player URL.
+			object_id = "{0}_{1}".format(attachment["video"]["owner_id"], attachment["video"]["id"])
+			video_object = self.session.vk.client.video.get(owner_id=attachment["video"]["owner_id"], videos=object_id)
+			video_object = video_object["items"][0]
+			output.speak(_(u"Opening video in web browser..."), True)
+			webbrowser.open_new_tab(video_object["player"])
+		elif attachment["type"] == "photo":
+			output.speak(_(u"Opening photo in web browser..."), True)
+			# Possible photo sizes for looking in the attachment information. Try to use the biggest photo available.
+			possible_sizes = [1280, 604, 130, 75]
+			url = ""
+			for i in possible_sizes:
+				if attachment["photo"].has_key("photo_{0}".format(i,)):
+					url = attachment["photo"]["photo_{0}".format(i,)]
+			if url != "":
+				webbrowser.open_new_tab(url)
+			else:
+				print attachment["photo"].keys()
 
 class comment(object):
 	def __init__(self, session, comment_object):
