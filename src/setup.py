@@ -46,16 +46,16 @@ def get_data():
  
 ]+get_sounds()+get_locales()+get_documentation()+accessible_output2.find_datafiles()+enchant.utils.win32_data_files()+get_architecture_files()+sound_lib.find_datafiles()
 
-def get_documentation (): return []
-# answer = []
-# depth = 6
-# for root, dirs, files in os.walk('documentation'):
-#  if depth == 0:
-#   break
-#  new = (root, glob(os.path.join(root, "*.html")))
-#  answer.append(new)
-#  depth -= 1
-# return answer
+def get_documentation ():
+ answer = []
+ depth = 6
+ for root, dirs, files in os.walk('documentation'):
+  if depth == 0:
+   break
+  new = (root, glob(os.path.join(root, "*.html")))
+  answer.append(new)
+  depth -= 1
+ return answer
 
 def get_sounds(): return []
 # answer = []
