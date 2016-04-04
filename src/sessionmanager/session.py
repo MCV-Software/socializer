@@ -141,7 +141,7 @@ class vkSession(object):
 			self.db[name]["items"] = []
 			first_addition = True
 		for i in data:
-			if i.has_key("type") and i["type"] == "wall_photo": continue
+			if i.has_key("type") and (i["type"] == "wall_photo" or i["type"] == "photo_tag"): continue
 			if find_item(self.db[name]["items"], i) == False:
 #			if i not in self.db[name]["items"]:
 				if first_addition == True or show_nextpage == True:
