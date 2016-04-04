@@ -6,3 +6,4 @@ src/oggenc2.exe
 src/bootstrap.exe
 src/Microsoft.VC90.CRT
 src/Microsoft.VC90.MFC
+src/documentation/
