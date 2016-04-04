@@ -5,6 +5,8 @@ import application
 class mainWindow(wx.Frame):
 	def makeMenu(self):
 		mb = wx.MenuBar()
+		app_ = wx.Menu()
+		self.settings_dialog = app_.Append(wx.NewId(), _(u"Preferences"))
 		buffer = wx.Menu()
 		self.new_buffer = wx.Menu()
 		self.search_audios = self.new_buffer.Append(wx.NewId(), _(u"Audio"))
@@ -12,6 +14,7 @@ class mainWindow(wx.Frame):
 		self.update_buffer = buffer.Append(wx.NewId(), _(u"Update current buffer"))
 		self.load_previous_items = buffer.Append(wx.NewId(), _(u"Load previous items"))
 		self.remove_buffer_ = buffer.Append(wx.NewId(), _(u"&Remove buffer"))
+		mb.Append(app_, _(u"Application"))
 		mb.Append(buffer, _(u"Buffer"))
 		help_ = wx.Menu()
 		self.about = help_.Append(wx.NewId(), _(u"About {0}").format(application.name,))

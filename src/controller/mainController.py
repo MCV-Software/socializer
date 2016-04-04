@@ -5,6 +5,7 @@ import utils
 import widgetUtils
 import messages
 import buffers
+import configuration
 import player
 import posts
 import webbrowser
@@ -83,6 +84,7 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU,self.remove_buffer, menuitem=self.window.remove_buffer_)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.get_more_items, menuitem=self.window.load_previous_items)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.changelog, menuitem=self.window.changelog)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.configuration, menuitem=self.window.settings_dialog)
 
 	def disconnect_events(self):
 		pub.unsubscribe(self.in_post, "posted")
@@ -178,3 +180,9 @@ class Controller(object):
 		os.chdir("documentation")
 		webbrowser.open("changelog.html")
 		os.chdir("../")
+
+	def configuration(self, *args, **kwargs):
+		""" Opens the global settings dialogue."""
+		d = configuration.configuration(self.session)
+		if d.response == widgetUtils.OK:
+			d.save_configuration()
