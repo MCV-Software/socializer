@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 name = "Socializer"
-version = "0.11"
+version = "0.12"
 author = u"Manuel Cortéz"
 authorEmail = "manuel@manuelcortez.net"
 copyright = u"Copyright (C) 2016, Manuel cortéz."
@@ -9,3 +9,4 @@ url = "https://github.com/manuelcortez/socializer"
 update_url = "https://raw.githubusercontent.com/manuelcortez/socializer/master/update-files/socializer.json"
 # The short name will be used for detecting translation files. See languageHandler for more details.
 short_name = "socializer"
+translators = [u"Valeria K (Russian)", u"Manuel Cortez (Spanish)"]
