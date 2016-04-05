@@ -5,10 +5,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2016-03-25 05:28+Hora estándar central (México)\n"
-"PO-Revision-Date: 2016-03-26 19:50+0400\n"
+"POT-Creation-Date: 2016-03-27 10:21+Hora estándar central (México)\n"
+"PO-Revision-Date: 2016-04-02 16:04+0400\n"
 "Last-Translator: Valeria <luciana.lu3a@gmail.com>\n"
-"Language-Team: \n"
+"Language-Team: Valeria K <luciana.lu3a@gmail.com>\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -16,19 +17,22 @@ msgstr ""
 "X-Generator: Poedit 1.5.7\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"Language: ru\n"
 
-#: ../src\controller\buffers.py:62
+#: ../src\controller\buffers.py:64
 msgid "Write your post"
 msgstr "Что у Вас нового?"
 
-#: ../src\controller\buffers.py:135
+#: ../src\controller\buffers.py:139
 msgid "Wall buffers can't get up to 100 items."
 msgstr ""
 
+#: ../src\controller\buffers.py:170
+msgid "This buffer can't be deleted"
+msgstr "Этот буфер не может быть удалён"
+
 #: ../src\controller\mainController.py:37
-#: ../src\controller\mainController.py:91
-#: ../src\controller\mainController.py:96 ../src\utils.py:53
+#: ../src\controller\mainController.py:94
+#: ../src\controller\mainController.py:99 ../src\utils.py:53
 msgid "Ready"
 msgstr "Готово"
 
@@ -60,15 +64,15 @@ msgstr "Популярные"
 msgid "Recommendations"
 msgstr "Рекомендации"
 
-#: ../src\controller\mainController.py:89
+#: ../src\controller\mainController.py:92
 msgid "Logging in VK"
-msgstr ""
+msgstr "Вход..."
 
-#: ../src\controller\mainController.py:94
+#: ../src\controller\mainController.py:97
 msgid "Loading items for {0}"
-msgstr ""
+msgstr "Загрузка данных для {0}"
 
-#: ../src\controller\mainController.py:150
+#: ../src\controller\mainController.py:153
 #, fuzzy
 msgid "Search for {0}"
 msgstr "Поиск {0}"
@@ -86,14 +90,12 @@ msgid "Translated"
 msgstr "Переведено"
 
 #: ../src\controller\messages.py:59 ../src\controller\messages.py:67
-#, fuzzy
 msgid "Discard image"
-msgstr "Удалить изображение"
+msgstr "Отменить изображение"
 
 #: ../src\controller\messages.py:62
-#, fuzzy
 msgid "Discarded"
-msgstr "Удалено"
+msgstr "Отменено"
 
 #: ../src\controller\messages.py:63
 msgid "Upload a picture"
@@ -103,16 +105,41 @@ msgstr "Загрузить фотографию"
 msgid "New comment"
 msgstr "Новый комментарий"
 
-#: ../src\controller\posts.py:66
+#: ../src\controller\player.py:39
+#, fuzzy
+msgid "Playing {0} by {1}"
+msgstr "Загрузка {0} {1}"
+
+#: ../src\controller\posts.py:22
+msgid "Unknown username"
+msgstr "Неизвестное имя пользователя"
+
+#: ../src\controller\posts.py:61
 msgid "repost from {0}"
 msgstr "Репост от {0}"
 
-#: ../src\controller\posts.py:68
-#, fuzzy
+#: ../src\controller\posts.py:63
 msgid "Post from {0}"
 msgstr "Публикация {0}"
 
-#: ../src\controller\posts.py:113
+#: ../src\controller\posts.py:85 ../src\controller\posts.py:93
+#: ../src\controller\posts.py:100
+msgid "&Dislike"
+msgstr "Не нравится"
+
+#: ../src\controller\posts.py:95
+msgid "You don't like this"
+msgstr "Мне не нравится"
+
+#: ../src\controller\posts.py:96 ../src\wxUI\dialogs\postDialogs.py:40
+msgid "&Like"
+msgstr "Нравится"
+
+#: ../src\controller\posts.py:99
+msgid "You liked this"
+msgstr "Мне нравится"
+
+#: ../src\controller\posts.py:111
 msgid "Add a comment"
 msgstr "Комментировать"
 
@@ -165,7 +192,6 @@ msgid "Ignore &all"
 msgstr "Игнорироват&Все"
 
 #: ../src\extra\SpellChecker\wx_ui.py:44
-#, fuzzy
 msgid "&Replace"
 msgstr "&Заменить"
 
@@ -580,7 +606,6 @@ msgid "{0} has added  an audio: {1}"
 msgstr "{0} добавил аудиозапись: {1}"
 
 #: ../src\sessionmanager\session.py:85
-#, fuzzy
 msgid "{0} has added  {1} audios: {2}"
 msgstr "{0} добавил {1} аудиозаписей: {2}"
 
@@ -602,17 +627,18 @@ msgstr "Аудиозапись удалена"
 
 #: ../src\sessionmanager\wxUI.py:6
 msgid "Authorisation"
-msgstr ""
+msgstr "Авторизация"
 
 #: ../src\sessionmanager\wxUI.py:6
 msgid ""
 "In order to continue, you need to configure your VK account before. Would "
 "you like to autorhise a new account now?"
 msgstr ""
+"Для входа в ваш аккаунт VK, необходимо пройти авторизацию. Хотите продолжить?"
 
 #: ../src\sessionmanager\wxUI.py:10
 msgid "Authorise VK"
-msgstr ""
+msgstr "Авторизация в вк"
 
 #: ../src\sessionmanager\wxUI.py:12
 msgid "&Email or phone number"
@@ -656,7 +682,7 @@ msgstr "%s секунд"
 
 #: ../src\update\wxUpdater.py:9
 msgid "New version for %s"
-msgstr ""
+msgstr "Новая версия %s"
 
 #: ../src\update\wxUpdater.py:9
 msgid ""
@@ -670,7 +696,7 @@ msgstr ""
 
 #: ../src\update\wxUpdater.py:17
 msgid "Download in Progress"
-msgstr ""
+msgstr "Загрузка..."
 
 #: ../src\update\wxUpdater.py:17
 msgid "Downloading the new version..."
@@ -709,11 +735,20 @@ msgstr "Вы должны предоставить имя пользовател
 
 #: ../src\wxUI\commonMessages.py:9
 msgid "Your {0} version is up to date"
-msgstr ""
+msgstr "У вас установлена самая последняя версия {0}"
 
 #: ../src\wxUI\commonMessages.py:9 ../src\wxUI\menus.py:20
 msgid "Update"
 msgstr "Обновить"
+
+#: ../src\wxUI\commonMessages.py:12
+#, fuzzy
+msgid "Attention"
+msgstr "Вниманиеь"
+
+#: ../src\wxUI\commonMessages.py:12
+msgid "Do you really want to dismiss  this buffer?"
+msgstr "Вы действительно хотите удалить этот буфер?"
 
 #: ../src\wxUI\dialogs\message.py:19
 msgid "&Privacy"
@@ -736,21 +771,21 @@ msgid "Send"
 msgstr "Отправить"
 
 #: ../src\wxUI\dialogs\message.py:67 ../src\wxUI\dialogs\message.py:104
-#: ../src\wxUI\dialogs\postDialogs.py:49
+#: ../src\wxUI\dialogs\postDialogs.py:52
 msgid "Close"
 msgstr "Закрыть"
 
 #: ../src\wxUI\dialogs\message.py:90
 msgid "Image files (*.png, *.jpg, *.gif)|*.png; *.jpg; *.gif"
-msgstr ""
+msgstr "Тип файлов (*.png, *.jpg, *.gif)|*.png; *.jpg; *.gif"
 
 #: ../src\wxUI\dialogs\message.py:90
 msgid "Select the picture to be uploaded"
-msgstr ""
+msgstr "Выберите изображение, которое хотите добавить"
 
 #: ../src\wxUI\dialogs\message.py:100
 msgid "Spelling correction"
-msgstr ""
+msgstr "Коррекция ошибок..."
 
 #: ../src\wxUI\dialogs\player.py:8
 msgid "Audio player"
@@ -761,92 +796,95 @@ msgid "Message"
 msgstr "Сообщение"
 
 #: ../src\wxUI\dialogs\postDialogs.py:24
+msgid "Comments"
+msgstr "Комментарии"
+
+#: ../src\wxUI\dialogs\postDialogs.py:25
 msgid "Comment"
 msgstr "Комментарий"
 
-#: ../src\wxUI\dialogs\postDialogs.py:24
+#: ../src\wxUI\dialogs\postDialogs.py:25
 msgid "Likes"
-msgstr "Лайки"
+msgstr "Отметки нравится"
 
-#: ../src\wxUI\dialogs\postDialogs.py:24 ../src\wxUI\tabs\home.py:10
+#: ../src\wxUI\dialogs\postDialogs.py:25 ../src\wxUI\tabs\home.py:10
 msgid "Date"
 msgstr "Дата"
 
-#: ../src\wxUI\dialogs\postDialogs.py:24 ../src\wxUI\tabs\home.py:10
+#: ../src\wxUI\dialogs\postDialogs.py:25 ../src\wxUI\tabs\home.py:10
 #: ../src\wxUI\tabs\home.py:93
 msgid "User"
 msgstr "Пользователь"
 
-#: ../src\wxUI\dialogs\postDialogs.py:30 ../src\wxUI\dialogs\postDialogs.py:34
+#: ../src\wxUI\dialogs\postDialogs.py:32 ../src\wxUI\dialogs\postDialogs.py:36
 msgid "Loading data..."
 msgstr "Загрузка данных..."
 
-#: ../src\wxUI\dialogs\postDialogs.py:38 ../src\wxUI\menus.py:9
-#: ../src\wxUI\menus.py:30
-msgid "Like"
-msgstr "Лайк"
+#: ../src\wxUI\dialogs\postDialogs.py:41
+msgid "Repost"
+msgstr "Поделиться"
 
-#: ../src\wxUI\dialogs\postDialogs.py:39 ../src\wxUI\menus.py:13
+#: ../src\wxUI\dialogs\postDialogs.py:42 ../src\wxUI\menus.py:13
 msgid "Add comment"
 msgstr "Комментировать.."
 
-#: ../src\wxUI\dialogs\postDialogs.py:46
+#: ../src\wxUI\dialogs\postDialogs.py:49
 msgid "Actions"
 msgstr "Активность"
 
-#: ../src\wxUI\dialogs\postDialogs.py:64
+#: ../src\wxUI\dialogs\postDialogs.py:67
 msgid "{0} people like this"
 msgstr "{0} лайков"
 
-#: ../src\wxUI\dialogs\postDialogs.py:70
+#: ../src\wxUI\dialogs\postDialogs.py:73
 msgid "Shared {0} times"
 msgstr ""
 
-#: ../src\wxUI\dialogs\postDialogs.py:111
+#: ../src\wxUI\dialogs\postDialogs.py:114
 msgid "Audio &files"
 msgstr "Аудио файлы"
 
-#: ../src\wxUI\dialogs\postDialogs.py:117
+#: ../src\wxUI\dialogs\postDialogs.py:120
 msgid "&Title"
 msgstr "Название"
 
-#: ../src\wxUI\dialogs\postDialogs.py:123
+#: ../src\wxUI\dialogs\postDialogs.py:126
 msgid "&Artist"
 msgstr "Исполнитель"
 
-#: ../src\wxUI\dialogs\postDialogs.py:129
+#: ../src\wxUI\dialogs\postDialogs.py:132
 msgid "&Duration"
 msgstr "Продолжительность"
 
-#: ../src\wxUI\dialogs\postDialogs.py:135
+#: ../src\wxUI\dialogs\postDialogs.py:138
 msgid "&Lyric"
 msgstr "Описание"
 
-#: ../src\wxUI\dialogs\postDialogs.py:141
+#: ../src\wxUI\dialogs\postDialogs.py:144
 msgid "&Play"
 msgstr "Воспроизвести"
 
-#: ../src\wxUI\dialogs\postDialogs.py:142
+#: ../src\wxUI\dialogs\postDialogs.py:145
 msgid "&Download"
 msgstr "Скачать"
 
-#: ../src\wxUI\dialogs\postDialogs.py:143
+#: ../src\wxUI\dialogs\postDialogs.py:146
 msgid "&Add to your library"
 msgstr "Добавить в вашу библиотеку"
 
-#: ../src\wxUI\dialogs\postDialogs.py:144
+#: ../src\wxUI\dialogs\postDialogs.py:147
 msgid "&Remove from your library"
 msgstr "Удалить из вашей библиотеки"
 
-#: ../src\wxUI\dialogs\postDialogs.py:159
+#: ../src\wxUI\dialogs\postDialogs.py:162
 msgid "Audio Files(*.mp3)|*.mp3"
 msgstr "Аудио файлы(*.mp3)|*.mp3"
 
-#: ../src\wxUI\dialogs\postDialogs.py:159
+#: ../src\wxUI\dialogs\postDialogs.py:162
 msgid "Save this file"
 msgstr "Сохранить файл"
 
-#: ../src\wxUI\dialogs\postDialogs.py:175
+#: ../src\wxUI\dialogs\postDialogs.py:178
 msgid "Friend"
 msgstr "Друг"
 
@@ -891,26 +929,30 @@ msgid "Load previous items"
 msgstr ""
 
 #: ../src\wxUI\mainWindow.py:15
+msgid "&Remove buffer"
+msgstr "Удалить буфер"
+
+#: ../src\wxUI\mainWindow.py:16
 msgid "Buffer"
 msgstr "Буфер"
 
-#: ../src\wxUI\mainWindow.py:17
+#: ../src\wxUI\mainWindow.py:18
 msgid "About {0}"
 msgstr "О {0}"
 
-#: ../src\wxUI\mainWindow.py:18
+#: ../src\wxUI\mainWindow.py:19
 msgid "Check for updates"
 msgstr "Проверить на наличие обновлений"
 
-#: ../src\wxUI\mainWindow.py:20
+#: ../src\wxUI\mainWindow.py:21
 msgid "Help"
 msgstr "Помощь"
 
-#: ../src\wxUI\mainWindow.py:40
+#: ../src\wxUI\mainWindow.py:41
 msgid "Connection error"
 msgstr "Ошибка подключения"
 
-#: ../src\wxUI\mainWindow.py:40
+#: ../src\wxUI\mainWindow.py:41
 msgid ""
 "There is a connection error. Check your internet connection and try again "
 "later."
@@ -920,6 +962,10 @@ msgstr ""
 #: ../src\wxUI\menus.py:7 ../src\wxUI\menus.py:28
 msgid "Open"
 msgstr "Открыть"
+
+#: ../src\wxUI\menus.py:9 ../src\wxUI\menus.py:30
+msgid "Like"
+msgstr "Лайк"
 
 #: ../src\wxUI\menus.py:11 ../src\wxUI\menus.py:32
 msgid "Unlike"
