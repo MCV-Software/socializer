@@ -1,4 +1,4 @@
-{"current_version": "0.11",
-"description": "Now it's possible to do reposts, like/dislike and comments in newsfeeds' posts.\nUpdated translations.\nFixed some issues in newsfeeds' timelines for users who don't have items available.\nImplemented buffer's removal, only works in audio searches. Check the buffer menu for more details.\nFixed name in comments.\nWhen a sound is being played, the status bar will be updated with this information.\n",
+{"current_version": "0.12",
+"description": "Some bugfixes, included a changelog which can be accessed through the help menu.",
 "downloads":
 {"Windows32": "https://github.com/manuelcortez/socializer/blob/master/nightly/socializer-nightly-build.zip?raw=true"}}

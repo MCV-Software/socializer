@@ -2,15 +2,15 @@
 
 A desktop application for handling [vk.com](http://vk.com) in an easy way.
 
-## Nightly builds
+## weekly builds
 
-Socializer's functionality is far to be perfect, in fact there are lots of methods of the VK API that this application doesn't support  right now, but if you are curious enough, and you want to help by giving me your impressions and making  tests for fixing  bugs, you can download the last source code, compiled as an application. This is the  nightly build of socializer. This version is only for testing purposes, never think that it can be used for everyday use. This version does not include any documentation, or changelog, because it's build with an authomatic process (probably in the future I'll include the documentation in the build process). However you can use this readme, I'm trying to keep it updated with the latest information about socializer's features. This nightly build is built every two or three days, depending in the updates that the repository has receibed.
+Socializer's functionality is far to be perfect, in fact there are lots of methods of the VK API that this application doesn't support  right now, but if you are curious enough, and you want to help by giving me your impressions and making  tests for fixing  bugs, you can download the last source code, compiled as an application. This is the  weekly  build of socializer. This version is only for testing purposes, never think that it can be used for everyday use. This version does not include any documentation, Only the changelog, because it's build with an authomatic process. This weekly  build is built every week, depending in the updates that the repository has receibed.
 
 Before downloading, take in to account the following: This source code is completely experimental. The current functionality in this application is not very useful. If you decide to use nightly build versions, take into account that this doesn't work as an application for everyday use yet.
 
-Version: 2016.03.28  
+Version: 2016.04.5  
 Build date: March 28 2016  
-[Download socializer Nightly build](https://github.com/manuelcortez/socializer/blob/master/nightly/socializer-nightly-build.zip?raw=true)
+[Download socializer weekly  build](https://github.com/manuelcortez/socializer/blob/master/nightly/socializer-nightly-build.zip?raw=true)
 
 I have started this effort as an open source  project on Feb 13, 2016. Pull requests and bug reports are welcome. Socializer is not a definitive name for this project, it could be changed in future.
 
