@@ -39,6 +39,9 @@ def add_attachment(attachment):
 	elif attachment["type"] == "audio":
 		msg = u"{0}".format(" ".join(session.compose_audio(attachment["audio"])))
 		tpe = _(u"Audio")
+	elif attachment["type"] == "doc":
+		msg = u"{0}".format(attachment["doc"]["title"])
+		tpe = _(u"{0} document").format(attachment["doc"]["ext"])
 	return [tpe, msg]
 
 def get_message(status):
@@ -56,7 +59,7 @@ class postController(object):
 		if self.post.has_key("source_id"):
 			self.user_identifier = "source_id"
 			self.post_identifier = "post_id"
-			print self.post["type"]
+#			print self.post["type"]
 		else:
 			self.user_identifier = "from_id"
 			self.post_identifier = "id"
@@ -69,7 +72,7 @@ class postController(object):
 #		self.dialog.Bind(wx.EVT_LIST_ITEM_RIGHT_CLICK, self.show_menu, self.dialog.comments.list)
 #		self.dialog.Bind(wx.EVT_LIST_KEY_DOWN, self.show_menu_by_key, self.dialog.comments.list)
 		call_threaded(self.load_all_components)
-		print self.post.keys()
+#		if self.post.has_key("attachments"): print self.post["attachments"]
 		self.attachments = []
 
 	def get_comments(self):
@@ -265,6 +268,9 @@ class postController(object):
 		if attachment["type"] == "link":
 			output.speak(_(u"Opening URL..."), True)
 			webbrowser.open_new_tab(attachment["link"]["url"])
+		elif attachment["type"] == "doc":
+			output.speak(_(u"Opening document in web browser..."))
+			webbrowser.open(attachment["doc"]["url"])
 		elif attachment["type"] == "video":
 			# it seems VK doesn't like to attach video links as normal URLS, so we'll have to
 			# get the full video object and use its "player" key  which will open a webbrowser in their site with a player for the video.
