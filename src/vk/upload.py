@@ -1,12 +1,5 @@
 # -*- coding: utf-8 -*-
-
-"""
-@author: Kirill Python
-@contact: https://vk.com/python273
-@license Apache License, Version 2.0, see LICENSE file
-
-Copyright (C) 2015
-"""
+import requests
 
 
 class VkUpload(object):
@@ -18,6 +11,7 @@ class VkUpload(object):
 
         self.vk = vk
         # https://vk.com/dev/upload_files
+        self.session = requests.session()
 
     def photo(self, photos, album_id,
               latitude=None, longitude=None, caption=None, description=None,
@@ -41,11 +35,11 @@ class VkUpload(object):
             values['group_id'] = group_id
 
         # Получаем ссылку для загрузки
-        url = self.vk.photos.getUploadServer(values)['upload_url']
+        url = self.vk.photos.getUploadServer(**values)['upload_url']
 
         # Загружаем
         photos_files = open_photos(photos)
-        response = self.vk.requests_session.post(url, files=photos_files).json()
+        response = self.session.post(url, files=photos_files).json()
         close_photos(photos_files)
 
         # Олег Илларионов:
@@ -101,15 +95,11 @@ class VkUpload(object):
         response = self.vk.photos.getWallUploadServer(**values)
 
         url = response['upload_url']
-        print url
         photos_files = open_photos(photos)
-        response = self.vk._session.requests_session.post(url, files=photos_files)
+        response = self.session.post(url, files=photos_files)
         close_photos(photos_files)
-
         values.update(response.json())
-        print values
         response = self.vk.photos.saveWallPhoto(**values)
-
         return response
 
     def document(self, file_path, title=None, tags=None, group_id=None):
@@ -148,7 +138,6 @@ def open_photos(photos_paths):
         photos.append(
             ('file%s' % x, ('pic.' + filetype, open(filename, 'rb')))
         )
-    print photos
     return photos
 
 
