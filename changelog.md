@@ -1,6 +1,10 @@
 % Changelog
 
-## Changes for the current build (5/04/2016)
+## Changes for the current build ()
+
+* Added grouping controls in the audio searches dialogue. It will be more accessible so screen readers could detect and read the label for radio buttons.
+
+## Changes for build 2016.04.5 (5/04/2016)
 
 * Updated russian and spanish translations.
 * Fixed minor bugs in the likes button for posts.
