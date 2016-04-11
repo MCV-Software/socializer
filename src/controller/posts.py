@@ -32,7 +32,7 @@ def add_attachment(attachment):
 		tpe = _(u"Photo")
 		msg = attachment["photo"]["text"]
 		if msg == "":
-			msg = "photo with no description available"
+			msg = _(u"no description available")
 	elif attachment["type"] == "video":
 		msg = u"{0}".format(attachment["video"]["title"],)
 		tpe = _(u"Video")
@@ -41,7 +41,7 @@ def add_attachment(attachment):
 		tpe = _(u"Audio")
 	elif attachment["type"] == "doc":
 		msg = u"{0}".format(attachment["doc"]["title"])
-		tpe = _(u"{0} document").format(attachment["doc"]["ext"])
+		tpe = _(u"{0} file").format(attachment["doc"]["ext"])
 	return [tpe, msg]
 
 def get_message(status):
