@@ -3,6 +3,8 @@
 ## Changes for the current build ()
 
 * Added grouping controls in the audio searches dialogue. It will be more accessible so screen readers could detect and read the label for radio buttons.
+* Added  documents to the list of supported attachments in the post viewer. The actions for this kind of attachments is to open the default web browser, pointing to the URL address of that file.
+* Now It's possible to add photos to the wall, by uploading files to the VK servers. Check the attachments button in the new post dialogue for this. Basically it is possible to add some photos and when the post is sent, photos will start to be uploaded before. At the moment it is not possible to add descriptions to photos.
 
 ## Changes for build 2016.04.5 (5/04/2016)
 
