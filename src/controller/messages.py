@@ -2,6 +2,7 @@
 import widgetUtils
 import output
 from pubsub import pub
+import attach
 from wxUI.dialogs import message
 from extra import SpellChecker, translator
 
@@ -13,8 +14,9 @@ class post(object):
 		self.message.set_title(title)
 		widgetUtils.connect_event(self.message.spellcheck, widgetUtils.BUTTON_PRESSED, self.spellcheck)
 		widgetUtils.connect_event(self.message.translateButton, widgetUtils.BUTTON_PRESSED, self.translate)
-		self.image = None
-#		widgetUtils.connect_event(self.message.upload_image, widgetUtils.BUTTON_PRESSED, self.upload_image)
+		self.images = []
+		if hasattr(self.message, "attach"):
+			widgetUtils.connect_event(self.message.attach, widgetUtils.BUTTON_PRESSED, self.show_attach_dialog)
 
 	def get_privacy_options(self):
 		p = self.message.get("privacy")
@@ -43,28 +45,10 @@ class post(object):
 			self.message.set_text(checker.fixed_text)
 		checker.clean()
 
-# def attach(self, *args, **kwargs):
-#  def completed_callback():
-#   url = dlg.uploaderFunction.get_url()
-#   pub.unsubscribe(dlg.uploaderDialog.update, "uploading")
-#   dlg.uploaderDialog.destroy()
-#   if url != 0:
-#    self.message.set_text(self.message.get_text()+url+" #audio")
-#   else:
-#    output.speak(_(u"Unable to upload the audio"))
-#   dlg.cleanup()
-#  dlg = audioUploader.audioUploader(self.session.settings, completed_callback)
-
-	def upload_image(self, *args, **kwargs):
-		if self.message.get("upload_image") == _(u"Discard image"):
-			del self.image
-			self.image = None
-			output.speak(_(u"Discarded"))
-			self.message.set("upload_image", _(u"Upload a picture"))
-		else:
-			self.image = self.message.get_image()
-			if self.image != None:
-				self.message.set("upload_image", _(u"Discard image"))
+	def show_attach_dialog(self, *args, **kwargs):
+		a = attach.attach()
+		if len(a.attachments) != 0:
+			self.attachments = a.attachments
 
 class comment(post):
 	def __init__(self, title, caption, text):

@@ -11,6 +11,7 @@ from pubsub import pub
 from sessionmanager import session
 from mysc.thread_utils import call_threaded
 from wxUI import commonMessages
+from vk import upload
 
 class baseBuffer(object):
 	""" a basic representation of a buffer. Other buffers should be derived from this class"""
@@ -63,17 +64,37 @@ class baseBuffer(object):
 	def post(self, *args, **kwargs):
 		p = messages.post(title=_(u"Write your post"), caption="", text="")
 		if p.message.get_response() == widgetUtils.OK:
-			msg = p.message.get_text().encode("utf-8")
-			privacy_opts = p.get_privacy_options()
-			attachments = ""
-			urls = utils.find_urls_in_text(msg)
-			if len(urls) != 0:
-				if len(attachments) == 0: attachments = urls[0]
-				else: attachments += urls[0]
-				msg = msg.replace(urls[0], "")
-			self.session.post_wall_status(message=msg, friends_only=privacy_opts, attachments=attachments)
-			pub.sendMessage("posted", buffer=self.name)
+			call_threaded(self.do_last, p=p)
+
+	def do_last(self, p):
+		msg = p.message.get_text().encode("utf-8")
+		privacy_opts = p.get_privacy_options()
+		attachments = ""
+		if hasattr(p, "attachments"):
+			attachments = self.upload_attachments(p.attachments)
+		urls = utils.find_urls_in_text(msg)
+		if len(urls) != 0:
+			if len(attachments) == 0: attachments = urls[0]
+			else: attachments += urls[0]
+			msg = msg.replace(urls[0], "")
+		self.session.post_wall_status(message=msg, friends_only=privacy_opts, attachments=attachments)
+		pub.sendMessage("posted", buffer=self.name)
 		p.message.Destroy()
+
+	def upload_attachments(self, attachments):
+		# To do: Check the caption and description fields for this kind of attachments.
+		local_attachments = ""
+		uploader = upload.VkUpload(self.session.vk.client)
+		for i in attachments:
+			if i["type"] == "photo":
+				photos = i["file"]
+				description = i["description"]
+				r = uploader.photo_wall(photos, caption=description)
+				id = r[0]["id"]
+				owner_id = r[0]["owner_id"]
+#				self.session.vk.client.photos.edit(photo_id=id, owner_id=owner_id, caption=description)
+				local_attachments += "photo{0}_{1},".format(owner_id, id)
+		return local_attachments
 
 	def connect_events(self):
 		widgetUtils.connect_event(self.tab.post, widgetUtils.BUTTON_PRESSED, self.post)

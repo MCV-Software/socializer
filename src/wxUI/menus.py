@@ -52,3 +52,9 @@ class toolsMenu(wx.Menu):
 		self.AppendItem(self.translate)
 		self.CheckSpelling = wx.MenuItem(self, -1, _(u"Check Spelling"))
 		self.AppendItem(self.CheckSpelling)
+
+class attachMenu(wx.Menu):
+	def __init__(self):
+		super(attachMenu, self).__init__()
+		self.photo = wx.MenuItem(self, wx.NewId(), _(u"Picture"))
+		self.AppendItem(self.photo)
