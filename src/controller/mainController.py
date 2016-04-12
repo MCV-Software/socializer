@@ -15,6 +15,7 @@ from mysc.thread_utils import call_threaded
 from sessionmanager import session
 from wxUI import (mainWindow, commonMessages)
 from wxUI.dialogs import search as searchDialogs
+from wxUI.dialogs import timeline
 from update import updater
 
 class Controller(object):
@@ -85,6 +86,7 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.get_more_items, menuitem=self.window.load_previous_items)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.changelog, menuitem=self.window.changelog)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.configuration, menuitem=self.window.settings_dialog)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.new_timeline, menuitem=self.window.timeline)
 
 	def disconnect_events(self):
 		pub.unsubscribe(self.in_post, "posted")
@@ -186,3 +188,25 @@ class Controller(object):
 		d = configuration.configuration(self.session)
 		if d.response == widgetUtils.OK:
 			d.save_configuration()
+
+	def new_timeline(self, *args, **kwargs):
+		b = self.get_current_buffer()
+		if not hasattr(b, "get_users"): return
+		ids = b.get_users()
+		d = []
+		for i in ids:
+			d.append((i, self.session.get_user_name(i)))
+		for i in self.session.db["users"]:
+			d.append((i, self.session.get_user_name(i)))
+		for i in self.session.db["groups"]:
+			d.append((i, self.session.get_user_name(i)))
+		a = timeline.timelineDialog([i[1] for i in d])
+		if a.get_response() == widgetUtils.OK:
+			user = a.get_user()
+			buffertype = a.get_buffer_type()
+			user_id = ""
+			print user
+			for i in d:
+				if i[1] == user:
+					user_id = i[0]
+			print user_id

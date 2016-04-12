@@ -142,6 +142,13 @@ class baseBuffer(object):
 
 	def remove_buffer(self): return False
 
+	def get_users(self):
+		post = self.session.db[self.name]["items"][self.tab.list.get_selected()]
+		if post.has_key("type") == False:
+			return post["from_id"]
+		else:
+			return [post["source_id"]]
+
 class feedBuffer(baseBuffer):
 
 	def get_items(self, show_nextpage=False):
