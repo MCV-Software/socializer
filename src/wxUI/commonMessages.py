@@ -10,3 +10,6 @@ def no_update_available():
 
 def remove_buffer():
 	return wx.MessageDialog(None, _(u"Do you really want to dismiss  this buffer?"), _(u"Attention"), style=wx.ICON_QUESTION|wx.YES_NO).ShowModal()
+
+def no_user_exist():
+	wx.MessageDialog(None, _(u"This user does not exist"), _(u"Error"), style=wx.ICON_ERROR).ShowModal()

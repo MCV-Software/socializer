@@ -205,8 +205,14 @@ class Controller(object):
 			user = a.get_user()
 			buffertype = a.get_buffer_type()
 			user_id = ""
-			print user
 			for i in d:
 				if i[1] == user:
 					user_id = i[0]
-			print user_id
+			if user_id == None:
+				commonMessages.no_user_exist()
+				return
+			if buffertype == "audio":
+				audio = buffers.audioBuffer(parent=self.window.tb, name="{0}_audio".format(user_id,), composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], user_id=user_id)
+				self.buffers.append(audio)
+				self.window.insert_buffer(audio.tab, _(u"{0}'s audios").format(user,), self.window.search("audios"))
+				call_threaded(audio.get_items)
