@@ -171,10 +171,10 @@ class Controller(object):
 	def update_status_bar(self, status):
 		self.window.change_status(status)
 
-	def remove_buffer(self, *args, **kwargs):
+	def remove_buffer(self, mandatory=False, *args, **kwargs):
 		buffer = self.get_current_buffer()
 		buff = self.window.search(buffer.name)
-		answer = buffer.remove_buffer()
+		answer = buffer.remove_buffer(mandatory)
 		if answer == False:
 			return
 		self.window.remove_buffer(buff)
@@ -217,5 +217,13 @@ class Controller(object):
 			if buffertype == "audio":
 				audio = buffers.audioBuffer(parent=self.window.tb, name="{0}_audio".format(user_id,), composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], user_id=user_id)
 				self.buffers.append(audio)
-				call_threaded(audio.get_items)
-				self.window.insert_buffer(audio.tab, _(u"{0}'s audios").format(user,), self.window.search("timelines"))
+				call_threaded(self.complete_buffer_creation, buffer=audio, name_=_(u"{0}'s audios").format(user,), position=self.window.search("timelines"))
+
+	def complete_buffer_creation(self, buffer, name_, position):
+		answer = buffer.get_items()
+		if answer is not True:
+			self.buffers.remove(buffer)
+			del buffer
+			commonMessages.show_error_code(answer)
+			return
+		self.window.insert_buffer(buffer.tab, name_, position)

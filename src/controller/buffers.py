@@ -12,6 +12,7 @@ from sessionmanager import session
 from mysc.thread_utils import call_threaded
 from wxUI import commonMessages
 from vk import upload
+from vk.exceptions import VkAPIMethodError
 
 class baseBuffer(object):
 	""" a basic representation of a buffer. Other buffers should be derived from this class"""
@@ -44,8 +45,15 @@ class baseBuffer(object):
 
 	def get_items(self, show_nextpage=False):
 		""" Retrieves items from the VK API. This function is called repeatedly by the main controller and users could call it implicitly as well with the update buffer option.
-		show_nextpage boolean: If it's true, it will try to load previous results."""
-		num = getattr(self.session, "get_newsfeed")(show_nextpage=show_nextpage, name=self.name, *self.args, **self.kwargs)
+		show_nextpage boolean: If it's true, it will try to load previous results.
+		"""
+		retrieved = True # Control variable for handling unauthorised/connection errors.
+		try:
+			num = getattr(self.session, "get_newsfeed")(show_nextpage=show_nextpage, name=self.name, *self.args, **self.kwargs)
+		except VkAPIMethodError as err:
+			print(u"Error {0}: {1}".format(err.code, err.message))
+			retrieved = err.code
+			return retrieved
 		if show_nextpage  == False:
 			if self.tab.list.get_count() > 0 and num > 0:
 				print "inserting a value"
@@ -57,6 +65,7 @@ class baseBuffer(object):
 		else:
 			if num > 0:
 				[self.insert(i, False) for i in self.session.db[self.name]["items"][:num]]
+		return retrieved
 
 	def get_more_items(self):
 		self.get_items(show_nextpage=True)
@@ -140,7 +149,7 @@ class baseBuffer(object):
 	def pause_audio(self, *args, **kwargs):
 		player.player.pause()
 
-	def remove_buffer(self): return False
+	def remove_buffer(self, mandatory): return False
 
 	def get_users(self):
 		post = self.session.db[self.name]["items"][self.tab.list.get_selected()]
@@ -152,8 +161,14 @@ class baseBuffer(object):
 class feedBuffer(baseBuffer):
 
 	def get_items(self, show_nextpage=False):
-		num = getattr(self.session, "get_page")(show_nextpage=show_nextpage, name=self.name, *self.args, **self.kwargs)
-		print num
+		retrieved = True
+		try:
+			num = getattr(self.session, "get_page")(show_nextpage=show_nextpage, name=self.name, *self.args, **self.kwargs)
+			print num
+		except VkAPIMethodError as err:
+			print(u"Error {0}: {1}".format(err.code, err.message))
+			retrieved = err.code
+			return retrieved
 		if show_nextpage  == False:
 			if self.tab.list.get_count() > 0 and num > 0:
 				print "inserting a value"
@@ -162,6 +177,7 @@ class feedBuffer(baseBuffer):
 				[self.insert(i, True) for i in v]
 			else:
 				[self.insert(i) for i in self.session.db[self.name]["items"][:num]]
+		return retrieved
 
 class audioBuffer(feedBuffer):
 	def create_tab(self, parent):
@@ -190,18 +206,20 @@ class audioBuffer(feedBuffer):
 		audios = [i for i in self.session.db[self.name]["items"][selected:]]
 		pub.sendMessage("play-audios", audios=audios)
 
-	def remove_buffer(self):
+	def remove_buffer(self, mandatory):
 		if "me_audio" == self.name or "popular_audio" == self.name or "recommended_audio" == self.name:
 			output.speak(_(u"This buffer can't be deleted"))
 			return False
 		else:
-			dlg = commonMessages.remove_buffer()
+			if mandatory == False:
+				dlg = commonMessages.remove_buffer()
+			else:
+				dlg = widgetUtils.YES
 			if dlg == widgetUtils.YES:
 				self.session.db.pop(self.name)
 				return True
 			else:
 				return False
-
 
 	def get_more_items(self, *args, **kwargs):
 		output.speak(_(u"This buffer doesn't support getting more items."))
@@ -218,4 +236,4 @@ class empty(object):
 	def get_more_items(self, *args, **kwargs):
 		output.speak(_(u"This buffer doesn't support getting more items."))
 
-	def remove_buffer(self): return False
+	def remove_buffer(self, mandatory): return False

@@ -13,3 +13,11 @@ def remove_buffer():
 
 def no_user_exist():
 	wx.MessageDialog(None, _(u"This user does not exist"), _(u"Error"), style=wx.ICON_ERROR).ShowModal()
+
+def show_error_code(code):
+	title = ""
+	message = ""
+	if code == 201:
+		title = _(u"Restricted access")
+		message = _(u"Access to user's audio is denied by the owner. Error code {0}").format(code,)
+	return wx.MessageDialog(None, message, title, style=wx.ICON_ERROR).ShowModal()
