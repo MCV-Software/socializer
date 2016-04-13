@@ -69,6 +69,9 @@ class Controller(object):
 		r_audio = buffers.audioBuffer(parent=self.window.tb, name="recommended_audio", composefunc="compose_audio", session=self.session, endpoint="getRecommendations", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"])
 		self.buffers.append(r_audio)
 		self.window.insert_buffer(r_audio.tab, _(u"Recommendations"), self.window.search("audios"))
+		timelines = buffers.empty(parent=self.window.tb, name="timelines")
+		self.buffers.append(timelines)
+		self.window.add_buffer(timelines.tab, _(u"Timelines"))
 
 	def connect_events(self):
 		pub.subscribe(self.in_post, "posted")
@@ -214,5 +217,5 @@ class Controller(object):
 			if buffertype == "audio":
 				audio = buffers.audioBuffer(parent=self.window.tb, name="{0}_audio".format(user_id,), composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], user_id=user_id)
 				self.buffers.append(audio)
-				self.window.insert_buffer(audio.tab, _(u"{0}'s audios").format(user,), self.window.search("audios"))
 				call_threaded(audio.get_items)
+				self.window.insert_buffer(audio.tab, _(u"{0}'s audios").format(user,), self.window.search("timelines"))
