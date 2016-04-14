@@ -171,7 +171,7 @@ class Controller(object):
 	def update_status_bar(self, status):
 		self.window.change_status(status)
 
-	def remove_buffer(self, mandatory=False, *args, **kwargs):
+	def remove_buffer(self, event, mandatory=False, *args, **kwargs):
 		buffer = self.get_current_buffer()
 		buff = self.window.search(buffer.name)
 		answer = buffer.remove_buffer(mandatory)
@@ -215,9 +215,13 @@ class Controller(object):
 				commonMessages.no_user_exist()
 				return
 			if buffertype == "audio":
-				audio = buffers.audioBuffer(parent=self.window.tb, name="{0}_audio".format(user_id,), composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], user_id=user_id)
-				self.buffers.append(audio)
-				call_threaded(self.complete_buffer_creation, buffer=audio, name_=_(u"{0}'s audios").format(user,), position=self.window.search("timelines"))
+				buffer = buffers.audioBuffer(parent=self.window.tb, name="{0}_audio".format(user_id,), composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], user_id=user_id)
+				name_ = _(u"{0}'s audios").format(user,)
+			elif buffertype == "wall":
+				buffer = buffers.feedBuffer(parent=self.window.tb, name="{0}_feed".format(user_id,), composefunc="compose_status", session=self.session, endpoint="get", parent_endpoint="wall", extended=1, count=self.session.settings["buffers"]["count_for_wall_buffers"],  owner_id=user_id)
+				name_ = _(u"{0}'s wall posts").format(user,)
+			self.buffers.append(buffer)
+			call_threaded(self.complete_buffer_creation, buffer=buffer, name_=name_, position=self.window.search("timelines"))
 
 	def complete_buffer_creation(self, buffer, name_, position):
 		answer = buffer.get_items()

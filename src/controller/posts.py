@@ -59,9 +59,13 @@ class postController(object):
 		if self.post.has_key("source_id"):
 			self.user_identifier = "source_id"
 			self.post_identifier = "post_id"
-#			print self.post["type"]
 		else:
-			self.user_identifier = "from_id"
+			# In wall's posts, if someone has posted in user's wall, owner_id should be used instead from_id
+			# This will help for retrieving comments, do likes, etc.
+			if not self.post.has_key("owner_id"):
+				self.user_identifier = "from_id"
+			else:
+				self.user_identifier = "owner_id"
 			self.post_identifier = "id"
 		self.dialog = postDialogs.post()
 #		self.dialog.comments.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.show_comment)
@@ -97,7 +101,10 @@ class postController(object):
 		if self.post.has_key("copy_history"):
 			title = _(u"repost from {0}").format(from_,)
 		else:
-			title = _(u"Post from {0}").format(from_,)
+			if self.post.has_key("from_id") and self.post.has_key("owner_id"):
+				title = _(u"Post from {0} in the {1}'s wall").format(self.session.get_user_name(self.post["from_id"]), self.session.get_user_name(self.post["owner_id"]))
+			else:
+				title = _(u"Post from {0}").format(from_,)
 		self.dialog.set_title(title)
 		message = u""
 		message = get_message(self.post)

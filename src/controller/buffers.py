@@ -179,6 +179,21 @@ class feedBuffer(baseBuffer):
 				[self.insert(i) for i in self.session.db[self.name]["items"][:num]]
 		return retrieved
 
+	def remove_buffer(self, mandatory=False):
+		if "me_feed" == self.name:
+			output.speak(_(u"This buffer can't be deleted"))
+			return False
+		else:
+			if mandatory == False:
+				dlg = commonMessages.remove_buffer()
+			else:
+				dlg = widgetUtils.YES
+			if dlg == widgetUtils.YES:
+				self.session.db.pop(self.name)
+				return True
+			else:
+				return False
+
 class audioBuffer(feedBuffer):
 	def create_tab(self, parent):
 		self.tab = home.audioTab(parent)
@@ -206,7 +221,7 @@ class audioBuffer(feedBuffer):
 		audios = [i for i in self.session.db[self.name]["items"][selected:]]
 		pub.sendMessage("play-audios", audios=audios)
 
-	def remove_buffer(self, mandatory):
+	def remove_buffer(self, mandatory=False):
 		if "me_audio" == self.name or "popular_audio" == self.name or "recommended_audio" == self.name:
 			output.speak(_(u"This buffer can't be deleted"))
 			return False
@@ -236,4 +251,4 @@ class empty(object):
 	def get_more_items(self, *args, **kwargs):
 		output.speak(_(u"This buffer doesn't support getting more items."))
 
-	def remove_buffer(self, mandatory): return False
+	def remove_buffer(self, mandatory=False): return False
