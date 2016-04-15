@@ -154,7 +154,7 @@ class baseBuffer(object):
 	def get_users(self):
 		post = self.session.db[self.name]["items"][self.tab.list.get_selected()]
 		if post.has_key("type") == False:
-			return post["from_id"]
+			return [post["from_id"]]
 		else:
 			return [post["source_id"]]
 

@@ -194,7 +194,8 @@ class Controller(object):
 
 	def new_timeline(self, *args, **kwargs):
 		b = self.get_current_buffer()
-		if not hasattr(b, "get_users"): return
+		if not hasattr(b, "get_users"):
+			b = self.search("home_timeline")
 		ids = b.get_users()
 		d = []
 		for i in ids:
