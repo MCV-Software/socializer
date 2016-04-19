@@ -196,14 +196,14 @@ class Controller(object):
 		b = self.get_current_buffer()
 		if not hasattr(b, "get_users"):
 			b = self.search("home_timeline")
-		ids = b.get_users()
+#		ids = b.get_users()
 		d = []
-		for i in ids:
-			d.append((i, self.session.get_user_name(i)))
+#		for i in ids:
+#			d.append((i, self.session.get_user_name(i)))
 		for i in self.session.db["users"]:
 			d.append((i, self.session.get_user_name(i)))
 		for i in self.session.db["groups"]:
-			d.append((i, self.session.get_user_name(i)))
+			d.append((-i, self.session.get_user_name(-i)))
 		a = timeline.timelineDialog([i[1] for i in d])
 		if a.get_response() == widgetUtils.OK:
 			user = a.get_user()
