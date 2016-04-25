@@ -15,6 +15,8 @@ class attachDialog(widgetUtils.BaseDialog):
 		sizer.Add(box, 0, wx.ALL, 5)
 		static = wx.StaticBox(panel, label=_(u"Add attachments"))
 		self.photo = wx.Button(panel, wx.NewId(), _(u"&Photo"))
+		self.remove = wx.Button(panel, wx.NewId(), _(u"Remove attachment"))
+		self.remove.Enable(False)
 		btnsizer = wx.StaticBoxSizer(static, wx.HORIZONTAL)
 		btnsizer.Add(self.photo, 0, wx.ALL, 5)
 		sizer.Add(btnsizer, 0, wx.ALL, 5)
