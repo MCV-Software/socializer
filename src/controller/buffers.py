@@ -6,6 +6,7 @@ import utils
 import posts
 import player
 import output
+import logging
 from wxUI.tabs import home
 from pubsub import pub
 from sessionmanager import session
@@ -13,6 +14,8 @@ from mysc.thread_utils import call_threaded
 from wxUI import commonMessages
 from vk import upload
 from vk.exceptions import VkAPIMethodError
+
+log = logging.getLogger("controller.buffers")
 
 class baseBuffer(object):
 	""" a basic representation of a buffer. Other buffers should be derived from this class"""

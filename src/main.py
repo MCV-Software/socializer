@@ -9,6 +9,7 @@ import widgetUtils
 import paths
 import config
 import output
+import logger
 import logging
 import keys
 import application
@@ -24,10 +25,12 @@ def setup():
 	log.debug("config path  is %s" % (paths.config_path(),))
 	output.setup()
 	languageHandler.setLanguage(config.app["app-settings"]["language"])
+	log.debug("Language set to %s" % (languageHandler.getLanguage()))
 	keys.setup()
 	from controller import mainController
 	from sessionmanager import sessionManager
 	app = widgetUtils.mainLoopObject()
+	log.debug("Created Application mainloop object")
 	sm = sessionManager.sessionManagerController()
 	del sm
 	r = mainController.Controller()

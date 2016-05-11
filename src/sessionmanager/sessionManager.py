@@ -17,9 +17,11 @@ class sessionManagerController(object):
 		log.debug("Setting up the session manager.")
 		self.fill_list()
 		if not hasattr(self, "session"):
+			log.debug("the session list is empty, creating a new one...")
 			self.manage_new_account()
 
 	def fill_list(self):
+		log.debug("Filling the session list...")
 		for i in os.listdir(paths.config_path()):
 			if os.path.isdir(paths.config_path(i)):
 				log.debug("Adding session %s" % (i,))
@@ -47,6 +49,7 @@ class sessionManagerController(object):
 			sys.exit()
 
 	def get_authorisation(self, c):
+		log.debug("Starting the authorisation process...")
 		dl = view.newSessionDialog()
 		if dl.ShowModal() == widgetUtils.OK:
 			c.settings["vk"]["user"] = dl.get_email()

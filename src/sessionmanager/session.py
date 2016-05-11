@@ -7,34 +7,34 @@ import vkSessionHandler
 import logging
 import utils
 from config_utils import Configuration, ConfigurationResetException
-log = logging.getLogger("vk.session")
+log = logging.getLogger("session")
 
 sessions = {}
 
 # Saves possible set of identifier keys for VK'S data types
 # see https://vk.com/dev/datatypes for more information.
-# I've added the Date identifier (this is a field in unix time format), for special objects (like friendships indicators) because these objects doesn't have an own identifier.
-identifiers = ["date", "aid", "gid", "uid", "pid", "id", "post_id", "nid", "date"]
+# I've added the Date identifier (this is a field in unix time format), for special objects (like friendship indicators) because these objects doesn't have an own identifier.
+identifiers = ["aid", "gid", "uid", "pid", "id", "post_id", "nid", "date"]
 
 def find_item(list, item):
 	""" Finds an item in a list  by taking an identifier"""
 	# determines the kind of identifier that we are using
 	global identifiers
-	identifier = "date"
-#	for i in identifiers:
-#		if item.has_key(i):
-#			identifier =   i
-#			break
+	identifier = None
+	for i in identifiers:
+		if item.has_key(i):
+			identifier =   i
+			break
 	if identifier == None:
 		# if there are objects that can't be processed by lack of identifier, let's print  keys for finding one.
-		print item.keys()
+		log.exception("Can't find an identifier for the following object: %r" % (item.keys(),))
 	for i in list:
 		if i.has_key(identifier) and i[identifier] == item[identifier]:
 			return True
 	return False
 
 def add_attachment(attachment):
-	""" Adds information about the attachment files in posts. It only adds the text, I mean, no attachment file is added here.
+	""" Adds information about attachment files in posts. It only adds the text, I mean, no attachment file is added here.
 	This will produce a result like 'Title of a web page: http://url.xxx', etc."""
 	msg = u""
 	if attachment["type"] == "link":
@@ -141,7 +141,9 @@ class vkSession(object):
 			self.db[name]["items"] = []
 			first_addition = True
 		for i in data:
-			if i.has_key("type") and (i["type"] == "wall_photo" or i["type"] == "photo_tag"): continue
+			if i.has_key("type") and (i["type"] == "wall_photo" or i["type"] == "photo_tag"):
+				log.debug("Skipping unsupported item... %r" % (i,))
+				continue
 			if find_item(self.db[name]["items"], i) == False:
 #			if i not in self.db[name]["items"]:
 				if first_addition == True or show_nextpage == True:
@@ -151,7 +153,7 @@ class vkSession(object):
 					if self.settings["general"]["reverse_timelines"] == False: self.db[name]["items"].insert(0, i)
 					else: self.db[name]["items"].append(i)
 				num = num+1
-		print len(self.db[name]["items"])
+		log.debug("There are %d items in the %s buffer" % (len(self.db[name]["items"]), name))
 		return num
 
 	def __init__(self, session_id):
@@ -200,12 +202,15 @@ class vkSession(object):
 
 	def post_wall_status(self, message, *args, **kwargs):
 		""" Sends a post to an user, group or community wall."""
+		log.debug("Making a post to the user's wall with the following params: %r" % (kwargs,))
 		response = self.vk.client.wall.post(message=message, *args, **kwargs)
 
 	def get_newsfeed(self, name="newsfeed", show_nextpage=False, endpoint="", *args, **kwargs):
+		log.debug("Updating news feed...")
 		if show_nextpage == True and self.db[name].has_key("cursor"):
+			log.debug("user has requested previous items")
 			kwargs["start_from"] = self.db[name]["cursor"]
-			print kwargs
+			log.debug("Params for sending to vk: %r" % (kwargs,))
 		data = getattr(self.vk.client.newsfeed, "get")(*args, **kwargs)
 		if data != None:
 			if show_nextpage == False:
@@ -213,7 +218,7 @@ class vkSession(object):
 #			else:
 #				print data.keys(), len(data["items"]), data["next_from"]
 			num = self.order_buffer(name, data["items"], show_nextpage)
-			print data.keys()
+			log.debug("Keys of the returned data for debug purposes: %r" % (data.keys(),))
 			if data.has_key("next_from"):
 				self.db[name]["cursor"] = data["next_from"]
 			return num
@@ -224,6 +229,7 @@ class vkSession(object):
 			p = kwargs["parent_endpoint"]
 			kwargs.pop("parent_endpoint")
 		p = getattr(self.vk.client, p)
+		log.debug("Calling endpoint %s with params %r" % (p, kwargs,))
 		data = getattr(p, endpoint)(*args, **kwargs)
 		if data != None:
 			if type(data) == dict:
@@ -247,6 +253,7 @@ class vkSession(object):
 				return "no specified community"
 
 	def get_users(self, user_ids=None, group_ids=None):
+		log.debug("Getting user information from the VK servers")
 		if user_ids != None:
 			u = self.vk.client.users.get(user_ids=user_ids, fields="uid, first_name, last_name")
 			for i in u:
@@ -257,12 +264,14 @@ class vkSession(object):
 				self.db["groups"][i["id"]] = i["name"]
 
 	def process_usernames(self, data):
+		log.debug("Adding usernames to the local database...")
 		for i in data["profiles"]:
 			self.db["users"][i["id"]] = u"{0} {1}".format(i["first_name"], i["last_name"])
 		for i in data["groups"]:
 			self.db["groups"][i["id"]] = i["name"]
 
 	def get_my_data(self):
+		log.debug("Getting user identifier...")
 		user = self.vk.client.users.get(fields="uid, first_name, last_name")
 		self.user_id = user[0]["id"]
 		self.db["users"][self.user_id] = u"{0} {1}".format(user[0]["first_name"], user[0]["last_name"])
