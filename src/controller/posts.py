@@ -8,12 +8,15 @@ import output
 import wx
 import webbrowser
 import utils
+import logging
 from sessionmanager import session # We'll use some functions from there
 from pubsub import pub
 from wxUI.dialogs import postDialogs, urlList
 from extra import SpellChecker, translator
 from mysc.thread_utils import call_threaded
 from wxUI import menus
+
+log = logging.getLogger("controller.post")
 
 def get_user(id, profiles):
 	""" Returns an user name and last name  based in the id receibed."""
@@ -121,6 +124,9 @@ class postController(object):
 		attachments = []
 		if post.has_key("attachments"):
 			for i in post["attachments"]:
+				# We don't need the photos_list attachment, so skip it.
+				if i["type"] == "photos_list":
+					continue
 				attachments.append(add_attachment(i))
 				self.attachments.append(i)
 		if len(self.attachments) > 0:
@@ -302,6 +308,8 @@ class postController(object):
 				webbrowser.open_new_tab(url)
 			else:
 				print attachment["photo"].keys()
+		else:
+			log.debug("Unhandled attachment: %r" % (attachment,))
 
 class comment(object):
 	def __init__(self, session, comment_object):

@@ -9,6 +9,7 @@ import configuration
 import player
 import posts
 import webbrowser
+import logging
 from pubsub import pub
 from mysc.repeating_timer import RepeatingTimer
 from mysc.thread_utils import call_threaded
@@ -17,6 +18,8 @@ from wxUI import (mainWindow, commonMessages)
 from wxUI.dialogs import search as searchDialogs
 from wxUI.dialogs import timeline
 from update import updater
+
+log = logging.getLogger("controller.main")
 
 class Controller(object):
 
@@ -35,9 +38,11 @@ class Controller(object):
 
 	def __init__(self):
 		super(Controller, self).__init__()
+		log.debug("Starting main controller...")
 		self.buffers = []
 		player.setup()
 		self.window = mainWindow.mainWindow()
+		log.debug("Main window created")
 		self.window.change_status(_(u"Ready"))
 		self.session = session.sessions[session.sessions.keys()[0]]
 		self.create_controls()
@@ -46,6 +51,7 @@ class Controller(object):
 		call_threaded(updater.do_update)
 
 	def create_controls(self):
+		log.debug("Creating controls for the window...")
 		posts_ = buffers.empty(parent=self.window.tb, name="posts")
 		self.buffers.append(posts_)
 		self.window.add_buffer(posts_.tab, _(u"Posts"))
@@ -74,6 +80,7 @@ class Controller(object):
 		self.window.add_buffer(timelines.tab, _(u"Timelines"))
 
 	def connect_events(self):
+		log.debug("Connecting events to responses...")
 		pub.subscribe(self.in_post, "posted")
 		pub.subscribe(self.download, "download-file")
 		pub.subscribe(self.play_audio, "play-audio")
@@ -92,6 +99,7 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.new_timeline, menuitem=self.window.timeline)
 
 	def disconnect_events(self):
+		log.debug("Disconnecting some events...")
 		pub.unsubscribe(self.in_post, "posted")
 		pub.unsubscribe(self.download, "download-file")
 		pub.unsubscribe(self.play_audio, "play-audio")
@@ -116,12 +124,14 @@ class Controller(object):
 		buffer.get_items()
 
 	def update_all_buffers(self):
+		log.debug("Updating buffers...")
 		for i in self.buffers:
 			if hasattr(i, "get_items"):
 				i.get_items()
-				print "executed for %s" % (i.name)
+				log.debug(u"Updated %s" % (i.name))
 
 	def download(self, url, filename):
+		log.debug(u"downloading %s URL to %s filename" % (url, filename,))
 		call_threaded(utils.download_file, url, filename, self.window)
 
 	def play_audio(self, audio_object):
@@ -137,6 +147,7 @@ class Controller(object):
 		p.dialog.Destroy()
 
 	def exit(self, *args, **kwargs):
+		log.debug("Receibed an exit signal. closing...")
 		self.disconnect_events()
 		self.window.Destroy()
 		wx.GetApp().ExitMainLoop()
