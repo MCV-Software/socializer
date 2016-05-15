@@ -111,7 +111,6 @@ class postController(object):
 		self.dialog.set_title(title)
 		message = u""
 		message = get_message(self.post)
-		self.get_attachments(self.post)
 		if self.post.has_key("copy_history"):
 			nm = u"\n"
 			for i in self.post["copy_history"]:
@@ -119,6 +118,7 @@ class postController(object):
 				self.get_attachments(i)
 			message += nm
 		self.dialog.set_post(message)
+		self.get_attachments(self.post)
 
 	def get_attachments(self, post):
 		attachments = []
@@ -127,6 +127,17 @@ class postController(object):
 				# We don't need the photos_list attachment, so skip it.
 				if i["type"] == "photos_list":
 					continue
+				attachments.append(add_attachment(i))
+				self.attachments.append(i)
+		# Links in text are not treated like normal attachments, so we'll have to catch and add those to the list without title
+		# We can't get a title because title is provided by the VK API and it will not work for links as simple text.
+		urls = utils.find_urls_in_text(self.dialog.get("post_view"))
+		print urls
+		if len(urls) > 0:
+			links = []
+			for i in urls:
+				links.append({"link": {"title": _(U"Untitled link"), "url": i}, "type": "link"})
+			for i in links:
 				attachments.append(add_attachment(i))
 				self.attachments.append(i)
 		if len(self.attachments) > 0:

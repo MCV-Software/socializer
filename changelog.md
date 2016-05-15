@@ -7,6 +7,9 @@
 * Now It's possible to add photos to the wall, by uploading files to the VK servers. Check the attachments button in the new post dialogue for this. Basically it is possible to add some photos and when the post is sent, photos will start to be uploaded before. At the moment it is not possible to add descriptions to photos. Take in to account that photos will be uploaded when the send button is pressed and the post could take some time before being posted.
 * Added a new option to the menu bar: new timeline. It allows to create a special buffer for a selected user. This buffer could be an audio or wall buffer, when created, the buffer will be updated with items for the specified user or community.
 * Added an user selection control. In dialogues  where an user must be selected, there will be an edit box with a selected name. You need to start writing for changing this name, or just press the down arrow for looking in the users' database. You can start writing and then press the down arrow, so you will see the closest result  to the name you was writing. For example if you want to write manuel, you could write m, a, n, u, and press the down arrow, and you will see the full name in the edit box. Take in to account that you have to make sure that you write a valid user name in the box, otherwise you will see an error.
+* Posts from twitter are displayed in a better way (newline characters (\n) are handled properly instead being displayed).
+* In the play all function, everything should be cleaned before start the new playback.
+* Now links included in text of a comment are included as attachments (links are "untitled" because it isn't possible to retrieve information for every link without performance issues). This is especially useful when someone posts a link from Twitter.
 
 ## Changes for build 2016.04.5 (5/04/2016)
 
