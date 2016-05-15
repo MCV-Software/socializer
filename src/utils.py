@@ -3,7 +3,8 @@
 import os
 import requests
 import re
-
+import logging
+log = logging.getLogger("utils")
 url_re = re.compile("(?:\w+://|www\.)[^ ,.?!#%=+][^ ]*")
 bad_chars = '\'\\.,[](){}:;"'
 
@@ -56,4 +57,5 @@ def download_file(url, local_filename, window):
 def clean_text(text):
 	""" Replaces all HTML entities and put the plain text equivalent if it's possible."""
 	text = text.replace("<br>", "\n")
+	text = text.replace("\\n", "\n")
 	return text 

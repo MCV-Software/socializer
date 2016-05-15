@@ -6,7 +6,7 @@ import sys
 
 APP_LOG_FILE = 'debug.log'
 ERROR_LOG_FILE = "error.log"
-MESSAGE_FORMAT = "%(asctime)s %(name)s %(levelname)s: %(message)s"
+MESSAGE_FORMAT = u"%(asctime)s %(name)s %(levelname)s: %(message)s"
 DATE_FORMAT = u"%d/%m/%Y %H:%M:%S"
 
 formatter = logging.Formatter(MESSAGE_FORMAT.decode("utf-8"), datefmt=DATE_FORMAT)
