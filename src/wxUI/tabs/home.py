@@ -114,3 +114,28 @@ class empty(wx.Panel):
 		self.name = name
 		sizer = wx.BoxSizer(wx.VERTICAL)
 		self.SetSizer(sizer)
+
+class chatTab(wx.Panel):
+
+	def __init__(self, parent):
+		super(chatTab, self).__init__(parent=parent)
+		sizer = wx.BoxSizer(wx.VERTICAL)
+		sizer.Add(self.create_controls())
+		self.send = wx.Button(self, -1, _(u"Send"))
+		sizer.Add(self.send, 0, wx.ALL, 5)
+		self.SetSizer(sizer)
+
+	def create_controls(self):
+		lbl1 = wx.StaticText(self, wx.NewId(), _(u"History"))
+		self.list = widgetUtils.list(self, *[_(u"post")], style=wx.LC_REPORT)
+		self.list.set_windows_size(0, 190)
+#		self.list.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnKeyDown)
+		box = wx.BoxSizer(wx.HORIZONTAL)
+		box.Add(lbl1, 0, wx.ALL, 5)
+		box.Add(self.list.list, 0, wx.ALL, 5)
+		lbl2 = wx.StaticText(self, -1, _(u"Write a message"))
+		self.text = wx.TextCtrl(self, -1)
+		box.Add(lbl2, 0, wx.ALL, 20)
+		box.Add(self.text, 0, wx.ALL, 5)
+		return box
+

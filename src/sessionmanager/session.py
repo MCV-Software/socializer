@@ -101,6 +101,13 @@ def compose_new(status, session):
 		if status["type"] != "post": print status
 	return [user, message, created_at]
 
+def compose_message(message, session):
+	user = session.get_user_name(message["from_id"])
+	original_date = arrow.get(message["date"])
+	created_at = original_date.format(_(u"dddd, MMMM D, YYYY H:m:s"), locale=languageHandler.getLanguage())
+	body = message["body"]
+	return [u"{2}, {0} {1}".format(body, created_at, user)]
+
 def compose_status(status, session):
 	user = session.get_user_name(status["from_id"])
 	if status.has_key("copy_history"):
@@ -141,7 +148,7 @@ class vkSession(object):
 			self.db[name]["items"] = []
 			first_addition = True
 		for i in data:
-			if i.has_key("type") and (i["type"] == "wall_photo" or i["type"] == "photo_tag"):
+			if i.has_key("type") and (i["type"] == "wall_photo" or i["type"] == "photo_tag" or i["type"] == "photo"):
 				log.debug("Skipping unsupported item... %r" % (i,))
 				continue
 			if find_item(self.db[name]["items"], i) == False:
@@ -239,6 +246,14 @@ class vkSession(object):
 			else:
 				num = self.order_buffer(name, data, show_nextpage)
 			return num
+
+	def get_messages(self, name="", *args, **kwargs):
+		data = self.vk.client.messages.getHistory(*args, **kwargs)
+		if data != None:
+			print data
+			num = self.order_buffer(name, data["items"], False)
+			return num
+
 
 	def get_user_name(self, user_id):
 		if user_id > 0:

@@ -255,3 +255,37 @@ class empty(object):
 		output.speak(_(u"This buffer doesn't support getting more items."))
 
 	def remove_buffer(self, mandatory=False): return False
+
+class chatBuffer(baseBuffer):
+
+	def create_tab(self, parent):
+		self.tab = home.chatTab(parent)
+
+	def connect_events(self):
+		widgetUtils.connect_event(self.tab.send, widgetUtils.BUTTON_PRESSED, self.send_chat_to_user)
+
+	def get_items(self, show_nextpage=False):
+		retrieved = True # Control variable for handling unauthorised/connection errors.
+		try:
+			num = getattr(self.session, "get_messages")(name=self.name, *self.args, **self.kwargs)
+		except VkAPIMethodError as err:
+			print(u"Error {0}: {1}".format(err.code, err.message))
+			retrieved = err.code
+			return retrieved
+		if show_nextpage  == False:
+			if self.tab.list.get_count() > 0 and num > 0:
+				print "inserting a value"
+				v = [i for i in self.session.db[self.name]["items"][:num]]
+				v.reverse()
+				[self.insert(i, True) for i in v]
+			else:
+				[self.insert(i) for i in self.session.db[self.name]["items"][:num]]
+		else:
+			if num > 0:
+				[self.insert(i, False) for i in self.session.db[self.name]["items"][:num]]
+		return retrieved
+
+	def send_chat_to_user(self, *args, **kwargs):
+		text = self.tab.text.GetValue()
+		if text == "": return
+		response = self.session.vk.client.messages.send(user_id=self.kwargs["user_id"], message=text)

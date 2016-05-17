@@ -10,6 +10,7 @@ import player
 import posts
 import webbrowser
 import logging
+import longpoolthread
 from pubsub import pub
 from mysc.repeating_timer import RepeatingTimer
 from mysc.thread_utils import call_threaded
@@ -75,6 +76,9 @@ class Controller(object):
 		r_audio = buffers.audioBuffer(parent=self.window.tb, name="recommended_audio", composefunc="compose_audio", session=self.session, endpoint="getRecommendations", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"])
 		self.buffers.append(r_audio)
 		self.window.insert_buffer(r_audio.tab, _(u"Recommendations"), self.window.search("audios"))
+		chats = buffers.empty(parent=self.window.tb, name="chats")
+		self.buffers.append(chats)
+		self.window.add_buffer(chats.tab, _(u"Chats"))
 		timelines = buffers.empty(parent=self.window.tb, name="timelines")
 		self.buffers.append(timelines)
 		self.window.add_buffer(timelines.tab, _(u"Timelines"))
@@ -97,6 +101,7 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.changelog, menuitem=self.window.changelog)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.configuration, menuitem=self.window.settings_dialog)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.new_timeline, menuitem=self.window.timeline)
+		pub.subscribe(self.get_chat, "order-sent-message")
 
 	def disconnect_events(self):
 		log.debug("Disconnecting some events...")
@@ -116,6 +121,8 @@ class Controller(object):
 				self.window.change_status(_(u"Loading items for {0}").format(i.name,))
 				i.get_items()
 		self.window.change_status(_(u"Ready"))
+		self.longpool = longpoolthread.worker(self.session)
+		self.longpool.start()
 
 	def in_post(self, buffer):
 		buffer = self.search(buffer)
@@ -243,3 +250,63 @@ class Controller(object):
 			commonMessages.show_error_code(answer)
 			return
 		self.window.insert_buffer(buffer.tab, name_, position)
+
+	def new_chat(self, *args, **kwargs):
+		b = self.get_current_buffer()
+		if not hasattr(b, "get_users"):
+			b = self.search("home_timeline")
+		d = []
+		for i in self.session.db["users"]:
+			d.append((i, self.session.get_user_name(i)))
+		for i in self.session.db["groups"]:
+			d.append((-i, self.session.get_user_name(-i)))
+		a = timeline.timelineDialog([i[1] for i in d])
+		if a.get_response() == widgetUtils.OK:
+			user = a.get_user()
+			buffertype = a.get_buffer_type()
+			user_id = ""
+			for i in d:
+				if i[1] == user:
+					user_id = i[0]
+			if user_id == None:
+				commonMessages.no_user_exist()
+				return
+			buffer = buffers.chatBuffer(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="compose_message", session=self.session, count=200,  user_id=user_id, rev=1)
+			self.buffers.append(buffer)
+			self.window.insert_buffer(buffer.tab, _(u"Chat with {0}").format(self.session.get_user_name(user_id,)), self.window.search("chats"))
+			buffer.get_items()
+
+	def search_chat_buffer(self, user_id):
+		for i in self.buffers:
+			if "_messages" in i.name:
+				if i.kwargs.has_key("user_id") and i.kwargs["user_id"] == user_id: return i
+		return None
+
+	def chat_from_id(self, user_id):
+		buffer = buffers.chatBuffer(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="compose_message", session=self.session, count=200,  user_id=user_id, rev=1)
+		self.buffers.append(buffer)
+		self.window.insert_buffer(buffer.tab, _(u"Chat with {0}").format(self.session.get_user_name(user_id,)), self.window.search("chats"))
+		buffer.get_items()
+		return True
+
+	def get_chat(self, obj=None):
+		""" Searches or creates a chat buffer with the id of the user that is sending or receiving a message.
+			obj vk.longpool.event: an event wich defines some data from the vk's longpool server."""
+		# Set user_id to the id of the friend wich is receiving or sending the message.
+		obj.user_id = obj.from_id
+		buffer = self.search_chat_buffer(obj.user_id)
+		if buffer == None:
+			wx.CallAfter(self.chat_from_id, obj.user_id)
+			return
+		# If the chat already exists, let's create a dictionary wich will contains data of the received message.
+		message = {"id": obj.message_id, "user_id": obj.user_id, "date": obj.timestamp, "body": obj.text, "attachments": obj.attachments}
+		# If outbox it's true, it means that message["from_id"] should be the current user. If not, the obj.user_id should be taken.
+		if obj.message_flags.has_key("outbox") == True:
+			message["from_id"] = self.session.user_id
+		else:
+			message["from_id"] = obj.from_id
+		data = [message]
+		# Let's add this to the buffer.
+		# ToDo: Clean this code and test how is the database working with this set to True.
+		num = self.session.order_buffer(buffer.name, data, True)
+		buffer.insert(self.session.db[buffer.name]["items"][-1], False)
