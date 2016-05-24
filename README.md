@@ -33,11 +33,13 @@ I have started this effort as an open source  project on Feb 13, 2016. Pull requ
 
 Just open the main.py file with the python interpreter. This file is located in the src directory. If you haven't configured your VK account, you will see a dialogue, just press yes and a new dialogue will  prompt for an user email or phone number and the password for your account.  Take into account that the provided information will be saved in a config file as plain text. This application will need your information  for renegotiating the access token when it expires.
 
+Note: Every time you grant access to socializer, probably You will receive an email from VK by telling you that someone has accessed to your account. It means that a new token has been negotiated between VK and socializer by using an authomatic process, you should ignore  those advices, unless you receive an email when you are not logged in VK with socializer or other application. You can see your authorised  applications in the configuration section in the VK website. New tokens are renegotiated every 24 hours.
+
 ## Main interface
 
 If you have used [TWBlue](https://github.com/manuelcortez/twblue) before, the socializer's interface is quite similar. Once you have authorised your account, you will see a window with the following elements:
 
-* A tree view at the left of the window, where you will see the list of buffers (at the moment, there are only five  of these: news feed, my wall, my audios, populars and recommended). These buffers are divided in two categories, posts and music. You could expand each category for seeing the child buffers.
+* A tree view at the left of the window, where you will see the list of buffers (at the moment, there are only five  of these: news feed, my wall, my audios, populars and recommended). These buffers are divided in two categories, posts and music. You could expand each category for seeing the child buffers. There are some additional buffers, timelines and chats, wich will be filled with timelines for your friends or with chats, when you  start or receive a chat session.
 * A button for making a post to your wall.
 * In audio buffers, Two buttons: Play and play all.
 * A list where you will see the posts for the currently selected buffer.
