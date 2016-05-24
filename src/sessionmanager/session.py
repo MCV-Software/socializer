@@ -6,6 +6,7 @@ import paths
 import vkSessionHandler
 import logging
 import utils
+import sound
 from config_utils import Configuration, ConfigurationResetException
 log = logging.getLogger("session")
 
@@ -184,6 +185,7 @@ class vkSession(object):
 #  try:
 		log.debug("Creating config file %s" % (file_,))
 		self.settings = Configuration(paths.config_path(file_), paths.app_path("session.defaults"))
+		self.soundplayer = sound.soundSystem(self.settings["sound"])
 #  except:
 #   log.exception("The session configuration has failed.")
 

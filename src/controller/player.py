@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import output
 import sound_lib
-from sound_lib.output import Output
 from sound_lib.stream import URLStream
 from mysc.repeating_timer import RepeatingTimer
 from pubsub import pub
@@ -16,7 +15,6 @@ def setup():
 class audioPlayer(object):
 
 	def __init__(self):
-		Output()
 		self.is_playing = False
 		self.stream = None
 		self.vol = 100
