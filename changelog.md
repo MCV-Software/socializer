@@ -10,6 +10,8 @@
 * Posts from twitter are displayed in a better way (newline characters (\n) are handled properly instead being displayed).
 * In the play all function, everything should be cleaned before start the new playback.
 * Now links included in text of a comment are included as attachments (links are "untitled" because it isn't possible to retrieve information for every link without performance issues). This is especially useful when someone posts a link from Twitter.
+* Chat support: There is a new kind of buffer, named chat buffer, wich allows you to have a conversation with someone of your friends. If you receive a message while socializer is opened it will create a chat buffer under chats with the last 200 messages between you and your friend. You can send a message by writing in the edit box and pressing send or enter. 
+* Added your friendlist as a buffer. You can create chats from there by using the send message button.
 
 ## Changes for build 2016.04.5 (5/04/2016)
 
