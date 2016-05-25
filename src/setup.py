@@ -57,16 +57,16 @@ def get_documentation ():
   depth -= 1
  return answer
 
-def get_sounds(): return []
-# answer = []
-# depth = 6
-# for root, dirs, files in os.walk('sounds'):
-#  if depth == 0:
-#   break
-#  new = (root, glob(os.path.join(root, "*.ogg")))
-#  answer.append(new)
-#  depth -= 1
-# return answer
+def get_sounds():
+ answer = []
+ depth = 6
+ for root, dirs, files in os.walk('sounds'):
+  if depth == 0:
+   break
+  new = (root, glob(os.path.join(root, "*.ogg")))
+  answer.append(new)
+  depth -= 1
+ return answer
 
 def get_locales():
  answer = []
