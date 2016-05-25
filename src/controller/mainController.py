@@ -287,6 +287,7 @@ class Controller(object):
 		buffer = self.search_chat_buffer(obj.user_id)
 		if buffer == None:
 			wx.CallAfter(self.chat_from_id, obj.user_id)
+			self.session.soundplayer.play("chat.ogg")
 			return
 		# If the chat already exists, let's create a dictionary wich will contains data of the received message.
 		message = {"id": obj.message_id, "user_id": obj.user_id, "date": obj.timestamp, "body": obj.text, "attachments": obj.attachments}
@@ -300,3 +301,4 @@ class Controller(object):
 		# ToDo: Clean this code and test how is the database working with this set to True.
 		num = self.session.order_buffer(buffer.name, data, True)
 		buffer.insert(self.session.db[buffer.name]["items"][-1], False)
+		self.session.soundplayer.play("chat.ogg")
