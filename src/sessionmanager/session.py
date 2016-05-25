@@ -17,6 +17,15 @@ sessions = {}
 # I've added the Date identifier (this is a field in unix time format), for special objects (like friendship indicators) because these objects doesn't have an own identifier.
 identifiers = ["aid", "gid", "uid", "pid", "id", "post_id", "nid", "date"]
 
+platforms = {1: _(u"Movile application"),
+2: _(u"iPhone"),
+3: _(u"iPad"),
+4: _(u"Android"),
+5: _(u"Windows phone"),
+6: _(u"Windows 8"),
+7: _(u"Web or desktop app")
+}
+
 def find_item(list, item):
 	""" Finds an item in a list  by taking an identifier"""
 	# determines the kind of identifier that we are using
@@ -60,6 +69,12 @@ def add_text(status):
 	else:
 		message = utils.clean_text(txt[:139])
 	return message
+
+def compose_person(status, session):
+	global platforms
+	original_date = arrow.get(status["last_seen"]["time"])
+	last_seen = _(u"{0} from {1}").format(original_date.humanize(locale=languageHandler.getLanguage()), platforms[status["last_seen"]["platform"]])
+	return [u"{0} {1}".format(status["first_name"], status["last_name"]), last_seen]
 
 def compose_new(status, session):
 	""" This method is used to compose an item of the news feed."""
@@ -243,6 +258,9 @@ class vkSession(object):
 		if data != None:
 			if type(data) == dict:
 				num = self.order_buffer(name, data["items"], show_nextpage)
+				if data["items"][0].has_key("first_name"):
+					for i in data["items"]:
+						self.db["users"][i["id"]] = u"{0} {1}".format(i["first_name"], i["last_name"])
 				if data.has_key("profiles") and data.has_key("groups"):
 					self.process_usernames(data)
 			else:
@@ -252,10 +270,8 @@ class vkSession(object):
 	def get_messages(self, name="", *args, **kwargs):
 		data = self.vk.client.messages.getHistory(*args, **kwargs)
 		if data != None:
-			print data
 			num = self.order_buffer(name, data["items"], False)
 			return num
-
 
 	def get_user_name(self, user_id):
 		if user_id > 0:

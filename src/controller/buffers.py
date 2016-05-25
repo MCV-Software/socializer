@@ -289,3 +289,16 @@ class chatBuffer(baseBuffer):
 		text = self.tab.text.GetValue()
 		if text == "": return
 		response = self.session.vk.client.messages.send(user_id=self.kwargs["user_id"], message=text)
+
+class peopleBuffer(feedBuffer):
+
+	def create_tab(self, parent):
+		self.tab = home.peopleTab(parent)
+
+	def connect_events(self):
+		super(peopleBuffer, self).connect_events()
+		widgetUtils.connect_event(self.tab.new_chat, widgetUtils.BUTTON_PRESSED, self.new_chat)
+
+	def new_chat(self, *args, **kwargs):
+		user_id = self.session.db[self.name]["items"][self.tab.list.get_selected()]["id"]
+		pub.sendMessage("new-chat", user_id=user_id)

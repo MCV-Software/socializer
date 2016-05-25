@@ -139,3 +139,19 @@ class chatTab(wx.Panel):
 		box.Add(self.text, 0, wx.ALL, 5)
 		return box
 
+class peopleTab(homeTab):
+
+	def create_list(self):
+		self.lbl = wx.StaticText(self, wx.NewId(), _(u"Friends"))
+		self.list = widgetUtils.list(self, *[_(u"Name"), _(u"Last seen")], style=wx.LC_REPORT)
+		self.list.set_windows_size(0, 190)
+		self.list.set_windows_size(1, 100)
+		self.list.set_size()
+		self.list.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnKeyDown)
+
+	def create_post_buttons(self):
+		self.post = wx.Button(self, -1, _(u"&Post"))
+		self.new_chat = wx.Button(self, wx.NewId(), _(u"Send message"))
+		self.postBox = wx.BoxSizer(wx.HORIZONTAL)
+		self.postBox.Add(self.post, 0, wx.ALL, 5)
+		self.postBox.Add(self.new_chat, 0, wx.ALL, 5)

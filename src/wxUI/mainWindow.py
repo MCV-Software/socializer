@@ -50,7 +50,7 @@ class mainWindow(wx.Frame):
 		self.tb.AddPage(buffer, name)
 
 	def insert_buffer(self, buffer, name, pos):
-		self.tb.InsertSubPage(pos, buffer, name)
+		return self.tb.InsertSubPage(pos, buffer, name)
 
 	def search(self, name_):
 		for i in xrange(0, self.tb.GetPageCount()):

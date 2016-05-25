@@ -76,6 +76,12 @@ class Controller(object):
 		r_audio = buffers.audioBuffer(parent=self.window.tb, name="recommended_audio", composefunc="compose_audio", session=self.session, endpoint="getRecommendations", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"])
 		self.buffers.append(r_audio)
 		self.window.insert_buffer(r_audio.tab, _(u"Recommendations"), self.window.search("audios"))
+		people = buffers.empty(parent=self.window.tb, name="people")
+		self.buffers.append(people)
+		self.window.add_buffer(people.tab, _(u"People"))
+		friends = buffers.peopleBuffer(parent=self.window.tb, name="friends_", composefunc="compose_person", session=self.session, endpoint="get", parent_endpoint="friends", count=5000, fields="uid, first_name, last_name, last_seen")
+		self.buffers.append(friends)
+		self.window.insert_buffer(friends.tab, _(u"Friends"), self.window.search("people"))
 		chats = buffers.empty(parent=self.window.tb, name="chats")
 		self.buffers.append(chats)
 		self.window.add_buffer(chats.tab, _(u"Chats"))
@@ -91,6 +97,7 @@ class Controller(object):
 		pub.subscribe(self.play_audios, "play-audios")
 		pub.subscribe(self.view_post, "open-post")
 		pub.subscribe(self.update_status_bar, "update-status-bar")
+		pub.subscribe(self.chat_from_id, "new-chat")
 		widgetUtils.connect_event(self.window, widgetUtils.CLOSE_EVENT, self.exit)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.update_buffer, menuitem=self.window.update_buffer)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.check_for_updates, menuitem=self.window.check_for_updates)
@@ -251,31 +258,6 @@ class Controller(object):
 			return
 		self.window.insert_buffer(buffer.tab, name_, position)
 
-	def new_chat(self, *args, **kwargs):
-		b = self.get_current_buffer()
-		if not hasattr(b, "get_users"):
-			b = self.search("home_timeline")
-		d = []
-		for i in self.session.db["users"]:
-			d.append((i, self.session.get_user_name(i)))
-		for i in self.session.db["groups"]:
-			d.append((-i, self.session.get_user_name(-i)))
-		a = timeline.timelineDialog([i[1] for i in d])
-		if a.get_response() == widgetUtils.OK:
-			user = a.get_user()
-			buffertype = a.get_buffer_type()
-			user_id = ""
-			for i in d:
-				if i[1] == user:
-					user_id = i[0]
-			if user_id == None:
-				commonMessages.no_user_exist()
-				return
-			buffer = buffers.chatBuffer(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="compose_message", session=self.session, count=200,  user_id=user_id, rev=1)
-			self.buffers.append(buffer)
-			self.window.insert_buffer(buffer.tab, _(u"Chat with {0}").format(self.session.get_user_name(user_id,)), self.window.search("chats"))
-			buffer.get_items()
-
 	def search_chat_buffer(self, user_id):
 		for i in self.buffers:
 			if "_messages" in i.name:
@@ -283,10 +265,18 @@ class Controller(object):
 		return None
 
 	def chat_from_id(self, user_id):
+		b = self.search_chat_buffer(user_id)
+		if b != None:
+			pos = self.window.search(b.name)
+			self.window.change_buffer(pos)
+			return b.tab.text.SetFocus()
 		buffer = buffers.chatBuffer(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="compose_message", session=self.session, count=200,  user_id=user_id, rev=1)
 		self.buffers.append(buffer)
 		self.window.insert_buffer(buffer.tab, _(u"Chat with {0}").format(self.session.get_user_name(user_id,)), self.window.search("chats"))
-		buffer.get_items()
+		pos = self.window.search(buffer.name)
+		self.window.change_buffer(pos)
+		wx.CallAfter(buffer.get_items)
+		buffer.tab.text.SetFocus()
 		return True
 
 	def get_chat(self, obj=None):
