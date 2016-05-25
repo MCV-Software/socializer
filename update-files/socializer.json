@@ -1,4 +1,4 @@
 {"current_version": "0.13",
-"description": "Some bugfixes, included a changelog which can be accessed through the help menu.",
+"description": "Added chats. Timeline's creation. View friends. Some bugfixes.",
 "downloads":
 {"Windows32": "https://github.com/manuelcortez/socializer/blob/master/nightly/socializer-nightly-build.zip?raw=true"}}
