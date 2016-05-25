@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-04-05 05:42+Hora de verano central (México)\n"
+"POT-Creation-Date: 2016-05-25 12:26+Hora de verano central (México)\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,15 +15,19 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
-#: ../src\controller\buffers.py:64
+#: ../src\controller\attach.py:23 ../src\controller\posts.py:35
+msgid "Photo"
+msgstr ""
+
+#: ../src\controller\buffers.py:77
 msgid "Write your post"
 msgstr ""
 
-#: ../src\controller\buffers.py:167
+#: ../src\controller\buffers.py:187 ../src\controller\buffers.py:229
 msgid "This buffer can't be deleted"
 msgstr ""
 
-#: ../src\controller\buffers.py:179 ../src\controller\buffers.py:191
+#: ../src\controller\buffers.py:243 ../src\controller\buffers.py:255
 msgid "This buffer doesn't support getting more items."
 msgstr ""
 
@@ -31,170 +35,202 @@ msgstr ""
 msgid "Preferences"
 msgstr ""
 
-#: ../src\controller\mainController.py:40
-#: ../src\controller\mainController.py:100
-#: ../src\controller\mainController.py:105 ../src\utils.py:53
+#: ../src\controller\mainController.py:47
+#: ../src\controller\mainController.py:125
+#: ../src\controller\mainController.py:130 ../src\utils.py:54
 msgid "Ready"
 msgstr ""
 
-#: ../src\controller\mainController.py:50
+#: ../src\controller\mainController.py:58
 msgid "Posts"
 msgstr ""
 
-#: ../src\controller\mainController.py:53
+#: ../src\controller\mainController.py:61
 msgid "Home"
 msgstr ""
 
-#: ../src\controller\mainController.py:58
+#: ../src\controller\mainController.py:66
 msgid "My wall"
 msgstr ""
 
-#: ../src\controller\mainController.py:61
+#: ../src\controller\mainController.py:69
 msgid "Music"
 msgstr ""
 
-#: ../src\controller\mainController.py:64
+#: ../src\controller\mainController.py:72
 msgid "My audios"
 msgstr ""
 
-#: ../src\controller\mainController.py:67
+#: ../src\controller\mainController.py:75
 msgid "Populars"
 msgstr ""
 
-#: ../src\controller\mainController.py:70
+#: ../src\controller\mainController.py:78
 msgid "Recommendations"
 msgstr ""
 
-#: ../src\controller\mainController.py:98
+#: ../src\controller\mainController.py:81
+msgid "People"
+msgstr ""
+
+#: ../src\controller\mainController.py:84 ../src\wxUI\tabs\home.py:145
+msgid "Friends"
+msgstr ""
+
+#: ../src\controller\mainController.py:87
+msgid "Chats"
+msgstr ""
+
+#: ../src\controller\mainController.py:90
+msgid "Timelines"
+msgstr ""
+
+#: ../src\controller\mainController.py:123
 msgid "Logging in VK"
 msgstr ""
 
-#: ../src\controller\mainController.py:103
+#: ../src\controller\mainController.py:128
 msgid "Loading items for {0}"
 msgstr ""
 
-#: ../src\controller\mainController.py:164
+#: ../src\controller\mainController.py:194
 msgid "Search for {0}"
 msgstr ""
 
-#: ../src\controller\messages.py:21 ../src\wxUI\dialogs\message.py:20
-msgid "Friends of friends"
+#: ../src\controller\mainController.py:245
+msgid "{0}'s audios"
+msgstr ""
+
+#: ../src\controller\mainController.py:248
+msgid "{0}'s wall posts"
+msgstr ""
+
+#: ../src\controller\mainController.py:275
+msgid "Chat with {0}"
 msgstr ""
 
 #: ../src\controller\messages.py:23 ../src\wxUI\dialogs\message.py:20
+msgid "Friends of friends"
+msgstr ""
+
+#: ../src\controller\messages.py:25 ../src\wxUI\dialogs\message.py:20
 msgid "All users"
 msgstr ""
 
-#: ../src\controller\messages.py:36 ../src\controller\posts.py:232
+#: ../src\controller\messages.py:38 ../src\controller\posts.py:259
 msgid "Translated"
 msgstr ""
 
-#: ../src\controller\messages.py:59 ../src\controller\messages.py:67
-msgid "Discard image"
-msgstr ""
-
-#: ../src\controller\messages.py:62
-msgid "Discarded"
-msgstr ""
-
-#: ../src\controller\messages.py:63
-msgid "Upload a picture"
-msgstr ""
-
-#: ../src\controller\messages.py:72
+#: ../src\controller\messages.py:56
 msgid "New comment"
 msgstr ""
 
-#: ../src\controller\player.py:39
+#: ../src\controller\player.py:37
 msgid "Playing {0} by {1}"
 msgstr ""
 
-#: ../src\controller\posts.py:23
+#: ../src\controller\posts.py:26
 msgid "Unknown username"
 msgstr ""
 
-#: ../src\controller\posts.py:30
+#: ../src\controller\posts.py:33
 msgid "Link"
 msgstr ""
 
-#: ../src\controller\posts.py:32
-msgid "Photo"
+#: ../src\controller\posts.py:38
+msgid "no description available"
 msgstr ""
 
-#: ../src\controller\posts.py:38
+#: ../src\controller\posts.py:41
 msgid "Video"
 msgstr ""
 
-#: ../src\controller\posts.py:41 ../src\wxUI\mainWindow.py:12
+#: ../src\controller\posts.py:44 ../src\wxUI\mainWindow.py:12
 msgid "Audio"
 msgstr ""
 
-#: ../src\controller\posts.py:95
+#: ../src\controller\posts.py:47
+msgid "{0} file"
+msgstr ""
+
+#: ../src\controller\posts.py:105
 msgid "repost from {0}"
 msgstr ""
 
-#: ../src\controller\posts.py:97
+#: ../src\controller\posts.py:108
+msgid "Post from {0} in the {1}'s wall"
+msgstr ""
+
+#: ../src\controller\posts.py:110
 msgid "Post from {0}"
 msgstr ""
 
-#: ../src\controller\posts.py:131 ../src\controller\posts.py:145
-#: ../src\controller\posts.py:155
+#: ../src\controller\posts.py:139
+msgid "Untitled link"
+msgstr ""
+
+#: ../src\controller\posts.py:158 ../src\controller\posts.py:172
+#: ../src\controller\posts.py:182
 msgid "&Dislike"
 msgstr ""
 
-#: ../src\controller\posts.py:147
+#: ../src\controller\posts.py:174
 msgid "You don't like this"
 msgstr ""
 
-#: ../src\controller\posts.py:151 ../src\wxUI\dialogs\postDialogs.py:48
+#: ../src\controller\posts.py:178 ../src\wxUI\dialogs\postDialogs.py:48
 msgid "&Like"
 msgstr ""
 
-#: ../src\controller\posts.py:154
+#: ../src\controller\posts.py:181
 msgid "You liked this"
 msgstr ""
 
-#: ../src\controller\posts.py:162
+#: ../src\controller\posts.py:189
 msgid "Add your comment here"
 msgstr ""
 
-#: ../src\controller\posts.py:162 ../src\wxUI\dialogs\postDialogs.py:49
+#: ../src\controller\posts.py:189 ../src\wxUI\dialogs\postDialogs.py:49
 msgid "Repost"
 msgstr ""
 
-#: ../src\controller\posts.py:174
+#: ../src\controller\posts.py:201
 msgid "Add a comment"
 msgstr ""
 
-#: ../src\controller\posts.py:181
+#: ../src\controller\posts.py:208
 msgid "You've posted a comment"
 msgstr ""
 
-#: ../src\controller\posts.py:217
+#: ../src\controller\posts.py:244
 msgid "You do like this comment"
 msgstr ""
 
-#: ../src\controller\posts.py:222
+#: ../src\controller\posts.py:249
 msgid "You don't like this comment"
 msgstr ""
 
-#: ../src\controller\posts.py:255 ../src\controller\posts.py:266
+#: ../src\controller\posts.py:282 ../src\controller\posts.py:293
 msgid "Opening URL..."
 msgstr ""
 
-#: ../src\controller\posts.py:278
+#: ../src\controller\posts.py:296
+msgid "Opening document in web browser..."
+msgstr ""
+
+#: ../src\controller\posts.py:308
 msgid "Opening video in web browser..."
 msgstr ""
 
-#: ../src\controller\posts.py:281
+#: ../src\controller\posts.py:311
 msgid "Opening photo in web browser..."
 msgstr ""
 
-#: ../src\controller\posts.py:304
+#: ../src\controller\posts.py:336
 msgid "Comment from {0}"
 msgstr ""
 
-#: ../src\controller\posts.py:416
+#: ../src\controller\posts.py:448
 msgid "{0} added the following friends"
 msgstr ""
 
@@ -234,7 +270,7 @@ msgstr ""
 msgid "An error has occurred. There are no dictionaries available for the selected language in {0}"
 msgstr ""
 
-#: ../src\extra\SpellChecker\wx_ui.py:76
+#: ../src\extra\SpellChecker\wx_ui.py:76 ../src\wxUI\commonMessages.py:15
 msgid "Error"
 msgstr ""
 
@@ -610,7 +646,7 @@ msgstr ""
 msgid "autodetect"
 msgstr ""
 
-#: ../src\extra\translator\wx_ui.py:25 ../src\wxUI\dialogs\message.py:101
+#: ../src\extra\translator\wx_ui.py:25 ../src\wxUI\dialogs\message.py:95
 msgid "Translate message"
 msgstr ""
 
@@ -626,32 +662,68 @@ msgstr ""
 msgid "User default"
 msgstr ""
 
-#: ../src\sessionmanager\session.py:67 ../src\sessionmanager\session.py:107
-#: ../src\sessionmanager\session.py:112
+#: ../src\sessionmanager\session.py:20
+msgid "Movile application"
+msgstr ""
+
+#: ../src\sessionmanager\session.py:21
+msgid "iPhone"
+msgstr ""
+
+#: ../src\sessionmanager\session.py:22
+msgid "iPad"
+msgstr ""
+
+#: ../src\sessionmanager\session.py:23
+msgid "Android"
+msgstr ""
+
+#: ../src\sessionmanager\session.py:24
+msgid "Windows phone"
+msgstr ""
+
+#: ../src\sessionmanager\session.py:25
+msgid "Windows 8"
+msgstr ""
+
+#: ../src\sessionmanager\session.py:26
+msgid "Web or desktop app"
+msgstr ""
+
+#: ../src\sessionmanager\session.py:76
+msgid "{0} from {1}"
+msgstr ""
+
+#: ../src\sessionmanager\session.py:83 ../src\sessionmanager\session.py:130
+#: ../src\sessionmanager\session.py:135
 msgid "{0} has shared the {1}'s post"
 msgstr ""
 
-#: ../src\sessionmanager\session.py:79
+#: ../src\sessionmanager\session.py:95
 msgid "{0} has added  an audio: {1}"
 msgstr ""
 
-#: ../src\sessionmanager\session.py:85
+#: ../src\sessionmanager\session.py:101
 msgid "{0} has added  {1} audios: {2}"
 msgstr ""
 
-#: ../src\sessionmanager\session.py:90
+#: ../src\sessionmanager\session.py:106
 msgid "{0} hadded friends: {1}"
 msgstr ""
 
-#: ../src\sessionmanager\session.py:93
+#: ../src\sessionmanager\session.py:109
 msgid "{0} has added  a video: {1}"
 msgstr ""
 
-#: ../src\sessionmanager\session.py:99
+#: ../src\sessionmanager\session.py:115
 msgid "{0} has added  {1} videos: {2}"
 msgstr ""
 
-#: ../src\sessionmanager\session.py:122 ../src\sessionmanager\session.py:126
+#: ../src\sessionmanager\session.py:123
+msgid "dddd, MMMM D, YYYY H:m:s"
+msgstr ""
+
+#: ../src\sessionmanager\session.py:145 ../src\sessionmanager\session.py:149
 msgid "Audio removed from library"
 msgstr ""
 
@@ -675,35 +747,35 @@ msgstr ""
 msgid "&Password"
 msgstr ""
 
-#: ../src\update\utils.py:27 ../src\utils.py:19
+#: ../src\update\utils.py:27 ../src\utils.py:20
 msgid "%d day, "
 msgstr ""
 
-#: ../src\update\utils.py:29 ../src\utils.py:21
+#: ../src\update\utils.py:29 ../src\utils.py:22
 msgid "%d days, "
 msgstr ""
 
-#: ../src\update\utils.py:31 ../src\utils.py:23
+#: ../src\update\utils.py:31 ../src\utils.py:24
 msgid "%d hour, "
 msgstr ""
 
-#: ../src\update\utils.py:33 ../src\utils.py:25
+#: ../src\update\utils.py:33 ../src\utils.py:26
 msgid "%d hours, "
 msgstr ""
 
-#: ../src\update\utils.py:35 ../src\utils.py:27
+#: ../src\update\utils.py:35 ../src\utils.py:28
 msgid "%d minute, "
 msgstr ""
 
-#: ../src\update\utils.py:37 ../src\utils.py:29
+#: ../src\update\utils.py:37 ../src\utils.py:30
 msgid "%d minutes, "
 msgstr ""
 
-#: ../src\update\utils.py:39 ../src\utils.py:31
+#: ../src\update\utils.py:39 ../src\utils.py:32
 msgid "%s second"
 msgstr ""
 
-#: ../src\update\utils.py:41 ../src\utils.py:33
+#: ../src\update\utils.py:41 ../src\utils.py:34
 msgid "%s seconds"
 msgstr ""
 
@@ -741,11 +813,11 @@ msgstr ""
 msgid "The update has been downloaded and installed successfully. Press OK to continue."
 msgstr ""
 
-#: ../src\utils.py:41
+#: ../src\utils.py:42
 msgid "Downloading {0}"
 msgstr ""
 
-#: ../src\utils.py:51
+#: ../src\utils.py:52
 msgid "Downloading {0} ({1}%)"
 msgstr ""
 
@@ -773,6 +845,63 @@ msgstr ""
 msgid "Do you really want to dismiss  this buffer?"
 msgstr ""
 
+#: ../src\wxUI\commonMessages.py:15
+msgid "This user does not exist"
+msgstr ""
+
+#: ../src\wxUI\commonMessages.py:21
+msgid "Restricted access"
+msgstr ""
+
+#: ../src\wxUI\commonMessages.py:22
+msgid "Access to user's audio is denied by the owner. Error code {0}"
+msgstr ""
+
+#: ../src\wxUI\dialogs\attach.py:7
+msgid "Add an attachment"
+msgstr ""
+
+#: ../src\wxUI\dialogs\attach.py:10 ../src\wxUI\dialogs\postDialogs.py:32
+msgid "Attachments"
+msgstr ""
+
+#: ../src\wxUI\dialogs\attach.py:11 ../src\wxUI\dialogs\postDialogs.py:33
+msgid "Type"
+msgstr ""
+
+#: ../src\wxUI\dialogs\attach.py:11 ../src\wxUI\dialogs\postDialogs.py:33
+#: ../src\wxUI\tabs\home.py:53
+msgid "Title"
+msgstr ""
+
+#: ../src\wxUI\dialogs\attach.py:16
+msgid "Add attachments"
+msgstr ""
+
+#: ../src\wxUI\dialogs\attach.py:17
+msgid "&Photo"
+msgstr ""
+
+#: ../src\wxUI\dialogs\attach.py:18
+msgid "Remove attachment"
+msgstr ""
+
+#: ../src\wxUI\dialogs\attach.py:34
+msgid "Image files (*.png, *.jpg, *.gif)|*.png; *.jpg; *.gif"
+msgstr ""
+
+#: ../src\wxUI\dialogs\attach.py:34
+msgid "Select the picture to be uploaded"
+msgstr ""
+
+#: ../src\wxUI\dialogs\attach.py:41
+msgid "please provide a description"
+msgstr ""
+
+#: ../src\wxUI\dialogs\attach.py:41 ../src\wxUI\tabs\home.py:93
+msgid "Description"
+msgstr ""
+
 #: ../src\wxUI\dialogs\configuration.py:9
 msgid "Number of items to load for newsfeed and wall buffers (maximun 100)"
 msgstr ""
@@ -789,8 +918,8 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: ../src\wxUI\dialogs\configuration.py:43 ../src\wxUI\dialogs\message.py:67
-#: ../src\wxUI\dialogs\message.py:104 ../src\wxUI\dialogs\postDialogs.py:60
+#: ../src\wxUI\dialogs\configuration.py:43 ../src\wxUI\dialogs\message.py:66
+#: ../src\wxUI\dialogs\message.py:98 ../src\wxUI\dialogs\postDialogs.py:60
 msgid "Close"
 msgstr ""
 
@@ -799,30 +928,23 @@ msgid "&Privacy"
 msgstr ""
 
 #: ../src\wxUI\dialogs\message.py:61
-msgid "Upload a &picture"
+msgid "Attach"
 msgstr ""
 
-#: ../src\wxUI\dialogs\message.py:63
+#: ../src\wxUI\dialogs\message.py:62
 msgid "Spelling &correction"
 msgstr ""
 
-#: ../src\wxUI\dialogs\message.py:64
+#: ../src\wxUI\dialogs\message.py:63
 msgid "&Translate message"
 msgstr ""
 
-#: ../src\wxUI\dialogs\message.py:65 ../src\wxUI\dialogs\message.py:102
+#: ../src\wxUI\dialogs\message.py:64 ../src\wxUI\dialogs\message.py:96
+#: ../src\wxUI\tabs\home.py:124
 msgid "Send"
 msgstr ""
 
-#: ../src\wxUI\dialogs\message.py:90
-msgid "Image files (*.png, *.jpg, *.gif)|*.png; *.jpg; *.gif"
-msgstr ""
-
-#: ../src\wxUI\dialogs\message.py:90
-msgid "Select the picture to be uploaded"
-msgstr ""
-
-#: ../src\wxUI\dialogs\message.py:100
+#: ../src\wxUI\dialogs\message.py:94
 msgid "Spelling correction"
 msgstr ""
 
@@ -846,25 +968,13 @@ msgstr ""
 msgid "Likes"
 msgstr ""
 
-#: ../src\wxUI\dialogs\postDialogs.py:25 ../src\wxUI\tabs\home.py:10
-msgid "Date"
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:25 ../src\wxUI\tabs\home.py:10
-#: ../src\wxUI\tabs\home.py:93
+#: ../src\wxUI\dialogs\postDialogs.py:25 ../src\wxUI\dialogs\timeline.py:11
+#: ../src\wxUI\tabs\home.py:10 ../src\wxUI\tabs\home.py:93
 msgid "User"
 msgstr ""
 
-#: ../src\wxUI\dialogs\postDialogs.py:32
-msgid "Attachments"
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:33
-msgid "Type"
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:33 ../src\wxUI\tabs\home.py:53
-msgid "Title"
+#: ../src\wxUI\dialogs\postDialogs.py:25 ../src\wxUI\tabs\home.py:10
+msgid "Date"
 msgstr ""
 
 #: ../src\wxUI\dialogs\postDialogs.py:40 ../src\wxUI\dialogs\postDialogs.py:44
@@ -891,7 +1001,7 @@ msgstr ""
 msgid "Audio &files"
 msgstr ""
 
-#: ../src\wxUI\dialogs\postDialogs.py:135
+#: ../src\wxUI\dialogs\postDialogs.py:135 ../src\wxUI\dialogs\search.py:24
 msgid "&Title"
 msgstr ""
 
@@ -952,34 +1062,34 @@ msgid "Search only songs with associated &lyrics"
 msgstr ""
 
 #: ../src\wxUI\dialogs\search.py:23
-msgid "Search all songs with this title"
+msgid "Search by"
 msgstr ""
 
-#: ../src\wxUI\dialogs\search.py:24
-msgid "Search audios of this artist"
+#: ../src\wxUI\dialogs\search.py:25
+msgid "&artist"
 msgstr ""
 
-#: ../src\wxUI\dialogs\search.py:29
+#: ../src\wxUI\dialogs\search.py:30
 msgid "&Sort order by: "
 msgstr ""
 
-#: ../src\wxUI\dialogs\search.py:30
+#: ../src\wxUI\dialogs\search.py:31
 msgid "Date added"
 msgstr ""
 
-#: ../src\wxUI\dialogs\search.py:30
+#: ../src\wxUI\dialogs\search.py:31
 msgid "Popularity"
 msgstr ""
 
-#: ../src\wxUI\dialogs\search.py:30 ../src\wxUI\tabs\home.py:53
+#: ../src\wxUI\dialogs\search.py:31 ../src\wxUI\tabs\home.py:53
 msgid "Duration"
 msgstr ""
 
-#: ../src\wxUI\dialogs\search.py:35
+#: ../src\wxUI\dialogs\search.py:36 ../src\wxUI\dialogs\timeline.py:24
 msgid "&OK"
 msgstr ""
 
-#: ../src\wxUI\dialogs\search.py:37
+#: ../src\wxUI\dialogs\search.py:38 ../src\wxUI\dialogs\timeline.py:26
 msgid "&Close"
 msgstr ""
 
@@ -987,55 +1097,75 @@ msgstr ""
 msgid "Select the album where you will upload the photo"
 msgstr ""
 
+#: ../src\wxUI\dialogs\timeline.py:8
+msgid "New timeline for {0}"
+msgstr ""
+
+#: ../src\wxUI\dialogs\timeline.py:17
+msgid "Buffer type"
+msgstr ""
+
+#: ../src\wxUI\dialogs\timeline.py:18
+msgid "&Wall posts"
+msgstr ""
+
+#: ../src\wxUI\dialogs\timeline.py:19
+msgid "&Audio"
+msgstr ""
+
 #: ../src\wxUI\dialogs\urlList.py:6
 msgid "Select URL"
 msgstr ""
 
 #: ../src\wxUI\mainWindow.py:13
-msgid "New buffer"
+msgid "Search"
 msgstr ""
 
 #: ../src\wxUI\mainWindow.py:14
-msgid "Update current buffer"
+msgid "&New timeline"
 msgstr ""
 
 #: ../src\wxUI\mainWindow.py:15
-msgid "Load previous items"
+msgid "Update current buffer"
 msgstr ""
 
 #: ../src\wxUI\mainWindow.py:16
-msgid "&Remove buffer"
+msgid "Load previous items"
 msgstr ""
 
 #: ../src\wxUI\mainWindow.py:17
-msgid "Application"
+msgid "&Remove buffer"
 msgstr ""
 
 #: ../src\wxUI\mainWindow.py:18
+msgid "Application"
+msgstr ""
+
+#: ../src\wxUI\mainWindow.py:19
 msgid "Buffer"
 msgstr ""
 
-#: ../src\wxUI\mainWindow.py:20
+#: ../src\wxUI\mainWindow.py:21
 msgid "About {0}"
 msgstr ""
 
-#: ../src\wxUI\mainWindow.py:21
+#: ../src\wxUI\mainWindow.py:22
 msgid "Check for updates"
 msgstr ""
 
-#: ../src\wxUI\mainWindow.py:22
+#: ../src\wxUI\mainWindow.py:23
 msgid "Chan&gelog"
 msgstr ""
 
-#: ../src\wxUI\mainWindow.py:23
+#: ../src\wxUI\mainWindow.py:24
 msgid "Help"
 msgstr ""
 
-#: ../src\wxUI\mainWindow.py:43
+#: ../src\wxUI\mainWindow.py:44
 msgid "Connection error"
 msgstr ""
 
-#: ../src\wxUI\mainWindow.py:43
+#: ../src\wxUI\mainWindow.py:44
 msgid "There is a connection error. Check your internet connection and try again later."
 msgstr ""
 
@@ -1075,6 +1205,10 @@ msgstr ""
 msgid "Check Spelling"
 msgstr ""
 
+#: ../src\wxUI\menus.py:59
+msgid "Picture"
+msgstr ""
+
 #: ../src\wxUI\tabs\home.py:9
 msgid "Po&sts"
 msgstr ""
@@ -1084,6 +1218,7 @@ msgid "Text"
 msgstr ""
 
 #: ../src\wxUI\tabs\home.py:18 ../src\wxUI\tabs\home.py:61
+#: ../src\wxUI\tabs\home.py:153
 msgid "&Post"
 msgstr ""
 
@@ -1112,14 +1247,31 @@ msgid "Created at"
 msgstr ""
 
 #: ../src\wxUI\tabs\home.py:93
-msgid "Description"
-msgstr ""
-
-#: ../src\wxUI\tabs\home.py:93
 msgid "Photos"
 msgstr ""
 
 #: ../src\wxUI\tabs\home.py:93 ../src\wxUI\tabs\home.py:107
+#: ../src\wxUI\tabs\home.py:146
 msgid "Name"
+msgstr ""
+
+#: ../src\wxUI\tabs\home.py:129
+msgid "History"
+msgstr ""
+
+#: ../src\wxUI\tabs\home.py:130
+msgid "post"
+msgstr ""
+
+#: ../src\wxUI\tabs\home.py:136
+msgid "Write a message"
+msgstr ""
+
+#: ../src\wxUI\tabs\home.py:146
+msgid "Last seen"
+msgstr ""
+
+#: ../src\wxUI\tabs\home.py:154
+msgid "Send message"
 msgstr ""
 
