@@ -17,15 +17,6 @@ sessions = {}
 # I've added the Date identifier (this is a field in unix time format), for special objects (like friendship indicators) because these objects doesn't have an own identifier.
 identifiers = ["aid", "gid", "uid", "pid", "id", "post_id", "nid", "date"]
 
-platforms = {1: _(u"Movile application"),
-2: _(u"iPhone"),
-3: _(u"iPad"),
-4: _(u"Android"),
-5: _(u"Windows phone"),
-6: _(u"Windows 8"),
-7: _(u"Web or desktop app")
-}
-
 def find_item(list, item):
 	""" Finds an item in a list  by taking an identifier"""
 	# determines the kind of identifier that we are using
@@ -71,9 +62,9 @@ def add_text(status):
 	return message
 
 def compose_person(status, session):
-	global platforms
 	original_date = arrow.get(status["last_seen"]["time"])
-	last_seen = _(u"{0} from {1}").format(original_date.humanize(locale=languageHandler.getLanguage()), platforms[status["last_seen"]["platform"]])
+	last_seen = _(u"{0}").format(original_date.humanize(locale=languageHandler.getLanguage()),)
+
 	return [u"{0} {1}".format(status["first_name"], status["last_name"]), last_seen]
 
 def compose_new(status, session):
