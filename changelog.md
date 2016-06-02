@@ -2,6 +2,12 @@
 
 ## Changes for the current build ()
 
+* Removed platform from "last seen" column in the friends list as it could cause some problems and it was being not so exact.
+* Now deleted audios are not parsed and displayed as "audio removed from library". They are silently ignored.
+* It's possible to open a friends timeline for others.
+
+## Changes on build 2016.05.25
+
 * Added grouped controls in the audio searches dialogue. It will be more accessible so screen readers could detect and read the label for radio buttons.
 * Added  documents to the list of supported attachments in the post viewer. The action for this kind of attachments is to open the default web browser, pointing to the URL address of that file.
 * Now It's possible to add photos to the wall, by uploading files to the VK servers. Check the attachments button in the new post dialogue for this. Basically it is possible to add some photos and when the post is sent, photos will start to be uploaded before. At the moment it is not possible to add descriptions to photos. Take in to account that photos will be uploaded when the send button is pressed and the post could take some time before being posted.

@@ -155,7 +155,6 @@ class Controller(object):
 		player.player.play_all(audios)
 
 	def view_post(self, post_object, controller_):
-#		print post_object
 		p = getattr(posts, controller_)(self.session, post_object)
 		p.dialog.get_response()
 		p.dialog.Destroy()
@@ -221,10 +220,7 @@ class Controller(object):
 		b = self.get_current_buffer()
 		if not hasattr(b, "get_users"):
 			b = self.search("home_timeline")
-#		ids = b.get_users()
 		d = []
-#		for i in ids:
-#			d.append((i, self.session.get_user_name(i)))
 		for i in self.session.db["users"]:
 			d.append((i, self.session.get_user_name(i)))
 		for i in self.session.db["groups"]:
@@ -246,6 +242,9 @@ class Controller(object):
 			elif buffertype == "wall":
 				buffer = buffers.feedBuffer(parent=self.window.tb, name="{0}_feed".format(user_id,), composefunc="compose_status", session=self.session, endpoint="get", parent_endpoint="wall", extended=1, count=self.session.settings["buffers"]["count_for_wall_buffers"],  owner_id=user_id)
 				name_ = _(u"{0}'s wall posts").format(user,)
+			elif buffertype == "friends":
+				buffer = buffers.peopleBuffer(parent=self.window.tb, name="friends_{0}".format(user_id,), composefunc="compose_person", session=self.session, endpoint="get", parent_endpoint="friends", count=5000, fields="uid, first_name, last_name, last_seen", user_id=user_id)
+				name_ = _(u"{0}'s friends").format(user,)
 			self.buffers.append(buffer)
 			call_threaded(self.complete_buffer_creation, buffer=buffer, name_=name_, position=self.window.search("timelines"))
 

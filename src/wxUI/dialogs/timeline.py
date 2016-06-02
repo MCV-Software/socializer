@@ -16,10 +16,12 @@ class timelineDialog(widgetUtils.BaseDialog):
 		userSizer.Add(self.cb, 0, wx.ALL, 5)
 		actionsstatic = wx.StaticBox(panel, label=_(u"Buffer type"))
 		self.wall    = wx.RadioButton(panel, wx.NewId(), _(u"&Wall posts"), style=wx.RB_GROUP)
-		self.audio = wx.RadioButton(panel, wx.NewId(), _(u"&Audio"))
+		self.audio = wx.RadioButton(panel, wx.NewId(), _(u"Audio"))
+		self.friends = wx.RadioButton(panel, wx.NewId(), _(u"Friends"))
 		radioSizer = wx.StaticBoxSizer(actionsstatic, wx.HORIZONTAL)
 		radioSizer.Add(self.wall, 0, wx.ALL, 5)
 		radioSizer.Add(self.audio, 0, wx.ALL, 5)
+		radioSizer.Add(self.friends, 0, wx.ALL, 5)
 		sizer.Add(radioSizer, 0, wx.ALL, 5)
 		ok = wx.Button(panel, wx.ID_OK, _(u"&OK"))
 		ok.SetDefault()
@@ -39,3 +41,5 @@ class timelineDialog(widgetUtils.BaseDialog):
 			return "audio"
 		elif self.wall.GetValue() == True:
 			return "wall"
+		elif self.friends.GetValue() == True:
+			return "friends"
