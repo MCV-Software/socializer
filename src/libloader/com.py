@@ -1,7 +1,7 @@
 from pywintypes import com_error
 import win32com
 import paths
-win32com.__gen_path__=paths.data_path(u"com_cache")
+win32com.__gen_path__=paths.com_path()
 import sys
 import os
 sys.path.append(os.path.join(win32com.__gen_path__, "."))
@@ -32,3 +32,9 @@ def load_com(*names):
   raise com_error("Unable to load any of the provided com objects.")
  return result
 
+
+def preexec():
+ global fixed
+ if fixed==False:
+  gencache._GetModule=patched_getmodule
+  fixed=True

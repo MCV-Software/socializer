@@ -3,13 +3,13 @@ import sys
 import fixes
 if hasattr(sys, "frozen"):
 	fixes.setup()
+import logger
 import platform
 import languageHandler
 import widgetUtils
 import paths
 import config
 import output
-import logger
 import logging
 import keys
 import application
