@@ -62,9 +62,11 @@ def add_text(status):
 	return message
 
 def compose_person(status, session):
-	original_date = arrow.get(status["last_seen"]["time"])
-	last_seen = _(u"{0}").format(original_date.humanize(locale=languageHandler.getLanguage()),)
-
+	if status.has_key("last_seen"):
+		original_date = arrow.get(status["last_seen"]["time"])
+		last_seen = _(u"{0}").format(original_date.humanize(locale=languageHandler.getLanguage()),)
+	elif status.has_key("last_seen") == False and status.has_key("deactivated"):
+			last_seen = _(u"Account deactivated")
 	return [u"{0} {1}".format(status["first_name"], status["last_name"]), last_seen]
 
 def compose_new(status, session):
@@ -82,6 +84,8 @@ def compose_new(status, session):
 		if message == "":
 			message = "no description available"
 	elif status["type"] == "audio":
+		# removes deleted audios.
+		status["audio"] = clean_audio(status["audio"])
 		if status["audio"]["count"] == 1:
 			message = _(u"{0} has added  an audio: {1}").format(user, u", ".join(compose_audio(status["audio"]["items"][0], session)),)
 		else:
@@ -107,6 +111,13 @@ def compose_new(status, session):
 	else:
 		if status["type"] != "post": print status
 	return [user, message, created_at]
+
+def clean_audio(audio):
+	for i in audio["items"][:]:
+		if type(i) == bool:
+			audio["items"].remove(i)
+			audio["count"] = audio["count"] -1
+	return audio
 
 def compose_message(message, session):
 	user = session.get_user_name(message["from_id"])
