@@ -268,19 +268,22 @@ class Controller(object):
 				if i.kwargs.has_key("user_id") and i.kwargs["user_id"] == user_id: return i
 		return None
 
-	def chat_from_id(self, user_id):
+	def chat_from_id(self, user_id, setfocus=True):
 		b = self.search_chat_buffer(user_id)
 		if b != None:
 			pos = self.window.search(b.name)
-			self.window.change_buffer(pos)
-			return b.tab.text.SetFocus()
+			if setfocus:
+				self.window.change_buffer(pos)
+				return b.tab.text.SetFocus()
+			return
 		buffer = buffers.chatBuffer(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="compose_message", session=self.session, count=200,  user_id=user_id, rev=1)
 		self.buffers.append(buffer)
 		self.window.insert_buffer(buffer.tab, _(u"Chat with {0}").format(self.session.get_user_name(user_id,)), self.window.search("chats"))
-		pos = self.window.search(buffer.name)
-		self.window.change_buffer(pos)
+		if setfocus:
+			pos = self.window.search(buffer.name)
+			self.window.change_buffer(pos)
 		wx.CallAfter(buffer.get_items)
-		buffer.tab.text.SetFocus()
+		if setfocus: buffer.tab.text.SetFocus()
 		return True
 
 	def get_chat(self, obj=None):
@@ -315,4 +318,4 @@ class Controller(object):
 		msgs = self.session.vk.client.messages.getDialogs(count=200, unread=1)
 		print msgs
 		for i in msgs["items"]:
-			self.chat_from_id(i["from_id"])
+			wx.CallAfter(self.chat_from_id, i["message"]["user_id"], setfocus=False)
