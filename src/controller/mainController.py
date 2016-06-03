@@ -130,6 +130,10 @@ class Controller(object):
 		self.window.change_status(_(u"Ready"))
 		self.longpool = longpoolthread.worker(self.session)
 		self.longpool.start()
+		self.status_setter = RepeatingTimer(900, self.set_online)
+		self.status_setter.start()
+		self.set_online()
+		self.create_unread_messages()
 
 	def in_post(self, buffer):
 		buffer = self.search(buffer)
@@ -161,6 +165,7 @@ class Controller(object):
 
 	def exit(self, *args, **kwargs):
 		log.debug("Receibed an exit signal. closing...")
+		self.session.vk.client.account.setOffline()
 		self.disconnect_events()
 		self.window.Destroy()
 		wx.GetApp().ExitMainLoop()
@@ -301,3 +306,13 @@ class Controller(object):
 		num = self.session.order_buffer(buffer.name, data, True)
 		buffer.insert(self.session.db[buffer.name]["items"][-1], False)
 		self.session.soundplayer.play("chat.ogg")
+
+	def set_online(self):
+		r = self.session.vk.client.account.setOnline()
+		print "online: %d" % (r,)
+
+	def create_unread_messages(self):
+		msgs = self.session.vk.client.messages.getDialogs(count=200, unread=1)
+		print msgs
+		for i in msgs["items"]:
+			self.chat_from_id(i["from_id"])

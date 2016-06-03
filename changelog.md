@@ -5,6 +5,10 @@
 * Removed platform from "last seen" column in the friends list as it could cause some problems and it was being not so exact.
 * Now deleted audios are not parsed and displayed as "audio removed from library". They are silently ignored.
 * It's possible to open a friends timeline for others.
+* Fixed some strange bugs in the built version.
+* Deactivated accounts will not cause problems in friends lists. They will be displayed as deactivated, wich means that it'll be impossible to interact with those accounts.
+* When opened, the client will set online for the user account, it'll inform VK that this user is currently online. This parameter will be updated every 15 minutes, as stated in the API documentation. When exiting, Socializer will try to set  the account as offline.
+* When opened, socializer will try to create chat buffers for all unread messages.
 
 ## Changes on build 2016.05.25
 
