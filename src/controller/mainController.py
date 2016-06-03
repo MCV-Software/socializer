@@ -316,6 +316,5 @@ class Controller(object):
 
 	def create_unread_messages(self):
 		msgs = self.session.vk.client.messages.getDialogs(count=200, unread=1)
-		print msgs
 		for i in msgs["items"]:
 			wx.CallAfter(self.chat_from_id, i["message"]["user_id"], setfocus=False)
