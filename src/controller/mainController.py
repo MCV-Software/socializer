@@ -134,7 +134,7 @@ class Controller(object):
 		self.status_setter.start()
 		self.set_online()
 		self.create_unread_messages()
-
+		self.window.realize()
 	def in_post(self, buffer):
 		buffer = self.search(buffer)
 		buffer.get_items()

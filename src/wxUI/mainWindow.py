@@ -31,11 +31,14 @@ class mainWindow(wx.Frame):
 		self.sizer = wx.BoxSizer(wx.VERTICAL)
 		self.sb = self.CreateStatusBar()
 		self.tb = wx.Treebook(self.panel, -1)
-		self.sizer.Add(self.tb, 0, wx.ALL, 5)
+		self.sizer.Add(self.tb, 1, wx.ALL|wx.EXPAND, 5)
 
 	def realize(self):
 		self.panel.SetSizer(self.sizer)
 		self.SetClientSize(self.sizer.CalcMin())
+		self.Layout()
+		self.SetSize(self.GetBestSize())
+		print self.GetSize()
 
 	def change_status(self, status):
 		self.sb.SetStatusText(status)

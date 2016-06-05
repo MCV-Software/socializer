@@ -8,9 +8,9 @@ class homeTab(wx.Panel):
 	def create_list(self):
 		self.lbl = wx.StaticText(self, wx.NewId(), _(u"Po&sts"))
 		self.list = widgetUtils.list(self, *[_(u"User"), _(u"Text"), _(u"Date")], style=wx.LC_REPORT)
-		self.list.set_windows_size(0, 80)
-		self.list.set_windows_size(1, 190)
-		self.list.set_windows_size(2, 40)
+		self.list.set_windows_size(0, 200)
+		self.list.set_windows_size(1, 300)
+		self.list.set_windows_size(2, 250)
 		self.list.set_size()
 		self.list.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnKeyDown)
 
@@ -26,8 +26,9 @@ class homeTab(wx.Panel):
 		sizer.Add(self.postBox, 0, wx.ALL, 5)
 		self.create_list()
 		sizer.Add(self.lbl, 0, wx.ALL, 5)
-		sizer.Add(self.list.list, 0, wx.ALL, 5)
+		sizer.Add(self.list.list, 0, wx.EXPAND, 5)
 		self.SetSizer(sizer)
+		self.SetClientSize(sizer.CalcMin())
 
 	def OnKeyDown(self, ev=None):
 		pub.sendMessage("show-current-status", buffer=self.name)
