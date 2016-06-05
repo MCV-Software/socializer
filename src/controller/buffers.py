@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import languageHandler
+import arrow
 import wx
 import widgetUtils
 import messages
@@ -111,6 +113,7 @@ class baseBuffer(object):
 	def connect_events(self):
 		widgetUtils.connect_event(self.tab.post, widgetUtils.BUTTON_PRESSED, self.post)
 		widgetUtils.connect_event(self.tab.list.list, widgetUtils.KEYPRESS, self.get_event)
+		self.tab.set_focus_function(self.onFocus)
 
 	def get_event(self, ev):
 		if ev.GetKeyCode() == wx.WXK_RETURN and ev.ControlDown() and ev.ShiftDown(): event = "pause_audio"
@@ -160,6 +163,15 @@ class baseBuffer(object):
 			return [post["from_id"]]
 		else:
 			return [post["source_id"]]
+
+	def onFocus(self, *args,**kwargs):
+		""" Function executed when the item in a list is selected.
+		For this buffer it updates the date of posts in the list."""
+		post = self.session.db[self.name]["items"][self.tab.list.get_selected()]
+		original_date = arrow.get(post["date"])
+		created_at = original_date.humanize(locale=languageHandler.getLanguage())
+		self.tab.list.list.SetStringItem(self.tab.list.get_selected(), 2, created_at)
+
 
 class feedBuffer(baseBuffer):
 
@@ -242,6 +254,9 @@ class audioBuffer(feedBuffer):
 	def get_more_items(self, *args, **kwargs):
 		output.speak(_(u"This buffer doesn't support getting more items."))
 
+	def onFocus(self, *args, **kwargs):
+		pass
+
 class empty(object):
 
 	def __init__(self, name=None, parent=None, *args, **kwargs):
@@ -257,6 +272,9 @@ class empty(object):
 	def remove_buffer(self, mandatory=False): return False
 
 class chatBuffer(baseBuffer):
+
+	def onFocus(self, *args, **kwargs):
+		pass
 
 	def create_tab(self, parent):
 		self.tab = home.chatTab(parent)
@@ -302,3 +320,10 @@ class peopleBuffer(feedBuffer):
 	def new_chat(self, *args, **kwargs):
 		user_id = self.session.db[self.name]["items"][self.tab.list.get_selected()]["id"]
 		pub.sendMessage("new-chat", user_id=user_id)
+
+	def onFocus(self, *args, **kwargs):
+		post = self.session.db[self.name]["items"][self.tab.list.get_selected()]
+		if post.has_key("last_seen") == False: return
+		original_date = arrow.get(post["last_seen"]["time"])
+		created_at = original_date.humanize(locale=languageHandler.getLanguage())
+		self.tab.list.list.SetStringItem(self.tab.list.get_selected(), 1, created_at)

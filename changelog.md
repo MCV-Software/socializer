@@ -7,8 +7,9 @@
 * It's possible to open a friends timeline for others.
 * Fixed some strange bugs in the built version.
 * Deactivated accounts will not cause problems in friends lists. They will be displayed as deactivated, wich means that it'll be impossible to interact with those accounts.
-* When opened, the client will set online for the user account, it'll inform VK that this user is currently online. This parameter will be updated every 15 minutes, as stated in the API documentation. When exiting, Socializer will try to set  the account as offline.
+* When opened, the client will set online for the user account, it'll inform VK that this user is currently online. This parameter will be updated every 15 minutes, as stated in the API documentation. When exiting, Socializer will try to set  the account as offline. Friends and other people could use this parameter to see if you are using VK in the moment.
 * When opened, socializer will try to create chat buffers for all unread messages.
+* Update some information on certain posts when an item is selected. For example, update the date of a post.
 
 ## Changes on build 2016.05.25
 

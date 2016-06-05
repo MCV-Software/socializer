@@ -43,6 +43,9 @@ class homeTab(wx.Panel):
 		if ev.GetKeyCode() == wx.WXK_WINDOWS_MENU:
 			pub.sendMessage("show-menu", position=self.results.list.GetPosition())
 
+	def set_focus_function(self, focus_function):
+		self.list.list.Bind(wx.EVT_LIST_ITEM_FOCUSED, focus_function)
+
 class feedTab(homeTab):
 	def __init__(self, parent):
 		super(feedTab, self).__init__(parent=parent)
