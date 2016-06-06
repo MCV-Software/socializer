@@ -46,6 +46,11 @@ cd documentation
 $pandocpath -s changelog.md -o changelog.html
 rm changelog.md
 cd ..
+cd ../doc
+$pythonpath32/python.exe documentation_importer.py
+$pythonpath32/python.exe generator.py
+mv -f en ../src/documentation/
+cd ../src
 $pythonpath32/python.exe "setup.py" "py2exe" "--quiet"
 mv -f dist ../nightly/socializer
 rm -rf build
