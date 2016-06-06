@@ -8,6 +8,8 @@ import logging
 import utils
 import sound
 from config_utils import Configuration, ConfigurationResetException
+from pubsub import pub
+
 log = logging.getLogger("session")
 
 sessions = {}
@@ -222,9 +224,15 @@ class vkSession(object):
 		self.get_my_data()
 
 	def authorise(self):
-		self.vk.login(self.settings["vk"]["user"], self.settings["vk"]["password"])
-		self.settings["vk"]["token"] = self.vk.client._session.access_token
-		self.settings.write()
+		try:
+			self.vk.login(self.settings["vk"]["user"], self.settings["vk"]["password"])
+			self.settings["vk"]["token"] = self.vk.client._session.access_token
+			self.settings.write()
+		except:
+			self.settings["vk"]["user"] = ""
+			self.settings["vk"]["password"] = ""
+			self.settings.write()
+			pub.sendMessage("authorisation-failed")
 
 	def post_wall_status(self, message, *args, **kwargs):
 		""" Sends a post to an user, group or community wall."""

@@ -28,10 +28,11 @@ class sessionManagerController(object):
 				strconfig = "%s/session.conf" % (paths.config_path(i))
 				config_test = Configuration(strconfig)
 				name = config_test["vk"]["user"]
-				self.session = i
-				s = session.vkSession(self.session)
-				s.get_configuration()
-				session.sessions[self.session] = s
+				if name != "" and config_test["vk"]["password"] != "":
+					self.session = i
+					s = session.vkSession(self.session)
+					s.get_configuration()
+					session.sessions[self.session] = s
 
 	def manage_new_account(self):
 		if view.new_account_dialog() == widgetUtils.YES:

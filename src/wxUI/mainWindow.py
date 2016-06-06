@@ -38,7 +38,6 @@ class mainWindow(wx.Frame):
 		self.SetClientSize(self.sizer.CalcMin())
 		self.Layout()
 		self.SetSize(self.GetBestSize())
-		print self.GetSize()
 
 	def change_status(self, status):
 		self.sb.SetStatusText(status)

@@ -21,3 +21,6 @@ def show_error_code(code):
 		title = _(u"Restricted access")
 		message = _(u"Access to user's audio is denied by the owner. Error code {0}").format(code,)
 	return wx.MessageDialog(None, message, title, style=wx.ICON_ERROR).ShowModal()
+
+def bad_authorisation():
+	return wx.MessageDialog(None, _(u"authorisation failed. Your configuration will not be saved. Please close and open again the application for authorising your account. Make sure you have typed your credentials correctly."), _(u"Error"), style=wx.ICON_ERROR).ShowModal()

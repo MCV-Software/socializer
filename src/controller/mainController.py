@@ -98,6 +98,7 @@ class Controller(object):
 		pub.subscribe(self.view_post, "open-post")
 		pub.subscribe(self.update_status_bar, "update-status-bar")
 		pub.subscribe(self.chat_from_id, "new-chat")
+		pub.subscribe(self.authorisation_failed, "authorisation-failed")
 		widgetUtils.connect_event(self.window, widgetUtils.CLOSE_EVENT, self.exit)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.update_buffer, menuitem=self.window.update_buffer)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.check_for_updates, menuitem=self.window.check_for_updates)
@@ -115,9 +116,13 @@ class Controller(object):
 		pub.unsubscribe(self.in_post, "posted")
 		pub.unsubscribe(self.download, "download-file")
 		pub.unsubscribe(self.play_audio, "play-audio")
+		pub.unsubscribe(self.authorisation_failed, "authorisation-failed")
 		pub.unsubscribe(self.play_audios, "play-audios")
 		pub.unsubscribe(self.view_post, "open-post")
 		pub.unsubscribe(self.update_status_bar, "update-status-bar")
+
+	def authorisation_failed(self):
+		commonMessages.bad_authorisation()
 
 	def login(self):
 		self.window.change_status(_(u"Logging in VK"))
