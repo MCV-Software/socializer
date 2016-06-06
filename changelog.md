@@ -10,6 +10,7 @@
 * When opened, the client will set online for the user account, it'll inform VK that this user is currently online. This parameter will be updated every 15 minutes, as stated in the API documentation. When exiting, Socializer will try to set  the account as offline. Friends and other people could use this parameter to see if you are using VK in the moment.
 * When opened, socializer will try to create chat buffers for all unread messages.
 * Update some information on certain posts when an item is selected. For example, update the date of a post.
+* Read messages will be marked as read in the social network, so it'll cause that your friends could see that you have read the message and socializer will not load  chat buffers with read messages at startup.
 
 ## Changes on build 2016.05.25
 
