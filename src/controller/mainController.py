@@ -61,6 +61,10 @@ class Controller(object):
 		self.window.insert_buffer(home.tab, _(u"Home"), self.window.search("posts"))
 		self.repeatedUpdate = RepeatingTimer(180, self.update_all_buffers)
 		self.repeatedUpdate.start()
+
+		self.readMarker = RepeatingTimer(120, self.mark_as_read)
+		self.readMarker.start()
+
 		feed = buffers.feedBuffer(parent=self.window.tb, name="me_feed", composefunc="compose_status", session=self.session, endpoint="get", parent_endpoint="wall", extended=1, count=self.session.settings["buffers"]["count_for_wall_buffers"])
 		self.buffers.append(feed)
 		self.window.insert_buffer(feed.tab, _(u"My wall"), self.window.search("posts"))
@@ -317,9 +321,19 @@ class Controller(object):
 
 	def set_online(self):
 		r = self.session.vk.client.account.setOnline()
-		print "online: %d" % (r,)
 
 	def create_unread_messages(self):
 		msgs = self.session.vk.client.messages.getDialogs(count=200, unread=1)
 		for i in msgs["items"]:
 			wx.CallAfter(self.chat_from_id, i["message"]["user_id"], setfocus=False)
+
+	def mark_as_read(self):
+		print "Marking as read"
+		ids = ""
+		for i in self.buffers:
+			if hasattr(i, "reads"):
+				for z in i.reads:
+					ids = ids+"%d," % (z,)
+				i.reads = []
+		if ids != "":
+			response = self.session.vk.client.messages.markAsRead(message_ids=ids)

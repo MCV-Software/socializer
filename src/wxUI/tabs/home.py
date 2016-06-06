@@ -143,6 +143,9 @@ class chatTab(wx.Panel):
 		box.Add(self.text, 0, wx.ALL, 5)
 		return box
 
+	def set_focus_function(self, focus_function):
+		self.list.list.Bind(wx.EVT_LIST_ITEM_FOCUSED, focus_function)
+
 class peopleTab(homeTab):
 
 	def create_list(self):

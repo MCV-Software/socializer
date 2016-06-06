@@ -274,13 +274,18 @@ class empty(object):
 class chatBuffer(baseBuffer):
 
 	def onFocus(self, *args, **kwargs):
-		pass
+		msg = self.session.db[self.name]["items"][-1]
+		if msg["read_state"] == 0 and msg["id"] not in self.reads:
+			self.reads.append(msg["id"])
+			self.session.db[self.name]["items"][-1]["read_state"] = 1
+
 
 	def create_tab(self, parent):
 		self.tab = home.chatTab(parent)
 
 	def connect_events(self):
 		widgetUtils.connect_event(self.tab.send, widgetUtils.BUTTON_PRESSED, self.send_chat_to_user)
+		self.tab.set_focus_function(self.onFocus)
 
 	def get_items(self, show_nextpage=False):
 		retrieved = True # Control variable for handling unauthorised/connection errors.
@@ -307,6 +312,10 @@ class chatBuffer(baseBuffer):
 		text = self.tab.text.GetValue()
 		if text == "": return
 		response = self.session.vk.client.messages.send(user_id=self.kwargs["user_id"], message=text)
+
+	def __init__(self, *args, **kwargs):
+		super(chatBuffer, self).__init__(*args, **kwargs)
+		self.reads = []
 
 class peopleBuffer(feedBuffer):
 
