@@ -21,7 +21,6 @@ I have started this effort as an open source  project on Feb 13, 2016. Pull requ
 * [Python windows extensions (pywin32)](http://www.sourceforge.net/projects/pywin32/) for python 2.7, build 220
 * [PyEnchant,](http://pythonhosted.org/pyenchant/) version 1.6.6.
 * [VK API bindings for Python](https://github.com/dimka665/vk) (already included in the SRC directory)
-* If you want to build your own versions, [Pandoc](http://pandoc.org/installing.html) make sure you have pandoc.exe in your path variable. If not, edit scripts/build.sh.
 * pypubsub
 * configobj
 * requests-oauthlib
