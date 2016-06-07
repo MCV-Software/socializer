@@ -328,7 +328,6 @@ class Controller(object):
 			wx.CallAfter(self.chat_from_id, i["message"]["user_id"], setfocus=False)
 
 	def mark_as_read(self):
-		print "Marking as read"
 		ids = ""
 		for i in self.buffers:
 			if hasattr(i, "reads"):
