@@ -140,8 +140,8 @@ class list(object):
  def set_windows_size(self, column, characters_max):
   self.list.SetColumnWidth(column, characters_max*2)
 
- def set_size(self): return
-#  self.list.SetSize((self.list.GetBestSize()[0], 728))
+ def set_size(self):
+  self.list.SetSize((self.list.GetBestSize()[0], 1000))
 
  def create_list(self, parent):
   self.list = wx.ListCtrl(parent, -1, **self.listArguments)
