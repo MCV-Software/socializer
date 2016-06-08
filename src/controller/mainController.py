@@ -92,6 +92,7 @@ class Controller(object):
 		timelines = buffers.empty(parent=self.window.tb, name="timelines")
 		self.buffers.append(timelines)
 		self.window.add_buffer(timelines.tab, _(u"Timelines"))
+		self.window.realize()
 
 	def connect_events(self):
 		log.debug("Connecting events to responses...")
@@ -143,7 +144,6 @@ class Controller(object):
 		self.status_setter.start()
 		self.set_online()
 		self.create_unread_messages()
-		self.window.realize()
 	def in_post(self, buffer):
 		buffer = self.search(buffer)
 		buffer.get_items()

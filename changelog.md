@@ -11,6 +11,8 @@
 * When opened, socializer will try to create chat buffers for all unread messages.
 * Update some information on certain posts when an item is selected. For example, update the date of a post.
 * Read messages will be marked as read in the social network, so it'll cause that your friends could see that you have read the message and socializer will not load  chat buffers with read messages at startup.
+* Included a brief   manual in the help menu. Currently available only in English.
+* Included a context menu in list items. Currently there are functions not available. Menu for chat buffers is not implemented yet.
 
 ## Changes on build 2016.05.25
 

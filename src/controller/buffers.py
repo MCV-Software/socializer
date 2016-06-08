@@ -13,7 +13,7 @@ from wxUI.tabs import home
 from pubsub import pub
 from sessionmanager import session
 from mysc.thread_utils import call_threaded
-from wxUI import commonMessages
+from wxUI import commonMessages, menus
 from vk import upload
 from vk.exceptions import VkAPIMethodError
 
@@ -21,6 +21,10 @@ log = logging.getLogger("controller.buffers")
 
 class baseBuffer(object):
 	""" a basic representation of a buffer. Other buffers should be derived from this class"""
+
+	def get_post(self):
+		return self.session.db[self.name]["items"][self.tab.list.get_selected()]
+
 	def __init__(self, parent=None, name="", session=None, composefunc=None, *args, **kwargs):
 		""" parent wx.Treebook: parent for the buffer panel,
 		name str: Name for saving this buffer's data in the local storage variable,
@@ -38,6 +42,8 @@ class baseBuffer(object):
 		self.update_function = "get_page"
 		self.name = name
 		self.connect_events()
+		self.user_key = "source_id"
+		self.post_key = "post_id"
 
 	def create_tab(self, parent):
 		""" Creates the Wx panel."""
@@ -113,7 +119,78 @@ class baseBuffer(object):
 	def connect_events(self):
 		widgetUtils.connect_event(self.tab.post, widgetUtils.BUTTON_PRESSED, self.post)
 		widgetUtils.connect_event(self.tab.list.list, widgetUtils.KEYPRESS, self.get_event)
+		widgetUtils.connect_event(self.tab.list.list, wx.EVT_LIST_ITEM_RIGHT_CLICK, self.show_menu)
+		widgetUtils.connect_event(self.tab.list.list, wx.EVT_LIST_KEY_DOWN, self.show_menu_by_key)
 		self.tab.set_focus_function(self.onFocus)
+
+	def show_menu(self, ev, pos=0, *args, **kwargs):
+		if self.tab.list.get_count() == 0: return
+		menu = self.get_menu()
+		if pos != 0:
+			self.tab.PopupMenu(menu, pos)
+		else:
+			self.tab.PopupMenu(menu, ev.GetPosition())
+
+	def show_menu_by_key(self, ev):
+		if self.tab.list.get_count() == 0:
+			return
+		if ev.GetKeyCode() == wx.WXK_WINDOWS_MENU:
+			self.show_menu(widgetUtils.MENU, pos=self.tab.list.list.GetPosition())
+
+	def get_menu(self):
+		m = menus.postMenu()
+		p = self.get_post()
+		if p.has_key("likes") == False:
+			m.like.Enable(False)
+		elif p["likes"]["user_likes"] == 1:
+			m.like.Enable(False)
+			m.dislike.Enable(True)
+		if p.has_key("comments") == False:
+			m.comment.Enable(False)
+		widgetUtils.connect_event(m, widgetUtils.MENU, self.open_post, menuitem=m.open)
+		widgetUtils.connect_event(m, widgetUtils.MENU, self.do_like, menuitem=m.like)
+		widgetUtils.connect_event(m, widgetUtils.MENU, self.do_dislike, menuitem=m.dislike)
+		widgetUtils.connect_event(m, widgetUtils.MENU, self.do_comment, menuitem=m.comment)
+		return m
+
+	def do_like(self, *args, **kwargs):
+		post = self.get_post()
+		user = post[self.user_key]
+		id = post[self.post_key]
+		if post.has_key("type"):
+			type_ = post["type"]
+		else:
+			type_ = "post"
+		l = self.session.vk.client.likes.add(owner_id=user, item_id=id, type=type_)
+		self.session.db[self.name]["items"][self.tab.list.get_selected()]["likes"]["count"] = l["likes"]
+		self.session.db[self.name]["items"][self.tab.list.get_selected()]["likes"]["user_likes"] = 1
+		output.speak(_(u"You liked this"))
+
+	def do_dislike(self, *args, **kwargs):
+		post = self.get_post()
+		user = post[self.user_key]
+		id = post[self.post_key]
+		if post.has_key("type"):
+			type_ = post["type"]
+		else:
+			type_ = "post"
+		l = self.session.vk.client.likes.delete(owner_id=user, item_id=id, type=type_)
+		self.session.db[self.name]["items"][self.tab.list.get_selected()]["likes"]["count"] = l["likes"]
+		self.session.db[self.name]["items"][self.tab.list.get_selected()]["likes"]["user_likes"] = 2
+		output.speak(_(u"You don't like this"))
+
+	def do_comment(self, *args, **kwargs):
+		comment = messages.comment(title=_(u"Add a comment"), caption="", text="")
+		if comment.message.get_response() == widgetUtils.OK:
+			msg = comment.message.get_text().encode("utf-8")
+			post = self.get_post()
+			try:
+				user = post[self.user_key]
+				id = post[self.post_key]
+				self.session.vk.client.wall.addComment(owner_id=user, post_id=id, text=msg)
+				output.speak(_(u"You've posted a comment"))
+			except Exception as msg:
+				print msg
 
 	def get_event(self, ev):
 		if ev.GetKeyCode() == wx.WXK_RETURN and ev.ControlDown() and ev.ShiftDown(): event = "pause_audio"
@@ -141,7 +218,7 @@ class baseBuffer(object):
 		if post.has_key("type") and post["type"] == "audio":
 			pub.sendMessage("play-audio", audio_object=post["audio"]["items"][0])
 
-	def open_post(self):
+	def open_post(self, *args, **kwargs):
 		post = self.session.db[self.name]["items"][self.tab.list.get_selected()]
 		if post.has_key("type") and post["type"] == "audio":
 			a = posts.audio(self.session, post["audio"]["items"])
@@ -209,6 +286,11 @@ class feedBuffer(baseBuffer):
 			else:
 				return False
 
+	def __init__(self, *args, **kwargs):
+		super(feedBuffer, self).__init__(*args, **kwargs)
+		self.user_key = "from_id"
+		self.post_key = "id"
+
 class audioBuffer(feedBuffer):
 	def create_tab(self, parent):
 		self.tab = home.audioTab(parent)
@@ -222,7 +304,7 @@ class audioBuffer(feedBuffer):
 		selected = self.tab.list.get_selected()
 		pub.sendMessage("play-audio", audio_object=self.session.db[self.name]["items"][selected])
 
-	def open_post(self):
+	def open_post(self, *args, **kwargs):
 		selected = self.tab.list.get_selected()
 		audios = [self.session.db[self.name]["items"][selected]]
 		a = posts.audio(self.session, audios)
@@ -256,6 +338,39 @@ class audioBuffer(feedBuffer):
 
 	def onFocus(self, *args, **kwargs):
 		pass
+
+	def add_to_library(self, *args, **kwargs):
+		post = self.get_post()
+		args = {}
+		args["audio_id"] = post["id"]
+		if post.has_key("album_id"):
+			args["album_id"] = post["album_id"]
+		args["owner_id"] = post["owner_id"]
+		audio = self.session.vk.client.audio.add(**args)
+		if audio != None and int(audio) > 21:
+			output.speak(_(u"Audio added to your library"))
+
+	def remove_from_library(self, *args, **kwargs):
+		post = self.get_post()
+		args = {}
+		args["audio_id"] = post["id"]
+		args["owner_id"] = self.session.user_id
+		result = self.session.vk.client.audio.delete(**args)
+		if int(result) == 1:
+			output.speak(_(u"Removed audio from library"))
+
+	def get_menu(self):
+		p = self.get_post()
+		m = menus.audioMenu()
+		widgetUtils.connect_event(m, widgetUtils.MENU, self.open_post, menuitem=m.open)
+		widgetUtils.connect_event(m, widgetUtils.MENU, self.play_audio, menuitem=m.play)
+		# if owner_id is the current user, the audio is added to the user's audios.
+		if p["owner_id"] == self.session.user_id:
+			m.library.SetItemLabel(_(u"&Remove from library"))
+			widgetUtils.connect_event(m, widgetUtils.MENU, self.remove_from_library, menuitem=m.library)
+		else:
+			widgetUtils.connect_event(m, widgetUtils.MENU, self.add_to_library, menuitem=m.library)
+		return m
 
 class empty(object):
 
@@ -336,3 +451,12 @@ class peopleBuffer(feedBuffer):
 		original_date = arrow.get(post["last_seen"]["time"])
 		created_at = original_date.humanize(locale=languageHandler.getLanguage())
 		self.tab.list.list.SetStringItem(self.tab.list.get_selected(), 1, created_at)
+
+	def open_timeline(self, *args, **kwargs):
+		pass
+
+	def get_menu(self, *args, **kwargs):
+		m = menus.peopleMenu()
+		widgetUtils.connect_event(m, widgetUtils.MENU, self.new_chat, menuitem=m.message)
+		widgetUtils.connect_event(m, widgetUtils.MENU, self.open_timeline, menuitem=m.timeline)
+		return m
