@@ -26,6 +26,7 @@ class mainWindow(wx.Frame):
 
 	def __init__(self):
 		super(mainWindow, self).__init__(parent=None, id=wx.NewId(), title=application.name)
+		self.Maximize()
 		self.makeMenu()
 		self.panel = wx.Panel(self)
 		self.sizer = wx.BoxSizer(wx.VERTICAL)

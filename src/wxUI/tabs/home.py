@@ -26,7 +26,7 @@ class homeTab(wx.Panel):
 		sizer.Add(self.postBox, 0, wx.ALL, 5)
 		self.create_list()
 		sizer.Add(self.lbl, 0, wx.ALL, 5)
-		sizer.Add(self.list.list, 0, wx.EXPAND, 5)
+		sizer.Add(self.list.list, 1, wx.EXPAND, 5)
 		self.SetSizer(sizer)
 		self.SetClientSize(sizer.CalcMin())
 
@@ -35,11 +35,11 @@ class homeTab(wx.Panel):
 		ev.Skip()
 
 	def showMenu(self, ev):
-		if self.results.get_count() == 0: return
+		if self.list.get_count() == 0: return
 		pub.sendMessage("show-menu", position=ev.GetPosition())
 
 	def showMenuByKey(self, ev):
-		if self.results.get_count() == 0: return
+		if self.list.get_count() == 0: return
 		if ev.GetKeyCode() == wx.WXK_WINDOWS_MENU:
 			pub.sendMessage("show-menu", position=self.results.list.GetPosition())
 
@@ -55,9 +55,9 @@ class audioTab(homeTab):
 	def create_list(self):
 		self.lbl = wx.StaticText(self, wx.NewId(), _(u"Mu&sic"))
 		self.list = widgetUtils.list(self, *[_(u"Title"), _(u"Artist"), _(u"Duration")], style=wx.LC_REPORT)
-		self.list.set_windows_size(0, 80)
-		self.list.set_windows_size(1, 190)
-		self.list.set_windows_size(2, 40)
+		self.list.set_windows_size(0, 160)
+		self.list.set_windows_size(1, 380)
+		self.list.set_windows_size(2, 80)
 		self.list.set_size()
 		self.list.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnKeyDown)
 
