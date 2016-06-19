@@ -33,6 +33,8 @@ class audioMenu(wx.Menu):
 		self.AppendItem(self.play)
 		self.library = wx.MenuItem(self, wx.NewId(), _(u"&Add to library"))
 		self.AppendItem(self.library)
+		self.move = wx.MenuItem(self, wx.NewId(), _(u"Move to album"))
+		self.AppendItem(self.move)
 
 class peopleMenu(wx.Menu):
 	def __init__(self, *args, **kwargs):
