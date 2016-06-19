@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import time
 import os
 import wx
 import utils
@@ -17,7 +18,7 @@ from mysc.thread_utils import call_threaded
 from sessionmanager import session
 from wxUI import (mainWindow, commonMessages)
 from wxUI.dialogs import search as searchDialogs
-from wxUI.dialogs import timeline
+from wxUI.dialogs import timeline, creation
 from update import updater
 
 log = logging.getLogger("controller.main")
@@ -71,6 +72,10 @@ class Controller(object):
 		audios = buffers.empty(parent=self.window.tb, name="audios")
 		self.buffers.append(audios)
 		self.window.add_buffer(audios.tab, _(u"Music"))
+		albums = buffers.empty(parent=self.window.tb, name="albums")
+		self.buffers.append(albums)
+		self.window.insert_buffer(albums.tab, _(u"Albums"), self.window.search("audios"))
+
 		audio = buffers.audioBuffer(parent=self.window.tb, name="me_audio", composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"])
 		self.buffers.append(audio)
 		self.window.insert_buffer(audio.tab, _(u"My audios"), self.window.search("audios"))
@@ -114,6 +119,7 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.changelog, menuitem=self.window.changelog)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.configuration, menuitem=self.window.settings_dialog)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.new_timeline, menuitem=self.window.timeline)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.create_audio_album, menuitem=self.window.audio_album)
 		pub.subscribe(self.get_chat, "order-sent-message")
 
 	def disconnect_events(self):
@@ -144,6 +150,8 @@ class Controller(object):
 		self.status_setter.start()
 		self.set_online()
 		self.create_unread_messages()
+		wx.CallAfter(self.get_audio_albums, self.session.user_id)
+
 	def in_post(self, buffer):
 		buffer = self.search(buffer)
 		buffer.get_items()
@@ -336,3 +344,27 @@ class Controller(object):
 				i.reads = []
 		if ids != "":
 			response = self.session.vk.client.messages.markAsRead(message_ids=ids)
+
+	def get_audio_albums(self, user_id=None):
+		albums = self.session.vk.client.audio.getAlbums(owner_id=user_id)
+		print albums
+		for i in albums["items"]:
+			buffer = buffers.audioBuffer(parent=self.window.tb, name="{0}_album".format(i["id"],), composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], user_id=user_id, album_id=i["id"])
+			name_ = _(u"Album: {0}").format(i["title"],)
+			self.buffers.append(buffer)
+			self.window.insert_buffer(buffer.tab, name_, self.window.search("albums"))
+			buffer.get_items()
+			# inserts a pause of 1 second here, so we'll avoid errors 6 in VK.
+			time.sleep(1)
+
+	def create_audio_album(self, *args, **kwargs):
+		d = creation.audio_album()
+		if d.get_response() == widgetUtils.OK and d.get("title") != "":
+			response = self.session.vk.client.audio.addAlbum(title=d.get("title"))
+			if response.has_key("album_id") == False: return
+			album_id = response["album_id"]
+			buffer = buffers.audioBuffer(parent=self.window.tb, name="{0}_album".format(album_id,), composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], user_id=self.session.user_id, album_id=album_id)
+			name_ = _(u"Album: {0}").format(d.get("title"),)
+			self.buffers.append(buffer)
+			self.window.insert_buffer(buffer.tab, name_, self.window.search("albums"))
+			buffer.get_items()

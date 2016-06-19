@@ -268,7 +268,7 @@ class vkSession(object):
 		if data != None:
 			if type(data) == dict:
 				num = self.order_buffer(name, data["items"], show_nextpage)
-				if data["items"][0].has_key("first_name"):
+				if len(data["items"]) > 0 and data["items"][0].has_key("first_name"):
 					for i in data["items"]:
 						self.db["users"][i["id"]] = u"{0} {1}".format(i["first_name"], i["last_name"])
 				if data.has_key("profiles") and data.has_key("groups"):
