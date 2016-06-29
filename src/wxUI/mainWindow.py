@@ -25,6 +25,7 @@ class mainWindow(wx.Frame):
 		mb.Append(buffer, _(u"Buffer"))
 		help_ = wx.Menu()
 		self.about = help_.Append(wx.NewId(), _(u"About {0}").format(application.name,))
+		self.documentation = help_.Append(wx.NewId(), _(u"Manual"))
 		self.check_for_updates = help_.Append(wx.NewId(), _(u"Check for updates"))
 		self.changelog = help_.Append(wx.NewId(), _(u"Chan&gelog"))
 		mb.Append(help_, _(u"Help"))

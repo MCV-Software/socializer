@@ -13,9 +13,11 @@ import webbrowser
 import logging
 import longpoolthread
 import selector
+from vk.exceptions import VkAuthError
 from pubsub import pub
 from mysc.repeating_timer import RepeatingTimer
 from mysc.thread_utils import call_threaded
+from mysc import localization
 from sessionmanager import session
 from wxUI import (mainWindow, commonMessages)
 from wxUI.dialogs import search as searchDialogs
@@ -126,6 +128,7 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.new_timeline, menuitem=self.window.timeline)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.create_audio_album, menuitem=self.window.audio_album)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.delete_audio_album, menuitem=self.window.delete_audio_album)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.check_documentation, menuitem=self.window.documentation)
 		pub.subscribe(self.get_chat, "order-sent-message")
 
 	def disconnect_events(self):
@@ -190,7 +193,10 @@ class Controller(object):
 
 	def exit(self, *args, **kwargs):
 		log.debug("Receibed an exit signal. closing...")
-		self.session.vk.client.account.setOffline()
+		try:
+			self.session.vk.client.account.setOffline()
+		except VkAuthError:
+			pass
 		self.disconnect_events()
 		self.window.Destroy()
 		wx.GetApp().ExitMainLoop()
@@ -399,3 +405,9 @@ class Controller(object):
 		self.buffers.remove(buffer)
 		del buffer
 		self.session.audio_albums = self.session.vk.client.audio.getAlbums(owner_id=self.session.user_id)["items"]
+
+	def check_documentation(self, *args, **kwargs):
+		lang = localization.get("documentation")
+		os.chdir("documentation/%s" % (lang,))
+		webbrowser.open("manual.html")
+		os.chdir("../../")

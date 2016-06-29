@@ -23,6 +23,7 @@ class newSessionDialog(widgetUtils.BaseDialog):
 		sizer.Add(b1, 0, wx.ALL, 5)
 		sizer.Add(b2, 0, wx.ALL, 5)
 		ok = wx.Button(panel, wx.ID_OK)
+		ok.SetDefault()
 		cancel = wx.Button(panel, wx.ID_CANCEL)
 		btnb = wx.BoxSizer(wx.HORIZONTAL)
 		btnb.Add(ok, 0, wx.ALL, 5)
