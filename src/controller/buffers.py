@@ -45,6 +45,7 @@ class baseBuffer(object):
 		self.connect_events()
 		self.user_key = "source_id"
 		self.post_key = "post_id"
+		self.can_get_items = True
 
 	def create_tab(self, parent):
 		""" Creates the Wx panel."""
@@ -59,6 +60,7 @@ class baseBuffer(object):
 		""" Retrieves items from the VK API. This function is called repeatedly by the main controller and users could call it implicitly as well with the update buffer option.
 		show_nextpage boolean: If it's true, it will try to load previous results.
 		"""
+		if self.can_get_items == False: return
 		retrieved = True # Control variable for handling unauthorised/connection errors.
 		try:
 			num = getattr(self.session, "get_newsfeed")(show_nextpage=show_nextpage, name=self.name, *self.args, **self.kwargs)
@@ -256,6 +258,7 @@ class baseBuffer(object):
 class feedBuffer(baseBuffer):
 
 	def get_items(self, show_nextpage=False):
+		if self.can_get_items == False: return
 		retrieved = True
 		try:
 			num = getattr(self.session, "get_page")(show_nextpage=show_nextpage, name=self.name, *self.args, **self.kwargs)
@@ -386,6 +389,22 @@ class audioBuffer(feedBuffer):
 			widgetUtils.connect_event(m, widgetUtils.MENU, self.add_to_library, menuitem=m.library)
 		return m
 
+class audioAlbum(audioBuffer):
+
+	def create_tab(self, parent):
+		self.tab = home.audioAlbumTab(parent)
+
+	def connect_events(self):
+		super(audioAlbum, self).connect_events()
+		widgetUtils.connect_event(self.tab.load, widgetUtils.BUTTON_PRESSED, self.load_album)
+
+	def load_album(self, *args, **kwargs):
+		output.speak(_(u"Loading album..."))
+		self.can_get_items = True
+		self.tab.load.Enable(False)
+		wx.CallAfter(self.get_items)
+
+
 class empty(object):
 
 	def __init__(self, name=None, parent=None, *args, **kwargs):
@@ -417,6 +436,7 @@ class chatBuffer(baseBuffer):
 		self.tab.set_focus_function(self.onFocus)
 
 	def get_items(self, show_nextpage=False):
+		if self.can_get_items == False: return
 		retrieved = True # Control variable for handling unauthorised/connection errors.
 		try:
 			num = getattr(self.session, "get_messages")(name=self.name, *self.args, **self.kwargs)

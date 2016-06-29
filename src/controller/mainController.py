@@ -362,14 +362,14 @@ class Controller(object):
 		albums = self.session.vk.client.audio.getAlbums(owner_id=user_id)
 		self.session.audio_albums = albums["items"]
 		for i in albums["items"]:
-			buffer = buffers.audioBuffer(parent=self.window.tb, name="{0}_audio_album".format(i["id"],), composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], user_id=user_id, album_id=i["id"])
+			buffer = buffers.audioAlbum(parent=self.window.tb, name="{0}_audio_album".format(i["id"],), composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], user_id=user_id, album_id=i["id"])
+			buffer.can_get_items = False
 			# Translators: {0} Will be replaced with an audio album's title.
 			name_ = _(u"Album: {0}").format(i["title"],)
 			self.buffers.append(buffer)
 			self.window.insert_buffer(buffer.tab, name_, self.window.search("albums"))
 			buffer.get_items()
 			# inserts a pause of 1 second here, so we'll avoid errors 6 in VK.
-			time.sleep(0.4)
 
 	def create_audio_album(self, *args, **kwargs):
 		d = creation.audio_album()
@@ -377,7 +377,8 @@ class Controller(object):
 			response = self.session.vk.client.audio.addAlbum(title=d.get("title"))
 			if response.has_key("album_id") == False: return
 			album_id = response["album_id"]
-			buffer = buffers.audioBuffer(parent=self.window.tb, name="{0}_audio_album".format(album_id,), composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], user_id=self.session.user_id, album_id=album_id)
+			buffer = buffers.audioAlbum(parent=self.window.tb, name="{0}_audio_album".format(album_id,), composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], user_id=self.session.user_id, album_id=album_id)
+			buffer.can_get_items = False
 			# Translators: {0} will be replaced with an audio album's title.
 			name_ = _(u"Album: {0}").format(d.get("title"),)
 			self.buffers.append(buffer)
