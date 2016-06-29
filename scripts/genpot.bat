@@ -1,3 +1,7 @@
 @echo off
-echo Generating application translation strings...
-C:\python27x86\python.exe pygettext.py -v -d socializer ../src/*.pyw ../src/*.py ../src/*/*.py ../src/*/*.pyw ../src/*/*/*.py ../src/*/*/*.pyw ../src/*/*/*/*.py ../src/*/*/*/*.pyw ../src/*/*/*/*/*.py ../src/*/*/*/*/*.pyw
+echo Generating file list..
+dir ..\src\*.py /L /B /S > %TEMP%\listfile.txt
+echo Generating .POT file...
+xgettext --language=Python -o socializer.pot --keyword=_   -d socializer  -f %TEMP%\listfile.txt -c --no-location --no-wrap
+del %TEMP%\listfile.txt
+echo Done.
