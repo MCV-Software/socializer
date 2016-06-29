@@ -14,8 +14,10 @@
 * Included a brief   manual in the help menu. Currently available only in English.
 * Included a context menu in list items. Currently there are functions not available. Menu for chat buffers is not implemented yet.
 * Implemented audio album load (in the music  buffer), creation (in the application menu) and deletion (in the application menu, too).
-* audios can be moved to albums by pressing the menu key or doing a right click in the item, and selecting "move to album". Audios will be added to the album in the next update (there is a programmed update every 3 minutes), or you can update the buffer manually (from the buffer menu in the menu bar). This option will be available in audio buffers (searches or audio timelines).
+* audios can be moved to albums by pressing the menu key or doing a right click in the item, and selecting "move to album". Audios will be added to the album in the next update (there is a programmed update every 3 minutes), or you can update the buffer manually (from the buffer menu in the menu bar). This option will be available in audio buffers (searches, popular and recommended audio buffers, and audio timelines).
 * Albums will be empty at startup. In order to get the album's audios, you'll have to navigate to the album and press the button "load". It'll load the needed information for displaying and playing the added songs 
+* If the config is invalid (for example you changed email or phone in the VK site and didn't changed that in Socializer, or just entered invalid credentials), the program will display an error with instructions for fixing the problem.
+* Now is possible to press enter in the password or email/phone field and it'll do the action of the OK button.
 
 ## Changes on build 2016.05.25
 

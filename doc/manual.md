@@ -6,6 +6,7 @@ Socializer is an application to use [VK.com](https://vk.com) in an easy and acce
 
 * Basic post creation in your wall (including photos).
 * Audio addition, removal, download and search.
+* audio albums management (create, delete and add audios).
 * Post comments.
 * like, unlike and repost other's posts.
 * Open other's timelines so you could track someone's friends, posts or audio files.
@@ -26,6 +27,7 @@ If you have used [TWBlue](https://github.com/manuelcortez/twblue) before, the so
 * A tree view at the left of the window, where you will see the list of buffers. These buffers are divided in three categories, posts, music and people. You could expand each category for seeing the child buffers. There are some additional buffers, timelines and chats, wich will be filled with timelines for your friends or with chats, when you  start or receive a chat session.
 * A button for making a post to your wall.
 * In audio buffers, Two buttons: Play and play all.
+* In audio album buffers, a button for loading music. By default, albums are empty, you have to press  the load button for getting the album's items.
 * A list where you will see the posts for the currently selected buffer.
 * In people buffers, like the friends buffer, a button for sending a message to your friends. Pressing that button will cause a chat buffer to be created.
 * A status bar where the program will put some useful information about what it's doing at the moment.
@@ -52,6 +54,8 @@ If you open a regular post in your newsfeed, you will be able to see the comment
 
 For friend notifications, you can only view the new added friends in a list and  there are some kind of posts that aren't handled. It should be improved.
 
+Additionally, you can press the menu Key or the right click  for displaying a menu with some quick actions available for the post you are focusing. These actions are different for every post type.
+
 ### Working with songs
 
 Note: the following applies to audio timelines too.
@@ -70,22 +74,25 @@ When the download starts, you can close the details dialogue and check the statu
 
 Additionally, you can search for audios by using the menu bar, in the buffer menu, select search, then audio. It will display a dialog where you have to set your search preferences.
 
+If you press the menu key, you will see a menu where you will be able to do some actions, for example, add the audio to an album, or add/remove the song from your library.
+
 ## menu Bar
 
 You can go to the menu bar by pressing ALT. Right now, there are  three  menus, application, buffer and help:
 
 ### Application menu
 
-
-* At the moment, you can set your preferences by opening the preferences dialog located in this menu.
+* Create. Here you can create some things in VK. The only supported item at this moment is the audio album.
+* Delete: Removes items from the VK servers. The only supported item here is the audio album.
+* you can set your preferences by opening the preferences dialog located in this menu.
 
 ### Buffer menu
 
-* search: This submenu  allows you to create a new buffer, at the moment, you can create only a kind of buffer, an audio search. The audio search will be located in the music category and will have the last 299 results of your query. It isn't possible to delete the buffers until you restart the client.
 * new timeline: This option allows you to create a new timeline. This kind of buffers is capable of download all posts in an user's profile.
+* search: This submenu  allows you to create a new buffer, at the moment, you can create only a kind of buffer, an audio search. The audio search will be located in the music category and will have the last 299 results of your query.
 * Update current buffer: perform an update operation in the selected buffer, which will retrieve the new items.
 * Load previous items: Get the previous items for the currently  focused buffer.
-* Remove buffer: Tries to remove the current buffer. It only works with audio searches, because the default buffers shouldn't be removed.
+* Remove buffer: Tries to remove the current buffer. Default buffers can't  be removed.
 
 The help menu is self explanatory.
 
