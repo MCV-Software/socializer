@@ -13,6 +13,9 @@
 * Read messages will be marked as read in the social network, so it'll cause that your friends could see that you have read the message and socializer will not load  chat buffers with read messages at startup.
 * Included a brief   manual in the help menu. Currently available only in English.
 * Included a context menu in list items. Currently there are functions not available. Menu for chat buffers is not implemented yet.
+* Implemented audio album load (in the music  buffer), creation (in the application menu) and deletion (in the application menu, too).
+* audios can be moved to albums by pressing the menu key or doing a right click in the item, and selecting "move to album". Audios will be added to the album in the next update (there is a programmed update in 3 minutes), or you can update the buffer manually (from the buffer menu in the menu bar). This option will be available in audio buffers (searches or audio buffers).
+
 
 ## Changes on build 2016.05.25
 

@@ -9,6 +9,7 @@ import posts
 import player
 import output
 import logging
+import selector
 from wxUI.tabs import home
 from pubsub import pub
 from sessionmanager import session
@@ -359,11 +360,20 @@ class audioBuffer(feedBuffer):
 		if int(result) == 1:
 			output.speak(_(u"Removed audio from library"))
 
+	def move_to_album(self, *args, **kwargs):
+		album = selector.audioAlbum(_(u"Select the album where you want to move this song"), self.session)
+		if album.item == None: return
+		id = self.get_post()["id"]
+		response = self.session.vk.client.audio.moveToAlbum(album_id=album.item, audio_ids=id)
+		if response == 1:
+			output.speak(_(u"Moved"))
+
 	def get_menu(self):
 		p = self.get_post()
 		m = menus.audioMenu()
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.open_post, menuitem=m.open)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.play_audio, menuitem=m.play)
+		widgetUtils.connect_event(m, widgetUtils.MENU, self.move_to_album, menuitem=m.move)
 		# if owner_id is the current user, the audio is added to the user's audios.
 		if p["owner_id"] == self.session.user_id:
 			m.library.SetItemLabel(_(u"&Remove from library"))
