@@ -12,6 +12,7 @@ import posts
 import webbrowser
 import logging
 import longpoolthread
+import selector
 from pubsub import pub
 from mysc.repeating_timer import RepeatingTimer
 from mysc.thread_utils import call_threaded
@@ -120,6 +121,7 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.configuration, menuitem=self.window.settings_dialog)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.new_timeline, menuitem=self.window.timeline)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.create_audio_album, menuitem=self.window.audio_album)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.delete_audio_album, menuitem=self.window.delete_audio_album)
 		pub.subscribe(self.get_chat, "order-sent-message")
 
 	def disconnect_events(self):
@@ -160,6 +162,7 @@ class Controller(object):
 
 	def update_all_buffers(self):
 		log.debug("Updating buffers...")
+		self.session.audio_albums = self.session.vk.client.audio.getAlbums(owner_id=self.session.user_id)["items"]
 		for i in self.buffers:
 			if hasattr(i, "get_items"):
 				i.get_items()
@@ -347,15 +350,15 @@ class Controller(object):
 
 	def get_audio_albums(self, user_id=None):
 		albums = self.session.vk.client.audio.getAlbums(owner_id=user_id)
-		print albums
+		self.session.audio_albums = albums["items"]
 		for i in albums["items"]:
-			buffer = buffers.audioBuffer(parent=self.window.tb, name="{0}_album".format(i["id"],), composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], user_id=user_id, album_id=i["id"])
+			buffer = buffers.audioBuffer(parent=self.window.tb, name="{0}_audio_album".format(i["id"],), composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], user_id=user_id, album_id=i["id"])
 			name_ = _(u"Album: {0}").format(i["title"],)
 			self.buffers.append(buffer)
 			self.window.insert_buffer(buffer.tab, name_, self.window.search("albums"))
 			buffer.get_items()
 			# inserts a pause of 1 second here, so we'll avoid errors 6 in VK.
-			time.sleep(1)
+			time.sleep(0.4)
 
 	def create_audio_album(self, *args, **kwargs):
 		d = creation.audio_album()
@@ -363,8 +366,23 @@ class Controller(object):
 			response = self.session.vk.client.audio.addAlbum(title=d.get("title"))
 			if response.has_key("album_id") == False: return
 			album_id = response["album_id"]
-			buffer = buffers.audioBuffer(parent=self.window.tb, name="{0}_album".format(album_id,), composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], user_id=self.session.user_id, album_id=album_id)
+			buffer = buffers.audioBuffer(parent=self.window.tb, name="{0}_audio_album".format(album_id,), composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], user_id=self.session.user_id, album_id=album_id)
 			name_ = _(u"Album: {0}").format(d.get("title"),)
 			self.buffers.append(buffer)
 			self.window.insert_buffer(buffer.tab, name_, self.window.search("albums"))
 			buffer.get_items()
+			self.session.audio_albums = self.session.vk.client.audio.getAlbums(owner_id=self.session.user_id)["items"]
+
+	def delete_audio_album(self, *args, **kwargs):
+		answer = selector.audioAlbum(_(u"Select the album you want to delete"), self.session)
+		if answer.item == None:
+			return
+		response = commonMessages.delete_audio_album()
+		if response != widgetUtils.YES: return
+		removal = self.session.vk.client.audio.deleteAlbum(album_id=answer.item)
+		buffer = self.search("{0}_audio_album".format(answer.item,))
+		buff = self.window.search(buffer.name)
+		self.window.remove_buffer(buff)
+		self.buffers.remove(buffer)
+		del buffer
+		self.session.audio_albums = self.session.vk.client.audio.getAlbums(owner_id=self.session.user_id)["items"]

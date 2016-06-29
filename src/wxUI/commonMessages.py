@@ -24,3 +24,6 @@ def show_error_code(code):
 
 def bad_authorisation():
 	return wx.MessageDialog(None, _(u"authorisation failed. Your configuration will not be saved. Please close and open again the application for authorising your account. Make sure you have typed your credentials correctly."), _(u"Error"), style=wx.ICON_ERROR).ShowModal()
+
+def delete_audio_album():
+	return wx.MessageDialog(None, _(u"Do you really want to delete   this Album? this will be deleted from VK too."), _(u"Attention"), style=wx.ICON_QUESTION|wx.YES_NO).ShowModal()

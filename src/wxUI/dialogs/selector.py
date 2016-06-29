@@ -2,8 +2,8 @@
 import wx
 
 class selectAlbum(wx.Dialog):
- def __init__(self, albums):
-  super(selectAlbum, self).__init__(parent=None, title=_(u"Select the album where you will upload the photo"))
+ def __init__(self, title, albums):
+  super(selectAlbum, self).__init__(parent=None, title=title)
   panel = wx.Panel(self)
   self.lista = wx.ListBox(panel, -1, choices=albums)
   self.lista.SetFocus()
