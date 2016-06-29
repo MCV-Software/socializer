@@ -12,7 +12,9 @@ def prepare_documentation_in_file(fileSource, fileDest):
 	f2.write("# -*- coding: utf-8 -*-\n")
 	f2.write("documentation = [\n")
 	for i in lns:
-		if "\n" == i[-1]:
+		if "\n" == i:
+			newvar = "\"\","
+		elif "\n" == i[-1]:
 			newvar = "_(u\"\"\"%s\"\"\"),\n" % (i[:-1])
 		else:
 			newvar = "_(u\"\"\"%s\"\"\"),\n" % (i)
