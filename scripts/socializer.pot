@@ -1,789 +1,642 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR ORGANIZATION
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-05-25 12:26+Hora de verano central (México)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-06-29 13:16-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
-"Content-Transfer-Encoding: ENCODING\n"
-"Generated-By: pygettext.py 1.5\n"
+"Content-Transfer-Encoding: 8bit\n"
 
-
-#: ../src\controller\attach.py:23 ../src\controller\posts.py:35
-msgid "Photo"
-msgstr ""
-
-#: ../src\controller\buffers.py:77
-msgid "Write your post"
-msgstr ""
-
-#: ../src\controller\buffers.py:187 ../src\controller\buffers.py:229
-msgid "This buffer can't be deleted"
-msgstr ""
-
-#: ../src\controller\buffers.py:243 ../src\controller\buffers.py:255
-msgid "This buffer doesn't support getting more items."
-msgstr ""
-
-#: ../src\controller\configuration.py:9 ../src\wxUI\mainWindow.py:9
-msgid "Preferences"
-msgstr ""
-
-#: ../src\controller\mainController.py:47
-#: ../src\controller\mainController.py:125
-#: ../src\controller\mainController.py:130 ../src\utils.py:54
-msgid "Ready"
-msgstr ""
-
-#: ../src\controller\mainController.py:58
-msgid "Posts"
-msgstr ""
-
-#: ../src\controller\mainController.py:61
-msgid "Home"
-msgstr ""
-
-#: ../src\controller\mainController.py:66
-msgid "My wall"
-msgstr ""
-
-#: ../src\controller\mainController.py:69
-msgid "Music"
-msgstr ""
-
-#: ../src\controller\mainController.py:72
-msgid "My audios"
-msgstr ""
-
-#: ../src\controller\mainController.py:75
-msgid "Populars"
-msgstr ""
-
-#: ../src\controller\mainController.py:78
-msgid "Recommendations"
-msgstr ""
-
-#: ../src\controller\mainController.py:81
-msgid "People"
-msgstr ""
-
-#: ../src\controller\mainController.py:84 ../src\wxUI\tabs\home.py:145
-msgid "Friends"
-msgstr ""
-
-#: ../src\controller\mainController.py:87
-msgid "Chats"
-msgstr ""
-
-#: ../src\controller\mainController.py:90
-msgid "Timelines"
-msgstr ""
-
-#: ../src\controller\mainController.py:123
-msgid "Logging in VK"
-msgstr ""
-
-#: ../src\controller\mainController.py:128
-msgid "Loading items for {0}"
-msgstr ""
-
-#: ../src\controller\mainController.py:194
-msgid "Search for {0}"
-msgstr ""
-
-#: ../src\controller\mainController.py:245
-msgid "{0}'s audios"
-msgstr ""
-
-#: ../src\controller\mainController.py:248
-msgid "{0}'s wall posts"
-msgstr ""
-
-#: ../src\controller\mainController.py:275
-msgid "Chat with {0}"
-msgstr ""
-
-#: ../src\controller\messages.py:23 ../src\wxUI\dialogs\message.py:20
-msgid "Friends of friends"
-msgstr ""
-
-#: ../src\controller\messages.py:25 ../src\wxUI\dialogs\message.py:20
-msgid "All users"
-msgstr ""
-
-#: ../src\controller\messages.py:38 ../src\controller\posts.py:259
-msgid "Translated"
-msgstr ""
-
-#: ../src\controller\messages.py:56
-msgid "New comment"
-msgstr ""
-
-#: ../src\controller\player.py:37
-msgid "Playing {0} by {1}"
-msgstr ""
-
-#: ../src\controller\posts.py:26
-msgid "Unknown username"
-msgstr ""
-
-#: ../src\controller\posts.py:33
-msgid "Link"
-msgstr ""
-
-#: ../src\controller\posts.py:38
-msgid "no description available"
-msgstr ""
-
-#: ../src\controller\posts.py:41
-msgid "Video"
-msgstr ""
-
-#: ../src\controller\posts.py:44 ../src\wxUI\mainWindow.py:12
-msgid "Audio"
-msgstr ""
-
-#: ../src\controller\posts.py:47
-msgid "{0} file"
-msgstr ""
-
-#: ../src\controller\posts.py:105
-msgid "repost from {0}"
-msgstr ""
-
-#: ../src\controller\posts.py:108
-msgid "Post from {0} in the {1}'s wall"
-msgstr ""
-
-#: ../src\controller\posts.py:110
-msgid "Post from {0}"
-msgstr ""
-
-#: ../src\controller\posts.py:139
-msgid "Untitled link"
-msgstr ""
-
-#: ../src\controller\posts.py:158 ../src\controller\posts.py:172
-#: ../src\controller\posts.py:182
-msgid "&Dislike"
-msgstr ""
-
-#: ../src\controller\posts.py:174
-msgid "You don't like this"
-msgstr ""
-
-#: ../src\controller\posts.py:178 ../src\wxUI\dialogs\postDialogs.py:48
-msgid "&Like"
-msgstr ""
-
-#: ../src\controller\posts.py:181
-msgid "You liked this"
-msgstr ""
-
-#: ../src\controller\posts.py:189
-msgid "Add your comment here"
-msgstr ""
-
-#: ../src\controller\posts.py:189 ../src\wxUI\dialogs\postDialogs.py:49
-msgid "Repost"
-msgstr ""
-
-#: ../src\controller\posts.py:201
-msgid "Add a comment"
-msgstr ""
-
-#: ../src\controller\posts.py:208
-msgid "You've posted a comment"
-msgstr ""
-
-#: ../src\controller\posts.py:244
-msgid "You do like this comment"
-msgstr ""
-
-#: ../src\controller\posts.py:249
-msgid "You don't like this comment"
-msgstr ""
-
-#: ../src\controller\posts.py:282 ../src\controller\posts.py:293
-msgid "Opening URL..."
-msgstr ""
-
-#: ../src\controller\posts.py:296
-msgid "Opening document in web browser..."
-msgstr ""
-
-#: ../src\controller\posts.py:308
-msgid "Opening video in web browser..."
-msgstr ""
-
-#: ../src\controller\posts.py:311
-msgid "Opening photo in web browser..."
-msgstr ""
-
-#: ../src\controller\posts.py:336
-msgid "Comment from {0}"
-msgstr ""
-
-#: ../src\controller\posts.py:448
-msgid "{0} added the following friends"
-msgstr ""
-
-#: ../src\extra\SpellChecker\spellchecker.py:46
-msgid "Misspelled word: %s"
-msgstr ""
-
-#: ../src\extra\SpellChecker\wx_ui.py:27
-msgid "&Misspelled word"
-msgstr ""
-
-#: ../src\extra\SpellChecker\wx_ui.py:32
-msgid "Con&text"
-msgstr ""
-
-#: ../src\extra\SpellChecker\wx_ui.py:37
-msgid "&Suggestions"
-msgstr ""
-
-#: ../src\extra\SpellChecker\wx_ui.py:42
-msgid "&Ignore"
-msgstr ""
-
-#: ../src\extra\SpellChecker\wx_ui.py:43
-msgid "Ignore &all"
-msgstr ""
-
-#: ../src\extra\SpellChecker\wx_ui.py:44
-msgid "&Replace"
-msgstr ""
-
-#: ../src\extra\SpellChecker\wx_ui.py:45
-msgid "Replace a&ll"
-msgstr ""
-
-#: ../src\extra\SpellChecker\wx_ui.py:76
-msgid "An error has occurred. There are no dictionaries available for the selected language in {0}"
-msgstr ""
-
-#: ../src\extra\SpellChecker\wx_ui.py:76 ../src\wxUI\commonMessages.py:15
-msgid "Error"
-msgstr ""
-
-#: ../src\extra\SpellChecker\wx_ui.py:79
-msgid "Spell check complete."
-msgstr ""
-
-#: ../src\extra\translator\translator.py:10
-msgid "Afrikaans"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:11
-msgid "Albanian"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:12
-msgid "Amharic"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:13
-msgid "Arabic"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:14
-msgid "Armenian"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:15
-msgid "Azerbaijani"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:16
-msgid "Basque"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:17
-msgid "Belarusian"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:18
-msgid "Bengali"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:19
-msgid "Bihari"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:20
-msgid "Bulgarian"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:21
-msgid "Burmese"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:22
-msgid "Catalan"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:23
-msgid "Cherokee"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:24
-msgid "Chinese"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:25
-msgid "Chinese_simplified"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:26
-msgid "Chinese_traditional"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:27
-msgid "Croatian"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:28
-msgid "Czech"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:29
-msgid "Danish"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:30
-msgid "Dhivehi"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:31
-msgid "Dutch"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:32
-msgid "English"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:33
-msgid "Esperanto"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:34
-msgid "Estonian"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:35
-msgid "Filipino"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:36
-msgid "Finnish"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:37
-msgid "French"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:38
-msgid "Galician"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:39
-msgid "Georgian"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:40
-msgid "German"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:41
-msgid "Greek"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:42
-msgid "Guarani"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:43
-msgid "Gujarati"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:44
-msgid "Hebrew"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:45
-msgid "Hindi"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:46
-msgid "Hungarian"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:47
-msgid "Icelandic"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:48
-msgid "Indonesian"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:49
-msgid "Inuktitut"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:50
-msgid "Irish"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:51
-msgid "Italian"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:52
-msgid "Japanese"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:53
-msgid "Kannada"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:54
-msgid "Kazakh"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:55
-msgid "Khmer"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:56
-msgid "Korean"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:57
-msgid "Kurdish"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:58
-msgid "Kyrgyz"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:59
-msgid "Laothian"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:60
-msgid "Latvian"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:61
-msgid "Lithuanian"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:62
-msgid "Macedonian"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:63
-msgid "Malay"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:64
-msgid "Malayalam"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:65
-msgid "Maltese"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:66
-msgid "Marathi"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:67
-msgid "Mongolian"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:68
-msgid "Nepali"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:69
-msgid "Norwegian"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:70
-msgid "Oriya"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:71
-msgid "Pashto"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:72
-msgid "Persian"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:73
-msgid "Polish"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:74
-msgid "Portuguese"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:75
-msgid "Punjabi"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:76
-msgid "Romanian"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:77
-msgid "Russian"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:78
-msgid "Sanskrit"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:79
-msgid "Serbian"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:80
-msgid "Sindhi"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:81
-msgid "Sinhalese"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:82
-msgid "Slovak"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:83
-msgid "Slovenian"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:84
-msgid "Spanish"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:85
-msgid "Swahili"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:86
-msgid "Swedish"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:87
-msgid "Tajik"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:88
-msgid "Tamil"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:89
-msgid "Tagalog"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:90
-msgid "Telugu"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:91
-msgid "Thai"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:92
-msgid "Tibetan"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:93
-msgid "Turkish"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:94
-msgid "Ukrainian"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:95
-msgid "Urdu"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:96
-msgid "Uzbek"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:97
-msgid "Uighur"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:98
-msgid "Vietnamese"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:99
-msgid "Welsh"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:100
-msgid "Yiddish"
-msgstr ""
-
-#: ../src\extra\translator\translator.py:107
-msgid "autodetect"
-msgstr ""
-
-#: ../src\extra\translator\wx_ui.py:25 ../src\wxUI\dialogs\message.py:95
-msgid "Translate message"
-msgstr ""
-
-#: ../src\extra\translator\wx_ui.py:28
-msgid "&Source language"
-msgstr ""
-
-#: ../src\extra\translator\wx_ui.py:31
-msgid "&Target language"
-msgstr ""
-
-#: ../src\languageHandler.py:94
+#. Translators: the label for the Windows default NVDA interface language.
 msgid "User default"
 msgstr ""
 
-#: ../src\sessionmanager\session.py:20
-msgid "Movile application"
-msgstr ""
-
-#: ../src\sessionmanager\session.py:21
-msgid "iPhone"
-msgstr ""
-
-#: ../src\sessionmanager\session.py:22
-msgid "iPad"
-msgstr ""
-
-#: ../src\sessionmanager\session.py:23
-msgid "Android"
-msgstr ""
-
-#: ../src\sessionmanager\session.py:24
-msgid "Windows phone"
-msgstr ""
-
-#: ../src\sessionmanager\session.py:25
-msgid "Windows 8"
-msgstr ""
-
-#: ../src\sessionmanager\session.py:26
-msgid "Web or desktop app"
-msgstr ""
-
-#: ../src\sessionmanager\session.py:76
-msgid "{0} from {1}"
-msgstr ""
-
-#: ../src\sessionmanager\session.py:83 ../src\sessionmanager\session.py:130
-#: ../src\sessionmanager\session.py:135
-msgid "{0} has shared the {1}'s post"
-msgstr ""
-
-#: ../src\sessionmanager\session.py:95
-msgid "{0} has added  an audio: {1}"
-msgstr ""
-
-#: ../src\sessionmanager\session.py:101
-msgid "{0} has added  {1} audios: {2}"
-msgstr ""
-
-#: ../src\sessionmanager\session.py:106
-msgid "{0} hadded friends: {1}"
-msgstr ""
-
-#: ../src\sessionmanager\session.py:109
-msgid "{0} has added  a video: {1}"
-msgstr ""
-
-#: ../src\sessionmanager\session.py:115
-msgid "{0} has added  {1} videos: {2}"
-msgstr ""
-
-#: ../src\sessionmanager\session.py:123
-msgid "dddd, MMMM D, YYYY H:m:s"
-msgstr ""
-
-#: ../src\sessionmanager\session.py:145 ../src\sessionmanager\session.py:149
-msgid "Audio removed from library"
-msgstr ""
-
-#: ../src\sessionmanager\wxUI.py:6
-msgid "Authorisation"
-msgstr ""
-
-#: ../src\sessionmanager\wxUI.py:6
-msgid "In order to continue, you need to configure your VK account before. Would you like to autorhise a new account now?"
-msgstr ""
-
-#: ../src\sessionmanager\wxUI.py:10
-msgid "Authorise VK"
-msgstr ""
-
-#: ../src\sessionmanager\wxUI.py:12
-msgid "&Email or phone number"
-msgstr ""
-
-#: ../src\sessionmanager\wxUI.py:14
-msgid "&Password"
-msgstr ""
-
-#: ../src\update\utils.py:27 ../src\utils.py:20
+#, python-format
 msgid "%d day, "
 msgstr ""
 
-#: ../src\update\utils.py:29 ../src\utils.py:22
+#, python-format
 msgid "%d days, "
 msgstr ""
 
-#: ../src\update\utils.py:31 ../src\utils.py:24
+#, python-format
 msgid "%d hour, "
 msgstr ""
 
-#: ../src\update\utils.py:33 ../src\utils.py:26
+#, python-format
 msgid "%d hours, "
 msgstr ""
 
-#: ../src\update\utils.py:35 ../src\utils.py:28
+#, python-format
 msgid "%d minute, "
 msgstr ""
 
-#: ../src\update\utils.py:37 ../src\utils.py:30
+#, python-format
 msgid "%d minutes, "
 msgstr ""
 
-#: ../src\update\utils.py:39 ../src\utils.py:32
+#, python-format
 msgid "%s second"
 msgstr ""
 
-#: ../src\update\utils.py:41 ../src\utils.py:34
+#, python-format
 msgid "%s seconds"
 msgstr ""
 
-#: ../src\update\wxUpdater.py:9
-msgid "New version for %s"
+msgid "Downloading {0}"
 msgstr ""
 
-#: ../src\update\wxUpdater.py:9
+msgid "Downloading {0} ({1}%)"
+msgstr ""
+
+msgid "Ready"
+msgstr ""
+
+#. Translators: This is the text displayed in the attachments dialog, when the user adds  a photo.
+msgid "Photo"
+msgstr ""
+
+msgid "Write your post"
+msgstr ""
+
+#. Translators: This will be used when user presses like.
+msgid "You liked this"
+msgstr ""
+
+#. Translators: This will be user in 'dislike'
+msgid "You don't like this"
+msgstr ""
+
+msgid "Add a comment"
+msgstr ""
+
+msgid "You've posted a comment"
+msgstr ""
+
+msgid "This buffer can't be deleted"
+msgstr ""
+
+#. Translators: Some buffers can't use the get previous item feature due to API limitations.
+msgid "This buffer doesn't support getting more items."
+msgstr ""
+
+msgid "Audio added to your library"
+msgstr ""
+
+msgid "Removed audio from library"
+msgstr ""
+
+msgid "Select the album where you want to move this song"
+msgstr ""
+
+#. Translators: Used when the user has moved an audio to an album.
+msgid "Moved"
+msgstr ""
+
+msgid "&Remove from library"
+msgstr ""
+
+msgid "Loading album..."
+msgstr ""
+
+msgid "Preferences"
+msgstr ""
+
+#. Translators: Name for the posts tab in the tree view.
+msgid "Posts"
+msgstr ""
+
+#. Translators: Newsfeed's name in the tree view.
+msgid "Home"
+msgstr ""
+
+#. Translators: Own user's wall name in the tree view.
+msgid "My wall"
+msgstr ""
+
+#. Translators: name for the music category in the tree view.
+msgid "Music"
+msgstr ""
+
+msgid "My audios"
+msgstr ""
+
+msgid "Populars"
+msgstr ""
+
+msgid "Recommendations"
+msgstr ""
+
+msgid "Albums"
+msgstr ""
+
+msgid "People"
+msgstr ""
+
+msgid "Friends"
+msgstr ""
+
+msgid "Chats"
+msgstr ""
+
+msgid "Timelines"
+msgstr ""
+
+msgid "Logging in VK"
+msgstr ""
+
+#. Translators: {0} will be replaced with the name of a buffer.
+msgid "Loading items for {0}"
+msgstr ""
+
+#. Translators: {0} will be replaced with the search term.
+msgid "Search for {0}"
+msgstr ""
+
+#. Translators: {0} will be replaced with an user.
+msgid "{0}'s audios"
+msgstr ""
+
+#. Translators: {0} will be replaced with an user.
+msgid "{0}'s wall posts"
+msgstr ""
+
+#. Translators: {0} will be replaced with an user.
+msgid "{0}'s friends"
+msgstr ""
+
+#. Translators: {0} will be replaced with an user.
+msgid "Chat with {0}"
+msgstr ""
+
+#. Translators: {0} Will be replaced with an audio album's title.
+#. Translators: {0} will be replaced with an audio album's title.
+msgid "Album: {0}"
+msgstr ""
+
+msgid "Select the album you want to delete"
+msgstr ""
+
+msgid "Friends of friends"
+msgstr ""
+
+msgid "All users"
+msgstr ""
+
+msgid "Translated"
+msgstr ""
+
+msgid "New comment"
+msgstr ""
+
+#. Translators: {0} will be replaced with a song's title and {1} with the artist.
+msgid "Playing {0} by {1}"
+msgstr ""
+
+#. Translators: This string is user when socializer can't find the right user information.
+msgid "Unknown username"
+msgstr ""
+
+msgid "Link"
+msgstr ""
+
+msgid "no description available"
+msgstr ""
+
+msgid "Video"
+msgstr ""
+
+msgid "Audio"
+msgstr ""
+
+msgid "{0} file"
+msgstr ""
+
+#. Translators: {0} will be replaced with an user.
+msgid "repost from {0}"
+msgstr ""
+
+#. Translators: {0} will be replaced with the user who is posting, and {2} with the wall owner.
+msgid "Post from {0} in the {1}'s wall"
+msgstr ""
+
+msgid "Post from {0}"
+msgstr ""
+
+msgid "Untitled link"
+msgstr ""
+
+msgid "&Dislike"
+msgstr ""
+
+msgid "&Like"
+msgstr ""
+
+msgid "Repost"
+msgstr ""
+
+msgid "Add your comment here"
+msgstr ""
+
+msgid "You do like this comment"
+msgstr ""
+
+msgid "You don't like this comment"
+msgstr ""
+
+msgid "Opening URL..."
+msgstr ""
+
+msgid "Opening document in web browser..."
+msgstr ""
+
+msgid "Opening video in web browser..."
+msgstr ""
+
+msgid "Opening photo in web browser..."
+msgstr ""
+
+msgid "Comment from {0}"
+msgstr ""
+
+msgid "{0} added the following friends"
+msgstr ""
+
+#, python-format
+msgid "Misspelled word: %s"
+msgstr ""
+
+msgid "&Misspelled word"
+msgstr ""
+
+msgid "Con&text"
+msgstr ""
+
+msgid "&Suggestions"
+msgstr ""
+
+msgid "&Ignore"
+msgstr ""
+
+msgid "Ignore &all"
+msgstr ""
+
+msgid "&Replace"
+msgstr ""
+
+msgid "Replace a&ll"
+msgstr ""
+
+msgid "An error has occurred. There are no dictionaries available for the selected language in {0}"
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+msgid "Spell check complete."
+msgstr ""
+
+msgid "Afrikaans"
+msgstr ""
+
+msgid "Albanian"
+msgstr ""
+
+msgid "Amharic"
+msgstr ""
+
+msgid "Arabic"
+msgstr ""
+
+msgid "Armenian"
+msgstr ""
+
+msgid "Azerbaijani"
+msgstr ""
+
+msgid "Basque"
+msgstr ""
+
+msgid "Belarusian"
+msgstr ""
+
+msgid "Bengali"
+msgstr ""
+
+msgid "Bihari"
+msgstr ""
+
+msgid "Bulgarian"
+msgstr ""
+
+msgid "Burmese"
+msgstr ""
+
+msgid "Catalan"
+msgstr ""
+
+msgid "Cherokee"
+msgstr ""
+
+msgid "Chinese"
+msgstr ""
+
+msgid "Chinese_simplified"
+msgstr ""
+
+msgid "Chinese_traditional"
+msgstr ""
+
+msgid "Croatian"
+msgstr ""
+
+msgid "Czech"
+msgstr ""
+
+msgid "Danish"
+msgstr ""
+
+msgid "Dhivehi"
+msgstr ""
+
+msgid "Dutch"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "Esperanto"
+msgstr ""
+
+msgid "Estonian"
+msgstr ""
+
+msgid "Filipino"
+msgstr ""
+
+msgid "Finnish"
+msgstr ""
+
+msgid "French"
+msgstr ""
+
+msgid "Galician"
+msgstr ""
+
+msgid "Georgian"
+msgstr ""
+
+msgid "German"
+msgstr ""
+
+msgid "Greek"
+msgstr ""
+
+msgid "Guarani"
+msgstr ""
+
+msgid "Gujarati"
+msgstr ""
+
+msgid "Hebrew"
+msgstr ""
+
+msgid "Hindi"
+msgstr ""
+
+msgid "Hungarian"
+msgstr ""
+
+msgid "Icelandic"
+msgstr ""
+
+msgid "Indonesian"
+msgstr ""
+
+msgid "Inuktitut"
+msgstr ""
+
+msgid "Irish"
+msgstr ""
+
+msgid "Italian"
+msgstr ""
+
+msgid "Japanese"
+msgstr ""
+
+msgid "Kannada"
+msgstr ""
+
+msgid "Kazakh"
+msgstr ""
+
+msgid "Khmer"
+msgstr ""
+
+msgid "Korean"
+msgstr ""
+
+msgid "Kurdish"
+msgstr ""
+
+msgid "Kyrgyz"
+msgstr ""
+
+msgid "Laothian"
+msgstr ""
+
+msgid "Latvian"
+msgstr ""
+
+msgid "Lithuanian"
+msgstr ""
+
+msgid "Macedonian"
+msgstr ""
+
+msgid "Malay"
+msgstr ""
+
+msgid "Malayalam"
+msgstr ""
+
+msgid "Maltese"
+msgstr ""
+
+msgid "Marathi"
+msgstr ""
+
+msgid "Mongolian"
+msgstr ""
+
+msgid "Nepali"
+msgstr ""
+
+msgid "Norwegian"
+msgstr ""
+
+msgid "Oriya"
+msgstr ""
+
+msgid "Pashto"
+msgstr ""
+
+msgid "Persian"
+msgstr ""
+
+msgid "Polish"
+msgstr ""
+
+msgid "Portuguese"
+msgstr ""
+
+msgid "Punjabi"
+msgstr ""
+
+msgid "Romanian"
+msgstr ""
+
+msgid "Russian"
+msgstr ""
+
+msgid "Sanskrit"
+msgstr ""
+
+msgid "Serbian"
+msgstr ""
+
+msgid "Sindhi"
+msgstr ""
+
+msgid "Sinhalese"
+msgstr ""
+
+msgid "Slovak"
+msgstr ""
+
+msgid "Slovenian"
+msgstr ""
+
+msgid "Spanish"
+msgstr ""
+
+msgid "Swahili"
+msgstr ""
+
+msgid "Swedish"
+msgstr ""
+
+msgid "Tajik"
+msgstr ""
+
+msgid "Tamil"
+msgstr ""
+
+msgid "Tagalog"
+msgstr ""
+
+msgid "Telugu"
+msgstr ""
+
+msgid "Thai"
+msgstr ""
+
+msgid "Tibetan"
+msgstr ""
+
+msgid "Turkish"
+msgstr ""
+
+msgid "Ukrainian"
+msgstr ""
+
+msgid "Urdu"
+msgstr ""
+
+msgid "Uzbek"
+msgstr ""
+
+msgid "Uighur"
+msgstr ""
+
+msgid "Vietnamese"
+msgstr ""
+
+msgid "Welsh"
+msgstr ""
+
+msgid "Yiddish"
+msgstr ""
+
+msgid "autodetect"
+msgstr ""
+
+msgid "Translate message"
+msgstr ""
+
+msgid "&Source language"
+msgstr ""
+
+msgid "&Target language"
+msgstr ""
+
+#. Translators: This is the date of last seen
+msgid "{0}"
+msgstr ""
+
+msgid "Account deactivated"
+msgstr ""
+
+msgid "{0} has shared the {1}'s post"
+msgstr ""
+
+msgid "{0} has added  an audio: {1}"
+msgstr ""
+
+msgid "{0} has added  {1} audios: {2}"
+msgstr ""
+
+msgid "{0} hadded friends: {1}"
+msgstr ""
+
+msgid "{0} has added  a video: {1}"
+msgstr ""
+
+msgid "{0} has added  {1} videos: {2}"
+msgstr ""
+
+msgid "dddd, MMMM D, YYYY H:m:s"
+msgstr ""
+
+msgid "Audio removed from library"
+msgstr ""
+
+msgid "In order to continue, you need to configure your VK account before. Would you like to autorhise a new account now?"
+msgstr ""
+
+msgid "Authorisation"
+msgstr ""
+
+msgid "Authorise VK"
+msgstr ""
+
+msgid "&Email or phone number"
+msgstr ""
+
+msgid "&Password"
+msgstr ""
+
+#, python-format
 msgid ""
 "There's a new %s version available. Would you like to download it now?\n"
 "\n"
@@ -793,485 +646,385 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../src\update\wxUpdater.py:17
+#, python-format
+msgid "New version for %s"
+msgstr ""
+
 msgid "Download in Progress"
 msgstr ""
 
-#: ../src\update\wxUpdater.py:17
 msgid "Downloading the new version..."
 msgstr ""
 
-#: ../src\update\wxUpdater.py:27
+#, python-format
 msgid "Updating... %s of %s"
 msgstr ""
 
-#: ../src\update\wxUpdater.py:30
-msgid "Done!"
-msgstr ""
-
-#: ../src\update\wxUpdater.py:30
 msgid "The update has been downloaded and installed successfully. Press OK to continue."
 msgstr ""
 
-#: ../src\utils.py:42
-msgid "Downloading {0}"
+msgid "Done!"
 msgstr ""
 
-#: ../src\utils.py:52
-msgid "Downloading {0} ({1}%)"
-msgstr ""
-
-#: ../src\wxUI\commonMessages.py:6
-msgid "Information needed"
-msgstr ""
-
-#: ../src\wxUI\commonMessages.py:6
 msgid "You must provide Both user and password."
 msgstr ""
 
-#: ../src\wxUI\commonMessages.py:9
+msgid "Information needed"
+msgstr ""
+
 msgid "Your {0} version is up to date"
 msgstr ""
 
-#: ../src\wxUI\commonMessages.py:9 ../src\wxUI\menus.py:20
 msgid "Update"
 msgstr ""
 
-#: ../src\wxUI\commonMessages.py:12
-msgid "Attention"
-msgstr ""
-
-#: ../src\wxUI\commonMessages.py:12
 msgid "Do you really want to dismiss  this buffer?"
 msgstr ""
 
-#: ../src\wxUI\commonMessages.py:15
+msgid "Attention"
+msgstr ""
+
 msgid "This user does not exist"
 msgstr ""
 
-#: ../src\wxUI\commonMessages.py:21
 msgid "Restricted access"
 msgstr ""
 
-#: ../src\wxUI\commonMessages.py:22
 msgid "Access to user's audio is denied by the owner. Error code {0}"
 msgstr ""
 
-#: ../src\wxUI\dialogs\attach.py:7
-msgid "Add an attachment"
+msgid "authorisation failed. Your configuration will not be saved. Please close and open again the application for authorising your account. Make sure you have typed your credentials correctly."
 msgstr ""
 
-#: ../src\wxUI\dialogs\attach.py:10 ../src\wxUI\dialogs\postDialogs.py:32
-msgid "Attachments"
+msgid "Do you really want to delete   this Album? this will be deleted from VK too."
 msgstr ""
 
-#: ../src\wxUI\dialogs\attach.py:11 ../src\wxUI\dialogs\postDialogs.py:33
-msgid "Type"
+msgid "Audio album"
 msgstr ""
 
-#: ../src\wxUI\dialogs\attach.py:11 ../src\wxUI\dialogs\postDialogs.py:33
-#: ../src\wxUI\tabs\home.py:53
-msgid "Title"
+msgid "Create"
 msgstr ""
 
-#: ../src\wxUI\dialogs\attach.py:16
-msgid "Add attachments"
-msgstr ""
-
-#: ../src\wxUI\dialogs\attach.py:17
-msgid "&Photo"
-msgstr ""
-
-#: ../src\wxUI\dialogs\attach.py:18
-msgid "Remove attachment"
-msgstr ""
-
-#: ../src\wxUI\dialogs\attach.py:34
-msgid "Image files (*.png, *.jpg, *.gif)|*.png; *.jpg; *.gif"
-msgstr ""
-
-#: ../src\wxUI\dialogs\attach.py:34
-msgid "Select the picture to be uploaded"
-msgstr ""
-
-#: ../src\wxUI\dialogs\attach.py:41
-msgid "please provide a description"
-msgstr ""
-
-#: ../src\wxUI\dialogs\attach.py:41 ../src\wxUI\tabs\home.py:93
-msgid "Description"
-msgstr ""
-
-#: ../src\wxUI\dialogs\configuration.py:9
-msgid "Number of items to load for newsfeed and wall buffers (maximun 100)"
-msgstr ""
-
-#: ../src\wxUI\dialogs\configuration.py:16
-msgid "Number of items to load in audio buffers (maximun 1000)"
-msgstr ""
-
-#: ../src\wxUI\dialogs\configuration.py:35
-msgid "General"
-msgstr ""
-
-#: ../src\wxUI\dialogs\configuration.py:41
-msgid "Save"
-msgstr ""
-
-#: ../src\wxUI\dialogs\configuration.py:43 ../src\wxUI\dialogs\message.py:66
-#: ../src\wxUI\dialogs\message.py:98 ../src\wxUI\dialogs\postDialogs.py:60
-msgid "Close"
-msgstr ""
-
-#: ../src\wxUI\dialogs\message.py:19
-msgid "&Privacy"
-msgstr ""
-
-#: ../src\wxUI\dialogs\message.py:61
-msgid "Attach"
-msgstr ""
-
-#: ../src\wxUI\dialogs\message.py:62
-msgid "Spelling &correction"
-msgstr ""
-
-#: ../src\wxUI\dialogs\message.py:63
-msgid "&Translate message"
-msgstr ""
-
-#: ../src\wxUI\dialogs\message.py:64 ../src\wxUI\dialogs\message.py:96
-#: ../src\wxUI\tabs\home.py:124
-msgid "Send"
-msgstr ""
-
-#: ../src\wxUI\dialogs\message.py:94
-msgid "Spelling correction"
-msgstr ""
-
-#: ../src\wxUI\dialogs\player.py:8
-msgid "Audio player"
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:15
-msgid "Message"
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:24
-msgid "Comments"
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:25
-msgid "Comment"
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:25
-msgid "Likes"
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:25 ../src\wxUI\dialogs\timeline.py:11
-#: ../src\wxUI\tabs\home.py:10 ../src\wxUI\tabs\home.py:93
-msgid "User"
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:25 ../src\wxUI\tabs\home.py:10
-msgid "Date"
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:40 ../src\wxUI\dialogs\postDialogs.py:44
-msgid "Loading data..."
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:50 ../src\wxUI\menus.py:13
-msgid "Add comment"
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:57
-msgid "Actions"
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:79
-msgid "{0} people like this"
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:85
-msgid "Shared {0} times"
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:129
-msgid "Audio &files"
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:135 ../src\wxUI\dialogs\search.py:24
-msgid "&Title"
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:141
-msgid "&Artist"
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:147
-msgid "&Duration"
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:153
-msgid "&Lyric"
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:159
-msgid "&Play"
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:160
-msgid "&Download"
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:161
-msgid "&Add to your library"
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:162
-msgid "&Remove from your library"
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:177
-msgid "Audio Files(*.mp3)|*.mp3"
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:177
-msgid "Save this file"
-msgstr ""
-
-#: ../src\wxUI\dialogs\postDialogs.py:193
-msgid "Friend"
-msgstr ""
-
-#: ../src\wxUI\dialogs\search.py:10
-msgid "audio Search"
-msgstr ""
-
-#: ../src\wxUI\dialogs\search.py:11
-msgid "&Search"
-msgstr ""
-
-#: ../src\wxUI\dialogs\search.py:18
-msgid "Try to &correct for mistakes in the search term"
-msgstr ""
-
-#: ../src\wxUI\dialogs\search.py:21
-msgid "Search only songs with associated &lyrics"
-msgstr ""
-
-#: ../src\wxUI\dialogs\search.py:23
-msgid "Search by"
-msgstr ""
-
-#: ../src\wxUI\dialogs\search.py:25
-msgid "&artist"
-msgstr ""
-
-#: ../src\wxUI\dialogs\search.py:30
-msgid "&Sort order by: "
-msgstr ""
-
-#: ../src\wxUI\dialogs\search.py:31
-msgid "Date added"
-msgstr ""
-
-#: ../src\wxUI\dialogs\search.py:31
-msgid "Popularity"
-msgstr ""
-
-#: ../src\wxUI\dialogs\search.py:31 ../src\wxUI\tabs\home.py:53
-msgid "Duration"
-msgstr ""
-
-#: ../src\wxUI\dialogs\search.py:36 ../src\wxUI\dialogs\timeline.py:24
-msgid "&OK"
-msgstr ""
-
-#: ../src\wxUI\dialogs\search.py:38 ../src\wxUI\dialogs\timeline.py:26
-msgid "&Close"
-msgstr ""
-
-#: ../src\wxUI\dialogs\select_album.py:6
-msgid "Select the album where you will upload the photo"
-msgstr ""
-
-#: ../src\wxUI\dialogs\timeline.py:8
-msgid "New timeline for {0}"
-msgstr ""
-
-#: ../src\wxUI\dialogs\timeline.py:17
-msgid "Buffer type"
-msgstr ""
-
-#: ../src\wxUI\dialogs\timeline.py:18
-msgid "&Wall posts"
-msgstr ""
-
-#: ../src\wxUI\dialogs\timeline.py:19
-msgid "&Audio"
-msgstr ""
-
-#: ../src\wxUI\dialogs\urlList.py:6
-msgid "Select URL"
-msgstr ""
-
-#: ../src\wxUI\mainWindow.py:13
-msgid "Search"
-msgstr ""
-
-#: ../src\wxUI\mainWindow.py:14
-msgid "&New timeline"
-msgstr ""
-
-#: ../src\wxUI\mainWindow.py:15
-msgid "Update current buffer"
-msgstr ""
-
-#: ../src\wxUI\mainWindow.py:16
-msgid "Load previous items"
-msgstr ""
-
-#: ../src\wxUI\mainWindow.py:17
-msgid "&Remove buffer"
-msgstr ""
-
-#: ../src\wxUI\mainWindow.py:18
-msgid "Application"
-msgstr ""
-
-#: ../src\wxUI\mainWindow.py:19
-msgid "Buffer"
-msgstr ""
-
-#: ../src\wxUI\mainWindow.py:21
-msgid "About {0}"
-msgstr ""
-
-#: ../src\wxUI\mainWindow.py:22
-msgid "Check for updates"
-msgstr ""
-
-#: ../src\wxUI\mainWindow.py:23
-msgid "Chan&gelog"
-msgstr ""
-
-#: ../src\wxUI\mainWindow.py:24
-msgid "Help"
-msgstr ""
-
-#: ../src\wxUI\mainWindow.py:44
-msgid "Connection error"
-msgstr ""
-
-#: ../src\wxUI\mainWindow.py:44
-msgid "There is a connection error. Check your internet connection and try again later."
-msgstr ""
-
-#: ../src\wxUI\menus.py:7 ../src\wxUI\menus.py:28
-msgid "Open"
-msgstr ""
-
-#: ../src\wxUI\menus.py:9 ../src\wxUI\menus.py:30
-msgid "Like"
-msgstr ""
-
-#: ../src\wxUI\menus.py:11 ../src\wxUI\menus.py:32
-msgid "Unlike"
-msgstr ""
-
-#: ../src\wxUI\menus.py:15
-msgid "Post to this profile"
-msgstr ""
-
-#: ../src\wxUI\menus.py:22 ../src\wxUI\menus.py:36
 msgid "Delete"
 msgstr ""
 
-#: ../src\wxUI\menus.py:42
+msgid "&New timeline"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Update current buffer"
+msgstr ""
+
+msgid "Load previous items"
+msgstr ""
+
+msgid "&Remove buffer"
+msgstr ""
+
+msgid "Application"
+msgstr ""
+
+msgid "Buffer"
+msgstr ""
+
+msgid "About {0}"
+msgstr ""
+
+msgid "Manual"
+msgstr ""
+
+msgid "Check for updates"
+msgstr ""
+
+msgid "Chan&gelog"
+msgstr ""
+
+msgid "Help"
+msgstr ""
+
+msgid "There is a connection error. Check your internet connection and try again later."
+msgstr ""
+
+msgid "Connection error"
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+msgid "Like"
+msgstr ""
+
+msgid "Dislike"
+msgstr ""
+
+msgid "Add comment"
+msgstr ""
+
+msgid "Post to this profile"
+msgstr ""
+
+msgid "&Open"
+msgstr ""
+
+msgid "&Play"
+msgstr ""
+
+msgid "&Add to library"
+msgstr ""
+
+msgid "Move to album"
+msgstr ""
+
+msgid "View profile"
+msgstr ""
+
+msgid "Send a message"
+msgstr ""
+
+msgid "Open timeline"
+msgstr ""
+
+msgid "Unlike"
+msgstr ""
+
 msgid "Mark as read"
 msgstr ""
 
-#: ../src\wxUI\menus.py:48
-msgid "Open URL"
+msgid "Add an attachment"
 msgstr ""
 
-#: ../src\wxUI\menus.py:51
-msgid "Translate"
+msgid "Attachments"
 msgstr ""
 
-#: ../src\wxUI\menus.py:53
-msgid "Check Spelling"
+msgid "Type"
 msgstr ""
 
-#: ../src\wxUI\menus.py:59
-msgid "Picture"
+msgid "Title"
 msgstr ""
 
-#: ../src\wxUI\tabs\home.py:9
+msgid "Add attachments"
+msgstr ""
+
+msgid "&Photo"
+msgstr ""
+
+msgid "Remove attachment"
+msgstr ""
+
+msgid "Select the picture to be uploaded"
+msgstr ""
+
+msgid "Image files (*.png, *.jpg, *.gif)|*.png; *.jpg; *.gif"
+msgstr ""
+
+msgid "please provide a description"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Number of items to load for newsfeed and wall buffers (maximun 100)"
+msgstr ""
+
+msgid "Number of items to load in audio buffers (maximun 1000)"
+msgstr ""
+
+msgid "General"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Create a new album"
+msgstr ""
+
+msgid "Album title"
+msgstr ""
+
+msgid "&OK"
+msgstr ""
+
+msgid "&Close"
+msgstr ""
+
+msgid "&Privacy"
+msgstr ""
+
+msgid "Attach"
+msgstr ""
+
+msgid "Spelling &correction"
+msgstr ""
+
+msgid "&Translate message"
+msgstr ""
+
+msgid "Send"
+msgstr ""
+
+msgid "Spelling correction"
+msgstr ""
+
+msgid "Audio player"
+msgstr ""
+
+msgid "Message"
+msgstr ""
+
+msgid "Comments"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "Comment"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Likes"
+msgstr ""
+
+msgid "Loading data..."
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+msgid "{0} people like this"
+msgstr ""
+
+msgid "Shared {0} times"
+msgstr ""
+
+msgid "Audio &files"
+msgstr ""
+
+msgid "&Title"
+msgstr ""
+
+msgid "&Artist"
+msgstr ""
+
+msgid "&Duration"
+msgstr ""
+
+msgid "&Lyric"
+msgstr ""
+
+msgid "&Download"
+msgstr ""
+
+msgid "&Add to your library"
+msgstr ""
+
+msgid "&Remove from your library"
+msgstr ""
+
+msgid "Save this file"
+msgstr ""
+
+msgid "Audio Files(*.mp3)|*.mp3"
+msgstr ""
+
+msgid "Friend"
+msgstr ""
+
+msgid "audio Search"
+msgstr ""
+
+msgid "&Search"
+msgstr ""
+
+msgid "Try to &correct for mistakes in the search term"
+msgstr ""
+
+msgid "Search only songs with associated &lyrics"
+msgstr ""
+
+msgid "Search by"
+msgstr ""
+
+msgid "&artist"
+msgstr ""
+
+msgid "&Sort order by: "
+msgstr ""
+
+msgid "Date added"
+msgstr ""
+
+msgid "Duration"
+msgstr ""
+
+msgid "Popularity"
+msgstr ""
+
+msgid "New timeline for {0}"
+msgstr ""
+
+msgid "Buffer type"
+msgstr ""
+
+msgid "&Wall posts"
+msgstr ""
+
+msgid "Select URL"
+msgstr ""
+
 msgid "Po&sts"
 msgstr ""
 
-#: ../src\wxUI\tabs\home.py:10
 msgid "Text"
 msgstr ""
 
-#: ../src\wxUI\tabs\home.py:18 ../src\wxUI\tabs\home.py:61
-#: ../src\wxUI\tabs\home.py:153
 msgid "&Post"
 msgstr ""
 
-#: ../src\wxUI\tabs\home.py:52
 msgid "Mu&sic"
 msgstr ""
 
-#: ../src\wxUI\tabs\home.py:53
 msgid "Artist"
 msgstr ""
 
-#: ../src\wxUI\tabs\home.py:62
 msgid "P&lay"
 msgstr ""
 
-#: ../src\wxUI\tabs\home.py:63
 msgid "Play &All"
 msgstr ""
 
-#: ../src\wxUI\tabs\home.py:79
+msgid "Load album"
+msgstr ""
+
 msgid "Notification"
 msgstr ""
 
-#: ../src\wxUI\tabs\home.py:93
-msgid "Created at"
-msgstr ""
-
-#: ../src\wxUI\tabs\home.py:93
-msgid "Photos"
-msgstr ""
-
-#: ../src\wxUI\tabs\home.py:93 ../src\wxUI\tabs\home.py:107
-#: ../src\wxUI\tabs\home.py:146
 msgid "Name"
 msgstr ""
 
-#: ../src\wxUI\tabs\home.py:129
+msgid "Photos"
+msgstr ""
+
+msgid "Created at"
+msgstr ""
+
 msgid "History"
 msgstr ""
 
-#: ../src\wxUI\tabs\home.py:130
 msgid "post"
 msgstr ""
 
-#: ../src\wxUI\tabs\home.py:136
 msgid "Write a message"
 msgstr ""
 
-#: ../src\wxUI\tabs\home.py:146
 msgid "Last seen"
 msgstr ""
 
-#: ../src\wxUI\tabs\home.py:154
 msgid "Send message"
 msgstr ""
-
