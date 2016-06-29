@@ -57,9 +57,11 @@ class Controller(object):
 		log.debug("Creating controls for the window...")
 		posts_ = buffers.empty(parent=self.window.tb, name="posts")
 		self.buffers.append(posts_)
+		# Translators: Name for the posts tab in the tree view.
 		self.window.add_buffer(posts_.tab, _(u"Posts"))
 		home = buffers.baseBuffer(parent=self.window.tb, name="home_timeline", session=self.session, composefunc="compose_new", endpoint="newsfeed", count=self.session.settings["buffers"]["count_for_wall_buffers"])
 		self.buffers.append(home)
+		# Translators: Newsfeed's name in the tree view.
 		self.window.insert_buffer(home.tab, _(u"Home"), self.window.search("posts"))
 		self.repeatedUpdate = RepeatingTimer(180, self.update_all_buffers)
 		self.repeatedUpdate.start()
@@ -69,13 +71,12 @@ class Controller(object):
 
 		feed = buffers.feedBuffer(parent=self.window.tb, name="me_feed", composefunc="compose_status", session=self.session, endpoint="get", parent_endpoint="wall", extended=1, count=self.session.settings["buffers"]["count_for_wall_buffers"])
 		self.buffers.append(feed)
+		# Translators: Own user's wall name in the tree view.
 		self.window.insert_buffer(feed.tab, _(u"My wall"), self.window.search("posts"))
 		audios = buffers.empty(parent=self.window.tb, name="audios")
 		self.buffers.append(audios)
+		# Translators: name for the music category in the tree view.
 		self.window.add_buffer(audios.tab, _(u"Music"))
-		albums = buffers.empty(parent=self.window.tb, name="albums")
-		self.buffers.append(albums)
-		self.window.insert_buffer(albums.tab, _(u"Albums"), self.window.search("audios"))
 
 		audio = buffers.audioBuffer(parent=self.window.tb, name="me_audio", composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"])
 		self.buffers.append(audio)
@@ -86,6 +87,9 @@ class Controller(object):
 		r_audio = buffers.audioBuffer(parent=self.window.tb, name="recommended_audio", composefunc="compose_audio", session=self.session, endpoint="getRecommendations", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"])
 		self.buffers.append(r_audio)
 		self.window.insert_buffer(r_audio.tab, _(u"Recommendations"), self.window.search("audios"))
+		albums = buffers.empty(parent=self.window.tb, name="albums")
+		self.buffers.append(albums)
+		self.window.insert_buffer(albums.tab, _(u"Albums"), self.window.search("audios"))
 		people = buffers.empty(parent=self.window.tb, name="people")
 		self.buffers.append(people)
 		self.window.add_buffer(people.tab, _(u"People"))
@@ -143,6 +147,7 @@ class Controller(object):
 		self.window.change_status(_(u"Ready"))
 		for i in self.buffers:
 			if hasattr(i, "get_items"):
+				# Translators: {0} will be replaced with the name of a buffer.
 				self.window.change_status(_(u"Loading items for {0}").format(i.name,))
 				i.get_items()
 		self.window.change_status(_(u"Ready"))
@@ -215,6 +220,7 @@ class Controller(object):
 			newbuff = buffers.audioBuffer(parent=self.window.tb, name=u"{0}_audiosearch".format(q.decode("utf-8"),), session=self.session, composefunc="compose_audio", parent_endpoint="audio", endpoint="search", q=q, count=count, auto_complete=auto_complete, lyrics=lyrics, performer_only=performer_only, sort=sort)
 			self.buffers.append(newbuff)
 			call_threaded(newbuff.get_items)
+			# Translators: {0} will be replaced with the search term.
 			self.window.insert_buffer(newbuff.tab, _(u"Search for {0}").format(q.decode("utf-8"),), self.window.search("audios"))
 
 	def update_status_bar(self, status):
@@ -263,12 +269,15 @@ class Controller(object):
 				return
 			if buffertype == "audio":
 				buffer = buffers.audioBuffer(parent=self.window.tb, name="{0}_audio".format(user_id,), composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], user_id=user_id)
+				# Translators: {0} will be replaced with an user.
 				name_ = _(u"{0}'s audios").format(user,)
 			elif buffertype == "wall":
 				buffer = buffers.feedBuffer(parent=self.window.tb, name="{0}_feed".format(user_id,), composefunc="compose_status", session=self.session, endpoint="get", parent_endpoint="wall", extended=1, count=self.session.settings["buffers"]["count_for_wall_buffers"],  owner_id=user_id)
+				# Translators: {0} will be replaced with an user.
 				name_ = _(u"{0}'s wall posts").format(user,)
 			elif buffertype == "friends":
 				buffer = buffers.peopleBuffer(parent=self.window.tb, name="friends_{0}".format(user_id,), composefunc="compose_person", session=self.session, endpoint="get", parent_endpoint="friends", count=5000, fields="uid, first_name, last_name, last_seen", user_id=user_id)
+				# Translators: {0} will be replaced with an user.
 				name_ = _(u"{0}'s friends").format(user,)
 			self.buffers.append(buffer)
 			call_threaded(self.complete_buffer_creation, buffer=buffer, name_=name_, position=self.window.search("timelines"))
@@ -298,6 +307,7 @@ class Controller(object):
 			return
 		buffer = buffers.chatBuffer(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="compose_message", session=self.session, count=200,  user_id=user_id, rev=1)
 		self.buffers.append(buffer)
+		# Translators: {0} will be replaced with an user.
 		self.window.insert_buffer(buffer.tab, _(u"Chat with {0}").format(self.session.get_user_name(user_id,)), self.window.search("chats"))
 		if setfocus:
 			pos = self.window.search(buffer.name)
@@ -353,6 +363,7 @@ class Controller(object):
 		self.session.audio_albums = albums["items"]
 		for i in albums["items"]:
 			buffer = buffers.audioBuffer(parent=self.window.tb, name="{0}_audio_album".format(i["id"],), composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], user_id=user_id, album_id=i["id"])
+			# Translators: {0} Will be replaced with an audio album's title.
 			name_ = _(u"Album: {0}").format(i["title"],)
 			self.buffers.append(buffer)
 			self.window.insert_buffer(buffer.tab, name_, self.window.search("albums"))
@@ -367,6 +378,7 @@ class Controller(object):
 			if response.has_key("album_id") == False: return
 			album_id = response["album_id"]
 			buffer = buffers.audioBuffer(parent=self.window.tb, name="{0}_audio_album".format(album_id,), composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], user_id=self.session.user_id, album_id=album_id)
+			# Translators: {0} will be replaced with an audio album's title.
 			name_ = _(u"Album: {0}").format(d.get("title"),)
 			self.buffers.append(buffer)
 			self.window.insert_buffer(buffer.tab, name_, self.window.search("albums"))

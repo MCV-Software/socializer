@@ -23,6 +23,7 @@ def get_user(id, profiles):
 	for i in profiles:
 		if i["id"] == id:
 			return u"{0} {1}".format(i["first_name"], i["last_name"])
+	# Translators: This string is user when socializer can't find the right user information.
 	return _(u"Unknown username")
 
 def add_attachment(attachment):
@@ -102,9 +103,11 @@ class postController(object):
 	def get_post_information(self):
 		from_ = self.session.get_user_name(self.post[self.user_identifier])
 		if self.post.has_key("copy_history"):
+			# Translators: {0} will be replaced with an user.
 			title = _(u"repost from {0}").format(from_,)
 		else:
 			if self.post.has_key("from_id") and self.post.has_key("owner_id"):
+				# Translators: {0} will be replaced with the user who is posting, and {2} with the wall owner.
 				title = _(u"Post from {0} in the {1}'s wall").format(self.session.get_user_name(self.post["from_id"]), self.session.get_user_name(self.post["owner_id"]))
 			else:
 				title = _(u"Post from {0}").format(from_,)

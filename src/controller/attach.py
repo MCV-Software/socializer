@@ -20,6 +20,7 @@ class attach(object):
 			imageInfo = {"type": "photo", "file": image, "description": os.path.basename(image)}
 			log.debug("Image data to upload: %r" % (imageInfo,))
 			self.attachments.append(imageInfo)
+			# Translators: This is the text displayed in the attachments dialog, when the user adds  a photo.
 			info = [_(u"Photo"), os.path.basename(image)]
 			self.dialog.attachments.insert_item(False, *info)
 			self.dialog.remove.Enable(True)

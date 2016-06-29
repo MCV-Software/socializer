@@ -34,6 +34,7 @@ class audioPlayer(object):
 		if self.is_working == False:
 			self.is_working = True
 			self.stream = URLStream(url=url["url"])
+			# Translators: {0} will be replaced with a song's title and {1} with the artist.
 			msg = _(u"Playing {0} by {1}").format(url["title"], url["artist"])
 			pub.sendMessage("update-status-bar", status=msg)
 			self.stream.volume = self.vol/100.0

@@ -165,6 +165,7 @@ class baseBuffer(object):
 		l = self.session.vk.client.likes.add(owner_id=user, item_id=id, type=type_)
 		self.session.db[self.name]["items"][self.tab.list.get_selected()]["likes"]["count"] = l["likes"]
 		self.session.db[self.name]["items"][self.tab.list.get_selected()]["likes"]["user_likes"] = 1
+		# Translators: This will be used when user presses like.
 		output.speak(_(u"You liked this"))
 
 	def do_dislike(self, *args, **kwargs):
@@ -178,6 +179,7 @@ class baseBuffer(object):
 		l = self.session.vk.client.likes.delete(owner_id=user, item_id=id, type=type_)
 		self.session.db[self.name]["items"][self.tab.list.get_selected()]["likes"]["count"] = l["likes"]
 		self.session.db[self.name]["items"][self.tab.list.get_selected()]["likes"]["user_likes"] = 2
+		# Translators: This will be user in 'dislike'
 		output.speak(_(u"You don't like this"))
 
 	def do_comment(self, *args, **kwargs):
@@ -335,6 +337,7 @@ class audioBuffer(feedBuffer):
 				return False
 
 	def get_more_items(self, *args, **kwargs):
+		# Translators: Some buffers can't use the get previous item feature due to API limitations.
 		output.speak(_(u"This buffer doesn't support getting more items."))
 
 	def onFocus(self, *args, **kwargs):
@@ -366,6 +369,7 @@ class audioBuffer(feedBuffer):
 		id = self.get_post()["id"]
 		response = self.session.vk.client.audio.moveToAlbum(album_id=album.item, audio_ids=id)
 		if response == 1:
+		# Translators: Used when the user has moved an audio to an album.
 			output.speak(_(u"Moved"))
 
 	def get_menu(self):

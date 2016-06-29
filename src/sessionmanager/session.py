@@ -66,6 +66,7 @@ def add_text(status):
 def compose_person(status, session):
 	if status.has_key("last_seen"):
 		original_date = arrow.get(status["last_seen"]["time"])
+		# Translators: This is the date of last seen
 		last_seen = _(u"{0}").format(original_date.humanize(locale=languageHandler.getLanguage()),)
 	elif status.has_key("last_seen") == False and status.has_key("deactivated"):
 			last_seen = _(u"Account deactivated")
