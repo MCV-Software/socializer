@@ -393,6 +393,8 @@ class audioAlbum(audioBuffer):
 
 	def create_tab(self, parent):
 		self.tab = home.audioAlbumTab(parent)
+		self.tab.play.Enable(False)
+		self.tab.play_all.Enable(False)
 
 	def connect_events(self):
 		super(audioAlbum, self).connect_events()
@@ -403,7 +405,8 @@ class audioAlbum(audioBuffer):
 		self.can_get_items = True
 		self.tab.load.Enable(False)
 		wx.CallAfter(self.get_items)
-
+		self.tab.play.Enable(True)
+		self.tab.play_all.Enable(True)
 
 class empty(object):
 
