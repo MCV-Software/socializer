@@ -27,6 +27,7 @@ I have started this effort as an open source  project on Feb 13, 2016. Pull requ
 * future
 * arrow==0.6
 * microsofttranslator
+* [Pandoc](http://pandoc.org/installing.html) for generating the changelog.
 
 ## Documentation
 
