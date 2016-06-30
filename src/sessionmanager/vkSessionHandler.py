@@ -8,7 +8,7 @@ class vkObject(object):
 
 	def __init__(self):
 		self.api_key = keys.keyring.get_api_key()
-		self.api_version = 5.45
+		self.api_version = 5.52
 		log.debug("Created vkSession using VK API Version %s" % (self.api_version,))
 
 	def login(self, user, password):
