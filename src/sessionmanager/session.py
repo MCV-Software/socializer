@@ -273,7 +273,7 @@ class vkSession(object):
 					data2 = {"profiles": [], "groups": []}
 					for i in data["items"]:
 						data2["profiles"].append(i)
-						self.process_usernames(data2)
+					self.process_usernames(data2)
 				if data.has_key("profiles") and data.has_key("groups"):
 					self.process_usernames(data)
 			else:
