@@ -90,6 +90,9 @@ class postController(object):
 		comments_ = []
 		for i in self.comments["items"]:
 			from_ = get_user(i["from_id"], self.comments["profiles"])
+			if i.has_key("reply_to_user"):
+				extra_info = get_user(i["reply_to_user"], self.comments["profiles"])
+				from_ = _(u"{0} Has replied to {1}").format(from_, extra_info)
 			if len(i["text"]) > 140:
 				text = i["text"][:141]
 			else:
@@ -154,7 +157,7 @@ class postController(object):
 		self.get_reposts()
 		self.get_comments()
 		if self.post["comments"]["can_post"] == 0:
-			self.dialog.disable("add_comment")
+			self.dialog.disable("comment")
 		if self.post["likes"]["can_like"] == 0 and self.post["likes"]["user_likes"] == 0:
 			self.dialog.disable("like")
 		elif self.post["likes"]["user_likes"] == 1:

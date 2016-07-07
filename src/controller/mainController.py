@@ -259,7 +259,7 @@ class Controller(object):
 			b = self.search("home_timeline")
 		d = []
 		for i in self.session.db["users"]:
-			d.append((i, self.session.get_user_name(i)))
+			d.append((i, self.session.get_user_name(i, "nom")))
 		for i in self.session.db["groups"]:
 			d.append((-i, self.session.get_user_name(-i)))
 		a = timeline.timelineDialog([i[1] for i in d])
@@ -277,15 +277,15 @@ class Controller(object):
 			if buffertype == "audio":
 				buffer = buffers.audioBuffer(parent=self.window.tb, name="{0}_audio".format(user_id,), composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], owner_id=user_id)
 				# Translators: {0} will be replaced with an user.
-				name_ = _(u"{0}'s audios").format(user,)
+				name_ = _(u"{0}'s audios").format(self.session.get_user_name(user_id, "gen"),)
 			elif buffertype == "wall":
 				buffer = buffers.feedBuffer(parent=self.window.tb, name="{0}_feed".format(user_id,), composefunc="compose_status", session=self.session, endpoint="get", parent_endpoint="wall", extended=1, count=self.session.settings["buffers"]["count_for_wall_buffers"],  owner_id=user_id)
 				# Translators: {0} will be replaced with an user.
-				name_ = _(u"{0}'s wall posts").format(user,)
+				name_ = _(u"{0}'s wall posts").format(self.session.get_user_name(user_id, "gen"),)
 			elif buffertype == "friends":
 				buffer = buffers.peopleBuffer(parent=self.window.tb, name="friends_{0}".format(user_id,), composefunc="compose_person", session=self.session, endpoint="get", parent_endpoint="friends", count=5000, fields="uid, first_name, last_name, last_seen", user_id=user_id)
 				# Translators: {0} will be replaced with an user.
-				name_ = _(u"{0}'s friends").format(user,)
+				name_ = _(u"{0}'s friends").format(self.session.get_user_name(user_id, "friends"),)
 			self.buffers.append(buffer)
 			call_threaded(self.complete_buffer_creation, buffer=buffer, name_=name_, position=self.window.search("timelines"))
 

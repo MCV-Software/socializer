@@ -74,7 +74,7 @@ def compose_person(status, session):
 
 def compose_new(status, session):
 	""" This method is used to compose an item of the news feed."""
-	user = session.get_user_name(status["source_id"])
+	user = session.get_user_name(status["source_id"], case_name="nom")
 	if status.has_key("copy_history"):
 		user = _(u"{0} has shared the {1}'s post").format(user, session.get_user_name(status["copy_history"][0]["owner_id"]))
 	message = ""
@@ -100,7 +100,7 @@ def compose_new(status, session):
 	elif status["type"] == "friend":
 		msg_users = u""
 		for i in status["friends"]["items"]:
-			msg_users = msg_users + u"{0}, ".format(session.get_user_name(i["user_id"]))
+			msg_users = msg_users + u"{0}, ".format(session.get_user_name(i["user_id"], "nom"))
 		message = _(u"{0} hadded friends: {1}").format(user, msg_users)
 	elif status["type"] == "video":
 		if status["video"]["count"] == 1:
@@ -123,14 +123,14 @@ def clean_audio(audio):
 	return audio
 
 def compose_message(message, session):
-	user = session.get_user_name(message["from_id"])
+	user = session.get_user_name(message["from_id"], "nom")
 	original_date = arrow.get(message["date"])
 	created_at = original_date.format(_(u"dddd, MMMM D, YYYY H:m:s"), locale=languageHandler.getLanguage())
 	body = message["body"]
 	return [u"{2}, {0} {1}".format(body, created_at, user)]
 
 def compose_status(status, session):
-	user = session.get_user_name(status["from_id"])
+	user = session.get_user_name(status["from_id"], "nom")
 	if status.has_key("copy_history"):
 		user = _(u"{0} has shared the {1}'s post").format(user, session.get_user_name(status["copy_history"][0]["owner_id"]))
 	message = ""
@@ -270,8 +270,10 @@ class vkSession(object):
 			if type(data) == dict:
 				num = self.order_buffer(name, data["items"], show_nextpage)
 				if len(data["items"]) > 0 and data["items"][0].has_key("first_name"):
+					data2 = {"profiles": [], "groups": []}
 					for i in data["items"]:
-						self.db["users"][i["id"]] = u"{0} {1}".format(i["first_name"], i["last_name"])
+						data2["profiles"].append(i)
+						self.process_usernames(data2)
 				if data.has_key("profiles") and data.has_key("groups"):
 					self.process_usernames(data)
 			else:
@@ -284,15 +286,20 @@ class vkSession(object):
 			num = self.order_buffer(name, data["items"], False)
 			return num
 
-	def get_user_name(self, user_id):
+	def get_user_name(self, user_id, case_name="gen"):
 		if user_id > 0:
 			if self.db["users"].has_key(user_id):
-				return self.db["users"][user_id]
+#				print self.db["users"][user_id]
+				if self.db["users"][user_id].has_key(case_name):
+					return self.db["users"][user_id][case_name]
+				else:
+					print self.db["users"][user_id], self.db["users"][user_id].keys()
+					return self.db["users"][user_id]["nom"]
 			else:
 				return "no specified user"
 		else:
 			if self.db["groups"].has_key(abs(user_id)):
-				return self.db["groups"][abs(user_id)]
+				return self.db["groups"][abs(user_id)]["nom"]
 			else:
 				return "no specified community"
 
@@ -308,14 +315,29 @@ class vkSession(object):
 				self.db["groups"][i["id"]] = i["name"]
 
 	def process_usernames(self, data):
+		""" processes user IDS and saves them in a local storage system.
+		Every function wich needs to convert from an ID to user or community name will have to call the get_user_name function in this session object.
+		Every function that needs to save a set ot user ids for a future use needs to pass a data dictionary with a profiles key being a list of user objects.
+		For russian, it gets the genitive case of  every name for future use."""
 		log.debug("Adding usernames to the local database...")
+		ids = ""
 		for i in data["profiles"]:
-			self.db["users"][i["id"]] = u"{0} {1}".format(i["first_name"], i["last_name"])
+			if self.db["users"].has_key(i["id"]) == False:
+				self.db["users"][i["id"]] = dict(nom=u"{0} {1}".format(i["first_name"], i["last_name"]))
+				ids = ids + "{0},".format(i["id"],)
+		gids = ""
 		for i in data["groups"]:
-			self.db["groups"][i["id"]] = i["name"]
+			self.db["groups"][i["id"]] = dict(nom=i["name"])
+			gids = "{0},".format(i["id"],)
+		if not "ru" in languageHandler.getLanguage():
+			return
+		users = self.vk.client.users.get(user_ids=ids, fields="first_name, last_name", name_case="gen")
+		for i in users:
+			if self.db["users"].has_key(i["id"]):
+				self.db["users"][i["id"]]["gen"] = u"{0} {1}".format(i["first_name"], i["last_name"])
 
 	def get_my_data(self):
 		log.debug("Getting user identifier...")
 		user = self.vk.client.users.get(fields="uid, first_name, last_name")
 		self.user_id = user[0]["id"]
-		self.db["users"][self.user_id] = u"{0} {1}".format(user[0]["first_name"], user[0]["last_name"])
+#		self.db["users"][self.user_id] = u"{0} {1}".format(user[0]["first_name"], user[0]["last_name"])
