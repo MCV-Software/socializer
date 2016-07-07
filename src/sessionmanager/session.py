@@ -331,10 +331,15 @@ class vkSession(object):
 			gids = "{0},".format(i["id"],)
 		if not "ru" in languageHandler.getLanguage():
 			return
-		users = self.vk.client.users.get(user_ids=ids, fields="first_name, last_name", name_case="gen")
-		for i in users:
+
+		users_genitive = self.vk.client.users.get(user_ids=ids, fields="first_name, last_name", name_case="gen")
+		users_instrumental = self.vk.client.users.get(user_ids=ids, fields="first_name, last_name", name_case="ins")
+		for i in users_genitive:
 			if self.db["users"].has_key(i["id"]):
 				self.db["users"][i["id"]]["gen"] = u"{0} {1}".format(i["first_name"], i["last_name"])
+		for i in users_instrumental:
+			if self.db["users"].has_key(i["id"]):
+				self.db["users"][i["id"]]["ins"] = u"{0} {1}".format(i["first_name"], i["last_name"])
 
 	def get_my_data(self):
 		log.debug("Getting user identifier...")

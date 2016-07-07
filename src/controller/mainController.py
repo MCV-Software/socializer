@@ -315,7 +315,7 @@ class Controller(object):
 		buffer = buffers.chatBuffer(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="compose_message", session=self.session, count=200,  user_id=user_id, rev=1)
 		self.buffers.append(buffer)
 		# Translators: {0} will be replaced with an user.
-		self.window.insert_buffer(buffer.tab, _(u"Chat with {0}").format(self.session.get_user_name(user_id,)), self.window.search("chats"))
+		self.window.insert_buffer(buffer.tab, _(u"Chat with {0}").format(self.session.get_user_name(user_id, "ins")), self.window.search("chats"))
 		if setfocus:
 			pos = self.window.search(buffer.name)
 			self.window.change_buffer(pos)
