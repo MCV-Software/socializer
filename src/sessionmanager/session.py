@@ -45,9 +45,9 @@ def add_attachment(attachment):
 	elif attachment["type"] == "photo":
 		msg = attachment["photo"]["text"]
 		if msg == "":
-			return "photo with no description available"
+			return _(u"photo with no description available")
 	elif attachment["type"] == "video":
-		msg = u"video: {0}".format(attachment["video"]["title"],)
+		msg = _(u"video: {0}").format(attachment["video"]["title"],)
 	return msg
 
 def add_text(status):
