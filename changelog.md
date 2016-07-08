@@ -7,7 +7,7 @@
 * It's possible to open a friends timeline for others.
 * Fixed some strange bugs in the built version.
 * Deactivated accounts will not cause problems in friends lists. They will be displayed as deactivated, wich means that it'll be impossible to interact with those accounts.
-* When opened, the client will set online for the user account, it'll inform VK that this user is currently online. This parameter will be updated every 15 minutes, as stated in the API documentation. When exiting, Socializer will try to set  the account as offline. Friends and other people could use this parameter to see if you are using VK in the moment.
+* When opened, the client will set online for the user account, it'll inform VK that this user is currently online. This parameter will be updated every 15 minutes, as stated in the API documentation.
 * When opened, socializer will try to create chat buffers for all unread messages.
 * Update some information on certain posts when an item is selected. For example, update the date of a post.
 * Read messages will be marked as read in the social network, so it'll cause that your friends could see that you have read the message and socializer will not load  chat buffers with read messages at startup.
@@ -18,6 +18,8 @@
 * Albums will be empty at startup. In order to get the album's audios, you'll have to navigate to the album and press the button "load". It'll load the needed information for displaying and playing the added songs 
 * If the config is invalid (for example you changed email or phone in the VK site and didn't changed that in Socializer, or just entered invalid credentials), the program will display an error with instructions for fixing the problem.
 * Now is possible to press enter in the password or email/phone field and it'll do the action of the OK button.
+* If you have set russian as the main language in the VK site, you'll see names in genitive and instrumental cases in certain phrases.
+* Updated russian and spanish translations.
 
 ## Changes on build 2016.05.25
 
