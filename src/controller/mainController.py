@@ -193,10 +193,6 @@ class Controller(object):
 
 	def exit(self, *args, **kwargs):
 		log.debug("Receibed an exit signal. closing...")
-		try:
-			self.session.vk.client.account.setOffline()
-		except VkAuthError:
-			pass
 		self.disconnect_events()
 		self.window.Destroy()
 		wx.GetApp().ExitMainLoop()

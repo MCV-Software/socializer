@@ -426,10 +426,9 @@ class chatBuffer(baseBuffer):
 
 	def onFocus(self, *args, **kwargs):
 		msg = self.session.db[self.name]["items"][-1]
-		if msg["read_state"] == 0 and msg["id"] not in self.reads:
+		if msg.has_key("read_state") and msg["read_state"] == 0 and msg["id"] not in self.reads:
 			self.reads.append(msg["id"])
 			self.session.db[self.name]["items"][-1]["read_state"] = 1
-
 
 	def create_tab(self, parent):
 		self.tab = home.chatTab(parent)
@@ -497,3 +496,10 @@ class peopleBuffer(feedBuffer):
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.new_chat, menuitem=m.message)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.open_timeline, menuitem=m.timeline)
 		return m
+
+	def open_post(self, *args, **kwargs): pass
+
+	def play_audio(self, *args, **kwargs): pass
+
+	def pause_audio(self, *args, **kwargs): pass
+
