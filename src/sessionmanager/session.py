@@ -289,11 +289,9 @@ class vkSession(object):
 	def get_user_name(self, user_id, case_name="gen"):
 		if user_id > 0:
 			if self.db["users"].has_key(user_id):
-#				print self.db["users"][user_id]
 				if self.db["users"][user_id].has_key(case_name):
 					return self.db["users"][user_id][case_name]
 				else:
-					print self.db["users"][user_id], self.db["users"][user_id].keys()
 					return self.db["users"][user_id]["nom"]
 			else:
 				return "no specified user"
@@ -331,15 +329,15 @@ class vkSession(object):
 			gids = "{0},".format(i["id"],)
 		if not "ru" in languageHandler.getLanguage():
 			return
-
-		users_genitive = self.vk.client.users.get(user_ids=ids, fields="first_name, last_name", name_case="gen")
-		users_instrumental = self.vk.client.users.get(user_ids=ids, fields="first_name, last_name", name_case="ins")
-		for i in users_genitive:
-			if self.db["users"].has_key(i["id"]):
-				self.db["users"][i["id"]]["gen"] = u"{0} {1}".format(i["first_name"], i["last_name"])
-		for i in users_instrumental:
-			if self.db["users"].has_key(i["id"]):
-				self.db["users"][i["id"]]["ins"] = u"{0} {1}".format(i["first_name"], i["last_name"])
+		if ids != "":
+			users_genitive = self.vk.client.users.get(user_ids=ids, fields="first_name, last_name", name_case="gen")
+			users_instrumental = self.vk.client.users.get(user_ids=ids, fields="first_name, last_name", name_case="ins")
+			for i in users_genitive:
+				if self.db["users"].has_key(i["id"]):
+					self.db["users"][i["id"]]["gen"] = u"{0} {1}".format(i["first_name"], i["last_name"])
+			for i in users_instrumental:
+				if self.db["users"].has_key(i["id"]):
+					self.db["users"][i["id"]]["ins"] = u"{0} {1}".format(i["first_name"], i["last_name"])
 
 	def get_my_data(self):
 		log.debug("Getting user identifier...")
