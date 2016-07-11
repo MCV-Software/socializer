@@ -81,7 +81,7 @@ class audioPlayer(object):
 		self.worker.start()
 
 	def player_function(self):
-		if self.stream != None and self.stream.is_playing == False and self.stopped == False:
+		if self.stream != None and self.stream.is_playing == False and self.stopped == False and len(self.stream) == self.stream.position:
 			if len(self.queue) == 0:
 				self.worker.cancel()
 				return
