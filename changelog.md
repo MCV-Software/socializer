@@ -1,6 +1,6 @@
 % Changelog
 
-## Changes for the current build ()
+## Changes for the current build (08/07/2016)
 
 * Removed platform from "last seen" column in the friends list as it could cause some problems and it was being not so exact.
 * Now deleted audios are not parsed and displayed as "audio removed from library". They are silently ignored.

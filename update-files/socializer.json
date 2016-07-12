@@ -1,4 +1,4 @@
-{"current_version": "0.13",
-"description": "Added chats. Timeline's creation. View friends. Some bugfixes.",
+{"current_version": "0.14",
+"description": "Added management for audio albums. Bugfixes. Updated translations. Added a context menu for some items. Unread chats will be opened at startup.",
 "downloads":
 {"Windows32": "https://github.com/manuelcortez/socializer/blob/master/nightly/socializer-nightly-build.zip?raw=true"}}
