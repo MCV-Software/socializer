@@ -344,7 +344,10 @@ class Controller(object):
 		self.session.soundplayer.play("chat.ogg")
 
 	def set_online(self):
-		r = self.session.vk.client.account.setOnline()
+		try:
+			r = self.session.vk.client.account.setOnline()
+		except:
+			log.error("Error in setting online for the current user")
 
 	def create_unread_messages(self):
 		msgs = self.session.vk.client.messages.getDialogs(count=200, unread=1)

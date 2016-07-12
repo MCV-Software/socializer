@@ -365,6 +365,7 @@ class audioBuffer(feedBuffer):
 		result = self.session.vk.client.audio.delete(**args)
 		if int(result) == 1:
 			output.speak(_(u"Removed audio from library"))
+			self.tab.list.remove_item(self.tab.list.get_selected())
 
 	def move_to_album(self, *args, **kwargs):
 		album = selector.audioAlbum(_(u"Select the album where you want to move this song"), self.session)
