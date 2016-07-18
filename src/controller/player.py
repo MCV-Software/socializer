@@ -87,3 +87,12 @@ class audioPlayer(object):
 				return
 			self.play(self.queue[0])
 			self.queue.remove(self.queue[0])
+
+	def check_is_playing(self):
+		if self.stream == None:
+			return False
+		if self.stream != None and self.stream.is_playing == False:
+			return False
+		else:
+			return True
+

@@ -1,6 +1,10 @@
 % Changelog
 
-## Changes for the current build (08/07/2016)
+## Changes in the current build ()
+
+* Added a new menu in the menu bar that allows you to control the audio playback. For some actions (like play, next and back), if you are not focusing an audio buffer, the program will take the song from the "my audios" buffer.
+
+## Changes in build 2016.07.08 (08/07/2016)
 
 * Removed platform from "last seen" column in the friends list as it could cause some problems and it was being not so exact.
 * Now deleted audios are not parsed and displayed as "audio removed from library". They are silently ignored.

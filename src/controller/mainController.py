@@ -129,6 +129,14 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.create_audio_album, menuitem=self.window.audio_album)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.delete_audio_album, menuitem=self.window.delete_audio_album)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.check_documentation, menuitem=self.window.documentation)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_play_pause, menuitem=self.window.player_play)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_play_next, menuitem=self.window.player_next)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_play_previous, menuitem=self.window.player_previous)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_play_all, menuitem=self.window.player_play_all)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_stop, menuitem=self.window.player_stop)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_volume_down, menuitem=self.window.player_volume_down)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_volume_up, menuitem=self.window.player_volume_up)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_mute, menuitem=self.window.player_mute)
 		pub.subscribe(self.get_chat, "order-sent-message")
 
 	def disconnect_events(self):
@@ -411,3 +419,47 @@ class Controller(object):
 		os.chdir("documentation/%s" % (lang,))
 		webbrowser.open("manual.html")
 		os.chdir("../../")
+
+	def menu_play_pause(self, *args, **kwargs):
+		if player.player.check_is_playing() != False:
+			return player.player.pause()
+		b = self.get_current_buffer()
+		if hasattr(b, "play_audio"):
+			b.play_audio()
+		else:
+			b = self.search("me_audio")
+			b.play_audio()
+
+	def menu_play_next(self, *args, **kwargs):
+		b = self.get_current_buffer()
+		if hasattr(b, "play_next"):
+			b.play_next()
+		else:
+			self.search("me_audio").play_next()
+
+	def menu_play_previous(self, *args, **kwargs):
+		b = self.get_current_buffer()
+		if hasattr(b, "play_previous"):
+			b.play_previous()
+		else:
+			self.search("me_audio").play_previous()
+
+	def menu_play_all(self, *args, **kwargs):
+		b = self.get_current_buffer()
+		if hasattr(b, "play_all"):
+			b.play_all()
+		else:
+			self.search("me_audio").play_all()
+
+	def menu_stop(self, *args, **kwargs):
+		player.player.stop()
+
+	def menu_volume_down(self, *args, **kwargs):
+		player.player.volume = player.player.volume-5
+
+	def menu_volume_up(self, *args, **kwargs):
+		player.player.volume = player.player.volume+5
+
+	def menu_mute(self, *args, **kwargs):
+		player.player.volume = 0
+

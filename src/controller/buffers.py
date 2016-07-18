@@ -219,9 +219,13 @@ class baseBuffer(object):
 		player.player.volume = player.player.volume+5
 
 	def play_audio(self, *args, **kwargs):
-		post = self.session.db[self.name]["items"][self.tab.list.get_selected()]
+		selected = self.tab.list.get_selected()
+		if selected == -1:
+			selected = 0
+		post = self.session.db[self.name]["items"][selected]
 		if post.has_key("type") and post["type"] == "audio":
 			pub.sendMessage("play-audio", audio_object=post["audio"]["items"][0])
+			return True
 
 	def open_post(self, *args, **kwargs):
 		post = self.session.db[self.name]["items"][self.tab.list.get_selected()]
@@ -308,7 +312,29 @@ class audioBuffer(feedBuffer):
 
 	def play_audio(self, *args, **kwargs):
 		selected = self.tab.list.get_selected()
+		if selected == -1:
+			selected = 0
 		pub.sendMessage("play-audio", audio_object=self.session.db[self.name]["items"][selected])
+		return True
+
+	def play_next(self, *args, **kwargs):
+		selected = self.tab.list.get_selected()
+		if selected < 0 or selected == self.tab.list.get_count()-1:
+			selected = 0
+		if self.tab.list.get_count() <= selected+1:
+			newpos = 0
+		else:
+			newpos = selected+1
+		self.tab.list.select_item(newpos)
+		self.play_audio()
+
+	def play_previous(self, *args, **kwargs):
+		selected = self.tab.list.get_selected()
+		if selected <= 0:
+			selected = self.tab.list.get_count()
+		newpos = selected-1
+		self.tab.list.select_item(newpos)
+		self.play_audio()
 
 	def open_post(self, *args, **kwargs):
 		selected = self.tab.list.get_selected()
@@ -323,6 +349,7 @@ class audioBuffer(feedBuffer):
 			selected = 0
 		audios = [i for i in self.session.db[self.name]["items"][selected:]]
 		pub.sendMessage("play-audios", audios=audios)
+		return True
 
 	def remove_buffer(self, mandatory=False):
 		if "me_audio" == self.name or "popular_audio" == self.name or "recommended_audio" == self.name:
@@ -500,7 +527,7 @@ class peopleBuffer(feedBuffer):
 
 	def open_post(self, *args, **kwargs): pass
 
-	def play_audio(self, *args, **kwargs): pass
+	def play_audio(self, *args, **kwargs): return False
 
 	def pause_audio(self, *args, **kwargs): pass
 
