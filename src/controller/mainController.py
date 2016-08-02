@@ -98,6 +98,17 @@ class Controller(object):
 		friends = buffers.peopleBuffer(parent=self.window.tb, name="friends_", composefunc="compose_person", session=self.session, endpoint="get", parent_endpoint="friends", count=5000, fields="uid, first_name, last_name, last_seen")
 		self.buffers.append(friends)
 		self.window.insert_buffer(friends.tab, _(u"Friends"), self.window.search("people"))
+
+		requests_ = buffers.empty(parent=self.window.tb, name="requests")
+		self.buffers.append(requests_)
+		self.window.insert_buffer(requests_.tab, _(u"Friendship requests"), self.window.search("people"))
+		incoming_requests = buffers.requestsBuffer(parent=self.window.tb, name="friend_requests", composefunc="compose_person", session=self.session, count=1000)
+		self.buffers.append(incoming_requests)
+		self.window.insert_buffer(incoming_requests.tab, _(u"Followers"), self.window.search("requests"))
+		outgoing_requests = buffers.requestsBuffer(parent=self.window.tb, name="friend_requests_sent", composefunc="compose_person", session=self.session, count=1000, out=1)
+		self.buffers.append(outgoing_requests)
+		self.window.insert_buffer(outgoing_requests.tab, _(u"I follow"), self.window.search("requests"))
+
 		chats = buffers.empty(parent=self.window.tb, name="chats")
 		self.buffers.append(chats)
 		self.window.add_buffer(chats.tab, _(u"Chats"))

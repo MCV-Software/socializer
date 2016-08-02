@@ -531,3 +531,24 @@ class peopleBuffer(feedBuffer):
 
 	def pause_audio(self, *args, **kwargs): pass
 
+class requestsBuffer(peopleBuffer):
+
+	def get_items(self, show_nextpage=False):
+		if self.can_get_items == False: return
+		retrieved = True
+		try:
+			ids = self.session.vk.client.friends.getRequests(*self.args, **self.kwargs)
+		except VkAPIMethodError as err:
+			print(u"Error {0}: {1}".format(err.code, err.message))
+			retrieved = err.code
+			return retrieved
+		num = self.session.get_page(name=self.name, show_nextpage=show_nextpage, endpoint="get", parent_endpoint="users", count=1000, user_ids=", ".join([str(i) for i in ids["items"]]), fields="uid, first_name, last_name, last_seen")
+		if show_nextpage  == False:
+			if self.tab.list.get_count() > 0 and num > 0:
+				print "inserting a value"
+				v = [i for i in self.session.db[self.name]["items"][:num]]
+				v.reverse()
+				[self.insert(i, True) for i in v]
+			else:
+				[self.insert(i) for i in self.session.db[self.name]["items"][:num]]
+		return retrieved
