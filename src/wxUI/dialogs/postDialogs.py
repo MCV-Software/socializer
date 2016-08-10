@@ -36,6 +36,28 @@ class basicPost(widgetUtils.BaseDialog):
 		box.Add(self.attachments.list, 0, wx.ALL, 5)
 		return box
 
+	def create_photo_viewer(self):
+		self.image = wx.StaticBitmap(self.panel, bitmap=wx.EmptyBitmap(1280, 860), size=(604, 604))
+		self.sizer.Add(self.image, 1, wx.ALL, 10)
+		self.previous_photo = wx.Button(self.panel, wx.NewId(), _(u"Previous photo"))
+		self.view_photo = wx.Button(self.panel, wx.NewId(), _(u"View in full screen"))
+		self.next_photo = wx.Button(self.panel, wx.NewId(), _(u"Next photo"))
+		actionsS = wx.BoxSizer(wx.HORIZONTAL)
+		actionsS.Add(self.previous_photo, 0, wx.ALL, 5)
+		actionsS.Add(self.view_photo, 0, wx.ALL, 5)
+		actionsS.Add(self.next_photo, wx.ALL, 5)
+		self.previous_photo.Enable(False)
+		self.view_photo.Enable(False)
+		self.next_photo.Enable(False)
+		self.sizer.Add(actionsS, 0, wx.ALL, 5)
+
+	def enable_photo_controls(self, navigation=True):
+		self.view_photo.Enable(True)
+		if navigation:
+			self.previous_photo.Enable(True)
+			self.next_photo.Enable(True)
+
+
 	def create_likes_box(self):
 		self.likes = wx.Button(self.panel, -1, _(u"Loading data..."))
 		return self.likes
@@ -94,6 +116,8 @@ class post(basicPost):
 		attachments_box = self.create_attachments()
 		self.sizer.Add(attachments_box, 0, wx.ALL, 5)
 		self.attachments.list.Enable(False)
+		self.create_photo_viewer()
+		self.image.Enable(False)
 		self.create_tools_button()
 		self.sizer.Add(self.tools, 0, wx.ALL, 5)
 		likes_box = self.create_likes_box()

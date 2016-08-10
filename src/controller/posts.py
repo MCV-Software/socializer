@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 import os
+import cStringIO
+import threading
 import arrow
 import messages
+import requests
 import languageHandler
 import widgetUtils
 import output
@@ -55,6 +58,8 @@ def get_message(status):
 	return message
 
 class postController(object):
+	""" Base class for post representation."""
+
 	def __init__(self, session, postObject):
 		super(postController, self).__init__()
 		self.session = session
@@ -79,11 +84,18 @@ class postController(object):
 		widgetUtils.connect_event(self.dialog.repost, widgetUtils.BUTTON_PRESSED, self.post_repost)
 #		self.dialog.Bind(wx.EVT_LIST_ITEM_RIGHT_CLICK, self.show_menu, self.dialog.comments.list)
 #		self.dialog.Bind(wx.EVT_LIST_KEY_DOWN, self.show_menu_by_key, self.dialog.comments.list)
-		call_threaded(self.load_all_components)
+		self.worker = threading.Thread(target=self.load_all_components)
+		self.worker.finished = threading.Event()
+		self.worker.start()
 #		if self.post.has_key("attachments"): print self.post["attachments"]
 		self.attachments = []
+		self.load_images = False
+		# We'll put images here, so it will be easier to work with them.
+		self.images = []
+		self.imageIndex = 0
 
 	def get_comments(self):
+		""" Get comments and insert them in a list."""
 		user = self.post[self.user_identifier]
 		id = self.post[self.post_identifier]
 		self.comments = self.session.vk.client.wall.getComments(owner_id=user, post_id=id, need_likes=1, count=100, extended=1, preview_length=0)
@@ -101,7 +113,10 @@ class postController(object):
 			created_at = original_date.humanize(locale=languageHandler.getLanguage())
 			likes = str(i["likes"]["count"])
 			comments_.append((from_, text, created_at, likes))
-		self.dialog.insert_comments(comments_)
+		try:
+			self.dialog.insert_comments(comments_)
+		except wx.PyDeadObjectError:
+			pass
 
 	def get_post_information(self):
 		from_ = self.session.get_user_name(self.post[self.user_identifier])
@@ -110,7 +125,7 @@ class postController(object):
 			title = _(u"repost from {0}").format(from_,)
 		else:
 			if self.post.has_key("from_id") and self.post.has_key("owner_id"):
-				# Translators: {0} will be replaced with the user who is posting, and {2} with the wall owner.
+				# Translators: {0} will be replaced with the user who is posting, and {1} with the wall owner.
 				title = _(u"Post from {0} in the {1}'s wall").format(self.session.get_user_name(self.post["from_id"]), self.session.get_user_name(self.post["owner_id"]))
 			else:
 				title = _(u"Post from {0}").format(from_,)
@@ -125,6 +140,7 @@ class postController(object):
 			message += nm
 		self.dialog.set_post(message)
 		self.get_attachments(self.post)
+		self.check_image_load()
 
 	def get_attachments(self, post):
 		attachments = []
@@ -133,6 +149,9 @@ class postController(object):
 				# We don't need the photos_list attachment, so skip it.
 				if i["type"] == "photos_list":
 					continue
+				if i["type"] == "photo":
+					if self.load_images == False: self.load_images = True
+					self.images.append(i)
 				attachments.append(add_attachment(i))
 				self.attachments.append(i)
 		# Links in text are not treated like normal attachments, so we'll have to catch and add those to the list without title
@@ -150,6 +169,59 @@ class postController(object):
 			self.dialog.attachments.list.Enable(True)
 			self.dialog.attachments.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.open_attachment)
 			self.dialog.insert_attachments(attachments)
+
+	def check_image_load(self):
+		if self.load_images and len(self.images) > 0:
+			self.dialog.image.Enable(True)
+			nav = False # Disable navigation controls in photos
+			if len(self.images) > 1:
+				nav = True
+				widgetUtils.connect_event(self.dialog.previous_photo, widgetUtils.BUTTON_PRESSED, self.set_previous_image)
+				widgetUtils.connect_event(self.dialog.next_photo, widgetUtils.BUTTON_PRESSED, self.set_next_image)
+			self.dialog.enable_photo_controls(navigation=nav)
+			self.set_image(0)
+
+	def set_next_image(self, *args, **kwargs):
+		if self.imageIndex < -1 or self.imageIndex == len(self.images)-1:
+			self.imageIndex = -1
+		if len(self.images) <= self.imageIndex+1:
+			self.imageIndex = 0
+		else:
+			self.imageIndex = self.imageIndex + 1
+		self.set_image(self.imageIndex)
+
+	def set_previous_image(self, *args, **kwargs):
+		if self.imageIndex <= 0:
+			self.imageIndex = len(self.images)
+		self.imageIndex = self.imageIndex - 1
+		self.set_image(self.imageIndex)
+
+	def set_image(self, index):
+		if len(self.images) < index-1:
+			log.exception("Error in loading image {0} in a list with {1} images".format(index, len(self.images)))
+			return
+		url = self.get_photo_url(self.images[index]["photo"], 604)
+		if url != "":
+			img = requests.get(url)
+			image = wx.ImageFromStream(cStringIO.StringIO(requests.get(url).content))
+			try:
+				self.dialog.image.SetBitmap(wx.BitmapFromImage(image))
+			except:
+				return
+			self.dialog.SetClientSize(self.dialog.sizer.CalcMin())
+			# Translators: {0} is the number of the current photo and {1} is the total number of photos.
+			output.speak(_(u"Loaded photo {0} of {1}").format(index+1, len(self.images)))
+		return
+
+	def get_photo_url(self, photo, size=1080):
+		possible_sizes = [1280, 604, 130, 75]
+		url = ""
+		for i in possible_sizes:
+			if photo.has_key("photo_{0}".format(i,)) and i == size:
+				url = photo["photo_{0}".format(i,)]
+				print photo
+				break
+		return url
 
 	def load_all_components(self):
 		self.get_post_information()
@@ -198,10 +270,16 @@ class postController(object):
 			self.session.vk.client.wall.repost(object=object_id, message=msg)
 
 	def get_likes(self):
-		self.dialog.set_likes(self.post["likes"]["count"])
+		try:
+			self.dialog.set_likes(self.post["likes"]["count"])
+		except wx.PyDeadObjectError:
+			pass
 
 	def get_reposts(self):
-		self.dialog.set_shares(self.post["reposts"]["count"])
+		try:
+			self.dialog.set_shares(self.post["reposts"]["count"])
+		except wx.PyDeadObjectError:
+			pass
 
 	def add_comment(self, *args, **kwargs):
 		comment = messages.comment(title=_(u"Add a comment"), caption="", text="")
@@ -272,22 +350,6 @@ class postController(object):
 		if hasattr(checker, "fixed_text"):
 			self.dialog.post_view.ChangeValue(checker.fixed_text)
 
-	def open_url(self, *args, **kwargs):
-		text = self.dialog.post_view.GetValue()
-		urls = find_urls(text)
-		url = None
-		if len(urls) == 0: return
-		if len(urls) == 1:
-			url = urls[0]
-		elif len(urls) > 1:
-			url_list = urlList.urlList()
-			url_list.populate_list(urls)
-			if url_list.get_response() == widgetUtils.OK:
-				url = urls[url_list.get_item()]
-		if url != None:
-			output.speak(_(u"Opening URL..."), True)
-			webbrowser.open_new_tab(url)
-
 	def open_attachment(self, *args, **kwargs):
 		index = self.dialog.attachments.get_selected()
 		attachment = self.attachments[index]
@@ -321,12 +383,16 @@ class postController(object):
 			for i in possible_sizes:
 				if attachment["photo"].has_key("photo_{0}".format(i,)):
 					url = attachment["photo"]["photo_{0}".format(i,)]
+					break
 			if url != "":
 				webbrowser.open_new_tab(url)
 			else:
 				print attachment["photo"].keys()
 		else:
 			log.debug("Unhandled attachment: %r" % (attachment,))
+
+	def __del__(self):
+		self.worker.finished.set()
 
 class comment(object):
 	def __init__(self, session, comment_object):

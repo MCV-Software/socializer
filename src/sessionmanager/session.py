@@ -99,8 +99,11 @@ def compose_new(status, session):
 			message = _(u"{0} has added  {1} audios: {2}").format(user, status["audio"]["count"], prem)
 	elif status["type"] == "friend":
 		msg_users = u""
-		for i in status["friends"]["items"]:
-			msg_users = msg_users + u"{0}, ".format(session.get_user_name(i["user_id"], "nom"))
+		if status.has_key("friends"):
+			for i in status["friends"]["items"]:
+				msg_users = msg_users + u"{0}, ".format(session.get_user_name(i["user_id"], "nom"))
+		else:
+			print status.keys()
 		message = _(u"{0} hadded friends: {1}").format(user, msg_users)
 	elif status["type"] == "video":
 		if status["video"]["count"] == 1:
