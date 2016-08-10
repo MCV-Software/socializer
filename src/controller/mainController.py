@@ -369,7 +369,7 @@ class Controller(object):
 			log.error("Error in setting online for the current user")
 
 	def create_unread_messages(self):
-		msgs = self.session.vk.client.messages.getDialogs(count=200, unread=1)
+		msgs = self.session.vk.client.messages.getDialogs(count=50, unread=1)
 		for i in msgs["items"]:
 			wx.CallAfter(self.chat_from_id, i["message"]["user_id"], setfocus=False)
 
@@ -395,6 +395,7 @@ class Controller(object):
 			self.window.insert_buffer(buffer.tab, name_, self.window.search("albums"))
 			buffer.get_items()
 			# inserts a pause of 1 second here, so we'll avoid errors 6 in VK.
+			time.sleep(0.3)
 
 	def create_audio_album(self, *args, **kwargs):
 		d = creation.audio_album()
