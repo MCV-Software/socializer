@@ -13,7 +13,7 @@ import webbrowser
 import logging
 import longpoolthread
 import selector
-from vk.exceptions import VkAuthError
+from vk.exceptions import VkAuthError, VkAPIMethodError
 from pubsub import pub
 from mysc.repeating_timer import RepeatingTimer
 from mysc.thread_utils import call_threaded
@@ -369,7 +369,14 @@ class Controller(object):
 			log.error("Error in setting online for the current user")
 
 	def create_unread_messages(self):
-		msgs = self.session.vk.client.messages.getDialogs(count=50, unread=1)
+		try:
+			log.debug("Getting possible unread messages.")
+			msgs = self.session.vk.client.messages.getDialogs(count=200, unread=1)
+		except VkAPIMethodError as ex:
+			if ex.code == 6:
+				log.exception("Something went wrong when getting messages. Waiting a second to retry")
+				time.sleep(2)
+				return self.create_unread_messages()
 		for i in msgs["items"]:
 			wx.CallAfter(self.chat_from_id, i["message"]["user_id"], setfocus=False)
 
@@ -384,7 +391,14 @@ class Controller(object):
 			response = self.session.vk.client.messages.markAsRead(message_ids=ids)
 
 	def get_audio_albums(self, user_id=None):
-		albums = self.session.vk.client.audio.getAlbums(owner_id=user_id)
+		try:
+			log.debug("Create audio albums...")
+			albums = self.session.vk.client.audio.getAlbums(owner_id=user_id)
+		except VkAPIMethodError as ex:
+			if ex.code == 6:
+				log.exception("Something went wrong when getting albums. Waiting a second to retry")
+				time.sleep(2)
+				return self.get_audio_albums(user_id=user_id)
 		self.session.audio_albums = albums["items"]
 		for i in albums["items"]:
 			buffer = buffers.audioAlbum(parent=self.window.tb, name="{0}_audio_album".format(i["id"],), composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], user_id=user_id, album_id=i["id"])
