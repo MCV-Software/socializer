@@ -92,6 +92,18 @@ class Controller(object):
 		albums = buffers.empty(parent=self.window.tb, name="albums")
 		self.buffers.append(albums)
 		self.window.insert_buffer(albums.tab, _(u"Albums"), self.window.search("audios"))
+
+		videos = buffers.empty(parent=self.window.tb, name="videos")
+		self.buffers.append(videos)
+		# Translators: name for the videos category in the tree view.
+		self.window.add_buffer(videos.tab, _(u"Video"))
+		my_videos = buffers.videoBuffer(parent=self.window.tb, name="me_video", composefunc="compose_video", session=self.session, endpoint="get", parent_endpoint="video", count=self.session.settings["buffers"]["count_for_video_buffers"])
+		self.buffers.append(my_videos)
+		self.window.insert_buffer(my_videos.tab, _(u"My videos"), self.window.search("videos"))
+		video_albums = buffers.empty(parent=self.window.tb, name="video_albums")
+		self.buffers.append(video_albums)
+		self.window.insert_buffer(video_albums.tab, _(u"Albums"), self.window.search("videos"))
+
 		people = buffers.empty(parent=self.window.tb, name="people")
 		self.buffers.append(people)
 		self.window.add_buffer(people.tab, _(u"People"))
@@ -139,6 +151,8 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.new_timeline, menuitem=self.window.timeline)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.create_audio_album, menuitem=self.window.audio_album)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.delete_audio_album, menuitem=self.window.delete_audio_album)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.create_video_album, menuitem=self.window.video_album)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.delete_video_album, menuitem=self.window.delete_video_album)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.check_documentation, menuitem=self.window.documentation)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_play_pause, menuitem=self.window.player_play)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_play_next, menuitem=self.window.player_next)
@@ -180,6 +194,7 @@ class Controller(object):
 		self.set_online()
 		self.create_unread_messages()
 		wx.CallAfter(self.get_audio_albums, self.session.user_id)
+		wx.CallAfter(self.get_video_albums, self.session.user_id)
 
 	def in_post(self, buffer):
 		buffer = self.search(buffer)
@@ -411,6 +426,27 @@ class Controller(object):
 			# inserts a pause of 1 second here, so we'll avoid errors 6 in VK.
 			time.sleep(0.3)
 
+	def get_video_albums(self, user_id=None):
+		try:
+			log.debug("Create video  albums...")
+			albums = self.session.vk.client.video.getAlbums(owner_id=user_id)
+		except VkAPIMethodError as ex:
+			if ex.code == 6:
+				log.exception("Something went wrong when getting albums. Waiting a second to retry")
+				time.sleep(2)
+				return self.get_audio_albums(user_id=user_id)
+		self.session.video_albums = albums["items"]
+		for i in albums["items"]:
+			buffer = buffers.videoAlbum(parent=self.window.tb, name="{0}_video_album".format(i["id"],), composefunc="compose_video", session=self.session, endpoint="get", parent_endpoint="video", count=self.session.settings["buffers"]["count_for_video_buffers"], user_id=user_id, album_id=i["id"])
+			buffer.can_get_items = False
+			# Translators: {0} Will be replaced with a video  album's title.
+			name_ = _(u"Album: {0}").format(i["title"],)
+			self.buffers.append(buffer)
+			self.window.insert_buffer(buffer.tab, name_, self.window.search("video_albums"))
+			buffer.get_items()
+			# inserts a pause of 1 second here, so we'll avoid errors 6 in VK.
+			time.sleep(0.3)
+
 	def create_audio_album(self, *args, **kwargs):
 		d = creation.audio_album()
 		if d.get_response() == widgetUtils.OK and d.get("title") != "":
@@ -427,7 +463,7 @@ class Controller(object):
 			self.session.audio_albums = self.session.vk.client.audio.getAlbums(owner_id=self.session.user_id)["items"]
 
 	def delete_audio_album(self, *args, **kwargs):
-		answer = selector.audioAlbum(_(u"Select the album you want to delete"), self.session)
+		answer = selector.album(_(u"Select the album you want to delete"), self.session)
 		if answer.item == None:
 			return
 		response = commonMessages.delete_audio_album()
@@ -439,6 +475,35 @@ class Controller(object):
 		self.buffers.remove(buffer)
 		del buffer
 		self.session.audio_albums = self.session.vk.client.audio.getAlbums(owner_id=self.session.user_id)["items"]
+
+	def create_video_album(self, *args, **kwargs):
+		d = creation.audio_album()
+		if d.get_response() == widgetUtils.OK and d.get("title") != "":
+			response = self.session.vk.client.video.addAlbum(title=d.get("title"))
+			if response.has_key("album_id") == False: return
+			album_id = response["album_id"]
+			buffer = buffers.videoAlbum(parent=self.window.tb, name="{0}_video_album".format(album_id,), composefunc="compose_video", session=self.session, endpoint="get", parent_endpoint="video", count=self.session.settings["buffers"]["count_for_video_buffers"], user_id=self.session.user_id, album_id=album_id)
+			buffer.can_get_items = False
+			# Translators: {0} will be replaced with a video  album's title.
+			name_ = _(u"Album: {0}").format(d.get("title"),)
+			self.buffers.append(buffer)
+			self.window.insert_buffer(buffer.tab, name_, self.window.search("video_albums"))
+			buffer.get_items()
+			self.session.video_albums = self.session.vk.client.video.getAlbums(owner_id=self.session.user_id)["items"]
+
+	def delete_video_album(self, *args, **kwargs):
+		answer = selector.album(_(u"Select the album you want to delete"), self.session, "video_albums")
+		if answer.item == None:
+			return
+		response = commonMessages.delete_audio_album()
+		if response != widgetUtils.YES: return
+		removal = self.session.vk.client.video.deleteAlbum(album_id=answer.item)
+		buffer = self.search("{0}_video_album".format(answer.item,))
+		buff = self.window.search(buffer.name)
+		self.window.remove_buffer(buff)
+		self.buffers.remove(buffer)
+		del buffer
+		self.session.video_albums = self.session.vk.client.video.getAlbums(owner_id=self.session.user_id)["items"]
 
 	def check_documentation(self, *args, **kwargs):
 		lang = localization.get("documentation")

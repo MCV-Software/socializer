@@ -155,7 +155,7 @@ def compose_audio(audio, session=None):
 
 def compose_video(video, session=None):
 	if video == False: return [_(u"Audio removed from library"), "", ""]
-	return [video["title"], utils.seconds_to_string(video["duration"])]
+	return [video["title"], video["description"], utils.seconds_to_string(video["duration"])]
 
 class vkSession(object):
 

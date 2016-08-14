@@ -10,6 +10,7 @@ import player
 import output
 import logging
 import selector
+import webbrowser
 from wxUI.tabs import home
 from pubsub import pub
 from sessionmanager import session
@@ -395,7 +396,7 @@ class audioBuffer(feedBuffer):
 			self.tab.list.remove_item(self.tab.list.get_selected())
 
 	def move_to_album(self, *args, **kwargs):
-		album = selector.audioAlbum(_(u"Select the album where you want to move this song"), self.session)
+		album = selector.album(_(u"Select the album where you want to move this song"), self.session)
 		if album.item == None: return
 		id = self.get_post()["id"]
 		response = self.session.vk.client.audio.moveToAlbum(album_id=album.item, audio_ids=id)
@@ -435,6 +436,113 @@ class audioAlbum(audioBuffer):
 		wx.CallAfter(self.get_items)
 		self.tab.play.Enable(True)
 		self.tab.play_all.Enable(True)
+
+class videoBuffer(feedBuffer):
+	def create_tab(self, parent):
+		self.tab = home.videoTab(parent)
+
+	def connect_events(self):
+		widgetUtils.connect_event(self.tab.play, widgetUtils.BUTTON_PRESSED, self.play_audio)
+		super(videoBuffer, self).connect_events()
+
+	def play_audio(self, *args, **kwargs):
+		selected = self.tab.list.get_selected()
+		if selected == -1:
+			selected = 0
+		output.speak(_(u"Opening video in webbrowser..."))
+		webbrowser.open_new_tab(self.session.db[self.name]["items"][selected]["player"])
+		return True
+
+	def open_post(self, *args, **kwargs):
+		selected = self.tab.list.get_selected()
+		audios = [self.session.db[self.name]["items"][selected]]
+		a = posts.audio(self.session, audios)
+		a.dialog.get_response()
+		a.dialog.Destroy()
+
+	def remove_buffer(self, mandatory=False):
+		if "me_video" == self.name:
+			output.speak(_(u"This buffer can't be deleted"))
+			return False
+		else:
+			if mandatory == False:
+				dlg = commonMessages.remove_buffer()
+			else:
+				dlg = widgetUtils.YES
+			if dlg == widgetUtils.YES:
+				self.session.db.pop(self.name)
+				return True
+			else:
+				return False
+
+	def get_more_items(self, *args, **kwargs):
+		# Translators: Some buffers can't use the get previous item feature due to API limitations.
+		output.speak(_(u"This buffer doesn't support getting more items."))
+
+	def onFocus(self, *args, **kwargs):
+		pass
+
+	def add_to_library(self, *args, **kwargs):
+		post = self.get_post()
+		args = {}
+		args["video_id"] = post["id"]
+		if post.has_key("album_id"):
+			args["album_id"] = post["album_id"]
+		args["owner_id"] = post["owner_id"]
+		video = self.session.vk.client.video.add(**args)
+		if video != None and int(video) > 21:
+			output.speak(_(u"Video added to your library"))
+
+	def remove_from_library(self, *args, **kwargs):
+		post = self.get_post()
+		args = {}
+		args["video_id"] = post["id"]
+		args["owner_id"] = self.session.user_id
+		result = self.session.vk.client.video.delete(**args)
+		if int(result) == 1:
+			output.speak(_(u"Removed video from library"))
+			self.tab.list.remove_item(self.tab.list.get_selected())
+
+	def move_to_album(self, *args, **kwargs):
+		album = selector.album(_(u"Select the album where you want to move this video"), self.session, "video_albums")
+		if album.item == None: return
+		id = self.get_post()["id"]
+		response = self.session.vk.client.video.addToAlbum(album_ids=album.item, video_id=id, target_id=self.session.user_id, owner_id=self.get_post()["owner_id"])
+		if response == 1:
+		# Translators: Used when the user has moved an video  to an album.
+			output.speak(_(u"Moved"))
+
+	def get_menu(self):
+		""" We'll use the same menu that is used for audio items, as the options are exactly the same"""
+		p = self.get_post()
+		m = menus.audioMenu()
+#		widgetUtils.connect_event(m, widgetUtils.MENU, self.open_post, menuitem=m.open)
+#		widgetUtils.connect_event(m, widgetUtils.MENU, self.play_audio, menuitem=m.play)
+		widgetUtils.connect_event(m, widgetUtils.MENU, self.move_to_album, menuitem=m.move)
+		# if owner_id is the current user, the audio is added to the user's audios.
+		if p["owner_id"] == self.session.user_id:
+			m.library.SetItemLabel(_(u"&Remove from library"))
+			widgetUtils.connect_event(m, widgetUtils.MENU, self.remove_from_library, menuitem=m.library)
+		else:
+			widgetUtils.connect_event(m, widgetUtils.MENU, self.add_to_library, menuitem=m.library)
+		return m
+
+class videoAlbum(videoBuffer):
+
+	def create_tab(self, parent):
+		self.tab = home.videoAlbumTab(parent)
+		self.tab.play.Enable(False)
+
+	def connect_events(self):
+		super(videoAlbum, self).connect_events()
+		widgetUtils.connect_event(self.tab.load, widgetUtils.BUTTON_PRESSED, self.load_album)
+
+	def load_album(self, *args, **kwargs):
+		output.speak(_(u"Loading album..."))
+		self.can_get_items = True
+		self.tab.load.Enable(False)
+		wx.CallAfter(self.get_items)
+		self.tab.play.Enable(True)
 
 class empty(object):
 
@@ -479,7 +587,7 @@ class chatBuffer(baseBuffer):
 				print "inserting a value"
 				v = [i for i in self.session.db[self.name]["items"][:num]]
 				v.reverse()
-				[self.insert(i, True) for i in v]
+				[self.insert(i, False) for i in v]
 			else:
 				[self.insert(i) for i in self.session.db[self.name]["items"][:num]]
 		else:

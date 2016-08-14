@@ -8,6 +8,7 @@ reverse_timelines = boolean(default=False)
 [buffers]
 count_for_audio_buffers = integer(default=100)
 count_for_wall_buffers = integer(default=100)
+count_for_video_buffers = integer(default=200)
 
 [sound]
 volume = float(default=1.0)
