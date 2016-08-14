@@ -490,7 +490,16 @@ class chatBuffer(baseBuffer):
 	def send_chat_to_user(self, *args, **kwargs):
 		text = self.tab.text.GetValue()
 		if text == "": return
-		response = self.session.vk.client.messages.send(user_id=self.kwargs["user_id"], message=text)
+		call_threaded(self._send_message, text=text)
+
+	def _send_message(self, text):
+		try:
+			response = self.session.vk.client.messages.send(user_id=self.kwargs["user_id"], message=text)
+		except VkAPIMethodError as ex:
+			if ex.code == 9:
+				output.speak(_(u"You have been sending a message that is already sent. Try to update the buffer if you can't see the new message in the history."))
+		finally:
+			self.tab.text.SetValue("")
 
 	def __init__(self, *args, **kwargs):
 		super(chatBuffer, self).__init__(*args, **kwargs)

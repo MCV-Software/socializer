@@ -138,6 +138,7 @@ class chatTab(wx.Panel):
 		sizer = wx.BoxSizer(wx.VERTICAL)
 		sizer.Add(self.create_controls())
 		self.send = wx.Button(self, -1, _(u"Send"))
+		self.send.SetDefault()
 		sizer.Add(self.send, 0, wx.ALL, 5)
 		self.SetSizer(sizer)
 

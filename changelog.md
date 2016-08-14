@@ -3,6 +3,9 @@
 ## Changes in the current build ()
 
 * Added a new menu in the menu bar that allows you to control the audio playback. For some actions (like play, next and back), if you are not focusing an audio buffer, the program will take the song from the "my audios" buffer.
+* Added two more buffers: "Followers" and "I follow", located in the people buffer, under "friendship requests".
+* Added an experimental photo viewer. Will show options for see the next and previous photo if the current post contains multiple images.
+* Improved chats, now they should be more stable.
 
 ## Changes in build 2016.07.08 (08/07/2016)
 
