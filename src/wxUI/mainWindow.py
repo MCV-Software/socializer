@@ -18,6 +18,7 @@ class mainWindow(wx.Frame):
 		buffer = wx.Menu()
 		search = wx.Menu()
 		self.search_audios = search.Append(wx.NewId(), _(u"Audio"))
+		self.search_videos = search.Append(wx.NewId(), _(u"Video"))
 		self.timeline = buffer.Append(wx.NewId(), _(u"&New timeline"))
 		buffer.AppendMenu(wx.NewId(), _(u"Search"), search)
 		self.update_buffer = buffer.Append(wx.NewId(), _(u"Update current buffer"))

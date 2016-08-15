@@ -144,6 +144,7 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.check_for_updates, menuitem=self.window.check_for_updates)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.window.about_dialog, menuitem=self.window.about)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.search_audios, menuitem=self.window.search_audios)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.search_videos, menuitem=self.window.search_videos)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU,self.remove_buffer, menuitem=self.window.remove_buffer_)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.get_more_items, menuitem=self.window.load_previous_items)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.changelog, menuitem=self.window.changelog)
@@ -258,6 +259,24 @@ class Controller(object):
 			call_threaded(newbuff.get_items)
 			# Translators: {0} will be replaced with the search term.
 			self.window.insert_buffer(newbuff.tab, _(u"Search for {0}").format(q.decode("utf-8"),), self.window.search("audios"))
+
+	def search_videos(self, *args, **kwargs):
+		dlg = searchDialogs.searchVideoDialog()
+		if dlg.get_response() == widgetUtils.OK:
+			params = {}
+			params["q"] = dlg.get("term").encode("utf-8")
+			params["count"] = 200
+			hd = dlg.get_checkable("hd")
+			if hd != 0:
+				params["hd"] = 1
+			params["adult"] = dlg.get_checkable("safe_search")
+			params["sort"] = dlg.get_sort_order()
+			params["filters"] = "youtube, vimeo, short, long"
+			newbuff = buffers.videoBuffer(parent=self.window.tb, name=u"{0}_videosearch".format(params["q"].decode("utf-8"),), session=self.session, composefunc="compose_video", parent_endpoint="video", endpoint="search", **params)
+			self.buffers.append(newbuff)
+			call_threaded(newbuff.get_items)
+			# Translators: {0} will be replaced with the search term.
+			self.window.insert_buffer(newbuff.tab, _(u"Search for {0}").format(params["q"].decode("utf-8"),), self.window.search("videos"))
 
 	def update_status_bar(self, status):
 		self.window.change_status(status)
