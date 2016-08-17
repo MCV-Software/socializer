@@ -174,7 +174,7 @@ class postController(object):
 			self.dialog.insert_attachments(attachments)
 
 	def check_image_load(self):
-		if self.load_images and len(self.images) > 0:
+		if self.load_images and len(self.images) > 0 and self.session.settings["general"]["load_images"]:
 			self.dialog.image.Enable(True)
 			nav = False # Disable navigation controls in photos
 			if len(self.images) > 1:

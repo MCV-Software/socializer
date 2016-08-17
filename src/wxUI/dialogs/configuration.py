@@ -20,6 +20,15 @@ class general(wx.Panel, widgetUtils.BaseDialog):
 		box2.Add(lbl2, 0, wx.ALL, 5)
 		box2.Add(self.audio_buffers_count, 0, wx.ALL, 5)
 		sizer.Add(box2, 0, wx.ALL, 5)
+		lbl3 = wx.StaticText(self, wx.NewId(), _(u"Number of items to load in video buffers (maximun 200)"))
+		self.video_buffers_count = wx.SpinCtrl(self, wx.NewId())
+		self.video_buffers_count.SetRange(1, 200)
+		box3 = wx.BoxSizer(wx.HORIZONTAL)
+		box3.Add(lbl3, 0, wx.ALL, 5)
+		box3.Add(self.video_buffers_count, 0, wx.ALL, 5)
+		sizer.Add(box3, 0, wx.ALL, 5)
+		self.load_images = wx.CheckBox(self, wx.NewId(), _(u"Load images in posts"))
+		sizer.Add(self.load_images, 0, wx.ALL, 5)
 		self.SetSizer(sizer)
 
 class configurationDialog(widgetUtils.BaseDialog):
