@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import re
 import os
 import cStringIO
 import threading
@@ -104,11 +105,13 @@ class postController(object):
 			from_ = get_user(i["from_id"], self.comments["profiles"])
 			if i.has_key("reply_to_user"):
 				extra_info = get_user(i["reply_to_user"], self.comments["profiles"])
-				from_ = _(u"{0} Has replied to {1}").format(from_, extra_info)
-			if len(i["text"]) > 140:
-				text = i["text"][:141]
+				from_ = _(u"{0} > {1}").format(from_, extra_info)
+			# As we set the comment reply properly in the from_ field, let's remove the first username from here if it exists.
+			fixed_text = re.sub("^\[id\d+\|\D+\], ", "", i["text"])
+			if len(fixed_text) > 140:
+				text = fixed_text[:141]
 			else:
-				text = i["text"]
+				text = fixed_text
 			original_date = arrow.get(i["date"])
 			created_at = original_date.humanize(locale=languageHandler.getLanguage())
 			likes = str(i["likes"]["count"])
