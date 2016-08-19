@@ -1,19 +1,25 @@
 # -*- coding: utf-8 -*-
+import time
 import widgetUtils
 import output
 from pubsub import pub
 import attach
-from wxUI.dialogs import message
+from wxUI.dialogs import message, selector
 from extra import SpellChecker, translator
+from logging import getLogger
+
+log = getLogger("controller.message")
 
 class post(object):
-	def __init__(self, title, caption, text, post_type="post"):
+	def __init__(self, session, title, caption, text, post_type="post"):
 		super(post, self).__init__()
+		self.session = session
 		self.title = title
 		self.message = getattr(message, post_type)(title, caption, text)
 		self.message.set_title(title)
 		widgetUtils.connect_event(self.message.spellcheck, widgetUtils.BUTTON_PRESSED, self.spellcheck)
 		widgetUtils.connect_event(self.message.translateButton, widgetUtils.BUTTON_PRESSED, self.translate)
+		widgetUtils.connect_event(self.message.mention, widgetUtils.BUTTON_PRESSED, self.mention)
 		self.images = []
 		if hasattr(self.message, "attach"):
 			widgetUtils.connect_event(self.message.attach, widgetUtils.BUTTON_PRESSED, self.show_attach_dialog)
@@ -25,6 +31,26 @@ class post(object):
 		elif p == _(u"All users"):
 			privacy = 1
 		return privacy
+
+	def mention(self, *args, **kwargs):
+		try:
+			fields = "id, first_name, last_name"
+			friends = self.session.vk.client.friends.get(count=5000, fields=fields)
+		except AttributeError:
+			time.sleep(2)
+			log.exception("Error retrieving friends...")
+			return self.mention(*args, **kwargs)
+		users = []
+		for i in friends["items"]:
+			users.append(u"{0} {1}".format(i["first_name"], i["last_name"]))
+		select = selector.selectPeople(users)
+		if select.get_response() == widgetUtils.OK and select.users.GetCount() > 0:
+			self.tagged_people = []
+			tagged_users = select.get_all_users()
+			for i in friends["items"]:
+				if u"{0} {1}".format(i["first_name"], i["last_name"]) in tagged_users:
+					self.tagged_people.append(u"[id%s|%s]" % (str(i["id"]), i["first_name"]))
+			self.message.text.SetValue(self.message.text.GetValue()+ u", ".join(self.tagged_people))
 
 	def translate(self, *args, **kwargs):
 		dlg = translator.gui.translateDialog()
@@ -51,6 +77,6 @@ class post(object):
 			self.attachments = a.attachments
 
 class comment(post):
-	def __init__(self, title, caption, text):
-		super(comment, self).__init__(title, caption, text, "comment")
+	def __init__(self, session, title, caption, text):
+		super(comment, self).__init__(session, title, caption, text, "comment")
 		self.message.set_title(_(u"New comment"))

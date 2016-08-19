@@ -86,7 +86,7 @@ class baseBuffer(object):
 		self.get_items(show_nextpage=True)
 
 	def post(self, *args, **kwargs):
-		p = messages.post(title=_(u"Write your post"), caption="", text="")
+		p = messages.post(session=self.session, title=_(u"Write your post"), caption="", text="")
 		if p.message.get_response() == widgetUtils.OK:
 			call_threaded(self.do_last, p=p)
 

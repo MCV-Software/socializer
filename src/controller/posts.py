@@ -285,7 +285,7 @@ class postController(object):
 			pass
 
 	def add_comment(self, *args, **kwargs):
-		comment = messages.comment(title=_(u"Add a comment"), caption="", text="")
+		comment = messages.comment(session=self.session, title=_(u"Add a comment"), caption="", text="")
 		if comment.message.get_response() == widgetUtils.OK:
 			msg = comment.message.get_text().encode("utf-8")
 			try:
