@@ -35,6 +35,7 @@ class selectPeople(widgetUtils.BaseDialog):
 
 	def __init__(self, users=[]):
 		super(selectPeople, self).__init__(parent=None, title=_(u"Tag friends"))
+		self.indexes = []
 		self.users_list = users
 		panel = wx.Panel(self)
 		sizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -74,13 +75,12 @@ class selectPeople(widgetUtils.BaseDialog):
 		selection = self.get_user()
 		if selection in self.users_list:
 			self.users.Append(selection)
+			self.indexes.append(self.cb.GetSelection())
 
 	def remove_user(self, *args, **kwargs):
-		self.users.Delete(self.users.GetSelection())
+		n = self.users.GetSelection()
+		self.users.Delete(n)
+		self.indexes.remove(n)
 
 	def get_all_users(self):
-		users = []
-		for i in xrange(0, self.users.GetCount()):
-			self.users.Select(i)
-			users.append(self.users.GetStringSelection())
-		return users
+		return self.indexes

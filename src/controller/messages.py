@@ -47,9 +47,8 @@ class post(object):
 		if select.get_response() == widgetUtils.OK and select.users.GetCount() > 0:
 			self.tagged_people = []
 			tagged_users = select.get_all_users()
-			for i in friends["items"]:
-				if u"{0} {1}".format(i["first_name"], i["last_name"]) in tagged_users:
-					self.tagged_people.append(u"[id%s|%s]" % (str(i["id"]), i["first_name"]))
+			for i in tagged_users:
+				self.tagged_people.append(u"[id%s|%s]" % (str(friends["items"][i]["id"]), friends["items"][i]["first_name"]))
 			self.message.text.SetValue(self.message.text.GetValue()+ u", ".join(self.tagged_people))
 
 	def translate(self, *args, **kwargs):
