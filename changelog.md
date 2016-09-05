@@ -8,7 +8,7 @@
 * Improved chats, now they should be more stable. Also you will be able to send the message by pressing enter in the text box. If you are trying to send the same message multiple times, you will be warned.
 * Added video management (my videos, video albums and video search). For playing videos, you will be redirected to a website in your browser.
 * Added a setting that allows you to specify if you want socializer to load images when you are opening posts. It could be useful for slow connection or those who  don't want images to be loaded.
-* Added basic tagging for users in posts and comments. You can tag only people in your friend buffers.
+* Added basic tagging for users in posts and comments. You can tag only people in your friends buffer.
 
 ## Changes in build 2016.07.08 (08/07/2016)
 
