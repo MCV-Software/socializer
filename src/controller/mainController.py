@@ -139,6 +139,7 @@ class Controller(object):
 		pub.subscribe(self.update_status_bar, "update-status-bar")
 		pub.subscribe(self.chat_from_id, "new-chat")
 		pub.subscribe(self.authorisation_failed, "authorisation-failed")
+		pub.subscribe(self.user_profile, "user-profile")
 		widgetUtils.connect_event(self.window, widgetUtils.CLOSE_EVENT, self.exit)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.update_buffer, menuitem=self.window.update_buffer)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.check_for_updates, menuitem=self.window.check_for_updates)
@@ -433,6 +434,8 @@ class Controller(object):
 				log.exception("Something went wrong when getting albums. Waiting a second to retry")
 				time.sleep(2)
 				return self.get_audio_albums(user_id=user_id)
+			elif ex.code == 10:
+				return
 		self.session.audio_albums = albums["items"]
 		for i in albums["items"]:
 			buffer = buffers.audioAlbum(parent=self.window.tb, name="{0}_audio_album".format(i["id"],), composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], user_id=user_id, album_id=i["id"])
@@ -534,7 +537,7 @@ class Controller(object):
 		if player.player.check_is_playing() != False:
 			return player.player.pause()
 		b = self.get_current_buffer()
-		if hasattr(b, "play_audio"):
+		if hasattr(b, "play_next"):
 			b.play_audio()
 		else:
 			b = self.search("me_audio")
@@ -573,3 +576,5 @@ class Controller(object):
 	def menu_mute(self, *args, **kwargs):
 		player.player.volume = 0
 
+	def user_profile(self, person):
+		p = posts.userProfile(self.session, person)

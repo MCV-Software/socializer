@@ -155,6 +155,7 @@ class baseBuffer(object):
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.do_like, menuitem=m.like)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.do_dislike, menuitem=m.dislike)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.do_comment, menuitem=m.comment)
+		widgetUtils.connect_event(m, widgetUtils.MENU, self.open_person_profile, menuitem=m.view_profile)
 		return m
 
 	def do_like(self, *args, **kwargs):
@@ -227,6 +228,15 @@ class baseBuffer(object):
 		if post.has_key("type") and post["type"] == "audio":
 			pub.sendMessage("play-audio", audio_object=post["audio"]["items"][0])
 			return True
+
+	def open_person_profile(self, *args, **kwargs):
+		selected = self.get_post()
+		print selected.keys()
+		keys = ["from_id", "source_id"]
+		for i in keys:
+			if selected.has_key(i):
+				pub.sendMessage("user-profile", person=selected[i])
+				print selected[i]
 
 	def open_post(self, *args, **kwargs):
 		post = self.session.db[self.name]["items"][self.tab.list.get_selected()]
