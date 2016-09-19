@@ -2,6 +2,7 @@
 import output
 import sound_lib
 from sound_lib.stream import URLStream
+from sound_lib.main import BassError
 from mysc.repeating_timer import RepeatingTimer
 from pubsub import pub
 
@@ -24,7 +25,11 @@ class audioPlayer(object):
 
 	def play(self, url):
 		if self.stream != None and self.stream.is_playing == True:
-			self.stream.stop()
+			try:
+				self.stream.stop()
+			except BassError:
+				log.exception("error when stopping the file")
+				self.stream = None
 			self.stopped = True
 			if hasattr(self, "worker") and self.worker != None:
 				self.worker.cancel()
@@ -33,7 +38,11 @@ class audioPlayer(object):
 		# Make sure that  there are no other sounds trying to be played.
 		if self.is_working == False:
 			self.is_working = True
-			self.stream = URLStream(url=url["url"])
+			try:
+				self.stream = URLStream(url=url["url"])
+			except BassError:
+				log.debug("Error when playing the file %s") % (url,)
+				return
 			# Translators: {0} will be replaced with a song's title and {1} with the artist.
 			msg = _(u"Playing {0} by {1}").format(url["title"], url["artist"])
 			pub.sendMessage("update-status-bar", status=msg)
@@ -57,8 +66,11 @@ class audioPlayer(object):
 				self.stream.pause()
 				self.stopped = True
 			else:
-				self.stream.play()
-				self.stopped = False
+				try:
+					self.stream.play()
+					self.stopped = False
+				except BassError:
+					pass
 
 	@property
 	def volume(self):
