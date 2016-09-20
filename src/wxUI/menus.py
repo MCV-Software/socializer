@@ -16,6 +16,8 @@ class postMenu(wx.Menu):
 		self.post_in_wall = wx.MenuItem(self, wx.NewId(), _(u"Post to this profile"))
 		self.post_in_wall.Enable(False)
 		self.AppendItem(self.post_in_wall)
+		self.view_profile = wx.MenuItem(self, wx.NewId(), _(u"View user profile"))
+		self.AppendItem(self.view_profile)
 
 	def create_specific_post_options(self):
 		self.update = wx.MenuItem(self, wx.NewId(), _(u"Update"))

@@ -267,7 +267,7 @@ class postController(object):
 
 	def post_repost(self, *args, **kwargs):
 		object_id = "wall{0}_{1}".format(self.post[self.user_identifier], self.post[self.post_identifier])
-		p = messages.post(title=_(u"Repost"), caption=_(u"Add your comment here"), text="")
+		p = messages.post(session=self.session, title=_(u"Repost"), caption=_(u"Add your comment here"), text="")
 		if p.message.get_response() == widgetUtils.OK:
 			msg = p.message.get_text().encode("utf-8")
 			self.session.vk.client.wall.repost(object=object_id, message=msg)
@@ -531,3 +531,78 @@ class friendship(object):
 	def set_friends_list(self, friendslist):
 		for i in friendslist:
 			self.dialog.friends.insert_item(False, *[i])
+
+class userProfile(object):
+
+	def __init__(self, session, user_id):
+		self.person = None
+		self.session = session
+		self.user_id = user_id
+		self.dialog = postDialogs.userProfile()
+		self.get_information()
+		if self.person != None:
+			self.dialog.get_response()
+
+	def get_information(self):
+		""" Gets and inserts user information"""
+		fields = "first_name, last_name, sex, bdate, city, country, home_town, photo_200_orig, online, contacts, site, education, universities, schools, status, last_seen, counters, occupation"
+		person = self.session.vk.client.users.get(user_ids=self.user_id, fields=fields)
+		if len(person) == 0:
+			return output.speak(_(u"Information for groups is not supported, yet."))
+		person = person[0]
+		# Gets full name.
+		n = u"{0} {1}".format(person["first_name"], person["last_name"])
+		# Gets birthdate.
+		if person.has_key("bdate") and person["bdate"] != "":
+			self.dialog.enable("bdate")
+			if len(person["bdate"]) <= 5:
+				d = arrow.get(person["bdate"], "D.m")
+				self.dialog.set("bdate", d.format(_(u"MMMM D"), locale=languageHandler.getLanguage()))
+			else:
+				d = arrow.get(person["bdate"], "D.M.YYYY")
+				self.dialog.set("bdate", d.format(_(u"MMMM D, YYYY"), locale=languageHandler.getLanguage()))
+		# Gets current city and home town
+		city = ""
+		home_city = ""
+		if person.has_key("home_town") and person["home_town"] != "":
+				home_city = _(u"(from {0})").format(person["home_town"])
+		if person.has_key("city") and len(person["city"]) > 0:
+			city = person["city"]["title"]
+		if person.has_key("country") and person["country"] != "":
+			if city != "":
+				city = city+u", {0}".format(person["country"]["title"])
+			else:
+				city = person["country"]["title"]
+		if home_city != "":
+			self.dialog.set("city", city+" "+home_city)
+			self.dialog.enable("city")
+		else:
+			self.dialog.set("city", city)
+			self.dialog.enable("city")
+		self.dialog.set("name", n)
+		# Gets website
+		if person.has_key("site") and person["site"] != "":
+			self.dialog.enable("website")
+			self.dialog.set("website", person["site"])
+			self.dialog.enable("go_site")
+			widgetUtils.connect_event(self.dialog.go_site, widgetUtils.BUTTON_PRESSED, self.visit_website)
+		if person.has_key("status") and person["status"] != "":
+			self.dialog.enable("status")
+			self.dialog.set("status", person["status"])
+		if person.has_key("occupation") and person["occupation"] != None:
+			if person["occupation"]["type"] == "work": c1 = _(u"Work ")
+			elif person["occupation"]["type"] == "school": c1 = _(u"Student ")
+			elif person["occupation"]["type"] == "university": c1 = _(u"Student ")
+			if person["occupation"].has_key("name") and person["occupation"]["name"] != "":
+				c2 = _(u"In {0}").format(person["occupation"]["name"],)
+			else:
+				c2 = ""
+			self.dialog.enable("occupation")
+			self.dialog.set("occupation", c1+c2)
+		log.info("getting info...")
+		self.person = person
+		self.dialog.SetClientSize(self.dialog.sizer.CalcMin())
+
+	def visit_website(self, *args, **kwargs):
+		output.speak(_(u"Opening website..."))
+		webbrowser.open_new_tab(self.person["site"])
