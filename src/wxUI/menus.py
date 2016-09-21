@@ -47,7 +47,6 @@ class peopleMenu(wx.Menu):
 		self.AppendItem(self.message)
 		self.timeline = wx.MenuItem(self, wx.NewId(), _(u"Open timeline"))
 		self.AppendItem(self.timeline)
-		self.view_profile.Enable(False)
 
 class commentMenu(wx.Menu):
 	def __init__(self, *args, **kwargs):

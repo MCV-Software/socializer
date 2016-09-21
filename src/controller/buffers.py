@@ -232,7 +232,7 @@ class baseBuffer(object):
 	def open_person_profile(self, *args, **kwargs):
 		selected = self.get_post()
 		print selected.keys()
-		keys = ["from_id", "source_id"]
+		keys = ["from_id", "source_id", "id"]
 		for i in keys:
 			if selected.has_key(i):
 				pub.sendMessage("user-profile", person=selected[i])
@@ -650,6 +650,7 @@ class peopleBuffer(feedBuffer):
 		m = menus.peopleMenu()
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.new_chat, menuitem=m.message)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.open_timeline, menuitem=m.timeline)
+		widgetUtils.connect_event(m, widgetUtils.MENU, self.open_person_profile, menuitem=m.view_profile)
 		return m
 
 	def open_post(self, *args, **kwargs): pass
