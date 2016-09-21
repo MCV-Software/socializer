@@ -539,17 +539,18 @@ class userProfile(object):
 		self.session = session
 		self.user_id = user_id
 		self.dialog = postDialogs.userProfile()
-		self.get_information()
+		self.get_basic_information()
 		if self.person != None:
 			self.dialog.get_response()
 
-	def get_information(self):
-		""" Gets and inserts user information"""
-		fields = "first_name, last_name, sex, bdate, city, country, home_town, photo_200_orig, online, contacts, site, education, universities, schools, status, last_seen, counters, occupation"
+	def get_basic_information(self):
+		""" Gets and inserts basic user information"""
+		fields = "first_name, last_name, bdate, city, country, home_town, photo_200_orig, online,  site,  status, last_seen, occupation, relation, relatives"
 		person = self.session.vk.client.users.get(user_ids=self.user_id, fields=fields)
 		if len(person) == 0:
 			return output.speak(_(u"Information for groups is not supported, yet."))
 		person = person[0]
+		print person.keys()
 		# Gets full name.
 		n = u"{0} {1}".format(person["first_name"], person["last_name"])
 		# Gets birthdate.
@@ -563,9 +564,10 @@ class userProfile(object):
 				self.dialog.set("bdate", d.format(_(u"MMMM D, YYYY"), locale=languageHandler.getLanguage()))
 		# Gets current city and home town
 		city = ""
-		home_city = ""
 		if person.has_key("home_town") and person["home_town"] != "":
-				home_city = _(u"(from {0})").format(person["home_town"])
+			home_town = person["home_town"]
+			self.dialog.enable("home_town")
+			self.dialog.set("home_town", home_town)
 		if person.has_key("city") and len(person["city"]) > 0:
 			city = person["city"]["title"]
 		if person.has_key("country") and person["country"] != "":
@@ -573,12 +575,8 @@ class userProfile(object):
 				city = city+u", {0}".format(person["country"]["title"])
 			else:
 				city = person["country"]["title"]
-		if home_city != "":
-			self.dialog.set("city", city+" "+home_city)
 			self.dialog.enable("city")
-		else:
 			self.dialog.set("city", city)
-			self.dialog.enable("city")
 		self.dialog.set("name", n)
 		# Gets website
 		if person.has_key("site") and person["site"] != "":
@@ -599,6 +597,33 @@ class userProfile(object):
 				c2 = ""
 			self.dialog.enable("occupation")
 			self.dialog.set("occupation", c1+c2)
+		if person.has_key("relation") and person["relation"] != 0:
+			print person["relation"]
+			if person["relation"] == 1:
+				r =  _(u"Single")
+			elif person["relation"] == 2:
+				if person.has_key("relation_partner"):
+					r = _(u"Dating with {0} {1}").format(person["relation_partner"]["first_name"], person["relation_partner"]["last_name"])
+				else:
+					r = _(u"Dating")
+			elif person["relation"] == 3:
+				r = _(u"Engaged with {0} {1}").format(person["relation_partner"]["first_name"], person["relation_partner"]["last_name"])
+			elif person["relation"] == 4:
+				r = _(u"Married with {0} {1}").format(person["relation_partner"]["first_name"], person["relation_partner"]["last_name"])
+			elif person["relation"] == 5:
+				r = _(u"It's complicated")
+			elif person["relation"] == 6:
+				r = _(u"Actively searching")
+			elif person["relation"] == 7:
+				r = _(u"In love")
+			self.dialog.enable("relation")
+			self.dialog.relation.SetLabel(_(u"Relationship: ")+r)
+		if person.has_key("last_seen") and person["last_seen"] != False:
+			original_date = arrow.get(person["last_seen"]["time"])
+			# Translators: This is the date of last seen
+			last_seen = _(u"{0}").format(original_date.humanize(locale=languageHandler.getLanguage()),)
+			self.dialog.enable("last_seen")
+			self.dialog.set("last_seen", last_seen)
 		log.info("getting info...")
 		self.person = person
 		self.dialog.SetClientSize(self.dialog.sizer.CalcMin())
