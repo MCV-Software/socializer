@@ -14,6 +14,7 @@ import webbrowser
 import utils
 import logging
 from sessionmanager import session # We'll use some functions from there
+from sessionmanager.session import utils
 from pubsub import pub
 from wxUI.dialogs import postDialogs, urlList
 from extra import SpellChecker, translator
@@ -48,8 +49,12 @@ def add_attachment(attachment):
 		msg = u"{0}".format(" ".join(session.compose_audio(attachment["audio"])))
 		tpe = _(u"Audio")
 	elif attachment["type"] == "doc":
-		msg = u"{0}".format(attachment["doc"]["title"])
-		tpe = _(u"{0} file").format(attachment["doc"]["ext"])
+		if attachment["doc"].has_key("preview") and attachment["doc"]["preview"].has_key("audio_msg"):
+			tpe = _(u"Voice message")
+			msg = utils.seconds_to_string(attachment["doc"]["preview"]["audio_msg"]["duration"])
+		else:
+			msg = u"{0}".format(attachment["doc"]["title"])
+			tpe = _(u"{0} file").format(attachment["doc"]["ext"])
 	return [tpe, msg]
 
 def get_message(status):

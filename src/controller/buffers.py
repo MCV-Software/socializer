@@ -11,6 +11,7 @@ import output
 import logging
 import selector
 import webbrowser
+import posts
 from wxUI.tabs import home
 from pubsub import pub
 from sessionmanager import session
@@ -575,9 +576,18 @@ class chatBuffer(baseBuffer):
 		if msg.has_key("read_state") and msg["read_state"] == 0 and msg["id"] not in self.reads:
 			self.reads.append(msg["id"])
 			self.session.db[self.name]["items"][-1]["read_state"] = 1
+		msg = self.get_post()
+		if msg.has_key("attachments") and len(msg["attachments"]) > 0:
+			self.tab.attachments.list.Enable(True)
+			self.attachments = list()
+			self.parse_attachments(msg)
+		else:
+			self.tab.attachments.list.Enable(False)
+			self.tab.attachments.clear()
 
 	def create_tab(self, parent):
 		self.tab = home.chatTab(parent)
+		self.attachments = list()
 
 	def connect_events(self):
 		widgetUtils.connect_event(self.tab.send, widgetUtils.BUTTON_PRESSED, self.send_chat_to_user)
@@ -622,6 +632,65 @@ class chatBuffer(baseBuffer):
 	def __init__(self, *args, **kwargs):
 		super(chatBuffer, self).__init__(*args, **kwargs)
 		self.reads = []
+
+	def parse_attachments(self, post):
+		attachments = []
+		from posts import add_attachment
+		if post.has_key("attachments"):
+			for i in post["attachments"]:
+				# We don't need the photos_list attachment, so skip it.
+				if i["type"] == "photos_list":
+					continue
+				attachments.append(add_attachment(i))
+				self.attachments.append(i)
+		self.tab.attachments.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.open_attachment)
+		self.tab.insert_attachments(attachments)
+
+	def open_attachment(self, *args, **kwargs):
+		index = self.tab.attachments.get_selected()
+		attachment = self.attachments[index]
+		if attachment["type"] == "audio":
+			a = posts.audio(session=self.session, postObject=[attachment["audio"]])
+			a.dialog.get_response()
+			a.dialog.Destroy()
+		if attachment["type"] == "link":
+			output.speak(_(u"Opening URL..."), True)
+			webbrowser.open_new_tab(attachment["link"]["url"])
+		elif attachment["type"] == "doc":
+			if attachment["doc"].has_key("preview") and attachment["doc"]["preview"].has_key("audio_msg"):
+				link = attachment["doc"]["preview"]["audio_msg"]["link_mp3"]
+				output.speak(_(u"Playing..."))
+				player.player.play(url=dict(url=link), set_info=False)
+			else:
+				output.speak(_(u"Opening document in web browser..."))
+				webbrowser.open(attachment["doc"]["url"])
+		elif attachment["type"] == "video":
+			# it seems VK doesn't like to attach video links as normal URLS, so we'll have to
+			# get the full video object and use its "player" key  which will open a webbrowser in their site with a player for the video.
+			# see https://vk.com/dev/attachments_w and and https://vk.com/dev/video.get
+			# However, the flash player  isn't good  for visually impaired people (when you press play you won't be able to close the window with alt+f4), so it could be good to use the HTML5 player.
+			# For firefox,  see https://addons.mozilla.org/ru/firefox/addon/force-html5-video-player-at-vk/
+			# May be I could use a dialogue here for inviting people to use this addon in firefox. It seems it isn't possible to use this html5 player from the player URL.
+			object_id = "{0}_{1}".format(attachment["video"]["owner_id"], attachment["video"]["id"])
+			video_object = self.session.vk.client.video.get(owner_id=attachment["video"]["owner_id"], videos=object_id)
+			video_object = video_object["items"][0]
+			output.speak(_(u"Opening video in web browser..."), True)
+			webbrowser.open_new_tab(video_object["player"])
+		elif attachment["type"] == "photo":
+			output.speak(_(u"Opening photo in web browser..."), True)
+			# Possible photo sizes for looking in the attachment information. Try to use the biggest photo available.
+			possible_sizes = [1280, 604, 130, 75]
+			url = ""
+			for i in possible_sizes:
+				if attachment["photo"].has_key("photo_{0}".format(i,)):
+					url = attachment["photo"]["photo_{0}".format(i,)]
+					break
+			if url != "":
+				webbrowser.open_new_tab(url)
+			else:
+				print attachment["photo"].keys()
+		else:
+			log.debug("Unhandled attachment: %r" % (attachment,))
 
 class peopleBuffer(feedBuffer):
 

@@ -133,10 +133,16 @@ class empty(wx.Panel):
 
 class chatTab(wx.Panel):
 
+	def insert_attachments(self, attachments):
+		for i in attachments:
+			self.attachments.insert_item(False, *i)
+
 	def __init__(self, parent):
 		super(chatTab, self).__init__(parent=parent)
 		sizer = wx.BoxSizer(wx.VERTICAL)
 		sizer.Add(self.create_controls())
+		sizer.Add(self.create_attachments(), 0, wx.ALL, 5)
+		sizer.Add(self.create_chat(), 0, wx.ALL, 5)
 		self.send = wx.Button(self, -1, _(u"Send"))
 		self.send.SetDefault()
 		sizer.Add(self.send, 0, wx.ALL, 5)
@@ -150,8 +156,21 @@ class chatTab(wx.Panel):
 		box = wx.BoxSizer(wx.HORIZONTAL)
 		box.Add(lbl1, 0, wx.ALL, 5)
 		box.Add(self.list.list, 0, wx.ALL, 5)
+		return box
+
+	def create_attachments(self):
+		lbl = wx.StaticText(self, -1, _(u"Attachments"))
+		self.attachments = widgetUtils.list(self, _(u"Type"), _(u"Title"), style=wx.LC_REPORT)
+		box = wx.BoxSizer(wx.HORIZONTAL)
+		box.Add(lbl, 0, wx.ALL, 5)
+		box.Add(self.attachments.list, 0, wx.ALL, 5)
+		self.attachments.list.Enable(False)
+		return box
+
+	def create_chat(self):
 		lbl2 = wx.StaticText(self, -1, _(u"Write a message"))
 		self.text = wx.TextCtrl(self, -1)
+		box = wx.BoxSizer(wx.HORIZONTAL)
 		box.Add(lbl2, 0, wx.ALL, 20)
 		box.Add(self.text, 0, wx.ALL, 5)
 		return box
