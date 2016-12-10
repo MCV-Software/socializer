@@ -2,17 +2,17 @@
 
 A desktop application for handling [vk.com](http://vk.com) in an easy way.
 
-## weekly builds
+## download the current  build
 
-Socializer's functionality is far to be perfect, in fact there are lots of methods of the VK API that this application doesn't support  right now, but if you are curious enough, and you want to help by giving me your impressions and making  tests for fixing  bugs, you can download the last source code, compiled as an application. This is the  weekly  build of socializer. This version is only for testing purposes, never think that it can be used for everyday use. This version does not include any documentation, Only the changelog, because it's build with an authomatic process. This weekly  build is built every week, depending in the updates that the repository has receibed.
+Socializer's functionality is far to be perfect, in fact there are lots of methods of the VK API that this application doesn't support  right now, but if you are curious enough, and you want to help by giving me your impressions and making  tests for fixing  bugs, you can download the last source code, compiled as an application. This is the   snapshot build of socializer. This version is only for testing purposes, never think that it can be used for everyday use. This version does not include any documentation, Only the changelog, because it's build with an authomatic process.
 
 Before downloading, take in to account the following: This source code is completely experimental. The current functionality in this application is not very useful. If you decide to use nightly build versions, take into account that this doesn't work as an application for everyday use yet.
 
 Version: 2016.07.9  
 Build date: Jul 9 2016  
-[Download socializer weekly  build](https://github.com/manuelcortez/socializer/blob/master/nightly/socializer-nightly-build.zip?raw=true)
+[Download socializer](https://github.com/manuelcortez/socializer/blob/master/nightly/socializer-nightly-build.zip?raw=true)
 
-I have started this effort as an open source  project on Feb 13, 2016. Pull requests and bug reports are welcome. Socializer is not a definitive name for this project, it could be changed in future.
+I have started this effort as an open source  project on Feb 13, 2016. Pull requests and bug reports are welcome.
 
 ## dependencies
 
