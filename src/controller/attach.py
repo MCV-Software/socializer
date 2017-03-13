@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
+""" Attachment upload  methods for different kind of posts in VK."""
 import os
 import widgetUtils
 import logging
 from wxUI.dialogs import attach as gui
+from wxUI.dialogs import selector
 log = logging.getLogger("controller.attach")
 
-class attach(object):
-	def __init__(self):
+class attachmentUploader(object):
+	def __init__(self, voice_messages=False):
 		self.attachments = list()
-		self.dialog = gui.attachDialog()
+		self.type = "local"
+		self.dialog = gui.attachDialog(voice_messages)
 		widgetUtils.connect_event(self.dialog.photo, widgetUtils.BUTTON_PRESSED, self.upload_image)
 		widgetUtils.connect_event(self.dialog.remove, widgetUtils.BUTTON_PRESSED, self.remove_attachment)
 		self.dialog.get_response()
@@ -37,3 +40,36 @@ class attach(object):
 	def check_remove_status(self):
 		if len(self.attachments) == 0 and self.dialog.attachments.get_count() == 0:
 			self.dialog.remove.Enable(False)
+
+class attach(object):
+
+	def __init__(self, session):
+		self.session = session
+		self.attachments = list()
+		self.type = "online"
+		self.dialog = gui.attachDialog()
+		widgetUtils.connect_event(self.dialog.audio, widgetUtils.BUTTON_PRESSED, self.add_audio)
+#		widgetUtils.connect_event(self.dialog.remove, widgetUtils.BUTTON_PRESSED, self.remove_attachment)
+		self.dialog.get_response()
+		log.debug("Attachments controller started.")
+
+	def add_audio(self, *args, **kwargs):
+		list_of_audios = self.session.vk.client.audio.get(count=1000)
+		list_of_audios = list_of_audios["items"]
+		audios = []
+		for i in list_of_audios:
+			audios.append(u"{0}, {1}".format(i["title"], i["artist"]))
+		select = selector.selectAttachment(_(u"Select the audio files you want to send"), audios)
+		if select.get_response() == widgetUtils.OK and select.attachments.GetCount() > 0:
+			attachments = select.get_all_attachments()
+			for i in attachments:
+				print list_of_audios[i].keys()
+				list_of_audios[i]["type"] = "audio"
+				self.attachments.append(list_of_audios[i])
+
+	def parse_attachments(self):
+		result = ""
+		for i in self.attachments:
+			preresult = "{0}{1}_{2}".format(i["type"], i["owner_id"], i["id"])
+			result = preresult+","
+		return result

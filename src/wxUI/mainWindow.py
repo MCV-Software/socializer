@@ -32,6 +32,7 @@ class mainWindow(wx.Frame):
 		self.player_stop = player.Append(wx.NewId(), _(u"Stop"))
 		self.player_previous = player.Append(wx.NewId(), _(u"Previous"))
 		self.player_next = player.Append(wx.NewId(), _(u"Next"))
+		self.player_shuffle = player.AppendCheckItem(wx.NewId(), _(u"Shuffle"))
 		self.player_volume_down = player.Append(wx.NewId(), _(u"Volume down"))
 		self.player_volume_up = player.Append(wx.NewId(), _(u"Volume up"))
 		self.player_mute = player.Append(wx.NewId(), _(u"Mute"))

@@ -143,6 +143,8 @@ class chatTab(wx.Panel):
 		sizer.Add(self.create_controls())
 		sizer.Add(self.create_attachments(), 0, wx.ALL, 5)
 		sizer.Add(self.create_chat(), 0, wx.ALL, 5)
+		self.attachment = wx.Button(self, wx.NewId(), _(u"Add"))
+		sizer.Add(self.attachment, 0, wx.ALL, 5)
 		self.send = wx.Button(self, -1, _(u"Send"))
 		self.send.SetDefault()
 		sizer.Add(self.send, 0, wx.ALL, 5)

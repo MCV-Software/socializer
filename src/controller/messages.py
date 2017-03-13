@@ -71,7 +71,7 @@ class post(object):
 		checker.clean()
 
 	def show_attach_dialog(self, *args, **kwargs):
-		a = attach.attach()
+		a = attach.attachmentUploader()
 		if len(a.attachments) != 0:
 			self.attachments = a.attachments
 

@@ -3,7 +3,7 @@ import wx
 import widgetUtils
 
 class attachDialog(widgetUtils.BaseDialog):
-	def __init__(self):
+	def __init__(self, voice_messages=False):
 		super(attachDialog, self).__init__(None,  title=_(u"Add an attachment"))
 		panel = wx.Panel(self)
 		sizer = wx.BoxSizer(wx.VERTICAL)
@@ -15,10 +15,16 @@ class attachDialog(widgetUtils.BaseDialog):
 		sizer.Add(box, 0, wx.ALL, 5)
 		static = wx.StaticBox(panel, label=_(u"Add attachments"))
 		self.photo = wx.Button(panel, wx.NewId(), _(u"&Photo"))
+		self.audio = wx.Button(panel, wx.NewId(), _(u"Audio file"))
+		if voice_messages:
+			self.voice_message = wx.Button(panel, wx.NewId(), _(u"Voice message"))
 		self.remove = wx.Button(panel, wx.NewId(), _(u"Remove attachment"))
 		self.remove.Enable(False)
 		btnsizer = wx.StaticBoxSizer(static, wx.HORIZONTAL)
 		btnsizer.Add(self.photo, 0, wx.ALL, 5)
+		btnsizer.Add(self.audio, 0, wx.ALL, 5)
+		if voice_messages:
+			btnsizer.Add(self.voice_message, 0, wx.ALL, 5)
 		sizer.Add(btnsizer, 0, wx.ALL, 5)
 		ok = wx.Button(panel, wx.ID_OK)
 		ok.SetDefault()

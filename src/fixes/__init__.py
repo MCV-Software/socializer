@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import sys
 import fix_requests
-import fix_win32com
+if hasattr(sys, "frozen"):
+	import fix_win32com
 
 def setup():
 	fix_requests.fix()

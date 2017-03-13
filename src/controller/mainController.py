@@ -220,7 +220,7 @@ class Controller(object):
 		call_threaded(player.player.play, audio_object)
 
 	def play_audios(self, audios):
-		player.player.play_all(audios)
+		player.player.play_all(audios, shuffle=self.window.player_shuffle.IsChecked())
 
 	def view_post(self, post_object, controller_):
 		p = getattr(posts, controller_)(self.session, post_object)
@@ -385,6 +385,12 @@ class Controller(object):
 			return
 		# If the chat already exists, let's create a dictionary wich will contains data of the received message.
 		message = {"id": obj.message_id, "user_id": obj.user_id, "date": obj.timestamp, "body": obj.text, "attachments": obj.attachments}
+		# if attachments is true, let's request for the full message with attachments formatted in a better way.
+		# Todo: code improvements. We shouldn't need to request the same message again just for these attachments.
+		if len(message["attachments"]) != 0:
+			message_ids = message["id"]
+			results = self.session.vk.client.messages.getById(message_ids=message_ids)
+			message = results["items"][0]
 		# If outbox it's true, it means that message["from_id"] should be the current user. If not, the obj.user_id should be taken.
 		if obj.message_flags.has_key("outbox") == True:
 			message["from_id"] = self.session.user_id

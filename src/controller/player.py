@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import random
 import output
 import sound_lib
 import logging
@@ -88,9 +89,11 @@ class audioPlayer(object):
 		if self.stream != None:
 			self.stream.volume = self.vol/100.0
 
-	def play_all(self, list_of_urls):
+	def play_all(self, list_of_urls, shuffle=False):
 		self.stop()
 		self.queue = list_of_urls
+		if shuffle:
+			random.shuffle(self.queue)
 		self.play(self.queue[0])
 		self.queue.remove(self.queue[0])
 		self.worker = RepeatingTimer(5, self.player_function)

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import requests
 
-
 class VkUpload(object):
     def __init__(self, vk):
         """
@@ -111,10 +110,10 @@ class VkUpload(object):
         """
 
         values = {'group_id': group_id}
-        url = self.vk.method('docs.getUploadServer', values)['upload_url']
+        url = self.vk.docs.getUploadServer(values)['upload_url']
 
         with open(file_path, 'rb') as file:
-            response = self.vk.http.post(url, files={'file': file}).json()
+            response = self.session.post(url, files={'file': file}).json()
 
         response.update({
             'title': title,

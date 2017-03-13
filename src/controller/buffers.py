@@ -12,6 +12,7 @@ import logging
 import selector
 import webbrowser
 import posts
+import attach
 from wxUI.tabs import home
 from pubsub import pub
 from sessionmanager import session
@@ -19,6 +20,7 @@ from mysc.thread_utils import call_threaded
 from wxUI import commonMessages, menus
 from vk import upload
 from vk.exceptions import VkAPIMethodError
+from utils import add_attachment
 
 log = logging.getLogger("controller.buffers")
 
@@ -591,6 +593,7 @@ class chatBuffer(baseBuffer):
 
 	def connect_events(self):
 		widgetUtils.connect_event(self.tab.send, widgetUtils.BUTTON_PRESSED, self.send_chat_to_user)
+		widgetUtils.connect_event(self.tab.attachment, widgetUtils.BUTTON_PRESSED, self.add_attachment)
 		self.tab.set_focus_function(self.onFocus)
 
 	def get_items(self, show_nextpage=False):
@@ -615,19 +618,29 @@ class chatBuffer(baseBuffer):
 				[self.insert(i, False) for i in self.session.db[self.name]["items"][:num]]
 		return retrieved
 
+	def add_attachment(self, *args, **kwargs):
+		a = attach.attach(self.session)
+		r = a.parse_attachments()
+		if r != "":
+			self.attachments_to_be_sent = r
+
 	def send_chat_to_user(self, *args, **kwargs):
 		text = self.tab.text.GetValue()
-		if text == "": return
+#		if text == "" and not hasattr(self, "attachments_to_be_sent"): return
 		call_threaded(self._send_message, text=text)
 
 	def _send_message(self, text):
-		try:
+#		try:
+		if hasattr(self, "attachments_to_be_sent"):
+			response = self.session.vk.client.messages.send(user_id=self.kwargs["user_id"], message=text, attachment=self.attachments_to_be_sent)
+			print self.attachments_to_be_sent
+		else:
 			response = self.session.vk.client.messages.send(user_id=self.kwargs["user_id"], message=text)
-		except VkAPIMethodError as ex:
-			if ex.code == 9:
-				output.speak(_(u"You have been sending a message that is already sent. Try to update the buffer if you can't see the new message in the history."))
-		finally:
-			self.tab.text.SetValue("")
+#		except VkAPIMethodError as ex:
+#			if ex.code == 9:
+#				output.speak(_(u"You have been sending a message that is already sent. Try to update the buffer if you can't see the new message in the history."))
+#		finally:
+#			self.tab.text.SetValue("")
 
 	def __init__(self, *args, **kwargs):
 		super(chatBuffer, self).__init__(*args, **kwargs)
@@ -635,7 +648,7 @@ class chatBuffer(baseBuffer):
 
 	def parse_attachments(self, post):
 		attachments = []
-		from posts import add_attachment
+
 		if post.has_key("attachments"):
 			for i in post["attachments"]:
 				# We don't need the photos_list attachment, so skip it.

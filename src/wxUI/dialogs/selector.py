@@ -84,3 +84,57 @@ class selectPeople(widgetUtils.BaseDialog):
 
 	def get_all_users(self):
 		return self.indexes
+
+class selectAttachment(widgetUtils.BaseDialog):
+
+	def __init__(self, title="", attachments=[]):
+		super(selectAttachment, self).__init__(parent=None, title=title)
+		self.indexes = []
+		self.attachments_list = attachments
+		panel = wx.Panel(self)
+		sizer = wx.BoxSizer(wx.HORIZONTAL)
+		label = wx.StaticText(panel, -1, _(u"Available attachments"))
+		self.cb = wx.ComboBox(panel, -1, choices=attachments, value=attachments[0])
+		self.cb.SetFocus()
+		attachmentSizer = wx.BoxSizer()
+		attachmentSizer.Add(label, 0, wx.ALL, 5)
+		attachmentSizer.Add(self.cb, 0, wx.ALL, 5)
+		self.add = wx.Button(panel, wx.NewId(), _(u"Select"))
+		self.add.Bind(wx.EVT_BUTTON, self.add_attachment)
+		attachmentSizer.Add(self.add, 0, wx.ALL, 5)
+		sizer.Add(attachmentSizer, 0, wx.ALL, 5)
+		lbl = wx.StaticText(panel, wx.NewId(), _(u"Selected attachments"))
+		self.attachments = wx.ListBox(panel, -1)
+		self.remove = wx.Button(panel, wx.NewId(), _(u"Remove"))
+		self.remove.Bind(wx.EVT_BUTTON, self.remove_attachment)
+		selectionSizer = wx.BoxSizer(wx.HORIZONTAL)
+		selectionSizer.Add(lbl, 0, wx.ALL, 5)
+		selectionSizer.Add(self.attachments, 0, wx.ALL, 5)
+		selectionSizer.Add(self.remove, 0, wx.ALL, 5)
+		sizer.Add(selectionSizer, 0, wx.ALL, 5)
+		ok = wx.Button(panel, wx.ID_OK, _(u"&OK"))
+		ok.SetDefault()
+		cancel = wx.Button(panel, wx.ID_CANCEL, _(u"&Close"))
+		btnsizer = wx.BoxSizer()
+		btnsizer.Add(ok, 0, wx.ALL, 5)
+		btnsizer.Add(cancel, 0, wx.ALL, 5)
+		sizer.Add(btnsizer, 0, wx.ALL, 5)
+		panel.SetSizer(sizer)
+		self.SetClientSize(sizer.CalcMin())
+
+	def get_attachment(self):
+		return self.cb.GetValue()
+
+	def add_attachment(self, *args, **kwargs):
+		selection = self.get_attachment()
+		if selection in self.attachments_list:
+			self.attachments.Append(selection)
+			self.indexes.append(self.cb.GetSelection())
+
+	def remove_attachment(self, *args, **kwargs):
+		n = self.attachments.GetSelection()
+		self.attachments.Delete(n)
+		self.indexes.remove(n)
+
+	def get_all_attachments(self):
+		return self.indexes

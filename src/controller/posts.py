@@ -20,6 +20,7 @@ from wxUI.dialogs import postDialogs, urlList
 from extra import SpellChecker, translator
 from mysc.thread_utils import call_threaded
 from wxUI import menus
+from utils import add_attachment
 
 log = logging.getLogger("controller.post")
 
@@ -30,32 +31,6 @@ def get_user(id, profiles):
 			return u"{0} {1}".format(i["first_name"], i["last_name"])
 	# Translators: This string is user when socializer can't find the right user information.
 	return _(u"Unknown username")
-
-def add_attachment(attachment):
-	msg = u""
-	tpe = ""
-	if attachment["type"] == "link":
-		msg = u"{0}: {1}".format(attachment["link"]["title"], attachment["link"]["url"])
-		tpe = _(u"Link")
-	elif attachment["type"] == "photo":
-		tpe = _(u"Photo")
-		msg = attachment["photo"]["text"]
-		if msg == "":
-			msg = _(u"no description available")
-	elif attachment["type"] == "video":
-		msg = u"{0}".format(attachment["video"]["title"],)
-		tpe = _(u"Video")
-	elif attachment["type"] == "audio":
-		msg = u"{0}".format(" ".join(session.compose_audio(attachment["audio"])))
-		tpe = _(u"Audio")
-	elif attachment["type"] == "doc":
-		if attachment["doc"].has_key("preview") and attachment["doc"]["preview"].has_key("audio_msg"):
-			tpe = _(u"Voice message")
-			msg = utils.seconds_to_string(attachment["doc"]["preview"]["audio_msg"]["duration"])
-		else:
-			msg = u"{0}".format(attachment["doc"]["title"])
-			tpe = _(u"{0} file").format(attachment["doc"]["ext"])
-	return [tpe, msg]
 
 def get_message(status):
 	message = ""
@@ -400,7 +375,8 @@ class postController(object):
 			log.debug("Unhandled attachment: %r" % (attachment,))
 
 	def __del__(self):
-		self.worker.finished.set()
+		if hasattr(self, "worker"):
+			self.worker.finished.set()
 
 class comment(object):
 	def __init__(self, session, comment_object):

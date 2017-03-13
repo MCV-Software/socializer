@@ -4,12 +4,13 @@
 
 * Added a new menu in the menu bar that allows you to control the audio playback. For some actions (like play, next and back), if you are not focusing an audio buffer, the program will take the song from the "my audios" buffer.
 * Added two more buffers: "Followers" and "I follow", located in the people buffer, under "friendship requests".
-* Added an experimental photo viewer. Will show options for seeing  the next and previous photo if the current post contains multiple images.
+* Added an experimental photo viewer. Will show options for seeing  the next and previous photo if the current post contains multiple images. Fullscreen button still doesn't work.
 * Improved chats, now they should be more stable. Also you will be able to send the message by pressing enter in the text box. If you are trying to send the same message multiple times, you will be warned.
-* Added video management (my videos, video albums and video search). For playing videos, you will be redirected to a website in your browser.
+* Added video management (my videos, video albums and video search). For playing videos, you will be redirected to a website in your browser due to the VK'S policy.
 * Added a setting that allows you to specify if you want socializer to load images when you are opening posts. It could be useful for slow connections or those who  don't want images to be loaded.
 * Added basic tagging for users in posts and comments. You can tag only people in your friends buffer.
 * Added a basic user profile viewer.
+* Added support for listening voice messages in chats. Currently it is not possible to send them, until the new API will be released.
 
 ## Changes in build 2016.07.08 (08/07/2016)
 
