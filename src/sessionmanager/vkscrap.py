@@ -18,3 +18,25 @@ class client(object):
 		soup = bs(page.content, "lxml")
 		url = soup.find('form')['action']
 		p = self.session.post(url, data=payload, headers=self.headers)
+
+	def get_audios(self, user=None):
+		if user == None:
+			url = "https://m.vk.com/audio"
+		else:
+			url = "https://m.vk.com/audios{0}".format(user,)
+		content = self.session.get(url)
+		soup = bs(content.content, "lxml")
+		divs = soup.find_all("div", class_="ai_info")
+		return divs
+
+	def parse_audio_info(self, info):
+		artist = info("span", class_="ai_artist")[0].text
+		year = info("span", class_="divider")[0].text
+		title = info("span", class_="ai_title")[0].text
+		duration = info("div", class_="ai_dur")[0].text
+		return artist, title, year, duration
+
+	def get_audio_url(self, url):
+		if url == "" or url == None:
+			return ""
+		values = url.split("?extra=")[1].split("#")

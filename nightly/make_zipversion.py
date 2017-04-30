@@ -11,4 +11,5 @@ def create_archive():
 	shutil.make_archive("socializer-nightly-build", "zip", "socializer")
 	shutil.rmtree("socializer")
 
+create_build()
 create_archive()
