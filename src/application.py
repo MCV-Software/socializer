@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 name = "Socializer"
-version = "0.14"
+version = "0.15"
 author = u"Manuel Cortéz"
 authorEmail = "manuel@manuelcortez.net"
-copyright = u"Copyright (C) 2016, Manuel cortéz."
+copyright = u"Copyright (C) 2016-2017, MCC Technologies"
 description = unicode(name+" Is an accessible VK client for Windows.")
 url = "https://github.com/manuelcortez/socializer"
 update_url = "https://raw.githubusercontent.com/manuelcortez/socializer/master/update-files/socializer.json"
