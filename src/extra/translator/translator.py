@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from microsofttranslator import Translator
+#from microsofttranslator import Translator
 
 def translate(text="", source="auto", target="en"):
 	t = Translator("twblue", "4KZA26GYIfmVAqQA/z16Hlucbg64hVSDTIpRjT2FqIU=")
