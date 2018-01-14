@@ -318,7 +318,6 @@ class Controller(object):
 			if user_id == None:
 				commonMessages.no_user_exist()
 				return
-			print user_id
 			if buffertype == "audio":
 				buffer = buffers.audioBuffer(parent=self.window.tb, name="{0}_audio".format(user_id,), composefunc="compose_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], owner_id=user_id)
 				# Translators: {0} will be replaced with an user.

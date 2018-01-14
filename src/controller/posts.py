@@ -68,7 +68,6 @@ class postController(object):
 		self.worker = threading.Thread(target=self.load_all_components)
 		self.worker.finished = threading.Event()
 		self.worker.start()
-#		if self.post.has_key("attachments"): print self.post["attachments"]
 		self.attachments = []
 		self.load_images = False
 		# We'll put images here, so it will be easier to work with them.
@@ -140,7 +139,6 @@ class postController(object):
 		# Links in text are not treated like normal attachments, so we'll have to catch and add those to the list without title
 		# We can't get a title because title is provided by the VK API and it will not work for links as simple text.
 		urls = utils.find_urls_in_text(self.dialog.get("post_view"))
-		print urls
 		if len(urls) > 0:
 			links = []
 			for i in urls:
@@ -202,7 +200,6 @@ class postController(object):
 		for i in possible_sizes:
 			if photo.has_key("photo_{0}".format(i,)) and i == size:
 				url = photo["photo_{0}".format(i,)]
-				print photo
 				break
 		return url
 
@@ -277,7 +274,7 @@ class postController(object):
 					self.clear_comments_list()
 					self.get_comments()
 			except Exception as msg:
-				print msg
+				log.error(msg)
 
 	def clear_comments_list(self):
 		self.dialog.comments.clear()
@@ -369,8 +366,6 @@ class postController(object):
 					break
 			if url != "":
 				webbrowser.open_new_tab(url)
-			else:
-				print attachment["photo"].keys()
 		else:
 			log.debug("Unhandled attachment: %r" % (attachment,))
 

@@ -69,12 +69,11 @@ class baseBuffer(object):
 		try:
 			num = getattr(self.session, "get_newsfeed")(show_nextpage=show_nextpage, name=self.name, *self.args, **self.kwargs)
 		except VkAPIMethodError as err:
-			print(u"Error {0}: {1}".format(err.code, err.message))
+			log.error(u"Error {0}: {1}".format(err.code, err.message))
 			retrieved = err.code
 			return retrieved
 		if show_nextpage  == False:
 			if self.tab.list.get_count() > 0 and num > 0:
-				print "inserting a value"
 				v = [i for i in self.session.db[self.name]["items"][:num]]
 				v.reverse()
 				[self.insert(i, True) for i in v]
@@ -200,7 +199,7 @@ class baseBuffer(object):
 				self.session.vk.client.wall.addComment(owner_id=user, post_id=id, text=msg)
 				output.speak(_(u"You've posted a comment"))
 			except Exception as msg:
-				print msg
+				log.error(msg)
 
 	def get_event(self, ev):
 		if ev.GetKeyCode() == wx.WXK_RETURN and ev.ControlDown() and ev.ShiftDown(): event = "pause_audio"
@@ -280,14 +279,12 @@ class feedBuffer(baseBuffer):
 		retrieved = True
 		try:
 			num = getattr(self.session, "get_page")(show_nextpage=show_nextpage, name=self.name, *self.args, **self.kwargs)
-			print num
 		except VkAPIMethodError as err:
-			print(u"Error {0}: {1}".format(err.code, err.message))
+			log.error(u"Error {0}: {1}".format(err.code, err.message))
 			retrieved = err.code
 			return retrieved
 		if show_nextpage  == False:
 			if self.tab.list.get_count() > 0 and num > 0:
-				print "inserting a value"
 				v = [i for i in self.session.db[self.name]["items"][:num]]
 				v.reverse()
 				[self.insert(i, True) for i in v]
@@ -602,12 +599,11 @@ class chatBuffer(baseBuffer):
 		try:
 			num = getattr(self.session, "get_messages")(name=self.name, *self.args, **self.kwargs)
 		except VkAPIMethodError as err:
-			print(u"Error {0}: {1}".format(err.code, err.message))
+			log.error(u"Error {0}: {1}".format(err.code, err.message))
 			retrieved = err.code
 			return retrieved
 		if show_nextpage  == False:
 			if self.tab.list.get_count() > 0 and num > 0:
-				print "inserting a value"
 				v = [i for i in self.session.db[self.name]["items"][:num]]
 				v.reverse()
 				[self.insert(i, False) for i in v]
@@ -700,8 +696,6 @@ class chatBuffer(baseBuffer):
 					break
 			if url != "":
 				webbrowser.open_new_tab(url)
-			else:
-				print attachment["photo"].keys()
 		else:
 			log.debug("Unhandled attachment: %r" % (attachment,))
 
@@ -749,13 +743,12 @@ class requestsBuffer(peopleBuffer):
 		try:
 			ids = self.session.vk.client.friends.getRequests(*self.args, **self.kwargs)
 		except VkAPIMethodError as err:
-			print(u"Error {0}: {1}".format(err.code, err.message))
+			log.error(u"Error {0}: {1}".format(err.code, err.message))
 			retrieved = err.code
 			return retrieved
 		num = self.session.get_page(name=self.name, show_nextpage=show_nextpage, endpoint="get", parent_endpoint="users", count=1000, user_ids=", ".join([str(i) for i in ids["items"]]), fields="uid, first_name, last_name, last_seen")
 		if show_nextpage  == False:
 			if self.tab.list.get_count() > 0 and num > 0:
-				print "inserting a value"
 				v = [i for i in self.session.db[self.name]["items"][:num]]
 				v.reverse()
 				[self.insert(i, True) for i in v]
