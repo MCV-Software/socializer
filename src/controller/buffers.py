@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+""" A buffer is a (virtual) list of items. All items belongs to a category (wall posts, messages, persons...)"""
 import languageHandler
 import arrow
 import wx
@@ -28,27 +29,37 @@ class baseBuffer(object):
 	""" a basic representation of a buffer. Other buffers should be derived from this class"""
 
 	def get_post(self):
+		""" Returns the currently focused post."""
 		return self.session.db[self.name]["items"][self.tab.list.get_selected()]
 
 	def __init__(self, parent=None, name="", session=None, composefunc=None, *args, **kwargs):
-		""" parent wx.Treebook: parent for the buffer panel,
+		""" Constructor:
+		parent wx.Treebook: parent for the buffer panel,
 		name str: Name for saving this buffer's data in the local storage variable,
 		session sessionmanager.session.vkSession: Session for performing operations in the Vk API. This session should be logged in when this class is instanciated.
 		composefunc str: This function will be called for composing the result which will be put in the listCtrl. Composefunc should existss in the sessionmanager.session module.
-		args and kwargs will be passed to get_items()"""
+		args and kwargs will be passed to get_items() without any filtering. Be careful there."""
 		super(baseBuffer, self).__init__()
 		self.args = args
 		self.kwargs = kwargs
+		# Create GUI associated to this buffer.
 		self.create_tab(parent)
-		# Add the name to the new control so we could look for it when needed.
+		# Add name to the new control so we could look for it when needed.
 		self.tab.name = name
 		self.session = session
 		self.compose_function = composefunc
+		 #Update_function will be called every 3 minutes and it should be able to
+		# Get all new items in the buffer and sort them properly in the CtrlList.
+		# ToDo: Shall we allow dinamically set for update_function?
 		self.update_function = "get_page"
 		self.name = name
+		# Bind local events (they will respond to events happened in the buffer).
 		self.connect_events()
+		# source_key and post_key will point to the keys for sender and posts in VK API objects.
+		# They can be changed in the future for other item types in different buffers.
 		self.user_key = "source_id"
 		self.post_key = "post_id"
+		# When set to False, update_function won't be executed here.
 		self.can_get_items = True
 
 	def create_tab(self, parent):
@@ -85,14 +96,19 @@ class baseBuffer(object):
 		return retrieved
 
 	def get_more_items(self):
+		""" Returns previous items in the buffer."""
 		self.get_items(show_nextpage=True)
 
 	def post(self, *args, **kwargs):
+		""" Create a post in the current user's wall.
+		This process is handled in two parts. This is the first part, where the GUI is created and user can send the post.
+		During the second part (threaded), the post will be sent to the API."""
 		p = messages.post(session=self.session, title=_(u"Write your post"), caption="", text="")
 		if p.message.get_response() == widgetUtils.OK:
 			call_threaded(self.do_last, p=p)
 
 	def do_last(self, p):
+		""" Second part of post function. Here everything is going to be sent to the API"""
 		msg = p.message.get_text().encode("utf-8")
 		privacy_opts = p.get_privacy_options()
 		attachments = ""
@@ -108,6 +124,9 @@ class baseBuffer(object):
 		p.message.Destroy()
 
 	def upload_attachments(self, attachments):
+		""" Upload attachments to VK before posting them.
+		Returns attachments formatted as string, as required by VK API.
+		Currently this function only supports photos."""
 		# To do: Check the caption and description fields for this kind of attachments.
 		local_attachments = ""
 		uploader = upload.VkUpload(self.session.vk.client)
@@ -123,6 +142,7 @@ class baseBuffer(object):
 		return local_attachments
 
 	def connect_events(self):
+		""" Bind all events to this buffer"""
 		widgetUtils.connect_event(self.tab.post, widgetUtils.BUTTON_PRESSED, self.post)
 		widgetUtils.connect_event(self.tab.list.list, widgetUtils.KEYPRESS, self.get_event)
 		widgetUtils.connect_event(self.tab.list.list, wx.EVT_LIST_ITEM_RIGHT_CLICK, self.show_menu)
@@ -130,6 +150,7 @@ class baseBuffer(object):
 		self.tab.set_focus_function(self.onFocus)
 
 	def show_menu(self, ev, pos=0, *args, **kwargs):
+		""" Show contextual menu when pressing menu key or right mouse click in a list item."""
 		if self.tab.list.get_count() == 0: return
 		menu = self.get_menu()
 		if pos != 0:
@@ -138,12 +159,14 @@ class baseBuffer(object):
 			self.tab.PopupMenu(menu, ev.GetPosition())
 
 	def show_menu_by_key(self, ev):
+		""" Show contextual menu when menu key is pressed"""
 		if self.tab.list.get_count() == 0:
 			return
 		if ev.GetKeyCode() == wx.WXK_WINDOWS_MENU:
 			self.show_menu(widgetUtils.MENU, pos=self.tab.list.list.GetPosition())
 
 	def get_menu(self):
+		""" Returns contextual menu options. They will change according to the focused item"""
 		m = menus.postMenu()
 		p = self.get_post()
 		if p.has_key("likes") == False:
@@ -161,6 +184,7 @@ class baseBuffer(object):
 		return m
 
 	def do_like(self, *args, **kwargs):
+		""" Set like in the currently focused post."""
 		post = self.get_post()
 		user = post[self.user_key]
 		id = post[self.post_key]
@@ -175,6 +199,7 @@ class baseBuffer(object):
 		output.speak(_(u"You liked this"))
 
 	def do_dislike(self, *args, **kwargs):
+		""" Set dislike (undo like) in the currently focused post."""
 		post = self.get_post()
 		user = post[self.user_key]
 		id = post[self.post_key]
@@ -189,6 +214,7 @@ class baseBuffer(object):
 		output.speak(_(u"You don't like this"))
 
 	def do_comment(self, *args, **kwargs):
+		""" Make a comment into the currently focused post."""
 		comment = messages.comment(title=_(u"Add a comment"), caption="", text="")
 		if comment.message.get_response() == widgetUtils.OK:
 			msg = comment.message.get_text().encode("utf-8")
@@ -202,6 +228,7 @@ class baseBuffer(object):
 				log.error(msg)
 
 	def get_event(self, ev):
+		""" Parses keyboard input in the ListCtrl and executes the event associated with user keypresses."""
 		if ev.GetKeyCode() == wx.WXK_RETURN and ev.ControlDown() and ev.ShiftDown(): event = "pause_audio"
 		elif ev.GetKeyCode() == wx.WXK_RETURN and ev.ControlDown(): event = "play_audio"
 		elif ev.GetKeyCode() == wx.WXK_RETURN: event = "open_post"
@@ -217,31 +244,32 @@ class baseBuffer(object):
 				pass
 
 	def volume_down(self):
+		""" Decreases player volume by 5%"""
 		player.player.volume = player.player.volume-5
 
 	def volume_up(self):
+		""" Increases player volume by 5%"""
 		player.player.volume = player.player.volume+5
 
 	def play_audio(self, *args, **kwargs):
-		selected = self.tab.list.get_selected()
-		if selected == -1:
-			selected = 0
-		post = self.session.db[self.name]["items"][selected]
+		""" Play audio in currently focused buffer, if possible."""
+		post = self.get_post()
 		if post.has_key("type") and post["type"] == "audio":
 			pub.sendMessage("play-audio", audio_object=post["audio"]["items"][0])
 			return True
 
 	def open_person_profile(self, *args, **kwargs):
+		""" Views someone's user profile."""
 		selected = self.get_post()
-		print selected.keys()
+		# Check all possible keys for an user object in VK API.
 		keys = ["from_id", "source_id", "id"]
 		for i in keys:
 			if selected.has_key(i):
 				pub.sendMessage("user-profile", person=selected[i])
-				print selected[i]
 
 	def open_post(self, *args, **kwargs):
-		post = self.session.db[self.name]["items"][self.tab.list.get_selected()]
+		""" Opens the currently focused post."""
+		post = self.get_post()
 		if post.has_key("type") and post["type"] == "audio":
 			a = posts.audio(self.session, post["audio"]["items"])
 			a.dialog.get_response()
@@ -252,12 +280,16 @@ class baseBuffer(object):
 			pub.sendMessage("open-post", post_object=post, controller_="postController")
 
 	def pause_audio(self, *args, **kwargs):
+		""" pauses audio playback."""
 		player.player.pause()
 
-	def remove_buffer(self, mandatory): return False
+	def remove_buffer(self, mandatory):
+		""" Function for removing a buffer. Returns True if removal is successful, False otherwise"""
+		return False
 
 	def get_users(self):
-		post = self.session.db[self.name]["items"][self.tab.list.get_selected()]
+		""" Returns source user in the post."""
+		post = self.get_post()
 		if post.has_key("type") == False:
 			return [post["from_id"]]
 		else:
@@ -266,15 +298,16 @@ class baseBuffer(object):
 	def onFocus(self, *args,**kwargs):
 		""" Function executed when the item in a list is selected.
 		For this buffer it updates the date of posts in the list."""
-		post = self.session.db[self.name]["items"][self.tab.list.get_selected()]
+		post = self.get_post()
 		original_date = arrow.get(post["date"])
 		created_at = original_date.humanize(locale=languageHandler.getLanguage())
 		self.tab.list.list.SetStringItem(self.tab.list.get_selected(), 2, created_at)
 
-
 class feedBuffer(baseBuffer):
+	""" This buffer represents an user's wall. It may be used either for the current user or someone else."""
 
 	def get_items(self, show_nextpage=False):
+		""" Update buffer with newest items or get older items in the buffer."""
 		if self.can_get_items == False: return
 		retrieved = True
 		try:
@@ -293,6 +326,7 @@ class feedBuffer(baseBuffer):
 		return retrieved
 
 	def remove_buffer(self, mandatory=False):
+		""" Remove buffer if the current buffer is not the logged user's wall."""
 		if "me_feed" == self.name:
 			output.speak(_(u"This buffer can't be deleted"))
 			return False
@@ -313,6 +347,9 @@ class feedBuffer(baseBuffer):
 		self.post_key = "id"
 
 class audioBuffer(feedBuffer):
+	""" this buffer was supposed to be used with audio elements
+	but is deprecated as VK removed its audio support for third party apps."""
+
 	def create_tab(self, parent):
 		self.tab = home.audioTab(parent)
 
@@ -429,6 +466,8 @@ class audioBuffer(feedBuffer):
 		return m
 
 class audioAlbum(audioBuffer):
+	""" this buffer was supposed to be used with audio albums
+	but is deprecated as VK removed its audio support for third party apps."""
 
 	def create_tab(self, parent):
 		self.tab = home.audioAlbumTab(parent)
@@ -448,6 +487,8 @@ class audioAlbum(audioBuffer):
 		self.tab.play_all.Enable(True)
 
 class videoBuffer(feedBuffer):
+	""" This buffer represents video elements, and it can be used for showing videos for the logged user or someone else."""
+
 	def create_tab(self, parent):
 		self.tab = home.videoTab(parent)
 
@@ -456,6 +497,8 @@ class videoBuffer(feedBuffer):
 		super(videoBuffer, self).connect_events()
 
 	def play_audio(self, *args, **kwargs):
+		""" Due to inheritance this method should be called play_audio, but play the currently focused video.
+		Opens a webbrowser pointing to the video's URL."""
 		selected = self.tab.list.get_selected()
 		if selected == -1:
 			selected = 0
