@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import wx
+import wx.adv
 import application
 
 class mainWindow(wx.Frame):
@@ -10,12 +11,12 @@ class mainWindow(wx.Frame):
 #		self.audio_album = create.Append(wx.NewId(), _(u"Audio album"))
 #		self.audio_album.Enable(False)
 		self.video_album = create.Append(wx.NewId(), _(u"Video album"))
-		app_.AppendMenu(wx.NewId(), _(u"Create"), create)
+		app_.Append(wx.NewId(), _(u"Create"), create)
 		delete = wx.Menu()
 #		self.delete_audio_album = delete.Append(wx.NewId(), _(u"Audio album"))
 #		self.delete_audio_album.Enable(False)
 		self.delete_video_album = delete.Append(wx.NewId(), _(u"Video album"))
-		app_.AppendMenu(wx.NewId(), _(u"Delete"), delete)
+		app_.Append(wx.NewId(), _(u"Delete"), delete)
 		self.settings_dialog = app_.Append(wx.NewId(), _(u"Preferences"))
 		buffer = wx.Menu()
 		search = wx.Menu()
@@ -23,7 +24,7 @@ class mainWindow(wx.Frame):
 #		self.search_audios.Enable(False)
 		self.search_videos = search.Append(wx.NewId(), _(u"Video"))
 		self.timeline = buffer.Append(wx.NewId(), _(u"&New timeline"))
-		buffer.AppendMenu(wx.NewId(), _(u"Search"), search)
+		buffer.Append(wx.NewId(), _(u"Search"), search)
 		self.update_buffer = buffer.Append(wx.NewId(), _(u"Update current buffer"))
 		self.load_previous_items = buffer.Append(wx.NewId(), _(u"Load previous items"))
 		self.remove_buffer_ = buffer.Append(wx.NewId(), _(u"&Remove buffer"))
@@ -114,7 +115,7 @@ class mainWindow(wx.Frame):
 		self.tb.AdvanceSelection(forward)
 
 	def about_dialog(self, *args, **kwargs):
-		info = wx.AboutDialogInfo()
+		info = wx.adv.AboutDialogInfo()
 		info.SetName(application.name)
 		info.SetVersion(application.version)
 		info.SetDescription(application.description)
@@ -122,7 +123,7 @@ class mainWindow(wx.Frame):
 		info.SetTranslators(application.translators)
 #  info.SetLicence(application.licence)
 		info.AddDeveloper(application.author)
-		wx.AboutBox(info)
+		wx.adv.AboutBox(info)
 
 	def remove_buffer(self, pos):
 		self.tb.DeletePage(pos)
