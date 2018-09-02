@@ -1,0 +1,7 @@
+﻿wxpython
+pywin32
+configobj
+pypubsub==3.3.0
+requests-oauthlib
+future
+arrow

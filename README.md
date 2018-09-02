@@ -14,19 +14,13 @@ Build date: Jul 9 2016
 
 I have started this effort as an open source  project on Feb 13, 2016. Pull requests and bug reports are welcome.
 
-## dependencies
+## dependencies not installed by PIP
 
-* [Python,](http://python.org) version 2.7.11
-* [wxPython](http://www.wxpython.org) for Python 2.7, version 3.0.2.0
-* [Python windows extensions (pywin32)](http://www.sourceforge.net/projects/pywin32/) for python 2.7, build 220
+For other dependencies, do pip install --upgrade -r requirements.txt
+
+* [Python,](http://python.org) version 2.7.15
 * [PyEnchant,](http://pythonhosted.org/pyenchant/) version 1.6.6.
 * [VK API bindings for Python](https://github.com/dimka665/vk) (already included in the SRC directory)
-* pypubsub
-* configobj
-* requests-oauthlib
-* future
-* arrow==0.6
-* microsofttranslator
 * [Pandoc](http://pandoc.org/installing.html) for generating the changelog.
 
 ## Documentation
