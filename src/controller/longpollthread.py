@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import threading
-from vk import longpool
+from mysc import longpoll
 from pubsub import pub
 from logging import getLogger
 log = getLogger("controller.longpolThread")
@@ -10,7 +10,7 @@ class worker(threading.Thread):
 		super(worker, self).__init__()
 		log.debug("Instanciating longPoll server")
 		self.session = session
-		self.l =  longpool.LongPoll(self.session.vk.client)
+		self.l =  longpoll.LongPoll(self.session.vk.client)
 
 	def run(self):
 		while self.session.is_logged == True:

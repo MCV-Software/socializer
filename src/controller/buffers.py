@@ -18,9 +18,9 @@ from wxUI.tabs import home
 from pubsub import pub
 from sessionmanager import session
 from mysc.thread_utils import call_threaded
+from mysc import upload
 from wxUI import commonMessages, menus
-from vk import upload
-from vk.exceptions import VkAPIMethodError
+from vk.exceptions import VkAPIError
 from utils import add_attachment
 
 log = logging.getLogger("controller.buffers")
@@ -79,7 +79,7 @@ class baseBuffer(object):
 		retrieved = True # Control variable for handling unauthorised/connection errors.
 		try:
 			num = getattr(self.session, "get_newsfeed")(show_nextpage=show_nextpage, name=self.name, *self.args, **self.kwargs)
-		except VkAPIMethodError as err:
+		except VkAPIError as err:
 			log.error(u"Error {0}: {1}".format(err.code, err.message))
 			retrieved = err.code
 			return retrieved

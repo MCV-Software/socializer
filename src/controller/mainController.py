@@ -11,9 +11,9 @@ import player
 import posts
 import webbrowser
 import logging
-import longpoolthread
+import longpollthread
 import selector
-from vk.exceptions import VkAuthError, VkAPIMethodError
+from vk.exceptions import VkAuthError, VkAPIError
 from pubsub import pub
 from mysc.repeating_timer import RepeatingTimer
 from mysc.thread_utils import call_threaded
@@ -184,8 +184,8 @@ class Controller(object):
 				self.window.change_status(_(u"Loading items for {0}").format(i.name,))
 				i.get_items()
 		self.window.change_status(_(u"Ready"))
-		self.longpool = longpoolthread.worker(self.session)
-		self.longpool.start()
+		self.longpoll = longpollthread.worker(self.session)
+		self.longpoll.start()
 		self.status_setter = RepeatingTimer(900, self.set_online)
 		self.status_setter.start()
 		self.set_online()
@@ -369,7 +369,7 @@ class Controller(object):
 
 	def get_chat(self, obj=None):
 		""" Searches or creates a chat buffer with the id of the user that is sending or receiving a message.
-			obj vk.longpool.event: an event wich defines some data from the vk's longpool server."""
+			obj mysc.longpoll.event: an event wich defines some data from the vk's long poll server."""
 		# Set user_id to the id of the friend wich is receiving or sending the message.
 		obj.user_id = obj.from_id
 		buffer = self.search_chat_buffer(obj.user_id)
@@ -407,7 +407,7 @@ class Controller(object):
 		try:
 			log.debug("Getting possible unread messages.")
 			msgs = self.session.vk.client.messages.getDialogs(count=200, unread=1)
-		except VkAPIMethodError as ex:
+		except VkAPIError as ex:
 			if ex.code == 6:
 				log.exception("Something went wrong when getting messages. Waiting a second to retry")
 				time.sleep(2)
@@ -429,7 +429,7 @@ class Controller(object):
 		try:
 			log.debug("Create audio albums...")
 			albums = self.session.vk.client.audio.getAlbums(owner_id=user_id)
-		except VkAPIMethodError as ex:
+		except VkAPIError as ex:
 			if ex.code == 6:
 				log.exception("Something went wrong when getting albums. Waiting a second to retry")
 				time.sleep(2)
@@ -452,7 +452,7 @@ class Controller(object):
 		try:
 			log.debug("Create video  albums...")
 			albums = self.session.vk.client.video.getAlbums(owner_id=user_id)
-		except VkAPIMethodError as ex:
+		except VkAPIError as ex:
 			if ex.code == 6:
 				log.exception("Something went wrong when getting albums. Waiting a second to retry")
 				time.sleep(2)

@@ -20,7 +20,6 @@ For other dependencies, do pip install --upgrade -r requirements.txt
 
 * [Python,](http://python.org) version 2.7.15
 * [PyEnchant,](http://pythonhosted.org/pyenchant/) version 1.6.6.
-* [VK API bindings for Python](https://github.com/dimka665/vk) (already included in the SRC directory)
 * [Pandoc](http://pandoc.org/installing.html) for generating the changelog.
 
 ## Documentation
