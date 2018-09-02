@@ -1,7 +1,4 @@
 import wx
-import paths
-import languageHandler
-import sys
 
 toolkit = "wx"
 
@@ -52,9 +49,10 @@ NOTEBOOK_PAGE_CHANGED = wx.EVT_TREEBOOK_PAGE_CHANGED
 RADIOBUTTON = wx.EVT_RADIOBUTTON
 
 # Taskbar mouse clicks.
-TASKBAR_RIGHT_CLICK = wx.EVT_TASKBAR_RIGHT_DOWN
-TASKBAR_LEFT_CLICK = wx.EVT_TASKBAR_LEFT_DOWN
+#TASKBAR_RIGHT_CLICK = wx.EVT_TASKBAR_RIGHT_DOWN
+#TASKBAR_LEFT_CLICK = wx.EVT_TASKBAR_LEFT_DOWN
 LISTBOX_CHANGED = wx.EVT_LISTBOX
+LISTBOX_ITEM_ACTIVATED = wx.EVT_LIST_ITEM_ACTIVATED
 
 def exit_application():
 	""" Closes the current window cleanly. """
@@ -118,15 +116,15 @@ class mainLoopObject(wx.App):
 
 	def __init__(self):
 		self.app = wx.App()
-		self.lc = wx.Locale()
-		lang=languageHandler.getLanguage()
-		wxLang=self.lc.FindLanguageInfo(lang)
-		if not wxLang and '_' in lang:
-			wxLang=self.lc.FindLanguageInfo(lang.split('_')[0])
-		if hasattr(sys,'frozen'):
-			self.lc.AddCatalogLookupPathPrefix(paths.app_path("locales"))
-		if wxLang:
-			self.lc.Init(wxLang.Language)
+#		self.lc = wx.Locale()
+#		lang=languageHandler.getLanguage()
+#		wxLang=self.lc.FindLanguageInfo(lang)
+#		if not wxLang and '_' in lang:
+#			wxLang=self.lc.FindLanguageInfo(lang.split('_')[0])
+#		if hasattr(sys,'frozen'):
+#			self.lc.AddCatalogLookupPathPrefix(paths.app_path("locales"))
+#		if wxLang:
+#			self.lc.Init(wxLang.Language)
 
 	def run(self):
 		self.app.MainLoop()
@@ -145,16 +143,16 @@ class list(object):
 
  def create_list(self, parent):
   self.list = wx.ListCtrl(parent, -1, **self.listArguments)
-  for i in xrange(0, len(self.columns)):
+  for i in range(0, len(self.columns)):
    self.list.InsertColumn(i, u"%s" % (self.columns[i]))
 
  def insert_item(self, reversed, *item):
   """ Inserts an item on the list."""
   if reversed == False: items = self.list.GetItemCount()
   else: items = 0
-  self.list.InsertStringItem(items, item[0])
-  for i in xrange(1, len(self.columns)):
-   self.list.SetStringItem(items, i, item[i])
+  self.list.InsertItem(items, item[0])
+  for i in range(1, len(self.columns)):
+   self.list.SetItem(items, i, item[i])
 
  def remove_item(self, pos):
   """ Deletes an item from the list."""
