@@ -181,7 +181,8 @@ class postController(object):
 		if len(self.images) < index-1:
 			log.exception("Error in loading image {0} in a list with {1} images".format(index, len(self.images)))
 			return
-		url = self.get_photo_url(self.images[index]["photo"], 604)
+		# Get's photo URL.
+		url = self.get_photo_url(self.images[index]["photo"], "x")
 		if url != "":
 			img = requests.get(url)
 			image = wx.ImageFromStream(cStringIO.StringIO(requests.get(url).content))
@@ -194,12 +195,11 @@ class postController(object):
 			output.speak(_(u"Loaded photo {0} of {1}").format(index+1, len(self.images)))
 		return
 
-	def get_photo_url(self, photo, size=1080):
-		possible_sizes = [1280, 604, 130, 75]
+	def get_photo_url(self, photo, size="x"):
 		url = ""
-		for i in possible_sizes:
-			if photo.has_key("photo_{0}".format(i,)) and i == size:
-				url = photo["photo_{0}".format(i,)]
+		for i in photo["sizes"]:
+			if i["type"] == size:
+				url = i["url"]
 				break
 		return url
 
