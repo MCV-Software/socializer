@@ -219,6 +219,8 @@ class vkSession(object):
 		If the access_token has expired, it will call authorise() too, for getting a new access token."""
 
 		if self.settings["vk"]["token"] != None:
+			# Handle special case where you get identical access tokens for two IP addresses.
+			# See https://github.com/manuelcortez/socializer/issues/11
 			try:
 				result = self.vk.login_access_token(self.settings["vk"]["token"])
 				self.logged = True
