@@ -9,6 +9,7 @@ import utils
 import sound
 from config_utils import Configuration, ConfigurationResetException
 from pubsub import pub
+from vk.exceptions import VkAPIError
 
 log = logging.getLogger("session")
 
@@ -218,11 +219,15 @@ class vkSession(object):
 		If the access_token has expired, it will call authorise() too, for getting a new access token."""
 
 		if self.settings["vk"]["token"] != None:
-			result = self.vk.login_access_token(self.settings["vk"]["token"])
-			self.logged = True
-			log.debug("Logged.")
-			if result == False:
-				self.authorise()
+			try:
+				result = self.vk.login_access_token(self.settings["vk"]["token"])
+				self.logged = True
+				log.debug("Logged.")
+				if result == False:
+					self.authorise()
+			except VkAPIError as err:
+				if err.code == 5:
+					self.authorise()
 		else:
 			self.authorise()
 		self.get_my_data()
