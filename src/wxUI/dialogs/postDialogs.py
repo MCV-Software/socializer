@@ -37,7 +37,7 @@ class basicPost(widgetUtils.BaseDialog):
 		return box
 
 	def create_photo_viewer(self):
-		self.image = wx.StaticBitmap(self.panel, bitmap=wx.EmptyBitmap(1280, 860), size=(604, 604))
+		self.image = wx.StaticBitmap(self.panel, bitmap=wx.Bitmap(1280, 860), size=(604, 604))
 		self.sizer.Add(self.image, 1, wx.ALL, 10)
 		self.previous_photo = wx.Button(self.panel, wx.NewId(), _(u"Previous photo"))
 		self.view_photo = wx.Button(self.panel, wx.NewId(), _(u"View in full screen"))

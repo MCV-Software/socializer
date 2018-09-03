@@ -301,7 +301,7 @@ class baseBuffer(object):
 		post = self.get_post()
 		original_date = arrow.get(post["date"])
 		created_at = original_date.humanize(locale=languageHandler.getLanguage())
-		self.tab.list.list.SetStringItem(self.tab.list.get_selected(), 2, created_at)
+		self.tab.list.list.SetItem(self.tab.list.get_selected(), 2, created_at)
 
 class feedBuffer(baseBuffer):
 	""" This buffer represents an user's wall. It may be used either for the current user or someone else."""
@@ -760,7 +760,7 @@ class peopleBuffer(feedBuffer):
 		if post.has_key("last_seen") == False: return
 		original_date = arrow.get(post["last_seen"]["time"])
 		created_at = original_date.humanize(locale=languageHandler.getLanguage())
-		self.tab.list.list.SetStringItem(self.tab.list.get_selected(), 1, created_at)
+		self.tab.list.list.SetItem(self.tab.list.get_selected(), 1, created_at)
 
 	def open_timeline(self, *args, **kwargs):
 		pass

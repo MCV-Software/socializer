@@ -29,7 +29,7 @@ def get_user(id, profiles):
 	for i in profiles:
 		if i["id"] == id:
 			return u"{0} {1}".format(i["first_name"], i["last_name"])
-	# Translators: This string is user when socializer can't find the right user information.
+	# Translators: This string is used when socializer can't find the right user information.
 	return _(u"Unknown username")
 
 def get_message(status):
