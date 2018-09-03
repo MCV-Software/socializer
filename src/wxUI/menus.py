@@ -5,65 +5,65 @@ class postMenu(wx.Menu):
 	def __init__(self, *args, **kwargs):
 		super(postMenu, self).__init__(*args, **kwargs)
 		self.open = wx.MenuItem(self, wx.NewId(), _(u"Open"))
-		self.AppendItem(self.open)
+		self.Append(self.open)
 		self.like = wx.MenuItem(self, wx.NewId(), _(u"Like"))
-		self.AppendItem(self.like)
+		self.Append(self.like)
 		self.dislike = wx.MenuItem(self, wx.NewId(), _(u"Dislike"))
 		self.dislike.Enable(False)
-		self.AppendItem(self.dislike)
+		self.Append(self.dislike)
 		self.comment = wx.MenuItem(self, wx.NewId(), _(u"Add comment"))
-		self.AppendItem(self.comment)
+		self.Append(self.comment)
 		self.post_in_wall = wx.MenuItem(self, wx.NewId(), _(u"Post to this profile"))
 		self.post_in_wall.Enable(False)
-		self.AppendItem(self.post_in_wall)
+		self.Append(self.post_in_wall)
 		self.view_profile = wx.MenuItem(self, wx.NewId(), _(u"View user profile"))
-		self.AppendItem(self.view_profile)
+		self.Append(self.view_profile)
 
 	def create_specific_post_options(self):
 		self.update = wx.MenuItem(self, wx.NewId(), _(u"Update"))
-		self.AppendItem(self.update)
+		self.Append(self.update)
 		self.delete = wx.MenuItem(self, wx.NewId(), _(u"Delete"))
-		self.AppendItem(self.delete)
+		self.Append(self.delete)
 
 class audioMenu(wx.Menu):
 
 	def __init__(self, *args, **kwargs):
 		super(audioMenu, self).__init__(*args, **kwargs)
 		self.open = wx.MenuItem(self, wx.NewId(), _(u"&Open"))
-		self.AppendItem(self.open)
+		self.Append(self.open)
 		self.play = wx.MenuItem(self, wx.NewId(), _(u"&Play"))
-		self.AppendItem(self.play)
+		self.Append(self.play)
 		self.library = wx.MenuItem(self, wx.NewId(), _(u"&Add to library"))
-		self.AppendItem(self.library)
+		self.Append(self.library)
 		self.move = wx.MenuItem(self, wx.NewId(), _(u"Move to album"))
-		self.AppendItem(self.move)
+		self.Append(self.move)
 
 class peopleMenu(wx.Menu):
 	def __init__(self, *args, **kwargs):
 		super(peopleMenu, self).__init__(*args, **kwargs)
 		self.view_profile = wx.MenuItem(self, wx.NewId(), _(u"View profile"))
-		self.AppendItem(self.view_profile)
+		self.Append(self.view_profile)
 		self.message = wx.MenuItem(self, wx.NewId(), _(u"Send a message"))
-		self.AppendItem(self.message)
+		self.Append(self.message)
 		self.timeline = wx.MenuItem(self, wx.NewId(), _(u"Open timeline"))
-		self.AppendItem(self.timeline)
+		self.Append(self.timeline)
 
 class commentMenu(wx.Menu):
 	def __init__(self, *args, **kwargs):
 		super(commentMenu, self).__init__(*args, **kwargs)
 		self.open = wx.MenuItem(self, wx.NewId(), _(u"Open"))
-		self.AppendItem(self.open)
+		self.Append(self.open)
 		self.like = wx.MenuItem(self, wx.NewId(), _(u"Like"))
-		self.AppendItem(self.like)
+		self.Append(self.like)
 		self.unlike = wx.MenuItem(self, -1, _(u"Unlike"))
-		self.AppendItem(self.unlike)
+		self.Append(self.unlike)
 
 	def create_specific_comment_options(self):
 		self.delete = wx.MenuItem(self, wx.NewId(), _(u"Delete"))
-		self.AppendItem(self.delete)
+		self.Append(self.delete)
 
 class notificationsMenu(wx.Menu):
 	def __init__(self):
 		super(notificationsMenu, self).__init__()
 		self.mark_as_read = wx.MenuItem(self, wx.NewId(), _(u"Mark as read"))
-		self.AppendItem(self.mark_as_read)
+		self.Append(self.mark_as_read)
