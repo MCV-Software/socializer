@@ -316,9 +316,8 @@ class postController(object):
 		dlg = translator.gui.translateDialog()
 		if dlg.get_response() == widgetUtils.OK:
 			text_to_translate = self.dialog.post_view.GetValue().encode("utf-8")
-			source = [x[0] for x in translator.translator.available_languages()][dlg.get("source_lang")]
 			dest = [x[0] for x in translator.translator.available_languages()][dlg.get("dest_lang")]
-			msg = translator.translator.translate(text_to_translate, source, dest)
+			msg = translator.translator.translate(text_to_translate, target=dest)
 			self.dialog.post_view.ChangeValue(msg)
 			output.speak(_(u"Translated"))
 		else:

@@ -55,9 +55,8 @@ class post(object):
 		dlg = translator.gui.translateDialog()
 		if dlg.get_response() == widgetUtils.OK:
 			text_to_translate = self.message.get_text()
-			source = [x[0] for x in translator.translator.available_languages()][dlg.get("source_lang")]
 			dest = [x[0] for x in translator.translator.available_languages()][dlg.get("dest_lang")]
-			msg = translator.translator.translate(text_to_translate, source, dest)
+			msg = translator.translator.translate(text_to_translate, dest)
 			self.message.set_text(msg)
 			self.message.text_focus()
 			output.speak(_(u"Translated"))
