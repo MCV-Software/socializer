@@ -130,7 +130,11 @@ def compose_message(message, session):
 	user = session.get_user_name(message["from_id"], "nom")
 	original_date = arrow.get(message["date"])
 	created_at = original_date.format(_(u"dddd, MMMM D, YYYY H:m:s"), locale=languageHandler.getLanguage())
-	body = message["body"]
+	# No idea why some messages send "text" instead "body"
+	if message.has_key("body"):
+		body = message["body"]
+	else:
+		body = message["text"]
 	return [u"{2}, {0} {1}".format(body, created_at, user)]
 
 def compose_status(status, session):
