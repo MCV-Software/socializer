@@ -185,10 +185,10 @@ class postController(object):
 		url = self.get_photo_url(self.images[index]["photo"], "x")
 		if url != "":
 			img = requests.get(url)
-			image = wx.ImageFromStream(cStringIO.StringIO(requests.get(url).content))
+			image = wx.Image(stream=cStringIO.StringIO(requests.get(url).content))
 			try:
-				self.dialog.image.SetBitmap(wx.BitmapFromImage(image))
-			except:
+				self.dialog.image.SetBitmap(wx.Bitmap(image))
+			except NameError:
 				return
 			self.dialog.SetClientSize(self.dialog.sizer.CalcMin())
 			# Translators: {0} is the number of the current photo and {1} is the total number of photos.
