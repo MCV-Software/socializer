@@ -162,7 +162,7 @@ class Controller(object):
 #		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_mute, menuitem=self.window.player_mute)
 		pub.subscribe(self.get_chat, "order-sent-message")
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.view_my_profile, menuitem=self.window.view_profile)
-
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.view_my_profile_in_browser, menuitem=self.window.open_in_browser)
 	def disconnect_events(self):
 		log.debug("Disconnecting some events...")
 		pub.unsubscribe(self.in_post, "posted")
@@ -583,3 +583,6 @@ class Controller(object):
 
 	def view_my_profile(self, *args, **kwargs):
 		self.user_profile(self.session.user_id)
+
+	def view_my_profile_in_browser(self, *args, **kwargs):
+		webbrowser.open_new_tab("https://vk.com/id{id}".format(id=self.session.user_id,))
