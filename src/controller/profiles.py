@@ -8,24 +8,10 @@ import wx
 import cStringIO
 import webbrowser
 import logging
-from sessionmanager.session import utils
+import utils
 from wxUI.dialogs import urlList, profiles
 
 log = logging.getLogger("controller.post")
-
-def get_user(id, profiles):
-	""" Returns an user name and last name  based in the id receibed."""
-	for i in profiles:
-		if i["id"] == id:
-			return u"{0} {1}".format(i["first_name"], i["last_name"])
-	# Translators: This string is used when socializer can't find the right user information.
-	return _(u"Unknown username")
-
-def get_message(status):
-	message = ""
-	if status.has_key("text"):
-		message = utils.clean_text(status["text"])
-	return message
 
 class userProfile(object):
 
@@ -48,7 +34,7 @@ class userProfile(object):
 		if len(person) == 0:
 			return output.speak(_(u"Information for groups is not supported, yet."))
 		person = person[0]
-#		print person
+		print person
 		# Gets full name.
 		n = u"{0} {1}".format(person["first_name"], person["last_name"])
 		# Gets birthdate.
@@ -134,5 +120,19 @@ class userProfile(object):
 		self.dialog.panel.Layout()
 
 	def visit_website(self, *args, **kwargs):
-		output.speak(_(u"Opening website..."))
-		webbrowser.open_new_tab(self.person["site"])
+		""" Allows to visit an user's website. """
+		text = self.person["site"]
+		urls = utils.find_urls_in_text(text)
+		if len(urls) == 0:
+			output.speak(_(u"No URL addresses were detected."))
+			return
+		elif len(urls) == 1:
+			selected_url = urls[0]
+		else:
+			dialog = urlList.urlList()
+			dialog.populate_list(urls)
+			if dialog.get_response() != widgetUtils.OK:
+				return
+			selected_url = urls[dialog.get_item()]
+		output.speak(_(u"Opening URL..."))
+		webbrowser.open_new_tab(selected_url)

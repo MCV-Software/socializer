@@ -41,7 +41,6 @@ class mainInfo(wx.Panel):
 
 	def __init__(self, panel):
 		super(mainInfo, self).__init__(panel)
-#		self.SetSizerType("vertical")
 		sizer = wx.BoxSizer(wx.VERTICAL)
 		lblName = wx.StaticText(self, wx.NewId(), _(u"Name"))
 		self.name = wx.TextCtrl(self, wx.NewId(), style=wx.TE_READONLY|wx.TE_MULTILINE)
