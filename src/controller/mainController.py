@@ -9,6 +9,7 @@ import buffers
 import configuration
 import player
 import posts
+import profiles
 import webbrowser
 import logging
 import longpollthread
@@ -160,6 +161,7 @@ class Controller(object):
 #		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_volume_up, menuitem=self.window.player_volume_up)
 #		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_mute, menuitem=self.window.player_mute)
 		pub.subscribe(self.get_chat, "order-sent-message")
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.view_my_profile, menuitem=self.window.view_profile)
 
 	def disconnect_events(self):
 		log.debug("Disconnecting some events...")
@@ -577,4 +579,7 @@ class Controller(object):
 		player.player.volume = 0
 
 	def user_profile(self, person):
-		p = posts.userProfile(self.session, person)
+		p = profiles.userProfile(self.session, person)
+
+	def view_my_profile(self, *args, **kwargs):
+		self.user_profile(self.session.user_id)
