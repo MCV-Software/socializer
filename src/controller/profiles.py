@@ -41,7 +41,7 @@ class userProfile(object):
 		if person.has_key("bdate") and person["bdate"] != "":
 			self.dialog.main_info.enable("bdate")
 			if len(person["bdate"]) <= 5:
-				d = arrow.get(person["bdate"], "D.m")
+				d = arrow.get(person["bdate"], "D.M")
 				self.dialog.main_info.set("bdate", d.format(_(u"MMMM D"), locale=languageHandler.getLanguage()))
 			else:
 				d = arrow.get(person["bdate"], "D.M.YYYY")
