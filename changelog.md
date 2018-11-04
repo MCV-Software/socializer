@@ -11,6 +11,7 @@
 * Added a basic user profile viewer.
 * Added support for listening voice messages in chats. Currently it is not possible to send them, until the new API will be released.
 * For now, all features related to audio playback have been disabled.
+* Fixed an error that was making Socializer unable to display chat history properly. It was showing the first 200 items in a  conversation instead the last 200 items. Now chat will be displayed accordingly.
 
 ## Changes in build 2016.07.08 (08/07/2016)
 
