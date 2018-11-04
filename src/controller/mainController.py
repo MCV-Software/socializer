@@ -358,7 +358,7 @@ class Controller(object):
 				self.window.change_buffer(pos)
 				return b.tab.text.SetFocus()
 			return
-		buffer = buffers.chatBuffer(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="compose_message", session=self.session, count=200,  user_id=user_id, rev=1)
+		buffer = buffers.chatBuffer(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="compose_message", session=self.session, count=200,  user_id=user_id, rev=0)
 		self.buffers.append(buffer)
 		# Translators: {0} will be replaced with an user.
 		self.window.insert_buffer(buffer.tab, _(u"Chat with {0}").format(self.session.get_user_name(user_id, "ins")), self.window.search("chats"))
@@ -372,6 +372,7 @@ class Controller(object):
 	def get_chat(self, obj=None):
 		""" Searches or creates a chat buffer with the id of the user that is sending or receiving a message.
 			obj mysc.longpoll.event: an event wich defines some data from the vk's long poll server."""
+		print obj
 		# Set user_id to the id of the friend wich is receiving or sending the message.
 		obj.user_id = obj.from_id
 		buffer = self.search_chat_buffer(obj.user_id)

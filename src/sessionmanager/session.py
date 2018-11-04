@@ -296,6 +296,7 @@ class vkSession(object):
 
 	def get_messages(self, name="", *args, **kwargs):
 		data = self.vk.client.messages.getHistory(*args, **kwargs)
+		data["items"].reverse()
 		if data != None:
 			num = self.order_buffer(name, data["items"], False)
 			return num
