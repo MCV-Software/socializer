@@ -17,6 +17,8 @@ class vkObject(object):
 		self.client = API(s, v=self.api_version)
 		log.debug("Getting tokens for 24 hours...")
 		self.client.account.getProfileInfo()
+		# Add session data to the application statistics.
+		self.client.stats.trackVisitor()
 
 	def login_access_token(self, token):
 		log.debug("Logging in VK using stored tokens...")
