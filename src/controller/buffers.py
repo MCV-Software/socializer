@@ -658,7 +658,7 @@ class chatBuffer(baseBuffer):
 		return retrieved
 
 	def add_attachment(self, *args, **kwargs):
-		a = attach.attach(self.session)
+		a = attach.attachFromOnline(self.session)
 		r = a.parse_attachments()
 		if r != "":
 			self.attachments_to_be_sent = r
