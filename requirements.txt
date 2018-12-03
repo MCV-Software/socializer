@@ -7,3 +7,6 @@ requests-oauthlib
 future
 arrow
 yandex.translate
+# forked repositories previously found at http://q-continuum.net
+git+https://code.manuelcortez.net/manuelcortez/libloader
+git+https://code.manuelcortez.net/manuelcortez/accessible_output2

@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 import sys
-import fix_requests
+from . import fix_requests
+
 if hasattr(sys, "frozen"):
-	import fix_win32com
+	from . import fix_win32com
+	from . import fix_libloader
 
 def setup():
 	fix_requests.fix()
 	if hasattr(sys, "frozen"):
 		fix_win32com.fix()
+		fix_libloader.fix()
