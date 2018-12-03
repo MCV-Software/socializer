@@ -1,5 +1,7 @@
 # socializer 
 
+> Note: this project has two different main repositories. [Here is the official repository, hosted in my Gitlab Instance,](https://code.manuelcortez.net/manuelcortez/socializer) [Here is a mirror repository hosted in GitHub.](https://github.com/manuelcortez/socializer) Github repository will accept pull requests and issues reported by github users, while Gitlab's repository will provide the wiki, documentation, and support for user reported issues.
+
 A desktop application for handling [vk.com](http://vk.com) in an easy way.
 
 ## download the current  build
