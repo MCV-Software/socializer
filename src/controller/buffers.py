@@ -1,44 +1,44 @@
 # -*- coding: utf-8 -*-
-""" A buffer is a (virtual) list of items. All items belongs to a category (wall posts, messages, persons...)"""
-import languageHandler
+""" A buffer is a (virtual) list of items. All items belong to a category (wall posts, messages, persons...)"""
+import logging
+import webbrowser
 import arrow
 import wx
+import languageHandler
 import widgetUtils
 import messages
 import utils
-import posts
 import player
 import output
-import logging
 import selector
-import webbrowser
 import posts
 import attach
-from wxUI.tabs import home
 from pubsub import pub
+from vk.exceptions import VkAPIError
+from wxUI.tabs import home
 from sessionmanager import session
 from mysc.thread_utils import call_threaded
 from mysc import upload
 from wxUI import commonMessages, menus
-from vk.exceptions import VkAPIError
 from utils import add_attachment
 
 log = logging.getLogger("controller.buffers")
 
 class baseBuffer(object):
-	""" a basic representation of a buffer. Other buffers should be derived from this class"""
+	""" a basic representation of a buffer. Other buffers should be derived from this class. This buffer represents the "news feed" """
 
 	def get_post(self):
-		""" Returns the currently focused post."""
+		""" Return the currently focused post."""
 		return self.session.db[self.name]["items"][self.tab.list.get_selected()]
 
 	def __init__(self, parent=None, name="", session=None, composefunc=None, *args, **kwargs):
 		""" Constructor:
-		parent wx.Treebook: parent for the buffer panel,
-		name str: Name for saving this buffer's data in the local storage variable,
-		session sessionmanager.session.vkSession: Session for performing operations in the Vk API. This session should be logged in when this class is instanciated.
-		composefunc str: This function will be called for composing the result which will be put in the listCtrl. Composefunc should existss in the sessionmanager.session module.
-		args and kwargs will be passed to get_items() without any filtering. Be careful there."""
+		@parent wx.Treebook: parent for the buffer panel,
+		@name str: Name for saving this buffer's data in the local storage variable,
+		@session sessionmanager.session.vkSession: Session for performing operations in the Vk API. This session should be logged in when this class is instanciated.
+		@composefunc str: This function will be called for composing the result which will be put in the listCtrl. Composefunc should existss in the sessionmanager.session module.
+		args and kwargs will be passed to get_items() without any filtering. Be careful there.
+		"""
 		super(baseBuffer, self).__init__()
 		self.args = args
 		self.kwargs = kwargs
@@ -63,7 +63,7 @@ class baseBuffer(object):
 		self.can_get_items = True
 
 	def create_tab(self, parent):
-		""" Creates the Wx panel."""
+		""" Create the Wx panel."""
 		self.tab = home.homeTab(parent)
 
 	def insert(self, item, reversed=False):
@@ -72,8 +72,8 @@ class baseBuffer(object):
 		self.tab.list.insert_item(reversed, *item_)
 
 	def get_items(self, show_nextpage=False):
-		""" Retrieves items from the VK API. This function is called repeatedly by the main controller and users could call it implicitly as well with the update buffer option.
-		show_nextpage boolean: If it's true, it will try to load previous results.
+		""" Retrieve items from the VK API. This function is called repeatedly by the main controller and users could call it implicitly as well with the update buffer option.
+		@show_nextpage boolean: If it's true, it will try to load previous results.
 		"""
 		if self.can_get_items == False: return
 		retrieved = True # Control variable for handling unauthorised/connection errors.
