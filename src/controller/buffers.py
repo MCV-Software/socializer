@@ -613,19 +613,25 @@ class empty(object):
 
 class chatBuffer(baseBuffer):
 
+	def insert(self, item, reversed=False):
+		""" Add a new item to the list. Uses session.composefunc for parsing the dictionary and create a valid result for putting it in the list."""
+		item_ = getattr(session, self.compose_function)(item, self.session)
+		self.tab.add_message(item_[0])
+
 	def onFocus(self, *args, **kwargs):
-		msg = self.session.db[self.name]["items"][-1]
-		if msg.has_key("read_state") and msg["read_state"] == 0 and msg["id"] not in self.reads:
-			self.reads.append(msg["id"])
-			self.session.db[self.name]["items"][-1]["read_state"] = 1
-		msg = self.get_post()
-		if msg.has_key("attachments") and len(msg["attachments"]) > 0:
-			self.tab.attachments.list.Enable(True)
-			self.attachments = list()
-			self.parse_attachments(msg)
-		else:
-			self.tab.attachments.list.Enable(False)
-			self.tab.attachments.clear()
+		pass # Fix it later
+#		msg = self.session.db[self.name]["items"][-1]
+#		if msg.has_key("read_state") and msg["read_state"] == 0 and msg["id"] not in self.reads:
+#			self.reads.append(msg["id"])
+#			self.session.db[self.name]["items"][-1]["read_state"] = 1
+#		msg = self.get_post()
+#		if msg.has_key("attachments") and len(msg["attachments"]) > 0:
+#			self.tab.attachments.list.Enable(True)
+#			self.attachments = list()
+#			self.parse_attachments(msg)
+#		else:
+#			self.tab.attachments.list.Enable(False)
+#			self.tab.attachments.clear()
 
 	def create_tab(self, parent):
 		self.tab = home.chatTab(parent)
@@ -634,7 +640,7 @@ class chatBuffer(baseBuffer):
 	def connect_events(self):
 		widgetUtils.connect_event(self.tab.send, widgetUtils.BUTTON_PRESSED, self.send_chat_to_user)
 		widgetUtils.connect_event(self.tab.attachment, widgetUtils.BUTTON_PRESSED, self.add_attachment)
-		self.tab.set_focus_function(self.onFocus)
+#		self.tab.set_focus_function(self.onFocus)
 
 	def get_items(self, show_nextpage=False):
 		if self.can_get_items == False: return
@@ -646,7 +652,7 @@ class chatBuffer(baseBuffer):
 			retrieved = err.code
 			return retrieved
 		if show_nextpage  == False:
-			if self.tab.list.get_count() > 0 and num > 0:
+			if self.tab.history.GetValue() > 0 and num > 0:
 				v = [i for i in self.session.db[self.name]["items"][:num]]
 				v.reverse()
 				[self.insert(i, False) for i in v]

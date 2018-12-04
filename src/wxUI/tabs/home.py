@@ -152,12 +152,10 @@ class chatTab(wx.Panel):
 
 	def create_controls(self):
 		lbl1 = wx.StaticText(self, wx.NewId(), _(u"History"))
-		self.list = widgetUtils.list(self, *[_(u"post")], style=wx.LC_REPORT)
-		self.list.set_windows_size(0, 190)
-#		self.list.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnKeyDown)
+		self.history = wx.TextCtrl(self, wx.NewId(), style=wx.TE_READONLY|wx.TE_MULTILINE, size=(500, 300))
 		box = wx.BoxSizer(wx.HORIZONTAL)
 		box.Add(lbl1, 0, wx.ALL, 5)
-		box.Add(self.list.list, 0, wx.ALL, 5)
+		box.Add(self.history, 0, wx.ALL, 5)
 		return box
 
 	def create_attachments(self):
@@ -178,7 +176,15 @@ class chatTab(wx.Panel):
 		return box
 
 	def set_focus_function(self, focus_function):
-		self.list.list.Bind(wx.EVT_LIST_ITEM_FOCUSED, focus_function)
+		pass#self.history.Bind(wx.EVT_LIST_ITEM_FOCUSED, focus_function)
+
+	def add_message(self, message, reverse=False):
+		point = self.history.GetInsertionPoint()
+		if reversed:
+			self.history.SetValue(message+"\n"+self.history.GetValue())
+		else:
+			self.history.AppendText(message+"\n")
+		self.history.SetInsertionPoint(point)
 
 class peopleTab(homeTab):
 
