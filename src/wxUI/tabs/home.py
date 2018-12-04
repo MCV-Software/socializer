@@ -176,15 +176,18 @@ class chatTab(wx.Panel):
 		return box
 
 	def set_focus_function(self, focus_function):
-		pass#self.history.Bind(wx.EVT_LIST_ITEM_FOCUSED, focus_function)
+		self.history.Bind(wx.EVT_CHAR_HOOK, focus_function)
 
 	def add_message(self, message, reverse=False):
+		old_line = self.history.GetNumberOfLines()#.count("\n")
 		point = self.history.GetInsertionPoint()
 		if reversed:
 			self.history.SetValue(message+"\n"+self.history.GetValue())
 		else:
 			self.history.AppendText(message+"\n")
 		self.history.SetInsertionPoint(point)
+		new_line = self.history.GetNumberOfLines()#.count("\n")
+		return (old_line, new_line)
 
 class peopleTab(homeTab):
 

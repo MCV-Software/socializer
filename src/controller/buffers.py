@@ -616,22 +616,45 @@ class chatBuffer(baseBuffer):
 	def insert(self, item, reversed=False):
 		""" Add a new item to the list. Uses session.composefunc for parsing the dictionary and create a valid result for putting it in the list."""
 		item_ = getattr(session, self.compose_function)(item, self.session)
-		self.tab.add_message(item_[0])
+		values = self.tab.add_message(item_[0])
+		self.chats[values] = item["id"]
+#		print len(self.chats)
 
-	def onFocus(self, *args, **kwargs):
-		pass # Fix it later
-#		msg = self.session.db[self.name]["items"][-1]
-#		if msg.has_key("read_state") and msg["read_state"] == 0 and msg["id"] not in self.reads:
-#			self.reads.append(msg["id"])
-#			self.session.db[self.name]["items"][-1]["read_state"] = 1
-#		msg = self.get_post()
-#		if msg.has_key("attachments") and len(msg["attachments"]) > 0:
-#			self.tab.attachments.list.Enable(True)
-#			self.attachments = list()
-#			self.parse_attachments(msg)
-#		else:
-#			self.tab.attachments.list.Enable(False)
-#			self.tab.attachments.clear()
+	def get_focused_post(self):
+#		print self.tab.history.GetInsertionPoint()
+		position = self.tab.history.PositionToXY(self.tab.history.GetInsertionPoint())
+		print position
+		id_ = None
+		for i in self.chats.keys():
+#			print i
+			if position[2] >= i[0] and position[2] <= i[1]:
+				id_ = self.chats[i]
+		if id_ != None:
+			for i in self.session.db[self.name]["items"]:
+				if i["id"] == id_:
+					print i["id"]
+					return i
+		return False
+
+	get_post = get_focused_post
+
+	def onFocus(self, event, *args, **kwargs):
+#		pass # Fix it later
+		if event.GetKeyCode() == wx.WXK_UP or event.GetKeyCode() == wx.WXK_DOWN:
+			msg = self.get_focused_post()
+	#self.session.db[self.name]["items"][-1]
+			if msg.has_key("read_state") and msg["read_state"] == 0 and msg["id"] not in self.reads:
+				self.reads.append(msg["id"])
+				self.session.db[self.name]["items"][-1]["read_state"] = 1
+			msg = self.get_post()
+			if msg.has_key("attachments") and len(msg["attachments"]) > 0:
+				self.tab.attachments.list.Enable(True)
+				self.attachments = list()
+				self.parse_attachments(msg)
+			else:
+				self.tab.attachments.list.Enable(False)
+				self.tab.attachments.clear()
+		event.Skip()
 
 	def create_tab(self, parent):
 		self.tab = home.chatTab(parent)
@@ -640,7 +663,7 @@ class chatBuffer(baseBuffer):
 	def connect_events(self):
 		widgetUtils.connect_event(self.tab.send, widgetUtils.BUTTON_PRESSED, self.send_chat_to_user)
 		widgetUtils.connect_event(self.tab.attachment, widgetUtils.BUTTON_PRESSED, self.add_attachment)
-#		self.tab.set_focus_function(self.onFocus)
+		self.tab.set_focus_function(self.onFocus)
 
 	def get_items(self, show_nextpage=False):
 		if self.can_get_items == False: return
@@ -690,6 +713,7 @@ class chatBuffer(baseBuffer):
 	def __init__(self, *args, **kwargs):
 		super(chatBuffer, self).__init__(*args, **kwargs)
 		self.reads = []
+		self.chats = dict()
 
 	def parse_attachments(self, post):
 		attachments = []
