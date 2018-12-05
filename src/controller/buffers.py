@@ -616,37 +616,45 @@ class chatBuffer(baseBuffer):
 	def insert(self, item, reversed=False):
 		""" Add a new item to the list. Uses session.composefunc for parsing the dictionary and create a valid result for putting it in the list."""
 		item_ = getattr(session, self.compose_function)(item, self.session)
+		# the self.chat dictionary will have (first_line, last_line) as keys and message ID as a value for looking into it when needed.
+		# Here we will get first and last line of a chat message appended to the history.
 		values = self.tab.add_message(item_[0])
 		self.chats[values] = item["id"]
-#		print len(self.chats)
 
 	def get_focused_post(self):
-#		print self.tab.history.GetInsertionPoint()
+		""" Gets chat message currently in focus"""
+		# this function replaces self.get_post for normal buffers, as we rely in a TextCtrl control for getting chats.
+		# Instead of the traditional method to do the trick.
+		# Get text position here.
 		position = self.tab.history.PositionToXY(self.tab.history.GetInsertionPoint())
-		print position
 		id_ = None
 		for i in self.chats.keys():
-#			print i
-			if position[2] >= i[0] and position[2] <= i[1]:
+			# Check if position[2] (line position) matches with something in self.chats
+			# (All messages, except the last one, should be able to be matched here).
+			# position[2]+1 is added because line may start with 0, while in wx.TextCtrl.GetNumberLines() that is not possible.
+			if position[2]+1 >= i[0] and position[2]+1 < i[1]:
 				id_ = self.chats[i]
+				print i
+				break
+
+		# Retrieve here the object based in id_
 		if id_ != None:
 			for i in self.session.db[self.name]["items"]:
 				if i["id"] == id_:
-					print i["id"]
 					return i
 		return False
 
 	get_post = get_focused_post
 
 	def onFocus(self, event, *args, **kwargs):
-#		pass # Fix it later
 		if event.GetKeyCode() == wx.WXK_UP or event.GetKeyCode() == wx.WXK_DOWN:
 			msg = self.get_focused_post()
-	#self.session.db[self.name]["items"][-1]
+			if msg == False: # Handle the case where the last line of the control cannot be matched to anything.
+				return
 			if msg.has_key("read_state") and msg["read_state"] == 0 and msg["id"] not in self.reads:
 				self.reads.append(msg["id"])
 				self.session.db[self.name]["items"][-1]["read_state"] = 1
-			msg = self.get_post()
+#			print msg
 			if msg.has_key("attachments") and len(msg["attachments"]) > 0:
 				self.tab.attachments.list.Enable(True)
 				self.attachments = list()
@@ -675,9 +683,9 @@ class chatBuffer(baseBuffer):
 			retrieved = err.code
 			return retrieved
 		if show_nextpage  == False:
-			if self.tab.history.GetValue() > 0 and num > 0:
+			if self.tab.history.GetValue() != "" and num > 0:
 				v = [i for i in self.session.db[self.name]["items"][:num]]
-				v.reverse()
+#				v.reverse()
 				[self.insert(i, False) for i in v]
 			else:
 				[self.insert(i) for i in self.session.db[self.name]["items"][:num]]
