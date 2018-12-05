@@ -129,7 +129,13 @@ def clean_audio(audio):
 def compose_message(message, session):
 	user = session.get_user_name(message["from_id"], "nom")
 	original_date = arrow.get(message["date"])
-	created_at = original_date.format(_(u"dddd, MMMM D, YYYY H:m:s"), locale=languageHandler.getLanguage())
+	now = arrow.now()
+	original_date = original_date.to(now.tzinfo)
+	# Format the date here differently depending in if this is the same day for both dates or not.
+	if original_date.day == now.day:
+		created_at = original_date.format(_(u"H:mm."), locale=languageHandler.getLanguage())
+	else:
+		created_at = original_date.format(_(u"H:mm. dddd, MMMM D, YYYY"), locale=languageHandler.getLanguage())
 	# No idea why some messages send "text" instead "body"
 	if message.has_key("body"):
 		body = message["body"]
