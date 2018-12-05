@@ -129,7 +129,7 @@ class Controller(object):
 		log.debug("Connecting events to responses...")
 		pub.subscribe(self.in_post, "posted")
 		pub.subscribe(self.download, "download-file")
-#		pub.subscribe(self.play_audio, "play-audio")
+		pub.subscribe(self.play_audio, "play-audio")
 #		pub.subscribe(self.play_audios, "play-audios")
 		pub.subscribe(self.view_post, "open-post")
 		pub.subscribe(self.update_status_bar, "update-status-bar")
