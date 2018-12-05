@@ -634,7 +634,7 @@ class chatBuffer(baseBuffer):
 			# position[2]+1 is added because line may start with 0, while in wx.TextCtrl.GetNumberLines() that is not possible.
 			if position[2]+1 >= i[0] and position[2]+1 < i[1]:
 				id_ = self.chats[i]
-				print i
+#				print i
 				break
 
 		# Retrieve here the object based in id_
