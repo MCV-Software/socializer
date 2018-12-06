@@ -7,7 +7,6 @@ import wx
 import languageHandler
 import widgetUtils
 import messages
-import utils
 import player
 import output
 import selector
@@ -16,11 +15,11 @@ import attach
 from pubsub import pub
 from vk.exceptions import VkAPIError
 from wxUI.tabs import home
-from sessionmanager import session, renderers
+from sessionmanager import session, renderers, utils
 from mysc.thread_utils import call_threaded
 from mysc import upload
 from wxUI import commonMessages, menus
-from utils import add_attachment
+from sessionmanager.utils import add_attachment
 
 log = logging.getLogger("controller.buffers")
 
