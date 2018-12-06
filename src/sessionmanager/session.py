@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
-import time
-import arrow
+import logging
 import languageHandler
 import paths
 import vkSessionHandler
-import logging
-import utils
 import sound
 from config_utils import Configuration, ConfigurationResetException
 from pubsub import pub
@@ -36,137 +33,6 @@ def find_item(list, item):
 		if i.has_key(identifier) and i[identifier] == item[identifier]:
 			return True
 	return False
-
-def add_attachment(attachment):
-	""" Adds information about attachment files in posts. It only adds the text, I mean, no attachment file is added here.
-	This will produce a result like 'Title of a web page: http://url.xxx', etc."""
-	msg = u""
-	if attachment["type"] == "link":
-		msg = u"{0}: {1}".format(attachment["link"]["title"], attachment["link"]["url"])
-	elif attachment["type"] == "photo":
-		msg = attachment["photo"]["text"]
-		if msg == "":
-			return _(u"photo with no description available")
-	elif attachment["type"] == "video":
-		msg = _(u"video: {0}").format(attachment["video"]["title"],)
-	return msg
-
-def add_text(status):
-	""" This shorts the text to 140 characters for displaying it in the list control."""
-	message = ""
-	if status.has_key("copy_history"):
-		txt = status["copy_history"][0]["text"]
-	else:
-		txt = status["text"]
-	if len(txt) < 140:
-		message = utils.clean_text(txt)
-	else:
-		message = utils.clean_text(txt[:139])
-	return message
-
-def compose_person(status, session):
-	if status.has_key("last_seen"):
-		original_date = arrow.get(status["last_seen"]["time"])
-		# Translators: This is the date of last seen
-		last_seen = _(u"{0}").format(original_date.humanize(locale=languageHandler.getLanguage()),)
-	elif status.has_key("last_seen") == False and status.has_key("deactivated"):
-			last_seen = _(u"Account deactivated")
-	return [u"{0} {1}".format(status["first_name"], status["last_name"]), last_seen]
-
-def compose_new(status, session):
-	""" This method is used to compose an item of the news feed."""
-	user = session.get_user_name(status["source_id"], case_name="nom")
-	if status.has_key("copy_history"):
-		user = _(u"{0} has shared the {1}'s post").format(user, session.get_user_name(status["copy_history"][0]["owner_id"]))
-	message = ""
-	original_date = arrow.get(status["date"])
-	created_at = original_date.humanize(locale=languageHandler.getLanguage())
-	if status["type"] == "post":
-		message += add_text(status)
-		if status.has_key("attachment") and len(status["attachment"]) > 0:
-			message += add_attachment(status["attachment"])
-		if message == "":
-			message = "no description available"
-	elif status["type"] == "audio":
-		# removes deleted audios.
-		status["audio"] = clean_audio(status["audio"])
-		if status["audio"]["count"] == 1:
-			message = _(u"{0} has added  an audio: {1}").format(user, u", ".join(compose_audio(status["audio"]["items"][0], session)),)
-		else:
-			prem = ""
-			for i in xrange(0, status["audio"]["count"]):
-				composed_audio = compose_audio(status["audio"]["items"][i], session)
-				prem += u"{0} - {1}, ".format(composed_audio[0], composed_audio[1])
-			message = _(u"{0} has added  {1} audios: {2}").format(user, status["audio"]["count"], prem)
-	elif status["type"] == "friend":
-		msg_users = u""
-		if status.has_key("friends"):
-			for i in status["friends"]["items"]:
-				msg_users = msg_users + u"{0}, ".format(session.get_user_name(i["user_id"], "nom"))
-		else:
-			print status.keys()
-		message = _(u"{0} hadded friends: {1}").format(user, msg_users)
-	elif status["type"] == "video":
-		if status["video"]["count"] == 1:
-			message = _(u"{0} has added  a video: {1}").format(user, u", ".join(compose_video(status["video"]["items"][0], session)),)
-		else:
-			prem = ""
-			for i in xrange(0, status["video"]["count"]):
-				composed_video = compose_video(status["video"]["items"][i], session)
-				prem += u"{0} - {1}, ".format(composed_video[0], composed_video[1])
-			message = _(u"{0} has added  {1} videos: {2}").format(user, status["video"]["count"], prem)
-	else:
-		if status["type"] != "post": print status
-	return [user, message, created_at]
-
-def clean_audio(audio):
-	for i in audio["items"][:]:
-		if type(i) == bool:
-			audio["items"].remove(i)
-			audio["count"] = audio["count"] -1
-	return audio
-
-def compose_message(message, session):
-	user = session.get_user_name(message["from_id"], "nom")
-	original_date = arrow.get(message["date"])
-	now = arrow.now()
-	original_date = original_date.to(now.tzinfo)
-	# Format the date here differently depending in if this is the same day for both dates or not.
-	if original_date.day == now.day:
-		created_at = original_date.format(_(u"H:mm."), locale=languageHandler.getLanguage())
-	else:
-		created_at = original_date.format(_(u"H:mm. dddd, MMMM D, YYYY"), locale=languageHandler.getLanguage())
-	# No idea why some messages send "text" instead "body"
-	if message.has_key("body"):
-		body = message["body"]
-	else:
-		body = message["text"]
-	return [u"{2}, {0} {1}".format(body, created_at, user)]
-
-def compose_status(status, session):
-	user = session.get_user_name(status["from_id"], "nom")
-	if status.has_key("copy_history"):
-		user = _(u"{0} has shared the {1}'s post").format(user, session.get_user_name(status["copy_history"][0]["owner_id"]))
-	message = ""
-	original_date = arrow.get(status["date"])
-	created_at = original_date.humanize(locale=languageHandler.getLanguage())
-	if status.has_key("copy_owner_id"):
-		user = _(u"{0} has shared the {1}'s post").format(user, session.get_user_name(status["copy_owner_id"]))
-	if status["post_type"] == "post" or status["post_type"] == "copy":
-		message += add_text(status)
-	if status.has_key("attachment") and len(status["attachment"]) > 0:
-		message += add_attachment(status["attachment"])
-		if message == "":
-			message = "no description available"
-	return [user, message, created_at]
-
-def compose_audio(audio, session=None):
-	if audio == False: return [_(u"Audio removed from library"), "", ""]
-	return [audio["title"], audio["artist"], utils.seconds_to_string(audio["duration"])]
-
-def compose_video(video, session=None):
-	if video == False: return [_(u"Audio removed from library"), "", ""]
-	return [video["title"], video["description"], utils.seconds_to_string(video["duration"])]
 
 class vkSession(object):
 

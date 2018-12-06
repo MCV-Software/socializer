@@ -16,7 +16,7 @@ import attach
 from pubsub import pub
 from vk.exceptions import VkAPIError
 from wxUI.tabs import home
-from sessionmanager import session
+from sessionmanager import session, renderers
 from mysc.thread_utils import call_threaded
 from mysc import upload
 from wxUI import commonMessages, menus
@@ -68,7 +68,7 @@ class baseBuffer(object):
 
 	def insert(self, item, reversed=False):
 		""" Add a new item to the list. Uses session.composefunc for parsing the dictionary and create a valid result for putting it in the list."""
-		item_ = getattr(session, self.compose_function)(item, self.session)
+		item_ = getattr(renderers, self.compose_function)(item, self.session)
 		self.tab.list.insert_item(reversed, *item_)
 
 	def get_items(self, show_nextpage=False):
@@ -615,7 +615,7 @@ class chatBuffer(baseBuffer):
 
 	def insert(self, item, reversed=False):
 		""" Add a new item to the list. Uses session.composefunc for parsing the dictionary and create a valid result for putting it in the list."""
-		item_ = getattr(session, self.compose_function)(item, self.session)
+		item_ = getattr(renderers, self.compose_function)(item, self.session)
 		# the self.chat dictionary will have (first_line, last_line) as keys and message ID as a value for looking into it when needed.
 		# Here we will get first and last line of a chat message appended to the history.
 		values = self.tab.add_message(item_[0])

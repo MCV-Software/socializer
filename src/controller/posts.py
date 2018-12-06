@@ -14,7 +14,7 @@ import webbrowser
 import utils
 import logging
 from sessionmanager import session # We'll use some functions from there
-from sessionmanager.session import utils
+from sessionmanager import utils
 from pubsub import pub
 from wxUI.dialogs import postDialogs, urlList, profiles
 from extra import SpellChecker, translator
