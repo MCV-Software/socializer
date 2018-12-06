@@ -2,7 +2,6 @@
 import time
 import os
 import wx
-import utils
 import widgetUtils
 import messages
 import buffers
@@ -19,7 +18,7 @@ from pubsub import pub
 from mysc.repeating_timer import RepeatingTimer
 from mysc.thread_utils import call_threaded
 from mysc import localization
-from sessionmanager import session
+from sessionmanager import session, utils
 from wxUI import (mainWindow, commonMessages)
 from wxUI.dialogs import search as searchDialogs
 from wxUI.dialogs import timeline, creation

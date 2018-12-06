@@ -4,7 +4,7 @@ import os
 import requests
 import re
 import logging
-from sessionmanager import session
+from sessionmanager import renderers
 log = logging.getLogger("utils")
 url_re = re.compile("(?:\w+://|www\.)[^ ,.?!#%=+][^ ]*")
 bad_chars = '\'\\.,[](){}:;"'
@@ -76,7 +76,7 @@ def add_attachment(attachment):
 		msg = u"{0}".format(attachment["video"]["title"],)
 		tpe = _(u"Video")
 	elif attachment["type"] == "audio":
-		msg = u"{0}".format(" ".join(session.compose_audio(attachment["audio"])))
+		msg = u"{0}".format(" ".join(session.render_audio(attachment["audio"])))
 		tpe = _(u"Audio")
 	elif attachment["type"] == "doc":
 		if attachment["doc"].has_key("preview") and attachment["doc"]["preview"].has_key("audio_msg"):

@@ -11,7 +11,6 @@ import widgetUtils
 import output
 import wx
 import webbrowser
-import utils
 import logging
 from sessionmanager import session # We'll use some functions from there
 from sessionmanager import utils
@@ -20,7 +19,6 @@ from wxUI.dialogs import postDialogs, urlList, profiles
 from extra import SpellChecker, translator
 from mysc.thread_utils import call_threaded
 from wxUI import menus
-from utils import add_attachment
 
 log = logging.getLogger("controller.post")
 
@@ -134,7 +132,7 @@ class postController(object):
 				if i["type"] == "photo":
 					if self.load_images == False: self.load_images = True
 					self.images.append(i)
-				attachments.append(add_attachment(i))
+				attachments.append(extract_attachment(i))
 				self.attachments.append(i)
 		# Links in text are not treated like normal attachments, so we'll have to catch and add those to the list without title
 		# We can't get a title because title is provided by the VK API and it will not work for links as simple text.
@@ -144,7 +142,7 @@ class postController(object):
 			for i in urls:
 				links.append({"link": {"title": _(U"Untitled link"), "url": i}, "type": "link"})
 			for i in links:
-				attachments.append(add_attachment(i))
+				attachments.append(extract_attachment(i))
 				self.attachments.append(i)
 		if len(self.attachments) > 0:
 			self.dialog.attachments.list.Enable(True)

@@ -9,8 +9,8 @@ import languageHandler
 import widgetUtils
 import output
 import wx
-import utils
 from wxUI.dialogs import urlList, profiles
+from sessionmanager import utils
 
 log = logging.getLogger("controller.profiles")
 
