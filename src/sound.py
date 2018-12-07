@@ -9,6 +9,7 @@ import sound_lib
 import output
 from mysc.repeating_timer import RepeatingTimer
 from mysc.thread_utils import call_threaded
+from sound_lib import output, input
 import glob
 
 class soundSystem(object):
@@ -32,8 +33,8 @@ class soundSystem(object):
 		self.config = soundConfig
 		# Set the output and input default devices.
 		try:
-			self.output = sound_lib.output.Output()
-			self.input = sound_lib.input.Input()
+			self.output = output.Output()
+			self.input = input.Input()
 		except:
 			pass
    # Try to use the selected device from the configuration. It can fail if the machine does not has a mic.

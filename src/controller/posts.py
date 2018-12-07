@@ -132,7 +132,7 @@ class postController(object):
 				if i["type"] == "photo":
 					if self.load_images == False: self.load_images = True
 					self.images.append(i)
-				attachments.append(extract_attachment(i))
+				attachments.append(utils.add_attachment(i))
 				self.attachments.append(i)
 		# Links in text are not treated like normal attachments, so we'll have to catch and add those to the list without title
 		# We can't get a title because title is provided by the VK API and it will not work for links as simple text.
