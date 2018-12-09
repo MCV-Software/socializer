@@ -373,15 +373,18 @@ class Controller(object):
 		""" Searches or creates a chat buffer with the id of the user that is sending or receiving a message.
 			obj mysc.longpoll.event: an event wich defines some data from the vk's long poll server."""
 		print obj
-		# Set user_id to the id of the friend wich is receiving or sending the message.
-		obj.user_id = obj.from_id
-		buffer = self.search_chat_buffer(obj.user_id)
+		if obj.to_me:
+			buffer = self.search_chat_buffer(obj.user_id)
+			uid = obj.user_id
+		else:
+			buffer = self.search_chat_buffer(obj.peer_id)
+			uid = obj.peer_id
 		if buffer == None:
-			wx.CallAfter(self.chat_from_id, obj.user_id)
+			wx.CallAfter(self.chat_from_id, uid)
 			self.session.soundplayer.play("chat.ogg")
 			return
 		# If the chat already exists, let's create a dictionary wich will contains data of the received message.
-		message = {"id": obj.message_id, "user_id": obj.user_id, "date": obj.timestamp, "body": obj.text, "attachments": obj.attachments}
+		message = {"id": obj.message_id, "user_id": uid, "date": obj.timestamp, "body": obj.text, "attachments": obj.attachments}
 		# if attachments is true, let's request for the full message with attachments formatted in a better way.
 		# Todo: code improvements. We shouldn't need to request the same message again just for these attachments.
 		if len(message["attachments"]) != 0:
@@ -389,10 +392,10 @@ class Controller(object):
 			results = self.session.vk.client.messages.getById(message_ids=message_ids)
 			message = results["items"][0]
 		# If outbox it's true, it means that message["from_id"] should be the current user. If not, the obj.user_id should be taken.
-		if obj.message_flags.has_key("outbox") == True:
+		if obj.from_me:
 			message["from_id"] = self.session.user_id
 		else:
-			message["from_id"] = obj.from_id
+			message["from_id"] = obj.user_id
 		data = [message]
 		# Let's add this to the buffer.
 		# ToDo: Clean this code and test how is the database working with this set to True.

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import threading
-from mysc import longpoll
+from vk_api.longpoll import VkLongPoll, VkEventType
 from pubsub import pub
 from logging import getLogger
 log = getLogger("controller.longpolThread")
@@ -8,15 +8,19 @@ log = getLogger("controller.longpolThread")
 class worker(threading.Thread):
 	def __init__(self, session):
 		super(worker, self).__init__()
-		log.debug("Instanciating longPoll server")
+		log.debug("Instantiating longPoll server")
 		self.session = session
-		self.l =  longpoll.LongPoll(self.session.vk.client)
+		self.longpoll = VkLongPoll(self.session.vk.session_object)
 
 	def run(self):
-		while self.session.is_logged == True:
-			log.debug("Calling to check...")
-			p = self.l.check()
-#			log.debug("check has returned " + p)
-			for i in p:
-				if i.text != None and i.from_id != None and i.flags != None and i.message_flags != None:
-					pub.sendMessage("order-sent-message", obj=i)
+		print("starting events")
+		for event in self.longpoll.listen():
+			print(event)
+			if event.type == VkEventType.MESSAGE_NEW:
+				pub.sendMessage("order-sent-message", obj=event)
+			elif event.type == VkEventType.USER_ONLINE:
+				print "User online"
+				print event.user_id
+			elif event.type == VkEventType.USER_OFFLINE:
+				print "User offline"
+				print  event.user_id

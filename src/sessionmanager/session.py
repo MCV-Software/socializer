@@ -114,6 +114,7 @@ class vkSession(object):
 			self.vk.login(self.settings["vk"]["user"], self.settings["vk"]["password"])
 			self.settings["vk"]["token"] = self.vk.client._session.access_token
 			self.settings.write()
+			self.logged = True
 		except ValueError:
 			self.settings["vk"]["user"] = ""
 			self.settings["vk"]["password"] = ""
