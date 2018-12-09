@@ -13,7 +13,7 @@ import selector
 import posts
 import attach
 from pubsub import pub
-from vk.exceptions import VkAPIError
+from vk_api.exceptions import VkApiError
 from wxUI.tabs import home
 from sessionmanager import session, renderers, utils
 from mysc.thread_utils import call_threaded
@@ -78,7 +78,7 @@ class baseBuffer(object):
 		retrieved = True # Control variable for handling unauthorised/connection errors.
 		try:
 			num = getattr(self.session, "get_newsfeed")(show_nextpage=show_nextpage, name=self.name, *self.args, **self.kwargs)
-		except VkAPIError as err:
+		except VkApiError as err:
 			log.error(u"Error {0}: {1}".format(err.code, err.message))
 			retrieved = err.code
 			return retrieved
@@ -311,7 +311,7 @@ class feedBuffer(baseBuffer):
 		retrieved = True
 		try:
 			num = getattr(self.session, "get_page")(show_nextpage=show_nextpage, name=self.name, *self.args, **self.kwargs)
-		except VkAPIMethodError as err:
+		except ValueError:
 			log.error(u"Error {0}: {1}".format(err.code, err.message))
 			retrieved = err.code
 			return retrieved
@@ -677,7 +677,7 @@ class chatBuffer(baseBuffer):
 		retrieved = True # Control variable for handling unauthorised/connection errors.
 		try:
 			num = getattr(self.session, "get_messages")(name=self.name, *self.args, **self.kwargs)
-		except VkAPIMethodError as err:
+		except ValueError as err:
 			log.error(u"Error {0}: {1}".format(err.code, err.message))
 			retrieved = err.code
 			return retrieved
@@ -822,7 +822,7 @@ class requestsBuffer(peopleBuffer):
 		retrieved = True
 		try:
 			ids = self.session.vk.client.friends.getRequests(*self.args, **self.kwargs)
-		except VkAPIMethodError as err:
+		except ValueError as err:
 			log.error(u"Error {0}: {1}".format(err.code, err.message))
 			retrieved = err.code
 			return retrieved

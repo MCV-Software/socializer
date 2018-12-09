@@ -10,10 +10,10 @@
 * Added basic tagging for users in posts and comments. You can tag only people in your friends buffer.
 * Added a basic user profile viewer.
 * Added support for listening voice messages in chats. Currently it is not possible to send them, until the new API will be released.
-* For now, all features related to audio playback have been disabled.
 * Fixed an error that was making Socializer unable to display chat history properly. It was showing the first 200 items in a  conversation instead the last 200 items. Now chat will be displayed accordingly.
 * Changed the chat history widget from list of items to a read only text box, similar to how it was displayed in skype. Now the widget should be fully visible and messages will work in the same way.
 * It is possible to play songs sent in a chat message by opening them from the attachments panel.
+* Reimplemented most of the audio playback methods.
 
 ## Changes in build 2016.07.08 (08/07/2016)
 

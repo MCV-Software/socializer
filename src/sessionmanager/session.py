@@ -6,7 +6,7 @@ import vkSessionHandler
 import sound
 from config_utils import Configuration, ConfigurationResetException
 from pubsub import pub
-from vk.exceptions import VkAPIError
+from vk_api.exceptions import LoginRequired, VkApiError
 
 log = logging.getLogger("session")
 
@@ -103,9 +103,8 @@ class vkSession(object):
 				log.debug("Logged.")
 				if result == False:
 					self.authorise()
-			except VkAPIError as err:
-				if err.code == 5:
-					self.authorise()
+			except LoginRequired:
+				self.authorise()
 		else:
 			self.authorise()
 		self.get_my_data()
@@ -115,7 +114,7 @@ class vkSession(object):
 			self.vk.login(self.settings["vk"]["user"], self.settings["vk"]["password"])
 			self.settings["vk"]["token"] = self.vk.client._session.access_token
 			self.settings.write()
-		except:
+		except ValueError:
 			self.settings["vk"]["user"] = ""
 			self.settings["vk"]["password"] = ""
 			self.settings.write()
@@ -146,10 +145,19 @@ class vkSession(object):
 
 	def get_page(self, name="", show_nextpage=False, endpoint="", *args, **kwargs):
 		data = None
+		if "audio" in endpoint:
+			c = self.vk.client_audio
+		else:
+			c = self.vk.client
 		if kwargs.has_key("parent_endpoint"):
 			p = kwargs["parent_endpoint"]
+			if "audio" in p:
+				c = self.vk.client_audio
 			kwargs.pop("parent_endpoint")
-		p = getattr(self.vk.client, p)
+		try:
+			p = getattr(c, p)
+		except AttributeError:
+			p = c
 		log.debug("Calling endpoint %s with params %r" % (p, kwargs,))
 		data = getattr(p, endpoint)(*args, **kwargs)
 		if data != None:
