@@ -611,7 +611,7 @@ class empty(object):
 	def remove_buffer(self, mandatory=False): return False
 
 class chatBuffer(baseBuffer):
-	random_id = 1
+
 
 	def insert(self, item, reversed=False):
 		""" Add a new item to the list. Uses session.composefunc for parsing the dictionary and create a valid result for putting it in the list."""
@@ -711,7 +711,7 @@ class chatBuffer(baseBuffer):
 		# This should be unique per message and should be changed right after the message has been sent.
 		# If the message is tried to be sent twice this random_id should be the same for both copies.
 		# At the moment we just calculate len(text)_user_id, hope that will work.
-		random_id = "{0}_{1}".format(len(text), self.kwargs["user_id"])
+		random_id = len(text)+self.kwargs["user_id"]
 		if hasattr(self, "attachments_to_be_sent"):
 			response = self.session.vk.client.messages.send(user_id=self.kwargs["user_id"], message=text, attachment=self.attachments_to_be_sent, random_id=random_id)
 		else:
