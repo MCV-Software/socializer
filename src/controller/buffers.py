@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """ A buffer is a (virtual) list of items. All items belong to a category (wall posts, messages, persons...)"""
+import random
 import logging
 import webbrowser
 import arrow
@@ -706,21 +707,21 @@ class chatBuffer(baseBuffer):
 		call_threaded(self._send_message, text=text)
 
 	def _send_message(self, text):
-#		try:
+		try:
 		# Let's take care about the random_id attribute.
 		# This should be unique per message and should be changed right after the message has been sent.
 		# If the message is tried to be sent twice this random_id should be the same for both copies.
 		# At the moment we just calculate len(text)_user_id, hope that will work.
-		random_id = len(text)+self.kwargs["user_id"]
-		if hasattr(self, "attachments_to_be_sent"):
-			response = self.session.vk.client.messages.send(user_id=self.kwargs["user_id"], message=text, attachment=self.attachments_to_be_sent, random_id=random_id)
-		else:
-			response = self.session.vk.client.messages.send(user_id=self.kwargs["user_id"], message=text, random_id=random_id)
-#		except VkAPIMethodError as ex:
-#			if ex.code == 9:
-#				output.speak(_(u"You have been sending a message that is already sent. Try to update the buffer if you can't see the new message in the history."))
-#		finally:
-#			self.tab.text.SetValue("")
+			random_id = random.randint(0, 100000)
+			if hasattr(self, "attachments_to_be_sent"):
+				response = self.session.vk.client.messages.send(user_id=self.kwargs["user_id"], message=text, attachment=self.attachments_to_be_sent, random_id=random_id)
+			else:
+				response = self.session.vk.client.messages.send(user_id=self.kwargs["user_id"], message=text, random_id=random_id)
+		except ValueError as ex:
+			if ex.code == 9:
+				output.speak(_(u"You have been sending a message that is already sent. Try to update the buffer if you can't see the new message in the history."))
+		finally:
+			self.tab.text.SetValue("")
 
 	def __init__(self, *args, **kwargs):
 		super(chatBuffer, self).__init__(*args, **kwargs)
