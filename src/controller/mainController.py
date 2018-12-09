@@ -371,8 +371,7 @@ class Controller(object):
 
 	def get_chat(self, obj=None):
 		""" Searches or creates a chat buffer with the id of the user that is sending or receiving a message.
-			obj mysc.longpoll.event: an event wich defines some data from the vk's long poll server."""
-		print obj
+			obj vk_api.longpoll.EventType: an event wich defines some data from the vk's long poll server."""
 		if obj.to_me:
 			buffer = self.search_chat_buffer(obj.user_id)
 			uid = obj.user_id

@@ -13,9 +13,7 @@ class worker(threading.Thread):
 		self.longpoll = VkLongPoll(self.session.vk.session_object)
 
 	def run(self):
-		print("starting events")
 		for event in self.longpoll.listen():
-			print(event)
 			if event.type == VkEventType.MESSAGE_NEW:
 				pub.sendMessage("order-sent-message", obj=event)
 			elif event.type == VkEventType.USER_ONLINE:
