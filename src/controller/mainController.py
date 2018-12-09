@@ -13,7 +13,7 @@ import webbrowser
 import logging
 import longpollthread
 import selector
-from vk.exceptions import VkAuthError, VkAPIError
+from vk_api.exceptions import LoginRequired, VkApiError
 from pubsub import pub
 from mysc.repeating_timer import RepeatingTimer
 from mysc.thread_utils import call_threaded
@@ -74,23 +74,23 @@ class Controller(object):
 		# Translators: Own user's wall name in the tree view.
 		self.window.insert_buffer(feed.tab, _(u"My wall"), self.window.search("posts"))
 		### Disabled audio stuff for now.
-#		audios = buffers.empty(parent=self.window.tb, name="audios")
-#		self.buffers.append(audios)
+		audios = buffers.empty(parent=self.window.tb, name="audios")
+		self.buffers.append(audios)
 		# Translators: name for the music category in the tree view.
-#		self.window.add_buffer(audios.tab, _(u"Music"))
+		self.window.add_buffer(audios.tab, _(u"Music"))
 
-#		audio = buffers.audioBuffer(parent=self.window.tb, name="me_audio", composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"])
-#		self.buffers.append(audio)
-#		self.window.insert_buffer(audio.tab, _(u"My audios"), self.window.search("audios"))
+		audio = buffers.audioBuffer(parent=self.window.tb, name="me_audio", composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio")
+		self.buffers.append(audio)
+		self.window.insert_buffer(audio.tab, _(u"My audios"), self.window.search("audios"))
 #		p_audio = buffers.audioBuffer(parent=self.window.tb, name="popular_audio", composefunc="render_audio", session=self.session, endpoint="getPopular", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"])
 #		self.buffers.append(p_audio)
 #		self.window.insert_buffer(p_audio.tab, _(u"Populars"), self.window.search("audios"))
 #		r_audio = buffers.audioBuffer(parent=self.window.tb, name="recommended_audio", composefunc="render_audio", session=self.session, endpoint="getRecommendations", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"])
 #		self.buffers.append(r_audio)
 #		self.window.insert_buffer(r_audio.tab, _(u"Recommendations"), self.window.search("audios"))
-#		albums = buffers.empty(parent=self.window.tb, name="albums")
-#		self.buffers.append(albums)
-#		self.window.insert_buffer(albums.tab, _(u"Albums"), self.window.search("audios"))
+		albums = buffers.empty(parent=self.window.tb, name="albums")
+		self.buffers.append(albums)
+		self.window.insert_buffer(albums.tab, _(u"Albums"), self.window.search("audios"))
 		videos = buffers.empty(parent=self.window.tb, name="videos")
 		self.buffers.append(videos)
 		# Translators: name for the videos category in the tree view.
@@ -129,7 +129,7 @@ class Controller(object):
 		pub.subscribe(self.in_post, "posted")
 		pub.subscribe(self.download, "download-file")
 		pub.subscribe(self.play_audio, "play-audio")
-#		pub.subscribe(self.play_audios, "play-audios")
+		pub.subscribe(self.play_audios, "play-audios")
 		pub.subscribe(self.view_post, "open-post")
 		pub.subscribe(self.update_status_bar, "update-status-bar")
 		pub.subscribe(self.chat_from_id, "new-chat")
@@ -139,36 +139,37 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.update_buffer, menuitem=self.window.update_buffer)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.check_for_updates, menuitem=self.window.check_for_updates)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.window.about_dialog, menuitem=self.window.about)
-#		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.search_audios, menuitem=self.window.search_audios)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.search_audios, menuitem=self.window.search_audios)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.search_videos, menuitem=self.window.search_videos)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU,self.remove_buffer, menuitem=self.window.remove_buffer_)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.get_more_items, menuitem=self.window.load_previous_items)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.changelog, menuitem=self.window.changelog)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.configuration, menuitem=self.window.settings_dialog)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.new_timeline, menuitem=self.window.timeline)
-#		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.create_audio_album, menuitem=self.window.audio_album)
-#		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.delete_audio_album, menuitem=self.window.delete_audio_album)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.create_audio_album, menuitem=self.window.audio_album)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.delete_audio_album, menuitem=self.window.delete_audio_album)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.create_video_album, menuitem=self.window.video_album)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.delete_video_album, menuitem=self.window.delete_video_album)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.check_documentation, menuitem=self.window.documentation)
-#		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_play_pause, menuitem=self.window.player_play)
-#		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_play_next, menuitem=self.window.player_next)
-#		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_play_previous, menuitem=self.window.player_previous)
-#		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_play_all, menuitem=self.window.player_play_all)
-#		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_stop, menuitem=self.window.player_stop)
-#		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_volume_down, menuitem=self.window.player_volume_down)
-#		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_volume_up, menuitem=self.window.player_volume_up)
-#		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_mute, menuitem=self.window.player_mute)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_play_pause, menuitem=self.window.player_play)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_play_next, menuitem=self.window.player_next)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_play_previous, menuitem=self.window.player_previous)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_play_all, menuitem=self.window.player_play_all)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_stop, menuitem=self.window.player_stop)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_volume_down, menuitem=self.window.player_volume_down)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_volume_up, menuitem=self.window.player_volume_up)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_mute, menuitem=self.window.player_mute)
 		pub.subscribe(self.get_chat, "order-sent-message")
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.view_my_profile, menuitem=self.window.view_profile)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.view_my_profile_in_browser, menuitem=self.window.open_in_browser)
+
 	def disconnect_events(self):
 		log.debug("Disconnecting some events...")
 		pub.unsubscribe(self.in_post, "posted")
-#		pub.unsubscribe(self.download, "download-file")
-#		pub.unsubscribe(self.play_audio, "play-audio")
+		pub.unsubscribe(self.download, "download-file")
+		pub.unsubscribe(self.play_audio, "play-audio")
 		pub.unsubscribe(self.authorisation_failed, "authorisation-failed")
-#		pub.unsubscribe(self.play_audios, "play-audios")
+		pub.unsubscribe(self.play_audios, "play-audios")
 		pub.unsubscribe(self.view_post, "open-post")
 		pub.unsubscribe(self.update_status_bar, "update-status-bar")
 
@@ -320,7 +321,7 @@ class Controller(object):
 				commonMessages.no_user_exist()
 				return
 			if buffertype == "audio":
-				buffer = buffers.audioBuffer(parent=self.window.tb, name="{0}_audio".format(user_id,), composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], owner_id=user_id)
+				buffer = buffers.audioBuffer(parent=self.window.tb, name="{0}_audio".format(user_id,), composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio", owner_id=user_id)
 				# Translators: {0} will be replaced with an user.
 				name_ = _(u"{0}'s audios").format(self.session.get_user_name(user_id, "gen"),)
 			elif buffertype == "wall":
@@ -409,7 +410,7 @@ class Controller(object):
 		try:
 			log.debug("Getting possible unread messages.")
 			msgs = self.session.vk.client.messages.getDialogs(count=200, unread=1)
-		except VkAPIError as ex:
+		except VkApiError as ex:
 			if ex.code == 6:
 				log.exception("Something went wrong when getting messages. Waiting a second to retry")
 				time.sleep(2)
@@ -431,7 +432,7 @@ class Controller(object):
 		try:
 			log.debug("Create audio albums...")
 			albums = self.session.vk.client.audio.getAlbums(owner_id=user_id)
-		except VkAPIError as ex:
+		except VkApiError as ex:
 			if ex.code == 6:
 				log.exception("Something went wrong when getting albums. Waiting a second to retry")
 				time.sleep(2)
@@ -454,7 +455,7 @@ class Controller(object):
 		try:
 			log.debug("Create video  albums...")
 			albums = self.session.vk.client.video.getAlbums(owner_id=user_id)
-		except VkAPIError as ex:
+		except VkApiError as ex:
 			if ex.code == 6:
 				log.exception("Something went wrong when getting albums. Waiting a second to retry")
 				time.sleep(2)
