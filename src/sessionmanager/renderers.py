@@ -106,7 +106,7 @@ def render_newsfeed_item(status, session):
 				msg_users = msg_users + u"{0}, ".format(session.get_user_name(i["user_id"], "nom"))
 		else:
 			print status.keys()
-		message = _(u"{0} hadded friends: {1}").format(user, msg_users)
+		message = _(u"{0} added friends: {1}").format(user, msg_users)
 	elif status["type"] == "video":
 		if status["video"]["count"] == 1:
 			message = _(u"{0} has added  a video: {1}").format(user, u", ".join(render_video(status["video"]["items"][0], session)),)
