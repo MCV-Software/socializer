@@ -28,11 +28,11 @@ For other dependencies, do pip install --upgrade -r requirements.txt
 
 I am trying to write an updated manual for socializer. It can be found in the documentation folder once the program zip file is uncompressed, or in the manual.md file (in markdown). The idea of this manual is to be updated as socializer receives new features  or improvements.
 
-A copy of the English version of the manual can be read here: [Manual in the socializer's wiki](https://github.com/manuelcortez/socializer/wiki/manual)
+A copy of the English version of the manual can be read here: [Manual in the socializer's wiki](https://code.manuelcortez.net/manuelcortez/socializer/wikis/manual)
 
 ## Contributing
 
-If you are interested in this project, you can help it by [translating this program](https://github.com/manuelcortez/socializer/wiki/translate) into your native language and give more people the possibility of using it. Thank you in advance!
+If you are interested in this project, you can help it by [translating this program](https://code.manuelcortez.net/manuelcortez/socializer/wikis/translate) into your native language and give more people the possibility of using it. Thank you in advance!
 
 ## contact
 
