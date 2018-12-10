@@ -34,7 +34,7 @@ class attachFromLocal(object):
 		image, description  = self.dialog.get_image()
 		if image != None:
 			# Define data structure for this attachment, as will be required by VK API later.
-			imageInfo = {"type": "photo", "file": image, "description": os.path.basename(image)}
+			imageInfo = {"type": "photo", "file": image, "description": description}
 			log.debug("Image data to upload: %r" % (imageInfo,))
 			self.attachments.append(imageInfo)
 			# Translators: This is the text displayed in the attachments dialog, when the user adds  a photo.
@@ -79,8 +79,8 @@ class attachFromOnline(object):
 
 	def add_audio(self, *args, **kwargs):
 		""" Allow adding an audio directly from the user's audio library."""
-		list_of_audios = self.session.vk.client.audio.get(count=1000)
-		list_of_audios = list_of_audios["items"]
+		list_of_audios = self.session.vk.client_audio.get()
+#		list_of_audios = list_of_audios["items"]
 		audios = []
 		for i in list_of_audios:
 			audios.append(u"{0}, {1}".format(i["title"], i["artist"]))

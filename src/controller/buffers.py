@@ -15,10 +15,10 @@ import posts
 import attach
 from pubsub import pub
 from vk_api.exceptions import VkApiError
+from vk_api import upload
 from wxUI.tabs import home
 from sessionmanager import session, renderers, utils
 from mysc.thread_utils import call_threaded
-from mysc import upload
 from wxUI import commonMessages, menus
 from sessionmanager.utils import add_attachment
 
@@ -129,7 +129,7 @@ class baseBuffer(object):
 		Currently this function only supports photos."""
 		# To do: Check the caption and description fields for this kind of attachments.
 		local_attachments = ""
-		uploader = upload.VkUpload(self.session.vk.client)
+		uploader = upload.VkUpload(self.session.vk.session_object)
 		for i in attachments:
 			if i["type"] == "photo":
 				photos = i["file"]

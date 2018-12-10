@@ -40,11 +40,11 @@ class attachDialog(widgetUtils.BaseDialog):
 		openFileDialog = wx.FileDialog(self, _(u"Select the picture to be uploaded"), "", "", _("Image files (*.png, *.jpg, *.gif)|*.png; *.jpg; *.gif"), wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
 		if openFileDialog.ShowModal() == wx.ID_CANCEL:
 			return None
-		dsc = ""
+		dsc = self.ask_description()
 		return (openFileDialog.GetPath(), dsc)
 
 	def ask_description(self):
-		dlg = wx.TextEntryDialog(self, _(u"please provide a description"), _(u"Description"), defaultValue="")
+		dlg = wx.TextEntryDialog(self, _(u"please provide a description"), _(u"Description"))
 		dlg.ShowModal()
 		result = dlg.GetValue()
 		dlg.Destroy()
