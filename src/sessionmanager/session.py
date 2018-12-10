@@ -95,6 +95,7 @@ class vkSession(object):
 			self.settings["vk"]["token"] = self.vk.client._session.access_token
 			self.settings.write()
 			self.logged = True
+			self.get_my_data()
 		except ValueError:
 			self.settings["vk"]["user"] = ""
 			self.settings["vk"]["password"] = ""
@@ -219,4 +220,3 @@ class vkSession(object):
 		log.debug("Getting user identifier...")
 		user = self.vk.client.users.get(fields="uid, first_name, last_name")
 		self.user_id = user[0]["id"]
-#		self.db["users"][self.user_id] = u"{0} {1}".format(user[0]["first_name"], user[0]["last_name"])
