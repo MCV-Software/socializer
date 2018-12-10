@@ -39,14 +39,24 @@ class audioMenu(wx.Menu):
 		self.Append(self.move)
 
 class peopleMenu(wx.Menu):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, is_request=False, *args, **kwargs):
 		super(peopleMenu, self).__init__(*args, **kwargs)
+		if is_request:
+			self.create_extra_items()
 		self.view_profile = wx.MenuItem(self, wx.NewId(), _(u"View profile"))
 		self.Append(self.view_profile)
 		self.message = wx.MenuItem(self, wx.NewId(), _(u"Send a message"))
 		self.Append(self.message)
 		self.timeline = wx.MenuItem(self, wx.NewId(), _(u"Open timeline"))
 		self.Append(self.timeline)
+		self.common_friends = wx.MenuItem(self, wx.NewId(), _(u"View friends in common"))
+		self.Append(self.common_friends)
+
+	def create_extra_items(self):
+		self.accept = wx.MenuItem(self, wx.NewId(), _(u"Accept"))
+		self.Append(self.accept)
+		self.decline = wx.MenuItem(self, wx.NewId(), _(u"Decline"))
+		self.Append(self.decline)
 
 class commentMenu(wx.Menu):
 	def __init__(self, *args, **kwargs):

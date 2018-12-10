@@ -137,6 +137,7 @@ class Controller(object):
 		pub.subscribe(self.user_profile, "user-profile")
 		pub.subscribe(self.user_online, "user-online")
 		pub.subscribe(self.user_offline, "user-offline")
+		pub.subscribe(self.notify, "notify")
 		widgetUtils.connect_event(self.window, widgetUtils.CLOSE_EVENT, self.exit)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.update_buffer, menuitem=self.window.update_buffer)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.check_for_updates, menuitem=self.window.check_for_updates)
@@ -176,6 +177,7 @@ class Controller(object):
 		pub.unsubscribe(self.update_status_bar, "update-status-bar")
 		pub.unsubscribe(self.user_online, "user-online")
 		pub.unsubscribe(self.user_offline, "user-offline")
+		pub.unsubscribe(self.notify, "notify")
 
 	def authorisation_failed(self):
 		commonMessages.bad_authorisation()
@@ -610,3 +612,6 @@ class Controller(object):
 
 	def view_my_profile_in_browser(self, *args, **kwargs):
 		webbrowser.open_new_tab("https://vk.com/id{id}".format(id=self.session.user_id,))
+
+	def notify(self, message=""):
+		self.window.notify(_("Socializer"), message)

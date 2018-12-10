@@ -809,7 +809,19 @@ class peopleBuffer(feedBuffer):
 		pass
 
 	def get_menu(self, *args, **kwargs):
-		m = menus.peopleMenu()
+		""" display menu for people buffers (friends and requests)"""
+		# If this is an incoming requests buffer, there is a flag in the peopleMenu that shows a few new options.
+		# So let's make sure we call it accordingly.
+		if self.name == "friend_requests":
+			m = menus.peopleMenu(is_request=True)
+			# Connect the accept and decline methods from here.
+			widgetUtils.connect_event(m, widgetUtils.MENU, self.accept_friendship, menuitem=m.accept)
+			widgetUtils.connect_event(m, widgetUtils.MENU, self.decline_friendship, menuitem=m.decline)
+		else:
+			m = menus.peopleMenu(is_request=False)
+		# It is not allowed to send messages to people who is not your friends, so let's disble it if we're in a pending or outgoing requests folder.
+		if "friend_requests" in self.name:
+			m.message.Enable(False)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.new_chat, menuitem=m.message)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.open_timeline, menuitem=m.timeline)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.open_person_profile, menuitem=m.view_profile)
@@ -820,6 +832,12 @@ class peopleBuffer(feedBuffer):
 	def play_audio(self, *args, **kwargs): return False
 
 	def pause_audio(self, *args, **kwargs): pass
+
+	def accept_friendship(self, *args, **kwargs):
+		pass
+
+	def decline_friendship(self, *args, **kwargs):
+		pass
 
 class requestsBuffer(peopleBuffer):
 
@@ -841,3 +859,25 @@ class requestsBuffer(peopleBuffer):
 			else:
 				[self.insert(i) for i in self.session.db[self.name]["items"][:num]]
 		return retrieved
+
+	def accept_friendship(self, *args, **kwargs):
+		""" Adds a person to a list of friends. This method is done for accepting someone else's friend requet."""
+		person = self.get_post()
+		result = self.session.vk.client.friends.add(user_id=person["id"])
+		if result == 2:
+			msg = _(u"{0} {1} now is your friend.").format(person["first_name"], person["last_name"])
+			pub.sendMessage("notify", message=msg)
+			self.session.db[self.name]["items"].pop(self.tab.list.get_selected())
+			self.tab.list.remove_item(self.tab.list.get_selected())
+
+	def decline_friendship(self, *args, **kwargs):
+		""" Declines a freind request."""
+		person = self.get_post()
+		result = self.session.vk.client.friends.delete(user_id=person["id"])
+		if "out_request_deleted" in result:
+			msg = _(u"You've deleted the friends request to {0} {1}.").format(person["first_name"], person["last_name"])
+		elif "in_request_deleted" in result:
+			msg = _(u"You've declined the friend request of {0} {1}.").format(person["first_name"], person["last_name"])
+		pub.sendMessage("notify", message=msg)
+		self.session.db[self.name]["items"].pop(self.tab.list.get_selected())
+		self.tab.list.remove_item(self.tab.list.get_selected())
