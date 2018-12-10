@@ -29,8 +29,6 @@ class attachFromLocal(object):
 	def upload_image(self, *args, **kwargs):
 		""" allows uploading an image from the computer. In theory
 		"""
-		# toDo: Basically description is not working here. Research on how to add description to uploaded images needs attention.
-		# For now, we fake a description, as it is not being send anymore.
 		image, description  = self.dialog.get_image()
 		if image != None:
 			# Define data structure for this attachment, as will be required by VK API later.

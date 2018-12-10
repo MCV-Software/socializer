@@ -647,7 +647,7 @@ class chatBuffer(baseBuffer):
 	get_post = get_focused_post
 
 	def onFocus(self, event, *args, **kwargs):
-		if event.GetKeyCode() == wx.WXK_UP or event.GetKeyCode() == wx.WXK_DOWN:
+		if event.GetKeyCode() == wx.WXK_UP or event.GetKeyCode() == wx.WXK_DOWN or event.GetKeyCode() == wx.WXK_START or event.GetKeyCode() == wx.WXK_PAGEUP or event.GetKeyCode() == wx.WXK_PAGEDOWN or event.GetKeyCode() == wx.WXK_END:
 			msg = self.get_focused_post()
 			if msg == False: # Handle the case where the last line of the control cannot be matched to anything.
 				return
