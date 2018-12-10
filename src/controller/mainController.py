@@ -135,6 +135,8 @@ class Controller(object):
 		pub.subscribe(self.chat_from_id, "new-chat")
 		pub.subscribe(self.authorisation_failed, "authorisation-failed")
 		pub.subscribe(self.user_profile, "user-profile")
+		pub.subscribe(self.user_online, "user-online")
+		pub.subscribe(self.user_offline, "user-offline")
 		widgetUtils.connect_event(self.window, widgetUtils.CLOSE_EVENT, self.exit)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.update_buffer, menuitem=self.window.update_buffer)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.check_for_updates, menuitem=self.window.check_for_updates)
@@ -172,6 +174,8 @@ class Controller(object):
 		pub.unsubscribe(self.play_audios, "play-audios")
 		pub.unsubscribe(self.view_post, "open-post")
 		pub.unsubscribe(self.update_status_bar, "update-status-bar")
+		pub.unsubscribe(self.user_online, "user-online")
+		pub.unsubscribe(self.user_offline, "user-offline")
 
 	def authorisation_failed(self):
 		commonMessages.bad_authorisation()
@@ -368,6 +372,16 @@ class Controller(object):
 		wx.CallAfter(buffer.get_items)
 		if setfocus: buffer.tab.text.SetFocus()
 		return True
+
+	def user_online(self, event):
+		user_name = self.session.get_user_name(event.user_id, "nom")
+		msg = _(u"{0} is online.").format(user_name,)
+		self.window.notify(_("Socializer"), msg)
+
+	def user_offline(self, event):
+		user_name = self.session.get_user_name(event.user_id, "nom")
+		msg = _(u"{0} is offline.").format(user_name,)
+		self.window.notify(_("Socializer"), msg)
 
 	def get_chat(self, obj=None):
 		""" Searches or creates a chat buffer with the id of the user that is sending or receiving a message.

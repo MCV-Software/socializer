@@ -17,8 +17,6 @@ class worker(threading.Thread):
 			if event.type == VkEventType.MESSAGE_NEW:
 				pub.sendMessage("order-sent-message", obj=event)
 			elif event.type == VkEventType.USER_ONLINE:
-				print "User online"
-				print event.user_id
+				pub.sendMessage("user-online", event=event)
 			elif event.type == VkEventType.USER_OFFLINE:
-				print "User offline"
-				print  event.user_id
+				pub.sendMessage("user-offline", event=event)
