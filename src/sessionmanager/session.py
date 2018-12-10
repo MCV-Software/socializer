@@ -90,28 +90,8 @@ class vkSession(object):
 #   log.exception("The session configuration has failed.")
 
 	def login(self):
-		""" Login  using  credentials from settings.
-		if the user account isn't authorised, it'll call self.authorise() before login.
-		If the access_token has expired, it will call authorise() too, for getting a new access token."""
-
-		if self.settings["vk"]["token"] != None:
-			# Handle special case where you get identical access tokens for two IP addresses.
-			# See https://github.com/manuelcortez/socializer/issues/11
-			try:
-				result = self.vk.login_access_token(self.settings["vk"]["token"])
-				self.logged = True
-				log.debug("Logged.")
-				if result == False:
-					self.authorise()
-			except LoginRequired:
-				self.authorise()
-		else:
-			self.authorise()
-		self.get_my_data()
-
-	def authorise(self):
 		try:
-			self.vk.login(self.settings["vk"]["user"], self.settings["vk"]["password"])
+			self.vk.login(self.settings["vk"]["user"], self.settings["vk"]["password"], filename=paths.config_path(self.session_id+"/vkconfig.json"))
 			self.settings["vk"]["token"] = self.vk.client._session.access_token
 			self.settings.write()
 			self.logged = True
