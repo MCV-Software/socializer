@@ -817,6 +817,7 @@ class peopleBuffer(feedBuffer):
 			# Connect the accept and decline methods from here.
 			widgetUtils.connect_event(m, widgetUtils.MENU, self.accept_friendship, menuitem=m.accept)
 			widgetUtils.connect_event(m, widgetUtils.MENU, self.decline_friendship, menuitem=m.decline)
+			widgetUtils.connect_event(m, widgetUtils.MENU, self.keep_as_follower, menuitem=m.keep_as_follower)
 		else:
 			m = menus.peopleMenu(is_request=False)
 		# It is not allowed to send messages to people who is not your friends, so let's disble it if we're in a pending or outgoing requests folder.
@@ -837,6 +838,9 @@ class peopleBuffer(feedBuffer):
 		pass
 
 	def decline_friendship(self, *args, **kwargs):
+		pass
+
+	def keep_as_follower(self, *args, **kwargs):
 		pass
 
 class requestsBuffer(peopleBuffer):
@@ -861,7 +865,9 @@ class requestsBuffer(peopleBuffer):
 		return retrieved
 
 	def accept_friendship(self, *args, **kwargs):
-		""" Adds a person to a list of friends. This method is done for accepting someone else's friend requet."""
+		""" Adds a person to a list of friends. This method is done for accepting someone else's friend request.
+		https://vk.com/dev/friends.add
+		"""
 		person = self.get_post()
 		result = self.session.vk.client.friends.add(user_id=person["id"])
 		if result == 2:
@@ -871,7 +877,9 @@ class requestsBuffer(peopleBuffer):
 			self.tab.list.remove_item(self.tab.list.get_selected())
 
 	def decline_friendship(self, *args, **kwargs):
-		""" Declines a freind request."""
+		""" Declines a freind request.
+		https://vk.com/dev/friends.delete
+		"""
 		person = self.get_post()
 		result = self.session.vk.client.friends.delete(user_id=person["id"])
 		if "out_request_deleted" in result:
@@ -881,3 +889,15 @@ class requestsBuffer(peopleBuffer):
 		pub.sendMessage("notify", message=msg)
 		self.session.db[self.name]["items"].pop(self.tab.list.get_selected())
 		self.tab.list.remove_item(self.tab.list.get_selected())
+
+	def keep_as_follower(self, *args, **kwargs):
+		""" Adds a person to The followers list of the current user.
+		https://vk.com/dev/friends.add
+		"""
+		person = self.get_post()
+		result = self.session.vk.client.friends.add(user_id=person["id"], follow=1)
+		if result == 2:
+			msg = _(u"{0} {1} is following you.").format(person["first_name"], person["last_name"])
+			pub.sendMessage("notify", message=msg)
+			self.session.db[self.name]["items"].pop(self.tab.list.get_selected())
+			self.tab.list.remove_item(self.tab.list.get_selected())

@@ -57,6 +57,8 @@ class peopleMenu(wx.Menu):
 		self.Append(self.accept)
 		self.decline = wx.MenuItem(self, wx.NewId(), _(u"Decline"))
 		self.Append(self.decline)
+		self.keep_as_follower = wx.MenuItem(self, wx.NewId(), _(u"Keep as follower"))
+		self.Append(self.keep_as_follower)
 
 class commentMenu(wx.Menu):
 	def __init__(self, *args, **kwargs):
