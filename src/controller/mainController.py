@@ -230,6 +230,7 @@ class Controller(object):
 
 	def exit(self, *args, **kwargs):
 		log.debug("Receibed an exit signal. closing...")
+		self.set_offline()
 		self.disconnect_events()
 		self.window.Destroy()
 		wx.GetApp().ExitMainLoop()
@@ -421,6 +422,12 @@ class Controller(object):
 			r = self.session.vk.client.account.setOnline()
 		except:
 			log.error("Error in setting online for the current user")
+
+	def set_offline(self):
+		try:
+			r = self.session.vk.client.account.setOffline()
+		except:
+			log.error("Error in setting offline status for the current user")
 
 	def create_unread_messages(self):
 		try:
