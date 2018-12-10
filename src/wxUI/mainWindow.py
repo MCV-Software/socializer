@@ -123,3 +123,10 @@ class mainWindow(wx.Frame):
 
 	def remove_buffer(self, pos):
 		self.tb.DeletePage(pos)
+
+	def notify(self, title, text):
+		try:
+			self.notification = wx.adv.NotificationMessage(title, text, parent=self)
+		except AttributeError:
+			self.notification = wx.NotificationMessage(title, text)
+		self.notification.Show()
