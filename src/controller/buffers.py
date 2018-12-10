@@ -613,7 +613,6 @@ class empty(object):
 
 class chatBuffer(baseBuffer):
 
-
 	def insert(self, item, reversed=False):
 		""" Add a new item to the list. Uses session.composefunc for parsing the dictionary and create a valid result for putting it in the list."""
 		item_ = getattr(renderers, self.compose_function)(item, self.session)
@@ -659,6 +658,7 @@ class chatBuffer(baseBuffer):
 			if msg.has_key("attachments") and len(msg["attachments"]) > 0:
 				self.tab.attachments.list.Enable(True)
 				self.attachments = list()
+				self.tab.attachments.clear()
 				self.parse_attachments(msg)
 			else:
 				self.tab.attachments.list.Enable(False)
