@@ -7,7 +7,6 @@ reverse_timelines = boolean(default=False)
 load_images = boolean(default=True)
 
 [buffers]
-count_for_audio_buffers = integer(default=100)
 count_for_wall_buffers = integer(default=100)
 count_for_video_buffers = integer(default=200)
 
