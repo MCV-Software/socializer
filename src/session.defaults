@@ -2,6 +2,7 @@
 user = string(default="")
 password = string(default="")
 token = string(default="")
+
 [general]
 reverse_timelines = boolean(default=False)
 load_images = boolean(default=True)
@@ -16,3 +17,9 @@ input_device = string(default="Default")
 output_device = string(default="Default")
 session_mute = boolean(default=False)
 current_soundpack = string(default="default")
+
+[chat]
+notify_online = boolean(default=True)
+notify_offline = boolean(default=True)
+open_unread_conversations = boolean(default=True)
+automove_to_conversations = boolean(default=True)

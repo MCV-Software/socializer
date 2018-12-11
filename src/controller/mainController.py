@@ -377,11 +377,15 @@ class Controller(object):
 		return True
 
 	def user_online(self, event):
+		if self.session.settings["chat"]["notify_online"] == False:
+			return
 		user_name = self.session.get_user_name(event.user_id, "nom")
 		msg = _(u"{0} is online.").format(user_name,)
 		self.window.notify(_("Socializer"), msg)
 
 	def user_offline(self, event):
+		if self.session.settings["chat"]["notify_offline"] == False:
+			return
 		user_name = self.session.get_user_name(event.user_id, "nom")
 		msg = _(u"{0} is offline.").format(user_name,)
 		self.window.notify(_("Socializer"), msg)
@@ -389,15 +393,18 @@ class Controller(object):
 	def get_chat(self, obj=None):
 		""" Searches or creates a chat buffer with the id of the user that is sending or receiving a message.
 			obj vk_api.longpoll.EventType: an event wich defines some data from the vk's long poll server."""
+		# If someone else sends a message to the current user.
 		if obj.to_me:
 			buffer = self.search_chat_buffer(obj.user_id)
 			uid = obj.user_id
+		# If the current user sends a message to someone else.
 		else:
 			buffer = self.search_chat_buffer(obj.peer_id)
 			uid = obj.peer_id
+		# If there is no buffer, we must create one in a wxThread so it will not crash.
 		if buffer == None:
-			wx.CallAfter(self.chat_from_id, uid)
-			self.session.soundplayer.play("chat.ogg")
+			wx.CallAfter(self.chat_from_id, uid, setfocus=self.session.settings["chat"]["automove_to_conversations"])
+			self.session.soundplayer.play("message_received.ogg")
 			return
 		# If the chat already exists, let's create a dictionary wich will contains data of the received message.
 		message = {"id": obj.message_id, "user_id": uid, "date": obj.timestamp, "body": obj.text, "attachments": obj.attachments}
@@ -407,7 +414,6 @@ class Controller(object):
 			message_ids = message["id"]
 			results = self.session.vk.client.messages.getById(message_ids=message_ids)
 			message = results["items"][0]
-		# If outbox it's true, it means that message["from_id"] should be the current user. If not, the obj.user_id should be taken.
 		if obj.from_me:
 			message["from_id"] = self.session.user_id
 		else:
@@ -417,7 +423,7 @@ class Controller(object):
 		# ToDo: Clean this code and test how is the database working with this set to True.
 		num = self.session.order_buffer(buffer.name, data, True)
 		buffer.insert(self.session.db[buffer.name]["items"][-1], False)
-		self.session.soundplayer.play("chat.ogg")
+		self.session.soundplayer.play("message_received.ogg")
 
 	def set_online(self):
 		try:
@@ -432,6 +438,8 @@ class Controller(object):
 			log.error("Error in setting offline status for the current user")
 
 	def create_unread_messages(self):
+		if self.session.settings["chat"]["open_unread_conversations"] == False:
+			return
 		try:
 			log.debug("Getting possible unread messages.")
 			msgs = self.session.vk.client.messages.getDialogs(count=200, unread=1)
@@ -456,7 +464,7 @@ class Controller(object):
 	def get_audio_albums(self, user_id=None):
 		try:
 			log.debug("Create audio albums...")
-			albums = self.session.vk.client.audio.getAlbums(owner_id=user_id)
+			albums = self.session.vk.client_audio.get_albums(owner_id=user_id)
 		except VkApiError as ex:
 			if ex.code == 6:
 				log.exception("Something went wrong when getting albums. Waiting a second to retry")
@@ -464,8 +472,8 @@ class Controller(object):
 				return self.get_audio_albums(user_id=user_id)
 			elif ex.code == 10:
 				return
-		self.session.audio_albums = albums["items"]
-		for i in albums["items"]:
+		self.session.audio_albums = albums
+		for i in albums:
 			buffer = buffers.audioAlbum(parent=self.window.tb, name="{0}_audio_album".format(i["id"],), composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], user_id=user_id, album_id=i["id"])
 			buffer.can_get_items = False
 			# Translators: {0} Will be replaced with an audio album's title.

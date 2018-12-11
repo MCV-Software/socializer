@@ -24,6 +24,20 @@ class general(wx.Panel, widgetUtils.BaseDialog):
 		sizer.Add(self.load_images, 0, wx.ALL, 5)
 		self.SetSizer(sizer)
 
+class chat(wx.Panel, widgetUtils.BaseDialog):
+	def __init__(self, panel):
+		super(chat, self).__init__(panel)
+		sizer = wx.BoxSizer(wx.VERTICAL)
+		self.notify_online = wx.CheckBox(self, wx.NewId(), _(u"Show notifications when users are online"))
+		sizer.Add(self.notify_online, 0, wx.ALL, 5)
+		self.notify_offline = wx.CheckBox(self, wx.NewId(), _(u"Show notifications when users are offline"))
+		sizer.Add(self.notify_offline, 0, wx.ALL, 5)
+		self.open_unread_conversations = wx.CheckBox(self, wx.NewId(), _(u"Open unread conversations at startup"))
+		sizer.Add(self.open_unread_conversations, 0, wx.ALL, 5)
+		self.automove_to_conversations = wx.CheckBox(self, wx.NewId(), _(u"Move focus to new conversations"))
+		sizer.Add(self.automove_to_conversations, 0, wx.ALL, 5)
+		self.SetSizer(sizer)
+
 class configurationDialog(widgetUtils.BaseDialog):
 
 	def __init__(self, title):
@@ -36,6 +50,11 @@ class configurationDialog(widgetUtils.BaseDialog):
 		self.general = general(self.notebook)
 		self.notebook.AddPage(self.general, _(u"General"))
 		self.general.SetFocus()
+
+	def create_chat(self):
+		self.chat = chat(self.notebook)
+		self.notebook.AddPage(self.chat, _(u"Chat settings"))
+
 
 	def realize(self):
 		self.sizer.Add(self.notebook, 0, wx.ALL, 5)
