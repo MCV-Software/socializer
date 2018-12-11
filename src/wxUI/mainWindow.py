@@ -8,7 +8,7 @@ class mainWindow(wx.Frame):
 		mb = wx.MenuBar()
 		app_ = wx.Menu()
 		create = wx.Menu()
-		self.audio_album = create.Append(wx.NewId(), _(u"Audio album"))
+#		self.audio_album = create.Append(wx.NewId(), _(u"Audio album"))
 		self.video_album = create.Append(wx.NewId(), _(u"Video album"))
 		app_.Append(wx.NewId(), _(u"Create"), create)
 		delete = wx.Menu()
