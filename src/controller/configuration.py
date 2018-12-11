@@ -23,7 +23,6 @@ class configuration(object):
 		self.response = self.dialog.get_response()
 
 	def save_configuration(self):
-		self.session.settings["buffers"]["count_for_audio_buffers"] = self.dialog.get_value("general", "audio_buffers_count")
 		self.session.settings["buffers"]["count_for_video_buffers"] = self.dialog.get_value("general", "video_buffers_count")
 		self.session.settings["general"]["load_images"] = self.dialog.get_value("general", "load_images")
 		self.session.settings["chat"]["notify_online"] = self.dialog.get_value("chat", "notify_online")
