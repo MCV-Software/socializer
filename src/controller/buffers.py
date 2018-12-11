@@ -672,7 +672,13 @@ class chatBuffer(baseBuffer):
 	def connect_events(self):
 		widgetUtils.connect_event(self.tab.send, widgetUtils.BUTTON_PRESSED, self.send_chat_to_user)
 		widgetUtils.connect_event(self.tab.attachment, widgetUtils.BUTTON_PRESSED, self.add_attachment)
+		widgetUtils.connect_event(self.tab.text, widgetUtils.KEYPRESS, self.catch_enter)
 		self.tab.set_focus_function(self.onFocus)
+
+	def catch_enter(self, event, *args, **kwargs):
+		if event.GetKeyCode() == wx.WXK_RETURN:
+			self.send_chat_to_user()
+		event.Skip()
 
 	def get_items(self, show_nextpage=False):
 		if self.can_get_items == False: return
