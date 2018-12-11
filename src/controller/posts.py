@@ -79,6 +79,9 @@ class postController(object):
 		self.comments = self.session.vk.client.wall.getComments(owner_id=user, post_id=id, need_likes=1, count=100, extended=1, preview_length=0)
 		comments_ = []
 		for i in self.comments["items"]:
+			# If comment has a "deleted" key it should not be displayed, obviously.
+			if "deleted" in i:
+				continue
 			from_ = get_user(i["from_id"], self.comments["profiles"])
 			if i.has_key("reply_to_user"):
 				extra_info = get_user(i["reply_to_user"], self.comments["profiles"])
@@ -142,7 +145,7 @@ class postController(object):
 			for i in urls:
 				links.append({"link": {"title": _(U"Untitled link"), "url": i}, "type": "link"})
 			for i in links:
-				attachments.append(extract_attachment(i))
+				attachments.append(utils.add_attachment(i))
 				self.attachments.append(i)
 		if len(self.attachments) > 0:
 			self.dialog.attachments.list.Enable(True)
