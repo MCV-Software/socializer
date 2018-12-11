@@ -12,7 +12,7 @@ class mainWindow(wx.Frame):
 		self.video_album = create.Append(wx.NewId(), _(u"Video album"))
 		app_.Append(wx.NewId(), _(u"Create"), create)
 		delete = wx.Menu()
-		self.delete_audio_album = delete.Append(wx.NewId(), _(u"Audio album"))
+#		self.delete_audio_album = delete.Append(wx.NewId(), _(u"Audio album"))
 		self.delete_video_album = delete.Append(wx.NewId(), _(u"Video album"))
 		app_.Append(wx.NewId(), _(u"Delete"), delete)
 		self.settings_dialog = app_.Append(wx.NewId(), _(u"Preferences"))
