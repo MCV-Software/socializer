@@ -709,7 +709,9 @@ class chatBuffer(baseBuffer):
 
 	def send_chat_to_user(self, *args, **kwargs):
 		text = self.tab.text.GetValue()
-#		if text == "" and not hasattr(self, "attachments_to_be_sent"): return
+		if text == "" and not hasattr(self, "attachments_to_be_sent"):
+			wx.Bell()
+			return
 		call_threaded(self._send_message, text=text)
 
 	def _send_message(self, text):
