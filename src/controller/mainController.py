@@ -474,7 +474,7 @@ class Controller(object):
 				return
 		self.session.audio_albums = albums
 		for i in albums:
-			buffer = buffers.audioAlbum(parent=self.window.tb, name="{0}_audio_album".format(i["id"],), composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], user_id=user_id, album_id=i["id"])
+			buffer = buffers.audioAlbum(parent=self.window.tb, name="{0}_audio_album".format(i["id"],), composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio", owner_id=user_id, album_id=i["id"])
 			buffer.can_get_items = False
 			# Translators: {0} Will be replaced with an audio album's title.
 			name_ = _(u"Album: {0}").format(i["title"],)
