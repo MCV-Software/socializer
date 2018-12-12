@@ -2,6 +2,8 @@
 import threading
 from vk_api.longpoll import VkLongPoll, VkEventType
 from pubsub import pub
+from requests.exceptions import ReadTimeout
+
 from logging import getLogger
 log = getLogger("controller.longpolThread")
 
@@ -13,10 +15,13 @@ class worker(threading.Thread):
 		self.longpoll = VkLongPoll(self.session.vk.session_object)
 
 	def run(self):
-		for event in self.longpoll.listen():
-			if event.type == VkEventType.MESSAGE_NEW:
-				pub.sendMessage("order-sent-message", obj=event)
-			elif event.type == VkEventType.USER_ONLINE:
-				pub.sendMessage("user-online", event=event)
-			elif event.type == VkEventType.USER_OFFLINE:
-				pub.sendMessage("user-offline", event=event)
+		try:
+			for event in self.longpoll.listen():
+				if event.type == VkEventType.MESSAGE_NEW:
+					pub.sendMessage("order-sent-message", obj=event)
+				elif event.type == VkEventType.USER_ONLINE:
+					pub.sendMessage("user-online", event=event)
+				elif event.type == VkEventType.USER_OFFLINE:
+					pub.sendMessage("user-offline", event=event)
+		except ReadTimeout:
+			pub.sendMessage("longpoll-read-timeout")

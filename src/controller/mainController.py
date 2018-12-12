@@ -15,6 +15,7 @@ import output
 import longpollthread
 import selector
 from vk_api.exceptions import LoginRequired, VkApiError
+from requests.exceptions import ConnectionError
 from pubsub import pub
 from mysc.repeating_timer import RepeatingTimer
 from mysc.thread_utils import call_threaded
@@ -139,6 +140,7 @@ class Controller(object):
 		pub.subscribe(self.user_online, "user-online")
 		pub.subscribe(self.user_offline, "user-offline")
 		pub.subscribe(self.notify, "notify")
+		pub.subscribe(self.handle_longpoll_read_timeout, "longpoll-read-timeout")
 		widgetUtils.connect_event(self.window, widgetUtils.CLOSE_EVENT, self.exit)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.update_buffer, menuitem=self.window.update_buffer)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.check_for_updates, menuitem=self.window.check_for_updates)
@@ -193,14 +195,22 @@ class Controller(object):
 				self.window.change_status(_(u"Loading items for {0}").format(i.name,))
 				i.get_items()
 		self.window.change_status(_(u"Ready"))
-		self.longpoll = longpollthread.worker(self.session)
-		self.longpoll.start()
+		self.create_longpoll_thread()
 		self.status_setter = RepeatingTimer(900, self.set_online)
 		self.status_setter.start()
 		self.set_online()
 		self.create_unread_messages()
 		wx.CallAfter(self.get_audio_albums, self.session.user_id)
 		wx.CallAfter(self.get_video_albums, self.session.user_id)
+
+	def create_longpoll_thread(self, notify=False):
+		try:
+			self.longpoll = longpollthread.worker(self.session)
+			self.longpoll.start()
+			if notify:
+				self.notify(message=_(u"Chat server reconnected"))
+		except ConnectionError:
+			pub.sendMessage("longpoll-read-timeout")
 
 	def in_post(self, buffer):
 		buffer = self.search(buffer)
@@ -628,3 +638,11 @@ class Controller(object):
 				self.session.soundplayer.play(sound)
 			if message != "":
 				output.speak(message)
+
+	def handle_longpoll_read_timeout(self):
+		if hasattr(self, "longpoll"):
+			self.notify(message=_(u"Chat disconnected. Trying to connect in 60 seconds"))
+		time.sleep(60)
+		if hasattr(self, "longpoll"):
+			del self.longpoll
+		self.create_longpoll_thread(notify=True)
