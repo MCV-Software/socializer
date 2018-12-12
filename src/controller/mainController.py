@@ -402,7 +402,7 @@ class Controller(object):
 		# If there is no buffer, we must create one in a wxThread so it will not crash.
 		if buffer == None:
 			wx.CallAfter(self.chat_from_id, uid, setfocus=self.session.settings["chat"]["automove_to_conversations"])
-			self.session.soundplayer.play("message_received.ogg")
+			self.session.soundplayer.play("conversation_opened.ogg")
 			return
 		# If the chat already exists, let's create a dictionary wich will contains data of the received message.
 		message = {"id": obj.message_id, "user_id": uid, "date": obj.timestamp, "body": obj.text, "attachments": obj.attachments}
