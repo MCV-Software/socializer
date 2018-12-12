@@ -254,12 +254,7 @@ class Controller(object):
 		dlg = searchDialogs.searchAudioDialog()
 		if dlg.get_response() == widgetUtils.OK:
 			q = dlg.get("term").encode("utf-8")
-			count = 300
-			auto_complete = dlg.get_checkable("auto_complete")
-			lyrics = dlg.get_checkable("lyrics")
-			performer_only = dlg.get_checkable("artist_only")
-			sort = dlg.get_sort_order()
-			newbuff = buffers.audioBuffer(parent=self.window.tb, name=u"{0}_audiosearch".format(q.decode("utf-8"),), session=self.session, composefunc="render_audio", parent_endpoint="audio", endpoint="search", q=q, count=count, auto_complete=auto_complete, lyrics=lyrics, performer_only=performer_only, sort=sort)
+			newbuff = buffers.audioBuffer(parent=self.window.tb, name=u"{0}_audiosearch".format(q.decode("utf-8"),), session=self.session, composefunc="render_audio", parent_endpoint="audio", endpoint="search", q=q)
 			self.buffers.append(newbuff)
 			call_threaded(newbuff.get_items)
 			# Translators: {0} will be replaced with the search term.
