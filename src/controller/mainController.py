@@ -11,6 +11,7 @@ import posts
 import profiles
 import webbrowser
 import logging
+import output
 import longpollthread
 import selector
 from vk_api.exceptions import LoginRequired, VkApiError
@@ -376,14 +377,16 @@ class Controller(object):
 			return
 		user_name = self.session.get_user_name(event.user_id, "nom")
 		msg = _(u"{0} is online.").format(user_name,)
-		self.window.notify(_("Socializer"), msg)
+		sound = "friend_online.ogg"
+		self.notify(msg, sound, self.session.settings["chat"]["notifications"])
 
 	def user_offline(self, event):
 		if self.session.settings["chat"]["notify_offline"] == False:
 			return
 		user_name = self.session.get_user_name(event.user_id, "nom")
 		msg = _(u"{0} is offline.").format(user_name,)
-		self.window.notify(_("Socializer"), msg)
+		sound = "friend_offline.ogg"
+		self.notify(msg, sound, self.session.settings["chat"]["notifications"])
 
 	def get_chat(self, obj=None):
 		""" Searches or creates a chat buffer with the id of the user that is sending or receiving a message.
@@ -617,5 +620,11 @@ class Controller(object):
 	def view_my_profile_in_browser(self, *args, **kwargs):
 		webbrowser.open_new_tab("https://vk.com/id{id}".format(id=self.session.user_id,))
 
-	def notify(self, message=""):
-		self.window.notify(_("Socializer"), message)
+	def notify(self, message="", sound="", type="native"):
+		if type == "native":
+			self.window.notify(_("Socializer"), message)
+		else:
+			if sound != "":
+				self.session.soundplayer.play(sound)
+			if message != "":
+				output.speak(message)

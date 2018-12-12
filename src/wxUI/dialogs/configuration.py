@@ -36,6 +36,12 @@ class chat(wx.Panel, widgetUtils.BaseDialog):
 		sizer.Add(self.open_unread_conversations, 0, wx.ALL, 5)
 		self.automove_to_conversations = wx.CheckBox(self, wx.NewId(), _(u"Move focus to new conversations"))
 		sizer.Add(self.automove_to_conversations, 0, wx.ALL, 5)
+		lbl = wx.StaticText(self, wx.NewId(), _(u"Notification type"))
+		self.notifications = wx.ComboBox(self, wx.NewId(), choices=[_(u"Native"), _(u"Custom"),], value=_(u"Native"), style=wx.CB_READONLY)
+		nbox = wx.BoxSizer(wx.HORIZONTAL)
+		nbox.Add(lbl, 0, wx.ALL, 5)
+		nbox.Add(self.notifications, 0, wx.ALL, 5)
+		sizer.Add(nbox, 0, wx.ALL, 5)
 		self.SetSizer(sizer)
 
 class configurationDialog(widgetUtils.BaseDialog):
