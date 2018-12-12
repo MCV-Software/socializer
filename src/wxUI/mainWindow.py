@@ -2,6 +2,7 @@
 import wx
 import wx.adv
 import application
+from wx.lib.agw import toasterbox
 
 class mainWindow(wx.Frame):
 	def makeMenu(self):
@@ -125,8 +126,17 @@ class mainWindow(wx.Frame):
 		self.tb.DeletePage(pos)
 
 	def notify(self, title, text):
-		try:
-			self.notification = wx.adv.NotificationMessage(title, text, parent=self)
-		except AttributeError:
-			self.notification = wx.NotificationMessage(title, text)
-		self.notification.Show()
+#		try:
+#			self.notification = wx.adv.NotificationMessage(title, text, parent=self)
+#		except AttributeError:
+#			self.notification = wx.NotificationMessage(title, text)
+#		self.notification.Show()
+		tbb= toasterbox.ToasterBox(self, toasterbox.TB_SIMPLE, windowstyle=toasterbox.TB_CAPTION, closingstyle=toasterbox.TB_ONTIME)
+		tbb.SetPopupSize((200, 100))
+		tbb.SetPopupPauseTime(4000)
+		tbb.SetPopupPositionByInt(3)
+		tbb.SetPopupText(text)
+		tbb.SetTitle(title)
+		tbb.SetUseFocus(True)
+		print("Notifycation print")
+		wx.CallAfter(self.Play)

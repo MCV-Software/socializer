@@ -425,6 +425,7 @@ class Controller(object):
 			r = self.session.vk.client.account.setOnline()
 		except:
 			log.error("Error in setting online for the current user")
+		self.window.notify("Socializer", "online now!")
 
 	def set_offline(self):
 		try:
