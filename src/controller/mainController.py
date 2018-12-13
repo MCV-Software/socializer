@@ -196,7 +196,7 @@ class Controller(object):
 				i.get_items()
 		self.window.change_status(_(u"Ready"))
 		self.create_longpoll_thread()
-		self.status_setter = RepeatingTimer(900, self.set_online)
+		self.status_setter = RepeatingTimer(280, self.set_online)
 		self.status_setter.start()
 		self.set_online()
 		self.create_unread_messages()
