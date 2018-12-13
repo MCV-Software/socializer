@@ -57,7 +57,7 @@ def render_person(status, session):
 	if status.has_key("last_seen"):
 		original_date = arrow.get(status["last_seen"]["time"])
 		# Translators: This is the date of last seen
-		last_seen = _(u"{0}").format(original_date.humanize(locale=languageHandler.getLanguage()),)
+		last_seen = _(u"{0}").format(original_date.humanize(locale=languageHandler.curLang[:2]),)
 	# Account suspended or deleted.
 	elif status.has_key("last_seen") == False and status.has_key("deactivated"):
 			last_seen = _(u"Account deactivated")
@@ -76,7 +76,7 @@ def render_newsfeed_item(status, session):
 		user = _(u"{0} has shared the {1}'s post").format(user, session.get_user_name(status["copy_history"][0]["owner_id"]))
 	message = ""
 	original_date = arrow.get(status["date"])
-	created_at = original_date.humanize(locale=languageHandler.getLanguage())
+	created_at = original_date.humanize(locale=languageHandler.curLang[:2])
 	# handle status updates.
 	if status["type"] == "post":
 		message += short_text(status)
@@ -129,9 +129,9 @@ def render_message(message, session):
 	original_date = original_date.to(now.tzinfo)
 	# Format the date here differently depending in if this is the same day for both dates or not.
 	if original_date.day == now.day:
-		created_at = original_date.format(_(u"H:mm."), locale=languageHandler.getLanguage())
+		created_at = original_date.format(_(u"H:mm."), locale=languageHandler.curLang[:2])
 	else:
-		created_at = original_date.format(_(u"H:mm. dddd, MMMM D, YYYY"), locale=languageHandler.getLanguage())
+		created_at = original_date.format(_(u"H:mm. dddd, MMMM D, YYYY"), locale=languageHandler.curLang[:2])
 	# No idea why some messages send "text" instead "body"
 	if message.has_key("body"):
 		body = message["body"]
@@ -147,7 +147,7 @@ def render_status(status, session):
 		user = _(u"{0} has shared the {1}'s post").format(user, session.get_user_name(status["copy_history"][0]["owner_id"]))
 	message = ""
 	original_date = arrow.get(status["date"])
-	created_at = original_date.humanize(locale=languageHandler.getLanguage())
+	created_at = original_date.humanize(locale=languageHandler.curLang[:2])
 	if status.has_key("copy_owner_id"):
 		user = _(u"{0} has shared the {1}'s post").format(user, session.get_user_name(status["copy_owner_id"]))
 	if status["post_type"] == "post" or status["post_type"] == "copy":

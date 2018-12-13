@@ -300,7 +300,7 @@ class baseBuffer(object):
 		For this buffer it updates the date of posts in the list."""
 		post = self.get_post()
 		original_date = arrow.get(post["date"])
-		created_at = original_date.humanize(locale=languageHandler.getLanguage())
+		created_at = original_date.humanize(locale=languageHandler.curLang[:2])
 		self.tab.list.list.SetItem(self.tab.list.get_selected(), 2, created_at)
 
 class feedBuffer(baseBuffer):
@@ -809,7 +809,7 @@ class peopleBuffer(feedBuffer):
 		post = self.session.db[self.name]["items"][self.tab.list.get_selected()]
 		if post.has_key("last_seen") == False: return
 		original_date = arrow.get(post["last_seen"]["time"])
-		created_at = original_date.humanize(locale=languageHandler.getLanguage())
+		created_at = original_date.humanize(locale=languageHandler.curLang[:2])
 		self.tab.list.list.SetItem(self.tab.list.get_selected(), 1, created_at)
 
 	def open_timeline(self, *args, **kwargs):

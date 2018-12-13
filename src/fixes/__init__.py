@@ -9,5 +9,5 @@ if hasattr(sys, "frozen"):
 def setup():
 	fix_requests.fix()
 	if hasattr(sys, "frozen"):
-		fix_win32com.fix()
 		fix_libloader.fix()
+		fix_win32com.fix()
