@@ -79,12 +79,12 @@ def add_attachment(attachment):
 		msg = u"{0}".format(" ".join(renderers.render_audio(attachment["audio"])))
 		tpe = _(u"Audio")
 	elif attachment["type"] == "doc":
-		if attachment["doc"].has_key("preview") and attachment["doc"]["preview"].has_key("audio_msg"):
-			tpe = _(u"Voice message")
-			msg = seconds_to_string(attachment["doc"]["preview"]["audio_msg"]["duration"])
-			print attachment["doc"]["ext"]
-		else:
-			msg = u"{0}".format(attachment["doc"]["title"])
-			tpe = _(u"{0} file").format(attachment["doc"]["ext"])
+		msg = u"{0}".format(attachment["doc"]["title"])
+		tpe = _(u"{0} file").format(attachment["doc"]["ext"])
+	elif attachment["type"] == "audio_message":
+		msg = u"{0}".format(" ".join(renderers.render_audio_message(attachment["audio_message"])))
+		tpe = _(u"Voice message")
+	else:
+		print attachment
 	return [tpe, msg]
 

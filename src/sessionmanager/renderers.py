@@ -174,3 +174,11 @@ def render_video(video, session=None):
 	if video == False:
 		return [_(u"Video not available"), "", ""]
 	return [video["title"], video["description"], utils.seconds_to_string(video["duration"])]
+
+def render_audio_message(audio_message, session=None):
+	""" Render a voice message from VK
+	Example result:
+	["Voice message", "01:30:28"]"""
+	if audio_message == False:
+		return [_(u"Voice message not available"), "", ""]
+	return [utils.seconds_to_string(audio_message["duration"])]

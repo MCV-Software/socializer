@@ -756,17 +756,16 @@ class chatBuffer(baseBuffer):
 			a = posts.audio(session=self.session, postObject=[attachment["audio"]])
 			a.dialog.get_response()
 			a.dialog.Destroy()
-		if attachment["type"] == "link":
+		elif attachment["type"] == "audio_message":
+			link = attachment["audio_message"]["link_mp3"]
+			output.speak(_(u"Playing..."))
+			player.player.play(url=dict(url=link), set_info=False)
+		elif attachment["type"] == "link":
 			output.speak(_(u"Opening URL..."), True)
 			webbrowser.open_new_tab(attachment["link"]["url"])
 		elif attachment["type"] == "doc":
-			if attachment["doc"].has_key("preview") and attachment["doc"]["preview"].has_key("audio_msg"):
-				link = attachment["doc"]["preview"]["audio_msg"]["link_mp3"]
-				output.speak(_(u"Playing..."))
-				player.player.play(url=dict(url=link), set_info=False)
-			else:
-				output.speak(_(u"Opening document in web browser..."))
-				webbrowser.open(attachment["doc"]["url"])
+			output.speak(_(u"Opening document in web browser..."))
+			webbrowser.open(attachment["doc"]["url"])
 		elif attachment["type"] == "video":
 			# it seems VK doesn't like to attach video links as normal URLS, so we'll have to
 			# get the full video object and use its "player" key  which will open a webbrowser in their site with a player for the video.
