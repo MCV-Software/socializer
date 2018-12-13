@@ -20,7 +20,7 @@ from pubsub import pub
 from mysc.repeating_timer import RepeatingTimer
 from mysc.thread_utils import call_threaded
 from mysc import localization
-from sessionmanager import session, utils
+from sessionmanager import session, utils, renderers
 from wxUI import (mainWindow, commonMessages)
 from wxUI.dialogs import search as searchDialogs
 from wxUI.dialogs import timeline, creation
@@ -432,6 +432,10 @@ class Controller(object):
 		num = self.session.order_buffer(buffer.name, data, True)
 		buffer.insert(self.session.db[buffer.name]["items"][-1], False)
 		self.session.soundplayer.play("message_received.ogg")
+		# Check if we have to read the message aloud
+		if buffer == self.get_current_buffer():
+			rendered_message = renderers.render_message(message, self.session)
+			output.speak(rendered_message[0])
 
 	def set_online(self):
 		try:
