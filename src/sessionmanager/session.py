@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+import os
 import logging
 import languageHandler
 import paths
 import vkSessionHandler
 import sound
+import core
 from config_utils import Configuration, ConfigurationResetException
 from pubsub import pub
 from vk_api.exceptions import LoginRequired, VkApiError
@@ -84,14 +86,15 @@ class vkSession(object):
 		file_ = "%s/session.conf" % (self.session_id,)
 #  try:
 		log.debug("Creating config file %s" % (file_,))
-		self.settings = Configuration(paths.config_path(file_), paths.app_path("session.defaults"))
+		self.settings = Configuration(os.path.join(paths.config_path(), file_), os.path.join(paths.app_path(), "session.defaults"))
 		self.soundplayer = sound.soundSystem(self.settings["sound"])
 #  except:
 #   log.exception("The session configuration has failed.")
 
 	def login(self):
 		try:
-			self.vk.login(self.settings["vk"]["user"], self.settings["vk"]["password"], filename=paths.config_path(self.session_id+"/vkconfig.json"))
+			config_filename = os.path.join(paths.config_path(), self.session_id, "vkconfig.json")
+			self.vk.login(self.settings["vk"]["user"], self.settings["vk"]["password"], filename=config_filename)
 			self.settings["vk"]["token"] = self.vk.client._session.access_token
 			self.settings.write()
 			self.logged = True
@@ -220,3 +223,8 @@ class vkSession(object):
 		log.debug("Getting user identifier...")
 		user = self.vk.client.users.get(fields="uid, first_name, last_name")
 		self.user_id = user[0]["id"]
+#		receipt = core.getReceipt(str(self.user_id))
+#		print receipt
+#		token = core.validateToken(self.vk.session_object.token["access_token"], receipt)
+#		print token
+#		self.vk.session_object.token = dict(access_token=token)
