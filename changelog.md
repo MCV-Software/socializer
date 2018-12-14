@@ -2,18 +2,19 @@
 
 ## Changes in the current build ()
 
-* Added two more buffers: "Followers" and "I follow", located in the people buffer, under "friendship requests".
+* Added two more buffers: "Pending requests" and "I follow", located in the people buffer, under "friendship requests".
 * Added an experimental photo viewer. Will show options for displaying  the next and previous photo if the current post contains multiple images. Fullscreen button still doesn't work.
-* Improved chats, now they should be more stable. Also you will be able to send the message by pressing enter in the text box. If you are trying to send the same message multiple times, you will be warned.
+* Improved the chat features present in the application. Read documentation to get a full understanding about how it works now.
 * Added video management (my videos, video albums and video search). For playing videos, you will be redirected to a website in your browser due to the VK'S policy.
 * Added a setting that allows you to specify if you want socializer to load images when you are opening posts. It could be useful for slow connections or those who  don't want images to be loaded.
 * Added basic tagging for users in posts and comments. You can tag only people in your friends buffer.
 * Added a basic user profile viewer.
-* Added support for listening voice messages in chats. Currently it is not possible to send them, until the new API will be released.
+* Added support for listening voice messages in chats. Currently it is not possible to send them.
 * Fixed an error that was making Socializer unable to display chat history properly. It was showing the first 200 items in a  conversation instead the last 200 items. Now chat will be displayed accordingly.
 * Changed the chat history widget from list of items to a read only text box, similar to how it was displayed in skype. Now the widget should be fully visible and messages will work in the same way.
 * It is possible to play songs sent in a chat message by opening them from the attachments panel.
-* Reimplemented most of the audio playback methods.
+* Reimplemented most of the audio playback methods (audio albums buffer still not working).
+* Added some notifications and chat notifications when friends are online and offline. Most notifications can be configured from settings.
 
 ## Changes in build 2016.07.08 (08/07/2016)
 
