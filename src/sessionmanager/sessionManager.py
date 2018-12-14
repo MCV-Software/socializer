@@ -23,10 +23,9 @@ class sessionManagerController(object):
 	def fill_list(self):
 		log.debug("Filling the session list...")
 		for i in os.listdir(paths.config_path()):
-			if os.path.isdir(paths.config_path(i)):
+			if os.path.isdir(os.path.join(paths.config_path(), i)):
 				log.debug("Adding session %s" % (i,))
-				strconfig = "%s/session.conf" % (paths.config_path(i))
-				config_test = Configuration(strconfig)
+				config_test = Configuration(os.path.join(paths.config_path(), i, "session.conf"))
 				name = config_test["vk"]["user"]
 				if name != "" and config_test["vk"]["password"] != "":
 					self.session = i
@@ -39,9 +38,8 @@ class sessionManagerController(object):
 			location = (str(time.time())[-6:])
 			log.debug("Creating session in the %s path" % (location,))
 			s = session.vkSession(location)
-			path = paths.config_path(location)
+			path = os.path.join(paths.config_path(), location)
 			if not os.path.exists(path):
-				log.debug("Creating %s path" % (paths.config_path(path),))
 				os.mkdir(path)
 			s.get_configuration()
 			self.get_authorisation(s)

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+import os
 import logging
 from logging.handlers import RotatingFileHandler
 import paths
@@ -19,12 +21,12 @@ logger.setLevel(logging.DEBUG)
 
 #handlers
 
-app_handler = RotatingFileHandler(paths.logs_path(APP_LOG_FILE), mode="w")
+app_handler = RotatingFileHandler(os.path.join(paths.logs_path(), APP_LOG_FILE), mode="w")
 app_handler.setFormatter(formatter)
 app_handler.setLevel(logging.DEBUG)
 logger.addHandler(app_handler)
 
-error_handler = logging.FileHandler(paths.logs_path(ERROR_LOG_FILE), mode="w")
+error_handler = logging.FileHandler(os.path.join(paths.logs_path(), ERROR_LOG_FILE), mode="w")
 error_handler.setFormatter(formatter)
 error_handler.setLevel(logging.ERROR)
 logger.addHandler(error_handler)

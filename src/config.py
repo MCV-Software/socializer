@@ -1,4 +1,5 @@
 # -*- coding: cp1252 -*-
+import os
 import config_utils
 import paths
 import logging
@@ -12,5 +13,5 @@ app = None
 def setup ():
  global app
  log.debug("Loading global app settings...")
- app = config_utils.load_config(paths.config_path(MAINFILE), paths.app_path(MAINSPEC))
+ app = config_utils.load_config(os.path.join(paths.config_path(), MAINFILE), os.path.join(paths.app_path(), MAINSPEC))
  

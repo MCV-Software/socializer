@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """ Sound utilities for socialized."""
+from __future__ import unicode_literals
 import sys
 import os
 import logging as original_logger 
@@ -17,12 +18,12 @@ class soundSystem(object):
 	def check_soundpack(self):
 		""" Checks if the folder where live the current soundpack exists."""
 		self.soundpack_OK = False
-		if os.path.exists(paths.sound_path(self.config["current_soundpack"])):
-			self.path = paths.sound_path(self.config["current_soundpack"])
+		if os.path.exists(os.path.join(paths.sound_path(), self.config["current_soundpack"])):
+			self.path = os.path.join(paths.sound_path(), self.config["current_soundpack"])
 			self.soundpack_OK = True
-		elif os.path.exists(paths.sound_path("default")):
+		elif os.path.exists(os.path.join(paths.sound_path(), "default")):
 			log.error("The soundpack does not exist, using default...")
-			self.path = paths.sound_path("default")
+			self.path = os.path.join(paths.sound_path(), "default")
 			self.soundpack_OK = True
 		else:
 			log.error("The current soundpack could not be found and the default soundpack has been deleted, Socializer will not play sounds.")

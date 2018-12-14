@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+import sys
 import platform
 import os
 import sys
@@ -9,47 +11,38 @@ from functools import wraps
 
 mode = "portable"
 directory = None
+fsencoding = sys.getfilesystemencoding()
 
 #log = logging.getLogger("paths")
 
-def merge_paths(func):
-	@wraps(func)
-	def merge_paths_wrapper(*a):
-		return unicode(os.path.join(func(), *a))
-	return merge_paths_wrapper
-
-@merge_paths
 def app_path():
 	return paths_.app_path()
 
-@merge_paths
 def config_path():
 	global mode, directory
 	if mode == "portable":
-		if directory != None: path = os.path.join(directory, "config")
-		elif directory == None: path = app_path(u"config")
+		if directory != None: path = os.path.join(directory.decode(fsencoding), "config")
+		elif directory == None: path = os.path.join(app_path().decode(fsencoding), "config")
 	elif mode == "installed":
-		path = data_path("config")
+		path = os.path.join(data_path().decode(fsencoding), "config")
 	if not os.path.exists(path):
 #		log.debug("%s path does not exist, creating..." % (path,))
 		os.mkdir(path)
 	return path
 
-@merge_paths
 def logs_path():
 	global mode, directory
 	if mode == "portable":
-		if directory != None: path = os.path.join(directory, "logs")
-		elif directory == None: path = app_path(u"logs")
+		if directory != None: path = os.path.join(directory.decode(fsencoding), "logs")
+		elif directory == None: path = os.path.join(app_path().decode(fsencoding), "logs")
 	elif mode == "installed":
-		path = data_path("logs")
+		path = os.path.join(data_path().decode(fsencoding), "logs")
 	if not os.path.exists(path):
 #		log.debug("%s path does not exist, creating..." % (path,))
 		os.mkdir(path)
 	return path
 
-@merge_paths
-def data_path(app_name='TW blue'):
+def data_path(app_name='socializer'):
 	if platform.system() == "Windows":
 		data_path = os.path.join(os.getenv("AppData"), app_name)
 	else:
@@ -58,22 +51,19 @@ def data_path(app_name='TW blue'):
 		os.mkdir(data_path)
 	return data_path
 
-@merge_paths
 def locale_path():
-	return app_path(u"locales")
+	return os.path.join(app_path().decode(fsencoding), "locales")
 
-@merge_paths
 def sound_path():
-	return app_path(u"sounds")
+	return os.path.join(app_path().decode(fsencoding), "sounds")
 
-@merge_paths
 def com_path():
 	global mode, directory
 	if mode == "portable":
-		if directory != None: path = os.path.join(directory, "com_cache")
-		elif directory == None: path = app_path(u"com_cache")
+		if directory != None: path = os.path.join(directory.decode(fsencoding), "com_cache")
+		elif directory == None: path = os.path.join(app_path().decode(fsencoding), "com_cache")
 	elif mode == "installed":
-		path = data_path(u"com_cache")
+		path = os.path.join(data_path().decode(fsencoding), "com_cache")
 	if not os.path.exists(path):
 #		log.debug("%s path does not exist, creating..." % (path,))
 		os.mkdir(path)

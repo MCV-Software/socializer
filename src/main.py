@@ -21,7 +21,7 @@ def setup():
 	log.debug("Starting Socializer %s" % (application.version,))
 	config.setup()
 	log.debug("Using %s %s" % (platform.system(), platform.architecture()[0]))
-	log.debug("Application path is %s" % (paths.app_path(),))
+	log.debug("Application path is %s" % (paths.app_path().decode(paths.fsencoding),))
 	log.debug("config path  is %s" % (paths.config_path(),))
 	output.setup()
 	languageHandler.setLanguage(config.app["app-settings"]["language"])
