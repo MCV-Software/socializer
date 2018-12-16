@@ -231,6 +231,11 @@ class Controller(object):
 		call_threaded(utils.download_file, url, filename, self.window)
 
 	def play_audio(self, audio_object):
+		# Restricted audios does not include an URL paramether.
+		# Restriction can be due to licensed content to unauthorized countries.
+		if "url" in audio_object and audio_object["url"] =="":
+			self.notify(message=_(u"This file could not be played because it is not allowed in your country"))
+			return
 		call_threaded(player.player.play, audio_object)
 
 	def play_audios(self, audios):

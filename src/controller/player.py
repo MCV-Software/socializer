@@ -91,7 +91,8 @@ class audioPlayer(object):
 
 	def play_all(self, list_of_urls, shuffle=False):
 		self.stop()
-		self.queue = list_of_urls
+		# Skip all country restricted tracks as they are not playable here.
+		self.queue = [i for i in list_of_urls if i["url"] != ""]
 		if shuffle:
 			random.shuffle(self.queue)
 		self.play(self.queue[0])
