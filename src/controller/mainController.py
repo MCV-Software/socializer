@@ -198,7 +198,7 @@ class Controller(object):
 		self.create_longpoll_thread()
 		self.status_setter = RepeatingTimer(280, self.set_online)
 		self.status_setter.start()
-		self.set_online()
+		self.set_online(notify=True)
 		self.create_unread_messages()
 		wx.CallAfter(self.get_audio_albums, self.session.user_id)
 		wx.CallAfter(self.get_video_albums, self.session.user_id)
@@ -443,12 +443,13 @@ class Controller(object):
 			rendered_message = renderers.render_message(message, self.session)
 			output.speak(rendered_message[0])
 
-	def set_online(self):
+	def set_online(self, notify=False):
 		try:
 			r = self.session.vk.client.account.setOnline()
 		except:
 			log.error("Error in setting online for the current user")
-		self.window.notify("Socializer", "online now!")
+		if notify:
+			self.window.notify("Socializer", "online now!")
 
 	def set_offline(self):
 		try:
