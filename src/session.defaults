@@ -2,6 +2,7 @@
 user = string(default="")
 password = string(default="")
 token = string(default="")
+use_alternative_tokens = boolean(default=False)
 
 [general]
 reverse_timelines = boolean(default=False)

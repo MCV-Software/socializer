@@ -94,8 +94,8 @@ class vkSession(object):
 	def login(self):
 		try:
 			config_filename = os.path.join(paths.config_path(), self.session_id, "vkconfig.json")
-			self.vk.login(self.settings["vk"]["user"], self.settings["vk"]["password"], filename=config_filename)
-			self.settings["vk"]["token"] = self.vk.client._session.access_token
+			self.vk.login(self.settings["vk"]["user"], self.settings["vk"]["password"], token=self.settings["vk"]["token"], alt_token=self.settings["vk"]["use_alternative_tokens"], filename=config_filename)
+			self.settings["vk"]["token"] = self.vk.session_object.token["access_token"]
 			self.settings.write()
 			self.logged = True
 			self.get_my_data()
@@ -130,13 +130,15 @@ class vkSession(object):
 
 	def get_page(self, name="", show_nextpage=False, endpoint="", *args, **kwargs):
 		data = None
-		if "audio" in endpoint:
+		if "audio" in endpoint and self.settings["vk"]["use_alternative_tokens"]:
+			log.info("Using alternative audio methods.")
 			c = self.vk.client_audio
 		else:
 			c = self.vk.client
 		if kwargs.has_key("parent_endpoint"):
 			p = kwargs["parent_endpoint"]
-			if "audio" in p:
+			if "audio" in p and self.settings["vk"]["use_alternative_tokens"]:
+				log.info("Using alternative audio methods.")
 				c = self.vk.client_audio
 			kwargs.pop("parent_endpoint")
 		try:

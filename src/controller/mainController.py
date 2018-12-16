@@ -231,6 +231,7 @@ class Controller(object):
 		call_threaded(utils.download_file, url, filename, self.window)
 
 	def play_audio(self, audio_object):
+		print audio_object
 		call_threaded(player.player.play, audio_object)
 
 	def play_audios(self, audios):
@@ -477,8 +478,12 @@ class Controller(object):
 	def get_audio_albums(self, user_id=None):
 		try:
 			log.debug("Create audio albums...")
-			albums = self.session.vk.client_audio.get_albums(owner_id=user_id)
-		except VkApiError as ex:
+			if self.session.settings["vk"]["use_alternative_tokens"]:
+				albums = self.session.vk.client_audio.get_albums(owner_id=user_id)
+			else:
+				albums = self.session.vk.client.audio.getPlaylists(owner_id=user_id)
+				albums = albums["items"]
+		except SyntaxError:#VkApiError as ex:
 			if ex.code == 6:
 				log.exception("Something went wrong when getting albums. Waiting a second to retry")
 				time.sleep(2)

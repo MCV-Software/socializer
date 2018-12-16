@@ -504,6 +504,7 @@ class videoBuffer(feedBuffer):
 			selected = 0
 		output.speak(_(u"Opening video in webbrowser..."))
 		webbrowser.open_new_tab(self.session.db[self.name]["items"][selected]["player"])
+#		print self.session.db[self.name]["items"][selected]
 		return True
 
 	def open_post(self, *args, **kwargs):
