@@ -29,6 +29,10 @@ class baseBuffer(object):
 
 	def get_post(self):
 		""" Return the currently focused post."""
+		# Handle case where there are no items in the buffer.
+		if self.tab.list.get_count() == 0:
+			wx.Bell()
+			return None
 		return self.session.db[self.name]["items"][self.tab.list.get_selected()]
 
 	def __init__(self, parent=None, name="", session=None, composefunc=None, *args, **kwargs):
@@ -169,6 +173,8 @@ class baseBuffer(object):
 		""" Returns contextual menu options. They will change according to the focused item"""
 		m = menus.postMenu()
 		p = self.get_post()
+		if p == None:
+			return
 		if p.has_key("likes") == False:
 			m.like.Enable(False)
 		elif p["likes"]["user_likes"] == 1:
@@ -186,6 +192,8 @@ class baseBuffer(object):
 	def do_like(self, *args, **kwargs):
 		""" Set like in the currently focused post."""
 		post = self.get_post()
+		if post == None:
+			return
 		user = post[self.user_key]
 		id = post[self.post_key]
 		if post.has_key("type"):
@@ -201,6 +209,8 @@ class baseBuffer(object):
 	def do_dislike(self, *args, **kwargs):
 		""" Set dislike (undo like) in the currently focused post."""
 		post = self.get_post()
+		if post == None:
+			return
 		user = post[self.user_key]
 		id = post[self.post_key]
 		if post.has_key("type"):
@@ -215,10 +225,12 @@ class baseBuffer(object):
 
 	def do_comment(self, *args, **kwargs):
 		""" Make a comment into the currently focused post."""
+		post = self.get_post()
+		if post == None:
+			return
 		comment = messages.comment(title=_(u"Add a comment"), caption="", text="")
 		if comment.message.get_response() == widgetUtils.OK:
 			msg = comment.message.get_text().encode("utf-8")
-			post = self.get_post()
 			try:
 				user = post[self.user_key]
 				id = post[self.post_key]
@@ -254,6 +266,8 @@ class baseBuffer(object):
 	def play_audio(self, *args, **kwargs):
 		""" Play audio in currently focused buffer, if possible."""
 		post = self.get_post()
+		if post == None:
+			return
 		if post.has_key("type") and post["type"] == "audio":
 			pub.sendMessage("play-audio", audio_object=post["audio"]["items"][0])
 			return True
@@ -261,6 +275,8 @@ class baseBuffer(object):
 	def open_person_profile(self, *args, **kwargs):
 		""" Views someone's user profile."""
 		selected = self.get_post()
+		if selected == None:
+			return
 		# Check all possible keys for an user object in VK API.
 		keys = ["from_id", "source_id", "id"]
 		for i in keys:
@@ -270,6 +286,8 @@ class baseBuffer(object):
 	def open_post(self, *args, **kwargs):
 		""" Opens the currently focused post."""
 		post = self.get_post()
+		if post == None:
+			return
 		if post.has_key("type") and post["type"] == "audio":
 			a = posts.audio(self.session, post["audio"]["items"])
 			a.dialog.get_response()
@@ -290,6 +308,8 @@ class baseBuffer(object):
 	def get_users(self):
 		""" Returns source user in the post."""
 		post = self.get_post()
+		if post == None:
+			return
 		if post.has_key("type") == False:
 			return [post["from_id"]]
 		else:
@@ -299,6 +319,8 @@ class baseBuffer(object):
 		""" Function executed when the item in a list is selected.
 		For this buffer it updates the date of posts in the list."""
 		post = self.get_post()
+		if post == None:
+			return
 		original_date = arrow.get(post["date"])
 		created_at = original_date.humanize(locale=languageHandler.curLang[:2])
 		self.tab.list.list.SetItem(self.tab.list.get_selected(), 2, created_at)
@@ -361,13 +383,17 @@ class audioBuffer(feedBuffer):
 	def play_audio(self, *args, **kwargs):
 		selected = self.tab.list.get_selected()
 		if selected == -1:
+			return
+		if selected == -1:
 			selected = 0
 		pub.sendMessage("play-audio", audio_object=self.session.db[self.name]["items"][selected])
 		return True
 
 	def play_next(self, *args, **kwargs):
 		selected = self.tab.list.get_selected()
-		if selected < 0 or selected == self.tab.list.get_count()-1:
+		if selected == -1:
+			return
+		elif selected < 0 or selected == self.tab.list.get_count()-1:
 			selected = 0
 		if self.tab.list.get_count() <= selected+1:
 			newpos = 0
@@ -378,7 +404,9 @@ class audioBuffer(feedBuffer):
 
 	def play_previous(self, *args, **kwargs):
 		selected = self.tab.list.get_selected()
-		if selected <= 0:
+		if selected == -1:
+			return
+		elif selected <= 0:
 			selected = self.tab.list.get_count()
 		newpos = selected-1
 		self.tab.list.select_item(newpos)
@@ -386,6 +414,8 @@ class audioBuffer(feedBuffer):
 
 	def open_post(self, *args, **kwargs):
 		selected = self.tab.list.get_selected()
+		if selected == 0 or selected == -1:
+			return
 		audios = [self.session.db[self.name]["items"][selected]]
 		a = posts.audio(self.session, audios)
 		a.dialog.get_response()
@@ -395,6 +425,8 @@ class audioBuffer(feedBuffer):
 		selected = self.tab.list.get_selected()
 		if selected == -1:
 			selected = 0
+		if self.name not in self.session.db:
+			return
 		audios = [i for i in self.session.db[self.name]["items"][selected:]]
 		pub.sendMessage("play-audios", audios=audios)
 		return True
@@ -423,6 +455,8 @@ class audioBuffer(feedBuffer):
 
 	def add_to_library(self, *args, **kwargs):
 		post = self.get_post()
+		if post == None:
+			return
 		args = {}
 		args["audio_id"] = post["id"]
 		if post.has_key("album_id"):
@@ -434,6 +468,8 @@ class audioBuffer(feedBuffer):
 
 	def remove_from_library(self, *args, **kwargs):
 		post = self.get_post()
+		if post == None:
+			return
 		args = {}
 		args["audio_id"] = post["id"]
 		args["owner_id"] = self.session.user_id
@@ -443,9 +479,12 @@ class audioBuffer(feedBuffer):
 			self.tab.list.remove_item(self.tab.list.get_selected())
 
 	def move_to_album(self, *args, **kwargs):
+		post = self.get_post()
+		if post == None:
+			return
 		album = selector.album(_(u"Select the album where you want to move this song"), self.session)
 		if album.item == None: return
-		id = self.get_post()["id"]
+		id = post["id"]
 		response = self.session.vk.client.audio.moveToAlbum(album_id=album.item, audio_ids=id)
 		if response == 1:
 		# Translators: Used when the user has moved an audio to an album.
@@ -453,6 +492,8 @@ class audioBuffer(feedBuffer):
 
 	def get_menu(self):
 		p = self.get_post()
+		if p == None:
+			return
 		m = menus.audioMenu()
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.open_post, menuitem=m.open)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.play_audio, menuitem=m.play)
@@ -500,6 +541,8 @@ class videoBuffer(feedBuffer):
 		""" Due to inheritance this method should be called play_audio, but play the currently focused video.
 		Opens a webbrowser pointing to the video's URL."""
 		selected = self.tab.list.get_selected()
+		if self.tab.list.get_count() == 0:
+			return
 		if selected == -1:
 			selected = 0
 		output.speak(_(u"Opening video in webbrowser..."))
@@ -508,11 +551,7 @@ class videoBuffer(feedBuffer):
 		return True
 
 	def open_post(self, *args, **kwargs):
-		selected = self.tab.list.get_selected()
-		audios = [self.session.db[self.name]["items"][selected]]
-		a = posts.audio(self.session, audios)
-		a.dialog.get_response()
-		a.dialog.Destroy()
+				pass
 
 	def remove_buffer(self, mandatory=False):
 		if "me_video" == self.name:
@@ -538,6 +577,8 @@ class videoBuffer(feedBuffer):
 
 	def add_to_library(self, *args, **kwargs):
 		post = self.get_post()
+		if post == None:
+			return
 		args = {}
 		args["video_id"] = post["id"]
 		if post.has_key("album_id"):
@@ -549,6 +590,8 @@ class videoBuffer(feedBuffer):
 
 	def remove_from_library(self, *args, **kwargs):
 		post = self.get_post()
+		if post == None:
+			return
 		args = {}
 		args["video_id"] = post["id"]
 		args["owner_id"] = self.session.user_id
@@ -558,9 +601,12 @@ class videoBuffer(feedBuffer):
 			self.tab.list.remove_item(self.tab.list.get_selected())
 
 	def move_to_album(self, *args, **kwargs):
+		post= self.get_post()
+		if post == None:
+			return
 		album = selector.album(_(u"Select the album where you want to move this video"), self.session, "video_albums")
 		if album.item == None: return
-		id = self.get_post()["id"]
+		id = post["id"]
 		response = self.session.vk.client.video.addToAlbum(album_ids=album.item, video_id=id, target_id=self.session.user_id, owner_id=self.get_post()["owner_id"])
 		if response == 1:
 		# Translators: Used when the user has moved an video  to an album.
@@ -569,6 +615,8 @@ class videoBuffer(feedBuffer):
 	def get_menu(self):
 		""" We'll use the same menu that is used for audio items, as the options are exactly the same"""
 		p = self.get_post()
+		if p == None:
+			return
 		m = menus.audioMenu()
 #		widgetUtils.connect_event(m, widgetUtils.MENU, self.open_post, menuitem=m.open)
 #		widgetUtils.connect_event(m, widgetUtils.MENU, self.play_audio, menuitem=m.play)
@@ -806,11 +854,16 @@ class peopleBuffer(feedBuffer):
 		widgetUtils.connect_event(self.tab.new_chat, widgetUtils.BUTTON_PRESSED, self.new_chat)
 
 	def new_chat(self, *args, **kwargs):
-		user_id = self.session.db[self.name]["items"][self.tab.list.get_selected()]["id"]
+		user = self.get_post()
+		if user == None:
+			return
+		user_id = user["id"]
 		pub.sendMessage("new-chat", user_id=user_id)
 
 	def onFocus(self, *args, **kwargs):
-		post = self.session.db[self.name]["items"][self.tab.list.get_selected()]
+		post = self.get_post()
+		if post == None:
+			return
 		if post.has_key("last_seen") == False: return
 		original_date = arrow.get(post["last_seen"]["time"])
 		created_at = original_date.humanize(locale=languageHandler.curLang[:2])
@@ -880,6 +933,8 @@ class requestsBuffer(peopleBuffer):
 		https://vk.com/dev/friends.add
 		"""
 		person = self.get_post()
+		if person == None:
+			return
 		result = self.session.vk.client.friends.add(user_id=person["id"])
 		if result == 2:
 			msg = _(u"{0} {1} now is your friend.").format(person["first_name"], person["last_name"])
@@ -892,6 +947,8 @@ class requestsBuffer(peopleBuffer):
 		https://vk.com/dev/friends.delete
 		"""
 		person = self.get_post()
+		if person == None:
+			return
 		result = self.session.vk.client.friends.delete(user_id=person["id"])
 		if "out_request_deleted" in result:
 			msg = _(u"You've deleted the friends request to {0} {1}.").format(person["first_name"], person["last_name"])
@@ -906,6 +963,8 @@ class requestsBuffer(peopleBuffer):
 		https://vk.com/dev/friends.add
 		"""
 		person = self.get_post()
+		if person == None:
+			return
 		result = self.session.vk.client.friends.add(user_id=person["id"], follow=1)
 		if result == 2:
 			msg = _(u"{0} {1} is following you.").format(person["first_name"], person["last_name"])
