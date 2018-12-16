@@ -231,7 +231,6 @@ class Controller(object):
 		call_threaded(utils.download_file, url, filename, self.window)
 
 	def play_audio(self, audio_object):
-		print audio_object
 		call_threaded(player.player.play, audio_object)
 
 	def play_audios(self, audios):
@@ -372,7 +371,7 @@ class Controller(object):
 				self.window.change_buffer(pos)
 				return b.tab.text.SetFocus()
 			return
-		buffer = buffers.chatBuffer(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="render_message", session=self.session, count=200,  user_id=user_id, rev=0)
+		buffer = buffers.chatBuffer(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="render_message", session=self.session, count=200,  user_id=user_id, rev=0, extended=True, fields="id, user_id, date, read_state, out, body, attachments, deleted")
 		self.buffers.append(buffer)
 		# Translators: {0} will be replaced with an user.
 		self.window.insert_buffer(buffer.tab, _(u"Chat with {0}").format(self.session.get_user_name(user_id, "ins")), self.window.search("chats"))
