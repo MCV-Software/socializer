@@ -653,6 +653,7 @@ class chatBuffer(baseBuffer):
 			if msg == False: # Handle the case where the last line of the control cannot be matched to anything.
 				return
 			if msg.has_key("read_state") and msg["read_state"] == 0 and msg["id"] not in self.reads:
+				self.session.soundplayer.play("message_unread.ogg")
 				self.reads.append(msg["id"])
 				self.session.db[self.name]["items"][-1]["read_state"] = 1
 #			print msg
@@ -681,7 +682,7 @@ class chatBuffer(baseBuffer):
 			self.send_chat_to_user()
 		event.Skip()
 
-	def get_items(self, show_nextpage=False):
+	def get_items(self, show_nextpage=False, unread=False):
 		if self.can_get_items == False: return
 		retrieved = True # Control variable for handling unauthorised/connection errors.
 		try:
@@ -700,6 +701,8 @@ class chatBuffer(baseBuffer):
 		else:
 			if num > 0:
 				[self.insert(i, False) for i in self.session.db[self.name]["items"][:num]]
+		if unread:
+			self.session.db[self.name]["items"][-1].update(read_state=0)
 		return retrieved
 
 	def add_attachment(self, *args, **kwargs):

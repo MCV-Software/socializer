@@ -67,9 +67,9 @@ class Controller(object):
 		self.buffers.append(home)
 		# Translators: Newsfeed's name in the tree view.
 		self.window.insert_buffer(home.tab, _(u"Home"), self.window.search("posts"))
-		self.repeatedUpdate = RepeatingTimer(180, self.update_all_buffers)
+		self.repeatedUpdate = RepeatingTimer(120, self.update_all_buffers)
 		self.repeatedUpdate.start()
-		self.readMarker = RepeatingTimer(120, self.mark_as_read)
+		self.readMarker = RepeatingTimer(60, self.mark_as_read)
 		self.readMarker.start()
 		feed = buffers.feedBuffer(parent=self.window.tb, name="me_feed", composefunc="render_status", session=self.session, endpoint="get", parent_endpoint="wall", extended=1, count=self.session.settings["buffers"]["count_for_wall_buffers"])
 		self.buffers.append(feed)
@@ -363,7 +363,7 @@ class Controller(object):
 				if i.kwargs.has_key("user_id") and i.kwargs["user_id"] == user_id: return i
 		return None
 
-	def chat_from_id(self, user_id, setfocus=True):
+	def chat_from_id(self, user_id, setfocus=True, unread=False):
 		b = self.search_chat_buffer(user_id)
 		if b != None:
 			pos = self.window.search(b.name)
@@ -378,7 +378,7 @@ class Controller(object):
 		if setfocus:
 			pos = self.window.search(buffer.name)
 			self.window.change_buffer(pos)
-		wx.CallAfter(buffer.get_items)
+		wx.CallAfter(buffer.get_items, unread=unread)
 		if setfocus: buffer.tab.text.SetFocus()
 		return True
 
@@ -411,17 +411,18 @@ class Controller(object):
 			uid = obj.peer_id
 		# If there is no buffer, we must create one in a wxThread so it will not crash.
 		if buffer == None:
-			wx.CallAfter(self.chat_from_id, uid, setfocus=self.session.settings["chat"]["automove_to_conversations"])
+			wx.CallAfter(self.chat_from_id, uid, setfocus=self.session.settings["chat"]["automove_to_conversations"], unread=True)
 			self.session.soundplayer.play("conversation_opened.ogg")
 			return
 		# If the chat already exists, let's create a dictionary wich will contains data of the received message.
-		message = {"id": obj.message_id, "user_id": uid, "date": obj.timestamp, "body": obj.text, "attachments": obj.attachments}
+		message = {"id": obj.message_id, "user_id": uid, "date": obj.timestamp, "body": obj.text, "attachments": obj.attachments, "read_state": 0}
 		# if attachments is true, let's request for the full message with attachments formatted in a better way.
 		# Todo: code improvements. We shouldn't need to request the same message again just for these attachments.
 		if len(message["attachments"]) != 0:
 			message_ids = message["id"]
 			results = self.session.vk.client.messages.getById(message_ids=message_ids)
 			message = results["items"][0]
+			message.update(read_state=0)
 		if obj.from_me:
 			message["from_id"] = self.session.user_id
 		else:
@@ -462,17 +463,14 @@ class Controller(object):
 				time.sleep(2)
 				return self.create_unread_messages()
 		for i in msgs["items"]:
-			wx.CallAfter(self.chat_from_id, i["message"]["user_id"], setfocus=False)
+			wx.CallAfter(self.chat_from_id, i["message"]["user_id"], setfocus=False, unread=True)
 
 	def mark_as_read(self):
-		ids = ""
 		for i in self.buffers:
-			if hasattr(i, "reads"):
-				for z in i.reads:
-					ids = ids+"%d," % (z,)
+			if hasattr(i, "reads") and len(i.reads) != 0:
+				response = self.session.vk.client.messages.markAsRead(peer_id=i.kwargs["user_id"])
 				i.reads = []
-		if ids != "":
-			response = self.session.vk.client.messages.markAsRead(message_ids=ids)
+				time.sleep(1)
 
 	def get_audio_albums(self, user_id=None):
 		try:

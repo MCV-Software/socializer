@@ -7,7 +7,9 @@
 * Audio albums are loaded correctly.
 * It is possible to play audios added by friends appearing in the news feed.
 * Adding and removing an audio file to your library works.
-
+* Unread messages will play a sound when focused.
+* Unread messages will be marked as read when user focuses them.
+ 
 ## Changes in version 0.16 (13.12.2018)
 
 * Added two more buffers: "Pending requests" and "I follow", located in the people buffer, under "friendship requests".
@@ -69,6 +71,3 @@
 * Added a new attachments' list. When a post is opened, this list will show up if there are attachments in the current post (attachments are audio, photos, video and links). You will be able to interact with the supported data (at the moment only photos, videos, audio and links are supported, more will be added in future).
 * Added a changelog  file which could be opened from the help menu.
 * Added a preferences dialogue and a new application menu in the menu bar. From this dialogue you can change the number of items to be loaded for every buffer.
-
----
-© 2016, manuel cortéz.
