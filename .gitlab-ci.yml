@@ -1,0 +1,6 @@
+production:
+  type: deploy
+  script:
+  - pip install --upgrade -r requirements.txt
+  - cd src
+  - python setup.py py2exe
