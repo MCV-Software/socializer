@@ -9,4 +9,4 @@ url = "https://manuelcortez.net/socializer"
 update_url = "https://code.manuelcortez.net/manuelcortez/socializer/raw/master/update-files/socializer.json"
 # The short name will be used for detecting translation files. See languageHandler for more details.
 short_name = "socializer"
-translators = [u"Valeria K (Russian)", u"Manuel Cortez (Spanish)"]
+translators = [u"Darya Ratnikova (Russian)", u"Manuel Cortez (Spanish)"]
