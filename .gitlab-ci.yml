@@ -9,5 +9,5 @@ production:
     - cd dist
   artifacts:
     paths:
-    - *
+    - ./*
     expire_in: 1 week
