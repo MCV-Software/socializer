@@ -8,5 +8,5 @@ production:
     - move src\dist dist
   artifacts:
     paths:
-    - dist
+    - dist/*
     expire_in: 1 week
