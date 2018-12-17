@@ -6,6 +6,8 @@ production:
     - python setup.py py2exe
     - cd ..
     - move src\dist socializer
+  only:
+    - tags
   artifacts:
     paths:
     - socializer\*
