@@ -7,6 +7,9 @@ production:
     - cd ..
     - cd scripts
     - python prepare_zipversion.py
+    - cd ..
+    - move src\dist dist
   artifacts:
-    paths:
+        paths:
     - src\socializer.zip
+    expire_in: 1 week

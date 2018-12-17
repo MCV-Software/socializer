@@ -9,7 +9,10 @@
 * Adding and removing an audio file to your library works.
 * Unread messages will play a sound when focused.
 * Unread messages will be marked as read when user focuses them.
- 
+* Socializer will skip restricted audio tracks. Restricted songs are not allowed to be played in the user's country. Before, playing a restricted track was generating an exception and playback could not resume.
+* Fixed an error when people was trying to open a post in an empty buffer, or accessing the menu when there are no posts in the buffer.
+* Now Socializer will not send a notification every 5 minutes.
+
 ## Changes in version 0.16 (13.12.2018)
 
 * Added two more buffers: "Pending requests" and "I follow", located in the people buffer, under "friendship requests".
