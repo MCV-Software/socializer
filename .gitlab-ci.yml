@@ -5,8 +5,8 @@ production:
     - cd src
     - python setup.py py2exe
     - cd ..
-    - move src\dist dist
+    - move src\dist socializer
   artifacts:
     paths:
-    - dist\*
+    - socializer\*
     expire_in: 1 week
