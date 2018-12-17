@@ -700,7 +700,7 @@ class chatBuffer(baseBuffer):
 			msg = self.get_focused_post()
 			if msg == False: # Handle the case where the last line of the control cannot be matched to anything.
 				return
-			if msg.has_key("read_state") and msg["read_state"] == 0 and msg["id"] not in self.reads:
+			if msg.has_key("read_state") and msg["read_state"] == 0 and msg["id"] not in self.reads and msg.has_key("out") and msg["out"] == 0:
 				self.session.soundplayer.play("message_unread.ogg")
 				self.reads.append(msg["id"])
 				self.session.db[self.name]["items"][-1]["read_state"] = 1

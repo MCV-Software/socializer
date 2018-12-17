@@ -406,10 +406,12 @@ class Controller(object):
 	def get_chat(self, obj=None):
 		""" Searches or creates a chat buffer with the id of the user that is sending or receiving a message.
 			obj vk_api.longpoll.EventType: an event wich defines some data from the vk's long poll server."""
+		message = {}
 		# If someone else sends a message to the current user.
 		if obj.to_me:
 			buffer = self.search_chat_buffer(obj.user_id)
 			uid = obj.user_id
+			message.update(out=0)
 		# If the current user sends a message to someone else.
 		else:
 			buffer = self.search_chat_buffer(obj.peer_id)
@@ -420,7 +422,7 @@ class Controller(object):
 			self.session.soundplayer.play("conversation_opened.ogg")
 			return
 		# If the chat already exists, let's create a dictionary wich will contains data of the received message.
-		message = {"id": obj.message_id, "user_id": uid, "date": obj.timestamp, "body": obj.text, "attachments": obj.attachments, "read_state": 0}
+		message.update(id=obj.message_id, user_id=uid, date=obj.timestamp, body=obj.text, attachments=obj.attachments, read_state=0)
 		# if attachments is true, let's request for the full message with attachments formatted in a better way.
 		# Todo: code improvements. We shouldn't need to request the same message again just for these attachments.
 		if len(message["attachments"]) != 0:
