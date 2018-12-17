@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """ Setup file to create executables and distribute the source code of this application. Don't forget this file! """
 ############################################################
 #    Copyright (c) 2016 Manuel Eduardo Cortéz Vallejo <manuel@manuelcortez.net>
