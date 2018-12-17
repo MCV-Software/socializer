@@ -10,6 +10,6 @@ production:
     - cd ..
     - move src\dist dist
   artifacts:
-        paths:
-    - src\socializer.zip
+    paths:
+    - dist
     expire_in: 1 week
