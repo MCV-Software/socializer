@@ -9,4 +9,5 @@ production:
   artifacts:
     paths:
     - socializer\*
+    name: socializer
     expire_in: 1 week
