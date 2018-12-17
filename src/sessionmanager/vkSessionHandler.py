@@ -25,7 +25,7 @@ class vkObject(object):
 			self.session_object = vk_api.VkApi(app_id=self.api_key, login=user, password=password, token=token, scope="offline, wall, notify, friends, photos, audio, video, docs, notes, pages, status, groups, messages, notifications, stats", config_filename=filename)
 		else:
 			self.session_object = vk_api.VkApi(app_id=self.api_key, login=user, password=password, scope="offline, wall, notify, friends, photos, audio, video, docs, notes, pages, status, groups, messages, notifications, stats", config_filename=filename)
-			self.session_object.auth(token_only=True)
+			self.session_object.auth()
 		self.client = self.session_object.get_api()
 #		print self.client.audio.get()
 		log.debug("Getting tokens for 24 hours...")
