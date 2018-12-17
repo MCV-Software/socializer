@@ -6,7 +6,8 @@ production:
     - python setup.py py2exe
     - cd ..
     - move src\dist dist
+    - cd dist
   artifacts:
     paths:
-    - dist/*
+    - *
     expire_in: 1 week
