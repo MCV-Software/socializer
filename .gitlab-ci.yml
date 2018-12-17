@@ -5,9 +5,6 @@ production:
     - cd src
     - python setup.py py2exe
     - cd ..
-    - cd scripts
-    - python prepare_zipversion.py
-    - cd ..
     - move src\dist dist
   artifacts:
     paths:
