@@ -1,15 +1,19 @@
 production:
   type: deploy
   script:
+    - pip install --upgrade pip
     - pip install --upgrade -r requirements.txt
     - cd src
     - python setup.py py2exe
     - cd ..
-    - move src\dist socializer
+    - cd scripts
+    - python prepare_zipversion.py
+    - cd ..
+    - move src\socializer.zip socializer.zip
   only:
-    - tags
+    - master
   artifacts:
     paths:
-    - socializer\*
+    - socializer.zip
     name: socializer
     expire_in: 1 week
