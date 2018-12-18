@@ -1,6 +1,7 @@
 ﻿wxpython
 pywin32
 vk_api
+bs4
 configobj
 pypubsub==3.3.0
 requests-oauthlib
