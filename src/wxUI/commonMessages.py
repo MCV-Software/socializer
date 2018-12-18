@@ -33,3 +33,6 @@ def no_video_albums():
 
 def delete_audio_album():
 	return wx.MessageDialog(None, _(u"Do you really want to delete   this Album? this will be deleted from VK too."), _(u"Attention"), style=wx.ICON_QUESTION|wx.YES_NO).ShowModal()
+
+def updated_status():
+	return wx.MessageDialog(None, _(u"Your status message has been successfully updated."), _(u"Success")).ShowModal()

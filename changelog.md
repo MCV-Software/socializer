@@ -15,6 +15,7 @@
 * Socializer should handle connection errors when loading items in buffers and retry in 2 minutes. Also, connection errors in the chat server are handled and chat should be able to reconnect by itself.
 * When trying to add an audio or video to an album, if the current user does not have any album, it will display an error instead of a traceback.
 * Added popular and suggested songs. This will not work when using alternative tokens.
+* Now it is possible to update the status message, located in your profile.
 * Updated Russian translations: thanks to Дарья Ратникова.
 
 ## Changes in version 0.16 (13.12.2018)

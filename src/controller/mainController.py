@@ -168,6 +168,7 @@ class Controller(object):
 		pub.subscribe(self.get_chat, "order-sent-message")
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.view_my_profile, menuitem=self.window.view_profile)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.view_my_profile_in_browser, menuitem=self.window.open_in_browser)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.set_status, menuitem=self.window.set_status)
 
 	def disconnect_events(self):
 		log.debug("Disconnecting some events...")
@@ -661,3 +662,11 @@ class Controller(object):
 		if hasattr(self, "longpoll"):
 			del self.longpoll
 		self.create_longpoll_thread(notify=True)
+
+	def set_status(self, *args, **kwargs):
+		dlg = wx.TextEntryDialog(self.window, _(u"Write your status message"), _(u"Set status"))
+		if dlg.ShowModal() == widgetUtils.OK:
+			result = dlg.GetValue()
+			info = self.session.vk.client.account.saveProfileInfo(status=result)
+			commonMessages.updated_status()
+		dlg.Destroy()
