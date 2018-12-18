@@ -10,6 +10,8 @@ import documentation_importer
 languages = ["en", "es"]
 
 def generate_document(language):
+ if os.path.exists("documentation") == False:
+  os.mkdir("documentation")
  import strings
  reload(languageHandler)
  languageHandler.setLanguage(language)
@@ -26,9 +28,9 @@ def generate_document(language):
   """ %  (language, strings.documentation[0], strings.documentation[0])
  first_html_block = first_html_block+ markdown_file
  first_html_block = first_html_block + "\n</body>\n</html>"
- if not os.path.exists(language):
-  os.mkdir(language)
- mdfile = _open("%s/manual.html" % language, "w", encoding="utf-8")
+ if not os.path.exists(os.path.join("documentation", language)):
+  os.mkdir(os.path.join("documentation", language))
+ mdfile = _open("%s/manual.html" % os.path.join("documentation", language), "w", encoding="utf-8")
  mdfile.write(first_html_block)
  mdfile.close()
 
