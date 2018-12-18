@@ -1,5 +1,6 @@
 ﻿wxpython
 pywin32
+markdown
 vk_api
 bs4
 configobj
