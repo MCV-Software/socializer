@@ -16,6 +16,7 @@ import attach
 from pubsub import pub
 from vk_api.exceptions import VkApiError
 from vk_api import upload
+from requests.exceptions import ReadTimeout, ConnectionError
 from wxUI.tabs import home
 from sessionmanager import session, renderers, utils
 from mysc.thread_utils import call_threaded
@@ -87,6 +88,9 @@ class baseBuffer(object):
 			log.error(u"Error {0}: {1}".format(err.code, err.message))
 			retrieved = err.code
 			return retrieved
+		except ReadTimeout, ConnectionError:
+			log.exception("Connection error when updating buffer %s. Will try again in 2 minutes" % (self.name,))
+			return False
 		if show_nextpage  == False:
 			if self.tab.list.get_count() > 0 and num > 0:
 				v = [i for i in self.session.db[self.name]["items"][:num]]
@@ -141,7 +145,6 @@ class baseBuffer(object):
 				r = uploader.photo_wall(photos, caption=description)
 				id = r[0]["id"]
 				owner_id = r[0]["owner_id"]
-#				self.session.vk.client.photos.edit(photo_id=id, owner_id=owner_id, caption=description)
 				local_attachments += "photo{0}_{1},".format(owner_id, id)
 		return local_attachments
 
@@ -334,10 +337,13 @@ class feedBuffer(baseBuffer):
 		retrieved = True
 		try:
 			num = getattr(self.session, "get_page")(show_nextpage=show_nextpage, name=self.name, *self.args, **self.kwargs)
-		except ValueError:
+		except VkApiError as err:
 			log.error(u"Error {0}: {1}".format(err.code, err.message))
 			retrieved = err.code
 			return retrieved
+		except ReadTimeout, ConnectionError:
+			log.exception("Connection error when updating buffer %s. Will try again in 2 minutes" % (self.name,))
+			return False
 		if show_nextpage  == False:
 			if self.tab.list.get_count() > 0 and num > 0:
 				v = [i for i in self.session.db[self.name]["items"][:num]]
@@ -479,6 +485,8 @@ class audioBuffer(feedBuffer):
 			self.tab.list.remove_item(self.tab.list.get_selected())
 
 	def move_to_album(self, *args, **kwargs):
+		if len(self.session.audio_albums) == 0:
+			return commonMessages.no_audio_albums()
 		post = self.get_post()
 		if post == None:
 			return
@@ -601,6 +609,8 @@ class videoBuffer(feedBuffer):
 			self.tab.list.remove_item(self.tab.list.get_selected())
 
 	def move_to_album(self, *args, **kwargs):
+		if len(self.session.video_albums) == 0:
+			return commonMessages.no_video_albums()
 		post= self.get_post()
 		if post == None:
 			return
@@ -735,10 +745,13 @@ class chatBuffer(baseBuffer):
 		retrieved = True # Control variable for handling unauthorised/connection errors.
 		try:
 			num = getattr(self.session, "get_messages")(name=self.name, *self.args, **self.kwargs)
-		except ValueError as err:
+		except VkApiError as err:
 			log.error(u"Error {0}: {1}".format(err.code, err.message))
 			retrieved = err.code
 			return retrieved
+		except ReadTimeout, ConnectionError:
+			log.exception("Connection error when updating buffer %s. Will try again in 2 minutes" % (self.name,))
+			return False
 		if show_nextpage  == False:
 			if self.tab.history.GetValue() != "" and num > 0:
 				v = [i for i in self.session.db[self.name]["items"][:num]]
@@ -914,10 +927,13 @@ class requestsBuffer(peopleBuffer):
 		retrieved = True
 		try:
 			ids = self.session.vk.client.friends.getRequests(*self.args, **self.kwargs)
-		except ValueError as err:
+		except VkApiError as err:
 			log.error(u"Error {0}: {1}".format(err.code, err.message))
 			retrieved = err.code
 			return retrieved
+		except ReadTimeout, ConnectionError:
+			log.exception("Connection error when updating buffer %s. Will try again in 2 minutes" % (self.name,))
+			return False
 		num = self.session.get_page(name=self.name, show_nextpage=show_nextpage, endpoint="get", parent_endpoint="users", count=1000, user_ids=", ".join([str(i) for i in ids["items"]]), fields="uid, first_name, last_name, last_seen")
 		if show_nextpage  == False:
 			if self.tab.list.get_count() > 0 and num > 0:

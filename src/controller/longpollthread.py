@@ -2,7 +2,7 @@
 import threading
 from vk_api.longpoll import VkLongPoll, VkEventType
 from pubsub import pub
-from requests.exceptions import ReadTimeout
+from requests.exceptions import ReadTimeout, ConnectionError
 
 from logging import getLogger
 log = getLogger("controller.longpolThread")
@@ -23,5 +23,5 @@ class worker(threading.Thread):
 					pub.sendMessage("user-online", event=event)
 				elif event.type == VkEventType.USER_OFFLINE:
 					pub.sendMessage("user-offline", event=event)
-		except ReadTimeout:
+		except ReadTimeout, ConnectionError:
 			pub.sendMessage("longpoll-read-timeout")
