@@ -1,5 +1,7 @@
 production:
   type: deploy
+  tags:
+    - windows
   script:
     - pip install --upgrade pip
     - pip install --upgrade -r requirements.txt
