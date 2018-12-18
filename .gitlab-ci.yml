@@ -13,7 +13,7 @@ production:
     - cd ..
     - move src\socializer.zip socializer.zip
   only:
-    - master
+    - tags
   artifacts:
     paths:
     - socializer.zip
