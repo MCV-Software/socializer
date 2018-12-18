@@ -220,7 +220,8 @@ class Controller(object):
 
 	def update_all_buffers(self):
 		log.debug("Updating buffers...")
-		self.session.audio_albums = self.session.vk.client.audio.getAlbums(owner_id=self.session.user_id)["items"]
+		self.get_audio_albums()
+		self.get_video_albums()
 		for i in self.buffers:
 			if hasattr(i, "get_items"):
 				i.get_items()
