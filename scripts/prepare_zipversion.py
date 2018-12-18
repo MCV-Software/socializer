@@ -8,5 +8,8 @@ def create_archive():
 	shutil.make_archive("socializer", "zip", "dist")
 	if os.path.exists("dist"):
 		shutil.rmtree("dist")
+	if os.path.exists("build"):
+		shutil.rmtree("build")
+	os.chdir("..\\scripts")
 
 create_archive()
