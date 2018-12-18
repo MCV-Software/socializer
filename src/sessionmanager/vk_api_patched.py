@@ -5,7 +5,7 @@ import logging
 import vk_api
 import threading
 import requests
-import jconfig
+import jconfig_patched as jconfig
 from vk_api.enums import VkUserPermissions
 from vk_api.exceptions import *
 
