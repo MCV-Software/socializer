@@ -1,10 +1,10 @@
 #!/usr/bin/python
 import keys
 import logging
-import vk_api
+import vk_api_patched as vk_api
 import core
 from vk_api.audio import VkAudio
-import core
+
 log = logging.getLogger("vkSessionHandler")
 
 class vkObject(object):
