@@ -4,7 +4,6 @@ import os
 from codecs import open as _open
 import languageHandler
 languageHandler.setLanguage("en")
-import documentation_importer
 
 # the list of supported language codes of TW Blue
 languages = ["en", "es"]
