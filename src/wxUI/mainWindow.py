@@ -20,7 +20,7 @@ class mainWindow(wx.Frame):
 		me = wx.Menu()
 		profile = wx.Menu()
 		self.view_profile = profile.Append(wx.NewId(), _(u"View profile"))
-		self.edit_profile = profile.Append(wx.NewId(), _(u"Edit profile"))
+#		self.edit_profile = profile.Append(wx.NewId(), _(u"Edit profile"))
 		self.open_in_browser  = profile.Append(wx.NewId(), _(u"Open in browser"))
 		me.Append(wx.NewId(), _(u"Profile"), profile)
 		self.set_status = me.Append(wx.NewId(), _(u"Set status message"))
