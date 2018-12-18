@@ -75,7 +75,6 @@ class Controller(object):
 		self.buffers.append(feed)
 		# Translators: Own user's wall name in the tree view.
 		self.window.insert_buffer(feed.tab, _(u"My wall"), self.window.search("posts"))
-		### Disabled audio stuff for now.
 		audios = buffers.empty(parent=self.window.tb, name="audios")
 		self.buffers.append(audios)
 		# Translators: name for the music category in the tree view.
@@ -84,12 +83,13 @@ class Controller(object):
 		audio = buffers.audioBuffer(parent=self.window.tb, name="me_audio", composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio")
 		self.buffers.append(audio)
 		self.window.insert_buffer(audio.tab, _(u"My audios"), self.window.search("audios"))
-#		p_audio = buffers.audioBuffer(parent=self.window.tb, name="popular_audio", composefunc="render_audio", session=self.session, endpoint="getPopular", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"])
-#		self.buffers.append(p_audio)
-#		self.window.insert_buffer(p_audio.tab, _(u"Populars"), self.window.search("audios"))
-#		r_audio = buffers.audioBuffer(parent=self.window.tb, name="recommended_audio", composefunc="render_audio", session=self.session, endpoint="getRecommendations", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"])
-#		self.buffers.append(r_audio)
-#		self.window.insert_buffer(r_audio.tab, _(u"Recommendations"), self.window.search("audios"))
+		if self.session.settings["vk"]["use_alternative_tokens"] == False:
+			p_audio = buffers.audioBuffer(parent=self.window.tb, name="popular_audio", composefunc="render_audio", session=self.session, endpoint="getPopular", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"])
+			self.buffers.append(p_audio)
+			self.window.insert_buffer(p_audio.tab, _(u"Populars"), self.window.search("audios"))
+			r_audio = buffers.audioBuffer(parent=self.window.tb, name="recommended_audio", composefunc="render_audio", session=self.session, endpoint="getRecommendations", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"])
+			self.buffers.append(r_audio)
+			self.window.insert_buffer(r_audio.tab, _(u"Recommendations"), self.window.search("audios"))
 		albums = buffers.empty(parent=self.window.tb, name="albums")
 		self.buffers.append(albums)
 		self.window.insert_buffer(albums.tab, _(u"Albums"), self.window.search("audios"))
