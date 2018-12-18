@@ -5,7 +5,10 @@ production:
   script:
     - pip install --upgrade pip
     - pip install --upgrade -r requirements.txt
-    - cd src
+    - cd doc
+    - python documentation_importer.py
+    - cd ..\src
+    - python ..\doc\generator.py
     - python setup.py py2exe
     - cd ..
     - cd scripts
@@ -13,7 +16,7 @@ production:
     - cd ..
     - move src\socializer.zip socializer.zip
   only:
-    - tags
+    - master
   artifacts:
     paths:
     - socializer.zip
