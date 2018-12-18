@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-16 06:25-0600\n"
-"PO-Revision-Date: 2018-12-16 16:32-0600\n"
+"PO-Revision-Date: 2018-12-18 05:38-0600\n"
 "Last-Translator: Дарья Ратникова <dariafreja@yandex.ru>\n"
 "Language-Team: Valeria K <luciana.lu3a@gmail.com>\n"
 "Language: ru\n"
@@ -285,7 +285,7 @@ msgstr "Неизвестное имя пользователя"
 
 #, python-brace-format
 msgid "{0} > {1}"
-msgstr ""
+msgstr "{0} > {1}"
 
 #. Translators: {0} will be replaced with an user.
 #, python-brace-format
@@ -344,10 +344,10 @@ msgid "Information for groups is not supported, yet."
 msgstr "Информация для групп пока не поддерживается."
 
 msgid "MMMM D"
-msgstr ""
+msgstr "MMMM D"
 
 msgid "MMMM D, YYYY"
-msgstr ""
+msgstr "MMMM D, YYYY"
 
 #, python-brace-format
 msgid "{name}'s profile"
@@ -766,10 +766,10 @@ msgid "{0} has added  {1} videos: {2}"
 msgstr "{0} добавил(а) {1} видеозаписей: {2}"
 
 msgid "H:mm."
-msgstr ""
+msgstr "H:mm."
 
 msgid "H:mm. dddd, MMMM D, YYYY"
-msgstr ""
+msgstr "H:mm. dddd, MMMM D, YYYY"
 
 msgid "Audio removed from library"
 msgstr "Аудиозапись удалена"
