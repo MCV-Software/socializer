@@ -57,10 +57,10 @@ class userProfile(object):
 			# VK can display dd.mm or dd.mm.yyyy birthdates. So let's compare the string lenght to handle both cases accordingly.
 			if len(person["bdate"]) <= 5: # dd.mm
 				d = arrow.get(person["bdate"], "D.M")
-				self.dialog.main_info.set("bdate", d.format(_(u"MMMM D"), locale=languageHandler.getLanguage()))
+				self.dialog.main_info.set("bdate", d.format(_(u"MMMM D"), locale=languageHandler.curLang[:2]))
 			else: # mm.dd.yyyy
 				d = arrow.get(person["bdate"], "D.M.YYYY")
-				self.dialog.main_info.set("bdate", d.format(_(u"MMMM D, YYYY"), locale=languageHandler.getLanguage()))
+				self.dialog.main_info.set("bdate", d.format(_(u"MMMM D, YYYY"), locale=languageHandler.curLang[:2]))
 		# Format current city and home town
 		city = ""
 		if person.has_key("home_town") and person["home_town"] != "":
@@ -126,7 +126,7 @@ class userProfile(object):
 		if person.has_key("last_seen") and person["last_seen"] != False:
 			original_date = arrow.get(person["last_seen"]["time"])
 			# Translators: This is the date of last seen
-			last_seen = _(u"{0}").format(original_date.humanize(locale=languageHandler.getLanguage()),)
+			last_seen = _(u"{0}").format(original_date.humanize(locale=languageHandler.curLang[:2]),)
 			self.dialog.main_info.enable("last_seen")
 			self.dialog.main_info.set("last_seen", last_seen)
 		self.person = person
