@@ -80,7 +80,7 @@ def getAvailableLanguages():
 	"""
 	#Make a list of all the locales found in NVDA's locale dir
 	l=[x for x in os.listdir("locales") if not x.startswith('.')]
-	l=[x for x in l if os.path.isfile('locales/%s/LC_MESSAGES/socializer-doc.mo' % x)]
+	l=[x for x in l if os.path.isfile('locales/%s/LC_MESSAGES/twblue-documentation.mo' % x)]
 	#Make sure that en (english) is in the list as it may not have any locale files, but is default
 	if 'en' not in l:
 		l.append('en')
@@ -117,7 +117,7 @@ def makePgettext(translations):
 			return unicode(message)
 	return pgettext
 
-def setLanguage(lang):
+def setLanguage(lang, translation_file="socializer-documentation"):
 	system = platform.system()
 	global curLang
 	try:
@@ -127,10 +127,10 @@ def setLanguage(lang):
 				localeName=locale.windows_locale[windowsLCID]
 			else:
 				localeName=locale.getlocale()[0]
-			trans=gettext.translation('socializer-doc', localedir="locales", languages=[localeName])
+			trans=gettext.translation(translation_file, localedir="locales", languages=[localeName])
 			curLang=localeName
 		else:
-			trans=gettext.translation("socializer-doc", localedir="locales", languages=[lang])
+			trans=gettext.translation(translation_file, localedir="locales", languages=[lang])
 			curLang=lang
 			localeChanged=False
 			#Try setting Python's locale to lang
@@ -150,7 +150,7 @@ def setLanguage(lang):
 				LCID=localeNameToWindowsLCID(lang)
 				ctypes.windll.kernel32.SetThreadLocale(LCID)
 	except IOError:
-		trans=gettext.translation("socializer-doc",fallback=True)
+		trans=gettext.translation(translation_file,fallback=True)
 		curLang="en"
 	trans.install(unicode=True)
 	# Install our pgettext function.
