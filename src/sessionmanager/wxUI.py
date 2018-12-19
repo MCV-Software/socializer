@@ -5,6 +5,19 @@ import widgetUtils
 def new_account_dialog():
 	return wx.MessageDialog(None, _(u"In order to continue, you need to configure your VK account before. Would you like to autorhise a new account now?"), _(u"Authorisation"), wx.YES_NO).ShowModal()
 
+def two_factor_auth():
+	dlg = wx.TextEntryDialog(None, _(u"Please provide the authentication code you have received from VK."), _(u"Two factor authentication code"))
+	response = dlg.ShowModal()
+	if response == widgetUtils.OK:
+		result = dlg.GetValue()
+		dlg.Destroy()
+		return (result, True)
+	dlg.Destroy()
+
+def two_factor_question():
+	return wx.MessageDialog(None, _(u"Do you have two factor authentication enabled in your account?"), _(u"Authentication method"), wx.YES_NO).ShowModal()
+
+
 class newSessionDialog(widgetUtils.BaseDialog):
 	def __init__(self):
 		super(newSessionDialog, self).__init__(parent=None, id=wx.NewId(), title=_(u"Authorise VK"))
