@@ -1,9 +1,9 @@
 #!/usr/bin/python
 import keys
 import logging
-import vk_api_patched as vk_api
 import core
 from vk_api.audio import VkAudio
+from wxUI import two_factor_auth
 
 log = logging.getLogger("vkSessionHandler")
 
@@ -15,6 +15,8 @@ class vkObject(object):
 	def login(self, user, password, token, alt_token, filename):
 		if alt_token == False:
 			log.info("Using kate's token...")
+			# Let's import the patched vk_api module for using a different user agent
+			import vk_api_patched as vk_api
 			if token == "" or token == None:
 				log.info("Token is not valid. Generating one...")
 				token = core.requestAuth(user, password)
@@ -24,7 +26,8 @@ class vkObject(object):
 				log.info("Token validated...")
 			self.session_object = vk_api.VkApi(app_id=self.api_key, login=user, password=password, token=token, scope="offline, wall, notify, friends, photos, audio, video, docs, notes, pages, status, groups, messages, notifications, stats", config_filename=filename)
 		else:
-			self.session_object = vk_api.VkApi(app_id=self.api_key, login=user, password=password, scope="offline, wall, notify, friends, photos, audio, video, docs, notes, pages, status, groups, messages, notifications, stats", config_filename=filename)
+			import vk_api
+			self.session_object = vk_api.VkApi(app_id=self.api_key, login=user, password=password, scope="offline, wall, notify, friends, photos, audio, video, docs, notes, pages, status, groups, messages, notifications, stats", config_filename=filename, auth_handler=two_factor_auth)
 			self.session_object.auth()
 		self.client = self.session_object.get_api()
 #		print self.client.audio.get()
