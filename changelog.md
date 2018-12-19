@@ -12,6 +12,7 @@
 * Socializer will skip restricted audio tracks. Restricted songs are not allowed to be played in the user's country. Before, playing a restricted track was generating an exception and playback could not resume.
 * Fixed an error when people was trying to open a post in an empty buffer, or accessing the menu when there are no posts in the buffer.
 * Now Socializer will not send a notification every 5 minutes.
+* the chat widget now is a multiline text control. It means it is possible to add a new line by pressing shift+Enter, and send the message by pressing enter.
 * Socializer should handle connection errors when loading items in buffers and retry in 2 minutes. Also, connection errors in the chat server are handled and chat should be able to reconnect by itself.
 * When trying to add an audio or video to an album, if the current user does not have any album, it will display an error instead of a traceback.
 * Added popular and suggested songs. This will not work when using alternative tokens.
