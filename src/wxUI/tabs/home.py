@@ -168,7 +168,7 @@ class chatTab(wx.Panel):
 
 	def create_chat(self):
 		lbl2 = wx.StaticText(self, -1, _(u"Write a message"))
-		self.text = wx.TextCtrl(self, -1)
+		self.text = wx.TextCtrl(self, -1, size=(400, -1), style=wx.TE_MULTILINE)
 		box = wx.BoxSizer(wx.HORIZONTAL)
 		box.Add(lbl2, 0, wx.ALL, 20)
 		box.Add(self.text, 0, wx.ALL, 5)

@@ -736,7 +736,8 @@ class chatBuffer(baseBuffer):
 		self.tab.set_focus_function(self.onFocus)
 
 	def catch_enter(self, event, *args, **kwargs):
-		if event.GetKeyCode() == wx.WXK_RETURN:
+		shift=event.ShiftDown()
+		if event.GetKeyCode() == wx.WXK_RETURN and shift == False:
 			self.send_chat_to_user()
 		event.Skip()
 
