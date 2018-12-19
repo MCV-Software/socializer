@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-""" Sound utilities for socialized."""
+""" Sound utilities for socializer."""
 from __future__ import unicode_literals
 import sys
 import os
