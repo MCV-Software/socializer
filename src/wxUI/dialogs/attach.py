@@ -49,3 +49,9 @@ class attachDialog(widgetUtils.BaseDialog):
 		result = dlg.GetValue()
 		dlg.Destroy()
 		return result
+
+	def get_audio(self):
+		openFileDialog = wx.FileDialog(self, _(u"Select the audio file to be uploaded"), "", "", _("Audio files (*.mp3)|*.mp3"), wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
+		if openFileDialog.ShowModal() == wx.ID_CANCEL:
+			return None
+		return openFileDialog.GetPath()

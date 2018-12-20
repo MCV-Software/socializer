@@ -22,6 +22,7 @@ class attachFromLocal(object):
 		self.type = "local"
 		self.dialog = gui.attachDialog(voice_messages)
 		widgetUtils.connect_event(self.dialog.photo, widgetUtils.BUTTON_PRESSED, self.upload_image)
+		widgetUtils.connect_event(self.dialog.audio, widgetUtils.BUTTON_PRESSED, self.upload_audio)
 		widgetUtils.connect_event(self.dialog.remove, widgetUtils.BUTTON_PRESSED, self.remove_attachment)
 		self.dialog.get_response()
 		log.debug("Attachments controller started.")
@@ -37,6 +38,18 @@ class attachFromLocal(object):
 			self.attachments.append(imageInfo)
 			# Translators: This is the text displayed in the attachments dialog, when the user adds  a photo.
 			info = [_(u"Photo"), os.path.basename(image)]
+			self.dialog.attachments.insert_item(False, *info)
+			self.dialog.remove.Enable(True)
+
+	def upload_audio(self, *args, **kwargs):
+		audio  = self.dialog.get_audio()
+		if audio != None:
+			# Define data structure for this attachment, as will be required by VK API later.
+			audioInfo = {"type": "audio", "file": audio}
+			log.debug("Audio data to upload: %r" % (audioInfo,))
+			self.attachments.append(audioInfo)
+			# Translators: This is the text displayed in the attachments dialog, when the user adds  a photo.
+			info = [_(u"Audio file"), os.path.basename(audio)]
 			self.dialog.attachments.insert_item(False, *info)
 			self.dialog.remove.Enable(True)
 

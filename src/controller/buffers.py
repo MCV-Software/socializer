@@ -146,6 +146,13 @@ class baseBuffer(object):
 				id = r[0]["id"]
 				owner_id = r[0]["owner_id"]
 				local_attachments += "photo{0}_{1},".format(owner_id, id)
+
+			elif i["type"] == "audio":
+				audio = i["file"]
+				r = uploader.audio(audio, "untitled", "untitled")
+				id = r["id"]
+				owner_id = r["owner_id"]
+				local_attachments += "audio{0}_{1},".format(owner_id, id)
 		return local_attachments
 
 	def connect_events(self):
