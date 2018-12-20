@@ -130,11 +130,14 @@ class selectAttachment(widgetUtils.BaseDialog):
 		if selection in self.attachments_list:
 			self.attachments.Append(selection)
 			self.indexes.append(self.cb.GetSelection())
+			self.remove.Enable(True)
 
 	def remove_attachment(self, *args, **kwargs):
 		n = self.attachments.GetSelection()
 		self.attachments.Delete(n)
-		self.indexes.remove(n)
+		self.indexes.pop(n)
+		if len(self.indexes) == 0:
+			self.remove.Enable(False)
 
 	def get_all_attachments(self):
 		return self.indexes

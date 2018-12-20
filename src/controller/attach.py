@@ -5,11 +5,11 @@ import logging
 import widgetUtils
 from wxUI.dialogs import attach as gui
 from wxUI.dialogs import selector
-log = logging.getLogger("controller.attach")
+log = logging.getLogger(__file__)
 
 class attachFromLocal(object):
 	""" Controller used in some sections of the application, mainly for uploading photos from the local computer to VK.
-		This controller will not upload the contents by itself, but will generate the data structures for being send over the VK API.
+		This controller will not upload the contents by itself, but will generate the data structures for being sent over the VK API.
 		At the current time, only photo uploading is supported."""
 
 	def __init__(self, voice_messages=False):
@@ -77,8 +77,8 @@ class attachFromOnline(object):
 
 	def add_audio(self, *args, **kwargs):
 		""" Allow adding an audio directly from the user's audio library."""
-		list_of_audios = self.session.vk.client_audio.get()
-#		list_of_audios = list_of_audios["items"]
+		# Let's reuse the already downloaded audios.
+		list_of_audios = self.session.db["me_audio"]["items"]
 		audios = []
 		for i in list_of_audios:
 			audios.append(u"{0}, {1}".format(i["title"], i["artist"]))
