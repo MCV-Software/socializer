@@ -221,8 +221,8 @@ class Controller(object):
 
 	def update_all_buffers(self):
 		log.debug("Updating buffers...")
-		self.get_audio_albums()
-		self.get_video_albums()
+		self.get_audio_albums(create_buffers=False)
+		self.get_video_albums(create_buffers=False)
 		for i in self.buffers:
 			if hasattr(i, "get_items"):
 				i.get_items()
@@ -482,53 +482,41 @@ class Controller(object):
 				i.reads = []
 				time.sleep(1)
 
-	def get_audio_albums(self, user_id=None):
-		try:
-			log.debug("Create audio albums...")
-			if self.session.settings["vk"]["use_alternative_tokens"]:
-				albums = self.session.vk.client_audio.get_albums(owner_id=user_id)
-			else:
-				albums = self.session.vk.client.audio.getPlaylists(owner_id=user_id)
-				albums = albums["items"]
-		except SyntaxError:#VkApiError as ex:
-			if ex.code == 6:
-				log.exception("Something went wrong when getting albums. Waiting a second to retry")
-				time.sleep(2)
-				return self.get_audio_albums(user_id=user_id)
-			elif ex.code == 10:
-				return
+	def get_audio_albums(self, user_id=None, create_buffers=True):
+		log.debug("Create audio albums...")
+		if self.session.settings["vk"]["use_alternative_tokens"]:
+			albums = self.session.vk.client_audio.get_albums(owner_id=user_id)
+		else:
+			albums = self.session.vk.client.audio.getPlaylists(owner_id=user_id)
+			albums = albums["items"]
 		self.session.audio_albums = albums
-		for i in albums:
-			buffer = buffers.audioAlbum(parent=self.window.tb, name="{0}_audio_album".format(i["id"],), composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio", owner_id=user_id, album_id=i["id"])
-			buffer.can_get_items = False
-			# Translators: {0} Will be replaced with an audio album's title.
-			name_ = _(u"Album: {0}").format(i["title"],)
-			self.buffers.append(buffer)
-			self.window.insert_buffer(buffer.tab, name_, self.window.search("albums"))
-			buffer.get_items()
-			# inserts a pause of 1 second here, so we'll avoid errors 6 in VK.
-			time.sleep(0.3)
+		if create_buffers:
+			for i in albums:
+				buffer = buffers.audioAlbum(parent=self.window.tb, name="{0}_audio_album".format(i["id"],), composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio", owner_id=user_id, album_id=i["id"])
+				buffer.can_get_items = False
+				# Translators: {0} Will be replaced with an audio album's title.
+				name_ = _(u"Album: {0}").format(i["title"],)
+				self.buffers.append(buffer)
+				self.window.insert_buffer(buffer.tab, name_, self.window.search("albums"))
+				buffer.get_items()
+				# inserts a pause of 1 second here, so we'll avoid errors 6 in VK.
+				time.sleep(0.3)
 
-	def get_video_albums(self, user_id=None):
-		try:
-			log.debug("Create video  albums...")
-			albums = self.session.vk.client.video.getAlbums(owner_id=user_id)
-		except VkApiError as ex:
-			if ex.code == 6:
-				log.exception("Something went wrong when getting albums. Waiting a second to retry")
-				time.sleep(2)
-				return self.get_audio_albums(user_id=user_id)
+	def get_video_albums(self, user_id=None, create_buffers=True):
+		log.debug("Create video  albums...")
+		albums = self.session.vk.client.video.getAlbums(owner_id=user_id)
 		self.session.video_albums = albums["items"]
-		for i in albums["items"]:
-			buffer = buffers.videoAlbum(parent=self.window.tb, name="{0}_video_album".format(i["id"],), composefunc="render_video", session=self.session, endpoint="get", parent_endpoint="video", count=self.session.settings["buffers"]["count_for_video_buffers"], user_id=user_id, album_id=i["id"])
-			buffer.can_get_items = False
-			# Translators: {0} Will be replaced with a video  album's title.
-			name_ = _(u"Album: {0}").format(i["title"],)
-			self.buffers.append(buffer)
-			self.window.insert_buffer(buffer.tab, name_, self.window.search("video_albums"))
-			buffer.get_items()
-			# inserts a pause of 1 second here, so we'll avoid errors 6 in VK.
-			time.sleep(0.3)
+		if create_buffers:
+			for i in albums["items"]:
+				buffer = buffers.videoAlbum(parent=self.window.tb, name="{0}_video_album".format(i["id"],), composefunc="render_video", session=self.session, endpoint="get", parent_endpoint="video", count=self.session.settings["buffers"]["count_for_video_buffers"], user_id=user_id, album_id=i["id"])
+				buffer.can_get_items = False
+				# Translators: {0} Will be replaced with a video  album's title.
+				name_ = _(u"Album: {0}").format(i["title"],)
+				self.buffers.append(buffer)
+				self.window.insert_buffer(buffer.tab, name_, self.window.search("video_albums"))
+				buffer.get_items()
+				# inserts a pause of 1 second here, so we'll avoid errors 6 in VK.
+				time.sleep(0.3)
 
 	def create_audio_album(self, *args, **kwargs):
 		d = creation.audio_album()
