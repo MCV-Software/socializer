@@ -858,6 +858,11 @@ class chatBuffer(baseBuffer):
 		else:
 			log.debug("Unhandled attachment: %r" % (attachment,))
 
+	def clear_reads(self):
+		for i in self.session.db[self.name]["items"]:
+			if "read_state" in i and i["read_state"] == 0:
+				i["read_state"] = 1
+
 class peopleBuffer(feedBuffer):
 
 	def create_tab(self, parent):

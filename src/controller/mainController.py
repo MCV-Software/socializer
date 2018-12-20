@@ -479,6 +479,7 @@ class Controller(object):
 		for i in self.buffers:
 			if hasattr(i, "reads") and len(i.reads) != 0:
 				response = self.session.vk.client.messages.markAsRead(peer_id=i.kwargs["user_id"])
+				i.clear_reads()
 				i.reads = []
 				time.sleep(1)
 
