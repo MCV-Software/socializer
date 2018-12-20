@@ -24,7 +24,6 @@ For other dependencies, do pip install --upgrade -r requirements.txt
 
 * [Python,](http://python.org) version 2.7.15
 * [PyEnchant,](http://pythonhosted.org/pyenchant/) version 1.6.6.
-* [Pandoc](http://pandoc.org/installing.html) for generating the changelog.
 
 ## Documentation
 
