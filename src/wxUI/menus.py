@@ -79,3 +79,11 @@ class notificationsMenu(wx.Menu):
 		super(notificationsMenu, self).__init__()
 		self.mark_as_read = wx.MenuItem(self, wx.NewId(), _(u"Mark as read"))
 		self.Append(self.mark_as_read)
+
+class attachMenu(wx.Menu):
+	def __init__(self):
+		super(attachMenu, self).__init__()
+		self.upload = wx.MenuItem(self, wx.NewId(), _(u"Upload from computer"))
+		self.Append(self.upload)
+		self.add = wx.MenuItem(self, wx.NewId(), _(u"Add from VK"))
+		self.Append(self.add)

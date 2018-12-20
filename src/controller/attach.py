@@ -5,6 +5,7 @@ import logging
 import widgetUtils
 from wxUI.dialogs import attach as gui
 from wxUI.dialogs import selector
+from wxUI.menus import attachMenu
 log = logging.getLogger(__file__)
 
 class attachFromLocal(object):
@@ -21,11 +22,21 @@ class attachFromLocal(object):
 		# Type is just a reference, as there will be local and online based attachments.
 		self.type = "local"
 		self.dialog = gui.attachDialog(voice_messages)
-		widgetUtils.connect_event(self.dialog.photo, widgetUtils.BUTTON_PRESSED, self.upload_image)
-		widgetUtils.connect_event(self.dialog.audio, widgetUtils.BUTTON_PRESSED, self.upload_audio)
+		widgetUtils.connect_event(self.dialog.photo, widgetUtils.BUTTON_PRESSED, self.on_image)
+		widgetUtils.connect_event(self.dialog.audio, widgetUtils.BUTTON_PRESSED, self.on_audio)
 		widgetUtils.connect_event(self.dialog.remove, widgetUtils.BUTTON_PRESSED, self.remove_attachment)
 		self.dialog.get_response()
 		log.debug("Attachments controller started.")
+
+	def on_image(self, *args, **kwargs):
+		m = attachMenu()
+		widgetUtils.connect_event(m, widgetUtils.MENU, self.upload_image, menuitem=m.upload)
+		self.dialog.PopupMenu(m, self.dialog.photo.GetPosition())
+
+	def on_audio(self, *args, **kwargs):
+		m = attachMenu()
+		widgetUtils.connect_event(m, widgetUtils.MENU, self.upload_audio, menuitem=m.upload)
+		self.dialog.PopupMenu(m, self.dialog.photo.GetPosition())
 
 	def upload_image(self, *args, **kwargs):
 		""" allows uploading an image from the computer. In theory
@@ -33,11 +44,11 @@ class attachFromLocal(object):
 		image, description  = self.dialog.get_image()
 		if image != None:
 			# Define data structure for this attachment, as will be required by VK API later.
-			imageInfo = {"type": "photo", "file": image, "description": description}
+			imageInfo = {"type": "photo", "file": image, "description": description, "from": "local"}
 			log.debug("Image data to upload: %r" % (imageInfo,))
 			self.attachments.append(imageInfo)
 			# Translators: This is the text displayed in the attachments dialog, when the user adds  a photo.
-			info = [_(u"Photo"), os.path.basename(image)]
+			info = [_(u"Photo"), description]
 			self.dialog.attachments.insert_item(False, *info)
 			self.dialog.remove.Enable(True)
 
@@ -45,7 +56,7 @@ class attachFromLocal(object):
 		audio  = self.dialog.get_audio()
 		if audio != None:
 			# Define data structure for this attachment, as will be required by VK API later.
-			audioInfo = {"type": "audio", "file": audio}
+			audioInfo = {"type": "audio", "file": audio, "from": "local"}
 			log.debug("Audio data to upload: %r" % (audioInfo,))
 			self.attachments.append(audioInfo)
 			# Translators: This is the text displayed in the attachments dialog, when the user adds  a photo.
