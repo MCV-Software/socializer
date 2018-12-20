@@ -17,6 +17,7 @@ production:
     - cd ..
     - move src\socializer.zip socializer.zip
   only:
+    - schedules
     - tags
   artifacts:
     paths:
