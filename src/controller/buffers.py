@@ -150,7 +150,13 @@ class baseBuffer(object):
 				local_attachments += "photo{0}_{1},".format(owner_id, id)
 			elif i["from"] == "local" and i["type"] == "audio":
 				audio = i["file"]
-				r = uploader.audio(audio, "untitled", "untitled")
+				title = "untitled"
+				artist = "unnamed"
+				if "artist" in i:
+					artist = i["artist"]
+				if "title" in i:
+					title = i["title"]
+				r = uploader.audio(audio, title=title, artist=artist)
 				id = r["id"]
 				owner_id = r["owner_id"]
 				local_attachments += "audio{0}_{1},".format(owner_id, id)
@@ -805,7 +811,13 @@ class chatBuffer(baseBuffer):
 				local_attachments += "photo{0}_{1},".format(owner_id, id)
 			elif i["from"] == "local" and i["type"] == "audio":
 				audio = i["file"]
-				r = uploader.audio(audio, "untitled", "untitled")
+				title = "untitled"
+				artist = "unnamed"
+				if "artist" in i:
+					artist = i["artist"]
+				if "title" in i:
+					title = i["title"]
+				r = uploader.audio(audio, title=title, artist=artist)
 				id = r["id"]
 				owner_id = r["owner_id"]
 				local_attachments += "audio{0}_{1},".format(owner_id, id)

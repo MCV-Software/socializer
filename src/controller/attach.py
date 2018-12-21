@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
-""" Attachment controller for different kind of posts in VK. This should become the framework for posting attachment files to the social network.
+""" Attachment controller for different kind of posts in VK.
 this controller will take care of preparing data structures to be uploaded later, when the user decides to start the upload process by sending the post.
 """
 import os
 import logging
+import eyed3
 import widgetUtils
 from wxUI.dialogs import attach as gui
 from wxUI.dialogs import selector
 from wxUI.menus import attachMenu
+
 log = logging.getLogger(__file__)
 
 class attach(object):
@@ -20,7 +22,7 @@ class attach(object):
 
 	def __init__(self, session, voice_messages=False):
 		""" Constructor.
-	@ session sessionmanager.session object: an object capable of calling all VK methods.
+	@ session sessionmanager.session object: an object capable of calling all VK methods and accessing the session database.
 		@voice_messages bool: If True, will add a button for sending voice messages. Functionality for this button has not been added yet.
 		"""
 		self.session = session
@@ -55,7 +57,6 @@ class attach(object):
 		if image != None:
 			# Define data structure for this attachment, as will be required by VK API later.
 			imageInfo = {"type": "photo", "file": image, "description": description, "from": "local"}
-			log.debug("Image data to upload: %r" % (imageInfo,))
 			self.attachments.append(imageInfo)
 			# Translators: This is the text displayed in the attachments dialog, when the user adds  a photo.
 			info = [_(u"Photo"), description]
@@ -63,15 +64,18 @@ class attach(object):
 			self.dialog.remove.Enable(True)
 
 	def upload_audio(self, *args, **kwargs):
-		""" Allows uploading an audio file from the computer. Only mp3 files are supported. ID3 tags are not extracted automatically, yet."""
+		""" Allows uploading an audio file from the computer. Only mp3 files are supported. """
 		audio  = self.dialog.get_audio()
 		if audio != None:
 			# Define data structure for this attachment, as will be required by VK API later.
-			audioInfo = {"type": "audio", "file": audio, "from": "local"}
-			log.debug("Audio data to upload: %r" % (audioInfo,))
+			# Let's extract the ID3 tags to show them in the list and send them to VK, too.
+			audio_tags = eyed3.load(audio)
+			title = audio_tags.tag.title
+			artist = audio_tags.tag.artist
+			audioInfo = {"type": "audio", "file": audio, "from": "local", "title": title, "artist": artist}
 			self.attachments.append(audioInfo)
 			# Translators: This is the text displayed in the attachments dialog, when the user adds  an audio file.
-			info = [_(u"Audio file"), os.path.basename(audio)]
+			info = [_(u"Audio file"), u"{title} - {artist}".format(title=title, artist=artist)]
 			self.dialog.attachments.insert_item(False, *info)
 			self.dialog.remove.Enable(True)
 
@@ -108,47 +112,3 @@ class attach(object):
 		""" Checks whether the remove button should remain enabled."""
 		if len(self.attachments) == 0 and self.dialog.attachments.get_count() == 0:
 			self.dialog.remove.Enable(False)
-
-class attachFromOnline(object):
-	""" this was the previously working audio attachment uploader. As VK has deprecated their Audio API for third party clients, this class will not work.
-	However, I have decided to keep this here so in future it may be modified to attach different kind of online based attachments, such as posted photos, videos, etc.
-	"""
-
-	def __init__(self, session):
-		""" Default constructor.
-		@session vk.session: An VK session, capable of calling methods from the VK API.
-		"""
-		self.session = session
-		# Self.attachments will hold a reference to all attachments added to the dialog.
-		self.attachments = list()
-		# Define type as online.
-		self.type = "online"
-		self.dialog = gui.attachDialog()
-		widgetUtils.connect_event(self.dialog.audio, widgetUtils.BUTTON_PRESSED, self.add_audio)
-#		widgetUtils.connect_event(self.dialog.remove, widgetUtils.BUTTON_PRESSED, self.remove_attachment)
-		self.dialog.get_response()
-		log.debug("Attachments controller started.")
-
-	def add_audio(self, *args, **kwargs):
-		""" Allow adding an audio directly from the user's audio library."""
-		# Let's reuse the already downloaded audios.
-		list_of_audios = self.session.db["me_audio"]["items"]
-		audios = []
-		for i in list_of_audios:
-			audios.append(u"{0}, {1}".format(i["title"], i["artist"]))
-		select = selector.selectAttachment(_(u"Select the audio files you want to send"), audios)
-		if select.get_response() == widgetUtils.OK and select.attachments.GetCount() > 0:
-			attachments = select.get_all_attachments()
-			for i in attachments:
-				list_of_audios[i]["type"] = "audio"
-				list_of_audios[i]["from"] = "online"
-				self.attachments.append(list_of_audios[i])
-
-	def parse_attachments(self):
-		""" Retrieve all attachments and convert them to data structures required by VK API."""
-		result = ""
-		for i in self.attachments:
-			# Define data structures required by VK API.
-			preresult = "{0}{1}_{2}".format(i["type"], i["owner_id"], i["id"])
-			result = preresult+","
-		return result

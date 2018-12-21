@@ -9,6 +9,8 @@ requests-oauthlib
 future
 arrow
 yandex.translate
+eyed3
+python-magic-bin
 # forked repositories previously found at http://q-continuum.net
 git+https://code.manuelcortez.net/manuelcortez/libloader
 git+https://code.manuelcortez.net/manuelcortez/platform_utils
