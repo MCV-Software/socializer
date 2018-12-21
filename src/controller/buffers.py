@@ -812,7 +812,8 @@ class chatBuffer(baseBuffer):
 		return local_attachments
 
 	def _send_message(self, text, attachments=[]):
-		self.attachments_to_be_sent = self.upload_attachments(self.attachments_to_be_sent)
+		if hasattr(self, "attachments_to_be_sent"):
+			self.attachments_to_be_sent = self.upload_attachments(self.attachments_to_be_sent)
 		try:
 		# Let's take care about the random_id attribute.
 		# This should be unique per message and should be changed right after the message has been sent.
