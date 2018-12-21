@@ -19,6 +19,7 @@
 * Now it is possible to update the status message, located in your profile.
 * Now it is possible to upload an audio from your computer when adding attachments in a wall post. When adding attachments to a post or message in a conversation, you will have two options: upload from your computer and add a file from your VK profile.
 * Updated Russian translation: thanks to Дарья Ратникова.
+* Fixed some conditions, especially when rendering items in feeds, that were making the client to crash.
 * new versions will include documentation and changelog.
 
 ## Changes in version 0.16 (13.12.2018)
