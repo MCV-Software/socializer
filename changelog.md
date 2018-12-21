@@ -17,7 +17,7 @@
 * When trying to add an audio or video to an album, if the current user does not have any album, it will display an error instead of a traceback.
 * Added popular and suggested songs. This will not work when using alternative tokens.
 * Now it is possible to update the status message, located in your profile.
-* Now it is possible to upload an audio from your computer when adding attachments in a wall post.
+* Now it is possible to upload an audio from your computer when adding attachments in a wall post. When adding attachments to a post or message in a conversation, you will have two options: upload from your computer and add a file from your VK profile.
 * Updated Russian translation: thanks to Дарья Ратникова.
 * new versions will include documentation and changelog.
 
