@@ -87,7 +87,7 @@ def render_newsfeed_item(status, session):
 		if message == "":
 			message = "no description available"
 	# Handle audio rendering.
-	elif status["type"] == "audio":
+	elif status["type"] == "audio" and "audio" in status:
 		# removes deleted audios.
 		status["audio"] = clean_audio(status["audio"])
 		if status["audio"]["count"] == 1:
