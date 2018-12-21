@@ -776,10 +776,9 @@ class chatBuffer(baseBuffer):
 		return retrieved
 
 	def add_attachment(self, *args, **kwargs):
-		a = attach.attachFromOnline(self.session)
-		r = a.parse_attachments()
-		if r != "":
-			self.attachments_to_be_sent = r
+		a = attach.attach(self.session)
+		if len(a.attachments) != 0:
+			self.attachments_to_be_sent = a.attachments
 
 	def send_chat_to_user(self, *args, **kwargs):
 		text = self.tab.text.GetValue()
@@ -788,7 +787,32 @@ class chatBuffer(baseBuffer):
 			return
 		call_threaded(self._send_message, text=text)
 
-	def _send_message(self, text):
+	def upload_attachments(self, attachments):
+		""" Upload attachments to VK before posting them.
+		Returns attachments formatted as string, as required by VK API.
+		"""
+		local_attachments = ""
+		uploader = upload.VkUpload(self.session.vk.session_object)
+		for i in attachments:
+			if i["from"] == "online":
+				local_attachments += "{0}{1}_{2},".format(i["type"], i["owner_id"], i["id"])
+			elif i["from"] == "local" and i["type"] == "photo":
+				photos = i["file"]
+				description = i["description"]
+				r = uploader.photo_messages(photos)
+				id = r[0]["id"]
+				owner_id = r[0]["owner_id"]
+				local_attachments += "photo{0}_{1},".format(owner_id, id)
+			elif i["from"] == "local" and i["type"] == "audio":
+				audio = i["file"]
+				r = uploader.audio(audio, "untitled", "untitled")
+				id = r["id"]
+				owner_id = r["owner_id"]
+				local_attachments += "audio{0}_{1},".format(owner_id, id)
+		return local_attachments
+
+	def _send_message(self, text, attachments=[]):
+		self.attachments_to_be_sent = self.upload_attachments(self.attachments_to_be_sent)
 		try:
 		# Let's take care about the random_id attribute.
 		# This should be unique per message and should be changed right after the message has been sent.
