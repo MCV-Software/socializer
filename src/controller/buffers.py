@@ -139,15 +139,16 @@ class baseBuffer(object):
 		local_attachments = ""
 		uploader = upload.VkUpload(self.session.vk.session_object)
 		for i in attachments:
-			if i["type"] == "photo":
+			if i["from"] == "online":
+				local_attachments += "{0}{1}_{2},".format(i["type"], i["owner_id"], i["id"])
+			elif i["from"] == "local" and i["type"] == "photo":
 				photos = i["file"]
 				description = i["description"]
 				r = uploader.photo_wall(photos, caption=description)
 				id = r[0]["id"]
 				owner_id = r[0]["owner_id"]
 				local_attachments += "photo{0}_{1},".format(owner_id, id)
-
-			elif i["type"] == "audio":
+			elif i["from"] == "local" and i["type"] == "audio":
 				audio = i["file"]
 				r = uploader.audio(audio, "untitled", "untitled")
 				id = r["id"]

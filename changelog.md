@@ -9,7 +9,7 @@
 * Adding and removing an audio file to your library works.
 * Unread messages will play a sound when focused.
 * Unread messages will be marked as read when user focuses them.
-* Socializer will skip restricted audio tracks. Restricted songs are not allowed to be played in the user's country. Before, playing a restricted track was generating an exception and playback could not resume.
+* Socializer will handle restricted audio tracks. Restricted songs are not allowed to be played in the user's country. Before, playing a restricted track was generating an exception and playback could not resume. Now, playing an audio track will display an error notification.
 * Fixed an error when people was trying to open a post in an empty buffer, or accessing the menu when there are no posts in the buffer.
 * Now Socializer will not send a notification every 5 minutes.
 * the chat widget now is a multiline text control. It means it is possible to add a new line by pressing shift+Enter, and send the message by pressing enter.
@@ -17,6 +17,7 @@
 * When trying to add an audio or video to an album, if the current user does not have any album, it will display an error instead of a traceback.
 * Added popular and suggested songs. This will not work when using alternative tokens.
 * Now it is possible to update the status message, located in your profile.
+* Now it is possible to upload an audio from your computer when adding attachments in a wall post.
 * Updated Russian translation: thanks to Дарья Ратникова.
 * new versions will include documentation and changelog.
 
