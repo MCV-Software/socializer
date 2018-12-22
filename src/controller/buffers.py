@@ -403,17 +403,13 @@ class audioBuffer(feedBuffer):
 	def play_audio(self, *args, **kwargs):
 		selected = self.tab.list.get_selected()
 		if selected == -1:
-			return
-		if selected == -1:
 			selected = 0
 		pub.sendMessage("play-audio", audio_object=self.session.db[self.name]["items"][selected])
 		return True
 
 	def play_next(self, *args, **kwargs):
 		selected = self.tab.list.get_selected()
-		if selected == -1:
-			return
-		elif selected < 0 or selected == self.tab.list.get_count()-1:
+		if selected < 0 or selected == self.tab.list.get_count()-1:
 			selected = 0
 		if self.tab.list.get_count() <= selected+1:
 			newpos = 0
@@ -424,9 +420,7 @@ class audioBuffer(feedBuffer):
 
 	def play_previous(self, *args, **kwargs):
 		selected = self.tab.list.get_selected()
-		if selected == -1:
-			return
-		elif selected <= 0:
+		if selected <= 0:
 			selected = self.tab.list.get_count()
 		newpos = selected-1
 		self.tab.list.select_item(newpos)
@@ -434,7 +428,7 @@ class audioBuffer(feedBuffer):
 
 	def open_post(self, *args, **kwargs):
 		selected = self.tab.list.get_selected()
-		if selected == 0 or selected == -1:
+		if selected == -1:
 			return
 		audios = [self.session.db[self.name]["items"][selected]]
 		a = posts.audio(self.session, audios)
