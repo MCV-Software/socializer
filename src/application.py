@@ -10,3 +10,7 @@ update_url = "https://code.manuelcortez.net/manuelcortez/socializer/raw/master/u
 # The short name will be used for detecting translation files. See languageHandler for more details.
 short_name = "socializer"
 translators = [u"Darya Ratnikova (Russian)", u"Manuel Cortez (Spanish)"]
+bts_name = "socializer"
+bts_access_token = "U29jaWFsaXplcg"
+bts_url = "https://issues.manuelcortez.net"
+bts_project_id = 4

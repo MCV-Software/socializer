@@ -25,6 +25,7 @@ from wxUI import (mainWindow, commonMessages)
 from wxUI.dialogs import search as searchDialogs
 from wxUI.dialogs import timeline, creation
 from update import updater
+from issueReporter import issueReporter
 
 log = logging.getLogger("controller.main")
 
@@ -169,6 +170,7 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.view_my_profile, menuitem=self.window.view_profile)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.view_my_profile_in_browser, menuitem=self.window.open_in_browser)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.set_status, menuitem=self.window.set_status)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_report_error, menuitem=self.window.report)
 
 	def disconnect_events(self):
 		log.debug("Disconnecting some events...")
@@ -659,3 +661,6 @@ class Controller(object):
 			info = self.session.vk.client.account.saveProfileInfo(status=result)
 			commonMessages.updated_status()
 		dlg.Destroy()
+
+	def on_report_error(self, *args, **kwargs):
+		r = issueReporter.reportBug()

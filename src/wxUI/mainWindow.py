@@ -51,6 +51,7 @@ class mainWindow(wx.Frame):
 		self.documentation = help_.Append(wx.NewId(), _(u"Manual"))
 		self.check_for_updates = help_.Append(wx.NewId(), _(u"Check for updates"))
 		self.changelog = help_.Append(wx.NewId(), _(u"Chan&gelog"))
+		self.report = help_.Append(wx.NewId(), _(u"Report an error"))
 		mb.Append(player, _(u"Audio player"))
 		mb.Append(help_, _(u"Help"))
 		self.SetMenuBar(mb)

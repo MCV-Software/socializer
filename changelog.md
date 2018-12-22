@@ -21,6 +21,7 @@
 * Updated Russian translation: thanks to Дарья Ратникова.
 * Fixed some conditions, especially when rendering items in feeds, that were making the client to crash.
 * new versions will include documentation and changelog.
+* A new option for reporting issues directly from the help menu has been added. Issues will be publicly available in the [Project Issues page](https://code.manuelcortez.net/manuelcortez/socializer/issues)
 
 ## Changes in version 0.16 (13.12.2018)
 
