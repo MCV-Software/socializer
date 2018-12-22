@@ -221,8 +221,8 @@ class Controller(object):
 
 	def update_all_buffers(self):
 		log.debug("Updating buffers...")
-		self.get_audio_albums(create_buffers=False)
-		self.get_video_albums(create_buffers=False)
+		self.get_audio_albums(self.session.user_id, create_buffers=False)
+		self.get_video_albums(self.session.user_id, create_buffers=False)
 		for i in self.buffers:
 			if hasattr(i, "get_items"):
 				i.get_items()
