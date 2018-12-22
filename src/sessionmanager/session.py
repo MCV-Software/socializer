@@ -16,8 +16,11 @@ sessions = {}
 
 # Saves possible set of identifier keys for VK'S data types
 # see https://vk.com/dev/datatypes for more information.
-# I've added the Date identifier (this is a field in unix time format), for special objects (like friendship indicators) because these objects doesn't have an own identifier.
+# I've added the Date identifier (this is a field in unix time format), for special objects (like friendship indicators) because these objects don't have an own identifier.
 identifiers = ["aid", "gid", "uid", "pid", "id", "post_id", "nid", "date"]
+
+# Different VK post types, present in the newsfeed buffer. This is useful for filtering by post and remove deleted posts.
+post_types = dict(audio="audio", friend="friends", video="video", post="post_type")
 
 def find_item(list, item):
 	""" Finds an item in a list  by taking an identifier"""
@@ -44,6 +47,7 @@ class vkSession(object):
 		name str: The name for the buffer stored in the dictionary.
 		data list: A list with items and some information about cursors.
 		returns the number of items that has been added in this execution"""
+		global post_types
 		first_addition = False
 		num = 0
 		if self.db.has_key(name) == False:
@@ -53,6 +57,14 @@ class vkSession(object):
 		for i in data:
 			if i.has_key("type") and (i["type"] == "wall_photo" or i["type"] == "photo_tag" or i["type"] == "photo"):
 				log.debug("Skipping unsupported item... %r" % (i,))
+				continue
+			# for some reason, VK sends post data if the post has been deleted already.
+			# Example of this behaviour is when you upload an audio and inmediately delete the audio, VK still sends the post stating that you uploaded an audio file,
+			# But without the audio data, making socializer to render an empty post.
+			# Here we check if the post contains data of the type it advertises.
+			if "type" in i and post_types[i["type"]] not in i:
+				log.error("Detected empty post. Skipping...")
+				print i
 				continue
 			if find_item(self.db[name]["items"], i) == False:
 #			if i not in self.db[name]["items"]:
