@@ -8,6 +8,7 @@ pypubsub==3.3.0
 requests-oauthlib
 future
 arrow
+backports.functools_lru_cache
 yandex.translate
 mutagen
 # forked repositories previously found at http://q-continuum.net
