@@ -1,8 +1,9 @@
 import _sslfixer
+import webbrowser
 import random
 import requests
 import string
-
+from wxUI import two_factor_auth
 class AuthenticationError(Exception):
     pass
 
@@ -24,7 +25,7 @@ api_url = 'https://api.vk.com/method/'
 def requestAuth(login, password, scope=scope):
     if not (login or password):
         raise ValueError
-    url = 'https://oauth.vk.com/token?grant_type=password&client_id='+client_id+'&client_secret='+client_secret+'&username='+login+'&password='+password+'&v='+api_ver+'&scope='+scope
+    url = 'https://oauth.vk.com/token?grant_type=password&2fa_supported=1&client_id='+client_id+'&client_secret='+client_secret+'&username='+login+'&password='+password+'&v='+api_ver+'&scope='+scope
     headers = {
     'User-Agent': user_agent
     }
@@ -35,6 +36,16 @@ def requestAuth(login, password, scope=scope):
         user_id = str(res['user_id'])
         return access_token, user_id
     else:
+        # Two factor auth is not supported in this method as it returns invalid code all the time.
+#        t = r.json()
+#        print t
+#        q = requests.get(t["redirect_uri"], headers=headers)
+#        print q.text
+#        code, remember = two_factor_auth()
+#        url = 'https://oauth.vk.com/token?grant_type=password&client_id='+client_id+'&client_secret='+client_secret+'&username='+login+'&password='+password+'&v='+api_ver+'&scope='+scope+'&code='+code+'&remember_device='+str(int(remember))
+#        print url
+#        r = requests.get(url, headers=headers)
+#        print r.text
         raise AuthenticationError(r.text)
 
 def getReceipt(user_id):
