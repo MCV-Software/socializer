@@ -776,7 +776,7 @@ class chatBuffer(baseBuffer):
 		return retrieved
 
 	def add_attachment(self, *args, **kwargs):
-		a = attach.attach(self.session)
+		a = attach.attach(self.session, True)
 		if len(a.attachments) != 0:
 			self.attachments_to_be_sent = a.attachments
 
@@ -816,6 +816,11 @@ class chatBuffer(baseBuffer):
 				id = r["id"]
 				owner_id = r["owner_id"]
 				local_attachments += "audio{0}_{1},".format(owner_id, id)
+			elif i["from"] == "local" and i["type"] == "voice_message":
+				r = uploader.audio_message(i["file"], peer_id=self.kwargs["user_id"])
+				id = r["audio_message"]["id"]
+				owner_id = r["audio_message"]["owner_id"]
+				local_attachments += "audio_message{0}_{1},".format(owner_id, id)
 		return local_attachments
 
 	def _send_message(self, text, attachments=[]):

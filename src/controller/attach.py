@@ -5,7 +5,9 @@ this controller will take care of preparing data structures to be uploaded later
 import os
 import logging
 import widgetUtils
+import audioRecorder
 from mutagen.id3 import ID3
+from sessionmanager.utils import seconds_to_string
 from wxUI.dialogs import attach as gui
 from wxUI.dialogs import selector
 from wxUI.menus import attachMenu
@@ -31,6 +33,8 @@ class attach(object):
 		self.dialog = gui.attachDialog(voice_messages)
 		widgetUtils.connect_event(self.dialog.photo, widgetUtils.BUTTON_PRESSED, self.on_image)
 		widgetUtils.connect_event(self.dialog.audio, widgetUtils.BUTTON_PRESSED, self.on_audio)
+		if voice_messages:
+			widgetUtils.connect_event(self.dialog.voice_message, widgetUtils.BUTTON_PRESSED, self.upload_voice_message)
 		widgetUtils.connect_event(self.dialog.remove, widgetUtils.BUTTON_PRESSED, self.remove_attachment)
 		log.debug("Attachments controller started.")
 		self.dialog.get_response()
@@ -82,6 +86,16 @@ class attach(object):
 			self.attachments.append(audioInfo)
 			# Translators: This is the text displayed in the attachments dialog, when the user adds  an audio file.
 			info = [_(u"Audio file"), u"{title} - {artist}".format(title=title, artist=artist)]
+			self.dialog.attachments.insert_item(False, *info)
+			self.dialog.remove.Enable(True)
+
+	def upload_voice_message(self, *args, **kwargs):
+		a = audioRecorder.audioRecorder()
+		if a.file != None and a.duration != 0:
+			audioInfo = {"type": "voice_message", "file": a.file, "from": "local"}
+			self.attachments.append(audioInfo)
+			# Translators: This is the text displayed in the attachments dialog, when the user adds  an audio file.
+			info = [_(u"Voice message"), seconds_to_string(a.duration,)]
 			self.dialog.attachments.insert_item(False, *info)
 			self.dialog.remove.Enable(True)
 
