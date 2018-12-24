@@ -10,7 +10,7 @@
 * Unread messages will play a sound when focused.
 * Unread messages will be marked as read when user focuses them.
 * Socializer will handle restricted audio tracks. Restricted songs are not allowed to be played in the user's country. Before, playing a restricted track was generating an exception and playback could not resume. Now, playing an audio track will display an error notification.
-* Fixed an error when people was trying to open a post in an empty buffer, or accessing the menu when there are no posts in the buffer.
+* Fixed an error when people were trying to open a post in an empty buffer, or accessing the menu when there are no posts in the buffer.
 * Now Socializer will not send a notification every 5 minutes.
 * the chat widget now is a multiline text control. It means it is possible to add a new line by pressing shift+Enter, and send the message by pressing enter.
 * Socializer should handle connection errors when loading items in buffers and retry in 2 minutes. Also, connection errors in the chat server are handled and chat should be able to reconnect by itself.
