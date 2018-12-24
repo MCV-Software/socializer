@@ -785,6 +785,7 @@ class chatBuffer(baseBuffer):
 		if text == "" and not hasattr(self, "attachments_to_be_sent"):
 			wx.Bell()
 			return
+		self.tab.text.SetValue("")
 		call_threaded(self._send_message, text=text)
 
 	def upload_attachments(self, attachments):
@@ -833,8 +834,6 @@ class chatBuffer(baseBuffer):
 		except ValueError as ex:
 			if ex.code == 9:
 				output.speak(_(u"You have been sending a message that is already sent. Try to update the buffer if you can't see the new message in the history."))
-		finally:
-			self.tab.text.SetValue("")
 
 	def __init__(self, *args, **kwargs):
 		super(chatBuffer, self).__init__(*args, **kwargs)
