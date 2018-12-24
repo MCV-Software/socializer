@@ -3,15 +3,29 @@
 from __future__ import unicode_literals
 import sys
 import os
-import logging as original_logger 
-log = original_logger.getLogger("sound")
+import glob
+import subprocess
+import logging
 import paths
 import sound_lib
 import output
+from sound_lib import recording
 from mysc.repeating_timer import RepeatingTimer
 from mysc.thread_utils import call_threaded
 from sound_lib import output, input
-import glob
+
+log = logging.getLogger("sound")
+
+def recode_audio(filename, quality=4.5):
+	subprocess.call(r'"%s" -q %r "%s"' % (os.path.join(paths.app_path(), 'oggenc2.exe'), quality, filename))
+
+def get_recording(filename):
+# try:
+	val = recording.WaveRecording(filename=filename)
+# except sound_lib.main.BassError:
+#  sound_lib.input.Input()
+#  val = sound_lib.recording.WaveRecording(filename=filename)
+	return val
 
 class soundSystem(object):
 
