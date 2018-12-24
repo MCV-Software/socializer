@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
+""" Session object for Socializer. A session is the only object to call VK API methods, save settings and access to the cache database and sound playback mechanisms. """
 import os
 import logging
 import languageHandler
 import paths
 import vkSessionHandler
 import sound
-import core
 from config_utils import Configuration, ConfigurationResetException
 from pubsub import pub
 from vk_api.exceptions import LoginRequired, VkApiError
@@ -14,7 +14,7 @@ log = logging.getLogger("session")
 
 sessions = {}
 
-# Saves possible set of identifier keys for VK'S data types
+# Save possible set of identifier keys for VK'S data types
 # see https://vk.com/dev/datatypes for more information.
 # I've added the Date identifier (this is a field in unix time format), for special objects (like friendship indicators) because these objects don't have an own identifier.
 identifiers = ["aid", "gid", "uid", "pid", "id", "post_id", "nid", "date"]
@@ -23,8 +23,11 @@ identifiers = ["aid", "gid", "uid", "pid", "id", "post_id", "nid", "date"]
 post_types = dict(audio="audio", friend="friends", video="video", post="post_type")
 
 def find_item(list, item):
-	""" Finds an item in a list  by taking an identifier"""
-	# determines the kind of identifier that we are using
+	""" Find an item in a list  by taking an identifier.
+	@list list: A list of dict objects.
+	@ item dict: A dictionary containing at least an identifier.
+	"""
+	# determine the kind of identifier that we are using
 	global identifiers
 	identifier = None
 	for i in identifiers:
@@ -40,12 +43,12 @@ def find_item(list, item):
 	return False
 
 class vkSession(object):
+	""" The only session available in socializer. Manages everything related to a model in an MVC app: calls to VK, sound handling, settings and a cache database."""
 
 	def order_buffer(self, name, data, show_nextpage):
-
-		""" Put new items on the local database. Useful for cursored buffers
-		name str: The name for the buffer stored in the dictionary.
-		data list: A list with items and some information about cursors.
+		""" Put new items on the local cache database.
+		@name str: The name for the buffer stored in the dictionary.
+		@data list: A list with items and some information about cursors.
 		returns the number of items that has been added in this execution"""
 		global post_types
 		first_addition = False
@@ -237,8 +240,3 @@ class vkSession(object):
 		log.debug("Getting user identifier...")
 		user = self.vk.client.users.get(fields="uid, first_name, last_name")
 		self.user_id = user[0]["id"]
-#		receipt = core.getReceipt(str(self.user_id))
-#		print receipt
-#		token = core.validateToken(self.vk.session_object.token["access_token"], receipt)
-#		print token
-#		self.vk.session_object.token = dict(access_token=token)
