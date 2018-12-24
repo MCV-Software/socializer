@@ -4,8 +4,8 @@ this controller will take care of preparing data structures to be uploaded later
 """
 import os
 import logging
-import eyed3
 import widgetUtils
+from mutagen.id3 import ID3
 from wxUI.dialogs import attach as gui
 from wxUI.dialogs import selector
 from wxUI.menus import attachMenu
@@ -69,9 +69,15 @@ class attach(object):
 		if audio != None:
 			# Define data structure for this attachment, as will be required by VK API later.
 			# Let's extract the ID3 tags to show them in the list and send them to VK, too.
-			audio_tags = eyed3.load(audio)
-			title = audio_tags.tag.title
-			artist = audio_tags.tag.artist
+			audio_tags = ID3(audio)
+			if "TIT2" in audio_tags:
+				title = audio_tags["TIT2"].text[0]
+			else:
+				title = _(u"Untitled")
+			if "TPE1" in audio_tags:
+				artist = audio_tags["TPE1"].text[0]
+			else:
+				artist = _(u"Unknown artist")
 			audioInfo = {"type": "audio", "file": audio, "from": "local", "title": title, "artist": artist}
 			self.attachments.append(audioInfo)
 			# Translators: This is the text displayed in the attachments dialog, when the user adds  an audio file.
