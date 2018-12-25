@@ -27,7 +27,7 @@ from glob import glob
 def get_architecture_files():
  if platform.architecture()[0][:2] == "32":
   return [
-  ("", ["../windows-dependencies/x86/bootstrap.exe"]),
+  ("", ["../windows-dependencies/x86/oggenc2.exe", "../windows-dependencies/x86/bootstrap.exe"]),
   ("Microsoft.VC90.CRT", glob("../windows-dependencies/x86/Microsoft.VC90.CRT/*")),
   ("Microsoft.VC90.MFC", glob("../windows-dependencies/x86/Microsoft.VC90.MFC/*")),]
  elif platform.architecture()[0][:2] == "64":
