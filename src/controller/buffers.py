@@ -746,7 +746,7 @@ class chatBuffer(baseBuffer):
 	def catch_enter(self, event, *args, **kwargs):
 		shift=event.ShiftDown()
 		if event.GetKeyCode() == wx.WXK_RETURN and shift == False:
-			self.send_chat_to_user()
+			return self.send_chat_to_user()
 		event.Skip()
 
 	def get_items(self, show_nextpage=False, unread=False):
