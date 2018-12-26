@@ -16,18 +16,15 @@ except ImportError:
 
 from platform_utils import paths
 
-def perform_update(endpoint, current_version, app_name='', password=None, update_available_callback=None, progress_callback=None, update_complete_callback=None):
+def perform_update(endpoint, current_version, update_type="stable", app_name='', password=None, update_available_callback=None, progress_callback=None, update_complete_callback=None):
 	requests_session = create_requests_session(app_name=app_name, version=current_version)
 	available_update = find_update(endpoint, requests_session=requests_session)
 	if not available_update:
 		logger.debug("No update available")
 		return False
-	available_version = float(available_update['current_version'])
-	if not float(available_version) > float(current_version) or platform.system()+platform.architecture()[0][:2] not in available_update['downloads']:
-		logger.debug("No update for this architecture")
-		return False
-	available_description = available_update.get('description', None)
-	update_url = available_update ['downloads'][platform.system()+platform.architecture()[0][:2]]
+	available_version, available_description, update_url = find_version_data(update_type, current_version, available_update)
+	if available_version == False:
+		return
 	logger.info("A new update is available. Version %s" % available_version)
 	if callable(update_available_callback) and not update_available_callback(version=available_version, description=available_description): #update_available_callback should return a falsy value to stop the process
 		logger.info("User canceled update.")
@@ -56,6 +53,29 @@ def find_update(endpoint, requests_session):
 	response.raise_for_status()
 	content = response.json()
 	return content
+
+def find_version_data(update_type, current_version, available_update):
+	if update_type == "stable":
+		available_version = float(available_update['current_version'])
+		if not float(available_version) > float(current_version) or platform.system()+platform.architecture()[0][:2] not in available_update['downloads']:
+			logger.debug("No update for this architecture")
+			return (False, False, False)
+		available_description = available_update.get('description', None)
+		update_url = available_update ['downloads'][platform.system()+platform.architecture()[0][:2]]
+		return (available_version, available_description, update_url)
+	else: # Unstable versions, based in commits instead of version numbers.
+		# A condition for this to work is a successful ran of a pipeline.
+		if "status" not in available_update:
+			return (False, False, False)
+		if "status" in available_update and available_update["status"] != "success":
+			return (False, False, False)
+		available_version = available_update["short_id"]
+		if available_version == current_version:
+			return (False, False, False)
+		available_description = available_update["message"]
+		# ToDo: simplify this so it can be reused in other projects.
+		update_url = "https://code.manuelcortez.net/manuelcortez/socializer/-/jobs/artifacts/master/raw/socializer.zip?job=production"
+		return (available_version, available_description, update_url)
 
 def download_update(update_url, update_destination, requests_session, progress_callback=None, chunk_size=io.DEFAULT_BUFFER_SIZE):
 	total_downloaded = total_size = 0
