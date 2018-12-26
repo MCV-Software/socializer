@@ -42,9 +42,6 @@ class sessionManagerController(object):
 			if not os.path.exists(path):
 				os.mkdir(path)
 			s.get_configuration()
-			if view.two_factor_question() == widgetUtils.YES:
-				s.settings["vk"]["use_alternative_tokens"] = True
-				s.settings.write()
 			self.get_authorisation(s)
 			session.sessions[location] = s
 		else:

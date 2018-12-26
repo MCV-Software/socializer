@@ -23,11 +23,7 @@ def get_code():
 	if response == widgetUtils.OK:
 		code = dlg.GetValue()
 		dlg.Destroy()
-
 	dlg.Destroy()
-
-def two_factor_question():
-	return wx.MessageDialog(None, _(u"Do you have two factor authentication enabled in your account?"), _(u"Authentication method"), wx.YES_NO).ShowModal()
 
 class newSessionDialog(widgetUtils.BaseDialog):
 	def __init__(self):

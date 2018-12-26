@@ -15,7 +15,7 @@ class C2DMError(Exception):
 
 client_id = '2685278'
 client_secret = 'lxhD8OD7dMsqtXIm5IUY'
-api_ver='5.70'
+api_ver='5.92'
 scope = 'all'
 user_agent = 'KateMobileAndroid/47-427 (Android 6.0.1; SDK 23; armeabi-v7a; samsung SM-G900F; ru)'
 android_id = '4119748609680577006'
@@ -25,27 +25,24 @@ api_url = 'https://api.vk.com/method/'
 def requestAuth(login, password, scope=scope):
     if not (login or password):
         raise ValueError
-    url = 'https://oauth.vk.com/token?grant_type=password&2fa_supported=1&client_id='+client_id+'&client_secret='+client_secret+'&username='+login+'&password='+password+'&v='+api_ver+'&scope='+scope
+    url = 'https://oauth.vk.com/token?grant_type=password&2fa_supported=1&force_sms=1&client_id='+client_id+'&client_secret='+client_secret+'&username='+login+'&password='+password+'&v='+api_ver+'&scope='+scope
     headers = {
     'User-Agent': user_agent
     }
     r = requests.get(url, headers=headers)
+    # If a 401 error is raised, we need to use 2FA here.
+    # see https://vk.com/dev/auth_direct (switch lang to russian, english docs are very incomplete in the matter)
+    if r.status_code == 401 and "phone_mask" in r.text:
+        t = r.json()
+        code, remember = two_factor_auth()
+        url = 'https://oauth.vk.com/token?grant_type=password&client_id='+client_id+'&client_secret='+client_secret+'&username='+login+'&password='+password+'&v='+api_ver+'&scope='+scope+'&code='+code
+        r = requests.get(url, headers=headers)
     if r.status_code == 200 and 'access_token' in r.text:
         res = r.json()
         access_token = res['access_token']
         user_id = str(res['user_id'])
         return access_token, user_id
     else:
-        # Two factor auth is not supported in this method as it returns invalid code all the time.
-#        t = r.json()
-#        print t
-#        q = requests.get(t["redirect_uri"], headers=headers)
-#        print q.text
-#        code, remember = two_factor_auth()
-#        url = 'https://oauth.vk.com/token?grant_type=password&client_id='+client_id+'&client_secret='+client_secret+'&username='+login+'&password='+password+'&v='+api_ver+'&scope='+scope+'&code='+code+'&remember_device='+str(int(remember))
-#        print url
-#        r = requests.get(url, headers=headers)
-#        print r.text
         raise AuthenticationError(r.text)
 
 def getReceipt(user_id):
