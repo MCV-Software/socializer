@@ -14,7 +14,7 @@ Before downloading, take in to account the following: This source code is comple
 
 Version: 0.16  
 Build date: Dec 14 2018  
-[Download socializer](https://code.manuelcortez.net/manuelcortez/socializer/-/jobs/artifacts/master/raw/socializer.zip?job=production)
+[Download socializer](https://code.manuelcortez.net/manuelcortez/socializer/-/jobs/artifacts/master/raw/socializer.zip?job=alpha)
 
 I have started this effort as an open source  project on Feb 13, 2016. Pull requests and bug reports are welcome.
 
