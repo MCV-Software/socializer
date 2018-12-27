@@ -23,7 +23,7 @@ class general(wx.Panel, widgetUtils.BaseDialog):
 		self.load_images = wx.CheckBox(self, wx.NewId(), _(u"Load images in posts"))
 		sizer.Add(self.load_images, 0, wx.ALL, 5)
 		lbl4 = wx.StaticText(self, wx.NewId(), _(u"Update channel"))
-		self.update_channel = wx.ComboBox(self, wx.NewId(), choices=[_(u"Stable"), _(u"Weekly"), _(u"Alpha")], value=_(u"Native"), style=wx.CB_READONLY)
+		self.update_channel = wx.ComboBox(self, wx.NewId(), choices=[_(u"Stable"), _(u"Alpha")], value=_(u"Native"), style=wx.CB_READONLY)
 		box4 = wx.BoxSizer(wx.HORIZONTAL)
 		box4.Add(lbl4, 0, wx.ALL, 5)
 		box4.Add(self.update_channel, 0, wx.ALL, 5)
