@@ -24,7 +24,7 @@ def perform_update(endpoint, current_version, update_type="stable", app_name='',
 		return False
 	available_version, available_description, update_url = find_version_data(update_type, current_version, available_update)
 	if available_version == False:
-		return
+		return False
 	logger.info("A new update is available. Version %s" % available_version)
 	if callable(update_available_callback) and not update_available_callback(version=available_version, description=available_description): #update_available_callback should return a falsy value to stop the process
 		logger.info("User canceled update.")

@@ -56,7 +56,7 @@ class Controller(object):
 		self.create_controls()
 		self.window.Show()
 		self.connect_events()
-		call_threaded(updater.do_update)
+		call_threaded(updater.do_update, update_type=self.session.settings["general"]["update_channel"])
 
 	def create_controls(self):
 		log.debug("Creating controls for the window...")
@@ -266,7 +266,7 @@ class Controller(object):
 		b.get_more_items()
 
 	def check_for_updates(self, *args, **kwargs):
-		update = updater.do_update()
+		update = updater.do_update(update_type=self.session.settings["general"]["update_channel"])
 		if update == False:
 			commonMessages.no_update_available()
 
