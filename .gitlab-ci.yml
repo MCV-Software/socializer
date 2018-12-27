@@ -1,4 +1,32 @@
-production:
+# Jobs to build the two channels in Socializer.
+alpha:
+  type: deploy
+  tags:
+    - windows
+  script:
+    - pip install --upgrade pip
+    - pip install --upgrade -r requirements.txt
+    - copy changelog.md doc\changelog.md
+    - cd doc
+    - python documentation_importer.py
+    - cd ..\src
+    - python ..\doc\generator.py
+    - python write_version_data.py
+    - python setup.py py2exe
+    - cd ..
+    - cd scripts
+    - python prepare_zipversion.py
+    - cd ..
+    - move src\socializer.zip socializer.zip
+  only:
+    - master
+  artifacts:
+    paths:
+    - socializer.zip
+    name: socializer
+    expire_in: 1 week
+
+stable:
   type: deploy
   tags:
     - windows
@@ -17,10 +45,9 @@ production:
     - cd ..
     - move src\socializer.zip socializer.zip
   only:
-    - schedules
     - tags
   artifacts:
     paths:
     - socializer.zip
     name: socializer
-    expire_in: 1 week
+    expire_in: 1 month
