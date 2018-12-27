@@ -12,11 +12,13 @@ def available_update_dialog(version, description):
 	else:
 		return False
 
-
 def create_progress_dialog():
 	return wx.ProgressDialog(_(u"Download in Progress"), _(u"Downloading the new version..."),  parent=None, maximum=100)
 
 def progress_callback(total_downloaded, total_size):
+	wx.CallAfter(_progress_callback, total_downloaded, total_size)
+
+def _progress_callback(total_downloaded, total_size):
 	global progress_dialog
 	if progress_dialog == None:
 		progress_dialog = create_progress_dialog()
@@ -27,4 +29,4 @@ def progress_callback(total_downloaded, total_size):
 		progress_dialog.Update((total_downloaded*100)/total_size, _(u"Updating... %s of %s") % (str(utils.convert_bytes(total_downloaded)), str(utils.convert_bytes(total_size))))
 
 def update_finished():
-	ms = wx.MessageDialog(None, _(u"The update has been downloaded and installed successfully. Press OK to continue."), _(u"Done!")).ShowModal()
+	return wx.MessageDialog(None, _(u"The update has been downloaded and installed successfully. Press OK to continue."), _(u"Done!")).ShowModal()
