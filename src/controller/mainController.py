@@ -119,6 +119,10 @@ class Controller(object):
 		outgoing_requests = buffers.requestsBuffer(parent=self.window.tb, name="friend_requests_sent", composefunc="render_person", session=self.session, count=1000, out=1)
 		self.buffers.append(outgoing_requests)
 		self.window.insert_buffer(outgoing_requests.tab, _(u"I follow"), self.window.search("requests"))
+		communities= buffers.empty(parent=self.window.tb, name="communities")
+		self.buffers.append(communities)
+		# Translators: name for the videos category in the tree view.
+		self.window.add_buffer(communities.tab, _(u"Communities"))
 		chats = buffers.empty(parent=self.window.tb, name="chats")
 		self.buffers.append(chats)
 		self.window.add_buffer(chats.tab, _(u"Chats"))
@@ -201,10 +205,11 @@ class Controller(object):
 		self.create_longpoll_thread()
 		self.status_setter = RepeatingTimer(280, self.set_online)
 		self.status_setter.start()
-		self.set_online(notify=True)
-		self.create_unread_messages()
+		call_threaded(self.set_online, notify=True)
+		call_threaded(self.create_unread_messages)
 		wx.CallAfter(self.get_audio_albums, self.session.user_id)
 		wx.CallAfter(self.get_video_albums, self.session.user_id)
+		wx.CallAfter(self.get_communities, self.session.user_id)
 
 	def create_longpoll_thread(self, notify=False):
 		try:
@@ -501,9 +506,9 @@ class Controller(object):
 				name_ = _(u"Album: {0}").format(i["title"],)
 				self.buffers.append(buffer)
 				self.window.insert_buffer(buffer.tab, name_, self.window.search("albums"))
-				buffer.get_items()
+#				buffer.get_items()
 				# inserts a pause of 1 second here, so we'll avoid errors 6 in VK.
-				time.sleep(0.3)
+#				time.sleep(0.3)
 
 	def get_video_albums(self, user_id=None, create_buffers=True):
 		log.debug("Create video  albums...")
@@ -517,9 +522,30 @@ class Controller(object):
 				name_ = _(u"Album: {0}").format(i["title"],)
 				self.buffers.append(buffer)
 				self.window.insert_buffer(buffer.tab, name_, self.window.search("video_albums"))
-				buffer.get_items()
+#				buffer.get_items()
 				# inserts a pause of 1 second here, so we'll avoid errors 6 in VK.
-				time.sleep(0.3)
+#				time.sleep(0.3)
+
+	def get_communities(self, user_id=None, create_buffers=True):
+		log.debug("Create community buffers...")
+		groups= self.session.vk.client.groups.get(user_id=user_id, extended=1, fields="city, country, place, description, wiki_page, members_count, counters, start_date, finish_date, can_post, can_see_all_posts, activity, status, contacts, links, fixed_post, verified, site, can_create_topic")
+		print groups.keys()
+		self.session.groups=groups["items"]
+		# Let's feed the local database cache with new groups coming from here.
+		data= dict(profiles=[], groups=groups["items"])
+		self.session.process_usernames(data)
+		if create_buffers:
+			for i in groups["items"]:
+				print i.keys()
+				buffer = buffers.communityBuffer(parent=self.window.tb, name="{0}_community".format(i["id"],), composefunc="render_status", session=self.session, endpoint="get", parent_endpoint="wall", count=self.session.settings["buffers"]["count_for_wall_buffers"], owner_id=-1*i["id"])
+				buffer.can_get_items = False
+				# Translators: {0} Will be replaced with a video  album's title.
+				name_ =i["name"]
+				self.buffers.append(buffer)
+				self.window.insert_buffer(buffer.tab, name_, self.window.search("communities"))
+#				buffer.get_items()
+				# inserts a pause of 1 second here, so we'll avoid errors 6 in VK.
+#				time.sleep(0.3)
 
 	def create_audio_album(self, *args, **kwargs):
 		d = creation.audio_album()

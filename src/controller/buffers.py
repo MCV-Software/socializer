@@ -41,7 +41,7 @@ class baseBuffer(object):
 		@parent wx.Treebook: parent for the buffer panel,
 		@name str: Name for saving this buffer's data in the local storage variable,
 		@session sessionmanager.session.vkSession: Session for performing operations in the Vk API. This session should be logged in when this class is instanciated.
-		@composefunc str: This function will be called for composing the result which will be put in the listCtrl. Composefunc should existss in the sessionmanager.session module.
+		@composefunc str: This function will be called for composing the result which will be put in the listCtrl. Composefunc should exist in the sessionmanager.renderers module.
 		args and kwargs will be passed to get_items() without any filtering. Be careful there.
 		"""
 		super(baseBuffer, self).__init__()
@@ -72,7 +72,7 @@ class baseBuffer(object):
 		self.tab = home.homeTab(parent)
 
 	def insert(self, item, reversed=False):
-		""" Add a new item to the list. Uses session.composefunc for parsing the dictionary and create a valid result for putting it in the list."""
+		""" Add a new item to the list. Uses renderers.composefunc for parsing the dictionary and create a valid result for putting it in the list."""
 		item_ = getattr(renderers, self.compose_function)(item, self.session)
 		self.tab.list.insert_item(reversed, *item_)
 
@@ -134,7 +134,7 @@ class baseBuffer(object):
 	def upload_attachments(self, attachments):
 		""" Upload attachments to VK before posting them.
 		Returns attachments formatted as string, as required by VK API.
-		Currently this function only supports photos."""
+		Currently this function only supports photos and audios."""
 		# To do: Check the caption and description fields for this kind of attachments.
 		local_attachments = ""
 		uploader = upload.VkUpload(self.session.vk.session_object)
@@ -177,7 +177,7 @@ class baseBuffer(object):
 		if pos != 0:
 			self.tab.PopupMenu(menu, pos)
 		else:
-			self.tab.PopupMenu(menu, ev.GetPosition())
+			self.tab.PopupMenu(menu, self.tab.list.list.GetPosition())
 
 	def show_menu_by_key(self, ev):
 		""" Show contextual menu when menu key is pressed"""
@@ -290,7 +290,7 @@ class baseBuffer(object):
 			return True
 
 	def open_person_profile(self, *args, **kwargs):
-		""" Views someone's user profile."""
+		""" Views someone's profile."""
 		selected = self.get_post()
 		if selected == None:
 			return
@@ -387,6 +387,21 @@ class feedBuffer(baseBuffer):
 		super(feedBuffer, self).__init__(*args, **kwargs)
 		self.user_key = "from_id"
 		self.post_key = "id"
+
+class communityBuffer(feedBuffer):
+
+	def create_tab(self, parent):
+		self.tab = home.communityTab(parent)
+
+	def connect_events(self):
+		super(communityBuffer, self).connect_events()
+		widgetUtils.connect_event(self.tab.load, widgetUtils.BUTTON_PRESSED, self.load_community)
+
+	def load_community(self, *args, **kwargs):
+		output.speak(_(u"Loading community..."))
+		self.can_get_items = True
+		self.tab.load.Enable(False)
+		wx.CallAfter(self.get_items)
 
 class audioBuffer(feedBuffer):
 	""" this buffer was supposed to be used with audio elements
