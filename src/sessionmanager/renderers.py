@@ -98,6 +98,16 @@ def render_newsfeed_item(status, session):
 				composed_audio = render_audio(status["audio"]["items"][i], session)
 				prem += u"{0} - {1}, ".format(composed_audio[0], composed_audio[1])
 			message = _(u"{0} has added  {1} audios: {2}").format(user, status["audio"]["count"], prem)
+	# Handle audio playlists
+	elif status["type"] == "audio_playlist":
+		if status["audio_playlist"]["count"] == 1:
+			message = _(u"{0} has added an audio album: {1}, {2}").format(user, status["audio_playlist"]["items"][0]["title"], status["audio_playlist"]["items"][0]["description"])
+		else:
+			prestring = ""
+			for i in xrange(0, status["audio_playlist"]["count"]):
+				prestring += u"{0} - {1}, ".format(status["audio_playlist"]["items"][i]["title"], status["audio_playlist"]["items"][i]["description"])
+			message = _(u"{0} has added  {1} audio albums: {2}").format(user, status["audio_playlist"]["count"], prestring)
+
 	# handle new friends for people in the news buffer.
 	elif status["type"] == "friend":
 		msg_users = u""
