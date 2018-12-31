@@ -20,7 +20,7 @@ sessions = {}
 identifiers = ["aid", "gid", "uid", "pid", "id", "post_id", "nid", "date"]
 
 # Different VK post types, present in the newsfeed buffer. This is useful for filtering by post and remove deleted posts.
-post_types = dict(audio="audio", friend="friends", video="video", post="post_type")
+post_types = dict(audio="audio", friend="friends", video="video", post="post_type", audio_playlist="audio_playlist")
 
 def find_item(list, item):
 	""" Find an item in a list  by taking an identifier.
@@ -65,9 +65,9 @@ class vkSession(object):
 			# Example of this behaviour is when you upload an audio and inmediately delete the audio, VK still sends the post stating that you uploaded an audio file,
 			# But without the audio data, making socializer to render an empty post.
 			# Here we check if the post contains data of the type it advertises.
-			if "type" in i and post_types[i["type"]] not in i:
-				log.error("Detected empty post. Skipping...")
-				print i
+			if i.get("type") != None and post_types.get(i["type"]) not in i:
+				log.error("Detected invalid or unsupported post. Skipping...")
+				log.error(i)
 				continue
 			if find_item(self.db[name]["items"], i) == False:
 #			if i not in self.db[name]["items"]:

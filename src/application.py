@@ -12,7 +12,6 @@ translators = [u"Darya Ratnikova (Russian)", u"Manuel Cortez (Spanish)"]
 bts_name = "socializer"
 bts_access_token = "U29jaWFsaXplcg"
 bts_url = "https://issues.manuelcortez.net"
-bts_project_id = 4
 ### Update information
 # URL to retrieve the latest updates for the stable branch.
 update_stable_url = "https://code.manuelcortez.net/manuelcortez/socializer/raw/master/update-files/socializer.json"

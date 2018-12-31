@@ -51,6 +51,15 @@ class feedTab(homeTab):
 		super(feedTab, self).__init__(parent=parent)
 		self.name = "me_feed"
 
+class communityTab(feedTab):
+
+	def create_post_buttons(self):
+		self.load = wx.Button(self, wx.NewId(), _(u"Load community"))
+		self.post = wx.Button(self, -1, _(u"&Post"))
+		self.postBox = wx.BoxSizer(wx.HORIZONTAL)
+		self.postBox.Add(self.load, 0, wx.ALL, 5)
+		self.postBox.Add(self.post, 0, wx.ALL, 5)
+
 class audioTab(homeTab):
 	def create_list(self):
 		self.lbl = wx.StaticText(self, wx.NewId(), _(u"Mu&sic"))
@@ -78,6 +87,7 @@ class audioAlbumTab(audioTab):
 		self.play = wx.Button(self, -1, _(u"P&lay"))
 		self.play_all = wx.Button(self, -1, _(u"Play &All"))
 		self.postBox = wx.BoxSizer(wx.HORIZONTAL)
+		self.postBox.Add(self.load, 0, wx.ALL, 5)
 		self.postBox.Add(self.post, 0, wx.ALL, 5)
 		self.postBox.Add(self.play, 0, wx.ALL, 5)
 		self.postBox.Add(self.play_all, 0, wx.ALL, 5)
