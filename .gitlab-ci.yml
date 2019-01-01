@@ -50,4 +50,3 @@ stable:
     paths:
     - socializer.zip
     name: socializer
-    expire_in: 1 month

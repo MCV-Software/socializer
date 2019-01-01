@@ -1,4 +1,4 @@
-{"current_version": "0.14",
-"description": "Added management for audio albums. Bugfixes. Updated translations. Added a context menu for some items. Unread chats will be opened at startup.",
+{"current_version": "0.17",
+"description": ".",
 "downloads":
-{"Windows32": "https://github.com/manuelcortez/socializer/blob/master/nightly/socializer-nightly-build.zip?raw=true"}}
+{"Windows32": "https://code.manuelcortez.net/manuelcortez/socializer/-/jobs/artifacts/master/raw/socializer.zip?job=stable"}}

@@ -119,10 +119,10 @@ class Controller(object):
 		outgoing_requests = buffers.requestsBuffer(parent=self.window.tb, name="friend_requests_sent", composefunc="render_person", session=self.session, count=1000, out=1)
 		self.buffers.append(outgoing_requests)
 		self.window.insert_buffer(outgoing_requests.tab, _(u"I follow"), self.window.search("requests"))
-		communities= buffers.empty(parent=self.window.tb, name="communities")
-		self.buffers.append(communities)
+#		communities= buffers.empty(parent=self.window.tb, name="communities")
+#		self.buffers.append(communities)
 		# Translators: name for the videos category in the tree view.
-		self.window.add_buffer(communities.tab, _(u"Communities"))
+#		self.window.add_buffer(communities.tab, _(u"Communities"))
 		chats = buffers.empty(parent=self.window.tb, name="chats")
 		self.buffers.append(chats)
 		self.window.add_buffer(chats.tab, _(u"Chats"))
@@ -209,7 +209,7 @@ class Controller(object):
 		call_threaded(self.create_unread_messages)
 		wx.CallAfter(self.get_audio_albums, self.session.user_id)
 		wx.CallAfter(self.get_video_albums, self.session.user_id)
-		wx.CallAfter(self.get_communities, self.session.user_id)
+#		wx.CallAfter(self.get_communities, self.session.user_id)
 
 	def create_longpoll_thread(self, notify=False):
 		try:
