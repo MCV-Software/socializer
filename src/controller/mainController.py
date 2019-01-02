@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+from builtins import range
 import time
 import os
 import wx
 import widgetUtils
-import messages
-import buffers
-import configuration
-import player
-import posts
-import profiles
+from . import messages
+from . import buffers
+from . import configuration
+from . import player
+from . import posts
+from . import profiles
 import webbrowser
 import logging
 import output
-import longpollthread
-import selector
+from . import longpollthread
+from . import selector
 from vk_api.exceptions import LoginRequired, VkApiError
 from requests.exceptions import ConnectionError
 from pubsub import pub
@@ -32,7 +34,7 @@ log = logging.getLogger("controller.main")
 class Controller(object):
 
 	def search(self, tab_name):
-		for i in xrange(0, len(self.buffers)):
+		for i in range(0, len(self.buffers)):
 			if self.buffers[i].name == tab_name:
 				return self.buffers[i]
 		return False
@@ -51,8 +53,8 @@ class Controller(object):
 		player.setup()
 		self.window = mainWindow.mainWindow()
 		log.debug("Main window created")
-		self.window.change_status(_(u"Ready"))
-		self.session = session.sessions[session.sessions.keys()[0]]
+		self.window.change_status(_("Ready"))
+		self.session = session.sessions[list(session.sessions.keys())[0]]
 		self.create_controls()
 		self.window.Show()
 		self.connect_events()
@@ -63,11 +65,11 @@ class Controller(object):
 		posts_ = buffers.empty(parent=self.window.tb, name="posts")
 		self.buffers.append(posts_)
 		# Translators: Name for the posts tab in the tree view.
-		self.window.add_buffer(posts_.tab, _(u"Posts"))
+		self.window.add_buffer(posts_.tab, _("Posts"))
 		home = buffers.baseBuffer(parent=self.window.tb, name="home_timeline", session=self.session, composefunc="render_newsfeed_item", endpoint="newsfeed", count=self.session.settings["buffers"]["count_for_wall_buffers"])
 		self.buffers.append(home)
 		# Translators: Newsfeed's name in the tree view.
-		self.window.insert_buffer(home.tab, _(u"Home"), self.window.search("posts"))
+		self.window.insert_buffer(home.tab, _("Home"), self.window.search("posts"))
 		self.repeatedUpdate = RepeatingTimer(120, self.update_all_buffers)
 		self.repeatedUpdate.start()
 		self.readMarker = RepeatingTimer(60, self.mark_as_read)
@@ -75,60 +77,60 @@ class Controller(object):
 		feed = buffers.feedBuffer(parent=self.window.tb, name="me_feed", composefunc="render_status", session=self.session, endpoint="get", parent_endpoint="wall", extended=1, count=self.session.settings["buffers"]["count_for_wall_buffers"])
 		self.buffers.append(feed)
 		# Translators: Own user's wall name in the tree view.
-		self.window.insert_buffer(feed.tab, _(u"My wall"), self.window.search("posts"))
+		self.window.insert_buffer(feed.tab, _("My wall"), self.window.search("posts"))
 		audios = buffers.empty(parent=self.window.tb, name="audios")
 		self.buffers.append(audios)
 		# Translators: name for the music category in the tree view.
-		self.window.add_buffer(audios.tab, _(u"Music"))
+		self.window.add_buffer(audios.tab, _("Music"))
 
 		audio = buffers.audioBuffer(parent=self.window.tb, name="me_audio", composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio")
 		self.buffers.append(audio)
-		self.window.insert_buffer(audio.tab, _(u"My audios"), self.window.search("audios"))
+		self.window.insert_buffer(audio.tab, _("My audios"), self.window.search("audios"))
 		if self.session.settings["vk"]["use_alternative_tokens"] == False:
 			p_audio = buffers.audioBuffer(parent=self.window.tb, name="popular_audio", composefunc="render_audio", session=self.session, endpoint="getPopular", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"])
 			self.buffers.append(p_audio)
-			self.window.insert_buffer(p_audio.tab, _(u"Populars"), self.window.search("audios"))
+			self.window.insert_buffer(p_audio.tab, _("Populars"), self.window.search("audios"))
 			r_audio = buffers.audioBuffer(parent=self.window.tb, name="recommended_audio", composefunc="render_audio", session=self.session, endpoint="getRecommendations", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"])
 			self.buffers.append(r_audio)
-			self.window.insert_buffer(r_audio.tab, _(u"Recommendations"), self.window.search("audios"))
+			self.window.insert_buffer(r_audio.tab, _("Recommendations"), self.window.search("audios"))
 		albums = buffers.empty(parent=self.window.tb, name="albums")
 		self.buffers.append(albums)
-		self.window.insert_buffer(albums.tab, _(u"Albums"), self.window.search("audios"))
+		self.window.insert_buffer(albums.tab, _("Albums"), self.window.search("audios"))
 		videos = buffers.empty(parent=self.window.tb, name="videos")
 		self.buffers.append(videos)
 		# Translators: name for the videos category in the tree view.
-		self.window.add_buffer(videos.tab, _(u"Video"))
+		self.window.add_buffer(videos.tab, _("Video"))
 		my_videos = buffers.videoBuffer(parent=self.window.tb, name="me_video", composefunc="render_video", session=self.session, endpoint="get", parent_endpoint="video", count=self.session.settings["buffers"]["count_for_video_buffers"])
 		self.buffers.append(my_videos)
-		self.window.insert_buffer(my_videos.tab, _(u"My videos"), self.window.search("videos"))
+		self.window.insert_buffer(my_videos.tab, _("My videos"), self.window.search("videos"))
 		video_albums = buffers.empty(parent=self.window.tb, name="video_albums")
 		self.buffers.append(video_albums)
-		self.window.insert_buffer(video_albums.tab, _(u"Albums"), self.window.search("videos"))
+		self.window.insert_buffer(video_albums.tab, _("Albums"), self.window.search("videos"))
 		people = buffers.empty(parent=self.window.tb, name="people")
 		self.buffers.append(people)
-		self.window.add_buffer(people.tab, _(u"People"))
+		self.window.add_buffer(people.tab, _("People"))
 		friends = buffers.peopleBuffer(parent=self.window.tb, name="friends_", composefunc="render_person", session=self.session, endpoint="get", parent_endpoint="friends", count=5000, fields="uid, first_name, last_name, last_seen")
 		self.buffers.append(friends)
-		self.window.insert_buffer(friends.tab, _(u"Friends"), self.window.search("people"))
+		self.window.insert_buffer(friends.tab, _("Friends"), self.window.search("people"))
 		requests_ = buffers.empty(parent=self.window.tb, name="requests")
 		self.buffers.append(requests_)
-		self.window.insert_buffer(requests_.tab, _(u"Friendship requests"), self.window.search("people"))
+		self.window.insert_buffer(requests_.tab, _("Friendship requests"), self.window.search("people"))
 		incoming_requests = buffers.requestsBuffer(parent=self.window.tb, name="friend_requests", composefunc="render_person", session=self.session, count=1000)
 		self.buffers.append(incoming_requests)
-		self.window.insert_buffer(incoming_requests.tab, _(u"Pending requests"), self.window.search("requests"))
+		self.window.insert_buffer(incoming_requests.tab, _("Pending requests"), self.window.search("requests"))
 		outgoing_requests = buffers.requestsBuffer(parent=self.window.tb, name="friend_requests_sent", composefunc="render_person", session=self.session, count=1000, out=1)
 		self.buffers.append(outgoing_requests)
-		self.window.insert_buffer(outgoing_requests.tab, _(u"I follow"), self.window.search("requests"))
-#		communities= buffers.empty(parent=self.window.tb, name="communities")
-#		self.buffers.append(communities)
+		self.window.insert_buffer(outgoing_requests.tab, _("I follow"), self.window.search("requests"))
+		communities= buffers.empty(parent=self.window.tb, name="communities")
+		self.buffers.append(communities)
 		# Translators: name for the videos category in the tree view.
-#		self.window.add_buffer(communities.tab, _(u"Communities"))
+		self.window.add_buffer(communities.tab, _("Communities"))
 		chats = buffers.empty(parent=self.window.tb, name="chats")
 		self.buffers.append(chats)
-		self.window.add_buffer(chats.tab, _(u"Chats"))
+		self.window.add_buffer(chats.tab, _("Chats"))
 		timelines = buffers.empty(parent=self.window.tb, name="timelines")
 		self.buffers.append(timelines)
-		self.window.add_buffer(timelines.tab, _(u"Timelines"))
+		self.window.add_buffer(timelines.tab, _("Timelines"))
 		self.window.realize()
 
 	def connect_events(self):
@@ -193,15 +195,15 @@ class Controller(object):
 		commonMessages.bad_authorisation()
 
 	def login(self):
-		self.window.change_status(_(u"Logging in VK"))
+		self.window.change_status(_("Logging in VK"))
 		self.session.login()
-		self.window.change_status(_(u"Ready"))
+		self.window.change_status(_("Ready"))
 		for i in self.buffers:
 			if hasattr(i, "get_items"):
 				# Translators: {0} will be replaced with the name of a buffer.
-				self.window.change_status(_(u"Loading items for {0}").format(i.name,))
+				self.window.change_status(_("Loading items for {0}").format(i.name,))
 				i.get_items()
-		self.window.change_status(_(u"Ready"))
+		self.window.change_status(_("Ready"))
 		self.create_longpoll_thread()
 		self.status_setter = RepeatingTimer(280, self.set_online)
 		self.status_setter.start()
@@ -216,7 +218,7 @@ class Controller(object):
 			self.longpoll = longpollthread.worker(self.session)
 			self.longpoll.start()
 			if notify:
-				self.notify(message=_(u"Chat server reconnected"))
+				self.notify(message=_("Chat server reconnected"))
 		except ConnectionError:
 			pub.sendMessage("longpoll-read-timeout")
 
@@ -233,17 +235,17 @@ class Controller(object):
 		for i in self.buffers:
 			if hasattr(i, "get_items"):
 				i.get_items()
-				log.debug(u"Updated %s" % (i.name))
+				log.debug("Updated %s" % (i.name))
 
 	def download(self, url, filename):
-		log.debug(u"downloading %s URL to %s filename" % (url, filename,))
+		log.debug("downloading %s URL to %s filename" % (url, filename,))
 		call_threaded(utils.download_file, url, filename, self.window)
 
 	def play_audio(self, audio_object):
 		# Restricted audios does not include an URL paramether.
 		# Restriction can be due to licensed content to unauthorized countries.
 		if "url" in audio_object and audio_object["url"] =="":
-			self.notify(message=_(u"This file could not be played because it is not allowed in your country"))
+			self.notify(message=_("This file could not be played because it is not allowed in your country"))
 			return
 		call_threaded(player.player.play, audio_object)
 
@@ -279,11 +281,11 @@ class Controller(object):
 		dlg = searchDialogs.searchAudioDialog()
 		if dlg.get_response() == widgetUtils.OK:
 			q = dlg.get("term").encode("utf-8")
-			newbuff = buffers.audioBuffer(parent=self.window.tb, name=u"{0}_audiosearch".format(q.decode("utf-8"),), session=self.session, composefunc="render_audio", parent_endpoint="audio", endpoint="search", q=q)
+			newbuff = buffers.audioBuffer(parent=self.window.tb, name="{0}_audiosearch".format(q,), session=self.session, composefunc="render_audio", parent_endpoint="audio", endpoint="search", q=q)
 			self.buffers.append(newbuff)
 			call_threaded(newbuff.get_items)
 			# Translators: {0} will be replaced with the search term.
-			self.window.insert_buffer(newbuff.tab, _(u"Search for {0}").format(q.decode("utf-8"),), self.window.search("audios"))
+			self.window.insert_buffer(newbuff.tab, _("Search for {0}").format(q,), self.window.search("audios"))
 
 	def search_videos(self, *args, **kwargs):
 		dlg = searchDialogs.searchVideoDialog()
@@ -297,11 +299,11 @@ class Controller(object):
 			params["adult"] = dlg.get_checkable("safe_search")
 			params["sort"] = dlg.get_sort_order()
 			params["filters"] = "youtube, vimeo, short, long"
-			newbuff = buffers.videoBuffer(parent=self.window.tb, name=u"{0}_videosearch".format(params["q"].decode("utf-8"),), session=self.session, composefunc="render_video", parent_endpoint="video", endpoint="search", **params)
+			newbuff = buffers.videoBuffer(parent=self.window.tb, name="{0}_videosearch".format(params["q"],), session=self.session, composefunc="render_video", parent_endpoint="video", endpoint="search", **params)
 			self.buffers.append(newbuff)
 			call_threaded(newbuff.get_items)
 			# Translators: {0} will be replaced with the search term.
-			self.window.insert_buffer(newbuff.tab, _(u"Search for {0}").format(params["q"].decode("utf-8"),), self.window.search("videos"))
+			self.window.insert_buffer(newbuff.tab, _("Search for {0}").format(params["q"],), self.window.search("videos"))
 
 	def update_status_bar(self, status):
 		self.window.change_status(status)
@@ -350,15 +352,15 @@ class Controller(object):
 			if buffertype == "audio":
 				buffer = buffers.audioBuffer(parent=self.window.tb, name="{0}_audio".format(user_id,), composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio", owner_id=user_id)
 				# Translators: {0} will be replaced with an user.
-				name_ = _(u"{0}'s audios").format(self.session.get_user_name(user_id, "gen"),)
+				name_ = _("{0}'s audios").format(self.session.get_user_name(user_id, "gen"),)
 			elif buffertype == "wall":
 				buffer = buffers.feedBuffer(parent=self.window.tb, name="{0}_feed".format(user_id,), composefunc="render_status", session=self.session, endpoint="get", parent_endpoint="wall", extended=1, count=self.session.settings["buffers"]["count_for_wall_buffers"],  owner_id=user_id)
 				# Translators: {0} will be replaced with an user.
-				name_ = _(u"{0}'s wall posts").format(self.session.get_user_name(user_id, "gen"),)
+				name_ = _("{0}'s wall posts").format(self.session.get_user_name(user_id, "gen"),)
 			elif buffertype == "friends":
 				buffer = buffers.peopleBuffer(parent=self.window.tb, name="friends_{0}".format(user_id,), composefunc="render_person", session=self.session, endpoint="get", parent_endpoint="friends", count=5000, fields="uid, first_name, last_name, last_seen", user_id=user_id)
 				# Translators: {0} will be replaced with an user.
-				name_ = _(u"{0}'s friends").format(self.session.get_user_name(user_id, "friends"),)
+				name_ = _("{0}'s friends").format(self.session.get_user_name(user_id, "friends"),)
 			self.buffers.append(buffer)
 			call_threaded(self.complete_buffer_creation, buffer=buffer, name_=name_, position=self.window.search("timelines"))
 
@@ -374,7 +376,7 @@ class Controller(object):
 	def search_chat_buffer(self, user_id):
 		for i in self.buffers:
 			if "_messages" in i.name:
-				if i.kwargs.has_key("user_id") and i.kwargs["user_id"] == user_id: return i
+				if "user_id" in i.kwargs and i.kwargs["user_id"] == user_id: return i
 		return None
 
 	def chat_from_id(self, user_id, setfocus=True, unread=False):
@@ -388,7 +390,7 @@ class Controller(object):
 		buffer = buffers.chatBuffer(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="render_message", session=self.session, count=200,  user_id=user_id, rev=0, extended=True, fields="id, user_id, date, read_state, out, body, attachments, deleted")
 		self.buffers.append(buffer)
 		# Translators: {0} will be replaced with an user.
-		self.window.insert_buffer(buffer.tab, _(u"Chat with {0}").format(self.session.get_user_name(user_id, "ins")), self.window.search("chats"))
+		self.window.insert_buffer(buffer.tab, _("Chat with {0}").format(self.session.get_user_name(user_id, "ins")), self.window.search("chats"))
 		if setfocus:
 			pos = self.window.search(buffer.name)
 			self.window.change_buffer(pos)
@@ -400,7 +402,7 @@ class Controller(object):
 		if self.session.settings["chat"]["notify_online"] == False:
 			return
 		user_name = self.session.get_user_name(event.user_id, "nom")
-		msg = _(u"{0} is online.").format(user_name,)
+		msg = _("{0} is online.").format(user_name,)
 		sound = "friend_online.ogg"
 		self.notify(msg, sound, self.session.settings["chat"]["notifications"])
 
@@ -408,7 +410,7 @@ class Controller(object):
 		if self.session.settings["chat"]["notify_offline"] == False:
 			return
 		user_name = self.session.get_user_name(event.user_id, "nom")
-		msg = _(u"{0} is offline.").format(user_name,)
+		msg = _("{0} is offline.").format(user_name,)
 		sound = "friend_offline.ogg"
 		self.notify(msg, sound, self.session.settings["chat"]["notifications"])
 
@@ -503,7 +505,7 @@ class Controller(object):
 				buffer = buffers.audioAlbum(parent=self.window.tb, name="{0}_audio_album".format(i["id"],), composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio", owner_id=user_id, album_id=i["id"])
 				buffer.can_get_items = False
 				# Translators: {0} Will be replaced with an audio album's title.
-				name_ = _(u"Album: {0}").format(i["title"],)
+				name_ = _("Album: {0}").format(i["title"],)
 				self.buffers.append(buffer)
 				self.window.insert_buffer(buffer.tab, name_, self.window.search("albums"))
 #				buffer.get_items()
@@ -519,7 +521,7 @@ class Controller(object):
 				buffer = buffers.videoAlbum(parent=self.window.tb, name="{0}_video_album".format(i["id"],), composefunc="render_video", session=self.session, endpoint="get", parent_endpoint="video", count=self.session.settings["buffers"]["count_for_video_buffers"], user_id=user_id, album_id=i["id"])
 				buffer.can_get_items = False
 				# Translators: {0} Will be replaced with a video  album's title.
-				name_ = _(u"Album: {0}").format(i["title"],)
+				name_ = _("Album: {0}").format(i["title"],)
 				self.buffers.append(buffer)
 				self.window.insert_buffer(buffer.tab, name_, self.window.search("video_albums"))
 #				buffer.get_items()
@@ -529,14 +531,14 @@ class Controller(object):
 	def get_communities(self, user_id=None, create_buffers=True):
 		log.debug("Create community buffers...")
 		groups= self.session.vk.client.groups.get(user_id=user_id, extended=1, fields="city, country, place, description, wiki_page, members_count, counters, start_date, finish_date, can_post, can_see_all_posts, activity, status, contacts, links, fixed_post, verified, site, can_create_topic")
-		print groups.keys()
+#		print(list(groups.keys()))
 		self.session.groups=groups["items"]
 		# Let's feed the local database cache with new groups coming from here.
 		data= dict(profiles=[], groups=groups["items"])
 		self.session.process_usernames(data)
 		if create_buffers:
 			for i in groups["items"]:
-				print i.keys()
+#				print(list(i.keys()))
 				buffer = buffers.communityBuffer(parent=self.window.tb, name="{0}_community".format(i["id"],), composefunc="render_status", session=self.session, endpoint="get", parent_endpoint="wall", count=self.session.settings["buffers"]["count_for_wall_buffers"], owner_id=-1*i["id"])
 				buffer.can_get_items = False
 				# Translators: {0} Will be replaced with a video  album's title.
@@ -551,19 +553,19 @@ class Controller(object):
 		d = creation.audio_album()
 		if d.get_response() == widgetUtils.OK and d.get("title") != "":
 			response = self.session.vk.client.audio.addAlbum(title=d.get("title"))
-			if response.has_key("album_id") == False: return
+			if ("album_id" in response) == False: return
 			album_id = response["album_id"]
 			buffer = buffers.audioAlbum(parent=self.window.tb, name="{0}_audio_album".format(album_id,), composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], user_id=self.session.user_id, album_id=album_id)
 			buffer.can_get_items = False
 			# Translators: {0} will be replaced with an audio album's title.
-			name_ = _(u"Album: {0}").format(d.get("title"),)
+			name_ = _("Album: {0}").format(d.get("title"),)
 			self.buffers.append(buffer)
 			self.window.insert_buffer(buffer.tab, name_, self.window.search("albums"))
 			buffer.get_items()
 			self.session.audio_albums = self.session.vk.client.audio.getAlbums(owner_id=self.session.user_id)["items"]
 
 	def delete_audio_album(self, *args, **kwargs):
-		answer = selector.album(_(u"Select the album you want to delete"), self.session)
+		answer = selector.album(_("Select the album you want to delete"), self.session)
 		if answer.item == None:
 			return
 		response = commonMessages.delete_audio_album()
@@ -580,19 +582,19 @@ class Controller(object):
 		d = creation.audio_album()
 		if d.get_response() == widgetUtils.OK and d.get("title") != "":
 			response = self.session.vk.client.video.addAlbum(title=d.get("title"))
-			if response.has_key("album_id") == False: return
+			if ("album_id" in response) == False: return
 			album_id = response["album_id"]
 			buffer = buffers.videoAlbum(parent=self.window.tb, name="{0}_video_album".format(album_id,), composefunc="render_video", session=self.session, endpoint="get", parent_endpoint="video", count=self.session.settings["buffers"]["count_for_video_buffers"], user_id=self.session.user_id, album_id=album_id)
 			buffer.can_get_items = False
 			# Translators: {0} will be replaced with a video  album's title.
-			name_ = _(u"Album: {0}").format(d.get("title"),)
+			name_ = _("Album: {0}").format(d.get("title"),)
 			self.buffers.append(buffer)
 			self.window.insert_buffer(buffer.tab, name_, self.window.search("video_albums"))
 			buffer.get_items()
 			self.session.video_albums = self.session.vk.client.video.getAlbums(owner_id=self.session.user_id)["items"]
 
 	def delete_video_album(self, *args, **kwargs):
-		answer = selector.album(_(u"Select the album you want to delete"), self.session, "video_albums")
+		answer = selector.album(_("Select the album you want to delete"), self.session, "video_albums")
 		if answer.item == None:
 			return
 		response = commonMessages.delete_audio_album()
@@ -674,14 +676,14 @@ class Controller(object):
 
 	def handle_longpoll_read_timeout(self):
 		if hasattr(self, "longpoll"):
-			self.notify(message=_(u"Chat disconnected. Trying to connect in 60 seconds"))
+			self.notify(message=_("Chat disconnected. Trying to connect in 60 seconds"))
 		time.sleep(60)
 		if hasattr(self, "longpoll"):
 			del self.longpoll
 		self.create_longpoll_thread(notify=True)
 
 	def set_status(self, *args, **kwargs):
-		dlg = wx.TextEntryDialog(self.window, _(u"Write your status message"), _(u"Set status"))
+		dlg = wx.TextEntryDialog(self.window, _("Write your status message"), _("Set status"))
 		if dlg.ShowModal() == widgetUtils.OK:
 			result = dlg.GetValue()
 			info = self.session.vk.client.account.saveProfileInfo(status=result)

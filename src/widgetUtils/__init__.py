@@ -1,3 +1,4 @@
+#from __future__ import unicode_literals
 import platform
 #if platform.system() == "Windows":
 from .wxUtils import *

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """ A buffer is a (virtual) list of items. All items belong to a category (wall posts, messages, persons...)"""
+from __future__ import unicode_literals
 import random
 import logging
 import webbrowser
@@ -7,12 +8,12 @@ import arrow
 import wx
 import languageHandler
 import widgetUtils
-import messages
-import player
+from . import messages
+from . import player
 import output
-import selector
-import posts
-import attach
+from . import selector
+from . import posts
+from . import attach
 from pubsub import pub
 from vk_api.exceptions import VkApiError
 from vk_api import upload
@@ -21,7 +22,7 @@ from wxUI.tabs import home
 from sessionmanager import session, renderers, utils
 from mysc.thread_utils import call_threaded
 from wxUI import commonMessages, menus
-from sessionmanager.utils import add_attachment
+from sessionmanager.renderers import add_attachment
 
 log = logging.getLogger("controller.buffers")
 
@@ -85,10 +86,10 @@ class baseBuffer(object):
 		try:
 			num = getattr(self.session, "get_newsfeed")(show_nextpage=show_nextpage, name=self.name, *self.args, **self.kwargs)
 		except VkApiError as err:
-			log.error(u"Error {0}: {1}".format(err.code, err.message))
+			log.error("Error {0}: {1}".format(err.code, err.message))
 			retrieved = err.code
 			return retrieved
-		except ReadTimeout, ConnectionError:
+		except ReadTimeout as ConnectionError:
 			log.exception("Connection error when updating buffer %s. Will try again in 2 minutes" % (self.name,))
 			return False
 		if show_nextpage  == False:
@@ -111,7 +112,7 @@ class baseBuffer(object):
 		""" Create a post in the current user's wall.
 		This process is handled in two parts. This is the first part, where the GUI is created and user can send the post.
 		During the second part (threaded), the post will be sent to the API."""
-		p = messages.post(session=self.session, title=_(u"Write your post"), caption="", text="")
+		p = messages.post(session=self.session, title=_("Write your post"), caption="", text="")
 		if p.message.get_response() == widgetUtils.OK:
 			call_threaded(self.do_last, p=p)
 
@@ -192,12 +193,12 @@ class baseBuffer(object):
 		p = self.get_post()
 		if p == None:
 			return
-		if p.has_key("likes") == False:
+		if ("likes" in p) == False:
 			m.like.Enable(False)
 		elif p["likes"]["user_likes"] == 1:
 			m.like.Enable(False)
 			m.dislike.Enable(True)
-		if p.has_key("comments") == False:
+		if ("comments" in p) == False:
 			m.comment.Enable(False)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.open_post, menuitem=m.open)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.do_like, menuitem=m.like)
@@ -213,7 +214,7 @@ class baseBuffer(object):
 			return
 		user = post[self.user_key]
 		id = post[self.post_key]
-		if post.has_key("type"):
+		if "type" in post:
 			type_ = post["type"]
 		else:
 			type_ = "post"
@@ -221,7 +222,7 @@ class baseBuffer(object):
 		self.session.db[self.name]["items"][self.tab.list.get_selected()]["likes"]["count"] = l["likes"]
 		self.session.db[self.name]["items"][self.tab.list.get_selected()]["likes"]["user_likes"] = 1
 		# Translators: This will be used when user presses like.
-		output.speak(_(u"You liked this"))
+		output.speak(_("You liked this"))
 
 	def do_dislike(self, *args, **kwargs):
 		""" Set dislike (undo like) in the currently focused post."""
@@ -230,7 +231,7 @@ class baseBuffer(object):
 			return
 		user = post[self.user_key]
 		id = post[self.post_key]
-		if post.has_key("type"):
+		if "type" in post:
 			type_ = post["type"]
 		else:
 			type_ = "post"
@@ -238,21 +239,21 @@ class baseBuffer(object):
 		self.session.db[self.name]["items"][self.tab.list.get_selected()]["likes"]["count"] = l["likes"]
 		self.session.db[self.name]["items"][self.tab.list.get_selected()]["likes"]["user_likes"] = 2
 		# Translators: This will be user in 'dislike'
-		output.speak(_(u"You don't like this"))
+		output.speak(_("You don't like this"))
 
 	def do_comment(self, *args, **kwargs):
 		""" Make a comment into the currently focused post."""
 		post = self.get_post()
 		if post == None:
 			return
-		comment = messages.comment(title=_(u"Add a comment"), caption="", text="")
+		comment = messages.comment(title=_("Add a comment"), caption="", text="")
 		if comment.message.get_response() == widgetUtils.OK:
 			msg = comment.message.get_text().encode("utf-8")
 			try:
 				user = post[self.user_key]
 				id = post[self.post_key]
 				self.session.vk.client.wall.addComment(owner_id=user, post_id=id, text=msg)
-				output.speak(_(u"You've posted a comment"))
+				output.speak(_("You've posted a comment"))
 			except Exception as msg:
 				log.error(msg)
 
@@ -285,7 +286,7 @@ class baseBuffer(object):
 		post = self.get_post()
 		if post == None:
 			return
-		if post.has_key("type") and post["type"] == "audio":
+		if "type" in post and post["type"] == "audio":
 			pub.sendMessage("play-audio", audio_object=post["audio"]["items"][0])
 			return True
 
@@ -297,7 +298,7 @@ class baseBuffer(object):
 		# Check all possible keys for an user object in VK API.
 		keys = ["from_id", "source_id", "id"]
 		for i in keys:
-			if selected.has_key(i):
+			if i in selected:
 				pub.sendMessage("user-profile", person=selected[i])
 
 	def open_post(self, *args, **kwargs):
@@ -305,11 +306,11 @@ class baseBuffer(object):
 		post = self.get_post()
 		if post == None:
 			return
-		if post.has_key("type") and post["type"] == "audio":
+		if "type" in post and post["type"] == "audio":
 			a = posts.audio(self.session, post["audio"]["items"])
 			a.dialog.get_response()
 			a.dialog.Destroy()
-		elif post.has_key("type") and post["type"] == "friend":
+		elif "type" in post and post["type"] == "friend":
 			pub.sendMessage("open-post", post_object=post, controller_="friendship")
 		else:
 			pub.sendMessage("open-post", post_object=post, controller_="postController")
@@ -327,7 +328,7 @@ class baseBuffer(object):
 		post = self.get_post()
 		if post == None:
 			return
-		if post.has_key("type") == False:
+		if ("type" in post) == False:
 			return [post["from_id"]]
 		else:
 			return [post["source_id"]]
@@ -352,10 +353,10 @@ class feedBuffer(baseBuffer):
 		try:
 			num = getattr(self.session, "get_page")(show_nextpage=show_nextpage, name=self.name, *self.args, **self.kwargs)
 		except VkApiError as err:
-			log.error(u"Error {0}: {1}".format(err.code, err.message))
+			log.error("Error {0}: {1}".format(err.code, err.message))
 			retrieved = err.code
 			return retrieved
-		except ReadTimeout, ConnectionError:
+		except ReadTimeout as ConnectionError:
 			log.exception("Connection error when updating buffer %s. Will try again in 2 minutes" % (self.name,))
 			return False
 		if show_nextpage  == False:
@@ -370,7 +371,7 @@ class feedBuffer(baseBuffer):
 	def remove_buffer(self, mandatory=False):
 		""" Remove buffer if the current buffer is not the logged user's wall."""
 		if "me_feed" == self.name:
-			output.speak(_(u"This buffer can't be deleted"))
+			output.speak(_("This buffer can't be deleted"))
 			return False
 		else:
 			if mandatory == False:
@@ -398,7 +399,7 @@ class communityBuffer(feedBuffer):
 		widgetUtils.connect_event(self.tab.load, widgetUtils.BUTTON_PRESSED, self.load_community)
 
 	def load_community(self, *args, **kwargs):
-		output.speak(_(u"Loading community..."))
+		output.speak(_("Loading community..."))
 		self.can_get_items = True
 		self.tab.load.Enable(False)
 		wx.CallAfter(self.get_items)
@@ -462,7 +463,7 @@ class audioBuffer(feedBuffer):
 
 	def remove_buffer(self, mandatory=False):
 		if "me_audio" == self.name or "popular_audio" == self.name or "recommended_audio" == self.name:
-			output.speak(_(u"This buffer can't be deleted"))
+			output.speak(_("This buffer can't be deleted"))
 			return False
 		else:
 			if mandatory == False:
@@ -477,7 +478,7 @@ class audioBuffer(feedBuffer):
 
 	def get_more_items(self, *args, **kwargs):
 		# Translators: Some buffers can't use the get previous item feature due to API limitations.
-		output.speak(_(u"This buffer doesn't support getting more items."))
+		output.speak(_("This buffer doesn't support getting more items."))
 
 	def onFocus(self, *args, **kwargs):
 		pass
@@ -488,12 +489,12 @@ class audioBuffer(feedBuffer):
 			return
 		args = {}
 		args["audio_id"] = post["id"]
-		if post.has_key("album_id"):
+		if "album_id" in post:
 			args["album_id"] = post["album_id"]
 		args["owner_id"] = post["owner_id"]
 		audio = self.session.vk.client.audio.add(**args)
 		if audio != None and int(audio) > 21:
-			output.speak(_(u"Audio added to your library"))
+			output.speak(_("Audio added to your library"))
 
 	def remove_from_library(self, *args, **kwargs):
 		post = self.get_post()
@@ -504,7 +505,7 @@ class audioBuffer(feedBuffer):
 		args["owner_id"] = self.session.user_id
 		result = self.session.vk.client.audio.delete(**args)
 		if int(result) == 1:
-			output.speak(_(u"Removed audio from library"))
+			output.speak(_("Removed audio from library"))
 			self.tab.list.remove_item(self.tab.list.get_selected())
 
 	def move_to_album(self, *args, **kwargs):
@@ -513,13 +514,13 @@ class audioBuffer(feedBuffer):
 		post = self.get_post()
 		if post == None:
 			return
-		album = selector.album(_(u"Select the album where you want to move this song"), self.session)
+		album = selector.album(_("Select the album where you want to move this song"), self.session)
 		if album.item == None: return
 		id = post["id"]
 		response = self.session.vk.client.audio.moveToAlbum(album_id=album.item, audio_ids=id)
 		if response == 1:
 		# Translators: Used when the user has moved an audio to an album.
-			output.speak(_(u"Moved"))
+			output.speak(_("Moved"))
 
 	def get_menu(self):
 		p = self.get_post()
@@ -531,7 +532,7 @@ class audioBuffer(feedBuffer):
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.move_to_album, menuitem=m.move)
 		# if owner_id is the current user, the audio is added to the user's audios.
 		if p["owner_id"] == self.session.user_id:
-			m.library.SetItemLabel(_(u"&Remove from library"))
+			m.library.SetItemLabel(_("&Remove from library"))
 			widgetUtils.connect_event(m, widgetUtils.MENU, self.remove_from_library, menuitem=m.library)
 		else:
 			widgetUtils.connect_event(m, widgetUtils.MENU, self.add_to_library, menuitem=m.library)
@@ -551,7 +552,7 @@ class audioAlbum(audioBuffer):
 		widgetUtils.connect_event(self.tab.load, widgetUtils.BUTTON_PRESSED, self.load_album)
 
 	def load_album(self, *args, **kwargs):
-		output.speak(_(u"Loading album..."))
+		output.speak(_("Loading album..."))
 		self.can_get_items = True
 		self.tab.load.Enable(False)
 		wx.CallAfter(self.get_items)
@@ -576,7 +577,7 @@ class videoBuffer(feedBuffer):
 			return
 		if selected == -1:
 			selected = 0
-		output.speak(_(u"Opening video in webbrowser..."))
+		output.speak(_("Opening video in webbrowser..."))
 		webbrowser.open_new_tab(self.session.db[self.name]["items"][selected]["player"])
 #		print self.session.db[self.name]["items"][selected]
 		return True
@@ -586,7 +587,7 @@ class videoBuffer(feedBuffer):
 
 	def remove_buffer(self, mandatory=False):
 		if "me_video" == self.name:
-			output.speak(_(u"This buffer can't be deleted"))
+			output.speak(_("This buffer can't be deleted"))
 			return False
 		else:
 			if mandatory == False:
@@ -601,7 +602,7 @@ class videoBuffer(feedBuffer):
 
 	def get_more_items(self, *args, **kwargs):
 		# Translators: Some buffers can't use the get previous item feature due to API limitations.
-		output.speak(_(u"This buffer doesn't support getting more items."))
+		output.speak(_("This buffer doesn't support getting more items."))
 
 	def onFocus(self, *args, **kwargs):
 		pass
@@ -612,12 +613,12 @@ class videoBuffer(feedBuffer):
 			return
 		args = {}
 		args["video_id"] = post["id"]
-		if post.has_key("album_id"):
+		if "album_id" in post:
 			args["album_id"] = post["album_id"]
 		args["owner_id"] = post["owner_id"]
 		video = self.session.vk.client.video.add(**args)
 		if video != None and int(video) > 21:
-			output.speak(_(u"Video added to your library"))
+			output.speak(_("Video added to your library"))
 
 	def remove_from_library(self, *args, **kwargs):
 		post = self.get_post()
@@ -628,7 +629,7 @@ class videoBuffer(feedBuffer):
 		args["owner_id"] = self.session.user_id
 		result = self.session.vk.client.video.delete(**args)
 		if int(result) == 1:
-			output.speak(_(u"Removed video from library"))
+			output.speak(_("Removed video from library"))
 			self.tab.list.remove_item(self.tab.list.get_selected())
 
 	def move_to_album(self, *args, **kwargs):
@@ -637,13 +638,13 @@ class videoBuffer(feedBuffer):
 		post= self.get_post()
 		if post == None:
 			return
-		album = selector.album(_(u"Select the album where you want to move this video"), self.session, "video_albums")
+		album = selector.album(_("Select the album where you want to move this video"), self.session, "video_albums")
 		if album.item == None: return
 		id = post["id"]
 		response = self.session.vk.client.video.addToAlbum(album_ids=album.item, video_id=id, target_id=self.session.user_id, owner_id=self.get_post()["owner_id"])
 		if response == 1:
 		# Translators: Used when the user has moved an video  to an album.
-			output.speak(_(u"Moved"))
+			output.speak(_("Moved"))
 
 	def get_menu(self):
 		""" We'll use the same menu that is used for audio items, as the options are exactly the same"""
@@ -656,7 +657,7 @@ class videoBuffer(feedBuffer):
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.move_to_album, menuitem=m.move)
 		# if owner_id is the current user, the audio is added to the user's audios.
 		if p["owner_id"] == self.session.user_id:
-			m.library.SetItemLabel(_(u"&Remove from library"))
+			m.library.SetItemLabel(_("&Remove from library"))
 			widgetUtils.connect_event(m, widgetUtils.MENU, self.remove_from_library, menuitem=m.library)
 		else:
 			widgetUtils.connect_event(m, widgetUtils.MENU, self.add_to_library, menuitem=m.library)
@@ -673,7 +674,7 @@ class videoAlbum(videoBuffer):
 		widgetUtils.connect_event(self.tab.load, widgetUtils.BUTTON_PRESSED, self.load_album)
 
 	def load_album(self, *args, **kwargs):
-		output.speak(_(u"Loading album..."))
+		output.speak(_("Loading album..."))
 		self.can_get_items = True
 		self.tab.load.Enable(False)
 		wx.CallAfter(self.get_items)
@@ -689,7 +690,7 @@ class empty(object):
 		pass
 
 	def get_more_items(self, *args, **kwargs):
-		output.speak(_(u"This buffer doesn't support getting more items."))
+		output.speak(_("This buffer doesn't support getting more items."))
 
 	def remove_buffer(self, mandatory=False): return False
 
@@ -710,7 +711,7 @@ class chatBuffer(baseBuffer):
 		# Get text position here.
 		position = self.tab.history.PositionToXY(self.tab.history.GetInsertionPoint())
 		id_ = None
-		for i in self.chats.keys():
+		for i in list(self.chats.keys()):
 			# Check if position[2] (line position) matches with something in self.chats
 			# (All messages, except the last one, should be able to be matched here).
 			# position[2]+1 is added because line may start with 0, while in wx.TextCtrl.GetNumberLines() that is not possible.
@@ -733,12 +734,12 @@ class chatBuffer(baseBuffer):
 			msg = self.get_focused_post()
 			if msg == False: # Handle the case where the last line of the control cannot be matched to anything.
 				return
-			if msg.has_key("read_state") and msg["read_state"] == 0 and msg["id"] not in self.reads and msg.has_key("out") and msg["out"] == 0:
+			if "read_state" in msg and msg["read_state"] == 0 and msg["id"] not in self.reads and "out" in msg and msg["out"] == 0:
 				self.session.soundplayer.play("message_unread.ogg")
 				self.reads.append(msg["id"])
 				self.session.db[self.name]["items"][-1]["read_state"] = 1
 #			print msg
-			if msg.has_key("attachments") and len(msg["attachments"]) > 0:
+			if "attachments" in msg and len(msg["attachments"]) > 0:
 				self.tab.attachments.list.Enable(True)
 				self.attachments = list()
 				self.tab.attachments.clear()
@@ -770,10 +771,10 @@ class chatBuffer(baseBuffer):
 		try:
 			num = getattr(self.session, "get_messages")(name=self.name, *self.args, **self.kwargs)
 		except VkApiError as err:
-			log.error(u"Error {0}: {1}".format(err.code, err.message))
+			log.error("Error {0}: {1}".format(err.code, err.message))
 			retrieved = err.code
 			return retrieved
-		except ReadTimeout, ConnectionError:
+		except ReadTimeout as ConnectionError:
 			log.exception("Connection error when updating buffer %s. Will try again in 2 minutes" % (self.name,))
 			return False
 		if show_nextpage  == False:
@@ -853,7 +854,7 @@ class chatBuffer(baseBuffer):
 				response = self.session.vk.client.messages.send(user_id=self.kwargs["user_id"], message=text, random_id=random_id)
 		except ValueError as ex:
 			if ex.code == 9:
-				output.speak(_(u"You have been sending a message that is already sent. Try to update the buffer if you can't see the new message in the history."))
+				output.speak(_("You have been sending a message that is already sent. Try to update the buffer if you can't see the new message in the history."))
 
 	def __init__(self, *args, **kwargs):
 		super(chatBuffer, self).__init__(*args, **kwargs)
@@ -863,7 +864,7 @@ class chatBuffer(baseBuffer):
 	def parse_attachments(self, post):
 		attachments = []
 
-		if post.has_key("attachments"):
+		if "attachments" in post:
 			for i in post["attachments"]:
 				# We don't need the photos_list attachment, so skip it.
 				if i["type"] == "photos_list":
@@ -882,13 +883,13 @@ class chatBuffer(baseBuffer):
 			a.dialog.Destroy()
 		elif attachment["type"] == "audio_message":
 			link = attachment["audio_message"]["link_mp3"]
-			output.speak(_(u"Playing..."))
+			output.speak(_("Playing..."))
 			player.player.play(url=dict(url=link), set_info=False)
 		elif attachment["type"] == "link":
-			output.speak(_(u"Opening URL..."), True)
+			output.speak(_("Opening URL..."), True)
 			webbrowser.open_new_tab(attachment["link"]["url"])
 		elif attachment["type"] == "doc":
-			output.speak(_(u"Opening document in web browser..."))
+			output.speak(_("Opening document in web browser..."))
 			webbrowser.open(attachment["doc"]["url"])
 		elif attachment["type"] == "video":
 			# it seems VK doesn't like to attach video links as normal URLS, so we'll have to
@@ -900,15 +901,15 @@ class chatBuffer(baseBuffer):
 			object_id = "{0}_{1}".format(attachment["video"]["owner_id"], attachment["video"]["id"])
 			video_object = self.session.vk.client.video.get(owner_id=attachment["video"]["owner_id"], videos=object_id)
 			video_object = video_object["items"][0]
-			output.speak(_(u"Opening video in web browser..."), True)
+			output.speak(_("Opening video in web browser..."), True)
 			webbrowser.open_new_tab(video_object["player"])
 		elif attachment["type"] == "photo":
-			output.speak(_(u"Opening photo in web browser..."), True)
+			output.speak(_("Opening photo in web browser..."), True)
 			# Possible photo sizes for looking in the attachment information. Try to use the biggest photo available.
 			possible_sizes = [1280, 604, 130, 75]
 			url = ""
 			for i in possible_sizes:
-				if attachment["photo"].has_key("photo_{0}".format(i,)):
+				if "photo_{0}".format(i,) in attachment["photo"]:
 					url = attachment["photo"]["photo_{0}".format(i,)]
 					break
 			if url != "":
@@ -941,7 +942,7 @@ class peopleBuffer(feedBuffer):
 		post = self.get_post()
 		if post == None:
 			return
-		if post.has_key("last_seen") == False: return
+		if ("last_seen" in post) == False: return
 		original_date = arrow.get(post["last_seen"]["time"])
 		created_at = original_date.humanize(locale=languageHandler.curLang[:2])
 		self.tab.list.list.SetItem(self.tab.list.get_selected(), 1, created_at)
@@ -992,10 +993,10 @@ class requestsBuffer(peopleBuffer):
 		try:
 			ids = self.session.vk.client.friends.getRequests(*self.args, **self.kwargs)
 		except VkApiError as err:
-			log.error(u"Error {0}: {1}".format(err.code, err.message))
+			log.error("Error {0}: {1}".format(err.code, err.message))
 			retrieved = err.code
 			return retrieved
-		except ReadTimeout, ConnectionError:
+		except ReadTimeout as ConnectionError:
 			log.exception("Connection error when updating buffer %s. Will try again in 2 minutes" % (self.name,))
 			return False
 		num = self.session.get_page(name=self.name, show_nextpage=show_nextpage, endpoint="get", parent_endpoint="users", count=1000, user_ids=", ".join([str(i) for i in ids["items"]]), fields="uid, first_name, last_name, last_seen")
@@ -1017,7 +1018,7 @@ class requestsBuffer(peopleBuffer):
 			return
 		result = self.session.vk.client.friends.add(user_id=person["id"])
 		if result == 2:
-			msg = _(u"{0} {1} now is your friend.").format(person["first_name"], person["last_name"])
+			msg = _("{0} {1} now is your friend.").format(person["first_name"], person["last_name"])
 			pub.sendMessage("notify", message=msg)
 			self.session.db[self.name]["items"].pop(self.tab.list.get_selected())
 			self.tab.list.remove_item(self.tab.list.get_selected())
@@ -1031,9 +1032,9 @@ class requestsBuffer(peopleBuffer):
 			return
 		result = self.session.vk.client.friends.delete(user_id=person["id"])
 		if "out_request_deleted" in result:
-			msg = _(u"You've deleted the friends request to {0} {1}.").format(person["first_name"], person["last_name"])
+			msg = _("You've deleted the friends request to {0} {1}.").format(person["first_name"], person["last_name"])
 		elif "in_request_deleted" in result:
-			msg = _(u"You've declined the friend request of {0} {1}.").format(person["first_name"], person["last_name"])
+			msg = _("You've declined the friend request of {0} {1}.").format(person["first_name"], person["last_name"])
 		pub.sendMessage("notify", message=msg)
 		self.session.db[self.name]["items"].pop(self.tab.list.get_selected())
 		self.tab.list.remove_item(self.tab.list.get_selected())
@@ -1047,7 +1048,7 @@ class requestsBuffer(peopleBuffer):
 			return
 		result = self.session.vk.client.friends.add(user_id=person["id"], follow=1)
 		if result == 2:
-			msg = _(u"{0} {1} is following you.").format(person["first_name"], person["last_name"])
+			msg = _("{0} {1} is following you.").format(person["first_name"], person["last_name"])
 			pub.sendMessage("notify", message=msg)
 			self.session.db[self.name]["items"].pop(self.tab.list.get_selected())
 			self.tab.list.remove_item(self.tab.list.get_selected())

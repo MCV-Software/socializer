@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 name = "Socializer"
 version = "0.17"
-author = u"Manuel Cortez"
+author = "Manuel Cortez"
 authorEmail = "manuel@manuelcortez.net"
-copyright = u"Copyright (C) 2016-2018, Manuel Cortez"
-description = unicode(name+" Is an accessible VK client for Windows.")
+copyright = "Copyright (C) 2016-2018, Manuel Cortez"
+description = name+" Is an accessible VK client for Windows."
 url = "https://manuelcortez.net/socializer"
 # The short name will be used for detecting translation files. See languageHandler for more details.
 short_name = "socializer"
-translators = [u"Darya Ratnikova (Russian)", u"Manuel Cortez (Spanish)"]
+translators = ["Darya Ratnikova (Russian)", "Manuel Cortez (Spanish)"]
 bts_name = "socializer"
 bts_access_token = "U29jaWFsaXplcg"
 bts_url = "https://issues.manuelcortez.net"

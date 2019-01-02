@@ -1,9 +1,9 @@
 #!/usr/bin/python
 import keys
 import logging
-import core
+from . import core
 from vk_api.audio import VkAudio
-from wxUI import two_factor_auth
+from . wxUI import two_factor_auth
 
 log = logging.getLogger("vkSessionHandler")
 
@@ -16,7 +16,7 @@ class vkObject(object):
 		if alt_token == False:
 			log.info("Using kate's token...")
 			# Let's import the patched vk_api module for using a different user agent
-			import vk_api_patched as vk_api
+			from . import vk_api_patched as vk_api
 			if token == "" or token == None:
 				log.info("Token is not valid. Generating one...")
 				token = core.requestAuth(user, password)

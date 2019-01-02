@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-import translator
 import platform
+from . import translator
 if platform.system() == "Windows":
- import wx_ui as gui
+ from . import wx_ui as gui
  

@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+#from __future__ import unicode_literals
+from __future__ import unicode_literals
+from builtins import range
 import wx
 
 toolkit = "wx"
@@ -144,7 +148,7 @@ class list(object):
  def create_list(self, parent):
   self.list = wx.ListCtrl(parent, -1, **self.listArguments)
   for i in range(0, len(self.columns)):
-   self.list.InsertColumn(i, u"%s" % (self.columns[i]))
+   self.list.InsertColumn(i, "%s" % (self.columns[i]))
 
  def insert_item(self, reversed, *item):
   """ Inserts an item on the list."""

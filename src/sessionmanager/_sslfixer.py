@@ -1,6 +1,6 @@
 import os
 import ssl
-import utils
+from . import utils
 
 try:
     context = ssl.create_default_context()

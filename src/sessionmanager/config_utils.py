@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from UserDict import UserDict
+from collections import UserDict
 from configobj import ConfigObj, ParseError
 from validate import Validator, VdtValueError
 import os

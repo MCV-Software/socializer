@@ -16,15 +16,16 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ############################################################
-import translator
+from __future__ import unicode_literals
 import wx
+from . import translator
 
 class translateDialog(wx.Dialog):
  def __init__(self):
-  super(translateDialog, self).__init__(None, -1, title=_(u"Translate message"))
+  super(translateDialog, self).__init__(None, -1, title=_("Translate message"))
   panel = wx.Panel(self)
   sizer = wx.BoxSizer(wx.VERTICAL)
-  staticDest = wx.StaticText(panel, -1, _(u"Target language"))
+  staticDest = wx.StaticText(panel, -1, _("Target language"))
   self.dest_lang = wx.ComboBox(panel, -1, choices=[x[1] for x in translator.available_languages()], style = wx.CB_READONLY)
   self.dest_lang.SetFocus()
   self.dest_lang.SetSelection(0)
