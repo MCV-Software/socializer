@@ -58,8 +58,8 @@ alpha_python3:
     - master
   artifacts:
     paths:
-    - socializer_py3.zip
-    name: socializer
+    - socializer.zip
+    name: socializer_py3
     expire_in: 1 hour
 
 stable:
