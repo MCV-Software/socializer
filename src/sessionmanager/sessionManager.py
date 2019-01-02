@@ -2,12 +2,12 @@
 import os
 import sys
 import widgetUtils
-import wxUI as view
+from . import wxUI as view
 import paths
 import time
 import logging
-import session
-from config_utils import Configuration
+from . import session
+from .config_utils import Configuration
 
 log = logging.getLogger("sessionmanager.sessionManager")
 

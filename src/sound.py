@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """ Sound utilities for socializer."""
-from __future__ import unicode_literals
+from builtins import range
 import sys
 import os
 import glob
@@ -70,7 +70,7 @@ class soundSystem(object):
 	def clear_list(self):
 		if len(self.files) == 0: return
 		try:
-			for i in xrange(0, len(self.files)):
+			for i in range(0, len(self.files)):
 				if self.files[i].is_playing == False:
 					self.files[i].free()
 					self.files.pop(i)

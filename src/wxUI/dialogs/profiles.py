@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """ A set of dialogs related to user and community profiles."""
+from __future__ import unicode_literals
 import wx
 import widgetUtils
 
@@ -42,7 +43,7 @@ class mainInfo(wx.Panel):
 	def __init__(self, panel):
 		super(mainInfo, self).__init__(panel)
 		sizer = wx.BoxSizer(wx.VERTICAL)
-		lblName = wx.StaticText(self, wx.NewId(), _(u"Name"))
+		lblName = wx.StaticText(self, wx.NewId(), _("Name"))
 		self.name = wx.TextCtrl(self, wx.NewId(), style=wx.TE_READONLY|wx.TE_MULTILINE)
 		self.name.SetMinSize(text_size(self.name, 60))
 		sizerName = wx.BoxSizer(wx.HORIZONTAL)
@@ -50,7 +51,7 @@ class mainInfo(wx.Panel):
 		sizerName.Add(self.name, 0, wx.ALL, 5)
 		sizer.Add(sizerName, 0, wx.ALL, 5)
 
-		lblStatus = wx.StaticText(self, wx.NewId(), _(u"Status"))
+		lblStatus = wx.StaticText(self, wx.NewId(), _("Status"))
 		self.status = wx.TextCtrl(self, wx.NewId(), style=wx.TE_READONLY|wx.TE_MULTILINE)
 		self.status.Enable(False)
 		self.status.SetMinSize(text_size(self.status, 300))
@@ -59,7 +60,7 @@ class mainInfo(wx.Panel):
 		sizerStatus.Add(self.status, 0, wx.ALL, 5)
 		sizer.Add(sizerStatus, 0, wx.ALL, 5)
 
-		lblLastSeen = wx.StaticText(self, wx.NewId(), _(u"Last seen"))
+		lblLastSeen = wx.StaticText(self, wx.NewId(), _("Last seen"))
 		self.last_seen = wx.TextCtrl(self, wx.NewId(), style=wx.TE_READONLY|wx.TE_MULTILINE)
 		self.last_seen.Enable(False)
 		sizerLastSeen = wx.BoxSizer(wx.HORIZONTAL)
@@ -67,7 +68,7 @@ class mainInfo(wx.Panel):
 		sizerLastSeen.Add(self.last_seen, 0, wx.ALL, 5)
 		sizer.Add(sizerLastSeen, 0, wx.ALL, 5)
 
-		lblBDate = wx.StaticText(self, wx.NewId(), _(u"Birthdate"))
+		lblBDate = wx.StaticText(self, wx.NewId(), _("Birthdate"))
 		self.bdate = wx.TextCtrl(self, wx.NewId(), style=wx.TE_READONLY|wx.TE_MULTILINE)
 		self.bdate.Enable(False)
 		sizerBDate = wx.BoxSizer(wx.HORIZONTAL)
@@ -79,7 +80,7 @@ class mainInfo(wx.Panel):
 		self.relation.Enable(False)
 		sizer.Add(self.relation, 0, wx.ALL, 5)
 
-		lblCity = wx.StaticText(self, wx.NewId(), _(u"Current city"))
+		lblCity = wx.StaticText(self, wx.NewId(), _("Current city"))
 		self.city = wx.TextCtrl(self, wx.NewId(), style=wx.TE_READONLY|wx.TE_MULTILINE)
 		self.city.SetMinSize(text_size(self.city, 40))
 		self.city.Enable(False)
@@ -88,7 +89,7 @@ class mainInfo(wx.Panel):
 		sizerCity.Add(self.city, 0, wx.ALL, 5)
 		sizer.Add(sizerCity, 0, wx.ALL, 5)
 
-		lblHometown = wx.StaticText(self, wx.NewId(), _(u"Home Town"))
+		lblHometown = wx.StaticText(self, wx.NewId(), _("Home Town"))
 		self.home_town = wx.TextCtrl(self, wx.NewId(), style=wx.TE_READONLY|wx.TE_MULTILINE)
 		self.home_town.SetMinSize(text_size(self.home_town, 40))
 		self.home_town.Enable(False)
@@ -97,11 +98,11 @@ class mainInfo(wx.Panel):
 		sizerHometown.Add(self.home_town, 0, wx.ALL, 5)
 		sizer.Add(sizerHometown, 0, wx.ALL, 5)
 
-		lblWebsite = wx.StaticText(self, wx.NewId(), _(u"Website"))
+		lblWebsite = wx.StaticText(self, wx.NewId(), _("Website"))
 		self.website = wx.TextCtrl(self, wx.NewId(), style=wx.TE_READONLY|wx.TE_MULTILINE)#size=(500, -1))
 		self.website.SetMinSize(text_size(self.website, 90))
 		self.website.Enable(False)
-		self.go_site = wx.Button(self, -1, _(u"Visit website"))
+		self.go_site = wx.Button(self, -1, _("Visit website"))
 		self.go_site.Enable(False)
 		sizerWebsite = wx.BoxSizer(wx.HORIZONTAL)
 		sizerWebsite.Add(lblWebsite, 0, wx.ALL, 5)
@@ -109,7 +110,7 @@ class mainInfo(wx.Panel):
 		sizerWebsite.Add(self.go_site, 1, wx.ALL, 5)
 		sizer.Add(sizerWebsite, 1, wx.ALL, 5)
 
-		lblOccupation = wx.StaticText(self, wx.NewId(), _(u"Occupation"))
+		lblOccupation = wx.StaticText(self, wx.NewId(), _("Occupation"))
 		self.occupation = wx.TextCtrl(self, wx.NewId(), style=wx.TE_READONLY|wx.TE_MULTILINE)
 		self.occupation.SetMinSize(text_size(self.occupation, 90))
 		self.occupation.Enable(False)
@@ -129,7 +130,7 @@ class userProfile(widgetUtils.BaseDialog):
 	def create_controls(self, section):
 		if section == "main_info":
 			self.main_info = mainInfo(self.notebook)
-			self.notebook.AddPage(self.main_info, _(u"Basic information"))
+			self.notebook.AddPage(self.main_info, _("Basic information"))
 			self.main_info.SetFocus()
 
 	def realice(self):

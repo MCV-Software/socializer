@@ -16,6 +16,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ############################################################
+from __future__ import unicode_literals
 import wx
 import platform
 import requests
@@ -51,7 +52,7 @@ class reportBug(object):
 		issue_type = "issue" # for now just have issue
 		app_type = paths.mode
 		app_version = application.version
-		reporter_name = u"{first_name} {last_name}".format(first_name=self.dialog.get("first_name"), last_name=self.dialog.get("last_name"))
+		reporter_name = "{first_name} {last_name}".format(first_name=self.dialog.get("first_name"), last_name=self.dialog.get("last_name"))
 		reporter_contact_type = "email" # For now just email is supported in the issue reporter
 		reporter_contact_handle = self.dialog.get("email")
 		operating_system = platform.platform()

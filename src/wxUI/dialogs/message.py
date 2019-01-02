@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 import wx
 import widgetUtils
 
@@ -16,8 +17,8 @@ class textMessage(widgetUtils.BaseDialog):
 		self.textBox.Add(self.text, 0, wx.ALL, 5)
 
 	def create_privacy_box(self):
-		lbl = wx.StaticText(self.panel, wx.NewId(), _(u"&Privacy"))
-		self.privacy = wx.ComboBox(self.panel, wx.NewId(), choices=[_(u"All users"), _(u"Friends of friends"),], value=_(u"All users"), style=wx.CB_READONLY)
+		lbl = wx.StaticText(self.panel, wx.NewId(), _("&Privacy"))
+		self.privacy = wx.ComboBox(self.panel, wx.NewId(), choices=[_("All users"), _("Friends of friends"),], value=_("All users"), style=wx.CB_READONLY)
 		self.privacyBox = wx.BoxSizer(wx.HORIZONTAL)
 		self.privacyBox.Add(lbl, 0, wx.ALL, 5)
 		self.privacyBox.Add(self.privacy, 0, wx.ALL, 5)
@@ -58,13 +59,13 @@ class post(textMessage):
 		self.mainBox.Add(self.textBox, 0, wx.ALL, 5)
 		self.create_privacy_box()
 		self.mainBox.Add(self.privacyBox, 0, wx.ALL, 5)
-		self.attach = wx.Button(self.panel, -1, _(u"Attach"), size=wx.DefaultSize)
-		self.mention = wx.Button(self.panel, wx.NewId(), _(u"Tag a friend"))
+		self.attach = wx.Button(self.panel, -1, _("Attach"), size=wx.DefaultSize)
+		self.mention = wx.Button(self.panel, wx.NewId(), _("Tag a friend"))
 		self.spellcheck = wx.Button(self.panel, -1, _("Spelling &correction"), size=wx.DefaultSize)
-		self.translateButton = wx.Button(self.panel, -1, _(u"&Translate message"), size=wx.DefaultSize)
-		self.okButton = wx.Button(self.panel, wx.ID_OK, _(u"Send"), size=wx.DefaultSize)
+		self.translateButton = wx.Button(self.panel, -1, _("&Translate message"), size=wx.DefaultSize)
+		self.okButton = wx.Button(self.panel, wx.ID_OK, _("Send"), size=wx.DefaultSize)
 		self.okButton.SetDefault()
-		cancelButton = wx.Button(self.panel, wx.ID_CANCEL, _(u"Close"), size=wx.DefaultSize)
+		cancelButton = wx.Button(self.panel, wx.ID_CANCEL, _("Close"), size=wx.DefaultSize)
 		self.buttonsBox1 = wx.BoxSizer(wx.HORIZONTAL)
 		self.buttonsBox1.Add(self.attach, 0, wx.ALL, 10)
 		self.buttonsBox1.Add(self.mention, 0, wx.ALL, 10)
@@ -94,11 +95,11 @@ class comment(textMessage):
 		self.createTextArea(message, text)
 		self.mainBox.Add(self.textBox, 0, wx.ALL, 5)
 		self.spellcheck = wx.Button(self.panel, -1, _("Spelling correction"), size=wx.DefaultSize)
-		self.mention = wx.Button(self.panel, wx.NewId(), _(u"Tag a friend"))
-		self.translateButton = wx.Button(self.panel, -1, _(u"Translate message"), size=wx.DefaultSize)
-		self.okButton = wx.Button(self.panel, wx.ID_OK, _(u"Send"), size=wx.DefaultSize)
+		self.mention = wx.Button(self.panel, wx.NewId(), _("Tag a friend"))
+		self.translateButton = wx.Button(self.panel, -1, _("Translate message"), size=wx.DefaultSize)
+		self.okButton = wx.Button(self.panel, wx.ID_OK, _("Send"), size=wx.DefaultSize)
 		self.okButton.SetDefault()
-		cancelButton = wx.Button(self.panel, wx.ID_CANCEL, _(u"Close"), size=wx.DefaultSize)
+		cancelButton = wx.Button(self.panel, wx.ID_CANCEL, _("Close"), size=wx.DefaultSize)
 		self.buttonsBox1 = wx.BoxSizer(wx.HORIZONTAL)
 		self.buttonsBox1.Add(self.spellcheck, 0, wx.ALL, 10)
 		self.buttonsBox1.Add(self.mention, 0, wx.ALL, 10)

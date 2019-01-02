@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+from future import standard_library
+standard_library.install_aliases()
 import re
 import os
-import cStringIO
+import io
 import threading
 import arrow
-import messages
+from . import messages
 import requests
 import languageHandler
 import widgetUtils
@@ -12,8 +15,7 @@ import output
 import wx
 import webbrowser
 import logging
-from sessionmanager import session # We'll use some functions from there
-from sessionmanager import utils
+from sessionmanager import session, renderers, utils # We'll use some functions from there
 from pubsub import pub
 from wxUI.dialogs import postDialogs, urlList, profiles
 from extra import SpellChecker, translator
@@ -26,14 +28,14 @@ def get_user(id, profiles):
 	""" Returns an user name and last name  based in the id receibed."""
 	for i in profiles:
 		if i["id"] == id:
-			return u"{0} {1}".format(i["first_name"], i["last_name"])
+			return "{0} {1}".format(i["first_name"], i["last_name"])
 	# Translators: This string is used when socializer can't find the right user information.
-	return _(u"Unknown username")
+	return _("Unknown username")
 
 def get_message(status):
 	message = ""
-	if status.has_key("text"):
-		message = utils.clean_text(status["text"])
+	if "text" in status:
+		message = renderers.clean_text(status["text"])
 	return message
 
 class postController(object):
@@ -44,13 +46,13 @@ class postController(object):
 		self.session = session
 		self.post = postObject
 		# Posts from newsfeed contains this source_id instead from_id in walls. Also it uses post_id and walls use just id.
-		if self.post.has_key("source_id"):
+		if "source_id" in self.post:
 			self.user_identifier = "source_id"
 			self.post_identifier = "post_id"
 		else:
 			# In wall's posts, if someone has posted in user's wall, owner_id should be used instead from_id
 			# This will help for retrieving comments, do likes, etc.
-			if not self.post.has_key("owner_id"):
+			if "owner_id" not in self.post:
 				self.user_identifier = "from_id"
 			else:
 				self.user_identifier = "owner_id"
@@ -83,9 +85,9 @@ class postController(object):
 			if "deleted" in i:
 				continue
 			from_ = get_user(i["from_id"], self.comments["profiles"])
-			if i.has_key("reply_to_user"):
+			if "reply_to_user" in i:
 				extra_info = get_user(i["reply_to_user"], self.comments["profiles"])
-				from_ = _(u"{0} > {1}").format(from_, extra_info)
+				from_ = _("{0} > {1}").format(from_, extra_info)
 			# As we set the comment reply properly in the from_ field, let's remove the first username from here if it exists.
 			fixed_text = re.sub("^\[id\d+\|\D+\], ", "", i["text"])
 			if len(fixed_text) > 140:
@@ -103,22 +105,22 @@ class postController(object):
 
 	def get_post_information(self):
 		from_ = self.session.get_user_name(self.post[self.user_identifier])
-		if self.post.has_key("copy_history"):
+		if "copy_history" in self.post:
 			# Translators: {0} will be replaced with an user.
-			title = _(u"repost from {0}").format(from_,)
+			title = _("repost from {0}").format(from_,)
 		else:
-			if self.post.has_key("from_id") and self.post.has_key("owner_id"):
+			if "from_id" in self.post and "owner_id" in self.post:
 				# Translators: {0} will be replaced with the user who is posting, and {1} with the wall owner.
-				title = _(u"Post from {0} in the {1}'s wall").format(self.session.get_user_name(self.post["from_id"]), self.session.get_user_name(self.post["owner_id"]))
+				title = _("Post from {0} in the {1}'s wall").format(self.session.get_user_name(self.post["from_id"]), self.session.get_user_name(self.post["owner_id"]))
 			else:
-				title = _(u"Post from {0}").format(from_,)
+				title = _("Post from {0}").format(from_,)
 		self.dialog.set_title(title)
-		message = u""
+		message = ""
 		message = get_message(self.post)
-		if self.post.has_key("copy_history"):
-			nm = u"\n"
+		if "copy_history" in self.post:
+			nm = "\n"
 			for i in self.post["copy_history"]:
-				nm += u"{0}: {1}\n\n".format(self.session.get_user_name(i["from_id"]),  get_message(i))
+				nm += "{0}: {1}\n\n".format(self.session.get_user_name(i["from_id"]),  get_message(i))
 				self.get_attachments(i)
 			message += nm
 		self.dialog.set_post(message)
@@ -127,7 +129,7 @@ class postController(object):
 
 	def get_attachments(self, post):
 		attachments = []
-		if post.has_key("attachments"):
+		if "attachments" in post:
 			for i in post["attachments"]:
 				# We don't need the photos_list attachment, so skip it.
 				if i["type"] == "photos_list":
@@ -135,7 +137,7 @@ class postController(object):
 				if i["type"] == "photo":
 					if self.load_images == False: self.load_images = True
 					self.images.append(i)
-				attachments.append(utils.add_attachment(i))
+				attachments.append(renderers.add_attachment(i))
 				self.attachments.append(i)
 		# Links in text are not treated like normal attachments, so we'll have to catch and add those to the list without title
 		# We can't get a title because title is provided by the VK API and it will not work for links as simple text.
@@ -143,9 +145,9 @@ class postController(object):
 		if len(urls) > 0:
 			links = []
 			for i in urls:
-				links.append({"link": {"title": _(U"Untitled link"), "url": i}, "type": "link"})
+				links.append({"link": {"title": _("Untitled link"), "url": i}, "type": "link"})
 			for i in links:
-				attachments.append(utils.add_attachment(i))
+				attachments.append(renderers.add_attachment(i))
 				self.attachments.append(i)
 		if len(self.attachments) > 0:
 			self.dialog.attachments.list.Enable(True)
@@ -186,14 +188,14 @@ class postController(object):
 		url = self.get_photo_url(self.images[index]["photo"], "x")
 		if url != "":
 			img = requests.get(url)
-			image = wx.Image(stream=cStringIO.StringIO(requests.get(url).content))
+			image = wx.Image(stream=io.StringIO(requests.get(url).content))
 			try:
 				self.dialog.image.SetBitmap(wx.Bitmap(image))
 			except NameError:
 				return
 			self.dialog.SetClientSize(self.dialog.sizer.CalcMin())
 			# Translators: {0} is the number of the current photo and {1} is the total number of photos.
-			output.speak(_(u"Loaded photo {0} of {1}").format(index+1, len(self.images)))
+			output.speak(_("Loaded photo {0} of {1}").format(index+1, len(self.images)))
 		return
 
 	def get_photo_url(self, photo, size="x"):
@@ -214,38 +216,38 @@ class postController(object):
 		if self.post["likes"]["can_like"] == 0 and self.post["likes"]["user_likes"] == 0:
 			self.dialog.disable("like")
 		elif self.post["likes"]["user_likes"] == 1:
-			self.dialog.set("like", _(u"&Dislike"))
+			self.dialog.set("like", _("&Dislike"))
 		if self.post["likes"]["can_publish"] == 0:
 			self.dialog.disable("repost")
 
 	def post_like(self, *args, **kwargs):
-		if self.post.has_key("owner_id") == False:
+		if ("owner_id" in self.post) == False:
 			user = int(self.post[self.user_identifier])
 		else:
 			user = int(self.post["owner_id"])
 		id = int(self.post[self.post_identifier])
-		if self.post.has_key("type"):
+		if "type" in self.post:
 			type_ = self.post["type"]
 		else:
 			type_ = "post"
-		if self.dialog.get("like") == _(u"&Dislike"):
+		if self.dialog.get("like") == _("&Dislike"):
 			l = self.session.vk.client.likes.delete(owner_id=user, item_id=id, type=type_)
-			output.speak(_(u"You don't like this"))
+			output.speak(_("You don't like this"))
 			self.post["likes"]["count"] = l["likes"]
 			self.post["likes"]["user_likes"] = 2
 			self.get_likes()
-			self.dialog.set("like", _(u"&Like"))
+			self.dialog.set("like", _("&Like"))
 		else:
 			l = self.session.vk.client.likes.add(owner_id=user, item_id=id, type=type_)
-			output.speak(_(u"You liked this"))
-			self.dialog.set("like", _(u"&Dislike"))
+			output.speak(_("You liked this"))
+			self.dialog.set("like", _("&Dislike"))
 			self.post["likes"]["count"] = l["likes"]
 			self.post["likes"]["user_likes"] = 1
 			self.get_likes()
 
 	def post_repost(self, *args, **kwargs):
 		object_id = "wall{0}_{1}".format(self.post[self.user_identifier], self.post[self.post_identifier])
-		p = messages.post(session=self.session, title=_(u"Repost"), caption=_(u"Add your comment here"), text="")
+		p = messages.post(session=self.session, title=_("Repost"), caption=_("Add your comment here"), text="")
 		if p.message.get_response() == widgetUtils.OK:
 			msg = p.message.get_text().encode("utf-8")
 			self.session.vk.client.wall.repost(object=object_id, message=msg)
@@ -263,14 +265,14 @@ class postController(object):
 			pass
 
 	def add_comment(self, *args, **kwargs):
-		comment = messages.comment(session=self.session, title=_(u"Add a comment"), caption="", text="")
+		comment = messages.comment(session=self.session, title=_("Add a comment"), caption="", text="")
 		if comment.message.get_response() == widgetUtils.OK:
 			msg = comment.message.get_text().encode("utf-8")
 			try:
 				user = self.post[self.user_identifier]
 				id = self.post[self.post_identifier]
 				self.session.vk.client.wall.addComment(owner_id=user, post_id=id, text=msg)
-				output.speak(_(u"You've posted a comment"))
+				output.speak(_("You've posted a comment"))
 				if self.comments["count"] < 100:
 					self.clear_comments_list()
 					self.get_comments()
@@ -306,12 +308,12 @@ class postController(object):
 	def comment_like(self, *args, **kwargs):
 		comment_id = self.comments["data"][self.dialog.comments.get_selected()]["id"]
 		self.session.like(comment_id)
-		output.speak(_(u"You do like this comment"))
+		output.speak(_("You do like this comment"))
 
 	def comment_unlike(self, *args, **kwargs):
 		comment_id = self.comments["data"][self.dialog.comments.get_selected()]["id"]
 		self.session.unlike(comment_id)
-		output.speak(_(u"You don't like this comment"))
+		output.speak(_("You don't like this comment"))
 
 	def translate(self, *args, **kwargs):
 		dlg = translator.gui.translateDialog()
@@ -320,7 +322,7 @@ class postController(object):
 			dest = [x[0] for x in translator.translator.available_languages()][dlg.get("dest_lang")]
 			msg = translator.translator.translate(text_to_translate, target=dest)
 			self.dialog.post_view.ChangeValue(msg)
-			output.speak(_(u"Translated"))
+			output.speak(_("Translated"))
 		else:
 			return
 
@@ -338,10 +340,10 @@ class postController(object):
 			a.dialog.get_response()
 			a.dialog.Destroy()
 		if attachment["type"] == "link":
-			output.speak(_(u"Opening URL..."), True)
+			output.speak(_("Opening URL..."), True)
 			webbrowser.open_new_tab(attachment["link"]["url"])
 		elif attachment["type"] == "doc":
-			output.speak(_(u"Opening document in web browser..."))
+			output.speak(_("Opening document in web browser..."))
 			webbrowser.open(attachment["doc"]["url"])
 		elif attachment["type"] == "video":
 			# it seems VK doesn't like to attach video links as normal URLS, so we'll have to
@@ -353,15 +355,15 @@ class postController(object):
 			object_id = "{0}_{1}".format(attachment["video"]["owner_id"], attachment["video"]["id"])
 			video_object = self.session.vk.client.video.get(owner_id=attachment["video"]["owner_id"], videos=object_id)
 			video_object = video_object["items"][0]
-			output.speak(_(u"Opening video in web browser..."), True)
+			output.speak(_("Opening video in web browser..."), True)
 			webbrowser.open_new_tab(video_object["player"])
 		elif attachment["type"] == "photo":
-			output.speak(_(u"Opening photo in web browser..."), True)
+			output.speak(_("Opening photo in web browser..."), True)
 			# Possible photo sizes for looking in the attachment information. Try to use the biggest photo available.
 			possible_sizes = [1280, 604, 130, 75]
 			url = ""
 			for i in possible_sizes:
-				if attachment["photo"].has_key("photo_{0}".format(i,)):
+				if "photo_{0}".format(i,) in attachment["photo"]:
 					url = attachment["photo"]["photo_{0}".format(i,)]
 					break
 			if url != "":
@@ -384,7 +386,7 @@ class comment(object):
 		original_date = arrow.get(self.comment["created_time"], "YYYY-MM-DTHH:m:sZ", locale="en")
 		created_at = original_date.humanize(locale=languageHandler.getLanguage())
 		self.dialog.set_post(message)
-		self.dialog.set_title(_(u"Comment from {0}").format(from_,))
+		self.dialog.set_title(_("Comment from {0}").format(from_,))
 		widgetUtils.connect_event(self.dialog.like, widgetUtils.BUTTON_PRESSED, self.post_like)
 		call_threaded(self.get_likes)
 
@@ -414,7 +416,7 @@ class audio(postController):
 		post = self.post[self.dialog.get_audio()]
 		args = {}
 		args["audio_id"] = post["id"]
-		if post.has_key("album_id"):
+		if "album_id" in post:
 			args["album_id"] = post["album_id"]
 		args["owner_id"] = post["owner_id"]
 		audio = self.session.vk.client.audio.add(**args)
@@ -426,7 +428,7 @@ class audio(postController):
 	def remove_from_library(self, *args, **kwargs):
 		post = self.post[self.dialog.get_audio()]
 		args = {}
-		if self.added_audios.has_key(post["id"]):
+		if post["id"] in self.added_audios:
 			args["audio_id"] = self.added_audios[post["id"]]
 			args["owner_id"] = self.session.user_id
 		else:
@@ -436,20 +438,20 @@ class audio(postController):
 		if int(result) == 1:
 			self.dialog.change_state("add", True)
 			self.dialog.change_state("remove", False)
-			if self.added_audios.has_key(post["id"]):
+			if post["id"] in self.added_audios:
 				self.added_audios.pop(post["id"])
 
 	def fill_information(self, index):
 		post = self.post[index]
-		if post.has_key("artist"):
+		if "artist" in post:
 			self.dialog.set("artist", post["artist"])
-		if post.has_key("title"):
+		if "title" in post:
 			self.dialog.set("title", post["title"])
-		if post.has_key("duration"):
+		if "duration" in post:
 			self.dialog.set("duration", utils.seconds_to_string(post["duration"]))
-		self.dialog.set_title(u"{0} - {1}".format(post["title"], post["artist"]))
+		self.dialog.set_title("{0} - {1}".format(post["title"], post["artist"]))
 		call_threaded(self.get_lyrics)
-		if  post["owner_id"] == self.session.user_id or self.added_audios.has_key(post["id"]) == True:
+		if  post["owner_id"] == self.session.user_id or (post["id"] in self.added_audios) == True:
 			self.dialog.change_state("remove", True)
 			self.dialog.change_state("add", False)
 		else:
@@ -458,7 +460,7 @@ class audio(postController):
 
 	def get_lyrics(self):
 		post = self.post[self.dialog.get_audio()]
-		if post.has_key("lyrics_id"):
+		if "lyrics_id" in post:
 			l = self.session.vk.client.audio.getLyrics(lyrics_id=int(post["lyrics_id"]))
 			self.dialog.set("lyric", l["text"])
 		else:
@@ -466,7 +468,7 @@ class audio(postController):
 
 	def download(self, *args, **kwargs):
 		post = self.post[self.dialog.get_audio()]
-		f = u"{0} - {1}.mp3".format(post["title"], post["artist"])
+		f = "{0} - {1}.mp3".format(post["title"], post["artist"])
 		path = self.dialog.get_destination_path(f)
 		if path != None:
 			pub.sendMessage("download-file", url=post["url"], filename=path)
@@ -477,7 +479,7 @@ class audio(postController):
 
 	def load_audios(self):
 		for i in self.post:
-			s = u"{0} - {1}. {2}".format(i["title"], i["artist"], utils.seconds_to_string(i["duration"]))
+			s = "{0} - {1}. {2}".format(i["title"], i["artist"], utils.seconds_to_string(i["duration"]))
 			self.dialog.insert_audio(s)
 		self.dialog.list.SetSelection(0)
 		if len(self.post) == 1:
@@ -496,7 +498,7 @@ class friendship(object):
 		self.dialog = postDialogs.friendship()
 		list_of_friends = self.get_friend_names()
 		from_ = self.session.get_user_name(self.post["source_id"])
-		title = _(u"{0} added the following friends").format(from_,)
+		title = _("{0} added the following friends").format(from_,)
 		self.dialog.set_title(title)
 		self.set_friends_list(list_of_friends)
 
@@ -514,7 +516,7 @@ class userProfile(object):
 		self.person = None
 		self.session = session
 		self.user_id = user_id
-		self.dialog = profiles.userProfile(title=_(u"Profile"))
+		self.dialog = profiles.userProfile(title=_("Profile"))
 		self.dialog.create_controls("main_info")
 		self.dialog.realice()
 		self.get_basic_information()
@@ -527,81 +529,81 @@ class userProfile(object):
 		fields = "first_name, last_name, bdate, city, country, home_town, photo_200_orig, online,  site,  status, last_seen, occupation, relation, relatives, personal, connections, activities, interests, music, movies, tv, books, games, about, quotes, can_write_private_message"
 		person = self.session.vk.client.users.get(user_ids=self.user_id, fields=fields)
 		if len(person) == 0:
-			return output.speak(_(u"Information for groups is not supported, yet."))
+			return output.speak(_("Information for groups is not supported, yet."))
 		person = person[0]
-		print person
+		print(person)
 		# Gets full name.
-		n = u"{0} {1}".format(person["first_name"], person["last_name"])
+		n = "{0} {1}".format(person["first_name"], person["last_name"])
 		# Gets birthdate.
-		if person.has_key("bdate") and person["bdate"] != "":
+		if "bdate" in person and person["bdate"] != "":
 			self.dialog.main_info.enable("bdate")
 			if len(person["bdate"]) <= 5:
 				d = arrow.get(person["bdate"], "D.m")
-				self.dialog.main_info.set("bdate", d.format(_(u"MMMM D"), locale=languageHandler.getLanguage()))
+				self.dialog.main_info.set("bdate", d.format(_("MMMM D"), locale=languageHandler.getLanguage()))
 			else:
 				d = arrow.get(person["bdate"], "D.M.YYYY")
-				self.dialog.main_info.set("bdate", d.format(_(u"MMMM D, YYYY"), locale=languageHandler.getLanguage()))
+				self.dialog.main_info.set("bdate", d.format(_("MMMM D, YYYY"), locale=languageHandler.getLanguage()))
 		# Gets current city and home town
 		city = ""
-		if person.has_key("home_town") and person["home_town"] != "":
+		if "home_town" in person and person["home_town"] != "":
 			home_town = person["home_town"]
 			self.dialog.main_info.enable("home_town")
 			self.dialog.main_info.set("home_town", home_town)
-		if person.has_key("city") and len(person["city"]) > 0:
+		if "city" in person and len(person["city"]) > 0:
 			city = person["city"]["title"]
-		if person.has_key("country") and person["country"] != "":
+		if "country" in person and person["country"] != "":
 			if city != "":
-				city = city+u", {0}".format(person["country"]["title"])
+				city = city+", {0}".format(person["country"]["title"])
 			else:
 				city = person["country"]["title"]
 			self.dialog.main_info.enable("city")
 			self.dialog.main_info.set("city", city)
 		self.dialog.main_info.set("name", n)
-		self.dialog.SetTitle(_(u"{name}'s profile").format(name=n,))
+		self.dialog.SetTitle(_("{name}'s profile").format(name=n,))
 		# Gets website
-		if person.has_key("site") and person["site"] != "":
+		if "site" in person and person["site"] != "":
 			self.dialog.main_info.enable("website")
 			self.dialog.main_info.set("website", person["site"])
 			self.dialog.main_info.enable("go_site")
 			widgetUtils.connect_event(self.dialog.main_info.go_site, widgetUtils.BUTTON_PRESSED, self.visit_website)
-		if person.has_key("status") and person["status"] != "":
+		if "status" in person and person["status"] != "":
 			self.dialog.main_info.enable("status")
 			self.dialog.main_info.set("status", person["status"])
-		if person.has_key("occupation") and person["occupation"] != None:
-			if person["occupation"]["type"] == "work": c1 = _(u"Work ")
-			elif person["occupation"]["type"] == "school": c1 = _(u"Student ")
-			elif person["occupation"]["type"] == "university": c1 = _(u"Student ")
-			if person["occupation"].has_key("name") and person["occupation"]["name"] != "":
-				c2 = _(u"In {0}").format(person["occupation"]["name"],)
+		if "occupation" in person and person["occupation"] != None:
+			if person["occupation"]["type"] == "work": c1 = _("Work ")
+			elif person["occupation"]["type"] == "school": c1 = _("Student ")
+			elif person["occupation"]["type"] == "university": c1 = _("Student ")
+			if "name" in person["occupation"] and person["occupation"]["name"] != "":
+				c2 = _("In {0}").format(person["occupation"]["name"],)
 			else:
 				c2 = ""
 			self.dialog.main_info.enable("occupation")
 			self.dialog.main_info.set("occupation", c1+c2)
-		if person.has_key("relation") and person["relation"] != 0:
-			print person["relation"]
+		if "relation" in person and person["relation"] != 0:
+			print(person["relation"])
 			if person["relation"] == 1:
-				r =  _(u"Single")
+				r =  _("Single")
 			elif person["relation"] == 2:
-				if person.has_key("relation_partner"):
-					r = _(u"Dating with {0} {1}").format(person["relation_partner"]["first_name"], person["relation_partner"]["last_name"])
+				if "relation_partner" in person:
+					r = _("Dating with {0} {1}").format(person["relation_partner"]["first_name"], person["relation_partner"]["last_name"])
 				else:
-					r = _(u"Dating")
+					r = _("Dating")
 			elif person["relation"] == 3:
-				r = _(u"Engaged with {0} {1}").format(person["relation_partner"]["first_name"], person["relation_partner"]["last_name"])
+				r = _("Engaged with {0} {1}").format(person["relation_partner"]["first_name"], person["relation_partner"]["last_name"])
 			elif person["relation"] == 4:
-				r = _(u"Married with {0} {1}").format(person["relation_partner"]["first_name"], person["relation_partner"]["last_name"])
+				r = _("Married with {0} {1}").format(person["relation_partner"]["first_name"], person["relation_partner"]["last_name"])
 			elif person["relation"] == 5:
-				r = _(u"It's complicated")
+				r = _("It's complicated")
 			elif person["relation"] == 6:
-				r = _(u"Actively searching")
+				r = _("Actively searching")
 			elif person["relation"] == 7:
-				r = _(u"In love")
+				r = _("In love")
 			self.dialog.main_info.enable("relation")
-			self.dialog.main_info.relation.SetLabel(_(u"Relationship: ")+r)
-		if person.has_key("last_seen") and person["last_seen"] != False:
+			self.dialog.main_info.relation.SetLabel(_("Relationship: ")+r)
+		if "last_seen" in person and person["last_seen"] != False:
 			original_date = arrow.get(person["last_seen"]["time"])
 			# Translators: This is the date of last seen
-			last_seen = _(u"{0}").format(original_date.humanize(locale=languageHandler.getLanguage()),)
+			last_seen = _("{0}").format(original_date.humanize(locale=languageHandler.getLanguage()),)
 			self.dialog.main_info.enable("last_seen")
 			self.dialog.main_info.set("last_seen", last_seen)
 		log.info("getting info...")
@@ -609,5 +611,5 @@ class userProfile(object):
 		self.dialog.SetClientSize(self.dialog.sizer.CalcMin())
 
 	def visit_website(self, *args, **kwargs):
-		output.speak(_(u"Opening website..."))
+		output.speak(_("Opening website..."))
 		webbrowser.open_new_tab(self.person["site"])

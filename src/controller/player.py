@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 import random
 import output
 import sound_lib
@@ -43,13 +44,13 @@ class audioPlayer(object):
 		if self.is_working == False:
 			self.is_working = True
 			try:
-				self.stream = URLStream(url=url["url"])
+				self.stream = URLStream(url=bytes(url["url"], "utf-8"))
 			except BassError:
 				log.debug("Error when playing the file %r") % (url,)
 				return
 			# Translators: {0} will be replaced with a song's title and {1} with the artist.
 			if set_info:
-				msg = _(u"Playing {0} by {1}").format(url["title"], url["artist"])
+				msg = _("Playing {0} by {1}").format(url["title"], url["artist"])
 				pub.sendMessage("update-status-bar", status=msg)
 			self.stream.volume = self.vol/100.0
 			self.stream.play()

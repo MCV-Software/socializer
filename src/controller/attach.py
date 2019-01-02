@@ -2,10 +2,11 @@
 """ Attachment controller for different kind of posts in VK.
 this controller will take care of preparing data structures to be uploaded later, when the user decides to start the upload process by sending the post.
 """
+from __future__ import unicode_literals
 import os
 import logging
 import widgetUtils
-import audioRecorder
+from . import audioRecorder
 from mutagen.id3 import ID3
 from sessionmanager.utils import seconds_to_string
 from wxUI.dialogs import attach as gui
@@ -63,7 +64,7 @@ class attach(object):
 			imageInfo = {"type": "photo", "file": image, "description": description, "from": "local"}
 			self.attachments.append(imageInfo)
 			# Translators: This is the text displayed in the attachments dialog, when the user adds  a photo.
-			info = [_(u"Photo"), description]
+			info = [_("Photo"), description]
 			self.dialog.attachments.insert_item(False, *info)
 			self.dialog.remove.Enable(True)
 
@@ -77,15 +78,15 @@ class attach(object):
 			if "TIT2" in audio_tags:
 				title = audio_tags["TIT2"].text[0]
 			else:
-				title = _(u"Untitled")
+				title = _("Untitled")
 			if "TPE1" in audio_tags:
 				artist = audio_tags["TPE1"].text[0]
 			else:
-				artist = _(u"Unknown artist")
+				artist = _("Unknown artist")
 			audioInfo = {"type": "audio", "file": audio, "from": "local", "title": title, "artist": artist}
 			self.attachments.append(audioInfo)
 			# Translators: This is the text displayed in the attachments dialog, when the user adds  an audio file.
-			info = [_(u"Audio file"), u"{title} - {artist}".format(title=title, artist=artist)]
+			info = [_("Audio file"), "{title} - {artist}".format(title=title, artist=artist)]
 			self.dialog.attachments.insert_item(False, *info)
 			self.dialog.remove.Enable(True)
 
@@ -95,7 +96,7 @@ class attach(object):
 			audioInfo = {"type": "voice_message", "file": a.file, "from": "local"}
 			self.attachments.append(audioInfo)
 			# Translators: This is the text displayed in the attachments dialog, when the user adds  an audio file.
-			info = [_(u"Voice message"), seconds_to_string(a.duration,)]
+			info = [_("Voice message"), seconds_to_string(a.duration,)]
 			self.dialog.attachments.insert_item(False, *info)
 			self.dialog.remove.Enable(True)
 
@@ -105,8 +106,8 @@ class attach(object):
 		list_of_audios = self.session.db["me_audio"]["items"]
 		audios = []
 		for i in list_of_audios:
-			audios.append(u"{0}, {1}".format(i["title"], i["artist"]))
-		select = selector.selectAttachment(_(u"Select the audio files you want to send"), audios)
+			audios.append("{0}, {1}".format(i["title"], i["artist"]))
+		select = selector.selectAttachment(_("Select the audio files you want to send"), audios)
 		if select.get_response() == widgetUtils.OK and select.attachments.GetCount() > 0:
 			attachments = select.get_all_attachments()
 			for i in attachments:
@@ -114,7 +115,7 @@ class attach(object):
 				info["from"] = "online"
 				self.attachments.append(info)
 				# Translators: This is the text displayed in the attachments dialog, when the user adds  an audio file.
-				info2 = [_(u"Audio file"), u"{0} - {1}".format(list_of_audios[i]["title"], list_of_audios[i]["artist"])]
+				info2 = [_("Audio file"), "{0} - {1}".format(list_of_audios[i]["title"], list_of_audios[i]["artist"])]
 				self.dialog.attachments.insert_item(False, *info2)
 		self.check_remove_status()
 

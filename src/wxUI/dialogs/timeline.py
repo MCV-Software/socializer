@@ -1,31 +1,32 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 import wx
 import widgetUtils
 
 class timelineDialog(widgetUtils.BaseDialog):
 
 	def __init__(self, users=[]):
-		super(timelineDialog, self).__init__(parent=None, title=_(u"New timeline for {0}").format(users[0],))
+		super(timelineDialog, self).__init__(parent=None, title=_("New timeline for {0}").format(users[0],))
 		panel = wx.Panel(self)
 		sizer = wx.BoxSizer(wx.HORIZONTAL)
-		userLabel = wx.StaticText(panel, -1, _(u"User"))
+		userLabel = wx.StaticText(panel, -1, _("User"))
 		self.cb = wx.ComboBox(panel, -1, choices=users, value=users[0])
 		self.cb.SetFocus()
 		userSizer = wx.BoxSizer()
 		userSizer.Add(userLabel, 0, wx.ALL, 5)
 		userSizer.Add(self.cb, 0, wx.ALL, 5)
-		actionsstatic = wx.StaticBox(panel, label=_(u"Buffer type"))
-		self.wall    = wx.RadioButton(panel, wx.NewId(), _(u"&Wall posts"), style=wx.RB_GROUP)
-		self.audio = wx.RadioButton(panel, wx.NewId(), _(u"Audio"))
-		self.friends = wx.RadioButton(panel, wx.NewId(), _(u"Friends"))
+		actionsstatic = wx.StaticBox(panel, label=_("Buffer type"))
+		self.wall    = wx.RadioButton(panel, wx.NewId(), _("&Wall posts"), style=wx.RB_GROUP)
+		self.audio = wx.RadioButton(panel, wx.NewId(), _("Audio"))
+		self.friends = wx.RadioButton(panel, wx.NewId(), _("Friends"))
 		radioSizer = wx.StaticBoxSizer(actionsstatic, wx.HORIZONTAL)
 		radioSizer.Add(self.wall, 0, wx.ALL, 5)
 		radioSizer.Add(self.audio, 0, wx.ALL, 5)
 		radioSizer.Add(self.friends, 0, wx.ALL, 5)
 		sizer.Add(radioSizer, 0, wx.ALL, 5)
-		ok = wx.Button(panel, wx.ID_OK, _(u"&OK"))
+		ok = wx.Button(panel, wx.ID_OK, _("&OK"))
 		ok.SetDefault()
-		cancel = wx.Button(panel, wx.ID_CANCEL, _(u"&Close"))
+		cancel = wx.Button(panel, wx.ID_CANCEL, _("&Close"))
 		btnsizer = wx.BoxSizer()
 		btnsizer.Add(ok, 0, wx.ALL, 5)
 		btnsizer.Add(cancel, 0, wx.ALL, 5)

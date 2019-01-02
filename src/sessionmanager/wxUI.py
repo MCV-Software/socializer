@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 import time
 import wx
 import widgetUtils
@@ -7,7 +8,7 @@ code = None
 remember = True
 
 def new_account_dialog():
-	return wx.MessageDialog(None, _(u"In order to continue, you need to configure your VK account before. Would you like to autorhise a new account now?"), _(u"Authorisation"), wx.YES_NO).ShowModal()
+	return wx.MessageDialog(None, _("In order to continue, you need to configure your VK account before. Would you like to autorhise a new account now?"), _("Authorisation"), wx.YES_NO).ShowModal()
 
 def two_factor_auth():
 	global code, remember
@@ -18,7 +19,7 @@ def two_factor_auth():
 
 def get_code():
 	global code, remember
-	dlg = wx.TextEntryDialog(None, _(u"Please provide the authentication code you have received from VK."), _(u"Two factor authentication code"))
+	dlg = wx.TextEntryDialog(None, _("Please provide the authentication code you have received from VK."), _("Two factor authentication code"))
 	response = dlg.ShowModal()
 	if response == widgetUtils.OK:
 		code = dlg.GetValue()
@@ -27,11 +28,11 @@ def get_code():
 
 class newSessionDialog(widgetUtils.BaseDialog):
 	def __init__(self):
-		super(newSessionDialog, self).__init__(parent=None, id=wx.NewId(), title=_(u"Authorise VK"))
+		super(newSessionDialog, self).__init__(parent=None, id=wx.NewId(), title=_("Authorise VK"))
 		panel = wx.Panel(self)
-		lbl1 = wx.StaticText(panel, -1, _(u"&Email or phone number"))
+		lbl1 = wx.StaticText(panel, -1, _("&Email or phone number"))
 		self.email = wx.TextCtrl(panel, -1)
-		lbl2 = wx.StaticText(panel, -1, _(u"&Password"))
+		lbl2 = wx.StaticText(panel, -1, _("&Password"))
 		self.passw = wx.TextCtrl(panel, -1, style=wx.TE_PASSWORD)
 		sizer = wx.BoxSizer()
 		b1 = wx.BoxSizer(wx.HORIZONTAL)

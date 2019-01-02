@@ -1,40 +1,41 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 import widgetUtils
 from wxUI.dialogs import configuration as configurationUI
 
 class configuration(object):
 
 	def get_notification_type(self, value):
-		if value == _(u"Native"):
+		if value == _("Native"):
 			return "native"
 		else:
 			return "custom"
 
 	def get_notification_label(self, value):
 		if value == "native":
-			return _(u"Native")
+			return _("Native")
 		else:
-			return _(u"Custom")
+			return _("Custom")
 
 	def get_update_channel_type(self, value):
-		if value == _(u"Stable"):
+		if value == _("Stable"):
 			return "stable"
-		elif value == _(u"Weekly"):
+		elif value == _("Weekly"):
 			return "weekly"
 		else:
 			return "alpha"
 
 	def get_update_channel_label(self, value):
 		if value == "stable":
-			return _(u"Stable")
+			return _("Stable")
 		elif value == "weekly":
-			return _(u"Weekly")
+			return _("Weekly")
 		else:
-			return _(u"Alpha")
+			return _("Alpha")
 
 	def __init__(self, session):
 		self.session = session
-		self.dialog = configurationUI.configurationDialog(_(u"Preferences"))
+		self.dialog = configurationUI.configurationDialog(_("Preferences"))
 		self.create_config()
 
 	def create_config(self):

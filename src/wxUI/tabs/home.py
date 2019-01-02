@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+#from __future__ import unicode_literals
+from __future__ import unicode_literals
 import wx
 import widgetUtils
 from pubsub import pub
@@ -6,8 +8,8 @@ from pubsub import pub
 class homeTab(wx.Panel):
 
 	def create_list(self):
-		self.lbl = wx.StaticText(self, wx.NewId(), _(u"Po&sts"))
-		self.list = widgetUtils.list(self, *[_(u"User"), _(u"Text"), _(u"Date")], style=wx.LC_REPORT)
+		self.lbl = wx.StaticText(self, wx.NewId(), _("Po&sts"))
+		self.list = widgetUtils.list(self, *[_("User"), _("Text"), _("Date")], style=wx.LC_REPORT)
 		self.list.set_windows_size(0, 200)
 		self.list.set_windows_size(1, 300)
 		self.list.set_windows_size(2, 250)
@@ -15,7 +17,7 @@ class homeTab(wx.Panel):
 		self.list.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnKeyDown)
 
 	def create_post_buttons(self):
-		self.post = wx.Button(self, -1, _(u"&Post"))
+		self.post = wx.Button(self, -1, _("&Post"))
 		self.postBox = wx.BoxSizer(wx.HORIZONTAL)
 		self.postBox.Add(self.post, 0, wx.ALL, 5)
 
@@ -54,16 +56,16 @@ class feedTab(homeTab):
 class communityTab(feedTab):
 
 	def create_post_buttons(self):
-		self.load = wx.Button(self, wx.NewId(), _(u"Load community"))
-		self.post = wx.Button(self, -1, _(u"&Post"))
+		self.load = wx.Button(self, wx.NewId(), _("Load community"))
+		self.post = wx.Button(self, -1, _("&Post"))
 		self.postBox = wx.BoxSizer(wx.HORIZONTAL)
 		self.postBox.Add(self.load, 0, wx.ALL, 5)
 		self.postBox.Add(self.post, 0, wx.ALL, 5)
 
 class audioTab(homeTab):
 	def create_list(self):
-		self.lbl = wx.StaticText(self, wx.NewId(), _(u"Mu&sic"))
-		self.list = widgetUtils.list(self, *[_(u"Title"), _(u"Artist"), _(u"Duration")], style=wx.LC_REPORT)
+		self.lbl = wx.StaticText(self, wx.NewId(), _("Mu&sic"))
+		self.list = widgetUtils.list(self, *[_("Title"), _("Artist"), _("Duration")], style=wx.LC_REPORT)
 		self.list.set_windows_size(0, 160)
 		self.list.set_windows_size(1, 380)
 		self.list.set_windows_size(2, 80)
@@ -71,9 +73,9 @@ class audioTab(homeTab):
 		self.list.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnKeyDown)
 
 	def create_post_buttons(self):
-		self.post = wx.Button(self, -1, _(u"&Post"))
-		self.play = wx.Button(self, -1, _(u"P&lay"))
-		self.play_all = wx.Button(self, -1, _(u"Play &All"))
+		self.post = wx.Button(self, -1, _("&Post"))
+		self.play = wx.Button(self, -1, _("P&lay"))
+		self.play_all = wx.Button(self, -1, _("Play &All"))
 		self.postBox = wx.BoxSizer(wx.HORIZONTAL)
 		self.postBox.Add(self.post, 0, wx.ALL, 5)
 		self.postBox.Add(self.play, 0, wx.ALL, 5)
@@ -82,10 +84,10 @@ class audioTab(homeTab):
 class audioAlbumTab(audioTab):
 
 	def create_post_buttons(self):
-		self.load = wx.Button(self, wx.NewId(), _(u"Load album"))
-		self.post = wx.Button(self, -1, _(u"&Post"))
-		self.play = wx.Button(self, -1, _(u"P&lay"))
-		self.play_all = wx.Button(self, -1, _(u"Play &All"))
+		self.load = wx.Button(self, wx.NewId(), _("Load album"))
+		self.post = wx.Button(self, -1, _("&Post"))
+		self.play = wx.Button(self, -1, _("P&lay"))
+		self.play_all = wx.Button(self, -1, _("Play &All"))
 		self.postBox = wx.BoxSizer(wx.HORIZONTAL)
 		self.postBox.Add(self.load, 0, wx.ALL, 5)
 		self.postBox.Add(self.post, 0, wx.ALL, 5)
@@ -102,7 +104,7 @@ class notificationsTab(homeTab):
 		ev.Skip()
 
 	def create_list(self):
-		self.list = widgetUtils.list(self, *[_(u"Notification")], style=wx.LC_REPORT)
+		self.list = widgetUtils.list(self, *[_("Notification")], style=wx.LC_REPORT)
 		self.list.set_windows_size(0, 190)
 		self.list.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnKeyDown)
 
@@ -116,7 +118,7 @@ class albumTab(homeTab):
 		ev.Skip()
 
 	def create_list(self):
-		self.list = widgetUtils.list(self, *[_(u"User"), _(u"Name"), _(u"Description"), _(u"Photos"), _(u"Created at")], style=wx.LC_REPORT)
+		self.list = widgetUtils.list(self, *[_("User"), _("Name"), _("Description"), _("Photos"), _("Created at")], style=wx.LC_REPORT)
 		self.list.set_windows_size(0, 190)
 		self.list.set_windows_size(1, 320)
 		self.list.set_windows_size(2, 513)
@@ -130,7 +132,7 @@ class friendsTab(homeTab):
 		ev.Skip()
 
 	def create_list(self):
-		self.list = widgetUtils.list(self, *[_(u"Name")], style=wx.LC_REPORT)
+		self.list = widgetUtils.list(self, *[_("Name")], style=wx.LC_REPORT)
 		self.list.set_windows_size(0, 400)
 		self.list.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnKeyDown)
 
@@ -153,14 +155,14 @@ class chatTab(wx.Panel):
 		sizer.Add(self.create_controls())
 		sizer.Add(self.create_attachments(), 0, wx.ALL, 5)
 		sizer.Add(self.create_chat(), 0, wx.ALL, 5)
-		self.attachment = wx.Button(self, wx.NewId(), _(u"Add"))
+		self.attachment = wx.Button(self, wx.NewId(), _("Add"))
 		sizer.Add(self.attachment, 0, wx.ALL, 5)
-		self.send = wx.Button(self, -1, _(u"Send"))
+		self.send = wx.Button(self, -1, _("Send"))
 		sizer.Add(self.send, 0, wx.ALL, 5)
 		self.SetSizer(sizer)
 
 	def create_controls(self):
-		lbl1 = wx.StaticText(self, wx.NewId(), _(u"History"))
+		lbl1 = wx.StaticText(self, wx.NewId(), _("History"))
 		self.history = wx.TextCtrl(self, wx.NewId(), style=wx.TE_READONLY|wx.TE_MULTILINE, size=(500, 300))
 		box = wx.BoxSizer(wx.HORIZONTAL)
 		box.Add(lbl1, 0, wx.ALL, 5)
@@ -168,8 +170,8 @@ class chatTab(wx.Panel):
 		return box
 
 	def create_attachments(self):
-		lbl = wx.StaticText(self, -1, _(u"Attachments"))
-		self.attachments = widgetUtils.list(self, _(u"Type"), _(u"Title"), style=wx.LC_REPORT)
+		lbl = wx.StaticText(self, -1, _("Attachments"))
+		self.attachments = widgetUtils.list(self, _("Type"), _("Title"), style=wx.LC_REPORT)
 		box = wx.BoxSizer(wx.HORIZONTAL)
 		box.Add(lbl, 0, wx.ALL, 5)
 		box.Add(self.attachments.list, 0, wx.ALL, 5)
@@ -177,7 +179,7 @@ class chatTab(wx.Panel):
 		return box
 
 	def create_chat(self):
-		lbl2 = wx.StaticText(self, -1, _(u"Write a message"))
+		lbl2 = wx.StaticText(self, -1, _("Write a message"))
 		self.text = wx.TextCtrl(self, -1, size=(400, -1), style=wx.TE_MULTILINE)
 		box = wx.BoxSizer(wx.HORIZONTAL)
 		box.Add(lbl2, 0, wx.ALL, 20)
@@ -201,24 +203,24 @@ class chatTab(wx.Panel):
 class peopleTab(homeTab):
 
 	def create_list(self):
-		self.lbl = wx.StaticText(self, wx.NewId(), _(u"Friends"))
-		self.list = widgetUtils.list(self, *[_(u"Name"), _(u"Last seen")], style=wx.LC_REPORT)
+		self.lbl = wx.StaticText(self, wx.NewId(), _("Friends"))
+		self.list = widgetUtils.list(self, *[_("Name"), _("Last seen")], style=wx.LC_REPORT)
 		self.list.set_windows_size(0, 190)
 		self.list.set_windows_size(1, 100)
 		self.list.set_size()
 		self.list.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnKeyDown)
 
 	def create_post_buttons(self):
-		self.post = wx.Button(self, -1, _(u"&Post"))
-		self.new_chat = wx.Button(self, wx.NewId(), _(u"Send message"))
+		self.post = wx.Button(self, -1, _("&Post"))
+		self.new_chat = wx.Button(self, wx.NewId(), _("Send message"))
 		self.postBox = wx.BoxSizer(wx.HORIZONTAL)
 		self.postBox.Add(self.post, 0, wx.ALL, 5)
 		self.postBox.Add(self.new_chat, 0, wx.ALL, 5)
 
 class videoTab(homeTab):
 	def create_list(self):
-		self.lbl = wx.StaticText(self, wx.NewId(), _(u"Video&s"))
-		self.list = widgetUtils.list(self, *[_(u"Title"), _(u"Description"), _(u"Duration")], style=wx.LC_REPORT)
+		self.lbl = wx.StaticText(self, wx.NewId(), _("Video&s"))
+		self.list = widgetUtils.list(self, *[_("Title"), _("Description"), _("Duration")], style=wx.LC_REPORT)
 		self.list.set_windows_size(0, 160)
 		self.list.set_windows_size(1, 380)
 		self.list.set_windows_size(2, 80)
@@ -226,8 +228,8 @@ class videoTab(homeTab):
 		self.list.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnKeyDown)
 
 	def create_post_buttons(self):
-		self.post = wx.Button(self, -1, _(u"&Post"))
-		self.play = wx.Button(self, -1, _(u"P&lay"))
+		self.post = wx.Button(self, -1, _("&Post"))
+		self.play = wx.Button(self, -1, _("P&lay"))
 		self.postBox = wx.BoxSizer(wx.HORIZONTAL)
 		self.postBox.Add(self.post, 0, wx.ALL, 5)
 		self.postBox.Add(self.play, 0, wx.ALL, 5)
@@ -235,9 +237,9 @@ class videoTab(homeTab):
 class videoAlbumTab(videoTab):
 
 	def create_post_buttons(self):
-		self.load = wx.Button(self, wx.NewId(), _(u"Load album"))
-		self.post = wx.Button(self, -1, _(u"&Post"))
-		self.play = wx.Button(self, -1, _(u"P&lay"))
+		self.load = wx.Button(self, wx.NewId(), _("Load album"))
+		self.post = wx.Button(self, -1, _("&Post"))
+		self.play = wx.Button(self, -1, _("P&lay"))
 		self.postBox = wx.BoxSizer(wx.HORIZONTAL)
 		self.postBox.Add(self.post, 0, wx.ALL, 5)
 		self.postBox.Add(self.play, 0, wx.ALL, 5)

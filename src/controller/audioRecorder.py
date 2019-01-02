@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 import time
 import os
 import tempfile
@@ -24,12 +25,12 @@ class audioRecorder(object):
 			self.postprocess()
 
 	def on_pause(self, *args, **kwargs):
-		if self.dialog.get("pause") == _(u"Pause"):
+		if self.dialog.get("pause") == _("Pause"):
 			self.recording.pause()
-			self.dialog.set("pause", _(u"&Resume"))
-		elif self.dialog.get("pause") == _(u"Resume"):
+			self.dialog.set("pause", _("&Resume"))
+		elif self.dialog.get("pause") == _("Resume"):
 			self.recording.play()
-			self.dialog.set("pause", _(U"&Pause"))
+			self.dialog.set("pause", _("&Pause"))
 
 	def on_record(self, *args, **kwargs):
 		if self.recording != None:
@@ -45,20 +46,20 @@ class audioRecorder(object):
 		self.recording = sound.get_recording(self.file)
 		self.duration = time.time()
 		self.recording.play()
-		self.dialog.set("record", _(u"&Stop"))
-		output.speak(_(u"Recording"))
+		self.dialog.set("record", _("&Stop"))
+		output.speak(_("Recording"))
 
 	def stop_recording(self):
 		self.recording.stop()
 		self.duration = int(time.time()-self.duration)
 		self.recording.free()
-		output.speak(_(u"Stopped"))
+		output.speak(_("Stopped"))
 		self.recorded = True
-		self.dialog.set("record", _(u"&Record"))
+		self.dialog.set("record", _("&Record"))
 		self.file_attached()
 
 	def file_attached(self):
-		self.dialog.set("pause", _(u"&Pause"))
+		self.dialog.set("pause", _("&Pause"))
 		self.dialog.disable_control("record")
 		self.dialog.enable_control("play")
 		self.dialog.enable_control("discard")
@@ -79,7 +80,7 @@ class audioRecorder(object):
 		self.dialog.record.SetFocus()
 		self.dialog.disable_control("discard")
 		self.recording = None
-		output.speak(_(u"Discarded"))
+		output.speak(_("Discarded"))
 
 	def on_play(self, *args, **kwargs):
 		if not self.playing:
@@ -88,30 +89,30 @@ class audioRecorder(object):
 			self._stop()
 
 	def _play(self):
-		output.speak(_(u"Playing..."))
+		output.speak(_("Playing..."))
 #  try:
-		self.playing = sound_lib.stream.FileStream(file=unicode(self.file), flags=sound_lib.stream.BASS_UNICODE)
+		self.playing = sound_lib.stream.FileStream(file=str(self.file), flags=sound_lib.stream.BASS_UNICODE)
 		self.playing.play()
-		self.dialog.set("play", _(u"&Stop"))
+		self.dialog.set("play", _("&Stop"))
 		try:
 			while self.playing.is_playing:
 				pass
-			self.dialog.set("play", _(u"&Play"))
+			self.dialog.set("play", _("&Play"))
 			self.playing.free()
 			self.playing = None
 		except:
 			pass
 
 	def _stop(self):
-		output.speak(_(u"Stopped"))
+		output.speak(_("Stopped"))
 		self.playing.stop()
 		self.playing.free()
-		self.dialog.set("play", _(u"&Play"))
+		self.dialog.set("play", _("&Play"))
 		self.playing = None
 
 	def postprocess(self):
 		if self.file.lower().endswith('.wav'):
-			output.speak(_(u"Recoding audio..."))
+			output.speak(_("Recoding audio..."))
 			sound.recode_audio(self.file)
 			self.wav_file = self.file
 			self.file = '%s.ogg' % self.file[:-4]

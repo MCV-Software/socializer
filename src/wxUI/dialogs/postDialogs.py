@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 import wx
 import widgetUtils
 
@@ -12,7 +13,7 @@ class basicPost(widgetUtils.BaseDialog):
 		self.panel.SetSizer(self.sizer)
 		self.SetClientSize(self.sizer.CalcMin())
 
-	def create_post_view(self, label=_(u"Message")):
+	def create_post_view(self, label=_("Message")):
 		lbl = wx.StaticText(self.panel, -1, label)
 		self.post_view = wx.TextCtrl(self.panel, -1, size=(730, -1), style=wx.TE_READONLY|wx.TE_MULTILINE)
 		box = wx.BoxSizer(wx.HORIZONTAL)
@@ -21,16 +22,16 @@ class basicPost(widgetUtils.BaseDialog):
 		return box
 
 	def create_comments_list(self):
-		lbl = wx.StaticText(self.panel, -1, _(u"Comments"))
-		self.comments = widgetUtils.list(self.panel, _(u"User"), _(u"Comment"), _(u"Date"), _(u"Likes"), style=wx.LC_REPORT)
+		lbl = wx.StaticText(self.panel, -1, _("Comments"))
+		self.comments = widgetUtils.list(self.panel, _("User"), _("Comment"), _("Date"), _("Likes"), style=wx.LC_REPORT)
 		box = wx.BoxSizer(wx.HORIZONTAL)
 		box.Add(lbl, 0, wx.ALL, 5)
 		box.Add(self.comments.list, 0, wx.ALL, 5)
 		return box
 
 	def create_attachments(self):
-		lbl = wx.StaticText(self.panel, -1, _(u"Attachments"))
-		self.attachments = widgetUtils.list(self.panel, _(u"Type"), _(u"Title"), style=wx.LC_REPORT)
+		lbl = wx.StaticText(self.panel, -1, _("Attachments"))
+		self.attachments = widgetUtils.list(self.panel, _("Type"), _("Title"), style=wx.LC_REPORT)
 		box = wx.BoxSizer(wx.HORIZONTAL)
 		box.Add(lbl, 0, wx.ALL, 5)
 		box.Add(self.attachments.list, 0, wx.ALL, 5)
@@ -39,9 +40,9 @@ class basicPost(widgetUtils.BaseDialog):
 	def create_photo_viewer(self):
 		self.image = wx.StaticBitmap(self.panel, bitmap=wx.Bitmap(1280, 860), size=(604, 604))
 		self.sizer.Add(self.image, 1, wx.ALL, 10)
-		self.previous_photo = wx.Button(self.panel, wx.NewId(), _(u"Previous photo"))
-		self.view_photo = wx.Button(self.panel, wx.NewId(), _(u"View in full screen"))
-		self.next_photo = wx.Button(self.panel, wx.NewId(), _(u"Next photo"))
+		self.previous_photo = wx.Button(self.panel, wx.NewId(), _("Previous photo"))
+		self.view_photo = wx.Button(self.panel, wx.NewId(), _("View in full screen"))
+		self.next_photo = wx.Button(self.panel, wx.NewId(), _("Next photo"))
 		actionsS = wx.BoxSizer(wx.HORIZONTAL)
 		actionsS.Add(self.previous_photo, 0, wx.ALL, 5)
 		actionsS.Add(self.view_photo, 0, wx.ALL, 5)
@@ -59,27 +60,27 @@ class basicPost(widgetUtils.BaseDialog):
 
 
 	def create_likes_box(self):
-		self.likes = wx.Button(self.panel, -1, _(u"Loading data..."))
+		self.likes = wx.Button(self.panel, -1, _("Loading data..."))
 		return self.likes
 
 	def create_shares_box(self):
-		self.shares = wx.Button(self.panel, -1, _(u"Loading data..."))
+		self.shares = wx.Button(self.panel, -1, _("Loading data..."))
 		return self.shares
 
 	def create_action_buttons(self, comment=True):
-		self.like = wx.Button(self.panel, -1, _(u"&Like"))
-		self.repost = wx.Button(self.panel, -1, _(u"Repost"))
-		if comment: self.comment = wx.Button(self.panel, -1, _(u"Add comment"))
+		self.like = wx.Button(self.panel, -1, _("&Like"))
+		self.repost = wx.Button(self.panel, -1, _("Repost"))
+		if comment: self.comment = wx.Button(self.panel, -1, _("Add comment"))
 		box = wx.BoxSizer(wx.HORIZONTAL)
 		box.Add(self.like, 0, wx.ALL, 5)
 		if comment: box.Add(self.comment, 0, wx.ALL, 5)
 		return box
 
 	def create_tools_button(self):
-		self.tools = wx.Button(self.panel, -1, _(u"Actions"))
+		self.tools = wx.Button(self.panel, -1, _("Actions"))
 
 	def create_dialog_buttons(self):
-		self.close = wx.Button(self.panel, wx.ID_CANCEL, _(u"Close"))
+		self.close = wx.Button(self.panel, wx.ID_CANCEL, _("Close"))
 		return self.close
 
 	def set_post(self, text):
@@ -98,13 +99,13 @@ class basicPost(widgetUtils.BaseDialog):
 
 	def set_likes(self, likes):
 		if hasattr(self, "likes"):
-			self.likes.SetLabel(_(u"{0} people like this").format(likes,))
+			self.likes.SetLabel(_("{0} people like this").format(likes,))
 		else:
 			return False
 
 	def set_shares(self, shares):
 		if hasattr(self, "shares"):
-			self.shares.SetLabel(_(u"Shared {0} times").format(shares,))
+			self.shares.SetLabel(_("Shared {0} times").format(shares,))
 		else:
 			return False
 
@@ -150,40 +151,40 @@ class audio(widgetUtils.BaseDialog):
 		super(audio, self).__init__(parent=None, *args, **kwargs)
 		panel = wx.Panel(self)
 		sizer = wx.BoxSizer(wx.VERTICAL)
-		lbl_list = wx.StaticText(panel, wx.NewId(), _(u"Audio &files"))
+		lbl_list = wx.StaticText(panel, wx.NewId(), _("Audio &files"))
 		self.list = wx.ListBox(panel, wx.NewId())
 		listS = wx.BoxSizer(wx.HORIZONTAL)
 		listS.Add(lbl_list, 0, wx.ALL, 5)
 		listS.Add(self.list, 0, wx.ALL, 5)
 		sizer.Add(listS, 0, wx.ALL, 5)
-		lbl_title = wx.StaticText(panel, wx.NewId(), _(u"&Title"))
+		lbl_title = wx.StaticText(panel, wx.NewId(), _("&Title"))
 		self.title = wx.TextCtrl(panel, wx.NewId(), size=(413, -1), style=wx.TE_READONLY|wx.TE_MULTILINE)
 		titleBox = wx.BoxSizer(wx.HORIZONTAL)
 		titleBox.Add(lbl_title, 0, wx.ALL, 5)
 		titleBox.Add(self.title, 0, wx.ALL, 5)
 		sizer.Add(titleBox, 0, wx.ALL, 5)
-		lbl_artist = wx.StaticText(panel, wx.NewId(), _(u"&Artist"))
+		lbl_artist = wx.StaticText(panel, wx.NewId(), _("&Artist"))
 		self.artist = wx.TextCtrl(panel, wx.NewId(), size=(413, -1), style=wx.TE_READONLY|wx.TE_MULTILINE)
 		artistBox = wx.BoxSizer(wx.HORIZONTAL)
 		artistBox.Add(lbl_artist, 0, wx.ALL, 5)
 		artistBox.Add(self.artist, 0, wx.ALL, 5)
 		sizer.Add(artistBox, 0, wx.ALL, 5)
-		lbl_duration = wx.StaticText(panel, wx.NewId(), _(u"&Duration"))
+		lbl_duration = wx.StaticText(panel, wx.NewId(), _("&Duration"))
 		self.duration = wx.TextCtrl(panel, wx.NewId(), size=(413, -1), style=wx.TE_READONLY|wx.TE_MULTILINE)
 		durationBox = wx.BoxSizer(wx.HORIZONTAL)
 		durationBox.Add(lbl_duration, 0, wx.ALL, 5)
 		durationBox.Add(self.duration, 0, wx.ALL, 5)
 		sizer.Add(durationBox, 0, wx.ALL, 5)
-		lbl_lyrics = wx.StaticText(panel, wx.NewId(), _(u"&Lyric"))
+		lbl_lyrics = wx.StaticText(panel, wx.NewId(), _("&Lyric"))
 		self.lyric = wx.TextCtrl(panel, wx.NewId(), size=(500, 500), style=wx.TE_READONLY|wx.TE_MULTILINE)
 		lbox = wx.BoxSizer(wx.HORIZONTAL)
 		lbox.Add(lbl_lyrics, 0, wx.ALL, 5)
 		lbox.Add(self.lyric, 0, wx.ALL, 5)
 		sizer.Add(lbox, 0, wx.ALL, 5)
-		self.play = wx.Button(panel, wx.NewId(), _(u"&Play"))
-		self.download = wx.Button(panel, wx.NewId(), _(u"&Download"))
-		self.add = wx.Button(panel, wx.NewId(), _(u"&Add to your library"))
-		self.remove = wx.Button(panel, wx.NewId(), _(u"&Remove from your library"))
+		self.play = wx.Button(panel, wx.NewId(), _("&Play"))
+		self.download = wx.Button(panel, wx.NewId(), _("&Download"))
+		self.add = wx.Button(panel, wx.NewId(), _("&Add to your library"))
+		self.remove = wx.Button(panel, wx.NewId(), _("&Remove from your library"))
 		self.add.Enable(False)
 		self.remove.Enable(False)
 		close = wx.Button(panel, wx.ID_CANCEL)
@@ -198,7 +199,7 @@ class audio(widgetUtils.BaseDialog):
 		getattr(self, button_name).Enable(state)
 
 	def get_destination_path(self, filename):
-		saveFileDialog = wx.FileDialog(self, _(u"Save this file"), "", filename, _(u"Audio Files(*.mp3)|*.mp3"), wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT)
+		saveFileDialog = wx.FileDialog(self, _("Save this file"), "", filename, _("Audio Files(*.mp3)|*.mp3"), wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT)
 		if saveFileDialog.ShowModal() == wx.ID_OK:
 			return saveFileDialog.GetPath()
 		saveFileDialog.Destroy()
@@ -214,7 +215,7 @@ class friendship(widgetUtils.BaseDialog):
 		super(friendship, self).__init__(parent=None)
 		panel = wx.Panel(self)
 		sizer = wx.BoxSizer(wx.VERTICAL)
-		self.friends = widgetUtils.list(panel, [_(u"Friend")], style=wx.LC_REPORT)
+		self.friends = widgetUtils.list(panel, [_("Friend")], style=wx.LC_REPORT)
 		sizer.Add(self.friends.list, 0, wx.ALL, 5)
 		close = wx.Button(panel, wx.ID_CANCEL)
 		btnbox = wx.BoxSizer(wx.HORIZONTAL)

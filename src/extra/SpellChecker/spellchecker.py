@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 import logging
-import wx_ui
 import widgetUtils
 import output
 import config
@@ -8,6 +8,7 @@ import languageHandler
 from enchant.checker import SpellChecker
 from enchant.errors import DictNotFoundError
 from enchant import tokenize
+from . import wx_ui
 
 log = logging.getLogger("extra.SpellChecker.spellChecker")
 
@@ -25,7 +26,7 @@ class spellChecker(object):
 				self.checker = SpellChecker(languageHandler.curLang, filters=[tokenize.EmailFilter, tokenize.URLFilter])
 			self.checker.set_text(text)
 		except DictNotFoundError:
-			print "no dict"
+			print("no dict")
 			log.exception("Dictionary for language %s not found." % (dictionary,))
 			wx_ui.dict_not_found_error()
 			self.active = False
@@ -42,9 +43,9 @@ class spellChecker(object):
 
 	def check(self):
 		try:
-			self.checker.next()
-			textToSay = _(u"Misspelled word: %s") % (self.checker.word,)
-			context = u"... %s %s %s" % (self.checker.leading_context(10), self.checker.word, self.checker.trailing_context(10))
+			next(self.checker)
+			textToSay = _("Misspelled word: %s") % (self.checker.word,)
+			context = "... %s %s %s" % (self.checker.leading_context(10), self.checker.word, self.checker.trailing_context(10))
 			self.dialog.set_title(textToSay)
 			output.speak(textToSay)
 			self.dialog.set_word_and_suggestions(word=self.checker.word, context=context, suggestions=self.checker.suggest())

@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 """ Session object for Socializer. A session is the only object to call VK API methods, save settings and access to the cache database and sound playback mechanisms. """
+from __future__ import unicode_literals
 import os
 import logging
 import languageHandler
 import paths
-import vkSessionHandler
+from . import vkSessionHandler
 import sound
-from config_utils import Configuration, ConfigurationResetException
+from .config_utils import Configuration, ConfigurationResetException
 from pubsub import pub
 from vk_api.exceptions import LoginRequired, VkApiError
 
@@ -31,14 +32,14 @@ def find_item(list, item):
 	global identifiers
 	identifier = None
 	for i in identifiers:
-		if item.has_key(i):
+		if i in item:
 			identifier =   i
 			break
 	if identifier == None:
 		# if there are objects that can't be processed by lack of identifier, let's print  keys for finding one.
-		log.exception("Can't find an identifier for the following object: %r" % (item.keys(),))
+		log.exception("Can't find an identifier for the following object: %r" % (list(item.keys()),))
 	for i in list:
-		if i.has_key(identifier) and i[identifier] == item[identifier]:
+		if identifier in i and i[identifier] == item[identifier]:
 			return True
 	return False
 
@@ -53,12 +54,12 @@ class vkSession(object):
 		global post_types
 		first_addition = False
 		num = 0
-		if self.db.has_key(name) == False:
+		if (name in self.db) == False:
 			self.db[name] = {}
 			self.db[name]["items"] = []
 			first_addition = True
 		for i in data:
-			if i.has_key("type") and (i["type"] == "wall_photo" or i["type"] == "photo_tag" or i["type"] == "photo"):
+			if "type" in i and (i["type"] == "wall_photo" or i["type"] == "photo_tag" or i["type"] == "photo"):
 				log.debug("Skipping unsupported item... %r" % (i,))
 				continue
 			# for some reason, VK sends post data if the post has been deleted already.
@@ -127,7 +128,7 @@ class vkSession(object):
 
 	def get_newsfeed(self, name="newsfeed", show_nextpage=False, endpoint="", *args, **kwargs):
 		log.debug("Updating news feed...")
-		if show_nextpage == True and self.db[name].has_key("cursor"):
+		if show_nextpage == True and "cursor" in self.db[name]:
 			log.debug("user has requested previous items")
 			kwargs["start_from"] = self.db[name]["cursor"]
 			log.debug("Params for sending to vk: %r" % (kwargs,))
@@ -138,8 +139,8 @@ class vkSession(object):
 #			else:
 #				print data.keys(), len(data["items"]), data["next_from"]
 			num = self.order_buffer(name, data["items"], show_nextpage)
-			log.debug("Keys of the returned data for debug purposes: %r" % (data.keys(),))
-			if data.has_key("next_from"):
+			log.debug("Keys of the returned data for debug purposes: %r" % (list(data.keys()),))
+			if "next_from" in data:
 				self.db[name]["cursor"] = data["next_from"]
 			return num
 
@@ -150,7 +151,7 @@ class vkSession(object):
 			c = self.vk.client_audio
 		else:
 			c = self.vk.client
-		if kwargs.has_key("parent_endpoint"):
+		if "parent_endpoint" in kwargs:
 			p = kwargs["parent_endpoint"]
 			if "audio" in p and self.settings["vk"]["use_alternative_tokens"]:
 				log.info("Using alternative audio methods.")
@@ -165,12 +166,12 @@ class vkSession(object):
 		if data != None:
 			if type(data) == dict:
 				num = self.order_buffer(name, data["items"], show_nextpage)
-				if len(data["items"]) > 0 and data["items"][0].has_key("first_name"):
+				if len(data["items"]) > 0 and "first_name" in data["items"][0]:
 					data2 = {"profiles": [], "groups": []}
 					for i in data["items"]:
 						data2["profiles"].append(i)
 					self.process_usernames(data2)
-				if data.has_key("profiles") and data.has_key("groups"):
+				if "profiles" in data and "groups" in data:
 					self.process_usernames(data)
 			else:
 				num = self.order_buffer(name, data, show_nextpage)
@@ -185,15 +186,15 @@ class vkSession(object):
 
 	def get_user_name(self, user_id, case_name="gen"):
 		if user_id > 0:
-			if self.db["users"].has_key(user_id):
-				if self.db["users"][user_id].has_key(case_name):
+			if user_id in self.db["users"]:
+				if case_name in self.db["users"][user_id]:
 					return self.db["users"][user_id][case_name]
 				else:
 					return self.db["users"][user_id]["nom"]
 			else:
 				return "no specified user"
 		else:
-			if self.db["groups"].has_key(abs(user_id)):
+			if abs(user_id) in self.db["groups"]:
 				return self.db["groups"][abs(user_id)]["nom"]
 			else:
 				return "no specified community"
@@ -203,7 +204,7 @@ class vkSession(object):
 		if user_ids != None:
 			u = self.vk.client.users.get(user_ids=user_ids, fields="uid, first_name, last_name")
 			for i in u:
-				self.db["users"][i["id"]] = u"{0} {1}".format(i["first_name"], i["last_name"])
+				self.db["users"][i["id"]] = "{0} {1}".format(i["first_name"], i["last_name"])
 		if group_ids != None:
 			g = self.vk.client.groups.getById(group_ids=group_ids, fields="name")
 			for i in g:
@@ -217,8 +218,8 @@ class vkSession(object):
 		log.debug("Adding usernames to the local database...")
 		ids = ""
 		for i in data["profiles"]:
-			if self.db["users"].has_key(i["id"]) == False:
-				self.db["users"][i["id"]] = dict(nom=u"{0} {1}".format(i["first_name"], i["last_name"]))
+			if (i["id"] in self.db["users"]) == False:
+				self.db["users"][i["id"]] = dict(nom="{0} {1}".format(i["first_name"], i["last_name"]))
 				ids = ids + "{0},".format(i["id"],)
 		gids = ""
 		for i in data["groups"]:
@@ -230,11 +231,11 @@ class vkSession(object):
 			users_genitive = self.vk.client.users.get(user_ids=ids, fields="first_name, last_name", name_case="gen")
 			users_instrumental = self.vk.client.users.get(user_ids=ids, fields="first_name, last_name", name_case="ins")
 			for i in users_genitive:
-				if self.db["users"].has_key(i["id"]):
-					self.db["users"][i["id"]]["gen"] = u"{0} {1}".format(i["first_name"], i["last_name"])
+				if i["id"] in self.db["users"]:
+					self.db["users"][i["id"]]["gen"] = "{0} {1}".format(i["first_name"], i["last_name"])
 			for i in users_instrumental:
-				if self.db["users"].has_key(i["id"]):
-					self.db["users"][i["id"]]["ins"] = u"{0} {1}".format(i["first_name"], i["last_name"])
+				if i["id"] in self.db["users"]:
+					self.db["users"][i["id"]]["ins"] = "{0} {1}".format(i["first_name"], i["last_name"])
 
 	def get_my_data(self):
 		log.debug("Getting user identifier...")

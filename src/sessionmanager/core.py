@@ -1,9 +1,11 @@
-import _sslfixer
+from builtins import range
 import webbrowser
 import random
 import requests
 import string
-from wxUI import two_factor_auth
+from . import _sslfixer
+from .wxUI import two_factor_auth
+
 class AuthenticationError(Exception):
     pass
 
