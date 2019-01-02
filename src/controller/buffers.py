@@ -116,9 +116,9 @@ class baseBuffer(object):
 		if p.message.get_response() == widgetUtils.OK:
 			call_threaded(self.do_last, p=p)
 
-	def do_last(self, p):
+	def do_last(self, p, parent_endpoint="wall", child_endpoint="post", *args, **kwargs):
 		""" Second part of post function. Here everything is going to be sent to the API"""
-		msg = p.message.get_text().encode("utf-8")
+		msg = p.message.get_text()
 		privacy_opts = p.get_privacy_options()
 		attachments = ""
 		if hasattr(p, "attachments"):
@@ -128,7 +128,10 @@ class baseBuffer(object):
 			if len(attachments) == 0: attachments = urls[0]
 			else: attachments += urls[0]
 			msg = msg.replace(urls[0], "")
-		self.session.post_wall_status(message=msg, friends_only=privacy_opts, attachments=attachments)
+		# Determines the correct functions to call here.
+		parent_endpoint = getattr(self.session.vk.client, parent_endpoint)
+		endpoint = getattr(parent_endpoint, child_endpoint)
+		post = endpoint(message=msg, friends_only=privacy_opts, attachments=attachments, *args, **kwargs)
 		pub.sendMessage("posted", buffer=self.name)
 		p.message.Destroy()
 
@@ -388,6 +391,18 @@ class feedBuffer(baseBuffer):
 		super(feedBuffer, self).__init__(*args, **kwargs)
 		self.user_key = "from_id"
 		self.post_key = "id"
+
+	def post(self, *args, **kwargs):
+		""" Create a post in the wall for the specified user
+		This process is handled in two parts. This is the first part, where the GUI is created and user can send the post.
+		During the second part (threaded), the post will be sent to the API."""
+		if "owner_id" not in self.kwargs:
+			return super(feedBuffer, self).post()
+		owner_id = self.kwargs["owner_id"]
+		user = self.session.get_user_name(owner_id)
+		p = messages.post(session=self.session, title=_("Post to {user}'s wall").format(user=user,), caption="", text="")
+		if p.message.get_response() == widgetUtils.OK:
+			call_threaded(self.do_last, p=p, owner_id=owner_id)
 
 class communityBuffer(feedBuffer):
 
