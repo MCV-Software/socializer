@@ -38,12 +38,12 @@ alpha:
     - cd ..
     - move src\socializer.zip socializer.zip
   only:
-    - master
+    - schedules
   artifacts:
     paths:
     - socializer.zip
     name: socializer
-    expire_in: 1 week
+    expire_in: 1 day
 
 alpha_python3:
   type: deploy
@@ -69,12 +69,12 @@ alpha_python3:
     - cd ..
     - move src\socializer.zip socializer.zip
   only:
-    - master
+    - schedules
   artifacts:
     paths:
     - socializer.zip
     name: socializer_py3
-    expire_in: 1 hour
+    expire_in: 1 day
 
 stable:
   type: deploy
