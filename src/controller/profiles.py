@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 from future import standard_library
 standard_library.install_aliases()
-import io
+import six
 import webbrowser
 import logging
 import arrow
@@ -137,7 +137,7 @@ class userProfile(object):
 		# ToDo: Need to ask if this has a visible effect in the dialog.
 		if "photo_200_orig" in person:
 			img = requests.get(person["photo_200_orig"])
-			image = wx.Image(stream=io.StringIO(requests.get(person["photo_200_orig"]).content))
+			image = wx.Image(stream=six.BytesIO(requests.get(person["photo_200_orig"]).content))
 			try:
 				self.dialog.image.SetBitmap(wx.Bitmap(image))
 			except ValueError:

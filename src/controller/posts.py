@@ -4,7 +4,7 @@ from future import standard_library
 standard_library.install_aliases()
 import re
 import os
-import io
+import six
 import threading
 import arrow
 from . import messages
@@ -95,7 +95,7 @@ class postController(object):
 			else:
 				text = fixed_text
 			original_date = arrow.get(i["date"])
-			created_at = original_date.humanize(locale=languageHandler.getLanguage())
+			created_at = original_date.humanize(locale=languageHandler.curLang[:2])
 			likes = str(i["likes"]["count"])
 			comments_.append((from_, text, created_at, likes))
 		try:
@@ -188,7 +188,8 @@ class postController(object):
 		url = self.get_photo_url(self.images[index]["photo"], "x")
 		if url != "":
 			img = requests.get(url)
-			image = wx.Image(stream=io.StringIO(requests.get(url).content))
+			img_data = six.BytesIO(img.content)
+			image = wx.Image(stream=img_data)
 			try:
 				self.dialog.image.SetBitmap(wx.Bitmap(image))
 			except NameError:
@@ -384,7 +385,7 @@ class comment(object):
 		from_ = self.comment["from"]["name"]
 		message = self.comment["message"]
 		original_date = arrow.get(self.comment["created_time"], "YYYY-MM-DTHH:m:sZ", locale="en")
-		created_at = original_date.humanize(locale=languageHandler.getLanguage())
+		created_at = original_date.humanize(locale=languageHandler.curLang[:2])
 		self.dialog.set_post(message)
 		self.dialog.set_title(_("Comment from {0}").format(from_,))
 		widgetUtils.connect_event(self.dialog.like, widgetUtils.BUTTON_PRESSED, self.post_like)
@@ -539,10 +540,10 @@ class userProfile(object):
 			self.dialog.main_info.enable("bdate")
 			if len(person["bdate"]) <= 5:
 				d = arrow.get(person["bdate"], "D.m")
-				self.dialog.main_info.set("bdate", d.format(_("MMMM D"), locale=languageHandler.getLanguage()))
+				self.dialog.main_info.set("bdate", d.format(_("MMMM D"), locale=languageHandler.curLang[:2]))
 			else:
 				d = arrow.get(person["bdate"], "D.M.YYYY")
-				self.dialog.main_info.set("bdate", d.format(_("MMMM D, YYYY"), locale=languageHandler.getLanguage()))
+				self.dialog.main_info.set("bdate", d.format(_("MMMM D, YYYY"), locale=languageHandler.curLang[:2]))
 		# Gets current city and home town
 		city = ""
 		if "home_town" in person and person["home_town"] != "":
@@ -603,7 +604,7 @@ class userProfile(object):
 		if "last_seen" in person and person["last_seen"] != False:
 			original_date = arrow.get(person["last_seen"]["time"])
 			# Translators: This is the date of last seen
-			last_seen = _("{0}").format(original_date.humanize(locale=languageHandler.getLanguage()),)
+			last_seen = _("{0}").format(original_date.humanize(locale=languageHandler.curLang[:2]),)
 			self.dialog.main_info.enable("last_seen")
 			self.dialog.main_info.set("last_seen", last_seen)
 		log.info("getting info...")
