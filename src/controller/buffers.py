@@ -391,6 +391,16 @@ class feedBuffer(baseBuffer):
 		super(feedBuffer, self).__init__(*args, **kwargs)
 		self.user_key = "from_id"
 		self.post_key = "id"
+		self.can_post = True
+		self.can_write_private_message = True
+		# if this is an user timeline we must check permissions to hide buttons when needed.
+		if "owner_id" in self.kwargs:
+			permissions = self.session.vk.client.users.get(user_ids=self.kwargs["owner_id"], fields="can_post, can_see_all_posts, can_write_private_message")
+			self.can_post = permissions[0]["can_post"]
+			self.can_see_all_posts = permissions[0]["can_see_all_posts"]
+			self.can_write_private_message = permissions[0]["can_write_private_message"]
+			if self.can_post == False:
+				self.tab.post.Enable(False)
 
 	def post(self, *args, **kwargs):
 		""" Create a post in the wall for the specified user
