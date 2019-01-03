@@ -109,7 +109,7 @@ class postController(object):
 			# Translators: {0} will be replaced with an user.
 			title = _("repost from {0}").format(from_,)
 		else:
-			if "from_id" in self.post and "owner_id" in self.post:
+			if ("from_id" in self.post and "owner_id" in self.post) and (self.post["from_id"] != self.post["owner_id"]):
 				# Translators: {0} will be replaced with the user who is posting, and {1} with the wall owner.
 				title = _("Post from {0} in the {1}'s wall").format(self.session.get_user_name(self.post["from_id"]), self.session.get_user_name(self.post["owner_id"]))
 			else:
