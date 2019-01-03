@@ -192,10 +192,15 @@ class baseBuffer(object):
 
 	def get_menu(self):
 		""" Returns contextual menu options. They will change according to the focused item"""
-		m = menus.postMenu()
 		p = self.get_post()
 		if p == None:
 			return
+		# determine if the current user is able to delete the object.
+		if "can_delete" in p:
+			can_delete = True==p["can_delete"]
+		else:
+			can_delete = False
+		m = menus.postMenu(can_delete=can_delete)
 		if ("likes" in p) == False:
 			m.like.Enable(False)
 		elif p["likes"]["user_likes"] == 1:
@@ -207,7 +212,8 @@ class baseBuffer(object):
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.do_like, menuitem=m.like)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.do_dislike, menuitem=m.dislike)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.do_comment, menuitem=m.comment)
-		widgetUtils.connect_event(m, widgetUtils.MENU, self.open_person_profile, menuitem=m.view_profile)
+		if hasattr(m, "view_profile"):
+			widgetUtils.connect_event(m, widgetUtils.MENU, self.open_person_profile, menuitem=m.view_profile)
 		return m
 
 	def do_like(self, *args, **kwargs):

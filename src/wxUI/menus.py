@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import wx
 
 class postMenu(wx.Menu):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, can_delete=False, *args, **kwargs):
 		super(postMenu, self).__init__(*args, **kwargs)
 		self.open = wx.MenuItem(self, wx.NewId(), _("Open"))
 		self.Append(self.open)
@@ -14,11 +14,15 @@ class postMenu(wx.Menu):
 		self.Append(self.dislike)
 		self.comment = wx.MenuItem(self, wx.NewId(), _("Add comment"))
 		self.Append(self.comment)
-		self.post_in_wall = wx.MenuItem(self, wx.NewId(), _("Post to this profile"))
-		self.post_in_wall.Enable(False)
-		self.Append(self.post_in_wall)
-		self.view_profile = wx.MenuItem(self, wx.NewId(), _("View user profile"))
-		self.Append(self.view_profile)
+		if can_delete:
+			self.delete = wx.MenuItem(self, wx.NewId(), _("Delete"))
+			self.Append(self.delete)
+		else:
+			self.post_in_wall = wx.MenuItem(self, wx.NewId(), _("Post to this profile"))
+			self.post_in_wall.Enable(False)
+			self.Append(self.post_in_wall)
+			self.view_profile = wx.MenuItem(self, wx.NewId(), _("View user profile"))
+			self.Append(self.view_profile)
 
 	def create_specific_post_options(self):
 		self.update = wx.MenuItem(self, wx.NewId(), _("Update"))
