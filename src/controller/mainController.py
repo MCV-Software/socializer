@@ -3,19 +3,11 @@ from __future__ import unicode_literals
 from builtins import range
 import time
 import os
-import wx
-import widgetUtils
-from . import messages
-from . import buffers
-from . import configuration
-from . import player
-from . import posts
-from . import profiles
 import webbrowser
 import logging
+import wx
+import widgetUtils
 import output
-from . import longpollthread
-from . import selector
 from vk_api.exceptions import LoginRequired, VkApiError
 from requests.exceptions import ConnectionError
 from pubsub import pub
@@ -28,6 +20,14 @@ from wxUI.dialogs import search as searchDialogs
 from wxUI.dialogs import timeline, creation
 from update import updater
 from issueReporter import issueReporter
+from . import messages
+from . import buffers
+from . import configuration
+from . import player
+from . import posts
+from . import profiles
+from . import longpollthread
+from . import selector
 
 log = logging.getLogger("controller.main")
 
