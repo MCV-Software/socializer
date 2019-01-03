@@ -303,6 +303,7 @@ class baseBuffer(object):
 		for i in keys:
 			if i in selected:
 				pub.sendMessage("user-profile", person=selected[i])
+				break
 
 	def open_post(self, *args, **kwargs):
 		""" Opens the currently focused post."""
