@@ -192,7 +192,8 @@ class vkSession(object):
 				else:
 					return self.db["users"][user_id]["nom"]
 			else:
-				return "no specified user"
+				self.get_users(user_ids=user_id)
+				return self.get_user_name(user_id)
 		else:
 			if abs(user_id) in self.db["groups"]:
 				return self.db["groups"][abs(user_id)]["nom"]
@@ -204,11 +205,11 @@ class vkSession(object):
 		if user_ids != None:
 			u = self.vk.client.users.get(user_ids=user_ids, fields="uid, first_name, last_name")
 			for i in u:
-				self.db["users"][i["id"]] = "{0} {1}".format(i["first_name"], i["last_name"])
+				self.db["users"][i["id"]] = dict(nom="{0} {1}".format(i["first_name"], i["last_name"]))
 		if group_ids != None:
 			g = self.vk.client.groups.getById(group_ids=group_ids, fields="name")
 			for i in g:
-				self.db["groups"][i["id"]] = i["name"]
+				self.db["groups"][i["id"]] = dict(nom=i["name"])
 
 	def process_usernames(self, data):
 		""" processes user IDS and saves them in a local storage system.
