@@ -4,6 +4,8 @@
 
 * Now it is possible to post in someone else's wall. When viewing a timeline of an user, the "post" button will post in his/her wall. To post in your own wall, you'll need to go to the newsfeed or your own wall and press the post button.
 * A new option for deleting wall posts has been added to the context menu in newsfeed and walls (current user's wall and timelines). This option will be visible only if the current user is allowed to delete the focused post.
+* Socializer will be able to handle all users correctly. Before, if an user that was not present in the local storage system was needed, the program was displaying "no specified user". ([#17,](https://code.manuelcortez.net/manuelcortez/socializer/issues/17))
+* It is possible to use user domains (short names for users) to create timelines. Just write @username and the program will create the needed timelines, regardless if the user is present in your friend list. ([#18,](https://code.manuelcortez.net/manuelcortez/socializer/issues/18))
 
 ## Changes in version 0.17 (01.01.2019)
 

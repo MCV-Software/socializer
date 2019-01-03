@@ -331,11 +331,14 @@ class Controller(object):
 
 	def new_timeline(self, *args, **kwargs):
 		b = self.get_current_buffer()
+		# If executing this method from an empty buffer we should get the newsfeed buffer.
 		if not hasattr(b, "get_users"):
 			b = self.search("home_timeline")
+		# Get a list of (id, user) objects.
 		d = []
 		for i in self.session.db["users"]:
 			d.append((i, self.session.get_user_name(i, "nom")))
+		# Do the same for communities.
 		for i in self.session.db["groups"]:
 			d.append((-i, self.session.get_user_name(-i)))
 		a = timeline.timelineDialog([i[1] for i in d])
@@ -346,9 +349,12 @@ class Controller(object):
 			for i in d:
 				if i[1] == user:
 					user_id = i[0]
-			if user_id == None:
-				commonMessages.no_user_exist()
-				return
+			if user_id == "":
+				user_data = self.session.vk.client.utils.resolveScreenName(screen_name=user)
+				if type(user_data) == list:
+					commonMessages.no_user_exist()
+					return
+				user_id = user_data["object_id"]
 			if buffertype == "audio":
 				buffer = buffers.audioBuffer(parent=self.window.tb, name="{0}_audio".format(user_id,), composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio", owner_id=user_id)
 				# Translators: {0} will be replaced with an user.
