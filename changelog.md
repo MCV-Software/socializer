@@ -2,6 +2,11 @@
 
 ## changes in this  version
 
+* Now it is possible to post in someone else's wall. When viewing a timeline of an user, the "post" button will post in his/her wall. To post in your own wall, you'll need to go to the newsfeed or your own wall and press the post button.
+* A new option for deleting wall posts has been added to the context menu in newsfeed and walls (current user's wall and timelines). This option will be visible only if the current user is allowed to delete the focused post.
+
+## Changes in version 0.17 (01.01.2019)
+
 * Added support for Two factor authentication (2FA). ([#13,](https://code.manuelcortez.net/manuelcortez/socializer/issues/13))
 * Added update channels in socializer. You can subscribe to the "stable" or "alpha" channel from the preferences dialog and you will receive updates published for those:
     * The stable channel will have releases every month, approximately, and is the channel where the code will be more tested and with less bugs. All support and help will be provided for the stable versions only.

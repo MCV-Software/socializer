@@ -214,6 +214,8 @@ class baseBuffer(object):
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.do_comment, menuitem=m.comment)
 		if hasattr(m, "view_profile"):
 			widgetUtils.connect_event(m, widgetUtils.MENU, self.open_person_profile, menuitem=m.view_profile)
+		if hasattr(m, "delete"):
+			widgetUtils.connect_event(m, widgetUtils.MENU, self.delete, menuitem=m.delete)
 		return m
 
 	def do_like(self, *args, **kwargs):
@@ -265,6 +267,20 @@ class baseBuffer(object):
 				output.speak(_("You've posted a comment"))
 			except Exception as msg:
 				log.error(msg)
+
+	def delete(self, *args, **kwargs):
+		post = self.get_post()
+		if ("type" in post and post["type"] == "post") or self.name != "newsfeed":
+			question = commonMessages.remove_post()
+			if question == widgetUtils.NO:
+				return
+			if "owner_id" in self.kwargs:
+				result = self.session.vk.client.wall.delete(owner_id=self.kwargs["owner_id"], post_id=post[self.post_key])
+			else:
+				result = self.session.vk.client.wall.delete(post_id=post[self.post_key])
+			pub.sendMessage("post_deleted", post_id=post[self.post_key])
+			self.session.db[self.name]["items"].pop(self.tab.list.get_selected())
+			self.tab.list.remove_item(self.tab.list.get_selected())
 
 	def get_event(self, ev):
 		""" Parses keyboard input in the ListCtrl and executes the event associated with user keypresses."""

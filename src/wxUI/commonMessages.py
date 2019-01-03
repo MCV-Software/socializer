@@ -37,3 +37,6 @@ def delete_audio_album():
 
 def updated_status():
 	return wx.MessageDialog(None, _("Your status message has been successfully updated."), _("Success")).ShowModal()
+
+def remove_post():
+	return wx.MessageDialog(None, _("Do you really want to delete this post?"), _("Attention"), style=wx.ICON_QUESTION|wx.YES_NO).ShowModal()
