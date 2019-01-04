@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 import unittest
 
-testmodules = ["test.test_renderers", "test.test_setup_py2exe"]
+testmodules = ["test.test_setup_py2exe", "test.test_base_interactor", "test.test_renderers"]
 
 suite = unittest.TestSuite()
 
