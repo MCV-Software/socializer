@@ -23,6 +23,8 @@ class baseInteractorTestCase(unittest.TestCase):
 		view.disable.assert_called_with("some_control")
 		interactor_.enable_control(control="some_control")
 		view.enable.assert_called_with("some_control")
+		interactor_.set_label(control="some_control", label="label")
+		view.set.assert_called_with("some_control", "label")
 		interactor_.focus_control(control="some_control")
 		view.some_control.SetFocus()
 		interactor_.uninstall()
