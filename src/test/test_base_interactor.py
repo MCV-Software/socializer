@@ -26,7 +26,7 @@ class baseInteractorTestCase(unittest.TestCase):
 		interactor_.set_label(control="some_control", label="label")
 		view.set.assert_called_with("some_control", "label")
 		interactor_.focus_control(control="some_control")
-		view.some_control.SetFocus()
+		view.some_control.SetFocus.assert_called_with()
 		interactor_.uninstall()
 		pub_mock.unsubscribe.assert_any_call(interactor_.disable_control, "base_disable_control"),
 		pub_mock.unsubscribe.assert_any_call(interactor_.enable_control, "base_enable_control"),
