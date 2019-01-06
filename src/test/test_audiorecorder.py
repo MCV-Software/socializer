@@ -10,7 +10,7 @@ class audioRecorderTestCase(unittest.TestCase):
 	""" Test both the presenter and interactor of the audio recorder feature. View stuff will be mocked."""
 
 	@mock.patch("presenters.audioRecorder.sound_lib", esp_set=True)
-	@mock.patch("presenters.audioRecorder.pub", esp_set=True)
+	@mock.patch("presenters.base.pub", esp_set=True)
 	@mock.patch("presenters.audioRecorder.tempfile", esp_set=True)
 	@mock.patch("presenters.audioRecorder.sound", esp_set=True)
 	@mock.patch("presenters.audioRecorder.output", esp_set=True)
