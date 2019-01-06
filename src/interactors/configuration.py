@@ -29,6 +29,7 @@ class configurationInteractor(base.baseInteractor):
 			self.on_save_settings()
 
 	def on_save_settings(self, *args, **kwargs):
+		self.presenter.update_setting(section="buffers", setting="count_for_wall_buffers", value=self.view.get_value("general", "wall_buffer_count"))
 		self.presenter.update_setting(section="buffers", setting="count_for_video_buffers", value=self.view.get_value("general", "video_buffers_count"))
 		self.presenter.update_setting(section="general", setting="load_images", value=self.view.get_value("general", "load_images"))
 		update_channel = self.presenter.get_update_channel_type(self.view.get_value("general", "update_channel"))

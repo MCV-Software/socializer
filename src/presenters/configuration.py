@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from pubsub import pub
-from interactors import configuration as interactor
+from . import base
 
-class configurationPresenter(object):
+class configurationPresenter(base.basePresenter):
 
 	def __init__(self, session, view, interactor):
-		self.interactor = interactor
 		self.session = session
-		self.view = view
-		self.interactor.install(view=view, presenter=self, modulename="configuration")
+		super(configurationPresenter, self).__init__(view=view, interactor=interactor, modulename="configuration")
 		self.create_config()
-		self.interactor.start()
-		self.interactor.uninstall()
+		self.run()
+
 
 	def get_notification_label(self, value):
 		if value == "native":
