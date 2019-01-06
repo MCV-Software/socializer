@@ -8,7 +8,7 @@ import logging
 import widgetUtils
 import presenters
 import interactors
-from wxUI.dialogs import audioRecorder as gui2
+import views
 from mutagen.id3 import ID3
 from sessionmanager.utils import seconds_to_string
 from wxUI.dialogs import attach as gui
@@ -93,7 +93,7 @@ class attach(object):
 			self.dialog.remove.Enable(True)
 
 	def upload_voice_message(self, *args, **kwargs):
-		a = presenters.audioRecorderPresenter(view=gui2.audioRecorderDialog(), interactor=interactors.audioRecorderInteractor())
+		a = presenters.audioRecorderPresenter(view=views.audioRecorderDialog(), interactor=interactors.audioRecorderInteractor())
 		if a.file != None and a.duration != 0:
 			audioInfo = {"type": "voice_message", "file": a.file, "from": "local"}
 			self.attachments.append(audioInfo)

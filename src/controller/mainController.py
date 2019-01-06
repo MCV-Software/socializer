@@ -25,7 +25,6 @@ from update import updater
 from issueReporter import issueReporter
 from . import messages
 from . import buffers
-from . import configuration
 from . import player
 from . import posts
 from . import profiles
