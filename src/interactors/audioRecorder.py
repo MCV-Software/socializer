@@ -26,4 +26,4 @@ class audioRecorderInteractor(base.baseInteractor):
 		self.presenter.play()
 
 	def on_postprocess(self):
-		pass
+		self.presenter.postprocess()
