@@ -6,19 +6,17 @@ import tempfile
 import sound_lib
 import sound
 import output
-from pubsub import pub
 from mysc.thread_utils import call_threaded
+from . import base
 
-class audioRecorderPresenter(object):
+class audioRecorderPresenter(base.basePresenter):
 	def __init__(self, view, interactor):
-		self.view = view
-		self.interactor = interactor
-		self.interactor.install(view=view, presenter=self)
+		super(audioRecorderPresenter, self).__init__(view=view, interactor=interactor, modulename="audiorecorder")
 		self.recorded = False
 		self.recording = None
 		self.duration = 0
 		self.playing = None
-		self.interactor.start()
+		self.run()
 
 	def toggle_recording(self, *args, **kwargs):
 		if self.recording != None:
@@ -31,9 +29,9 @@ class audioRecorderPresenter(object):
 		self.recording = sound.get_recording(self.file)
 		self.duration = time.time()
 		self.recording.play()
-		pub.sendMessage("audiorecorder_set_label", control="record", label=_("&Stop"))
+		self.send_message("set_label", control="record", label=_("&Stop"))
 		output.speak(_("Recording"))
-		pub.sendMessage("audiorecorder_disable_control", control="ok")
+		self.send_message("disable_control", control="ok")
 
 	def stop_recording(self):
 		self.recording.stop()
@@ -41,24 +39,24 @@ class audioRecorderPresenter(object):
 		self.recording.free()
 		output.speak(_("Stopped"))
 		self.recorded = True
-		pub.sendMessage("audiorecorder_set_label", control="record", label=_("&Record"))
-		pub.sendMessage("audiorecorder_disable_control", control="record")
-		pub.sendMessage("audiorecorder_enable_control", control="play")
-		pub.sendMessage("audiorecorder_enable_control", control="discard")
-		pub.sendMessage("audiorecorder_enable_control", control="ok")
-		pub.sendMessage("audiorecorder_focus_control", control="play")
+		self.send_message("set_label", control="record", label=_("&Record"))
+		self.send_message("disable_control", control="record")
+		self.send_message("enable_control", control="play")
+		self.send_message("enable_control", control="discard")
+		self.send_message("enable_control", control="ok")
+		self.send_message("focus_control", control="play")
 
 	def discard_recording(self, *args, **kwargs):
 		if self.playing:
 			self._stop()
 		if self.recording != None:
 			self.cleanup()
-		pub.sendMessage("audiorecorder_disable_control", control="play")
-		pub.sendMessage("audiorecorder_disable_control", control="ok")
+		self.send_message("disable_control", control="play")
+		self.send_message("disable_control", control="ok")
 		self.file = None
-		pub.sendMessage("audiorecorder_enable_control", control="record")
-		pub.sendMessage("audiorecorder_focus_control", control="record")
-		pub.sendMessage("audiorecorder_disable_control", control="discard")
+		self.send_message("enable_control", control="record")
+		self.send_message("focus_control", control="record")
+		self.send_message("disable_control", control="discard")
 		self.recording = None
 		output.speak(_("Discarded"))
 
@@ -73,11 +71,11 @@ class audioRecorderPresenter(object):
 #  try:
 		self.playing = sound_lib.stream.FileStream(file=str(self.file), flags=sound_lib.stream.BASS_UNICODE)
 		self.playing.play()
-		pub.sendMessage("audiorecorder_set_label", control="play", label=_("&Stop"))
+		self.send_message("set_label", control="play", label=_("&Stop"))
 		try:
 			while self.playing.is_playing:
 				pass
-			pub.sendMessage("audiorecorder_set_label", control="play", label=_("&Play"))
+			self.send_message("set_label", control="play", label=_("&Play"))
 			self.playing.free()
 			self.playing = None
 		except:
@@ -87,7 +85,7 @@ class audioRecorderPresenter(object):
 		output.speak(_("Stopped"))
 		self.playing.stop()
 		self.playing.free()
-		pub.sendMessage("audiorecorder_set_label", control="play", label=_("&Play"))
+		self.send_message("set_label", control="play", label=_("&Play"))
 		self.playing = None
 
 	def postprocess(self):
@@ -96,6 +94,7 @@ class audioRecorderPresenter(object):
 			sound.recode_audio(self.file)
 			self.wav_file = self.file
 			self.file = '%s.ogg' % self.file[:-4]
+			self.cleanup()
 
 	def cleanup(self):
 		if self.playing and self.playing.is_playing:
@@ -107,6 +106,5 @@ class audioRecorderPresenter(object):
 				self.recording.free()
 			except:
 				pass
-			os.remove(self.file)
 			if hasattr(self, 'wav_file'):
 				os.remove(self.wav_file)
