@@ -8,6 +8,9 @@ import logging
 import wx
 import widgetUtils
 import output
+import presenters
+import interactors
+import views
 from vk_api.exceptions import LoginRequired, VkApiError
 from requests.exceptions import ConnectionError
 from pubsub import pub
@@ -325,9 +328,7 @@ class Controller(object):
 
 	def configuration(self, *args, **kwargs):
 		""" Opens the global settings dialogue."""
-		d = configuration.configuration(self.session)
-		if d.response == widgetUtils.OK:
-			d.save_configuration()
+		presenter = presenters.configurationPresenter(session=self.session, view=views.configurationDialog(title=_("Preferences")), interactor=interactors.configurationInteractor())
 
 	def new_timeline(self, *args, **kwargs):
 		b = self.get_current_buffer()
