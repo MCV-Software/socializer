@@ -11,7 +11,6 @@ import views
 import interactors
 import languageHandler
 import widgetUtils
-from . import messages
 from presenters import player
 import output
 from . import selector
@@ -114,14 +113,14 @@ class baseBuffer(object):
 		""" Create a post in the current user's wall.
 		This process is handled in two parts. This is the first part, where the GUI is created and user can send the post.
 		During the second part (threaded), the post will be sent to the API."""
-		p = messages.post(session=self.session, title=_("Write your post"), caption="", text="")
-		if p.message.get_response() == widgetUtils.OK:
+		p = presenters.postPresenter(session=self.session, interactor=interactors.postInteractor(), view=views.post(title=_("Write your post"), message="", text=""))
+		if hasattr(p, "text") or hasattr(p, "privacy"):
 			call_threaded(self.do_last, p=p)
 
 	def do_last(self, p, parent_endpoint="wall", child_endpoint="post", *args, **kwargs):
 		""" Second part of post function. Here everything is going to be sent to the API"""
-		msg = p.message.get_text()
-		privacy_opts = p.get_privacy_options()
+		msg = p.text
+		privacy_opts = p.privacy
 		attachments = ""
 		if hasattr(p, "attachments"):
 			attachments = self.upload_attachments(p.attachments)
@@ -259,9 +258,9 @@ class baseBuffer(object):
 		post = self.get_post()
 		if post == None:
 			return
-		comment = messages.comment(title=_("Add a comment"), caption="", text="")
-		if comment.message.get_response() == widgetUtils.OK:
-			msg = comment.message.get_text().encode("utf-8")
+		comment = presenters.postPresenter(session=self.session, interactor=interactors.postInteractor(), view=views.post(title=_("Add a comment"), message="", text="", mode="comment"))
+		if hasattr(comment, "text") or hasattr(comment, "privacy"):
+			msg = comment.text
 			try:
 				user = post[self.user_key]
 				id = post[self.post_key]
@@ -435,8 +434,8 @@ class feedBuffer(baseBuffer):
 			return super(feedBuffer, self).post()
 		owner_id = self.kwargs["owner_id"]
 		user = self.session.get_user_name(owner_id)
-		p = messages.post(session=self.session, title=_("Post to {user}'s wall").format(user=user,), caption="", text="")
-		if p.message.get_response() == widgetUtils.OK:
+		p = presenters.postPresenter(session=self.session, interactor=interactors.postInteractor(), view=views.post(title=_("Write your post"), message="", text=""))
+		if hasattr(p, "text") or hasattr(p, "privacy"):
 			call_threaded(self.do_last, p=p, owner_id=owner_id)
 
 class communityBuffer(feedBuffer):

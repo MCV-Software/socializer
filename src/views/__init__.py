@@ -5,5 +5,6 @@
 """
 from .dialogs.attach import *
 from .dialogs.audioRecorder import *
+from .dialogs.postCreation import *
 from .dialogs.configuration import *
 from .dialogs.profiles import *

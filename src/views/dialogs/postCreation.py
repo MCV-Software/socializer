@@ -53,12 +53,13 @@ class textMessage(widgetUtils.BaseDialog):
 		return self.text.GetInsertionPoint()
 
 class post(textMessage):
-	def createControls(self, title, message,  text):
+	def createControls(self, title, message,  text, mode):
 		self.mainBox = wx.BoxSizer(wx.VERTICAL)
 		self.createTextArea(message, text)
 		self.mainBox.Add(self.textBox, 0, wx.ALL, 5)
-		self.create_privacy_box()
-		self.mainBox.Add(self.privacyBox, 0, wx.ALL, 5)
+		if mode == "post":
+			self.create_privacy_box()
+			self.mainBox.Add(self.privacyBox, 0, wx.ALL, 5)
 		self.attach = wx.Button(self.panel, -1, _("Attach"), size=wx.DefaultSize)
 		self.mention = wx.Button(self.panel, wx.NewId(), _("Tag a friend"))
 		self.spellcheck = wx.Button(self.panel, -1, _("Spelling &correction"), size=wx.DefaultSize)
@@ -82,12 +83,12 @@ class post(textMessage):
 			(wx.ACCEL_CTRL, ord('A'), selectId),])
 		self.SetAcceleratorTable(self.accel_tbl)
 		self.panel.SetSizer(self.mainBox)
+		self.SetTitle(title)
 
-	def __init__(self, title, message, text):
+	def __init__(self, title, message, text, mode="post"):
 		super(post, self).__init__()
-		self.createControls(message, title, text)
+		self.createControls(title, message, text, mode)
 		self.SetClientSize(self.mainBox.CalcMin())
-
 
 class comment(textMessage):
 	def createControls(self, title, message,  text):
@@ -114,6 +115,7 @@ class comment(textMessage):
 		self.accel_tbl = wx.AcceleratorTable([(wx.ACCEL_CTRL, ord('A'), selectId),])
 		self.SetAcceleratorTable(self.accel_tbl)
 		self.panel.SetSizer(self.mainBox)
+		self.SetTitle(title)
 
 	def __init__(self, title, message, text):
 		super(comment, self).__init__()

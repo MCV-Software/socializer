@@ -23,7 +23,6 @@ from wxUI.dialogs import search as searchDialogs
 from wxUI.dialogs import timeline, creation
 from update import updater
 from issueReporter import issueReporter
-from . import messages
 from . import buffers
 from presenters import player
 from . import posts

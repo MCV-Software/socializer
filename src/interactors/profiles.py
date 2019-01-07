@@ -19,7 +19,7 @@ class userProfileInteractor(base.baseInteractor):
 
 	def set(self, tab, control, value):
 		if not hasattr(self.view, tab):
-			raise AttributeError("The viw does not contain the specified tab.")
+			raise AttributeError("The view does not contain the specified tab.")
 		tab = getattr(self.view, tab)
 		if not hasattr(tab, control):
 			raise AttributeError("The control is not present in the tab.")

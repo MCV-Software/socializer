@@ -7,10 +7,12 @@ import os
 import six
 import threading
 import arrow
-from . import messages
 import requests
 import languageHandler
 import widgetUtils
+import views
+import presenters
+import interactors
 import output
 import wx
 import webbrowser
@@ -266,9 +268,9 @@ class postController(object):
 			pass
 
 	def add_comment(self, *args, **kwargs):
-		comment = messages.comment(session=self.session, title=_("Add a comment"), caption="", text="")
-		if comment.message.get_response() == widgetUtils.OK:
-			msg = comment.message.get_text().encode("utf-8")
+		comment = presenters.postPresenter(session=self.session, interactor=interactors.postInteractor(), view=views.post(title=_("Add a comment"), message="", text="", mode="comment"))
+		if hasattr(comment, "text") or hasattr(comment, "privacy"):
+			msg = comment.text
 			try:
 				user = self.post[self.user_identifier]
 				id = self.post[self.post_identifier]

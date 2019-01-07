@@ -13,5 +13,6 @@
 """
 from .attach import *
 from .audioRecorder import *
+from .postCreation import *
 from .configuration import *
 from .profiles import *
