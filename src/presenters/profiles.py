@@ -1,16 +1,13 @@
 # -*- coding: utf-8 -*-
 """ A profile viewer and editor for VK user objects."""
 from __future__ import unicode_literals
-from future import standard_library
-standard_library.install_aliases()
-import six
 import webbrowser
 import logging
 import arrow
 import requests
 import languageHandler
 import output
-from pubsub import pub
+from mysc.thread_utils import call_threaded
 from sessionmanager import utils
 from . import base
 
@@ -24,14 +21,17 @@ class userProfilePresenter(base.basePresenter):
 		@user_id integer: User ID to retrieve information of.
 		At the current time, only users (and not communities) are supported.
 		"""
+		super(userProfilePresenter, self).__init__(view=view, interactor=interactor, modulename="user_profile")
 		# self.person will hold a reference to the user object when retrieved from VK.
 		self.person = None
 		self.session = session
 		self.user_id = user_id
-		self.get_basic_information()
-		if self.person != None:
-			super(profilesPresenter, self).__init__(view=view, interactor=interactor, modulename="profiles")
-
+		# Get information in a threaded way here.
+		# Note: We do not handle any race condition here because due to the presenter only sending pubsub messages,
+		# Nothing happens if the pubsub send messages to the interactor after the latter has been destroyed.
+		# Pubsub messages are just skipped if there are no listeners for them.
+		call_threaded(self.get_basic_information)
+		self.run()
 
 	def get_basic_information(self):
 		""" Gets and inserts basic user information.
@@ -46,26 +46,26 @@ class userProfilePresenter(base.basePresenter):
 			return output.speak(_("Information for groups is not supported, yet."))
 		person = person[0]
 		# toDo: remove this print when I will be done with creation of profile viewer logic.
-		print(person)
+#		print(person)
 		# From this part we will format data from VK so users will see it in the GUI control.
 		# Format full name.
 		n = "{0} {1}".format(person["first_name"], person["last_name"])
 		# Format birthdate.
 		if "bdate" in person and person["bdate"] != "":
-			self.dialog.main_info.enable("bdate")
+			self.send_message("enable_control", tab="main_info", control="bdate")
 			# VK can display dd.mm or dd.mm.yyyy birthdates. So let's compare the string lenght to handle both cases accordingly.
 			if len(person["bdate"]) <= 5: # dd.mm
 				d = arrow.get(person["bdate"], "D.M")
-				self.dialog.main_info.set("bdate", d.format(_("MMMM D"), locale=languageHandler.curLang[:2]))
+				self.send_message("set", tab="main_info", control="bdate", value=d.format(_("MMMM D"), locale=languageHandler.curLang[:2]))
 			else: # mm.dd.yyyy
 				d = arrow.get(person["bdate"], "D.M.YYYY")
-				self.dialog.main_info.set("bdate", d.format(_("MMMM D, YYYY"), locale=languageHandler.curLang[:2]))
+				self.send_message("set", tab="main_info", control="bdate", value=d.format(_("MMMM D, YYYY"), locale=languageHandler.curLang[:2]))
 		# Format current city and home town
 		city = ""
 		if "home_town" in person and person["home_town"] != "":
 			home_town = person["home_town"]
-			self.dialog.main_info.enable("home_town")
-			self.dialog.main_info.set("home_town", home_town)
+			self.send_message("enable_control", tab="main_info", control="home_town")
+			self.send_message("set", tab="main_info", control="home_town", value=home_town)
 		if "city" in person and len(person["city"]) > 0:
 			city = person["city"]["title"]
 		if "country" in person and person["country"] != "":
@@ -73,20 +73,19 @@ class userProfilePresenter(base.basePresenter):
 				city = city+", {0}".format(person["country"]["title"])
 			else:
 				city = person["country"]["title"]
-			self.dialog.main_info.enable("city")
-			self.dialog.main_info.set("city", city)
-		self.dialog.main_info.set("name", n)
-		self.dialog.SetTitle(_("{name}'s profile").format(name=n,))
+			self.send_message("enable_control", tab="main_info", control="city")
+			self.send_message("set", tab="main_info", control="city", value=city)
+		self.send_message("set", tab="main_info", control="name", value=n)
+		self.send_message("set_title", value=_("{name}'s profile").format(name=n,))
 		# Format website (or websites, if there are multiple of them).
 		if "site" in person and person["site"] != "":
-			self.dialog.main_info.enable("website")
-			self.dialog.main_info.set("website", person["site"])
-			self.dialog.main_info.enable("go_site")
-			widgetUtils.connect_event(self.dialog.main_info.go_site, widgetUtils.BUTTON_PRESSED, self.visit_website)
+			self.send_message("enable_control", tab="main_info", control="website")
+			self.send_message("set", tab="main_info", control="website", value=person["site"])
+			self.send_message("enable_control", tab="main_info", control="go_site")
 		# Format status message.
 		if "status" in person and person["status"] != "":
-			self.dialog.main_info.enable("status")
-			self.dialog.main_info.set("status", person["status"])
+			self.send_message("enable_control", tab="main_info", control="status")
+			self.send_message("set", tab="main_info", control="status", value=person["status"])
 		# Format occupation.
 		# toDo: Research in this field is needed. Sometimes it returns university information even if users have active work places.
 		if "occupation" in person and person["occupation"] != None:
@@ -97,8 +96,8 @@ class userProfilePresenter(base.basePresenter):
 				c2 = _("In {0}").format(person["occupation"]["name"],)
 			else:
 				c2 = ""
-			self.dialog.main_info.enable("occupation")
-			self.dialog.main_info.set("occupation", c1+c2)
+			self.send_message("enable_control", tab="main_info", control="occupation")
+			self.send_message("set", tab="main_info", control="occupation", value=c1+c2)
 		# format relationship status.
 		# ToDo: When dating someone, the button associated to the information should point to the profile of the user.
 		if "relation" in person and person["relation"] != 0:
@@ -119,28 +118,24 @@ class userProfilePresenter(base.basePresenter):
 				r = _("Actively searching")
 			elif person["relation"] == 7:
 				r = _("In love")
-			self.dialog.main_info.enable("relation")
-			self.dialog.main_info.relation.SetLabel(_("Relationship: ")+r)
+			self.send_message("enable_control", tab="main_info", control="relation")
+			self.send_message("set_label", tab="main_info", control="relation", value=_("Relationship: ")+r)
 		# format last seen.
 		if "last_seen" in person and person["last_seen"] != False:
 			original_date = arrow.get(person["last_seen"]["time"])
 			# Translators: This is the date of last seen
 			last_seen = _("{0}").format(original_date.humanize(locale=languageHandler.curLang[:2]),)
-			self.dialog.main_info.enable("last_seen")
-			self.dialog.main_info.set("last_seen", last_seen)
+			self.send_message("enable_control", tab="main_info", control="last_seen")
+			self.send_message("set", tab="main_info", control="last_seen", value=last_seen)
 		self.person = person
 		# Adds photo to the dialog.
 		# ToDo: Need to ask if this has a visible effect in the dialog.
 		if "photo_200_orig" in person:
 			img = requests.get(person["photo_200_orig"])
-			image = wx.Image(stream=six.BytesIO(requests.get(person["photo_200_orig"]).content))
-			try:
-				self.dialog.image.SetBitmap(wx.Bitmap(image))
-			except ValueError:
-				return
-		self.dialog.panel.Layout()
+			self.send_message("load_image", image=requests.get(person["photo_200_orig"]))
+		output.speak(_("Profile loaded"))
 
-	def visit_website(self, *args, **kwargs):
+	def get_urls(self, *args, **kwargs):
 		""" Allows to visit an user's website. """
 		text = self.person["site"]
 		# Let's search for URLS with a regexp, as there are users with multiple websites in their profiles.
@@ -148,13 +143,8 @@ class userProfilePresenter(base.basePresenter):
 		if len(urls) == 0:
 			output.speak(_("No URL addresses were detected."))
 			return
-		elif len(urls) == 1:
-			selected_url = urls[0]
-		else:
-			dialog = urlList.urlList()
-			dialog.populate_list(urls)
-			if dialog.get_response() != widgetUtils.OK:
-				return
-			selected_url = urls[dialog.get_item()]
+		return urls
+
+	def visit_url(self, url):
 		output.speak(_("Opening URL..."))
-		webbrowser.open_new_tab(selected_url)
+		webbrowser.open_new_tab(url)

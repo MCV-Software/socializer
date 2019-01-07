@@ -27,7 +27,6 @@ from . import messages
 from . import buffers
 from . import player
 from . import posts
-from . import profiles
 from . import longpollthread
 from . import selector
 
@@ -663,7 +662,7 @@ class Controller(object):
 		player.player.volume = 0
 
 	def user_profile(self, person):
-		p = profiles.userProfile(self.session, person)
+		p = presenters.userProfilePresenter(session=self.session, user_id=person, view=views.userProfileDialog(), interactor=interactors.userProfileInteractor())
 
 	def view_my_profile(self, *args, **kwargs):
 		self.user_profile(self.session.user_id)

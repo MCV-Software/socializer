@@ -120,9 +120,9 @@ class mainInfo(wx.Panel):
 		sizer.Add(sizerOccupation, 0, wx.ALL, 5)
 		self.SetSizer(sizer)
 
-class userProfile(widgetUtils.BaseDialog):
+class userProfileDialog(widgetUtils.BaseDialog):
 	def __init__(self, *args, **kwargs):
-		super(userProfile, self).__init__(parent=None, *args, **kwargs)
+		super(userProfileDialog, self).__init__(parent=None, *args, **kwargs)
 		self.panel = wx.Panel(self)
 		self.sizer = wx.BoxSizer(wx.VERTICAL)
 		self.notebook = wx.Notebook(self.panel)
