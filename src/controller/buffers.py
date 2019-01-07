@@ -926,7 +926,7 @@ class chatBuffer(baseBuffer):
 				owner_id = r["owner_id"]
 				local_attachments += "audio{0}_{1},".format(owner_id, id)
 			elif i["from"] == "local" and i["type"] == "voice_message":
-				r = uploader.audio_message(i["file"], peer_id=self.kwargs["user_id"])
+				r = uploader.audio_message(i["file"], peer_id=self.kwargs["peer_id"])
 				id = r["audio_message"]["id"]
 				owner_id = r["audio_message"]["owner_id"]
 				local_attachments += "audio_message{0}_{1},".format(owner_id, id)
@@ -942,9 +942,9 @@ class chatBuffer(baseBuffer):
 		# At the moment we just calculate len(text)_user_id, hope that will work.
 			random_id = random.randint(0, 100000)
 			if hasattr(self, "attachments_to_be_sent"):
-				response = self.session.vk.client.messages.send(user_id=self.kwargs["user_id"], message=text, attachment=self.attachments_to_be_sent, random_id=random_id)
+				response = self.session.vk.client.messages.send(peer_id=self.kwargs["peer_id"], message=text, attachment=self.attachments_to_be_sent, random_id=random_id)
 			else:
-				response = self.session.vk.client.messages.send(user_id=self.kwargs["user_id"], message=text, random_id=random_id)
+				response = self.session.vk.client.messages.send(peer_id=self.kwargs["peer_id"], message=text, random_id=random_id)
 		except ValueError as ex:
 			if ex.code == 9:
 				output.speak(_("You have been sending a message that is already sent. Try to update the buffer if you can't see the new message in the history."))

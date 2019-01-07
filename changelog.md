@@ -8,6 +8,7 @@
 * It is possible to use user domains (short names for users) to create timelines. Just write @username and the program will create the needed timeline, regardless if the user is present in your friend list. ([#18,](https://code.manuelcortez.net/manuelcortez/socializer/issues/18))
 * When displaying someone's profile, the dialog should be loaded dramatically faster than before. A message will be spoken when all data of the profile is loaded.
 * When opening a timeline, if the current user is not allowed to do it, an error message should be displayed and the buffer will not be created. Before the buffer was partially created in the main window. ([#22.](https://code.manuelcortez.net/manuelcortez/socializer/issues/22))
+* Added basic support to handle group chats. At the current moment it is possible to receive and reply to chat messages only. Chat groups will be placed inside the conversations section. ([#23.](https://code.manuelcortez.net/manuelcortez/socializer/issues/23))
 
 ## Changes in version 0.17 (01.01.2019)
 

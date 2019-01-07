@@ -378,7 +378,7 @@ class Controller(object):
 	def search_chat_buffer(self, user_id):
 		for i in self.buffers:
 			if "_messages" in i.name:
-				if "user_id" in i.kwargs and i.kwargs["user_id"] == user_id: return i
+				if "peer_id" in i.kwargs and i.kwargs["peer_id"] == user_id: return i
 		return None
 
 	def chat_from_id(self, user_id, setfocus=True, unread=False):
@@ -389,10 +389,17 @@ class Controller(object):
 				self.window.change_buffer(pos)
 				return b.tab.text.SetFocus()
 			return
-		buffer = buffers.chatBuffer(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="render_message", session=self.session, count=200,  user_id=user_id, rev=0, extended=True, fields="id, user_id, date, read_state, out, body, attachments, deleted")
+		buffer = buffers.chatBuffer(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="render_message", session=self.session, count=200,  peer_id=user_id, rev=0, extended=True, fields="id, user_id, date, read_state, out, body, attachments, deleted")
 		self.buffers.append(buffer)
+		# Get name based in the ID.
+		# for users.
+		if user_id > 0 and user_id < 2000000000:
+			name = _("Chat with {0}").format(self.session.get_user_name(user_id, "ins"))
+		elif user_id > 2000000000:
+			chat = self.session.vk.client.messages.getChat(chat_id=user_id-2000000000)
+			name = _("Chat in {chat_name}").format(chat_name=chat["title"],)
 		# Translators: {0} will be replaced with an user.
-		self.window.insert_buffer(buffer.tab, _("Chat with {0}").format(self.session.get_user_name(user_id, "ins")), self.window.search("chats"))
+		self.window.insert_buffer(buffer.tab, name, self.window.search("chats"))
 		if setfocus:
 			pos = self.window.search(buffer.name)
 			self.window.change_buffer(pos)
@@ -420,22 +427,17 @@ class Controller(object):
 		""" Searches or creates a chat buffer with the id of the user that is sending or receiving a message.
 			obj vk_api.longpoll.EventType: an event wich defines some data from the vk's long poll server."""
 		message = {}
-		# If someone else sends a message to the current user.
-		if obj.to_me:
-			buffer = self.search_chat_buffer(obj.user_id)
-			uid = obj.user_id
+		uid = obj.peer_id
+		buffer = self.search_chat_buffer(uid)
+		if obj.from_me:
 			message.update(out=0)
-		# If the current user sends a message to someone else.
-		else:
-			buffer = self.search_chat_buffer(obj.peer_id)
-			uid = obj.peer_id
 		# If there is no buffer, we must create one in a wxThread so it will not crash.
 		if buffer == None:
 			wx.CallAfter(self.chat_from_id, uid, setfocus=self.session.settings["chat"]["automove_to_conversations"], unread=True)
 			self.session.soundplayer.play("conversation_opened.ogg")
 			return
 		# If the chat already exists, let's create a dictionary wich will contains data of the received message.
-		message.update(id=obj.message_id, user_id=uid, date=obj.timestamp, body=obj.text, attachments=obj.attachments, read_state=0)
+		message.update(id=obj.message_id, user_id=uid, date=obj.timestamp, body=obj.text, attachments=obj.attachments)
 		# if attachments is true, let's request for the full message with attachments formatted in a better way.
 		# Todo: code improvements. We shouldn't need to request the same message again just for these attachments.
 		if len(message["attachments"]) != 0:
