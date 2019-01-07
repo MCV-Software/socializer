@@ -27,7 +27,7 @@ from . import messages
 from . import buffers
 from . import player
 from . import posts
-from . import longpollthread
+from presenters import longpollthread
 from . import selector
 
 log = logging.getLogger("controller.main")
