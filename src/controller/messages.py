@@ -2,9 +2,11 @@
 from __future__ import unicode_literals
 import time
 import widgetUtils
+import presenters
+import views
+import interactors
 import output
 from pubsub import pub
-from . import attach
 from wxUI.dialogs import message, selector
 from extra import SpellChecker, translator
 from logging import getLogger
@@ -71,7 +73,7 @@ class post(object):
 		checker.clean()
 
 	def show_attach_dialog(self, *args, **kwargs):
-		a = attach.attach(self.session)
+		a = presenters.attachPresenter(session=self.session, view=views.attachDialog(), interactor=interactors.attachInteractor())
 		if len(a.attachments) != 0:
 			self.attachments = a.attachments
 

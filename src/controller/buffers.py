@@ -6,6 +6,9 @@ import logging
 import webbrowser
 import arrow
 import wx
+import presenters
+import views
+import interactors
 import languageHandler
 import widgetUtils
 from . import messages
@@ -13,7 +16,6 @@ from presenters import player
 import output
 from . import selector
 from . import posts
-from . import attach
 from pubsub import pub
 from vk_api.exceptions import VkApiError
 from vk_api import upload
@@ -840,7 +842,7 @@ class chatBuffer(baseBuffer):
 		return retrieved
 
 	def add_attachment(self, *args, **kwargs):
-		a = attach.attach(self.session, True)
+		a = presenters.attachPresenter(session=self.session, view=views.attachDialog(voice_messages=True), interactor=interactors.attachInteractor())
 		if len(a.attachments) != 0:
 			self.attachments_to_be_sent = a.attachments
 

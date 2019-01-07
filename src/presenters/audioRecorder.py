@@ -16,6 +16,7 @@ class audioRecorderPresenter(base.basePresenter):
 		self.recording = None
 		self.duration = 0
 		self.playing = None
+		self.file = None
 		self.run()
 
 	def toggle_recording(self, *args, **kwargs):
