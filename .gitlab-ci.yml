@@ -12,6 +12,8 @@ test_py3:
     - '%PYTHON3% -V'
     - '%PYTHON3% -m pip install --upgrade pip'
     - '%PYTHON3% -m pip install --upgrade -r requirements.txt'
+  only:
+    - schedules
   script:
     - cd src
     - '%PYTHON3% -m coverage run run_tests.py'
