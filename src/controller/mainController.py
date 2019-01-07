@@ -25,7 +25,7 @@ from update import updater
 from issueReporter import issueReporter
 from . import messages
 from . import buffers
-from . import player
+from presenters import player
 from . import posts
 from presenters import longpollthread
 from . import selector

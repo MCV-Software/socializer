@@ -9,7 +9,7 @@ import wx
 import languageHandler
 import widgetUtils
 from . import messages
-from . import player
+from presenters import player
 import output
 from . import selector
 from . import posts
