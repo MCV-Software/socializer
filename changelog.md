@@ -7,6 +7,7 @@
 * Socializer will be able to handle all users correctly. Before, if an user that was not present in the local storage system was needed, the program was displaying "no specified user". ([#17,](https://code.manuelcortez.net/manuelcortez/socializer/issues/17))
 * It is possible to use user domains (short names for users) to create timelines. Just write @username and the program will create the needed timeline, regardless if the user is present in your friend list. ([#18,](https://code.manuelcortez.net/manuelcortez/socializer/issues/18))
 * When displaying someone's profile, the dialog should be loaded dramatically faster than before. A message will be spoken when all data of the profile is loaded.
+* When opening a timeline, if the current user is not allowed to do it, an error message should be displayed and the buffer will not be created. Before the buffer was partially created in the main window. ([#22.](https://code.manuelcortez.net/manuelcortez/socializer/issues/22))
 
 ## Changes in version 0.17 (01.01.2019)
 

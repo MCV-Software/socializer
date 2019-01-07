@@ -38,7 +38,7 @@ class baseBuffer(object):
 			return None
 		return self.session.db[self.name]["items"][self.tab.list.get_selected()]
 
-	def __init__(self, parent=None, name="", session=None, composefunc=None, *args, **kwargs):
+	def __init__(self, parent=None, name="", session=None, composefunc=None, create_tab=True, *args, **kwargs):
 		""" Constructor:
 		@parent wx.Treebook: parent for the buffer panel,
 		@name str: Name for saving this buffer's data in the local storage variable,
@@ -47,21 +47,19 @@ class baseBuffer(object):
 		args and kwargs will be passed to get_items() without any filtering. Be careful there.
 		"""
 		super(baseBuffer, self).__init__()
+		self.parent = parent
 		self.args = args
 		self.kwargs = kwargs
-		# Create GUI associated to this buffer.
-		self.create_tab(parent)
-		# Add name to the new control so we could look for it when needed.
-		self.tab.name = name
 		self.session = session
 		self.compose_function = composefunc
+		self.name = name
+		if create_tab:
+			self.create_tab(self.parent)
 		 #Update_function will be called every 3 minutes and it should be able to
 		# Get all new items in the buffer and sort them properly in the CtrlList.
 		# ToDo: Shall we allow dinamically set for update_function?
 		self.update_function = "get_page"
 		self.name = name
-		# Bind local events (they will respond to events happened in the buffer).
-		self.connect_events()
 		# source_key and post_key will point to the keys for sender and posts in VK API objects.
 		# They can be changed in the future for other item types in different buffers.
 		self.user_key = "source_id"
@@ -72,6 +70,11 @@ class baseBuffer(object):
 	def create_tab(self, parent):
 		""" Create the Wx panel."""
 		self.tab = home.homeTab(parent)
+		# Bind local events (they will respond to events happened in the buffer).
+		self.connect_events()
+		self.tab.name = self.name
+		if hasattr(self, "can_post") and self.can_post == False and hasattr(self.tab, "post"):
+			self.tab.post.Enable(False)
 
 	def insert(self, item, reversed=False):
 		""" Add a new item to the list. Uses renderers.composefunc for parsing the dictionary and create a valid result for putting it in the list."""
@@ -87,12 +90,16 @@ class baseBuffer(object):
 		try:
 			num = getattr(self.session, "get_newsfeed")(show_nextpage=show_nextpage, name=self.name, *self.args, **self.kwargs)
 		except VkApiError as err:
-			log.error("Error {0}: {1}".format(err.code, err.message))
+			log.error("Error {0}: {1}".format(err.code, err.error))
 			retrieved = err.code
 			return retrieved
 		except ReadTimeout as ConnectionError:
 			log.exception("Connection error when updating buffer %s. Will try again in 2 minutes" % (self.name,))
 			return False
+		if not hasattr(self, "tab"):
+			# Create GUI associated to this buffer.
+			self.create_tab(self.parent)
+			# Add name to the new control so we could look for it when needed.
 		if show_nextpage  == False:
 			if self.tab.list.get_count() > 0 and num > 0:
 				v = [i for i in self.session.db[self.name]["items"][:num]]
@@ -380,12 +387,17 @@ class feedBuffer(baseBuffer):
 		try:
 			num = getattr(self.session, "get_page")(show_nextpage=show_nextpage, name=self.name, *self.args, **self.kwargs)
 		except VkApiError as err:
-			log.error("Error {0}: {1}".format(err.code, err.message))
+			log.error("Error {0}: {1}".format(err.code, err.error))
 			retrieved = err.code
 			return retrieved
 		except ReadTimeout as ConnectionError:
 			log.exception("Connection error when updating buffer %s. Will try again in 2 minutes" % (self.name,))
 			return False
+		if not hasattr(self, "tab"):
+			# Create GUI associated to this buffer.
+			self.create_tab(self.parent)
+			# Add name to the new control so we could look for it when needed.
+			self.tab.name = self.name
 		if show_nextpage  == False:
 			if self.tab.list.get_count() > 0 and num > 0:
 				v = [i for i in self.session.db[self.name]["items"][:num]]
@@ -423,8 +435,6 @@ class feedBuffer(baseBuffer):
 			self.can_post = permissions[0]["can_post"]
 			self.can_see_all_posts = permissions[0]["can_see_all_posts"]
 			self.can_write_private_message = permissions[0]["can_write_private_message"]
-			if self.can_post == False:
-				self.tab.post.Enable(False)
 
 	def post(self, *args, **kwargs):
 		""" Create a post in the wall for the specified user
@@ -442,6 +452,10 @@ class communityBuffer(feedBuffer):
 
 	def create_tab(self, parent):
 		self.tab = home.communityTab(parent)
+		self.connect_events()
+		self.tab.name = self.name
+		if hasattr(self, "can_post") and self.can_post == False and hasattr(self.tab, "post"):
+			self.tab.post.Enable(False)
 
 	def connect_events(self):
 		super(communityBuffer, self).connect_events()
@@ -459,6 +473,10 @@ class audioBuffer(feedBuffer):
 
 	def create_tab(self, parent):
 		self.tab = home.audioTab(parent)
+		self.tab.name = self.name
+		self.connect_events()
+		if hasattr(self, "can_post") and self.can_post == False and hasattr(self.tab, "post"):
+			self.tab.post.Enable(False)
 
 	def connect_events(self):
 		widgetUtils.connect_event(self.tab.play, widgetUtils.BUTTON_PRESSED, self.play_audio)
@@ -595,6 +613,10 @@ class audioAlbum(audioBuffer):
 		self.tab = home.audioAlbumTab(parent)
 		self.tab.play.Enable(False)
 		self.tab.play_all.Enable(False)
+		self.connect_events()
+		self.tab.name = self.name
+		if hasattr(self, "can_post") and self.can_post == False and hasattr(self.tab, "post"):
+			self.tab.post.Enable(False)
 
 	def connect_events(self):
 		super(audioAlbum, self).connect_events()
@@ -613,6 +635,10 @@ class videoBuffer(feedBuffer):
 
 	def create_tab(self, parent):
 		self.tab = home.videoTab(parent)
+		self.connect_events()
+		self.tab.name = self.name
+		if hasattr(self, "can_post") and self.can_post == False and hasattr(self.tab, "post"):
+			self.tab.post.Enable(False)
 
 	def connect_events(self):
 		widgetUtils.connect_event(self.tab.play, widgetUtils.BUTTON_PRESSED, self.play_audio)
@@ -717,6 +743,10 @@ class videoAlbum(videoBuffer):
 	def create_tab(self, parent):
 		self.tab = home.videoAlbumTab(parent)
 		self.tab.play.Enable(False)
+		self.connect_events()
+		self.tab.name = self.name
+		if hasattr(self, "can_post") and self.can_post == False and hasattr(self.tab, "post"):
+			self.tab.post.Enable(False)
 
 	def connect_events(self):
 		super(videoAlbum, self).connect_events()
@@ -736,6 +766,11 @@ class empty(object):
 		self.name = name
 
 	def get_items(self, *args, **kwargs):
+		if not hasattr(self, "tab"):
+			# Create GUI associated to this buffer.
+			self.create_tab(self.parent)
+			# Add name to the new control so we could look for it when needed.
+			self.tab.name = self.name
 		pass
 
 	def get_more_items(self, *args, **kwargs):
@@ -801,6 +836,10 @@ class chatBuffer(baseBuffer):
 	def create_tab(self, parent):
 		self.tab = home.chatTab(parent)
 		self.attachments = list()
+		self.connect_events()
+		self.tab.name = self.name
+		if hasattr(self, "can_post") and self.can_post == False and hasattr(self.tab, "post"):
+			self.tab.post.Enable(False)
 
 	def connect_events(self):
 		widgetUtils.connect_event(self.tab.send, widgetUtils.BUTTON_PRESSED, self.send_chat_to_user)
@@ -820,12 +859,17 @@ class chatBuffer(baseBuffer):
 		try:
 			num = getattr(self.session, "get_messages")(name=self.name, *self.args, **self.kwargs)
 		except VkApiError as err:
-			log.error("Error {0}: {1}".format(err.code, err.message))
+			log.error("Error {0}: {1}".format(err.code, err.error))
 			retrieved = err.code
 			return retrieved
 		except ReadTimeout as ConnectionError:
 			log.exception("Connection error when updating buffer %s. Will try again in 2 minutes" % (self.name,))
 			return False
+		if not hasattr(self, "tab"):
+			# Create GUI associated to this buffer.
+			self.create_tab(self.parent)
+			# Add name to the new control so we could look for it when needed.
+			self.tab.name = self.name
 		if show_nextpage  == False:
 			if self.tab.history.GetValue() != "" and num > 0:
 				v = [i for i in self.session.db[self.name]["items"][:num]]
@@ -975,6 +1019,10 @@ class peopleBuffer(feedBuffer):
 
 	def create_tab(self, parent):
 		self.tab = home.peopleTab(parent)
+		self.connect_events()
+		self.tab.name = self.name
+		if hasattr(self, "can_post") and self.can_post == False and hasattr(self.tab, "post"):
+			self.tab.post.Enable(False)
 
 	def connect_events(self):
 		super(peopleBuffer, self).connect_events()
@@ -1042,13 +1090,18 @@ class requestsBuffer(peopleBuffer):
 		try:
 			ids = self.session.vk.client.friends.getRequests(*self.args, **self.kwargs)
 		except VkApiError as err:
-			log.error("Error {0}: {1}".format(err.code, err.message))
+			log.error("Error {0}: {1}".format(err.code, err.error))
 			retrieved = err.code
 			return retrieved
 		except ReadTimeout as ConnectionError:
 			log.exception("Connection error when updating buffer %s. Will try again in 2 minutes" % (self.name,))
 			return False
 		num = self.session.get_page(name=self.name, show_nextpage=show_nextpage, endpoint="get", parent_endpoint="users", count=1000, user_ids=", ".join([str(i) for i in ids["items"]]), fields="uid, first_name, last_name, last_seen")
+		if not hasattr(self, "tab"):
+			# Create GUI associated to this buffer.
+			self.create_tab(self.parent)
+			# Add name to the new control so we could look for it when needed.
+			self.tab.name = self.name
 		if show_nextpage  == False:
 			if self.tab.list.get_count() > 0 and num > 0:
 				v = [i for i in self.session.db[self.name]["items"][:num]]

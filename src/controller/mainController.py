@@ -354,27 +354,25 @@ class Controller(object):
 					return
 				user_id = user_data["object_id"]
 			if buffertype == "audio":
-				buffer = buffers.audioBuffer(parent=self.window.tb, name="{0}_audio".format(user_id,), composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio", owner_id=user_id)
+				buffer = buffers.audioBuffer(parent=self.window.tb, name="{0}_audio".format(user_id,), composefunc="render_audio", session=self.session, create_tab=False, endpoint="get", parent_endpoint="audio", owner_id=user_id)
 				# Translators: {0} will be replaced with an user.
 				name_ = _("{0}'s audios").format(self.session.get_user_name(user_id, "gen"),)
 			elif buffertype == "wall":
-				buffer = buffers.feedBuffer(parent=self.window.tb, name="{0}_feed".format(user_id,), composefunc="render_status", session=self.session, endpoint="get", parent_endpoint="wall", extended=1, count=self.session.settings["buffers"]["count_for_wall_buffers"],  owner_id=user_id)
+				buffer = buffers.feedBuffer(parent=self.window.tb, name="{0}_feed".format(user_id,), composefunc="render_status", session=self.session, create_tab=False, endpoint="get", parent_endpoint="wall", extended=1, count=self.session.settings["buffers"]["count_for_wall_buffers"],  owner_id=user_id)
 				# Translators: {0} will be replaced with an user.
 				name_ = _("{0}'s wall posts").format(self.session.get_user_name(user_id, "gen"),)
 			elif buffertype == "friends":
-				buffer = buffers.peopleBuffer(parent=self.window.tb, name="friends_{0}".format(user_id,), composefunc="render_person", session=self.session, endpoint="get", parent_endpoint="friends", count=5000, fields="uid, first_name, last_name, last_seen", user_id=user_id)
+				buffer = buffers.peopleBuffer(parent=self.window.tb, name="friends_{0}".format(user_id,), composefunc="render_person", session=self.session, create_tab=False, endpoint="get", parent_endpoint="friends", count=5000, fields="uid, first_name, last_name, last_seen", user_id=user_id)
 				# Translators: {0} will be replaced with an user.
 				name_ = _("{0}'s friends").format(self.session.get_user_name(user_id, "friends"),)
-			self.buffers.append(buffer)
-			call_threaded(self.complete_buffer_creation, buffer=buffer, name_=name_, position=self.window.search("timelines"))
+			wx.CallAfter(self.complete_buffer_creation, buffer=buffer, name_=name_, position=self.window.search("timelines"))
 
 	def complete_buffer_creation(self, buffer, name_, position):
 		answer = buffer.get_items()
 		if answer is not True:
-			self.buffers.remove(buffer)
-			del buffer
 			commonMessages.show_error_code(answer)
 			return
+		self.buffers.append(buffer)
 		self.window.insert_buffer(buffer.tab, name_, position)
 
 	def search_chat_buffer(self, user_id):
