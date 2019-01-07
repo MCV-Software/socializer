@@ -1,5 +1,9 @@
 ﻿# -*- coding: utf-8 -*-
 import unittest
+import languageHandler
+
+languageHandler.setLanguage("en")
+
 
 testmodules = ["test.test_setup_py2exe", "test.test_base_interactor", "test.test_audiorecorder", "test.test_renderers"]
 
