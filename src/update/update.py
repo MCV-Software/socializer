@@ -1,6 +1,7 @@
 from logging import getLogger
 logger = getLogger('update')
 
+import sys
 import contextlib
 import io
 import os
@@ -74,7 +75,10 @@ def find_version_data(update_type, current_version, available_update):
 			return (False, False, False)
 		available_description = available_update["message"]
 		# ToDo: simplify this so it can be reused in other projects.
-		update_url = "https://code.manuelcortez.net/manuelcortez/socializer/-/jobs/artifacts/master/raw/socializer.zip?job=alpha"
+		if sys.version[0] == "3":
+			update_url = "https://code.manuelcortez.net/manuelcortez/socializer/-/jobs/artifacts/master/raw/socializer.zip?job=alpha_python3"
+		else:
+			update_url = "https://code.manuelcortez.net/manuelcortez/socializer/-/jobs/artifacts/master/raw/socializer.zip?job=alpha"
 		return (available_version, available_description, update_url)
 
 def download_update(update_url, update_destination, requests_session, progress_callback=None, chunk_size=io.DEFAULT_BUFFER_SIZE):
