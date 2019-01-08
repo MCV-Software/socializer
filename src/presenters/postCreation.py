@@ -12,10 +12,10 @@ from .import base
 
 log = getLogger("controller.message")
 
-class postPresenter(base.basePresenter):
+class createPostPresenter(base.basePresenter):
 
 	def __init__(self, session, view, interactor):
-		super(postPresenter, self).__init__(view=view, interactor=interactor, modulename="messages")
+		super(createPostPresenter, self).__init__(view=view, interactor=interactor, modulename="create_post")
 		self.session = session
 		self.images = []
 		self.tagged_people = []

@@ -6,7 +6,7 @@ from pubsub import pub
 from extra import translator
 from .import base
 
-class postInteractor(base.baseInteractor):
+class createPostInteractor(base.baseInteractor):
 
 	def set(self, control, value):
 		if not hasattr(self.view, control):
@@ -17,7 +17,7 @@ class postInteractor(base.baseInteractor):
 		self.view.text.SetValue(self.view.text.GetValue()+", ".join(users))
 
 	def install(self, *args, **kwargs):
-		super(postInteractor, self).install(*args, **kwargs)
+		super(createPostInteractor, self).install(*args, **kwargs)
 		widgetUtils.connect_event(self.view.spellcheck, widgetUtils.BUTTON_PRESSED, self.on_spellcheck)
 		widgetUtils.connect_event(self.view.translateButton, widgetUtils.BUTTON_PRESSED, self.on_translate)
 		widgetUtils.connect_event(self.view.mention, widgetUtils.BUTTON_PRESSED, self.on_mention)
@@ -27,7 +27,7 @@ class postInteractor(base.baseInteractor):
 		pub.subscribe(self.add_tagged_users, self.modulename+"_add_tagged_users")
 
 	def uninstall(self):
-		super(postInteractor, self).uninstall()
+		super(createPostInteractor, self).uninstall()
 		pub.unsubscribe(self.set, self.modulename+"_set")
 		pub.unsubscribe(self.add_tagged_users, self.modulename+"_add_tagged_users")
 

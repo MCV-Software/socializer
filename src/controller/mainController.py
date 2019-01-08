@@ -20,7 +20,7 @@ from mysc import localization
 from sessionmanager import session, utils, renderers
 from wxUI import (mainWindow, commonMessages)
 from wxUI.dialogs import search as searchDialogs
-from wxUI.dialogs import timeline, creation
+from wxUI.dialogs import timeline, creation, postDialogs
 from update import updater
 from issueReporter import issueReporter
 from . import buffers
@@ -253,7 +253,7 @@ class Controller(object):
 		player.player.play_all(audios, shuffle=self.window.player_shuffle.IsChecked())
 
 	def view_post(self, post_object, controller_):
-		p = getattr(posts, controller_)(self.session, post_object)
+		p = getattr(presenters, controller_)(session=self.session, postObject=post_object, interactor=interactors.displayPostInteractor(), view=postDialogs.post())
 		p.dialog.get_response()
 		p.dialog.Destroy()
 

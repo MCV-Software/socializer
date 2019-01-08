@@ -120,7 +120,7 @@ class baseBuffer(object):
 		""" Create a post in the current user's wall.
 		This process is handled in two parts. This is the first part, where the GUI is created and user can send the post.
 		During the second part (threaded), the post will be sent to the API."""
-		p = presenters.postPresenter(session=self.session, interactor=interactors.postInteractor(), view=views.post(title=_("Write your post"), message="", text=""))
+		p = presenters.createPostPresenter(session=self.session, interactor=interactors.postInteractor(), view=views.post(title=_("Write your post"), message="", text=""))
 		if hasattr(p, "text") or hasattr(p, "privacy"):
 			call_threaded(self.do_last, p=p)
 
@@ -265,7 +265,7 @@ class baseBuffer(object):
 		post = self.get_post()
 		if post == None:
 			return
-		comment = presenters.postPresenter(session=self.session, interactor=interactors.postInteractor(), view=views.post(title=_("Add a comment"), message="", text="", mode="comment"))
+		comment = presenters.createPostPresenter(session=self.session, interactor=interactors.postInteractor(), view=views.post(title=_("Add a comment"), message="", text="", mode="comment"))
 		if hasattr(comment, "text") or hasattr(comment, "privacy"):
 			msg = comment.text
 			try:
@@ -347,7 +347,7 @@ class baseBuffer(object):
 		elif "type" in post and post["type"] == "friend":
 			pub.sendMessage("open-post", post_object=post, controller_="friendship")
 		else:
-			pub.sendMessage("open-post", post_object=post, controller_="postController")
+			pub.sendMessage("open-post", post_object=post, controller_="displayPostPresenter")
 
 	def pause_audio(self, *args, **kwargs):
 		""" pauses audio playback."""
@@ -444,7 +444,7 @@ class feedBuffer(baseBuffer):
 			return super(feedBuffer, self).post()
 		owner_id = self.kwargs["owner_id"]
 		user = self.session.get_user_name(owner_id)
-		p = presenters.postPresenter(session=self.session, interactor=interactors.postInteractor(), view=views.post(title=_("Write your post"), message="", text=""))
+		p = presenters.createPostPresenter(session=self.session, interactor=interactors.postInteractor(), view=views.post(title=_("Write your post"), message="", text=""))
 		if hasattr(p, "text") or hasattr(p, "privacy"):
 			call_threaded(self.do_last, p=p, owner_id=owner_id)
 

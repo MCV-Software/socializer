@@ -14,5 +14,6 @@
 from .attach import *
 from .audioRecorder import *
 from .postCreation import *
+from .postDisplayer import *
 from .configuration import *
 from .profiles import *
