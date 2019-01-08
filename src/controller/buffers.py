@@ -24,6 +24,7 @@ from sessionmanager import session, renderers, utils
 from mysc.thread_utils import call_threaded
 from wxUI import commonMessages, menus
 from sessionmanager.renderers import add_attachment
+from wxUI.dialogs import postDialogs
 
 log = logging.getLogger("controller.buffers")
 
@@ -341,9 +342,7 @@ class baseBuffer(object):
 		if post == None:
 			return
 		if "type" in post and post["type"] == "audio":
-			a = posts.audio(self.session, post["audio"]["items"])
-			a.dialog.get_response()
-			a.dialog.Destroy()
+			a = presenters.displayAudioPresenter(session=self.session, postObject=post["audio"]["items"], interactor=interactors.displayAudioInteractor(), view=postDialogs.audio())
 		elif "type" in post and post["type"] == "friend":
 			pub.sendMessage("open-post", post_object=post, controller_="friendship")
 		else:
@@ -514,9 +513,7 @@ class audioBuffer(feedBuffer):
 		if selected == -1:
 			return
 		audios = [self.session.db[self.name]["items"][selected]]
-		a = posts.audio(self.session, audios)
-		a.dialog.get_response()
-		a.dialog.Destroy()
+		a = presenters.displayAudioPresenter(session=self.session, postObject=audios, interactor=interactors.displayAudioInteractor(), view=postDialogs.audio())
 
 	def play_all(self, *args, **kwargs):
 		selected = self.tab.list.get_selected()

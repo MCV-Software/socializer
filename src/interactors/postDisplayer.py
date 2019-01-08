@@ -43,6 +43,7 @@ class displayPostInteractor(base.baseInteractor):
 	def install(self, *args, **kwargs):
 		super(displayPostInteractor, self).install(*args, **kwargs)
 		self.view.comments.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.on_show_comment)
+		self.view.attachments.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.on_open_attachment)
 		widgetUtils.connect_event(self.view.like, widgetUtils.BUTTON_PRESSED, self.on_like)
 		widgetUtils.connect_event(self.view.comment, widgetUtils.BUTTON_PRESSED, self.on_add_comment)
 		widgetUtils.connect_event(self.view.tools, widgetUtils.BUTTON_PRESSED, self.on_show_tools_menu)
@@ -81,18 +82,72 @@ class displayPostInteractor(base.baseInteractor):
 	def on_open_url(self, *args, **kwargs):
 		pass
 
+	def on_open_attachment(self, *args, **kwargs):
+		attachment = self.view.attachments.get_selected()
+		self.presenter.open_attachment(attachment)
+
 	def on_translate(self, *args, **kwargs):
 		dlg = translator.gui.translateDialog()
 		if dlg.get_response() == widgetUtils.OK:
-			text_to_translate = self.view.get_text()
+			text_to_translate = self.view.get("post_view")
 			dest = [x[0] for x in translator.translator.available_languages()][dlg.get("dest_lang")]
 			self.presenter.translate(text_to_translate, dest)
 		dlg.Destroy()
 
 	def on_spellcheck(self, event=None):
-		text = self.view.get_text()
+		text = self.view.get("post_view")
 		self.presenter.spellcheck(text)
 
 	def on_show_comment(self, *args, **kwargs):
 		comment = self.view.comments.get_selected()
 		self.presenter.show_comment(comment)
+
+class displayAudioInteractor(base.baseInteractor):
+
+	def set(self, control, value):
+		if not hasattr(self.view, control):
+			raise AttributeError("The control is not present in the view.")
+		getattr(self.view, control).SetValue(value)
+
+	def add_items(self, control, items):
+		if not hasattr(self.view, control):
+			raise AttributeError("The control is not present in the view.")
+		for i in items:
+			getattr(self.view, control).Append(i)
+		getattr(self.view, control).SetSelection(0)
+
+	def install(self, *args, **kwargs):
+		super(displayAudioInteractor, self).install(*args, **kwargs)
+		widgetUtils.connect_event(self.view.list, widgetUtils.LISTBOX_CHANGED, self.on_change)
+		widgetUtils.connect_event(self.view.download, widgetUtils.BUTTON_PRESSED, self.on_download)
+		widgetUtils.connect_event(self.view.play, widgetUtils.BUTTON_PRESSED, self.on_play)
+		widgetUtils.connect_event(self.view.add, widgetUtils.BUTTON_PRESSED, self.on_add_to_library)
+		widgetUtils.connect_event(self.view.remove, widgetUtils.BUTTON_PRESSED, self.on_remove_from_library)
+		pub.subscribe(self.set, self.modulename+"_set")
+		pub.subscribe(self.add_items, self.modulename+"_add_items")
+
+	def uninstall(self):
+		pub.unsubscribe(self.set, self.modulename+"_set")
+		pub.unsubscribe(self.add_items, self.modulename+"_add_items")
+
+	def on_change(self, *args, **kwargs):
+		post = self.view.get_audio()
+		self.presenter.handle_changes(post)
+
+	def on_download(self, *args, **kwargs):
+		post = self.view.get_audio()
+		suggested_filename = self.presenter.get_suggested_filename(post)
+		path = self.view.get_destination_path(suggested_filename)
+		self.presenter.download(post, path)
+
+	def on_play(self, *args, **kwargs):
+		post = self.view.get_audio()
+		self.presenter.play(post)
+
+	def on_add_to_library(self, *args, **kwargs):
+		post = self.view.get_audio()
+		self.presenter.add_to_library(post)
+
+	def on_remove_from_library(self, *args, **kwargs):
+		post = self.view.get_audio()
+		self.presenter.remove_from_library(post)
