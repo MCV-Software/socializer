@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 import widgetUtils
 from wxUI.dialogs import selector
 from pubsub import pub
+from extra import translator
 from .import base
 
 class postInteractor(base.baseInteractor):
@@ -57,13 +58,13 @@ class postInteractor(base.baseInteractor):
 	def on_translate(self, *args, **kwargs):
 		dlg = translator.gui.translateDialog()
 		if dlg.get_response() == widgetUtils.OK:
-			text_to_translate = self.message.get_text()
+			text_to_translate = self.view.get_text()
 			dest = [x[0] for x in translator.translator.available_languages()][dlg.get("dest_lang")]
 			self.presenter.translate(text_to_translate, dest)
 		dlg.Destroy()
 
 	def on_spellcheck(self, event=None):
-		text = self.message.get_text()
+		text = self.view.get_text()
 		self.presenter.spellcheck(text)
 
 	def on_add_attachments(self, *args, **kwargs):
