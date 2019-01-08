@@ -20,12 +20,10 @@ from mysc import localization
 from sessionmanager import session, utils, renderers
 from wxUI import (mainWindow, commonMessages)
 from wxUI.dialogs import search as searchDialogs
-from wxUI.dialogs import timeline, creation, postDialogs
 from update import updater
 from issueReporter import issueReporter
 from . import buffers
 from presenters import player
-from . import posts
 from presenters import longpollthread
 from . import selector
 
@@ -253,9 +251,7 @@ class Controller(object):
 		player.player.play_all(audios, shuffle=self.window.player_shuffle.IsChecked())
 
 	def view_post(self, post_object, controller_):
-		p = getattr(presenters, controller_)(session=self.session, postObject=post_object, interactor=interactors.displayPostInteractor(), view=postDialogs.post())
-		p.dialog.get_response()
-		p.dialog.Destroy()
+		p = getattr(presenters, controller_+"Presenter")(session=self.session, postObject=post_object, interactor=getattr(interactors, controller_+"Interactor")(), view=getattr(views, controller_)())
 
 	def exit(self, *args, **kwargs):
 		log.debug("Receibed an exit signal. closing...")

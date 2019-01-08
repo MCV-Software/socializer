@@ -3,9 +3,9 @@ from __future__ import unicode_literals
 import wx
 import widgetUtils
 
-class textMessage(widgetUtils.BaseDialog):
+class createTextMessage(widgetUtils.BaseDialog):
 	def __init__(self, *args, **kwargs):
-		super(textMessage, self).__init__(parent=None, *args, **kwargs)
+		super(createTextMessage, self).__init__(parent=None, *args, **kwargs)
 
 	def createTextArea(self, message="", text=""):
 		self.panel = wx.Panel(self)
@@ -52,7 +52,7 @@ class textMessage(widgetUtils.BaseDialog):
 	def get_position(self):
 		return self.text.GetInsertionPoint()
 
-class post(textMessage):
+class createPostDialog(createTextMessage):
 	def createControls(self, title, message,  text, mode):
 		self.mainBox = wx.BoxSizer(wx.VERTICAL)
 		self.createTextArea(message, text)
@@ -86,11 +86,11 @@ class post(textMessage):
 		self.SetTitle(title)
 
 	def __init__(self, title, message, text, mode="post"):
-		super(post, self).__init__()
+		super(createPostDialog, self).__init__()
 		self.createControls(title, message, text, mode)
 		self.SetClientSize(self.mainBox.CalcMin())
 
-class comment(textMessage):
+class createCommentDialog(createTextMessage):
 	def createControls(self, title, message,  text):
 		self.mainBox = wx.BoxSizer(wx.VERTICAL)
 		self.createTextArea(message, text)
@@ -118,6 +118,6 @@ class comment(textMessage):
 		self.SetTitle(title)
 
 	def __init__(self, title, message, text):
-		super(comment, self).__init__()
+		super(createCommentDialog, self).__init__()
 		self.createControls(message, title, text)
 		self.SetClientSize(self.mainBox.CalcMin())

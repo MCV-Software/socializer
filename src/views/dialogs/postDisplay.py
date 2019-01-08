@@ -3,9 +3,9 @@ from __future__ import unicode_literals
 import wx
 import widgetUtils
 
-class basicPost(widgetUtils.BaseDialog):
+class displayBasicPost(widgetUtils.BaseDialog):
 	def __init__(self, *args, **kwargs):
-		super(basicPost, self).__init__(parent=None, *args, **kwargs)
+		super(displayBasicPost, self).__init__(parent=None, *args, **kwargs)
 		self.panel = wx.Panel(self, -1)
 		self.sizer = wx.BoxSizer(wx.VERTICAL)
 
@@ -109,9 +109,9 @@ class basicPost(widgetUtils.BaseDialog):
 		else:
 			return False
 
-class post(basicPost):
+class displayPost(displayBasicPost):
 	def __init__(self, *args, **kwargs):
-		super(post, self).__init__(*args, **kwargs)
+		super(displayPost, self).__init__(*args, **kwargs)
 		post_view_box = self.create_post_view()
 		self.sizer.Add(post_view_box, 0, wx.ALL, 5)
 		attachments_box = self.create_attachments()
@@ -132,9 +132,9 @@ class post(basicPost):
 		self.sizer.Add(self.create_dialog_buttons())
 		self.done()
 
-class comment(basicPost):
+class displayComment(displayBasicPost):
 	def __init__(self, *args, **kwargs):
-		super(comment, self).__init__(*args, **kwargs)
+		super(displayComment, self).__init__(*args, **kwargs)
 		post_view_box = self.create_post_view()
 		self.sizer.Add(post_view_box, 0, wx.ALL, 5)
 		self.create_tools_button()
@@ -146,9 +146,9 @@ class comment(basicPost):
 		self.sizer.Add(self.create_dialog_buttons())
 		self.done()
 
-class audio(widgetUtils.BaseDialog):
+class displayAudio(widgetUtils.BaseDialog):
 	def __init__(self, *args, **kwargs):
-		super(audio, self).__init__(parent=None, *args, **kwargs)
+		super(displayAudio, self).__init__(parent=None, *args, **kwargs)
 		panel = wx.Panel(self)
 		sizer = wx.BoxSizer(wx.VERTICAL)
 		lbl_list = wx.StaticText(panel, wx.NewId(), _("Audio &files"))
@@ -210,9 +210,9 @@ class audio(widgetUtils.BaseDialog):
 	def get_audio(self):
 		return self.list.GetSelection()
 
-class friendship(widgetUtils.BaseDialog):
+class displayFriendship(widgetUtils.BaseDialog):
 	def __init__(self):
-		super(friendship, self).__init__(parent=None)
+		super(displayFriendship, self).__init__(parent=None)
 		panel = wx.Panel(self)
 		sizer = wx.BoxSizer(wx.VERTICAL)
 		self.friends = widgetUtils.list(panel, [_("Friend")], style=wx.LC_REPORT)

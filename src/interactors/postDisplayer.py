@@ -4,7 +4,6 @@ import six
 import widgetUtils
 import wx
 from pubsub import pub
-from wxUI.dialogs import postDialogs, urlList
 from wxUI import menus
 from .import base
 
@@ -57,6 +56,7 @@ class displayPostInteractor(base.baseInteractor):
 		pub.subscribe(self.enable_photo_controls, self.modulename+"_enable_photo_controls")
 
 	def uninstall(self):
+		super(displayPostInteractor, self).uninstall()
 		pub.unsubscribe(self.set, self.modulename+"_set")
 		pub.unsubscribe(self.load_image, self.modulename+"_load_image")
 		pub.unsubscribe(self.add_items, self.modulename+"_add_items")
@@ -127,6 +127,7 @@ class displayAudioInteractor(base.baseInteractor):
 		pub.subscribe(self.add_items, self.modulename+"_add_items")
 
 	def uninstall(self):
+		super(displayAudioInteractor, self).uninstall()
 		pub.unsubscribe(self.set, self.modulename+"_set")
 		pub.unsubscribe(self.add_items, self.modulename+"_add_items")
 
@@ -151,3 +152,20 @@ class displayAudioInteractor(base.baseInteractor):
 	def on_remove_from_library(self, *args, **kwargs):
 		post = self.view.get_audio()
 		self.presenter.remove_from_library(post)
+
+class displayFriendshipInteractor(base.baseInteractor):
+
+	def add_items(self, control, items):
+		if not hasattr(self.view, control):
+			raise AttributeError("The control is not present in the view.")
+		for i in items:
+			getattr(self.view, control).insert_item(False, *[i])
+
+
+	def install(self, *args, **kwargs):
+		super(displayFriendshipInteractor, self).install(*args, **kwargs)
+		pub.subscribe(self.add_items, self.modulename+"_add_items")
+
+	def uninstall(self):
+		super(displayFriendshipInteractor, self).install()
+		pub.unsubscribe(self.add_items, self.modulename+"_add_items")

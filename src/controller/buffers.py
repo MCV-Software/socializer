@@ -14,7 +14,6 @@ import widgetUtils
 from presenters import player
 import output
 from . import selector
-from . import posts
 from pubsub import pub
 from vk_api.exceptions import VkApiError
 from vk_api import upload
@@ -24,7 +23,6 @@ from sessionmanager import session, renderers, utils
 from mysc.thread_utils import call_threaded
 from wxUI import commonMessages, menus
 from sessionmanager.renderers import add_attachment
-from wxUI.dialogs import postDialogs
 
 log = logging.getLogger("controller.buffers")
 
@@ -342,11 +340,11 @@ class baseBuffer(object):
 		if post == None:
 			return
 		if "type" in post and post["type"] == "audio":
-			a = presenters.displayAudioPresenter(session=self.session, postObject=post["audio"]["items"], interactor=interactors.displayAudioInteractor(), view=postDialogs.audio())
+			a = presenters.displayAudioPresenter(session=self.session, postObject=post["audio"]["items"], interactor=interactors.displayAudioInteractor(), view=views.displayAudio())
 		elif "type" in post and post["type"] == "friend":
-			pub.sendMessage("open-post", post_object=post, controller_="friendship")
+			pub.sendMessage("open-post", post_object=post, controller_="displayFriendship")
 		else:
-			pub.sendMessage("open-post", post_object=post, controller_="displayPostPresenter")
+			pub.sendMessage("open-post", post_object=post, controller_="displayPost")
 
 	def pause_audio(self, *args, **kwargs):
 		""" pauses audio playback."""
@@ -513,7 +511,7 @@ class audioBuffer(feedBuffer):
 		if selected == -1:
 			return
 		audios = [self.session.db[self.name]["items"][selected]]
-		a = presenters.displayAudioPresenter(session=self.session, postObject=audios, interactor=interactors.displayAudioInteractor(), view=postDialogs.audio())
+		a = presenters.displayAudioPresenter(session=self.session, postObject=audios, interactor=interactors.displayAudioInteractor(), view=views.displayAudio())
 
 	def play_all(self, *args, **kwargs):
 		selected = self.tab.list.get_selected()
@@ -968,9 +966,7 @@ class chatBuffer(baseBuffer):
 		index = self.tab.attachments.get_selected()
 		attachment = self.attachments[index]
 		if attachment["type"] == "audio":
-			a = posts.audio(session=self.session, postObject=[attachment["audio"]])
-			a.dialog.get_response()
-			a.dialog.Destroy()
+			a = presenters.displayAudioPresenter(session=self.session, postObject=[attachment["audio"]], interactor=interactors.displayAudioInteractor(), view=views.displayAudio())
 		elif attachment["type"] == "audio_message":
 			link = attachment["audio_message"]["link_mp3"]
 			output.speak(_("Playing..."))

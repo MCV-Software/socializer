@@ -12,13 +12,14 @@ import interactors
 import output
 import webbrowser
 import logging
-from wxUI.dialogs import postDialogs
 from sessionmanager import session, renderers, utils # We'll use some functions from there
 from pubsub import pub
 from extra import SpellChecker, translator
 from mysc.thread_utils import call_threaded
 from .import base
 from .postCreation import createPostPresenter
+
+log = logging.getLogger(__file__)
 
 def get_user(id, profiles):
 	""" Returns an user name and last name  based in the id receibed."""
@@ -39,6 +40,7 @@ class displayPostPresenter(base.basePresenter):
 
 	def __init__(self, session, postObject, view, interactor):
 		super(displayPostPresenter, self).__init__(view=view, interactor=interactor, modulename="display_post")
+		self.type = "post"
 		self.session = session
 		self.post = postObject
 		# Posts from newsfeed contains this source_id instead from_id in walls. Also it uses post_id and walls use just id.
@@ -206,7 +208,7 @@ class displayPostPresenter(base.basePresenter):
 		if "type" in self.post:
 			type_ = self.post["type"]
 		else:
-			type_ = "post"
+			type_ = self.type
 		if self.post["likes"]["user_likes"] == 1:
 			l = self.session.vk.client.likes.delete(owner_id=user, item_id=id, type=type_)
 			output.speak(_("You don't like this"))
@@ -254,18 +256,8 @@ class displayPostPresenter(base.basePresenter):
 		self.send_message("clear_list", list="comments")
 
 	def show_comment(self, comment_index):
-		c = comment(self.session, self.comments["items"][comment_index])
-		c.dialog.get_response()
-
-	def comment_like(self, comment):
-		comment_id = self.comments["data"][comment]["id"]
-		self.session.like(comment_id)
-		output.speak(_("You do like this comment"))
-
-	def comment_dislike(self, comment):
-		comment_id = self.comments["data"][comment]["id"]
-		self.session.unlike(comment_id)
-		output.speak(_("You don't like this comment"))
+		c = self.comments["items"][comment_index]
+		a = displayCommentPresenter(session=self.session, postObject=c, interactor=interactors.displayPostInteractor(), view=views.displayPost())
 
 	def translate(self, text, language):
 		msg = translator.translator.translate(text, language)
@@ -283,8 +275,8 @@ class displayPostPresenter(base.basePresenter):
 	def open_attachment(self, index):
 		attachment = self.attachments[index]
 		if attachment["type"] == "audio":
-			a = displayAudioPresenter(session=self.session, postObject=[attachment["audio"]], interactor=interactors.displayAudioInteractor(), view=postDialogs.audio())
-		if attachment["type"] == "link":
+			a = displayAudioPresenter(session=self.session, postObject=[attachment["audio"]], interactor=interactors.displayAudioInteractor(), view=views.displayAudio())
+		elif attachment["type"] == "link":
 			output.speak(_("Opening URL..."), True)
 			webbrowser.open_new_tab(attachment["link"]["url"])
 		elif attachment["type"] == "doc":
@@ -319,6 +311,51 @@ class displayPostPresenter(base.basePresenter):
 	def __del__(self):
 		if hasattr(self, "worker"):
 			self.worker.finished.set()
+
+class displayCommentPresenter(displayPostPresenter):
+
+	def __init__(self, session, postObject, view, interactor):
+		self.type = "comment"
+		self.modulename = "display_comment"
+		self.interactor = interactor
+		self.view = view
+		self.interactor.install(view=view, presenter=self, modulename=self.modulename)
+		self.session = session
+		self.post = postObject
+		self.user_identifier = "from_id"
+		self.post_identifier = "id"
+		self.worker = threading.Thread(target=self.load_all_components)
+		self.worker.finished = threading.Event()
+		self.worker.start()
+		self.attachments = []
+		self.load_images = False
+		# We'll put images here, so it will be easier to work with them.
+		self.images = []
+		self.imageIndex = 0
+		self.run()
+
+	def load_all_components(self):
+		self.get_post_information()
+		self.get_likes()
+		self.send_message("disable_control", control="shares")
+		self.send_message("disable_control", control="comment")
+		if self.post["likes"]["can_like"] == 0 and self.post["likes"]["user_likes"] == 0:
+			self.send_message("disable_control", "like")
+		elif self.post["likes"]["user_likes"] == 1:
+			self.send_message("set_label", control="like", label=_("&Dislike"))
+		self.send_message("disable_control", control="repost")
+
+	def get_post_information(self):
+		from_ = self.session.get_user_name(self.post[self.user_identifier])
+		if ("from_id" in self.post and "owner_id" in self.post):
+			# Translators: {0} will be replaced with the user who is posting, and {1} with the wall owner.
+			title = _("Post from {0} in the {1}'s post").format(self.session.get_user_name(self.post["from_id"]), self.session.get_user_name(self.post["owner_id"]))
+		self.send_message("set_title", value=title)
+		message = ""
+		message = get_message(self.post)
+		self.send_message("set", control="post_view", value=message)
+		self.get_attachments(self.post, message)
+		self.check_image_load()
 
 class displayAudioPresenter(base.basePresenter):
 	def __init__(self, session, postObject, view, interactor):
@@ -409,3 +446,23 @@ class displayAudioPresenter(base.basePresenter):
 
 	def handle_changes(self, audio_index):
 		self.fill_information(audio_index)
+
+class displayFriendshipPresenter(base.basePresenter):
+
+	def __init__(self, session, postObject, view, interactor):
+		self.session = session
+		self.post = postObject
+		super(displayFriendshipPresenter, self).__init__(view=view, interactor=interactor, modulename="display_friendship")
+		list_of_friends = self.get_friend_names()
+		from_ = self.session.get_user_name(self.post["source_id"])
+		title = _("{0} added the following friends").format(from_,)
+		self.send_message("set_title", value=title)
+		self.set_friends_list(list_of_friends)
+		self.run()
+
+	def get_friend_names(self):
+		self.friends = self.post["friends"]["items"]
+		return [self.session.get_user_name(i["user_id"]) for i in self.friends]
+
+	def set_friends_list(self, friendslist):
+		self.send_message("add_items", control="friends", items=friendslist)
