@@ -23,10 +23,13 @@ class displayBasicPost(widgetUtils.BaseDialog):
 
 	def create_comments_list(self):
 		lbl = wx.StaticText(self.panel, -1, _("Comments"))
-		self.comments = widgetUtils.list(self.panel, _("User"), _("Comment"), _("Date"), _("Likes"), style=wx.LC_REPORT)
+		self.comments = widgetUtils.list(self.panel, _("User"), _("Comment"), _("Date"), _("Likes"), _("replies"), style=wx.LC_REPORT)
+		self.reply = wx.Button(self.panel, -1, _("Reply to comment"))
+		self.reply.Enable(False)
 		box = wx.BoxSizer(wx.HORIZONTAL)
 		box.Add(lbl, 0, wx.ALL, 5)
 		box.Add(self.comments.list, 0, wx.ALL, 5)
+		box.Add(self.reply, 0, wx.ALL, 5)
 		return box
 
 	def create_attachments(self):
@@ -58,7 +61,6 @@ class displayBasicPost(widgetUtils.BaseDialog):
 			self.previous_photo.Enable(True)
 			self.next_photo.Enable(True)
 
-
 	def create_likes_box(self):
 		self.likes = wx.Button(self.panel, -1, _("Loading data..."))
 		return self.likes
@@ -73,6 +75,7 @@ class displayBasicPost(widgetUtils.BaseDialog):
 		if comment: self.comment = wx.Button(self.panel, -1, _("Add comment"))
 		box = wx.BoxSizer(wx.HORIZONTAL)
 		box.Add(self.like, 0, wx.ALL, 5)
+		box.Add(self.repost, 0, wx.ALL, 5)
 		if comment: box.Add(self.comment, 0, wx.ALL, 5)
 		return box
 
@@ -137,14 +140,39 @@ class displayComment(displayBasicPost):
 		super(displayComment, self).__init__(*args, **kwargs)
 		post_view_box = self.create_post_view()
 		self.sizer.Add(post_view_box, 0, wx.ALL, 5)
+		attachments_box = self.create_attachments()
+		self.sizer.Add(attachments_box, 0, wx.ALL, 5)
+		self.attachments.list.Enable(False)
+		self.create_photo_viewer()
+		self.image.Enable(False)
 		self.create_tools_button()
 		self.sizer.Add(self.tools, 0, wx.ALL, 5)
 		likes_box = self.create_likes_box()
 		self.sizer.Add(likes_box, 0, wx.ALL, 5)
-		actions_box = self.create_action_buttons(comment=False)
+		actions_box = self.create_action_buttons()
 		self.sizer.Add(actions_box, 0, wx.ALL, 5)
+		comments_box = self.create_comments_list()
+		self.sizer.Add(comments_box, 0, wx.ALL, 5)
 		self.sizer.Add(self.create_dialog_buttons())
 		self.done()
+
+	def create_comments_list(self):
+		lbl = wx.StaticText(self.panel, -1, _("Replies"))
+		self.comments = widgetUtils.list(self.panel, _("User"), _("Comment"), _("Date"), _("Likes"), _("Replies"), style=wx.LC_REPORT)
+		box = wx.BoxSizer(wx.HORIZONTAL)
+		box.Add(lbl, 0, wx.ALL, 5)
+		box.Add(self.comments.list, 0, wx.ALL, 5)
+		return box
+
+	def create_action_buttons(self, comment=True):
+		self.like = wx.Button(self.panel, -1, _("&Like"))
+		self.reply = wx.Button(self.panel, -1, _("Reply to thread"))
+		if comment: self.comment = wx.Button(self.panel, -1, _("Add comment"))
+		box = wx.BoxSizer(wx.HORIZONTAL)
+		box.Add(self.like, 0, wx.ALL, 5)
+		box.Add(self.reply, 0, wx.ALL, 5)
+		if comment: box.Add(self.comment, 0, wx.ALL, 5)
+		return box
 
 class displayAudio(widgetUtils.BaseDialog):
 	def __init__(self, *args, **kwargs):

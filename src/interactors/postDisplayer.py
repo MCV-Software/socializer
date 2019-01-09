@@ -46,7 +46,11 @@ class displayPostInteractor(base.baseInteractor):
 		widgetUtils.connect_event(self.view.like, widgetUtils.BUTTON_PRESSED, self.on_like)
 		widgetUtils.connect_event(self.view.comment, widgetUtils.BUTTON_PRESSED, self.on_add_comment)
 		widgetUtils.connect_event(self.view.tools, widgetUtils.BUTTON_PRESSED, self.on_show_tools_menu)
-		widgetUtils.connect_event(self.view.repost, widgetUtils.BUTTON_PRESSED, self.on_repost)
+		if hasattr(self.view, "repost"):
+			widgetUtils.connect_event(self.view.repost, widgetUtils.BUTTON_PRESSED, self.on_repost)
+			self.view.comments.list.Bind(wx.EVT_LIST_ITEM_FOCUSED, self.on_focus)
+		if hasattr(self.view, "reply"):
+			widgetUtils.connect_event(self.view.reply, widgetUtils.BUTTON_PRESSED, self.on_reply)
 #		self.view.Bind(wx.EVT_LIST_ITEM_RIGHT_CLICK, self.on_show_menu, self.view.comments.list)
 #		self.view.Bind(wx.EVT_LIST_KEY_DOWN, self.on_show_menu_by_key, self.view.comments.list)
 		pub.subscribe(self.set, self.modulename+"_set")
@@ -63,11 +67,25 @@ class displayPostInteractor(base.baseInteractor):
 		pub.unsubscribe(self.enable_attachments, self.modulename+"_enable_attachments")
 		pub.unsubscribe(self.enable_photo_controls, self.modulename+"_enable_photo_controls")
 
+	def on_focus(self, *args, **kwargs):
+		item = self.view.comments.get_selected()
+		if item == -1:
+			self.view.reply.Enable(False)
+		else:
+			self.view.reply.Enable(True)
+
 	def on_like(self, *args, **kwargs):
 		self.presenter.post_like()
 
 	def on_repost(self, *args, **kwargs):
 		self.presenter.post_repost()
+
+	def on_reply(self, *args, **kwargs):
+		if hasattr(self.view, "repost"):
+			comment = self.view.comments.get_selected()
+			self.presenter.reply(comment)
+		else:
+			self.presenter.reply()
 
 	def on_add_comment(self, *args, **kwargs):
 		self.presenter.add_comment()

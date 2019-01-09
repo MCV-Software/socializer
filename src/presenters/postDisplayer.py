@@ -69,7 +69,7 @@ class displayPostPresenter(base.basePresenter):
 		""" Get comments and insert them in a list."""
 		user = self.post[self.user_identifier]
 		id = self.post[self.post_identifier]
-		self.comments = self.session.vk.client.wall.getComments(owner_id=user, post_id=id, need_likes=1, count=100, extended=1, preview_length=0)
+		self.comments = self.session.vk.client.wall.getComments(owner_id=user, post_id=id, need_likes=1, count=100, extended=1, preview_length=0, thread_items_count=10)
 		comments_ = []
 		for i in self.comments["items"]:
 			# If comment has a "deleted" key it should not be displayed, obviously.
@@ -88,7 +88,8 @@ class displayPostPresenter(base.basePresenter):
 			original_date = arrow.get(i["date"])
 			created_at = original_date.humanize(locale=languageHandler.curLang[:2])
 			likes = str(i["likes"]["count"])
-			comments_.append((from_, text, created_at, likes))
+			replies = str(i["thread"]["count"])
+			comments_.append((from_, text, created_at, likes, replies))
 		self.send_message("add_items", control="comments", items=comments_)
 
 	def get_post_information(self):
@@ -226,7 +227,7 @@ class displayPostPresenter(base.basePresenter):
 
 	def post_repost(self):
 		object_id = "wall{0}_{1}".format(self.post[self.user_identifier], self.post[self.post_identifier])
-		p = createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.post(title=_("Repost"), message=_("Add your comment here"), text="", mode="comment"))
+		p = createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Repost"), message=_("Add your comment here"), text="", mode="comment"))
 		if hasattr(p, "text") or hasattr(p, "privacy"):
 			msg = p.text
 			self.session.vk.client.wall.repost(object=object_id, message=msg)
@@ -238,7 +239,7 @@ class displayPostPresenter(base.basePresenter):
 		self.send_message("set_label", control="shares", label=_("Shared {0} times").format(self.post["reposts"]["count"],))
 
 	def add_comment(self):
-		comment = createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.post(title=_("Add a comment"), message="", text="", mode="comment"))
+		comment = createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Add a comment"), message="", text="", mode="comment"))
 		if hasattr(comment, "text") or hasattr(comment, "privacy"):
 			msg = comment.text
 			try:
@@ -252,12 +253,27 @@ class displayPostPresenter(base.basePresenter):
 			except Exception as msg:
 				log.error(msg)
 
+	def reply(self, comment):
+		c = self.comments["items"][comment]
+		comment = createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Reply to {username}").format(username=self.session.get_user_name(c["from_id"]),), message="", text="", mode="comment"))
+		if hasattr(comment, "text") or hasattr(comment, "privacy"):
+			msg = comment.text
+			try:
+				user = c["owner_id"]
+				reply_to_comment = c["id"]
+				post_id = c["post_id"]
+				r = self.session.vk.client.wall.createComment(owner_id=user, reply_to_user=user, post_id=post_id, message=msg, reply_to_comment=reply_to_comment, v=5.51)
+				output.speak(_("You've posted a comment"))
+			except IndexError as msg:
+				log.error(msg)
+
 	def clear_comments_list(self):
 		self.send_message("clear_list", list="comments")
 
 	def show_comment(self, comment_index):
 		c = self.comments["items"][comment_index]
-		a = displayCommentPresenter(session=self.session, postObject=c, interactor=interactors.displayPostInteractor(), view=views.displayPost())
+		c["post_id"] = self.post[self.post_identifier]
+		a = displayCommentPresenter(session=self.session, postObject=c, interactor=interactors.displayPostInteractor(), view=views.displayComment())
 
 	def translate(self, text, language):
 		msg = translator.translator.translate(text, language)
@@ -337,25 +353,66 @@ class displayCommentPresenter(displayPostPresenter):
 	def load_all_components(self):
 		self.get_post_information()
 		self.get_likes()
-		self.send_message("disable_control", control="shares")
 		self.send_message("disable_control", control="comment")
+		self.get_comments()
 		if self.post["likes"]["can_like"] == 0 and self.post["likes"]["user_likes"] == 0:
 			self.send_message("disable_control", "like")
 		elif self.post["likes"]["user_likes"] == 1:
 			self.send_message("set_label", control="like", label=_("&Dislike"))
-		self.send_message("disable_control", control="repost")
 
 	def get_post_information(self):
 		from_ = self.session.get_user_name(self.post[self.user_identifier])
 		if ("from_id" in self.post and "owner_id" in self.post):
 			# Translators: {0} will be replaced with the user who is posting, and {1} with the wall owner.
-			title = _("Post from {0} in the {1}'s post").format(self.session.get_user_name(self.post["from_id"]), self.session.get_user_name(self.post["owner_id"]))
+			title = _("Comment from {0} in the {1}'s post").format(self.session.get_user_name(self.post["from_id"]), self.session.get_user_name(self.post["owner_id"]))
 		self.send_message("set_title", value=title)
 		message = ""
 		message = get_message(self.post)
 		self.send_message("set", control="post_view", value=message)
 		self.get_attachments(self.post, message)
 		self.check_image_load()
+
+	def reply(self):
+		comment = createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Reply to {username}").format(username=self.session.get_user_name(self.post["from_id"]),), message="", text="", mode="comment"))
+		if hasattr(comment, "text") or hasattr(comment, "privacy"):
+			msg = comment.text
+			try:
+				user = self.post["owner_id"]
+				reply_to_comment = self.post["id"]
+				post_id = self.post["post_id"]
+				r = self.session.vk.client.wall.createComment(owner_id=self.post["owner_id"], post_id=post_id, message=msg, reply_to_comment=reply_to_comment)
+				output.speak(_("You've posted a comment"))
+			except IndexError as msg:
+				log.error(msg)
+
+	def get_comments(self):
+		""" Get comments and insert them in a list."""
+		comments_ = []
+		for i in self.post["thread"]["items"]:
+			# If comment has a "deleted" key it should not be displayed, obviously.
+			if "deleted" in i:
+				continue
+			from_ = self.session.get_user_name(i["from_id"])
+			if "reply_to_user" in i:
+				extra_info = self.session.get_user_name(i["reply_to_user"])
+				from_ = _("{0} > {1}").format(from_, extra_info)
+			# As we set the comment reply properly in the from_ field, let's remove the first username from here if it exists.
+			fixed_text = re.sub("^\[id\d+\|\D+\], ", "", i["text"])
+			if len(fixed_text) > 140:
+				text = fixed_text[:141]
+			else:
+				text = fixed_text
+			original_date = arrow.get(i["date"])
+			created_at = original_date.humanize(locale=languageHandler.curLang[:2])
+			likes = str(i["likes"]["count"])
+			replies = ""
+			comments_.append((from_, text, created_at, likes, replies))
+		self.send_message("add_items", control="comments", items=comments_)
+
+	def show_comment(self, comment_index):
+		c = self.post["thread"]["items"][comment_index]
+		c["post_id"] = self.post["post_id"]
+		a = displayCommentPresenter(session=self.session, postObject=c, interactor=interactors.displayPostInteractor(), view=views.displayComment())
 
 class displayAudioPresenter(base.basePresenter):
 	def __init__(self, session, postObject, view, interactor):
