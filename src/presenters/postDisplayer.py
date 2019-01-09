@@ -105,6 +105,15 @@ class displayPostPresenter(base.basePresenter):
 				title = _("Post from {0}").format(from_,)
 		self.send_message("set_title", value=title)
 		message = ""
+		# Retrieve again the post, so we'll make sure to get the most up to date information.
+		# And we add a counter for views.
+		post = self.session.vk.client.wall.getById(posts="{owner_id}_{post_id}".format(owner_id=self.post[self.user_identifier], post_id=self.post[self.post_identifier]))
+		self.post = post[0]
+		if "owner_id" not in self.post:
+			self.user_identifier = "from_id"
+		else:
+			self.user_identifier = "owner_id"
+		self.post_identifier = "id"
 		message = get_message(self.post)
 		if "copy_history" in self.post:
 			nm = "\n"
