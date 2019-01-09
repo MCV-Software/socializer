@@ -21,6 +21,15 @@ class displayBasicPost(widgetUtils.BaseDialog):
 		box.Add(self.post_view, 0, wx.ALL, 5)
 		return box
 
+	def create_views_control(self):
+		lbl = wx.StaticText(self.panel, -1, _("Views"))
+		self.views = wx.TextCtrl(self.panel, -1, style=wx.TE_READONLY|wx.TE_MULTILINE)
+		box = wx.BoxSizer(wx.HORIZONTAL)
+		box.Add(lbl, 0, wx.ALL, 5)
+		box.Add(self.views, 0, wx.ALL, 5)
+		return box
+
+
 	def create_comments_list(self):
 		lbl = wx.StaticText(self.panel, -1, _("Comments"))
 		self.comments = widgetUtils.list(self.panel, _("User"), _("Comment"), _("Date"), _("Likes"), _("replies"), style=wx.LC_REPORT)
@@ -117,6 +126,8 @@ class displayPost(displayBasicPost):
 		super(displayPost, self).__init__(*args, **kwargs)
 		post_view_box = self.create_post_view()
 		self.sizer.Add(post_view_box, 0, wx.ALL, 5)
+		views_box = self.create_views_control()
+		self.sizer.Add(views_box, 0, wx.ALL, 5)
 		attachments_box = self.create_attachments()
 		self.sizer.Add(attachments_box, 0, wx.ALL, 5)
 		self.attachments.list.Enable(False)

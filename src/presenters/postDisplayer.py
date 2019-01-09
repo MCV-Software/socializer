@@ -109,6 +109,10 @@ class displayPostPresenter(base.basePresenter):
 		# And we add a counter for views.
 		post = self.session.vk.client.wall.getById(posts="{owner_id}_{post_id}".format(owner_id=self.post[self.user_identifier], post_id=self.post[self.post_identifier]))
 		self.post = post[0]
+		if "views" in self.post and self.post["views"]["count"] > 0:
+			self.send_message("set", control="views", value=str(self.post["views"]["count"]))
+		else:
+			self.send_message("disable_control", control="views")
 		if "owner_id" not in self.post:
 			self.user_identifier = "from_id"
 		else:
