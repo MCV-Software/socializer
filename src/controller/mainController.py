@@ -20,6 +20,7 @@ from mysc import localization
 from sessionmanager import session, utils, renderers
 from wxUI import (mainWindow, commonMessages)
 from wxUI.dialogs import search as searchDialogs
+from wxUI.dialogs import timeline
 from update import updater
 from issueReporter import issueReporter
 from . import buffers

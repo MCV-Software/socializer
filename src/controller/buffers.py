@@ -119,14 +119,13 @@ class baseBuffer(object):
 		""" Create a post in the current user's wall.
 		This process is handled in two parts. This is the first part, where the GUI is created and user can send the post.
 		During the second part (threaded), the post will be sent to the API."""
-		p = presenters.createPostPresenter(session=self.session, interactor=interactors.postInteractor(), view=views.post(title=_("Write your post"), message="", text=""))
+		p = presenters.createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Write your post"), message="", text=""))
 		if hasattr(p, "text") or hasattr(p, "privacy"):
 			call_threaded(self.do_last, p=p)
 
 	def do_last(self, p, parent_endpoint="wall", child_endpoint="post", *args, **kwargs):
 		""" Second part of post function. Here everything is going to be sent to the API"""
 		msg = p.text
-		privacy_opts = p.privacy
 		attachments = ""
 		if hasattr(p, "attachments"):
 			attachments = self.upload_attachments(p.attachments)
@@ -135,12 +134,16 @@ class baseBuffer(object):
 			if len(attachments) == 0: attachments = urls[0]
 			else: attachments += urls[0]
 			msg = msg.replace(urls[0], "")
+		if msg != "":
+			kwargs.update(message=msg)
+		kwargs.update(privacy=p.privacy)
+		if attachments != "":
+			kwargs.update(attachments=attachments)
 		# Determines the correct functions to call here.
 		parent_endpoint = getattr(self.session.vk.client, parent_endpoint)
 		endpoint = getattr(parent_endpoint, child_endpoint)
-		post = endpoint(message=msg, friends_only=privacy_opts, attachments=attachments, *args, **kwargs)
+		post = endpoint(**kwargs)
 		pub.sendMessage("posted", buffer=self.name)
-		p.message.Destroy()
 
 	def upload_attachments(self, attachments):
 		""" Upload attachments to VK before posting them.
@@ -264,7 +267,7 @@ class baseBuffer(object):
 		post = self.get_post()
 		if post == None:
 			return
-		comment = presenters.createPostPresenter(session=self.session, interactor=interactors.postInteractor(), view=views.post(title=_("Add a comment"), message="", text="", mode="comment"))
+		comment = presenters.createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Add a comment"), message="", text="", mode="comment"))
 		if hasattr(comment, "text") or hasattr(comment, "privacy"):
 			msg = comment.text
 			try:
@@ -441,7 +444,7 @@ class feedBuffer(baseBuffer):
 			return super(feedBuffer, self).post()
 		owner_id = self.kwargs["owner_id"]
 		user = self.session.get_user_name(owner_id)
-		p = presenters.createPostPresenter(session=self.session, interactor=interactors.postInteractor(), view=views.post(title=_("Write your post"), message="", text=""))
+		p = presenters.createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Write your post"), message="", text=""))
 		if hasattr(p, "text") or hasattr(p, "privacy"):
 			call_threaded(self.do_last, p=p, owner_id=owner_id)
 
