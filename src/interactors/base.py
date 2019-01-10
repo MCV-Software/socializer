@@ -19,6 +19,7 @@ class baseInteractor(object):
 		pub.unsubscribe(self.set_label, "{modulename}_set_label".format(modulename=self.modulename))
 		pub.unsubscribe(self.focus_control, "{modulename}_focus_control".format(modulename=self.modulename))
 		pub.unsubscribe(self.set_title, "{modulename}_set_title".format(modulename=self.modulename))
+		self.view.Destroy()
 
 	def start(self):
 		self.result = self.view.get_response()
