@@ -12,6 +12,7 @@ import interactors
 import output
 import webbrowser
 import logging
+from vk_api import upload
 from sessionmanager import session, renderers, utils # We'll use some functions from there
 from pubsub import pub
 from extra import SpellChecker, translator
@@ -254,34 +255,91 @@ class displayPostPresenter(base.basePresenter):
 	def add_comment(self):
 		comment = createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Add a comment"), message="", text="", mode="comment"))
 		if hasattr(comment, "text") or hasattr(comment, "privacy"):
-			msg = comment.text
-			try:
-				user = self.post[self.user_identifier]
-				id = self.post[self.post_identifier]
-				self.session.vk.client.wall.addComment(owner_id=user, post_id=id, text=msg)
-				output.speak(_("You've posted a comment"))
-				if self.comments["count"] < 100:
-					self.clear_comments_list()
-					self.get_comments()
-			except Exception as msg:
-				log.error(msg)
+			owner_id = self.post[self.user_identifier]
+			post_id = self.post[self.post_identifier]
+			call_threaded(self.do_last, comment, owner_id=owner_id, post_id=post_id)
+
+	def do_last(self, comment, **kwargs):
+		msg = comment.text
+		attachments = ""
+		if hasattr(comment, "attachments"):
+			attachments = self.upload_attachments(comment.attachments)
+		urls = utils.find_urls_in_text(msg)
+		if len(urls) != 0:
+			if len(attachments) == 0: attachments = urls[0]
+			else: attachments += urls[0]
+			msg = msg.replace(urls[0], "")
+		if msg != "":
+			kwargs.update(message=msg)
+		if attachments != "":
+			kwargs.update(attachments=attachments)
+		if "message" not in kwargs and "attachments" not in kwargs:
+			return # No comment made here.
+		try:
+			result = self.session.vk.client.wall.createComment(**kwargs)
+			comment_object = self.session.vk.client.wall.getComment(comment_id=result["comment_id"], owner_id=kwargs["owner_id"])["items"][0]
+			from_ = self.session.get_user_name(comment_object["from_id"])
+			if "reply_to_user" in comment_object:
+				extra_info = self.session.get_user_name(comment_object["reply_to_user"])
+				from_ = _("{0} > {1}").format(from_, extra_info)
+			# As we set the comment reply properly in the from_ field, let's remove the first username from here if it exists.
+			fixed_text = re.sub("^\[id\d+\|\D+\], ", "", comment_object["text"])
+			if len(fixed_text) > 140:
+				text = fixed_text[:141]
+			else:
+				text = fixed_text
+			original_date = arrow.get(comment_object["date"])
+			created_at = original_date.humanize(locale=languageHandler.curLang[:2])
+			likes = str(comment_object["likes"]["count"])
+			replies = ""
+			item = (from_, text, created_at, likes, replies)
+			if hasattr(self, "comments"):
+				self.comments["items"].append(comment_object)
+			else:
+				if "items" not in self.post["thread"]:
+					self.post["thread"]["items"] = []
+				self.post["thread"]["items"].append(comment_object)
+			self.send_message("add_items", control="comments", items=[item])
+			output.speak(_("You've posted a comment"))
+		except IndexError as msg:
+			log.error(msg)
+
+	def upload_attachments(self, attachments):
+		""" Upload attachments to VK before posting them.
+		Returns attachments formatted as string, as required by VK API.
+		Currently this function only supports photos and audios."""
+		# To do: Check the caption and description fields for this kind of attachments.
+		local_attachments = ""
+		uploader = upload.VkUpload(self.session.vk.session_object)
+		for i in attachments:
+			if i["from"] == "online":
+				local_attachments += "{0}{1}_{2},".format(i["type"], i["owner_id"], i["id"])
+			elif i["from"] == "local" and i["type"] == "photo":
+				photos = i["file"]
+				description = i["description"]
+				r = uploader.photo_wall(photos, caption=description)
+				id = r[0]["id"]
+				owner_id = r[0]["owner_id"]
+				local_attachments += "photo{0}_{1},".format(owner_id, id)
+			elif i["from"] == "local" and i["type"] == "audio":
+				audio = i["file"]
+				title = "untitled"
+				artist = "unnamed"
+				if "artist" in i:
+					artist = i["artist"]
+				if "title" in i:
+					title = i["title"]
+				r = uploader.audio(audio, title=title, artist=artist)
+				id = r["id"]
+				owner_id = r["owner_id"]
+				local_attachments += "audio{0}_{1},".format(owner_id, id)
+		return local_attachments
 
 	def reply(self, comment):
 		c = self.comments["items"][comment]
 		comment = createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Reply to {username}").format(username=self.session.get_user_name(c["from_id"]),), message="", text="", mode="comment"))
 		if hasattr(comment, "text") or hasattr(comment, "privacy"):
-			msg = comment.text
-			try:
-				user = c["owner_id"]
-				reply_to_comment = c["id"]
-				post_id = c["post_id"]
-				r = self.session.vk.client.wall.createComment(owner_id=user, reply_to_user=user, post_id=post_id, message=msg, reply_to_comment=reply_to_comment, v=5.51)
-				output.speak(_("You've posted a comment"))
-			except IndexError as msg:
-				log.error(msg)
-
-	def clear_comments_list(self):
-		self.send_message("clear_list", list="comments")
+			call_threaded(self.do_last, comment, owner_id=c["owner_id"], reply_to_comment=c["id"], post_id=c["post_id"], reply_to_user=c["owner_id"])
 
 	def show_comment(self, comment_index):
 		c = self.comments["items"][comment_index]
@@ -341,6 +399,10 @@ class displayPostPresenter(base.basePresenter):
 		if hasattr(self, "worker"):
 			self.worker.finished.set()
 
+	def clear_comments_list(self):
+		self.send_message("clean_list", list="comments")
+		self.get_comments()
+
 class displayCommentPresenter(displayPostPresenter):
 
 	def __init__(self, session, postObject, view, interactor):
@@ -388,19 +450,13 @@ class displayCommentPresenter(displayPostPresenter):
 	def reply(self):
 		comment = createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Reply to {username}").format(username=self.session.get_user_name(self.post["from_id"]),), message="", text="", mode="comment"))
 		if hasattr(comment, "text") or hasattr(comment, "privacy"):
-			msg = comment.text
-			try:
-				user = self.post["owner_id"]
-				reply_to_comment = self.post["id"]
-				post_id = self.post["post_id"]
-				r = self.session.vk.client.wall.createComment(owner_id=self.post["owner_id"], post_id=post_id, message=msg, reply_to_comment=reply_to_comment)
-				output.speak(_("You've posted a comment"))
-			except IndexError as msg:
-				log.error(msg)
+			call_threaded(self.do_last, comment, owner_id=self.post["owner_id"], reply_to_comment=self.post["id"], post_id=self.post["post_id"], reply_to_user=self.post["owner_id"])
 
 	def get_comments(self):
 		""" Get comments and insert them in a list."""
 		comments_ = []
+		if "thread" not in self.post:
+			return
 		for i in self.post["thread"]["items"]:
 			# If comment has a "deleted" key it should not be displayed, obviously.
 			if "deleted" in i:
@@ -426,6 +482,7 @@ class displayCommentPresenter(displayPostPresenter):
 		c = self.post["thread"]["items"][comment_index]
 		c["post_id"] = self.post["post_id"]
 		a = displayCommentPresenter(session=self.session, postObject=c, interactor=interactors.displayPostInteractor(), view=views.displayComment())
+		self.clear_comments_list()
 
 class displayAudioPresenter(base.basePresenter):
 	def __init__(self, session, postObject, view, interactor):
