@@ -185,7 +185,7 @@ def render_newsfeed_item(status, session):
 def render_message(message, session):
 	""" Render a message posted in a private conversation.
 	Reference: https://vk.com/dev/message"""
-	user = session.get_user_name(message["from_id"], "nom")
+	user = session.get_user(message["from_id"], key="user1")
 	original_date = arrow.get(message["date"])
 	now = arrow.now()
 	original_date = original_date.to(now.tzinfo)
@@ -199,26 +199,32 @@ def render_message(message, session):
 		body = message["body"]
 	else:
 		body = message["text"]
-	return ["{2}, {0} {1}".format(body, created_at, user)]
+	data = dict(body=body, created_at=created_at)
+	data.update(user)
+	return ["{user1_nom}, {body} {created_at}".format(**data)]
 
 def render_status(status, session):
 	""" Render a wall post (shown in user's wall, not in newsfeed).
 	Reference: https://vk.com/dev/post"""
-	user = session.get_user_name(status["from_id"], "nom")
+	user = session.get_user(status["from_id"], key="user1")
 	if "copy_history" in status:
-		user = _("{0} has shared the {1}'s post").format(user, session.get_user_name(status["copy_history"][0]["owner_id"]))
+		user2 = session.get_user(status["copy_history"][0]["owner_id"], key="user2")
+		user2.update(user)
+		user = dict(user1_nom=_("{user1_nom} has shared the {user2_nom}'s post").format(**user2))
 	message = ""
 	original_date = arrow.get(status["date"])
 	created_at = original_date.humanize(locale=languageHandler.curLang[:2])
 	if "copy_owner_id" in status:
-		user = _("{0} has shared the {1}'s post").format(user, session.get_user_name(status["copy_owner_id"]))
+		user2 = session.get_user(status["copy_owner_id"], key="user2")
+		user2.update(user)
+		user = _("{user1_nom} has shared the {user2_nom}'s post").format(**user2)
 	if status["post_type"] == "post" or status["post_type"] == "copy":
 		message += short_text(status)
 	if "attachment" in status and len(status["attachment"]) > 0:
 		message += extract_attachment(status["attachment"])
 		if message == "":
 			message = "no description available"
-	return [user, message, created_at]
+	return [user["user1_nom"], message, created_at]
 
 def render_audio(audio, session=None):
 	""" Render audio files added to VK.
