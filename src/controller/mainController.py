@@ -210,7 +210,7 @@ class Controller(object):
 		call_threaded(self.create_unread_messages)
 		wx.CallAfter(self.get_audio_albums, self.session.user_id)
 		wx.CallAfter(self.get_video_albums, self.session.user_id)
-#		wx.CallAfter(self.get_communities, self.session.user_id)
+		wx.CallAfter(self.get_communities, self.session.user_id)
 
 	def create_longpoll_thread(self, notify=False):
 		try:
@@ -532,7 +532,6 @@ class Controller(object):
 	def get_communities(self, user_id=None, create_buffers=True):
 		log.debug("Create community buffers...")
 		groups= self.session.vk.client.groups.get(user_id=user_id, extended=1, fields="city, country, place, description, wiki_page, members_count, counters, start_date, finish_date, can_post, can_see_all_posts, activity, status, contacts, links, fixed_post, verified, site, can_create_topic")
-#		print(list(groups.keys()))
 		self.session.groups=groups["items"]
 		# Let's feed the local database cache with new groups coming from here.
 		data= dict(profiles=[], groups=groups["items"])

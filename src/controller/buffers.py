@@ -430,7 +430,7 @@ class feedBuffer(baseBuffer):
 		self.can_post = True
 		self.can_write_private_message = True
 		# if this is an user timeline we must check permissions to hide buttons when needed.
-		if "owner_id" in self.kwargs:
+		if "owner_id" in self.kwargs and self.kwargs["owner_id"] > 0:
 			permissions = self.session.vk.client.users.get(user_ids=self.kwargs["owner_id"], fields="can_post, can_see_all_posts, can_write_private_message")
 			self.can_post = permissions[0]["can_post"]
 			self.can_see_all_posts = permissions[0]["can_see_all_posts"]
