@@ -3,16 +3,18 @@
 ## changes in this  version
 
 * Now it is possible to post in someone else's wall. When viewing a timeline of an user, the "post" button will post in his/her wall. To post in your own wall, you'll need to go to the newsfeed or your own wall and press the post button.
+* If you are not allowed to post in someone's wall, the post button will not be visible.
 * A new option for deleting wall posts has been added to the context menu in newsfeed and walls (current user's wall and timelines). This option will be visible only if the current user is allowed to delete the focused post.
 * Socializer will be able to handle all users correctly. Before, if an user that was not present in the local storage system was needed, the program was displaying "no specified user". ([#17,](https://code.manuelcortez.net/manuelcortez/socializer/issues/17))
 * It is possible to use user domains (short names for users) to create timelines. Just write @username and the program will create the needed timeline, regardless if the user is present in your friend list. ([#18,](https://code.manuelcortez.net/manuelcortez/socializer/issues/18))
 * When displaying someone's profile, the dialog should be loaded dramatically faster than before. A message will be spoken when all data of the profile is loaded.
 * When opening a timeline, if the current user is not allowed to do it, an error message should be displayed and the buffer will not be created. Before the buffer was partially created in the main window. ([#22.](https://code.manuelcortez.net/manuelcortez/socializer/issues/22))
 * Added basic support to handle group chats. At the current moment it is possible to receive and reply to chat messages only. Chat groups will be placed inside the conversations section. ([#23.](https://code.manuelcortez.net/manuelcortez/socializer/issues/23))
-* It is possible to see how many people has read a wall post when showing it in the dialog.
+* It is possible to see how many people has read a wall post when showing it in the dialog. ([#28.](https://code.manuelcortez.net/manuelcortez/socializer/issues/28))
 * Added functionality regarding comments in wall posts:
     * when reading a post, you can press enter in any comment to display a dialog from where it is possible to view attachments, translate, check spelling or reply to the thread. If there are replies made to this comment, these will be visible in a section called replies. Pressing enter in a reply will also open the same dialog.
-    * A new field called "replies" has been added to the comments' list.
+    * A new "replies" field has been added to the comments' list.
+    * When writing a comment, it is possible to do the same actions available for a post (translate, spell checking and adding attachments).
 
 ## Changes in version 0.17 (01.01.2019)
 
