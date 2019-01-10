@@ -105,10 +105,14 @@ def render_newsfeed_item(status, session):
 		https://vk.com/dev/post_source
 		https://vk.com/dev/post
 	"""
-	user = session.get_user_name(status["source_id"], case_name="nom")
+	user = session.get_user(status["source_id"], key="user1")
 	# See if this is a post or repost.
 	if "copy_history" in status:
-		user = _("{0} has shared the {1}'s post").format(user, session.get_user_name(status["copy_history"][0]["owner_id"]))
+		# Get the second user (whose post is been shared).
+		user2 = session.get_user(status["copy_history"][0]["owner_id"], key="user2")
+		# Add contents of poster to the new dict, it will create both user1_nom and user2_nom.
+		user2.update(user)
+		user = dict(user1_nom=_("{user1_nom} has shared the {user2_nom}'s post").format(**user2))
 	message = ""
 	original_date = arrow.get(status["date"])
 	created_at = original_date.humanize(locale=languageHandler.curLang[:2])
@@ -126,44 +130,57 @@ def render_newsfeed_item(status, session):
 		# removes deleted audios.
 		status["audio"] = clean_audio(status["audio"])
 		if status["audio"]["count"] == 1:
-			message = _("{0} has added  an audio: {1}").format(user, ", ".join(render_audio(status["audio"]["items"][0], session)),)
+			data = dict(audio_file=", ".join(render_audio(status["audio"]["items"][0], session)))
+			data.update(user)
+			message = _("{user1_nom} has added  an audio: {audio_file}").format(**data)
 		else:
 			prem = ""
 			for i in range(0, status["audio"]["count"]):
 				composed_audio = render_audio(status["audio"]["items"][i], session)
 				prem += "{0} - {1}, ".format(composed_audio[0], composed_audio[1])
-			message = _("{0} has added  {1} audios: {2}").format(user, status["audio"]["count"], prem)
+			data = dict(audio_files=prem, total_audio_files=status["audio"]["count"])
+			data.update(user)
+			message = _("{user1_nom} has added  {total_audio_files} audios: {audio_files}").format(**data)
 	# Handle audio playlists
 	elif status["type"] == "audio_playlist":
 		if status["audio_playlist"]["count"] == 1:
-			message = _("{0} has added an audio album: {1}, {2}").format(user, status["audio_playlist"]["items"][0]["title"], status["audio_playlist"]["items"][0]["description"])
+			data = dict(audio_album=status["audio_playlist"]["items"][0]["title"], audio_album_description=status["audio_playlist"]["items"][0]["description"])
+			data.update(user)
+			message = _("{user1_nom} has added an audio album: {audio_album}, {audio_album_description}").format(**data)
 		else:
 			prestring = ""
 			for i in range(0, status["audio_playlist"]["count"]):
 				prestring += "{0} - {1}, ".format(status["audio_playlist"]["items"][i]["title"], status["audio_playlist"]["items"][i]["description"])
-			message = _("{0} has added  {1} audio albums: {2}").format(user, status["audio_playlist"]["count"], prestring)
-
+			data = dict(audio_albums=prestring, total_audio_albums=status["audio_playlist"]["count"])
+			data.update(user)
+			message = _("{user1_nom} has added  {total_audio_albums} audio albums: {audio_albums}").format(**data)
 	# handle new friends for people in the news buffer.
 	elif status["type"] == "friend":
 		msg_users = ""
 		if "friends" in status:
 			for i in status["friends"]["items"]:
-				msg_users = msg_users + "{0}, ".format(session.get_user_name(i["user_id"], "nom"))
+				msg_users = msg_users + "{0}, ".format(session.get_user(i["user_id"])["user1_nom"])
 		else:
 			print(list(status.keys()))
-		message = _("{0} added friends: {1}").format(user, msg_users)
+		data = dict(friends=msg_users)
+		data.update(user)
+		message = _("{user1_nom} added friends: {friends}").format(**data)
 	elif status["type"] == "video":
 		if status["video"]["count"] == 1:
-			message = _("{0} has added  a video: {1}").format(user, ", ".join(render_video(status["video"]["items"][0], session)),)
+			data = dict(video=", ".join(render_video(status["video"]["items"][0], session)))
+			data.update(user)
+			message = _("{user1_nom} has added  a video: {video}").format(**data)
 		else:
 			prem = ""
 			for i in range(0, status["video"]["count"]):
 				composed_video = render_video(status["video"]["items"][i], session)
 				prem += "{0} - {1}, ".format(composed_video[0], composed_video[1])
-			message = _("{0} has added  {1} videos: {2}").format(user, status["video"]["count"], prem)
+			data = dict(videos=prem, total_videos=status["video"]["count"])
+			data.update(user)
+			message = _("{user1_nom} has added  {total_videos} videos: {videos}").format(**data)
 	else:
 		if status["type"] != "post": print(status)
-	return [user, message, created_at]
+	return [user["user1_nom"], message, created_at]
 
 def render_message(message, session):
 	""" Render a message posted in a private conversation.
