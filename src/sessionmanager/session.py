@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 import os
 import logging
+import warnings
 import languageHandler
 import paths
 from . import vkSessionHandler
@@ -186,11 +187,13 @@ class vkSession(object):
 
 	def get_user_name(self, user_id, case_name="gen"):
 		if user_id > 0:
+			warnings.warn("Call to a deprecated function. Use get_user instead.")
 			if user_id in self.db["users"]:
 				if case_name in self.db["users"][user_id]:
 					return self.db["users"][user_id][case_name]
 				else:
-					return self.db["users"][user_id]["nom"]
+#					print(self.get_user(user_id, key="usuario1"))
+					return self.db["users"][user_id]["first_name_nom"]+" "+self.db["users"][user_id]["last_name_nom"]
 			else:
 				self.get_users(user_ids=user_id)
 				return self.get_user_name(user_id)
@@ -209,34 +212,53 @@ class vkSession(object):
 		if group_ids != None:
 			g = self.vk.client.groups.getById(group_ids=group_ids, fields="name")
 			for i in g:
-				self.db["groups"][i["id"]] = dict(nom=i["name"])
+				self.db["groups"][i["id"]] = dict(nom=i["name"], gen=i["name"], dat=i["name"], acc=i["name"], ins=i["name"], abl=i["name"])
+
+	def get_user(self, user_id, key="user1"):
+		if user_id > 0:
+			if user_id in self.db["users"]:
+				user_data = {}
+				user_fields = "nom, gen, ins, dat, abl, acc".split(", ")
+				for i in user_fields:
+					k = "{key}_{case}".format(key=key, case=i)
+					v = "{first_name} {last_name}".format(first_name=self.db["users"][user_id]["first_name_"+i], last_name=self.db["users"][user_id]["last_name_"+i])
+					user_data[k] = v
+			return user_data
+		else:
+			if abs(user_id) in self.db["groups"]:
+				user_data = {}
+				user_fields = "nom, gen, ins, dat, abl, acc".split(", ")
+				for i in user_fields:
+					k = "{key}_{case}".format(key=key, case=i)
+					v = self.db["groups"][abs(user_id)][i]
+					user_data[k] = v
+			return user_data
 
 	def process_usernames(self, data):
 		""" processes user IDS and saves them in a local storage system.
 		Every function wich needs to convert from an ID to user or community name will have to call the get_user_name function in this session object.
 		Every function that needs to save a set ot user ids for a future use needs to pass a data dictionary with a profiles key being a list of user objects.
-		For russian, it gets the genitive case of  every name for future use."""
+		It gets first and last name for people in the 6 russian cases and saves them for future reference."""
 		log.debug("Adding usernames to the local database...")
 		ids = ""
 		for i in data["profiles"]:
 			if (i["id"] in self.db["users"]) == False:
-				self.db["users"][i["id"]] = dict(nom="{0} {1}".format(i["first_name"], i["last_name"]))
 				ids = ids + "{0},".format(i["id"],)
 		gids = ""
 		for i in data["groups"]:
-			self.db["groups"][i["id"]] = dict(nom=i["name"])
+			self.db["groups"][i["id"]] = dict(nom=i["name"], gen=i["name"], dat=i["name"], acc=i["name"], ins=i["name"], abl=i["name"])
 			gids = "{0},".format(i["id"],)
-		if not "ru" in languageHandler.getLanguage():
-			return
+		user_fields = "first_name_nom, last_name_nom, first_name_gen, last_name_gen, first_name_ins, last_name_ins, first_name_dat, last_name_dat, first_name_abl, last_name_abl, first_name_acc, last_name_acc, sex"
+		user_fields_list = user_fields.split(", ")
 		if ids != "":
-			users_genitive = self.vk.client.users.get(user_ids=ids, fields="first_name, last_name", name_case="gen")
-			users_instrumental = self.vk.client.users.get(user_ids=ids, fields="first_name, last_name", name_case="ins")
-			for i in users_genitive:
-				if i["id"] in self.db["users"]:
-					self.db["users"][i["id"]]["gen"] = "{0} {1}".format(i["first_name"], i["last_name"])
-			for i in users_instrumental:
-				if i["id"] in self.db["users"]:
-					self.db["users"][i["id"]]["ins"] = "{0} {1}".format(i["first_name"], i["last_name"])
+			users = self.vk.client.users.get(user_ids=ids, fields=user_fields)
+			for i in users:
+				if i["id"] not in self.db["users"]:
+					userdata = {}
+					for field in user_fields_list:
+						if field in i:
+							userdata[field] = i[field]
+					self.db["users"][i["id"]] = userdata
 
 	def get_my_data(self):
 		log.debug("Getting user identifier...")
