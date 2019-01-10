@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-16 06:25-0600\n"
+"POT-Creation-Date: 2019-01-10 15:15-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,13 +19,6 @@ msgstr ""
 
 #. Translators: the label for the Windows default NVDA interface language.
 msgid "User default"
-msgstr ""
-
-#. Translators: This is the text displayed in the attachments dialog, when the user adds  a photo.
-msgid "Photo"
-msgstr ""
-
-msgid "Select the audio files you want to send"
 msgstr ""
 
 msgid "Write your post"
@@ -46,6 +39,9 @@ msgid "You've posted a comment"
 msgstr ""
 
 msgid "This buffer can't be deleted"
+msgstr ""
+
+msgid "Loading community..."
 msgstr ""
 
 #. Translators: Some buffers can't use the get previous item feature due to API limitations.
@@ -118,15 +114,6 @@ msgstr ""
 msgid "{0} {1} is following you."
 msgstr ""
 
-msgid "Native"
-msgstr ""
-
-msgid "Custom"
-msgstr ""
-
-msgid "Preferences"
-msgstr ""
-
 msgid "Ready"
 msgstr ""
 
@@ -147,6 +134,12 @@ msgid "Music"
 msgstr ""
 
 msgid "My audios"
+msgstr ""
+
+msgid "Populars"
+msgstr ""
+
+msgid "Recommendations"
 msgstr ""
 
 msgid "Albums"
@@ -174,6 +167,10 @@ msgstr ""
 msgid "I follow"
 msgstr ""
 
+#. Translators: name for the videos category in the tree view.
+msgid "Communities"
+msgstr ""
+
 msgid "Chats"
 msgstr ""
 
@@ -199,6 +196,9 @@ msgstr ""
 msgid "Search for {0}"
 msgstr ""
 
+msgid "Preferences"
+msgstr ""
+
 #. Translators: {0} will be replaced with an user.
 #, python-brace-format
 msgid "{0}'s audios"
@@ -214,9 +214,12 @@ msgstr ""
 msgid "{0}'s friends"
 msgstr ""
 
-#. Translators: {0} will be replaced with an user.
 #, python-brace-format
 msgid "Chat with {0}"
+msgstr ""
+
+#, python-brace-format
+msgid "Chat in {chat_name}"
 msgstr ""
 
 #, python-brace-format
@@ -244,143 +247,10 @@ msgstr ""
 msgid "Chat disconnected. Trying to connect in 60 seconds"
 msgstr ""
 
-msgid "Friends of friends"
+msgid "Write your status message"
 msgstr ""
 
-msgid "All users"
-msgstr ""
-
-msgid "Translated"
-msgstr ""
-
-msgid "New comment"
-msgstr ""
-
-#, python-brace-format
-msgid "Playing {0} by {1}"
-msgstr ""
-
-#. Translators: This string is used when socializer can't find the right user information.
-msgid "Unknown username"
-msgstr ""
-
-#, python-brace-format
-msgid "{0} > {1}"
-msgstr ""
-
-#. Translators: {0} will be replaced with an user.
-#, python-brace-format
-msgid "repost from {0}"
-msgstr ""
-
-#. Translators: {0} will be replaced with the user who is posting, and {1} with the wall owner.
-#, python-brace-format
-msgid "Post from {0} in the {1}'s wall"
-msgstr ""
-
-#, python-brace-format
-msgid "Post from {0}"
-msgstr ""
-
-msgid "Untitled link"
-msgstr ""
-
-#. Translators: {0} is the number of the current photo and {1} is the total number of photos.
-#, python-brace-format
-msgid "Loaded photo {0} of {1}"
-msgstr ""
-
-msgid "&Dislike"
-msgstr ""
-
-msgid "&Like"
-msgstr ""
-
-msgid "Repost"
-msgstr ""
-
-msgid "Add your comment here"
-msgstr ""
-
-msgid "You do like this comment"
-msgstr ""
-
-msgid "You don't like this comment"
-msgstr ""
-
-#, python-brace-format
-msgid "Comment from {0}"
-msgstr ""
-
-#, python-brace-format
-msgid "{0} added the following friends"
-msgstr ""
-
-msgid "Profile"
-msgstr ""
-
-msgid "Information for groups is not supported, yet."
-msgstr ""
-
-msgid "MMMM D"
-msgstr ""
-
-msgid "MMMM D, YYYY"
-msgstr ""
-
-#, python-brace-format
-msgid "{name}'s profile"
-msgstr ""
-
-msgid "Work "
-msgstr ""
-
-msgid "Student "
-msgstr ""
-
-#, python-brace-format
-msgid "In {0}"
-msgstr ""
-
-msgid "Single"
-msgstr ""
-
-#, python-brace-format
-msgid "Dating with {0} {1}"
-msgstr ""
-
-msgid "Dating"
-msgstr ""
-
-#, python-brace-format
-msgid "Engaged with {0} {1}"
-msgstr ""
-
-#, python-brace-format
-msgid "Married with {0} {1}"
-msgstr ""
-
-msgid "It's complicated"
-msgstr ""
-
-msgid "Actively searching"
-msgstr ""
-
-msgid "In love"
-msgstr ""
-
-msgid "Relationship: "
-msgstr ""
-
-#. Translators: This is the date of last seen
-#, python-brace-format
-msgid "{0}"
-msgstr ""
-
-msgid "Opening website..."
-msgstr ""
-
-msgid "No URL addresses were detected."
+msgid "Set status"
 msgstr ""
 
 #, python-format
@@ -697,11 +567,274 @@ msgstr ""
 msgid "Target language"
 msgstr ""
 
+msgid "Select the audio files you want to send"
+msgstr ""
+
+msgid "Friends of friends"
+msgstr ""
+
+msgid "All users"
+msgstr ""
+
+msgid "Report an error"
+msgstr ""
+
+msgid "Briefly describe what happened. You will be able to thoroughly explain it later"
+msgstr ""
+
+msgid "First Name"
+msgstr ""
+
+msgid "Last Name"
+msgstr ""
+
+msgid "Email address (Will not be public)"
+msgstr ""
+
+msgid "Here, you can describe the bug in detail"
+msgstr ""
+
+#, python-brace-format
+msgid "I know that the {0} bug system will get my email address to contact me and fix the bug quickly"
+msgstr ""
+
+msgid "Send report"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "You must fill out the following fields: first name, last name, email address and issue information."
+msgstr ""
+
+msgid "You need to mark the checkbox to provide us your email address to contact you if it is necessary."
+msgstr ""
+
+#, python-format
+msgid "Thanks for reporting this bug! In future versions, you may be able to find it in the changes list. You have received an email with more information regarding your report. You've reported the bug number %i"
+msgstr ""
+
+msgid "reported"
+msgstr ""
+
+msgid "Something unexpected occurred while trying to report the bug. Please, try again later"
+msgstr ""
+
+msgid "Error while reporting"
+msgstr ""
+
+msgid "Sending report..."
+msgstr ""
+
+msgid "Please wait while your report is being send."
+msgstr ""
+
+#. Translators: This is the text displayed in the attachments dialog, when the user adds  a photo.
+msgid "Photo"
+msgstr ""
+
+msgid "Untitled"
+msgstr ""
+
+msgid "Unknown artist"
+msgstr ""
+
+#. Translators: This is the text displayed in the attachments dialog, when the user adds  an audio file.
+msgid "Audio file"
+msgstr ""
+
+#. Translators: This is the text displayed in the attachments dialog, when the user adds  an audio file.
+msgid "Voice message"
+msgstr ""
+
+msgid "&Stop"
+msgstr ""
+
+msgid "Recording"
+msgstr ""
+
+msgid "Stopped"
+msgstr ""
+
+msgid "&Record"
+msgstr ""
+
+msgid "Discarded"
+msgstr ""
+
+msgid "&Play"
+msgstr ""
+
+msgid "Recoding audio..."
+msgstr ""
+
+msgid "Native"
+msgstr ""
+
+msgid "Custom"
+msgstr ""
+
+msgid "Stable"
+msgstr ""
+
+msgid "Weekly"
+msgstr ""
+
+msgid "Alpha"
+msgstr ""
+
+#, python-brace-format
+msgid "Playing {0} by {1}"
+msgstr ""
+
+msgid "Translated"
+msgstr ""
+
+#. Translators: This string is used when socializer can't find the right user information.
+msgid "Unknown username"
+msgstr ""
+
+#, python-brace-format
+msgid "{0} > {1}"
+msgstr ""
+
+#. Translators: {0} will be replaced with an user.
+#, python-brace-format
+msgid "repost from {0}"
+msgstr ""
+
+#. Translators: {0} will be replaced with the user who is posting, and {1} with the wall owner.
+#, python-brace-format
+msgid "Post from {0} in the {1}'s wall"
+msgstr ""
+
+#, python-brace-format
+msgid "Post from {0}"
+msgstr ""
+
+msgid "Untitled link"
+msgstr ""
+
+#. Translators: {0} is the number of the current photo and {1} is the total number of photos.
+#, python-brace-format
+msgid "Loaded photo {0} of {1}"
+msgstr ""
+
+msgid "&Dislike"
+msgstr ""
+
+msgid "&Like"
+msgstr ""
+
+msgid "Repost"
+msgstr ""
+
+msgid "Add your comment here"
+msgstr ""
+
+#, python-brace-format
+msgid "{0} people like this"
+msgstr ""
+
+#, python-brace-format
+msgid "Shared {0} times"
+msgstr ""
+
+#, python-brace-format
+msgid "Reply to {username}"
+msgstr ""
+
+#. Translators: {0} will be replaced with the user who is posting, and {1} with the wall owner.
+#, python-brace-format
+msgid "Comment from {0} in the {1}'s post"
+msgstr ""
+
+#, python-brace-format
+msgid "{0} added the following friends"
+msgstr ""
+
+msgid "Information for groups is not supported, yet."
+msgstr ""
+
+msgid "MMMM D"
+msgstr ""
+
+msgid "MMMM D, YYYY"
+msgstr ""
+
+#, python-brace-format
+msgid "{user1_nom}'s profile"
+msgstr ""
+
+msgid "Work "
+msgstr ""
+
+msgid "Student "
+msgstr ""
+
+#, python-brace-format
+msgid "In {0}"
+msgstr ""
+
+msgid "Single"
+msgstr ""
+
+#, python-brace-format
+msgid "Dating with {0} {1}"
+msgstr ""
+
+msgid "Dating"
+msgstr ""
+
+#, python-brace-format
+msgid "Engaged with {0} {1}"
+msgstr ""
+
+#, python-brace-format
+msgid "Married with {0} {1}"
+msgstr ""
+
+msgid "It's complicated"
+msgstr ""
+
+msgid "Actively searching"
+msgstr ""
+
+msgid "In love"
+msgstr ""
+
+msgid "Relationship: "
+msgstr ""
+
+#. Translators: This is the date of last seen
+#, python-brace-format
+msgid "{0}"
+msgstr ""
+
+msgid "Profile loaded"
+msgstr ""
+
+msgid "No URL addresses were detected."
+msgstr ""
+
 msgid "photo with no description available"
 msgstr ""
 
 #, python-brace-format
 msgid "video: {0}"
+msgstr ""
+
+msgid "Link"
+msgstr ""
+
+msgid "no description available"
+msgstr ""
+
+msgid "Audio"
+msgstr ""
+
+#, python-brace-format
+msgid "{0} file"
 msgstr ""
 
 msgid "Account deactivated"
@@ -717,6 +850,14 @@ msgstr ""
 
 #, python-brace-format
 msgid "{0} has added  {1} audios: {2}"
+msgstr ""
+
+#, python-brace-format
+msgid "{0} has added an audio album: {1}, {2}"
+msgstr ""
+
+#, python-brace-format
+msgid "{0} has added  {1} audio albums: {2}"
 msgstr ""
 
 #, python-brace-format
@@ -786,26 +927,16 @@ msgstr ""
 msgid "Downloading {0} ({1}%)"
 msgstr ""
 
-msgid "Link"
-msgstr ""
-
-msgid "no description available"
-msgstr ""
-
-msgid "Audio"
-msgstr ""
-
-#, python-brace-format
-msgid "{0} file"
-msgstr ""
-
-msgid "Voice message"
-msgstr ""
-
 msgid "In order to continue, you need to configure your VK account before. Would you like to autorhise a new account now?"
 msgstr ""
 
 msgid "Authorisation"
+msgstr ""
+
+msgid "Please provide the authentication code you have received from VK."
+msgstr ""
+
+msgid "Two factor authentication code"
 msgstr ""
 
 msgid "Authorise VK"
@@ -847,6 +978,243 @@ msgstr ""
 msgid "Done!"
 msgstr ""
 
+msgid "Add an attachment"
+msgstr ""
+
+msgid "Attachments"
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "Add attachments"
+msgstr ""
+
+msgid "&Photo"
+msgstr ""
+
+msgid "Remove attachment"
+msgstr ""
+
+msgid "Select the picture to be uploaded"
+msgstr ""
+
+msgid "Image files (*.png, *.jpg, *.gif)|*.png; *.jpg; *.gif"
+msgstr ""
+
+msgid "please provide a description"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Select the audio file to be uploaded"
+msgstr ""
+
+msgid "Audio files (*.mp3)|*.mp3"
+msgstr ""
+
+msgid "Record voice message"
+msgstr ""
+
+msgid "&Discard"
+msgstr ""
+
+msgid "&Add"
+msgstr ""
+
+msgid "&Cancel"
+msgstr ""
+
+msgid "Number of items to load for newsfeed and wall buffers (maximun 100)"
+msgstr ""
+
+msgid "Number of items to load in video buffers (maximun 200)"
+msgstr ""
+
+msgid "Load images in posts"
+msgstr ""
+
+msgid "Update channel"
+msgstr ""
+
+msgid "Show notifications when users are online"
+msgstr ""
+
+msgid "Show notifications when users are offline"
+msgstr ""
+
+msgid "Open unread conversations at startup"
+msgstr ""
+
+msgid "Move focus to new conversations"
+msgstr ""
+
+msgid "Notification type"
+msgstr ""
+
+msgid "General"
+msgstr ""
+
+msgid "Chat settings"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "The alpha channel contains bleeding edge changes introduced to Socializer. A new alpha update is generated every time there are new changes in the project. Take into account that updates are generated automatically and may fail at any time due to errors in the build process. Use alpha channels when you are sure you want to try the latest changes and contribute with reports to fix bugs. Never use alpha channel updates for everyday use. Do you want to continue?"
+msgstr ""
+
+msgid "Attention"
+msgstr ""
+
+msgid "The weekly channel generates an update automatically every week by building the source code present in the project. This version is used to test features added to the next stable version. Do you want to continue?"
+msgstr ""
+
+msgid "&Privacy"
+msgstr ""
+
+msgid "Attach"
+msgstr ""
+
+msgid "Tag a friend"
+msgstr ""
+
+msgid "Spelling &correction"
+msgstr ""
+
+msgid "&Translate message"
+msgstr ""
+
+msgid "Send"
+msgstr ""
+
+msgid "Spelling correction"
+msgstr ""
+
+msgid "Message"
+msgstr ""
+
+msgid "Views"
+msgstr ""
+
+msgid "Comments"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "Comment"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Likes"
+msgstr ""
+
+msgid "replies"
+msgstr ""
+
+msgid "Reply to comment"
+msgstr ""
+
+msgid "Previous photo"
+msgstr ""
+
+msgid "View in full screen"
+msgstr ""
+
+msgid "Next photo"
+msgstr ""
+
+msgid "Loading data..."
+msgstr ""
+
+msgid "Add comment"
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+msgid "Replies"
+msgstr ""
+
+msgid "Reply to thread"
+msgstr ""
+
+msgid "Audio &files"
+msgstr ""
+
+msgid "&Title"
+msgstr ""
+
+msgid "&Artist"
+msgstr ""
+
+msgid "&Duration"
+msgstr ""
+
+msgid "&Lyric"
+msgstr ""
+
+msgid "&Download"
+msgstr ""
+
+msgid "&Add to your library"
+msgstr ""
+
+msgid "&Remove from your library"
+msgstr ""
+
+msgid "Save this file"
+msgstr ""
+
+msgid "Audio Files(*.mp3)|*.mp3"
+msgstr ""
+
+msgid "Friend"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Last seen"
+msgstr ""
+
+msgid "Birthdate"
+msgstr ""
+
+msgid "Current city"
+msgstr ""
+
+msgid "Home Town"
+msgstr ""
+
+msgid "Website"
+msgstr ""
+
+msgid "Visit website"
+msgstr ""
+
+msgid "Occupation"
+msgstr ""
+
+msgid "Basic information"
+msgstr ""
+
+msgid "Select URL"
+msgstr ""
+
 msgid "You must provide Both user and password."
 msgstr ""
 
@@ -863,9 +1231,6 @@ msgstr ""
 msgid "Do you really want to dismiss  this buffer?"
 msgstr ""
 
-msgid "Attention"
-msgstr ""
-
 msgid "This user does not exist"
 msgstr ""
 
@@ -879,11 +1244,26 @@ msgstr ""
 msgid "authorisation failed. Your configuration will not be saved. Please close and open again the application for authorising your account. Make sure you have typed your credentials correctly."
 msgstr ""
 
+msgid "You do not have audio albums to add tis file."
+msgstr ""
+
+msgid "You do not have video albums to add tis file."
+msgstr ""
+
 msgid "Do you really want to delete   this Album? this will be deleted from VK too."
 msgstr ""
 
-#. self.audio_album = create.Append(wx.NewId(), _(u"Audio album"))
-#. self.delete_audio_album = delete.Append(wx.NewId(), _(u"Audio album"))
+msgid "Your status message has been successfully updated."
+msgstr ""
+
+msgid "Success"
+msgstr ""
+
+msgid "Do you really want to delete this post?"
+msgstr ""
+
+#. self.audio_album = create.Append(wx.NewId(), _("Audio album"))
+#. self.delete_audio_album = delete.Append(wx.NewId(), _("Audio album"))
 msgid "Video album"
 msgstr ""
 
@@ -896,10 +1276,11 @@ msgstr ""
 msgid "View profile"
 msgstr ""
 
-msgid "Edit profile"
+#. self.edit_profile = profile.Append(wx.NewId(), _("Edit profile"))
+msgid "Open in browser"
 msgstr ""
 
-msgid "Open in browser"
+msgid "Profile"
 msgstr ""
 
 msgid "Set status message"
@@ -990,9 +1371,6 @@ msgstr ""
 msgid "Dislike"
 msgstr ""
 
-msgid "Add comment"
-msgstr ""
-
 msgid "Post to this profile"
 msgstr ""
 
@@ -1000,9 +1378,6 @@ msgid "View user profile"
 msgstr ""
 
 msgid "&Open"
-msgstr ""
-
-msgid "&Play"
 msgstr ""
 
 msgid "&Add to library"
@@ -1035,76 +1410,10 @@ msgstr ""
 msgid "Mark as read"
 msgstr ""
 
-msgid "Add an attachment"
+msgid "Upload from computer"
 msgstr ""
 
-msgid "Attachments"
-msgstr ""
-
-msgid "Type"
-msgstr ""
-
-msgid "Title"
-msgstr ""
-
-msgid "Add attachments"
-msgstr ""
-
-msgid "&Photo"
-msgstr ""
-
-msgid "Audio file"
-msgstr ""
-
-msgid "Remove attachment"
-msgstr ""
-
-msgid "Select the picture to be uploaded"
-msgstr ""
-
-msgid "Image files (*.png, *.jpg, *.gif)|*.png; *.jpg; *.gif"
-msgstr ""
-
-msgid "please provide a description"
-msgstr ""
-
-msgid "Description"
-msgstr ""
-
-msgid "Number of items to load for newsfeed and wall buffers (maximun 100)"
-msgstr ""
-
-msgid "Number of items to load in video buffers (maximun 200)"
-msgstr ""
-
-msgid "Load images in posts"
-msgstr ""
-
-msgid "Show notifications when users are online"
-msgstr ""
-
-msgid "Show notifications when users are offline"
-msgstr ""
-
-msgid "Open unread conversations at startup"
-msgstr ""
-
-msgid "Move focus to new conversations"
-msgstr ""
-
-msgid "Notification type"
-msgstr ""
-
-msgid "General"
-msgstr ""
-
-msgid "Chat settings"
-msgstr ""
-
-msgid "Save"
-msgstr ""
-
-msgid "Close"
+msgid "Add from VK"
 msgstr ""
 
 msgid "Create a new album"
@@ -1117,131 +1426,6 @@ msgid "&OK"
 msgstr ""
 
 msgid "&Close"
-msgstr ""
-
-msgid "&Privacy"
-msgstr ""
-
-msgid "Attach"
-msgstr ""
-
-msgid "Tag a friend"
-msgstr ""
-
-msgid "Spelling &correction"
-msgstr ""
-
-msgid "&Translate message"
-msgstr ""
-
-msgid "Send"
-msgstr ""
-
-msgid "Spelling correction"
-msgstr ""
-
-msgid "Message"
-msgstr ""
-
-msgid "Comments"
-msgstr ""
-
-msgid "User"
-msgstr ""
-
-msgid "Comment"
-msgstr ""
-
-msgid "Date"
-msgstr ""
-
-msgid "Likes"
-msgstr ""
-
-msgid "Previous photo"
-msgstr ""
-
-msgid "View in full screen"
-msgstr ""
-
-msgid "Next photo"
-msgstr ""
-
-msgid "Loading data..."
-msgstr ""
-
-msgid "Actions"
-msgstr ""
-
-#, python-brace-format
-msgid "{0} people like this"
-msgstr ""
-
-#, python-brace-format
-msgid "Shared {0} times"
-msgstr ""
-
-msgid "Audio &files"
-msgstr ""
-
-msgid "&Title"
-msgstr ""
-
-msgid "&Artist"
-msgstr ""
-
-msgid "&Duration"
-msgstr ""
-
-msgid "&Lyric"
-msgstr ""
-
-msgid "&Download"
-msgstr ""
-
-msgid "&Add to your library"
-msgstr ""
-
-msgid "&Remove from your library"
-msgstr ""
-
-msgid "Save this file"
-msgstr ""
-
-msgid "Audio Files(*.mp3)|*.mp3"
-msgstr ""
-
-msgid "Friend"
-msgstr ""
-
-msgid "Name"
-msgstr ""
-
-msgid "Status"
-msgstr ""
-
-msgid "Last seen"
-msgstr ""
-
-msgid "Birthdate"
-msgstr ""
-
-msgid "Current city"
-msgstr ""
-
-msgid "Home Town"
-msgstr ""
-
-msgid "Website"
-msgstr ""
-
-msgid "Visit website"
-msgstr ""
-
-msgid "Occupation"
-msgstr ""
-
-msgid "Basic information"
 msgstr ""
 
 msgid "audio Search"
@@ -1302,9 +1486,6 @@ msgstr ""
 msgid "&Wall posts"
 msgstr ""
 
-msgid "Select URL"
-msgstr ""
-
 msgid "Po&sts"
 msgstr ""
 
@@ -1312,6 +1493,9 @@ msgid "Text"
 msgstr ""
 
 msgid "&Post"
+msgstr ""
+
+msgid "Load community"
 msgstr ""
 
 msgid "Mu&sic"

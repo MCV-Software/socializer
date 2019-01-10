@@ -76,7 +76,9 @@ class userProfilePresenter(base.basePresenter):
 			self.send_message("enable_control", tab="main_info", control="city")
 			self.send_message("set", tab="main_info", control="city", value=city)
 		self.send_message("set", tab="main_info", control="name", value=n)
-		self.send_message("set_title", value=_("{name}'s profile").format(name=n,))
+		# Format title
+		user = self.session.get_user(person["id"])
+		self.send_message("set_title", value=_("{user1_nom}'s profile").format(**user,))
 		# Format website (or websites, if there are multiple of them).
 		if "site" in person and person["site"] != "":
 			self.send_message("enable_control", tab="main_info", control="website")
