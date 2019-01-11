@@ -455,7 +455,7 @@ class displayCommentPresenter(displayPostPresenter):
 		self.check_image_load()
 
 	def reply(self):
-		comment = createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Reply to {user1_nom}").format(**self.session.get_user(self.post["from_id"]),), message="", text="", mode="comment"))
+		comment = createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Reply to {user1_nom}").format(**self.session.get_user(self.post["from_id"])), message="", text="", mode="comment"))
 		if hasattr(comment, "text") or hasattr(comment, "privacy"):
 			call_threaded(self.do_last, comment, owner_id=self.post["owner_id"], reply_to_comment=self.post["id"], post_id=self.post["post_id"], reply_to_user=self.post["owner_id"])
 
@@ -592,7 +592,7 @@ class displayFriendshipPresenter(base.basePresenter):
 		super(displayFriendshipPresenter, self).__init__(view=view, interactor=interactor, modulename="display_friendship")
 		list_of_friends = self.get_friend_names()
 		from_ = self.session.get_user(self.post["source_id"])
-		title = _("{user1_nom} added the following friends").format(**from_,)
+		title = _("{user1_nom} added the following friends").format(**from_)
 		self.send_message("set_title", value=title)
 		self.set_friends_list(list_of_friends)
 		self.run()
