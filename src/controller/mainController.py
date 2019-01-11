@@ -530,12 +530,25 @@ class Controller(object):
 #				time.sleep(0.3)
 
 	def get_communities(self, user_id=None, create_buffers=True):
+		if self.session.settings["vk"]["invited_to_group"] == False:
+			socializer_group = self.session.vk.client.groups.getById(group_ids="175825000")[0]
+			if socializer_group["is_member"] ==False:
+				d = commonMessages.join_group()
+				self.session.settings["vk"]["invited_to_group"] = True
+				self.session.settings.write()
+				if d == widgetUtils.YES:
+					result = self.session.vk.client.groups.join(group_id=socializer_group["id"])
+					if result == 1:
+						commonMessages.group_joined()
+					else:
+						log.error("Invalid result when joining the Socializer's group: %d" % (result))
 		log.debug("Create community buffers...")
-		groups= self.session.vk.client.groups.get(user_id=user_id, extended=1, fields="city, country, place, description, wiki_page, members_count, counters, start_date, finish_date, can_post, can_see_all_posts, activity, status, contacts, links, fixed_post, verified, site, can_create_topic")
+		groups= self.session.vk.client.groups.get(user_id=user_id, extended=1, fields="city, country, place, description, wiki_page, members_count, counters, start_date, finish_date, can_post, can_see_all_posts, activity, status, contacts, links, fixed_post, verified, site, can_create_topic", count=1000)
 		self.session.groups=groups["items"]
 		# Let's feed the local database cache with new groups coming from here.
 		data= dict(profiles=[], groups=groups["items"])
 		self.session.process_usernames(data)
+		# check if the current user has not been invited to socializer's group or is not a member of it.
 		if create_buffers:
 			for i in groups["items"]:
 #				print(list(i.keys()))

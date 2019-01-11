@@ -40,3 +40,9 @@ def updated_status():
 
 def remove_post():
 	return wx.MessageDialog(None, _("Do you really want to delete this post?"), _("Attention"), style=wx.ICON_QUESTION|wx.YES_NO).ShowModal()
+
+def join_group():
+	return wx.MessageDialog(None, _("If you like socializer, you can join or community from where you can ask for help, give us your feedback and help other users of the application. New releases are posted in the group too. Would you like to join the Socializer community?"), _("Attention"), style=wx.ICON_QUESTION|wx.YES_NO).ShowModal()
+
+def group_joined():
+	return wx.MessageDialog(None, _("You have joined the Socializer community."), _("Success")).ShowModal()
