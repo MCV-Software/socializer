@@ -94,16 +94,17 @@ class displayPostPresenter(base.basePresenter):
 		self.send_message("add_items", control="comments", items=comments_)
 
 	def get_post_information(self):
-		from_ = self.session.get_user_name(self.post[self.user_identifier])
+		from_ = self.session.get_user(self.post[self.user_identifier])
 		if "copy_history" in self.post:
-			# Translators: {0} will be replaced with an user.
-			title = _("repost from {0}").format(from_,)
+			title = _("repost from {user1_nom}").format(**from_)
 		else:
 			if ("from_id" in self.post and "owner_id" in self.post) and (self.post["from_id"] != self.post["owner_id"]):
 				# Translators: {0} will be replaced with the user who is posting, and {1} with the wall owner.
-				title = _("Post from {0} in the {1}'s wall").format(self.session.get_user_name(self.post["from_id"]), self.session.get_user_name(self.post["owner_id"]))
+				user2 = self.session.get_user(self.post["owner_id"], "user2")
+				user2.update(from_)
+				title = _("Post from {user1_nom} in the {user2_nom}'s wall").format(**user2)
 			else:
-				title = _("Post from {0}").format(from_,)
+				title = _("Post from {user1_nom}").format(**from_)
 		self.send_message("set_title", value=title)
 		message = ""
 		# Retrieve again the post, so we'll make sure to get the most up to date information.
@@ -123,7 +124,9 @@ class displayPostPresenter(base.basePresenter):
 		if "copy_history" in self.post:
 			nm = "\n"
 			for i in self.post["copy_history"]:
-				nm += "{0}: {1}\n\n".format(self.session.get_user_name(i["from_id"]),  get_message(i))
+				u = self.session.get_user(i["from_id"])
+				u.update(message=get_message(i))
+				nm += "{user1_nom}: {message}\n\n".format(**u)
 				self.get_attachments(i, get_message(i))
 			message += nm
 		self.send_message("set", control="post_view", value=message)
@@ -278,10 +281,13 @@ class displayPostPresenter(base.basePresenter):
 		try:
 			result = self.session.vk.client.wall.createComment(**kwargs)
 			comment_object = self.session.vk.client.wall.getComment(comment_id=result["comment_id"], owner_id=kwargs["owner_id"])["items"][0]
-			from_ = self.session.get_user_name(comment_object["from_id"])
+			from_ = self.session.get_user(comment_object["from_id"])
 			if "reply_to_user" in comment_object:
-				extra_info = self.session.get_user_name(comment_object["reply_to_user"])
-				from_ = _("{0} > {1}").format(from_, extra_info)
+				extra_info = self.session.get_user(comment_object["reply_to_user"], "user2")
+				extra_info.update(from_)
+				from_ = _("{user1_nom} > {user2_nom}").format(**extra_info)
+			else:
+				from_ = from_["user1_nom"]
 			# As we set the comment reply properly in the from_ field, let's remove the first username from here if it exists.
 			fixed_text = re.sub("^\[id\d+\|\D+\], ", "", comment_object["text"])
 			if len(fixed_text) > 140:
@@ -337,7 +343,7 @@ class displayPostPresenter(base.basePresenter):
 
 	def reply(self, comment):
 		c = self.comments["items"][comment]
-		comment = createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Reply to {username}").format(username=self.session.get_user_name(c["from_id"]),), message="", text="", mode="comment"))
+		comment = createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Reply to {user1_nom}").format(**self.session.get_user(c["from_id"])), message="", text="", mode="comment"))
 		if hasattr(comment, "text") or hasattr(comment, "privacy"):
 			call_threaded(self.do_last, comment, owner_id=c["owner_id"], reply_to_comment=c["id"], post_id=c["post_id"], reply_to_user=c["owner_id"])
 
@@ -436,10 +442,11 @@ class displayCommentPresenter(displayPostPresenter):
 			self.send_message("set_label", control="like", label=_("&Dislike"))
 
 	def get_post_information(self):
-		from_ = self.session.get_user_name(self.post[self.user_identifier])
+		from_ = self.session.get_user(self.post[self.user_identifier])
 		if ("from_id" in self.post and "owner_id" in self.post):
-			# Translators: {0} will be replaced with the user who is posting, and {1} with the wall owner.
-			title = _("Comment from {0} in the {1}'s post").format(self.session.get_user_name(self.post["from_id"]), self.session.get_user_name(self.post["owner_id"]))
+			user2 = self.session.get_user(self.post["owner_id"], "user2")
+			user2.update(from_)
+			title = _("Comment from {user1_nom} in the {user2_nom}'s post").format(**user2)
 		self.send_message("set_title", value=title)
 		message = ""
 		message = get_message(self.post)
@@ -448,7 +455,7 @@ class displayCommentPresenter(displayPostPresenter):
 		self.check_image_load()
 
 	def reply(self):
-		comment = createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Reply to {username}").format(username=self.session.get_user_name(self.post["from_id"]),), message="", text="", mode="comment"))
+		comment = createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Reply to {user1_nom}").format(**self.session.get_user(self.post["from_id"]),), message="", text="", mode="comment"))
 		if hasattr(comment, "text") or hasattr(comment, "privacy"):
 			call_threaded(self.do_last, comment, owner_id=self.post["owner_id"], reply_to_comment=self.post["id"], post_id=self.post["post_id"], reply_to_user=self.post["owner_id"])
 
@@ -461,10 +468,13 @@ class displayCommentPresenter(displayPostPresenter):
 			# If comment has a "deleted" key it should not be displayed, obviously.
 			if "deleted" in i:
 				continue
-			from_ = self.session.get_user_name(i["from_id"])
+			from_ = self.session.get_user(i["from_id"])
 			if "reply_to_user" in i:
-				extra_info = self.session.get_user_name(i["reply_to_user"])
-				from_ = _("{0} > {1}").format(from_, extra_info)
+				extra_info = self.session.get_user(i["reply_to_user"], "user2")
+				extra_info.update(from_)
+				from_ = _("{user1_nom} > {user2_nom}").format(**extra_info)
+			else:
+				from_ = from_["user1_nom"]
 			# As we set the comment reply properly in the from_ field, let's remove the first username from here if it exists.
 			fixed_text = re.sub("^\[id\d+\|\D+\], ", "", i["text"])
 			if len(fixed_text) > 140:
@@ -581,15 +591,15 @@ class displayFriendshipPresenter(base.basePresenter):
 		self.post = postObject
 		super(displayFriendshipPresenter, self).__init__(view=view, interactor=interactor, modulename="display_friendship")
 		list_of_friends = self.get_friend_names()
-		from_ = self.session.get_user_name(self.post["source_id"])
-		title = _("{0} added the following friends").format(from_,)
+		from_ = self.session.get_user(self.post["source_id"])
+		title = _("{user1_nom} added the following friends").format(**from_,)
 		self.send_message("set_title", value=title)
 		self.set_friends_list(list_of_friends)
 		self.run()
 
 	def get_friend_names(self):
 		self.friends = self.post["friends"]["items"]
-		return [self.session.get_user_name(i["user_id"]) for i in self.friends]
+		return [self.session.get_user(i["user_id"])["user1_nom"] for i in self.friends]
 
 	def set_friends_list(self, friendslist):
 		self.send_message("add_items", control="friends", items=friendslist)
