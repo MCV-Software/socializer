@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 #from __future__ import unicode_literals
 from __future__ import unicode_literals
-from builtins import range
+import languageHandler
+import paths
 import wx
+from builtins import range
 
 toolkit = "wx"
 
@@ -120,15 +122,14 @@ class mainLoopObject(wx.App):
 
 	def __init__(self):
 		self.app = wx.App()
-#		self.lc = wx.Locale()
-#		lang=languageHandler.getLanguage()
-#		wxLang=self.lc.FindLanguageInfo(lang)
-#		if not wxLang and '_' in lang:
-#			wxLang=self.lc.FindLanguageInfo(lang.split('_')[0])
-#		if hasattr(sys,'frozen'):
-#			self.lc.AddCatalogLookupPathPrefix(paths.app_path("locales"))
-#		if wxLang:
-#			self.lc.Init(wxLang.Language)
+		self.lc = wx.Locale()
+		lang=languageHandler.getLanguage()
+		wxLang=self.lc.FindLanguageInfo(lang)
+		if not wxLang and '_' in lang:
+			wxLang=self.lc.FindLanguageInfo(lang.split('_')[0])
+		self.lc.AddCatalogLookupPathPrefix(paths.locale_path())
+		if wxLang:
+			self.lc.Init(wxLang.Language)
 
 	def run(self):
 		self.app.MainLoop()
