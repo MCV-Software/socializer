@@ -185,24 +185,6 @@ class vkSession(object):
 			num = self.order_buffer(name, data["items"], False)
 			return num
 
-	def get_user_name(self, user_id, case_name="gen"):
-		if user_id > 0:
-			warnings.warn("Call to a deprecated function. Use get_user instead.")
-			if user_id in self.db["users"]:
-				if case_name in self.db["users"][user_id]:
-					return self.db["users"][user_id][case_name]
-				else:
-#					print(self.get_user(user_id, key="usuario1"))
-					return self.db["users"][user_id]["first_name_nom"]+" "+self.db["users"][user_id]["last_name_nom"]
-			else:
-				self.get_users(user_ids=user_id)
-				return self.get_user_name(user_id)
-		else:
-			if abs(user_id) in self.db["groups"]:
-				return self.db["groups"][abs(user_id)]["nom"]
-			else:
-				return "no specified community"
-
 	def get_users(self, user_ids=None, group_ids=None):
 		log.debug("Getting user information from the VK servers")
 		if user_ids != None:
@@ -223,7 +205,11 @@ class vkSession(object):
 					k = "{key}_{case}".format(key=key, case=i)
 					v = "{first_name} {last_name}".format(first_name=self.db["users"][user_id]["first_name_"+i], last_name=self.db["users"][user_id]["last_name_"+i])
 					user_data[k] = v
-			return user_data
+				return user_data
+			# if User_id is not present in db.
+			else:
+				user = dict(id=user_id)
+				self.process_usernames(data=dict(profiles=[user], groups=[]))
 		else:
 			if abs(user_id) in self.db["groups"]:
 				user_data = {}

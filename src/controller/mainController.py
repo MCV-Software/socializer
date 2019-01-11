@@ -332,10 +332,10 @@ class Controller(object):
 		# Get a list of (id, user) objects.
 		d = []
 		for i in self.session.db["users"]:
-			d.append((i, self.session.get_user_name(i, "nom")))
+			d.append((i, self.session.get_user(i)["user1_gen"]))
 		# Do the same for communities.
 		for i in self.session.db["groups"]:
-			d.append((-i, self.session.get_user_name(-i)))
+			d.append((-i, self.session.get_user(-i)["user1_nom"]))
 		a = timeline.timelineDialog([i[1] for i in d])
 		if a.get_response() == widgetUtils.OK:
 			user = a.get_user()
@@ -352,16 +352,16 @@ class Controller(object):
 				user_id = user_data["object_id"]
 			if buffertype == "audio":
 				buffer = buffers.audioBuffer(parent=self.window.tb, name="{0}_audio".format(user_id,), composefunc="render_audio", session=self.session, create_tab=False, endpoint="get", parent_endpoint="audio", owner_id=user_id)
-				# Translators: {0} will be replaced with an user.
-				name_ = _("{0}'s audios").format(self.session.get_user_name(user_id, "gen"),)
+				user = self.session.get_user(user_id, key="user1")
+				name_ = _("{user1_nom}'s audios").format(**user)
 			elif buffertype == "wall":
 				buffer = buffers.feedBuffer(parent=self.window.tb, name="{0}_feed".format(user_id,), composefunc="render_status", session=self.session, create_tab=False, endpoint="get", parent_endpoint="wall", extended=1, count=self.session.settings["buffers"]["count_for_wall_buffers"],  owner_id=user_id)
-				# Translators: {0} will be replaced with an user.
-				name_ = _("{0}'s wall posts").format(self.session.get_user_name(user_id, "gen"),)
+				user = self.session.get_user(user_id, key="user1")
+				name_ = _("{user1_nom}'s posts").format(**user)
 			elif buffertype == "friends":
 				buffer = buffers.peopleBuffer(parent=self.window.tb, name="friends_{0}".format(user_id,), composefunc="render_person", session=self.session, create_tab=False, endpoint="get", parent_endpoint="friends", count=5000, fields="uid, first_name, last_name, last_seen", user_id=user_id)
-				# Translators: {0} will be replaced with an user.
-				name_ = _("{0}'s friends").format(self.session.get_user_name(user_id, "friends"),)
+				user = self.session.get_user(user_id, key="user1")
+				name_ = _("{user1_nom}'s friends").format(**user)
 			wx.CallAfter(self.complete_buffer_creation, buffer=buffer, name_=name_, position=self.window.search("timelines"))
 
 	def complete_buffer_creation(self, buffer, name_, position):
@@ -391,11 +391,11 @@ class Controller(object):
 		# Get name based in the ID.
 		# for users.
 		if user_id > 0 and user_id < 2000000000:
-			name = _("Chat with {0}").format(self.session.get_user_name(user_id, "ins"))
+			user = self.session.get_user(user_id, key="user1")
+			name = _("Chat with {user1_nom}").format(**user)
 		elif user_id > 2000000000:
 			chat = self.session.vk.client.messages.getChat(chat_id=user_id-2000000000)
 			name = _("Chat in {chat_name}").format(chat_name=chat["title"],)
-		# Translators: {0} will be replaced with an user.
 		self.window.insert_buffer(buffer.tab, name, self.window.search("chats"))
 		if setfocus:
 			pos = self.window.search(buffer.name)
@@ -407,16 +407,16 @@ class Controller(object):
 	def user_online(self, event):
 		if self.session.settings["chat"]["notify_online"] == False:
 			return
-		user_name = self.session.get_user_name(event.user_id, "nom")
-		msg = _("{0} is online.").format(user_name,)
+		user_name = self.session.get_user(event.user_id)
+		msg = _("{user1_nom} is online.").format(**user_name)
 		sound = "friend_online.ogg"
 		self.notify(msg, sound, self.session.settings["chat"]["notifications"])
 
 	def user_offline(self, event):
 		if self.session.settings["chat"]["notify_offline"] == False:
 			return
-		user_name = self.session.get_user_name(event.user_id, "nom")
-		msg = _("{0} is offline.").format(user_name,)
+		user_name = self.session.get_user(event.user_id)
+		msg = _("{user1_nom} is offline.").format(**user_name)
 		sound = "friend_offline.ogg"
 		self.notify(msg, sound, self.session.settings["chat"]["notifications"])
 
