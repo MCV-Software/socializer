@@ -803,7 +803,6 @@ class chatBuffer(baseBuffer):
 				id_ = self.chats[i]
 #				print i
 				break
-
 		# Retrieve here the object based in id_
 		if id_ != None:
 			for i in self.session.db[self.name]["items"]:
@@ -851,6 +850,10 @@ class chatBuffer(baseBuffer):
 		shift=event.ShiftDown()
 		if event.GetKeyCode() == wx.WXK_RETURN and shift == False:
 			return self.send_chat_to_user()
+		t = time.time()
+		if t-self.last_keypress > 5:
+			self.last_keypress = t
+			call_threaded(self.session.vk.client.messages.setActivity, peer_id=self.kwargs["peer_id"], type="typing")
 		event.Skip()
 
 	def get_items(self, show_nextpage=False, unread=False):
@@ -954,6 +957,7 @@ class chatBuffer(baseBuffer):
 		self.reads = []
 		self.chats = dict()
 		self.peer_typing = 0
+		self.last_keypress = time.time()
 
 	def parse_attachments(self, post):
 		attachments = []
