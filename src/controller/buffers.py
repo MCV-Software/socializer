@@ -443,8 +443,9 @@ class feedBuffer(baseBuffer):
 		if "owner_id" not in self.kwargs:
 			return super(feedBuffer, self).post()
 		owner_id = self.kwargs["owner_id"]
-		user = self.session.get_user_name(owner_id)
-		p = presenters.createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Write your post"), message="", text=""))
+		user = self.session.get_user(owner_id, key="user1")
+		title = _("Post to {user1_nom]'s wall").format(**user)
+		p = presenters.createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=title, message="", text=""))
 		if hasattr(p, "text") or hasattr(p, "privacy"):
 			call_threaded(self.do_last, p=p, owner_id=owner_id)
 
@@ -1010,6 +1011,18 @@ class chatBuffer(baseBuffer):
 		for i in self.session.db[self.name]["items"]:
 			if "read_state" in i and i["read_state"] == 0:
 				i["read_state"] = 1
+
+	def remove_buffer(self, mandatory=False):
+		""" Remove buffer if the current buffer is not the logged user's wall."""
+		if mandatory == False:
+			dlg = commonMessages.remove_buffer()
+		else:
+			dlg = widgetUtils.YES
+		if dlg == widgetUtils.YES:
+			self.session.db.pop(self.name)
+			return True
+		else:
+			return False
 
 class peopleBuffer(feedBuffer):
 

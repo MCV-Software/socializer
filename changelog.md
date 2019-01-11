@@ -10,6 +10,7 @@
 * When displaying someone's profile, the dialog should be loaded dramatically faster than before. A message will be spoken when all data of the profile is loaded.
 * When opening a timeline, if the current user is not allowed to do it, an error message should be displayed and the buffer will not be created. Before the buffer was partially created in the main window. ([#22.](https://code.manuelcortez.net/manuelcortez/socializer/issues/22))
 * Added basic support to handle group chats. At the current moment it is possible to receive and reply to chat messages only. Chat groups will be placed inside the conversations section. ([#23.](https://code.manuelcortez.net/manuelcortez/socializer/issues/23))
+* It is possible to delete a conversation buffer from the buffer menu. Deleting a conversation will only dismiss the buffer, no data is deleted at VK.
 * It is possible to see how many people has read a wall post when showing it in the dialog. ([#28.](https://code.manuelcortez.net/manuelcortez/socializer/issues/28))
 * Added functionality regarding comments in wall posts:
     * when reading a post, you can press enter in any comment to display a dialog from where it is possible to view attachments, translate, check spelling or reply to the thread. If there are replies made to this comment, these will be visible in a section called replies. Pressing enter in a reply will also open the same dialog.
