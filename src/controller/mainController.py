@@ -565,6 +565,8 @@ class Controller(object):
 			self.session.audio_albums = self.session.vk.client.audio.getAlbums(owner_id=self.session.user_id)["items"]
 
 	def delete_audio_album(self, *args, **kwargs):
+		if len(self.session.audio_albums) == 0:
+			return commonMessages.no_audio_albums()
 		answer = selector.album(_("Select the album you want to delete"), self.session)
 		if answer.item == None:
 			return
@@ -594,6 +596,8 @@ class Controller(object):
 			self.session.video_albums = self.session.vk.client.video.getAlbums(owner_id=self.session.user_id)["items"]
 
 	def delete_video_album(self, *args, **kwargs):
+		if len(self.session.video_albums) == 0:
+			return commonMessages.no_video_albums()
 		answer = selector.album(_("Select the album you want to delete"), self.session, "video_albums")
 		if answer.item == None:
 			return

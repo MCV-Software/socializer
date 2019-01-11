@@ -27,10 +27,10 @@ def bad_authorisation():
 	return wx.MessageDialog(None, _("authorisation failed. Your configuration will not be saved. Please close and open again the application for authorising your account. Make sure you have typed your credentials correctly."), _("Error"), style=wx.ICON_ERROR).ShowModal()
 
 def no_audio_albums():
-	return wx.MessageDialog(None, _("You do not have audio albums to add tis file."), _("Error"), style=wx.ICON_ERROR).ShowModal()
+	return wx.MessageDialog(None, _("You do not have audio albums."), _("Error"), style=wx.ICON_ERROR).ShowModal()
 
 def no_video_albums():
-	return wx.MessageDialog(None, _("You do not have video albums to add tis file."), _("Error"), style=wx.ICON_ERROR).ShowModal()
+	return wx.MessageDialog(None, _("You do not have video albums."), _("Error"), style=wx.ICON_ERROR).ShowModal()
 
 def delete_audio_album():
 	return wx.MessageDialog(None, _("Do you really want to delete   this Album? this will be deleted from VK too."), _("Attention"), style=wx.ICON_QUESTION|wx.YES_NO).ShowModal()
