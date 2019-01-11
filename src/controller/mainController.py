@@ -123,6 +123,7 @@ class Controller(object):
 		pub.subscribe(self.handle_longpoll_read_timeout, "longpoll-read-timeout")
 		pub.subscribe(self.create_buffer, "create_buffer")
 		pub.subscribe(self.create_empty_buffer, "create_empty_buffer")
+		pub.subscribe(self.user_typing, "user-typing")
 		widgetUtils.connect_event(self.window, widgetUtils.CLOSE_EVENT, self.exit)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.update_buffer, menuitem=self.window.update_buffer)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.check_for_updates, menuitem=self.window.check_for_updates)
@@ -396,6 +397,12 @@ class Controller(object):
 		msg = _("{user1_nom} is offline.").format(**user_name)
 		sound = "friend_offline.ogg"
 		self.notify(msg, sound, self.session.settings["chat"]["notifications"])
+
+	def user_typing(self, obj):
+		buffer = self.search_chat_buffer(obj.user_id)
+		if buffer != None and buffer == self.get_current_buffer():
+			user = self.session.get_user_name(obj.user_id)
+			output.speak(_("{user1_nom} is typing...").format(**user))
 
 	def get_chat(self, obj=None):
 		""" Searches or creates a chat buffer with the id of the user that is sending or receiving a message.

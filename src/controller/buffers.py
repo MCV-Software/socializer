@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """ A buffer is a (virtual) list of items. All items belong to a category (wall posts, messages, persons...)"""
 from __future__ import unicode_literals
+import time
 import random
 import logging
 import webbrowser
@@ -952,6 +953,7 @@ class chatBuffer(baseBuffer):
 		super(chatBuffer, self).__init__(*args, **kwargs)
 		self.reads = []
 		self.chats = dict()
+		self.peer_typing = 0
 
 	def parse_attachments(self, post):
 		attachments = []
