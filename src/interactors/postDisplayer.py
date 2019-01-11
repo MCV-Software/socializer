@@ -185,5 +185,5 @@ class displayFriendshipInteractor(base.baseInteractor):
 		pub.subscribe(self.add_items, self.modulename+"_add_items")
 
 	def uninstall(self):
-		super(displayFriendshipInteractor, self).install()
+		super(displayFriendshipInteractor, self).uninstall()
 		pub.unsubscribe(self.add_items, self.modulename+"_add_items")
