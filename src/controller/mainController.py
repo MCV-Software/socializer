@@ -401,7 +401,7 @@ class Controller(object):
 	def user_typing(self, obj):
 		buffer = self.search_chat_buffer(obj.user_id)
 		if buffer != None and buffer == self.get_current_buffer():
-			user = self.session.get_user_name(obj.user_id)
+			user = self.session.get_user(obj.user_id)
 			output.speak(_("{user1_nom} is typing...").format(**user))
 
 	def get_chat(self, obj=None):

@@ -24,6 +24,6 @@ class worker(threading.Thread):
 				elif event.type == VkEventType.USER_OFFLINE:
 					pub.sendMessage("user-offline", event=event)
 				elif event.type == VkEventType.USER_TYPING:
-					pub.sendMessage("user-typing", event=event)
+					pub.sendMessage("user-typing", obj=event)
 		except:
 			pub.sendMessage("longpoll-read-timeout")
