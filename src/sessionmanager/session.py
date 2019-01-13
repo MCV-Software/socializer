@@ -210,6 +210,7 @@ class vkSession(object):
 			else:
 				user = dict(id=user_id)
 				self.process_usernames(data=dict(profiles=[user], groups=[]))
+				return self.get_user(user_id)
 		else:
 			if abs(user_id) in self.db["groups"]:
 				user_data = {}
