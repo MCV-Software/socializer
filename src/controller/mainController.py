@@ -59,7 +59,7 @@ class Controller(object):
 		self.create_controls()
 		call_threaded(updater.do_update, update_type=self.session.settings["general"]["update_channel"])
 
-	def create_buffer(self, buffer_type="baseBuffer", buffer_title="", parent_tab="posts", loadable=False, kwargs={}):
+	def create_buffer(self, buffer_type="baseBuffer", buffer_title="", parent_tab="posts", loadable=False, get_items=False, kwargs={}):
 		if not hasattr(buffers, buffer_type):
 			raise AttributeError("Specified buffer type does not exist.")
 		buffer = getattr(buffers, buffer_type)(**kwargs)
@@ -67,6 +67,8 @@ class Controller(object):
 			buffer.can_get_items = False
 		self.buffers.append(buffer)
 		self.window.insert_buffer(buffer.tab, buffer_title, self.window.search(parent_tab))
+		if get_items:
+			call_threaded(buffer.get_items)
 
 	def create_empty_buffer(self, buffer_type="empty", buffer_title="", parent_tab=None, kwargs={}):
 		if not hasattr(buffers, buffer_type):
@@ -173,7 +175,6 @@ class Controller(object):
 	def login(self):
 		self.window.change_status(_("Logging in VK"))
 		self.session.login()
-#		self.session.login()
 		self.window.change_status(_("Ready"))
 		for i in self.buffers:
 			if hasattr(i, "get_items"):
@@ -181,13 +182,13 @@ class Controller(object):
 				self.window.change_status(_("Loading items for {0}").format(i.name,))
 				i.get_items()
 		self.window.change_status(_("Ready"))
+		self.create_unread_messages()
 		self.status_setter = RepeatingTimer(280, self.set_online)
 		self.status_setter.start()
 		self.set_online(notify=True)
-		wx.CallAfter(self.create_unread_messages)
-		wx.CallAfter(self.get_audio_albums, self.session.user_id)
-		wx.CallAfter(self.get_video_albums, self.session.user_id)
-#		wx.CallAfter(self.get_communities, self.session.user_id)
+		self.get_audio_albums(self.session.user_id)
+		self.get_video_albums(self.session.user_id)
+		self.get_communities(self.session.user_id)
 		self.create_longpoll_thread()
 
 	def create_longpoll_thread(self, notify=False):
@@ -364,8 +365,6 @@ class Controller(object):
 				self.window.change_buffer(pos)
 				return b.tab.text.SetFocus()
 			return
-		buffer = buffers.chatBuffer(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="render_message", session=self.session, count=200,  peer_id=user_id, rev=0, extended=True, fields="id, user_id, date, read_state, out, body, attachments, deleted")
-		self.buffers.append(buffer)
 		# Get name based in the ID.
 		# for users.
 		if user_id > 0 and user_id < 2000000000:
@@ -374,13 +373,13 @@ class Controller(object):
 		elif user_id > 2000000000:
 			chat = self.session.vk.client.messages.getChat(chat_id=user_id-2000000000)
 			name = _("Chat in {chat_name}").format(chat_name=chat["title"],)
-		self.window.insert_buffer(buffer.tab, name, self.window.search("chats"))
-		if setfocus:
-			pos = self.window.search(buffer.name)
-			self.window.change_buffer(pos)
-		wx.CallAfter(buffer.get_items, unread=unread)
-		if setfocus: buffer.tab.text.SetFocus()
-		return True
+		wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="chatBuffer", buffer_title=name, parent_tab="chats", get_items=True, kwargs=dict(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="render_message", session=self.session, count=200,  peer_id=user_id, rev=0, extended=True, fields="id, user_id, date, read_state, out, body, attachments, deleted"))
+#		if setfocus:
+#			pos = self.window.search(buffer.name)
+#			self.window.change_buffer(pos)
+#		call_threaded(buffer.get_items, unread=unread)
+#		if setfocus: buffer.tab.text.SetFocus()
+#		return True
 
 	def user_online(self, event):
 		if self.session.settings["chat"]["notify_online"] == False:
@@ -460,14 +459,12 @@ class Controller(object):
 			return
 		try:
 			log.debug("Getting possible unread messages.")
-			msgs = self.session.vk.client.messages.getDialogs(count=200, unread=1)
+			msgs = self.session.vk.client.messages.getDialogs(count=200, unread=True)
 		except VkApiError as ex:
 			if ex.code == 6:
 				log.exception("Something went wrong when getting messages. Waiting a second to retry")
-				time.sleep(2)
-				return self.create_unread_messages()
 		for i in msgs["items"]:
-			wx.CallAfter(self.chat_from_id, i["message"]["user_id"], setfocus=False, unread=True)
+			call_threaded(self.chat_from_id, i["message"]["user_id"], setfocus=False, unread=True)
 
 	def mark_as_read(self):
 		for i in self.buffers:
@@ -487,7 +484,8 @@ class Controller(object):
 		self.session.audio_albums = albums
 		if create_buffers:
 			for i in albums:
-				pub.sendMessage("create_buffer", buffer_type="audioAlbum", buffer_title=_("Album: {0}").format(i["title"],), parent_tab="albums", loadable=True, kwargs=dict(parent=self.window.tb, name="{0}_audio_album".format(i["id"],), composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio", owner_id=user_id, album_id=i["id"]))
+				wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="audioAlbum", buffer_title=_("Album: {0}").format(i["title"],), parent_tab="albums", loadable=True, kwargs=dict(parent=self.window.tb, name="{0}_audio_album".format(i["id"],), composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio", owner_id=user_id, album_id=i["id"]))
+				time.sleep(0.6)
 
 	def get_video_albums(self, user_id=None, create_buffers=True):
 		log.debug("Create video  albums...")
@@ -495,7 +493,8 @@ class Controller(object):
 		self.session.video_albums = albums["items"]
 		if create_buffers:
 			for i in albums["items"]:
-				pub.sendMessage("create_buffer", buffer_type="videoAlbum", buffer_title=_("Album: {0}").format(i["title"],), parent_tab="video_albums", loadable=True, kwargs=dict(parent=self.window.tb, name="{0}_video_album".format(i["id"],), composefunc="render_video", session=self.session, endpoint="get", parent_endpoint="video", count=self.session.settings["buffers"]["count_for_video_buffers"], user_id=user_id, album_id=i["id"]))
+				wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="videoAlbum", buffer_title=_("Album: {0}").format(i["title"],), parent_tab="video_albums", loadable=True, kwargs=dict(parent=self.window.tb, name="{0}_video_album".format(i["id"],), composefunc="render_video", session=self.session, endpoint="get", parent_endpoint="video", count=self.session.settings["buffers"]["count_for_video_buffers"], user_id=user_id, album_id=i["id"]))
+				time.sleep(0.15)
 
 	def get_communities(self, user_id=None, create_buffers=True):
 		if self.session.settings["vk"]["invited_to_group"] == False:
@@ -516,11 +515,10 @@ class Controller(object):
 		# Let's feed the local database cache with new groups coming from here.
 		data= dict(profiles=[], groups=groups["items"])
 		self.session.process_usernames(data)
-		# check if the current user has not been invited to socializer's group or is not a member of it.
 		if create_buffers:
 			for i in groups["items"]:
-#				print(list(i.keys()))
-				pub.sendMessage("create_buffer", buffer_type="communityBuffer", buffer_title=i["name"], parent_tab="communities", loadable=True, kwargs=dict(parent=self.window.tb, name="{0}_community".format(i["id"],), composefunc="render_status", session=self.session, endpoint="get", parent_endpoint="wall", count=self.session.settings["buffers"]["count_for_wall_buffers"], owner_id=-1*i["id"]))
+				wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="communityBuffer", buffer_title=i["name"], parent_tab="communities", loadable=True, kwargs=dict(parent=self.window.tb, name="{0}_community".format(i["id"],), composefunc="render_status", session=self.session, endpoint="get", parent_endpoint="wall", count=self.session.settings["buffers"]["count_for_wall_buffers"], owner_id=-1*i["id"]))
+				time.sleep(0.15)
 
 	def create_audio_album(self, *args, **kwargs):
 		d = creation.audio_album()
@@ -644,7 +642,7 @@ class Controller(object):
 
 	def notify(self, message="", sound="", type="native"):
 		if type == "native":
-			self.window.notify(_("Socializer"), message)
+			wx.CallAfter(self.window.notify, _("Socializer"), message)
 		else:
 			if sound != "":
 				self.session.soundplayer.play(sound)

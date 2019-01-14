@@ -37,7 +37,6 @@ def setup():
 	del sm
 	r = mainController.Controller()
 	call_threaded(r.login)
-
 	app.run()
 
 setup()
