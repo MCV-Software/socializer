@@ -2,3 +2,4 @@
 username = string(default="")
 password = string(default="")
 language = string(default="system")
+use_proxy = boolean(default=False)

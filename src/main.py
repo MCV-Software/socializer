@@ -19,9 +19,18 @@ from mysc.thread_utils import call_threaded
 
 log = logging.getLogger("main")
 
+orig_session_init = None
+
 def setup():
+	global orig_session_init
 	log.debug("Starting Socializer %s" % (application.version,))
 	config.setup()
+	if config.app["app-settings"]["use_proxy"]:
+		log.debug("Enabling proxy support... ")
+		import requests
+		orig_session_init=requests.sessions.Session.__init__
+		requests.sessions.Session.__init__=patched_session_init
+		requests.Session.__init__=patched_session_init
 	log.debug("Using %s %s" % (platform.system(), platform.architecture()[0]))
 	log.debug("Application path is %s" % (paths.app_path(),))
 	log.debug("config path  is %s" % (paths.config_path(),))
@@ -38,5 +47,11 @@ def setup():
 	r = mainController.Controller()
 	call_threaded(r.login)
 	app.run()
+
+def patched_session_init(self):
+	global orig_session_init
+	orig_session_init(self)
+	self.proxies={"http": "http://code.manuelcortez.net:3128",
+   "https": "http://code.manuelcortez.net:3128"}
 
 setup()
