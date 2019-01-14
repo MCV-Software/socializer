@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-10 15:16-0600\n"
-"PO-Revision-Date: 2019-01-10 15:20-0600\n"
-"Last-Translator: Manuel Cortez <manuel@manuelcortez.net>\n"
+"POT-Creation-Date: 2019-01-11 04:55-0600\n"
+"PO-Revision-Date: 2019-01-13 15:34-0600\n"
+"Last-Translator: Дарья Ратникова <dariafreja@yandex.ru>\n"
 "Language-Team: Valeria K <luciana.lu3a@gmail.com>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: pygettext.py 1.5\n"
-"X-Generator: Poedit 2.0.1\n"
+"X-Generator: Poedit 2.2\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
@@ -44,10 +44,11 @@ msgstr "Ваш комментарий добавлен"
 msgid "This buffer can't be deleted"
 msgstr "Этот буфер не может быть удалён"
 
-#, fuzzy
-#| msgid "Loading data..."
+msgid "Post to {user1_nom]'s wall"
+msgstr "Опубликовать на стене {user1_ins}"
+
 msgid "Loading community..."
-msgstr "Загрузка данных..."
+msgstr "Загрузка сообщества."
 
 #. Translators: Some buffers can't use the get previous item feature due to API limitations.
 msgid "This buffer doesn't support getting more items."
@@ -78,20 +79,14 @@ msgstr "Загрузка альбома..."
 msgid "Opening video in webbrowser..."
 msgstr "Открытие видео в браузере..."
 
-#, fuzzy
-#| msgid "Audio added to your library"
 msgid "Video added to your library"
-msgstr "Аудио добавлено в вашу библиотеку"
+msgstr "Видео добавлено в Вашу библиотеку."
 
-#, fuzzy
-#| msgid "Removed audio from library"
 msgid "Removed video from library"
-msgstr "Аудио удалено из библиотеки"
+msgstr "Видео удалено из Вашей библиотеки."
 
-#, fuzzy
-#| msgid "Select the album where you want to move this song"
 msgid "Select the album where you want to move this video"
-msgstr "Выберите альбом, в который будет загружена данная композиция"
+msgstr "Выберете альбом, в который хотите переместить это видео."
 
 msgid ""
 "You have been sending a message that is already sent. Try to update the "
@@ -138,7 +133,7 @@ msgstr "Готово"
 
 #. Translators: Name for the posts tab in the tree view.
 msgid "Posts"
-msgstr "Публикации"
+msgstr "Записи."
 
 #. Translators: Newsfeed's name in the tree view.
 msgid "Home"
@@ -166,7 +161,7 @@ msgstr "Альбомы"
 
 #. Translators: name for the videos category in the tree view.
 msgid "Video"
-msgstr "Видеозапись"
+msgstr "Видеозаписи."
 
 msgid "My videos"
 msgstr "Мои видеозаписи."
@@ -187,16 +182,14 @@ msgid "I follow"
 msgstr "Исходящие заявки."
 
 #. Translators: name for the videos category in the tree view.
-#, fuzzy
-#| msgid "Comments"
 msgid "Communities"
-msgstr "Комментарии"
+msgstr "Сообщества."
 
 msgid "Chats"
 msgstr "Чаты"
 
 msgid "Timelines"
-msgstr ""
+msgstr "Пользовательские ленты."
 
 msgid "Logging in VK"
 msgstr "Вход..."
@@ -220,36 +213,33 @@ msgstr "Поиск {0}"
 msgid "Preferences"
 msgstr "Настройки"
 
-#. Translators: {0} will be replaced with an user.
 #, python-brace-format
-msgid "{0}'s audios"
-msgstr "{0} аудиозаписей."
-
-#. Translators: {0} will be replaced with an user.
-#, python-brace-format
-msgid "{0}'s wall posts"
-msgstr "{0} записей на стене"
-
-#. Translators: {0} will be replaced with an user.
-#, python-brace-format
-msgid "{0}'s friends"
-msgstr "{0} друзей."
+msgid "{user1_nom}'s audios"
+msgstr "Аудиозаписи {user1_gen}"
 
 #, python-brace-format
-msgid "Chat with {0}"
-msgstr "Чат с {0}"
+msgid "{user1_nom}'s posts"
+msgstr "{user1_gen} пост."
+
+#, python-brace-format
+msgid "{user1_nom}'s friends"
+msgstr "{user1_gen} друзья."
+
+#, python-brace-format
+msgid "Chat with {user1_nom}"
+msgstr "Чат с {user1_ins}"
 
 #, python-brace-format
 msgid "Chat in {chat_name}"
-msgstr ""
+msgstr "Чат в {chat_name}"
 
 #, python-brace-format
-msgid "{0} is online."
-msgstr "{0} в сети."
+msgid "{user1_nom} is online."
+msgstr "{user1_nom} в сети."
 
 #, python-brace-format
-msgid "{0} is offline."
-msgstr "{0} не в сети."
+msgid "{user1_nom} is offline."
+msgstr "{user1_nom} не в сети."
 
 #. Translators: {0} Will be replaced with an audio album's title.
 #. Translators: {0} Will be replaced with a video  album's title.
@@ -268,15 +258,11 @@ msgstr "Общение."
 msgid "Chat disconnected. Trying to connect in 60 seconds"
 msgstr "Чат отключился. Попытка повторного соединения в течении 60 секунд."
 
-#, fuzzy
-#| msgid "Write a message"
 msgid "Write your status message"
-msgstr "Написать сообщение"
+msgstr "Написать статус."
 
-#, fuzzy
-#| msgid "Status"
 msgid "Set status"
-msgstr "Статус."
+msgstr "Установить статус."
 
 #, python-format
 msgid "Misspelled word: %s"
@@ -600,10 +586,8 @@ msgstr "Перевести сообщение"
 msgid "Target language"
 msgstr "&Конечный язык"
 
-#, fuzzy
-#| msgid "Select the album you want to delete"
 msgid "Select the audio files you want to send"
-msgstr "Выберите альбом, который хотите удалить"
+msgstr "Выберете аудио, которое выхотите отправить."
 
 msgid "Friends of friends"
 msgstr "Друзья друзей"
@@ -612,48 +596,52 @@ msgid "All users"
 msgstr "Все пользователи"
 
 msgid "Report an error"
-msgstr ""
+msgstr "Сообщить об ошибке."
 
 msgid ""
 "Briefly describe what happened. You will be able to thoroughly explain it "
 "later"
-msgstr ""
+msgstr "Кратко опишите, что произошло. Вы сможете описать это подробно позже."
 
 msgid "First Name"
-msgstr ""
+msgstr "Имя."
 
-#, fuzzy
-#| msgid "Last seen"
 msgid "Last Name"
-msgstr "Последний визит"
+msgstr "Фамилия."
 
 msgid "Email address (Will not be public)"
-msgstr ""
+msgstr "Электронный адрес. Не будет нигде опубликован."
 
 msgid "Here, you can describe the bug in detail"
-msgstr ""
+msgstr "Здесь вы можете подробно описать ошибку."
 
 #, python-brace-format
 msgid ""
 "I know that the {0} bug system will get my email address to contact me and "
 "fix the bug quickly"
 msgstr ""
+"Я знаю, что служба поддержки {0} получит мой адрес электронной почты, чтобы "
+"связаться со мной и быстро исправить ошибку."
 
 msgid "Send report"
-msgstr ""
+msgstr "Отправить отчёт."
 
 msgid "Cancel"
-msgstr ""
+msgstr "Отмена."
 
 msgid ""
 "You must fill out the following fields: first name, last name, email address "
 "and issue information."
 msgstr ""
+"Вы должны заполнить следующие поля: имя, фамилия, адрес электронной почты и "
+"информация о выпуске."
 
 msgid ""
 "You need to mark the checkbox to provide us your email address to contact "
 "you if it is necessary."
 msgstr ""
+"Вам необходимо установить флажок, чтобы предоставить нам свой адрес "
+"электронной почты, чтобы связаться с вами, если это необходимо."
 
 #, python-format
 msgid ""
@@ -661,65 +649,58 @@ msgid ""
 "it in the changes list. You have received an email with more information "
 "regarding your report. You've reported the bug number %i"
 msgstr ""
+"Спасибо за сообщение об этой ошибке! В будущих версиях вы сможете найти его "
+"в списке изменений. Вы получили письмо с дополнительной информацией о вашем "
+"отчете. Вы сообщили об ошибке номеr %i"
 
 msgid "reported"
-msgstr ""
+msgstr "Сообщено."
 
 msgid ""
 "Something unexpected occurred while trying to report the bug. Please, try "
 "again later"
 msgstr ""
+"При попытке сообщить об ошибке произошло нечто неожиданное. Пожалуйста, "
+"попробуйте позже."
 
 msgid "Error while reporting"
-msgstr ""
+msgstr "Ошибка при сообщении."
 
-#, fuzzy
-#| msgid "Opening URL..."
 msgid "Sending report..."
-msgstr "Открываем URL..."
+msgstr "Отправляем отчёт..."
 
 msgid "Please wait while your report is being send."
-msgstr ""
+msgstr "Пожалуйста, подождите, пока ваш отчет отправляется."
 
 #. Translators: This is the text displayed in the attachments dialog, when the user adds  a photo.
 msgid "Photo"
 msgstr "Фотография"
 
-#, fuzzy
-#| msgid "Untitled link"
 msgid "Untitled"
-msgstr "Ссылка без названия"
+msgstr "Без названия."
 
-#, fuzzy
-#| msgid "Unknown username"
 msgid "Unknown artist"
-msgstr "Неизвестное имя пользователя"
+msgstr "Неизвестный исполнитель."
 
 #. Translators: This is the text displayed in the attachments dialog, when the user adds  an audio file.
-#, fuzzy
-#| msgid "Audio &files"
 msgid "Audio file"
-msgstr "Аудио файлы"
+msgstr "Аудиофайл."
 
 #. Translators: This is the text displayed in the attachments dialog, when the user adds  an audio file.
 msgid "Voice message"
 msgstr "Голосовое сообщение."
 
-#, fuzzy
-#| msgid "Stop"
 msgid "&Stop"
-msgstr "Стоп."
+msgstr "&Остановить."
 
 msgid "Recording"
-msgstr ""
+msgstr "Запись."
 
-#, fuzzy
-#| msgid "Stop"
 msgid "Stopped"
-msgstr "Стоп."
+msgstr "Остановлено."
 
 msgid "&Record"
-msgstr ""
+msgstr "&Запись."
 
 msgid "Discarded"
 msgstr "Загрузка отменена"
@@ -727,10 +708,8 @@ msgstr "Загрузка отменена"
 msgid "&Play"
 msgstr "Воспроизвести"
 
-#, fuzzy
-#| msgid "Loading album..."
 msgid "Recoding audio..."
-msgstr "Загрузка альбома..."
+msgstr "Запись аудио."
 
 msgid "Native"
 msgstr "Родственники"
@@ -739,13 +718,13 @@ msgid "Custom"
 msgstr "Пользовательские."
 
 msgid "Stable"
-msgstr ""
+msgstr "Стабильный."
 
 msgid "Weekly"
-msgstr ""
+msgstr "Еженедельно."
 
 msgid "Alpha"
-msgstr ""
+msgstr "Альфа."
 
 #, python-brace-format
 msgid "Playing {0} by {1}"
@@ -762,19 +741,17 @@ msgstr "Неизвестное имя пользователя"
 msgid "{0} > {1}"
 msgstr "{0} > {1}"
 
-#. Translators: {0} will be replaced with an user.
 #, python-brace-format
-msgid "repost from {0}"
-msgstr "Репост от {0}"
-
-#. Translators: {0} will be replaced with the user who is posting, and {1} with the wall owner.
-#, python-brace-format
-msgid "Post from {0} in the {1}'s wall"
-msgstr "{0} опубликовал(а) запись на стене {1}"
+msgid "repost from {user1_nom}"
+msgstr "Репост от {user1_gen}"
 
 #, python-brace-format
-msgid "Post from {0}"
-msgstr "Публикация {0}"
+msgid "Post from {user1_nom} in the {user2_nom}'s wall"
+msgstr "Запись от {user1_gen}на стене {user2_dat}"
+
+#, python-brace-format
+msgid "Post from {user1_nom}"
+msgstr "Запись от {user1_gen}"
 
 msgid "Untitled link"
 msgstr "Ссылка без названия"
@@ -805,18 +782,20 @@ msgid "Shared {0} times"
 msgstr "Поделились {0} раз"
 
 #, python-brace-format
-msgid "Reply to {username}"
-msgstr ""
-
-#. Translators: {0} will be replaced with the user who is posting, and {1} with the wall owner.
-#, fuzzy, python-brace-format
-#| msgid "Post from {0} in the {1}'s wall"
-msgid "Comment from {0} in the {1}'s post"
-msgstr "{0} опубликовал(а) запись на стене {1}"
+msgid "{user1_nom} > {user2_nom}"
+msgstr "{user1_nom} > {user2_nom}"
 
 #, python-brace-format
-msgid "{0} added the following friends"
-msgstr "{0} добавил(а) друзей"
+msgid "Reply to {user1_nom}"
+msgstr "Ответить {user1_dat}"
+
+#, python-brace-format
+msgid "Comment from {user1_nom} in the {user2_nom}'s post"
+msgstr "Комментарий от {user1_gen} к записи {user1_gen}"
+
+#, python-brace-format
+msgid "{user1_nom} added the following friends"
+msgstr "{user1_nom} добавил(а) друзей"
 
 msgid "Information for groups is not supported, yet."
 msgstr "Информация для групп пока не поддерживается."
@@ -876,10 +855,8 @@ msgstr "В отношениях."
 msgid "{0}"
 msgstr "{0}"
 
-#, fuzzy
-#| msgid "View profile"
 msgid "Profile loaded"
-msgstr "Посмотреть профиль"
+msgstr "Профиль загружен."
 
 msgid "No URL addresses were detected."
 msgstr "URL-адреса не обнаружены."
@@ -910,39 +887,40 @@ msgid "Account deactivated"
 msgstr "Аккаунт деактивирован"
 
 #, python-brace-format
-msgid "{0} has shared the {1}'s post"
-msgstr "{0} поделился(ась) публикацией {1}"
+msgid "{user1_nom} has shared the {user2_nom}'s post"
+msgstr "{user1_nom} поделился записью {user2_gen}"
 
 #, python-brace-format
-msgid "{0} has added  an audio: {1}"
-msgstr "{0} добавил(а) аудиозапись: {1}"
+msgid "{user1_nom} has added  an audio: {audio_file}"
+msgstr "{user1_nom} добавил(а) аудиозапись: {audio_file}"
 
 #, python-brace-format
-msgid "{0} has added  {1} audios: {2}"
-msgstr "{0} добавил(а) {1} аудиозаписей: {2}"
-
-#, fuzzy, python-brace-format
-#| msgid "{0} has added  an audio: {1}"
-msgid "{0} has added an audio album: {1}, {2}"
-msgstr "{0} добавил(а) аудиозапись: {1}"
-
-#, fuzzy, python-brace-format
-#| msgid "{0} has added  {1} audios: {2}"
-msgid "{0} has added  {1} audio albums: {2}"
-msgstr "{0} добавил(а) {1} аудиозаписей: {2}"
-
-#, fuzzy, python-brace-format
-#| msgid "{0} hadded friends: {1}"
-msgid "{0} added friends: {1}"
-msgstr "{0} добавил(а) друзей: {1}"
+msgid "{user1_nom} has added  {total_audio_files} audios: {audio_files}"
+msgstr "{user1_nom} добавил {total_audio_files} аудиофайлы: {audio_files}"
 
 #, python-brace-format
-msgid "{0} has added  a video: {1}"
-msgstr "{0} добавил(а) видеозапись: {1}"
+msgid ""
+"{user1_nom} has added an audio album: {audio_album}, "
+"{audio_album_description}"
+msgstr ""
+"{user1_nom} добавил аудиоальбом: {audio_album},  {audio_album_description}"
 
 #, python-brace-format
-msgid "{0} has added  {1} videos: {2}"
-msgstr "{0} добавил(а) {1} видеозаписей: {2}"
+msgid ""
+"{user1_nom} has added  {total_audio_albums} audio albums: {audio_albums}"
+msgstr "{user1_nom} добавил {total_audio_albums} аудио альбомы: {audio_albums}"
+
+#, python-brace-format
+msgid "{user1_nom} added friends: {friends}"
+msgstr "{user1_nom} добавил(а) друзей: {friends}"
+
+#, python-brace-format
+msgid "{user1_nom} has added  a video: {video}"
+msgstr "{user1_nom} добавил(а) видеозапись: {video}"
+
+#, python-brace-format
+msgid "{user1_nom} has added  {total_videos} videos: {videos}"
+msgstr "{user1_nom} добавил {total_videos} видео: {videos}"
 
 msgid "H:mm."
 msgstr "H:mm."
@@ -953,10 +931,8 @@ msgstr "H:mm. dddd, MMMM D, YYYY"
 msgid "Audio removed from library"
 msgstr "Аудиозапись удалена"
 
-#, fuzzy
-#| msgid "no description available"
 msgid "Video not available"
-msgstr "нет описания"
+msgstr "Видео недоступно."
 
 msgid "Voice message not available"
 msgstr "Голосовое сообщение недоступно"
@@ -1012,9 +988,11 @@ msgstr "Авторизация"
 
 msgid "Please provide the authentication code you have received from VK."
 msgstr ""
+"Пожалуйста, предоставьте код аутентификации, который вы получили от "
+"\"ВКонтакте\"."
 
 msgid "Two factor authentication code"
-msgstr ""
+msgstr "Двухфакторный код аутентификации."
 
 msgid "Authorise VK"
 msgstr "Авторизация в вк"
@@ -1097,31 +1075,25 @@ msgstr "Пожалуйста добавьте описание"
 msgid "Description"
 msgstr "Описание"
 
-#, fuzzy
-#| msgid "Select the picture to be uploaded"
 msgid "Select the audio file to be uploaded"
-msgstr "Выберите изображение, которое хотите добавить"
+msgstr "Выберите аудиофайл для загрузки."
 
 #, fuzzy
 #| msgid "Audio Files(*.mp3)|*.mp3"
 msgid "Audio files (*.mp3)|*.mp3"
 msgstr "Аудио Файлы(*.mp3)|*.mp3"
 
-#, fuzzy
-#| msgid "Voice message"
 msgid "Record voice message"
-msgstr "Голосовое сообщение."
+msgstr "Запись голосового сообщения."
 
-#, fuzzy
-#| msgid "Discarded"
 msgid "&Discard"
-msgstr "Загрузка отменена"
+msgstr "& Отменить."
 
 msgid "&Add"
-msgstr ""
+msgstr "&добавить."
 
 msgid "&Cancel"
-msgstr ""
+msgstr "&Отмена."
 
 msgid "Number of items to load for newsfeed and wall buffers (maximun 100)"
 msgstr ""
@@ -1129,16 +1101,13 @@ msgstr ""
 "100)"
 
 msgid "Number of items to load in video buffers (maximun 200)"
-msgstr ""
-"Количество элементов допустимое для загрузки в буфере аудио (максимум 200)"
+msgstr "Количество элементов для загрузки в видеобуферы (максимум 200)."
 
 msgid "Load images in posts"
 msgstr "Загрузка изображенй в публикациях."
 
-#, fuzzy
-#| msgid "Update"
 msgid "Update channel"
-msgstr "Обновить"
+msgstr "Обновить канал."
 
 msgid "Show notifications when users are online"
 msgstr "Показывать уведомления, когда пользователи в сети."
@@ -1176,6 +1145,14 @@ msgid ""
 "to fix bugs. Never use alpha channel updates for everyday use. Do you want "
 "to continue?"
 msgstr ""
+"Альфа-канал содержит новейшие изменения, внесённые в Socializer. Новое альфа-"
+"обновление генерируется каждый раз, когда появляются новые изменения в "
+"проекте. Примите во внимание, что обновления генерируются автоматически и "
+"могут произойти сбой в любое время из-за ошибок в процессе сборки. "
+"Используйте альфа-каналы, когда вы уверены, что хотите попробовать последние "
+"изменения и предоставить отчеты для исправления ошибок. Никогда не "
+"используйте обновления альфа-канала для повседневного использования. Вы "
+"хотите продолжить?"
 
 msgid "Attention"
 msgstr "Внимание"
@@ -1185,6 +1162,10 @@ msgid ""
 "the source code present in the project. This version is used to test "
 "features added to the next stable version. Do you want to continue?"
 msgstr ""
+"Еженедельный канал генерирует обновление автоматически каждую неделю, "
+"создавая исходный код, представленный в проекте. Эта версия используется для "
+"тестирования функций, добавленных в следующую стабильную версию. Вы хотите "
+"продолжить?"
 
 msgid "&Privacy"
 msgstr "Приватность"
@@ -1211,7 +1192,7 @@ msgid "Message"
 msgstr "Сообщение"
 
 msgid "Views"
-msgstr ""
+msgstr "Просмотры."
 
 msgid "Comments"
 msgstr "Комментарии"
@@ -1229,12 +1210,10 @@ msgid "Likes"
 msgstr "Отметки нравится"
 
 msgid "replies"
-msgstr ""
+msgstr "Ответы."
 
-#, fuzzy
-#| msgid "New comment"
 msgid "Reply to comment"
-msgstr "Новый комментарий"
+msgstr "Ответить на комментарий."
 
 msgid "Previous photo"
 msgstr "Предыдущая фотография."
@@ -1254,13 +1233,11 @@ msgstr "Комментировать.."
 msgid "Actions"
 msgstr "Активность"
 
-#, fuzzy
-#| msgid "&Replace"
 msgid "Replies"
-msgstr "&Заменить"
+msgstr "Ответы."
 
 msgid "Reply to thread"
-msgstr ""
+msgstr "Ответить в теме."
 
 msgid "Audio &files"
 msgstr "Аудио &файлы."
@@ -1364,10 +1341,10 @@ msgstr ""
 "точность введённых вами данных."
 
 msgid "You do not have audio albums to add tis file."
-msgstr ""
+msgstr "У Вас нет альбомов, куда Вы могли бы добавить этот аудиофайл."
 
 msgid "You do not have video albums to add tis file."
-msgstr ""
+msgstr "У Вас нет альбомов, куда Вы могли бы добавить это видео."
 
 msgid ""
 "Do you really want to delete   this Album? this will be deleted from VK too."
@@ -1375,15 +1352,13 @@ msgstr ""
 "Вы действительно хотите удалить этот альбом? Он также будет удалён из vk."
 
 msgid "Your status message has been successfully updated."
-msgstr ""
+msgstr "Ваше сообщение о статусе было успешно обновлено."
 
 msgid "Success"
-msgstr ""
+msgstr "Успешно."
 
-#, fuzzy
-#| msgid "Do you really want to dismiss  this buffer?"
 msgid "Do you really want to delete this post?"
-msgstr "Вы действительно хотите удалить этот буфер?"
+msgstr "Вы действительно хотите удалить эту запись?"
 
 #. self.audio_album = create.Append(wx.NewId(), _("Audio album"))
 #. self.delete_audio_album = delete.Append(wx.NewId(), _("Audio album"))
@@ -1403,16 +1378,14 @@ msgstr "Посмотреть профиль"
 msgid "Open in browser"
 msgstr "Открыть в браузере..."
 
-#, fuzzy
-#| msgid "View profile"
 msgid "Profile"
-msgstr "Посмотреть профиль"
+msgstr "Профиль."
 
 msgid "Set status message"
-msgstr "Статус."
+msgstr "Установить статус сообщение."
 
 msgid "&New timeline"
-msgstr ""
+msgstr "&Новая пользовательская лента."
 
 msgid "Search"
 msgstr "Поиск"
@@ -1446,7 +1419,7 @@ msgid "Play all"
 msgstr "Воспроизвести все"
 
 msgid "Stop"
-msgstr "Стоп."
+msgstr "Остановить."
 
 msgid "Previous"
 msgstr "Предыдущая."
@@ -1506,10 +1479,8 @@ msgstr "Не нравится"
 msgid "Post to this profile"
 msgstr "Опубликовать на этой странице"
 
-#, fuzzy
-#| msgid "View profile"
 msgid "View user profile"
-msgstr "Посмотреть профиль"
+msgstr "Посмотреть профиль пользователя."
 
 msgid "&Open"
 msgstr "Открыть"
@@ -1524,7 +1495,7 @@ msgid "Send a message"
 msgstr "Отправить сообщение"
 
 msgid "Open timeline"
-msgstr ""
+msgstr "Открыть пользовательскую ленту."
 
 msgid "View friends in common"
 msgstr "Посмотреть общих друзей."
@@ -1544,13 +1515,11 @@ msgstr "Не нравится"
 msgid "Mark as read"
 msgstr "Пометить как прочитанное"
 
-#, fuzzy
-#| msgid "Upload a picture"
 msgid "Upload from computer"
-msgstr "Загрузить фотографию"
+msgstr "Загрузить с компьютера."
 
 msgid "Add from VK"
-msgstr ""
+msgstr "Добавить из \"Вконтакте\"."
 
 msgid "Create a new album"
 msgstr "Создать новый альбом"
@@ -1562,7 +1531,7 @@ msgid "&OK"
 msgstr "&ОК"
 
 msgid "&Close"
-msgstr "Закрыть"
+msgstr "&Закрыть"
 
 msgid "audio Search"
 msgstr "Поиск Аудиозаписей"
@@ -1588,10 +1557,8 @@ msgstr "Популярные"
 msgid "Search only for videos in &High definition"
 msgstr "Искать видео только в высоком качестве."
 
-#, fuzzy
-#| msgid "Search"
 msgid "S&afe search"
-msgstr "Поиск"
+msgstr "S&afe Поиск"
 
 msgid "Tag friends"
 msgstr "Отметить друзей."
@@ -1603,7 +1570,7 @@ msgid "Select"
 msgstr "Выбрать."
 
 msgid "Tagged users"
-msgstr "Пользовательские теги."
+msgstr "Отметить пользователей."
 
 msgid "Remove"
 msgstr "Удалить."
@@ -1616,27 +1583,25 @@ msgstr "Выбрать вложения."
 
 #, python-brace-format
 msgid "New timeline for {0}"
-msgstr "Новый timeline для {0}"
+msgstr "Новая пользовательская лента для {0}"
 
 msgid "Buffer type"
 msgstr "Тип буфера"
 
 msgid "&Wall posts"
-msgstr "&Публикации на стене"
+msgstr "&Записи на стене"
 
 msgid "Po&sts"
-msgstr "Пу&бликации"
+msgstr "За&писи."
 
 msgid "Text"
 msgstr "Текст"
 
 msgid "&Post"
-msgstr "&Публикация"
+msgstr "&Запись."
 
-#, fuzzy
-#| msgid "Add comment"
 msgid "Load community"
-msgstr "Комментировать.."
+msgstr "Загрузить сообщество."
 
 msgid "Mu&sic"
 msgstr "Му&зыка"
@@ -1674,64 +1639,5 @@ msgstr "Написать сообщение"
 msgid "Send message"
 msgstr "Отправить сообщение"
 
-#, fuzzy
-#| msgid "Video"
 msgid "Video&s"
-msgstr "Видеозапись"
-
-#~ msgid "You do like this comment"
-#~ msgstr "Мне нравится"
-
-#~ msgid "You don't like this comment"
-#~ msgstr "Мне не нравится"
-
-#~ msgid "Comment from {0}"
-#~ msgstr "Комментарий от {0}"
-
-#~ msgid "Edit profile"
-#~ msgstr "Редактировать профиль."
-
-#~ msgid "autodetect"
-#~ msgstr "Автоопределение"
-
-#~ msgid "&Source language"
-#~ msgstr "&Исходный язык"
-
-#~ msgid "Try to &correct for mistakes in the search term"
-#~ msgstr "Попробуйте исправить ошибке в поисковом запросе"
-
-#~ msgid "Search only songs with associated &lyrics"
-#~ msgstr "Искать только композиции с конкретным описанием"
-
-#~ msgid "Search by"
-#~ msgstr "Поиск по"
-
-#~ msgid "&artist"
-#~ msgstr "Исполнитель"
-
-#~ msgid "post"
-#~ msgstr "Публикация"
-
-#~ msgid "Discard image"
-#~ msgstr "Отменить загрузку изображения"
-
-#~ msgid "Upload a &picture"
-#~ msgstr "Загрузить фотографию"
-
-#~ msgid "Search all songs with this title"
-#~ msgstr "Искать все песни с таким же названием"
-
-#~ msgid "Search audios of this artist"
-#~ msgstr "Искать композиции этого исполнителя"
-
-#~ msgid "New buffer"
-#~ msgstr "Новый буфер"
-
-#~ msgid "Open URL"
-#~ msgstr "Открыть URL"
-
-#~ msgid "Translate"
-#~ msgstr "Перевести"
-
-#~ msgid "Check Spelling"
-#~ msgstr "Проверка орфографии"
+msgstr "Видеозапис&и."
