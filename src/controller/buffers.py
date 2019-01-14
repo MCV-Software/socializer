@@ -851,7 +851,7 @@ class chatBuffer(baseBuffer):
 		if event.GetKeyCode() == wx.WXK_RETURN and shift == False:
 			return self.send_chat_to_user()
 		t = time.time()
-		if t-self.last_keypress > 5:
+		if event.GetUnicodeKey() != wx.WXK_NONE and t-self.last_keypress > 5:
 			self.last_keypress = t
 			call_threaded(self.session.vk.client.messages.setActivity, peer_id=self.kwargs["peer_id"], type="typing")
 		event.Skip()
@@ -883,7 +883,7 @@ class chatBuffer(baseBuffer):
 		else:
 			if num > 0:
 				[self.insert(i, False) for i in self.session.db[self.name]["items"][:num]]
-		if unread:
+		if unread == True and num > 0:
 			self.session.db[self.name]["items"][-1].update(read_state=0)
 		return retrieved
 
