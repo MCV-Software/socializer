@@ -10,7 +10,6 @@ class configurationPresenter(base.basePresenter):
 		self.create_config()
 		self.run()
 
-
 	def get_notification_label(self, value):
 		if value == "native":
 			return _("Native")
@@ -51,6 +50,10 @@ class configurationPresenter(base.basePresenter):
 		self.send_message("set", tab="chat", setting="open_unread_conversations", value=self.session.settings["chat"]["open_unread_conversations"])
 		self.send_message("set", tab="chat", setting="automove_to_conversations", value=self.session.settings["chat"]["automove_to_conversations"])
 		self.send_message("set", tab="chat", setting="notifications", value=self.get_notification_label(self.session.settings["chat"]["notifications"]))
+		self.send_message("create_tab", tab="startup_options")
+		self.send_message("set", tab="startup", setting="audio_albums", value=self.session.settings["load_at_startup"]["audio_albums"])
+		self.send_message("set", tab="startup", setting="video_albums", value=self.session.settings["load_at_startup"]["video_albums"])
+		self.send_message("set", tab="startup", setting="communities", value=self.session.settings["load_at_startup"]["communities"])
 
 	def update_setting(self, section, setting, value):
 		if section not in self.session.settings:

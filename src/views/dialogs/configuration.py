@@ -51,6 +51,18 @@ class chat(wx.Panel, widgetUtils.BaseDialog):
 		sizer.Add(nbox, 0, wx.ALL, 5)
 		self.SetSizer(sizer)
 
+class loadAtStartup(wx.Panel, widgetUtils.BaseDialog):
+	def __init__(self, panel):
+		super(loadAtStartup, self).__init__(panel)
+		sizer = wx.BoxSizer(wx.VERTICAL)
+		self.audio_albums = wx.CheckBox(self, wx.NewId(), _("Create buffers for audio albums at startup"))
+		sizer.Add(self.audio_albums, 0, wx.ALL, 5)
+		self.video_albums = wx.CheckBox(self, wx.NewId(), _("Create buffers for video albums at startup"))
+		sizer.Add(self.video_albums, 0, wx.ALL, 5)
+		self.communities = wx.CheckBox(self, wx.NewId(), _("Create buffers for communities and public pages at startup"))
+		sizer.Add(self.communities, 0, wx.ALL, 5)
+		self.SetSizer(sizer)
+
 class configurationDialog(widgetUtils.BaseDialog):
 
 	def __init__(self, title):
@@ -68,6 +80,9 @@ class configurationDialog(widgetUtils.BaseDialog):
 		self.chat = chat(self.notebook)
 		self.notebook.AddPage(self.chat, _("Chat settings"))
 
+	def create_startup_options(self):
+		self.startup = loadAtStartup(self.notebook)
+		self.notebook.AddPage(self.startup, _("Optional buffers"))
 
 	def realize(self):
 		self.sizer.Add(self.notebook, 0, wx.ALL, 5)

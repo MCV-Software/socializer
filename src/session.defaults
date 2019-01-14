@@ -28,3 +28,8 @@ notify_offline = boolean(default=True)
 open_unread_conversations = boolean(default=True)
 automove_to_conversations = boolean(default=True)
 notifications = string(default="custom")
+
+[load_at_startup]
+audio_albums = boolean(default=False)
+video_albums = boolean(default=False)
+communities = boolean(default=False)

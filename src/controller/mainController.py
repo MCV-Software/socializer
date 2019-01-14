@@ -475,6 +475,8 @@ class Controller(object):
 				time.sleep(1)
 
 	def get_audio_albums(self, user_id=None, create_buffers=True):
+		if self.session.settings["load_at_startup"]["audio_albums"] == False:
+			return
 		log.debug("Create audio albums...")
 		if self.session.settings["vk"]["use_alternative_tokens"]:
 			albums = self.session.vk.client_audio.get_albums(owner_id=user_id)
@@ -488,6 +490,8 @@ class Controller(object):
 				time.sleep(0.6)
 
 	def get_video_albums(self, user_id=None, create_buffers=True):
+		if self.session.settings["load_at_startup"]["video_albums"] == False:
+			return
 		log.debug("Create video  albums...")
 		albums = self.session.vk.client.video.getAlbums(owner_id=user_id)
 		self.session.video_albums = albums["items"]
@@ -509,6 +513,8 @@ class Controller(object):
 						commonMessages.group_joined()
 					else:
 						log.error("Invalid result when joining the Socializer's group: %d" % (result))
+		if self.session.settings["load_at_startup"]["communities"] == False:
+			return
 		log.debug("Create community buffers...")
 		groups= self.session.vk.client.groups.get(user_id=user_id, extended=1, fields="city, country, place, description, wiki_page, members_count, counters, start_date, finish_date, can_post, can_see_all_posts, activity, status, contacts, links, fixed_post, verified, site, can_create_topic", count=1000)
 		self.session.groups=groups["items"]
