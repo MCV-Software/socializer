@@ -2,6 +2,7 @@
 import logger
 import sys
 import fixes
+import traceback
 if hasattr(sys, "frozen"):
 	fixes.setup()
 import platform
@@ -13,6 +14,7 @@ import output
 import logging
 import keys
 import application
+sys.excepthook = lambda x, y, z: logging.critical(''.join(traceback.format_exception(x, y, z)))
 from mysc.thread_utils import call_threaded
 
 log = logging.getLogger("main")
