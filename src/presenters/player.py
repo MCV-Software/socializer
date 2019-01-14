@@ -52,7 +52,6 @@ class audioPlayer(object):
 			try:
 				self.stream = URLStream(url=url_)
 			except BassError:
-				log.debug("Error when playing the file %r") % (url,)
 				return
 			# Translators: {0} will be replaced with a song's title and {1} with the artist.
 			if set_info:
