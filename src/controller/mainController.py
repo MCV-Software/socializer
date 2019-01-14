@@ -187,7 +187,7 @@ class Controller(object):
 		wx.CallAfter(self.create_unread_messages)
 		wx.CallAfter(self.get_audio_albums, self.session.user_id)
 		wx.CallAfter(self.get_video_albums, self.session.user_id)
-		wx.CallAfter(self.get_communities, self.session.user_id)
+#		wx.CallAfter(self.get_communities, self.session.user_id)
 		self.create_longpoll_thread()
 
 	def create_longpoll_thread(self, notify=False):
