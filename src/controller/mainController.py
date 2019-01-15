@@ -256,7 +256,7 @@ class Controller(object):
 	def search_audios(self, *args, **kwargs):
 		dlg = searchDialogs.searchAudioDialog()
 		if dlg.get_response() == widgetUtils.OK:
-			q = dlg.get("term").encode("utf-8")
+			q = dlg.get("term")
 			newbuff = buffers.audioBuffer(parent=self.window.tb, name="{0}_audiosearch".format(q,), session=self.session, composefunc="render_audio", parent_endpoint="audio", endpoint="search", q=q)
 			self.buffers.append(newbuff)
 			call_threaded(newbuff.get_items)
