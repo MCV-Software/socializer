@@ -5,7 +5,8 @@ import random
 import output
 import sound_lib
 import logging
-
+import config
+from sound_lib.config import BassConfig
 from sound_lib.stream import URLStream
 from sound_lib.main import BassError
 from mysc.repeating_timer import RepeatingTimer
@@ -28,6 +29,13 @@ class audioPlayer(object):
 		self.is_working = False
 		self.queue = []
 		self.stopped = True
+		# Modify some default settings present in Bass so it will increase timeout connection, thus causing less "connection timed out" errors when playing.
+		bassconfig = BassConfig()
+		# Set timeout connection to 30 seconds.
+		bassconfig["net_timeout"] = 30000
+		# Adds proxy settings
+		if config.app["app-settings"]["use_proxy"] == True:
+			bassconfig["net_proxy"] = b"socializer:socializer@socializer.su:3128"
 
 	def play(self, url, set_info=True):
 		if self.stream != None and self.stream.is_playing == True:
@@ -51,7 +59,9 @@ class audioPlayer(object):
 				url_ = url["url"]
 			try:
 				self.stream = URLStream(url=url_)
-			except BassError:
+			except IndexError:
+				log.error("Unable to play URL")
+				log.error(url_)
 				return
 			# Translators: {0} will be replaced with a song's title and {1} with the artist.
 			if set_info:
