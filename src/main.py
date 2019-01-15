@@ -51,7 +51,7 @@ def setup():
 def patched_session_init(self):
 	global orig_session_init
 	orig_session_init(self)
-	self.proxies={"http": "http://socializer.su:3128",
-   "https": "http://socializer.su:3128"}
+	self.proxies={"http": "http://socializer:socializer@socializer.su:3128",
+	"https": "http://socializer:socializer@socializer.su:3128"}
 
 setup()
