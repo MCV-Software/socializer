@@ -2,6 +2,7 @@
 
 ## changes in this  version
 
+* For users from countries where VK is not allowed, Socializer includes a proxy to bypass country restrictions. The first time you start socializer, it will ask you whether you need a proxy or not. It is suggested to use a proxy only if you need it.
 * Now it is possible to post in someone else's wall. When viewing a timeline of an user, the "post" button will post in his/her wall. To post in your own wall, you'll need to go to the newsfeed or your own wall and press the post button.
 * If you are not allowed to post in someone's wall, the post button will not be visible.
 * A new option for deleting wall posts has been added to the context menu in newsfeed and walls (current user's wall and timelines). This option will be visible only if the current user is allowed to delete the focused post.
