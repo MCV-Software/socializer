@@ -419,15 +419,15 @@ class Controller(object):
 		# If the chat already exists, let's create a dictionary wich will contains data of the received message.
 		message.update(id=obj.message_id, user_id=uid, date=obj.timestamp, body=obj.text, attachments=obj.attachments)
 		# if attachments is true, let's request for the full message with attachments formatted in a better way.
-		# Todo: code improvements. We shouldn't need to request the same message again just for these attachments.
+		# ToDo: code improvements. We shouldn't need to request the same message again just for these attachments.
 		if len(message["attachments"]) != 0:
 			message_ids = message["id"]
 			results = self.session.vk.client.messages.getById(message_ids=message_ids)
 			message = results["items"][0]
-			message.update(read_state=0)
 		if obj.from_me:
 			message["from_id"] = self.session.user_id
 		else:
+			message.update(read_state=0)
 			message["from_id"] = obj.user_id
 		data = [message]
 		# Let's add this to the buffer.

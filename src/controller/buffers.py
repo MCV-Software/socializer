@@ -821,7 +821,6 @@ class chatBuffer(baseBuffer):
 				self.session.soundplayer.play("message_unread.ogg")
 				self.reads.append(msg["id"])
 				self.session.db[self.name]["items"][-1]["read_state"] = 1
-#			print msg
 			if "attachments" in msg and len(msg["attachments"]) > 0:
 				self.tab.attachments.list.Enable(True)
 				self.attachments = list()
