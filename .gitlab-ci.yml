@@ -4,7 +4,7 @@ variables:
   PYINSTALLER: "C:\\python37\\scripts\\pyinstaller.exe"
   PYTHON2: "C:\\python27\\python.exe"
 
-.test_py3:
+test_py3:
   stage: test
   tags:
     - windows10
@@ -47,7 +47,7 @@ alpha:
     name: socializer
     expire_in: 1 day
 
-.alpha_python3:
+alpha_python3:
   type: deploy
   tags:
     - windows10
