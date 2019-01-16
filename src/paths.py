@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 import sys
 import platform
 import os
+import glob
 #import logging
 from platform_utils import paths as paths_
 
@@ -13,6 +14,8 @@ directory = None
 fsencoding = sys.getfilesystemencoding()
 
 #log = logging.getLogger("paths")
+if len(glob.glob("Uninstall.exe")) > 0: # installed copy
+	mode= "installed"
 
 def app_path():
 	return paths_.app_path()
