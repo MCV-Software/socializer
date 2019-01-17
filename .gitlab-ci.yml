@@ -3,6 +3,7 @@ variables:
   PYTHON3: "C:\\python37\\python.exe"
   PYINSTALLER: "C:\\python37\\scripts\\pyinstaller.exe"
   PYTHON2: "C:\\python27\\python.exe"
+  NSIS: "C:\\nsis\\makensis.exe"
 
 test_py3:
   stage: test
@@ -65,7 +66,9 @@ alpha_python3:
     - '%PYTHON2% ..\doc\generator.py'
     - '%PYTHON3% write_version_data.py'
     - '%PYINSTALLER% main.spec'
+    - '%NSIS% installer.nsi'
     - cd ..
+    - move src\socializer* .
     - cd scripts
     - '%PYTHON3% prepare_zipversion.py'
     - cd ..
@@ -75,6 +78,7 @@ alpha_python3:
   artifacts:
     paths:
     - socializer.zip
+    - "socializer_*"
     name: socializer_py3
     expire_in: 1 day
 
