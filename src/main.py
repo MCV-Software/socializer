@@ -14,7 +14,7 @@ import output
 import logging
 import keys
 import application
-sys.excepthook = lambda x, y, z: logging.critical(''.join(traceback.format_exception(x, y, z)))
+#sys.excepthook = lambda x, y, z: logging.critical(''.join(traceback.format_exception(x, y, z)))
 from mysc.thread_utils import call_threaded
 from wxUI import commonMessages
 

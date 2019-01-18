@@ -3,6 +3,29 @@ import webbrowser
 import random
 import requests
 import string
+from uuid import getnode
+
+def create_mac_string(num, splitter=':'):
+    """Return the mac address interpretation of num,
+    in the form eg '00:11:22:33:AA:BB'.
+
+    :param num: a 48-bit integer (eg from uuid.getnode)
+    :param spliiter: a string to join the hex pairs with
+    """
+
+    mac = hex(num)[2:]
+
+    # trim trailing L for long consts
+    if mac[-1] == 'L':
+        mac = mac[:-1]
+
+    pad = max(12 - len(mac), 0)
+    mac = '0' * pad + mac
+    mac = splitter.join([mac[x:x + 2] for x in range(0, 12, 2)])
+    mac = mac.upper()
+
+    return mac
+
 from . import _sslfixer
 from .wxUI import two_factor_auth
 
@@ -20,7 +43,13 @@ client_secret = 'lxhD8OD7dMsqtXIm5IUY'
 api_ver='5.92'
 scope = 'all'
 user_agent = 'KateMobileAndroid/47-427 (Android 6.0.1; SDK 23; armeabi-v7a; samsung SM-G900F; ru)'
-android_id = '4119748609680577006'
+
+mac_int = getnode()
+device_id = create_mac_string(mac_int)
+android_id = device_id.replace(':', '')
+
+#android_id = '4119748609680577006'
+
 android_token = '5228540069896927210'
 api_url = 'https://api.vk.com/method/'
 

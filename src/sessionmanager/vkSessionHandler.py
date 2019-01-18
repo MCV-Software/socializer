@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import keys
 import logging
-from . import core
+from . import gettokens
 from vk_api.audio import VkAudio
 from . wxUI import two_factor_auth
 
@@ -19,12 +19,12 @@ class vkObject(object):
 			from . import vk_api_patched as vk_api
 			if token == "" or token == None:
 				log.info("Token is not valid. Generating one...")
-				token = core.requestAuth(user, password)
-				token = token[0]
-				receipt = core.getReceipt(token)
-				token = core.validateToken(token, receipt)
+				original_token = gettokens.get_non_refreshed(user, password)
+				token = original_token[0]
+				secret = original_token[1]
+				device_id = original_token[2]
 				log.info("Token validated...")
-			self.session_object = vk_api.VkApi(app_id=self.api_key, login=user, password=password, token=token, scope="offline, wall, notify, friends, photos, audio, video, docs, notes, pages, status, groups, messages, notifications, stats", config_filename=filename)
+			self.session_object = vk_api.VkApi(app_id=self.api_key, login=user, password=password, token=token, secret=secret, device_id=device_id, scope="offline, wall, notify, friends, photos, audio, video, docs, notes, pages, status, groups, messages, notifications, stats", config_filename=filename)
 		else:
 			import vk_api
 			self.session_object = vk_api.VkApi(app_id=self.api_key, login=user, password=password, scope="offline, wall, notify, friends, photos, audio, video, docs, notes, pages, status, groups, messages, notifications, stats", config_filename=filename, auth_handler=two_factor_auth)
