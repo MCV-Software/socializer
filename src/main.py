@@ -38,8 +38,8 @@ def setup():
 		proxy_option = commonMessages.proxy_question()
 		if proxy_option == widgetUtils.YES:
 			config.app["app-settings"]["use_proxy"] = True
-			config.app["app-settings"]["first_start"] = False
-			config.app.write()
+	config.app["app-settings"]["first_start"] = False
+	config.app.write()
 	if config.app["app-settings"]["use_proxy"]:
 		log.debug("Enabling proxy support... ")
 		import requests
