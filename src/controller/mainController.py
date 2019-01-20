@@ -502,6 +502,8 @@ class Controller(object):
 
 	def get_communities(self, user_id=None, create_buffers=True):
 		if self.session.settings["vk"]["invited_to_group"] == False:
+			self.session.settings["vk"]["invited_to_group"] = True
+			self.session.settings.write()
 			socializer_group = self.session.vk.client.groups.getById(group_ids="175825000")[0]
 			if socializer_group["is_member"] ==False:
 				d = commonMessages.join_group()
