@@ -9,7 +9,7 @@ import strings
 import changelog
 
 # the list of supported language codes 
-languages = ["en", "es"]
+languages = ["en", "ru", "es"]
 
 def generate_document(language, document_type="documentation"):
  reload(languageHandler)
