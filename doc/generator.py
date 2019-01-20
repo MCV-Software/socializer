@@ -18,14 +18,14 @@ def generate_document(language, document_type="documentation"):
   languageHandler.setLanguage(language, translation_file)
   reload(strings)
   markdown_file = markdown.markdown("\n".join(strings.documentation[1:]), extensions=["markdown.extensions.toc"])
-  title = strings.documentation[0]
+  title = strings.documentation[0][1:]
   filename = "manual.html"
  elif document_type == "changelog":
-  translation_file = "socializer-changelog"
+  translation_file = "socializer-documentation"
   languageHandler.setLanguage(language, translation_file)
   reload(changelog)
   markdown_file = markdown.markdown("\n".join(changelog.documentation[1:]), extensions=["markdown.extensions.toc"])
-  title = changelog.documentation[0]
+  title = changelog.documentation[0][1:]
   filename = "changelog.html"
  first_html_block = """<!doctype html>
  <html lang="%s">
