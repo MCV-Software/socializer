@@ -3,8 +3,8 @@ import logger
 import sys
 import fixes
 import traceback
-if hasattr(sys, "frozen"):
-	fixes.setup()
+#if hasattr(sys, "frozen"):
+fixes.setup()
 import platform
 import languageHandler
 import widgetUtils
