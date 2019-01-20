@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 name = "Socializer"
-version = "0.17"
+version = "0.18"
 author = "Manuel Cortez"
 authorEmail = "manuel@manuelcortez.net"
 copyright = "Copyright (C) 2016-2018, Manuel Cortez"
