@@ -1,30 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import time
 import wx
 import widgetUtils
 
-code = None
-remember = True
-
 def new_account_dialog():
 	return wx.MessageDialog(None, _("In order to continue, you need to configure your VK account before. Would you like to autorhise a new account now?"), _("Authorisation"), wx.YES_NO).ShowModal()
-
-def two_factor_auth():
-	global code, remember
-	wx.CallAfter(get_code)
-	while code == None:
-		time.sleep(0.5)
-	return (code, remember)
-
-def get_code():
-	global code, remember
-	dlg = wx.TextEntryDialog(None, _("Please provide the authentication code you have received from VK."), _("Two factor authentication code"))
-	response = dlg.ShowModal()
-	if response == widgetUtils.OK:
-		code = dlg.GetValue()
-		dlg.Destroy()
-	dlg.Destroy()
 
 class newSessionDialog(widgetUtils.BaseDialog):
 	def __init__(self):

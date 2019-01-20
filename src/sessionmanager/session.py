@@ -111,9 +111,10 @@ class vkSession(object):
 	def login(self):
 		try:
 			config_filename = os.path.join(paths.config_path(), self.session_id, "vkconfig.json")
-			self.vk.login(self.settings["vk"]["user"], self.settings["vk"]["password"], token=self.settings["vk"]["token"], alt_token=self.settings["vk"]["use_alternative_tokens"], filename=config_filename)
+			self.vk.login(self.settings["vk"]["user"], self.settings["vk"]["password"], token=self.settings["vk"]["token"], secret=self.settings["vk"]["secret"], device_id=self.settings["vk"]["device_id"], alt_token=self.settings["vk"]["use_alternative_tokens"], filename=config_filename)
 			self.settings["vk"]["token"] = self.vk.session_object.token["access_token"]
 			self.settings["vk"]["secret"] = self.vk.session_object.secret
+			self.settings["vk"]["device_id"] = self.vk.session_object.device_id
 			self.settings.write()
 			self.logged = True
 			self.get_my_data()

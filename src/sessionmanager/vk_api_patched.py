@@ -7,6 +7,7 @@ import logging
 import vk_api
 import threading
 import requests
+from authenticator.official import get_sig
 from . import jconfig_patched as jconfig
 from vk_api.enums import VkUserPermissions
 from vk_api.exceptions import *
@@ -93,7 +94,7 @@ class VkApi(vk_api.VkApi):
             if delay > 0:
                 time.sleep(delay)
             values.update(https=1, device_id=self.device_id)
-            sig = self.get_sig(method, values, self.secret)
+            sig = get_sig(method, values, self.secret)
             values.update(sig=sig)
             response = self.http.post(
                 'https://api.vk.com/method/' + method,
@@ -134,11 +135,3 @@ class VkApi(vk_api.VkApi):
             raise error
 
         return response if raw else response['response']
-
-    def get_sig(self, method, values, secret):
-        postdata = ""
-        for key in values:
-            postdata = postdata + "{key}={value}&".format(key=key, value=values[key])
-        postdata = postdata[:-1]
-        sig = hashlib.md5(b"/method/"+method.encode("utf-8")+b"?"+postdata.encode("utf-8")+secret.encode("utf-8"))
-        return sig.hexdigest()

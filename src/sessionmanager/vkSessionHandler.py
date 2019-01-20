@@ -1,9 +1,9 @@
 #!/usr/bin/python
 import keys
 import logging
-from . import gettokens
+from authenticator import official
 from vk_api.audio import VkAudio
-from . wxUI import two_factor_auth
+from authenticator.wxUI import two_factor_auth
 
 log = logging.getLogger("vkSessionHandler")
 
@@ -12,14 +12,14 @@ class vkObject(object):
 	def __init__(self):
 		self.api_key = keys.keyring.get_api_key()
 
-	def login(self, user, password, token, alt_token, filename):
+	def login(self, user, password, token, secret, device_id, alt_token, filename):
 		if alt_token == False:
 			log.info("Using kate's token...")
 			# Let's import the patched vk_api module for using a different user agent
 			from . import vk_api_patched as vk_api
 			if token == "" or token == None:
 				log.info("Token is not valid. Generating one...")
-				original_token = gettokens.get_non_refreshed(user, password)
+				original_token = official.login(user, password)
 				token = original_token[0]
 				secret = original_token[1]
 				device_id = original_token[2]
