@@ -2,6 +2,10 @@
 
 ## changes in this  version
 
+* Added experimental support to "subscribers" buffer, inside frienship requests. This shows friend requests that have been declined by the current user.
+
+## Changes in version 0.18 (21.01.2019)
+
 * Changed authentication tokens in Socializer. It is mandatory to download a fresh copy of socializer and start a new configuration for your account.
 * Stable versions of Socializer are built with Python 3. Previous versions are built with Python 2, however support for Python 2 will be dropped very soon.
 * There is an installer file for Socializer, available in our downloads page. Installed version of Socializer will be more confortable for some people.

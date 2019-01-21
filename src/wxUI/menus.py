@@ -44,10 +44,12 @@ class audioMenu(wx.Menu):
 		self.Append(self.move)
 
 class peopleMenu(wx.Menu):
-	def __init__(self, is_request=False, *args, **kwargs):
+	def __init__(self, is_request=False, is_subscriber=False, *args, **kwargs):
 		super(peopleMenu, self).__init__(*args, **kwargs)
 		if is_request:
-			self.create_extra_items()
+			self.create_request_items()
+		elif is_subscriber:
+			self.create_subscriber_items()
 		self.view_profile = wx.MenuItem(self, wx.NewId(), _("View profile"))
 		self.Append(self.view_profile)
 		self.message = wx.MenuItem(self, wx.NewId(), _("Send a message"))
@@ -57,13 +59,17 @@ class peopleMenu(wx.Menu):
 		self.common_friends = wx.MenuItem(self, wx.NewId(), _("View friends in common"))
 		self.Append(self.common_friends)
 
-	def create_extra_items(self):
+	def create_request_items(self):
 		self.accept = wx.MenuItem(self, wx.NewId(), _("Accept"))
 		self.Append(self.accept)
 		self.decline = wx.MenuItem(self, wx.NewId(), _("Decline"))
 		self.Append(self.decline)
 		self.keep_as_follower = wx.MenuItem(self, wx.NewId(), _("Keep as follower"))
 		self.Append(self.keep_as_follower)
+
+	def create_subscriber_items(self):
+		self.add = wx.MenuItem(self, wx.NewId(), _("Add to friends"))
+		self.Append(self.add)
 
 class commentMenu(wx.Menu):
 	def __init__(self, *args, **kwargs):

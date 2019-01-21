@@ -855,7 +855,7 @@ class chatBuffer(baseBuffer):
 			call_threaded(self.session.vk.client.messages.setActivity, peer_id=self.kwargs["peer_id"], type="typing")
 		event.Skip()
 
-	def get_items(self, show_nextpage=False, unread=False):
+	def get_items(self, show_nextpage=False):
 		if self.can_get_items == False: return
 		retrieved = True # Control variable for handling unauthorised/connection errors.
 		try:
@@ -882,7 +882,7 @@ class chatBuffer(baseBuffer):
 		else:
 			if num > 0:
 				[self.insert(i, False) for i in self.session.db[self.name]["items"][:num]]
-		if unread == True and num > 0:
+		if self.unread == True and num > 0:
 			self.session.db[self.name]["items"][-1].update(read_state=0)
 		return retrieved
 
@@ -951,8 +951,9 @@ class chatBuffer(baseBuffer):
 			if ex.code == 9:
 				output.speak(_("You have been sending a message that is already sent. Try to update the buffer if you can't see the new message in the history."))
 
-	def __init__(self, *args, **kwargs):
+	def __init__(self, unread=False, *args, **kwargs):
 		super(chatBuffer, self).__init__(*args, **kwargs)
+		self.unread = unread
 		self.reads = []
 		self.chats = dict()
 		self.peer_typing = 0
@@ -1071,9 +1072,12 @@ class peopleBuffer(feedBuffer):
 			widgetUtils.connect_event(m, widgetUtils.MENU, self.accept_friendship, menuitem=m.accept)
 			widgetUtils.connect_event(m, widgetUtils.MENU, self.decline_friendship, menuitem=m.decline)
 			widgetUtils.connect_event(m, widgetUtils.MENU, self.keep_as_follower, menuitem=m.keep_as_follower)
+		elif self.name == "subscribers":
+			m = menus.peopleMenu(is_subscriber=True)
+			widgetUtils.connect_event(m, widgetUtils.MENU, self.accept_friendship, menuitem=m.add)
 		else:
 			m = menus.peopleMenu(is_request=False)
-		# It is not allowed to send messages to people who is not your friends, so let's disble it if we're in a pending or outgoing requests folder.
+		# It is not allowed to send messages to people who is not your friends, so let's disable it if we're in a pending or outgoing requests folder.
 		if "friend_requests" in self.name:
 			m.message.Enable(False)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.new_chat, menuitem=m.message)
