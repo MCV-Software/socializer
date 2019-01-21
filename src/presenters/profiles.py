@@ -113,7 +113,10 @@ class userProfilePresenter(base.basePresenter):
 			elif person["relation"] == 3:
 				r = _("Engaged with {0} {1}").format(person["relation_partner"]["first_name"], person["relation_partner"]["last_name"])
 			elif person["relation"] == 4:
-				r = _("Married with {0} {1}").format(person["relation_partner"]["first_name"], person["relation_partner"]["last_name"])
+				if "relation_partner" in person:
+					r = _("Married to {0} {1}").format(person["relation_partner"]["first_name"], person["relation_partner"]["last_name"])
+				else:
+					r = _("Married")
 			elif person["relation"] == 5:
 				r = _("It's complicated")
 			elif person["relation"] == 6:
