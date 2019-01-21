@@ -6,24 +6,13 @@
 
 A desktop application for handling [vk.com](http://vk.com) in an easy way.
 
-## download the current  build
-
-Socializer's functionality is far to be perfect, in fact there are lots of methods of the VK API that this application doesn't support  right now, but if you are curious enough, and you want to help by giving me your impressions and making  tests for fixing  bugs, you can download the last source code, compiled as an application. This is the   snapshot build of socializer. This version is only for testing purposes, never think that it can be used for everyday use. This version does not include any documentation, Only the changelog, because it's build with an authomatic process.
-
-Before downloading, take in to account the following: This source code is completely experimental. The current functionality in this application is not very useful. If you decide to use nightly build versions, take into account that this doesn't work as an application for everyday use yet.
-
-Version: 0.16  
-Build date: Dec 14 2018  
-[Download socializer](https://code.manuelcortez.net/manuelcortez/socializer/-/jobs/artifacts/master/raw/socializer.zip?job=alpha)
-
-I have started this effort as an open source  project on Feb 13, 2016. Pull requests and bug reports are welcome.
+[See Socializer's website](http://socializer.su)
 
 ## dependencies not installed by PIP
 
 For other dependencies, do pip install --upgrade -r requirements.txt
 
-* [Python,](http://python.org) version 2.7.15
-* [PyEnchant,](http://pythonhosted.org/pyenchant/) version 1.6.6.
+* [Python,](http://python.org) version 3.7.2
 
 ## Documentation
 
