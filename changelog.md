@@ -3,6 +3,7 @@
 ## changes in this  version
 
 * Added experimental support to "subscribers" buffer, inside frienship requests. This shows friend requests that have been declined by the current user.
+* Fixed an error in Socializer that was making it unable to detect unread messages properly.
 
 ## Changes in version 0.18 (21.01.2019)
 

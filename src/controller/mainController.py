@@ -99,6 +99,7 @@ class Controller(object):
 		pub.sendMessage("create_empty_buffer", buffer_title=_("Friendship requests"), parent_tab="people", kwargs=dict(parent=self.window.tb, name="requests"))
 		pub.sendMessage("create_buffer", buffer_type="requestsBuffer", buffer_title=_("Pending requests"), parent_tab="requests", kwargs=dict(parent=self.window.tb, name="friend_requests", composefunc="render_person", session=self.session, count=1000))
 		pub.sendMessage("create_buffer", buffer_type="requestsBuffer", buffer_title=_("I follow"), parent_tab="requests", kwargs=dict(parent=self.window.tb, name="friend_requests_sent", composefunc="render_person", session=self.session, count=1000, out=1))
+		pub.sendMessage("create_buffer", buffer_type="requestsBuffer", buffer_title=_("Subscribers"), parent_tab="requests", kwargs=dict(parent=self.window.tb, name="subscribers", composefunc="render_person", session=self.session, count=1000, need_viewed=1))
 		pub.sendMessage("create_empty_buffer", buffer_title=_("Communities"), kwargs=dict(parent=self.window.tb, name="communities"))
 		pub.sendMessage("create_empty_buffer", buffer_title=_("Chats"), kwargs=dict(parent=self.window.tb, name="chats"))
 		pub.sendMessage("create_empty_buffer", buffer_title=_("Timelines"), kwargs=dict(parent=self.window.tb, name="timelines"))
@@ -373,7 +374,7 @@ class Controller(object):
 		elif user_id > 2000000000:
 			chat = self.session.vk.client.messages.getChat(chat_id=user_id-2000000000)
 			name = _("Chat in {chat_name}").format(chat_name=chat["title"],)
-		wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="chatBuffer", buffer_title=name, parent_tab="chats", get_items=True, kwargs=dict(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="render_message", session=self.session, count=200,  peer_id=user_id, rev=0, extended=True, fields="id, user_id, date, read_state, out, body, attachments, deleted"))
+		wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="chatBuffer", buffer_title=name, parent_tab="chats", get_items=True, kwargs=dict(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="render_message", session=self.session, unread=unread, count=200,  peer_id=user_id, rev=0, extended=True, fields="id, user_id, date, read_state, out, body, attachments, deleted"))
 #		if setfocus:
 #			pos = self.window.search(buffer.name)
 #			self.window.change_buffer(pos)
@@ -427,7 +428,7 @@ class Controller(object):
 		if obj.from_me:
 			message["from_id"] = self.session.user_id
 		else:
-			message.update(read_state=0)
+			message.update(read_state=0, out=0)
 			message["from_id"] = obj.user_id
 		data = [message]
 		# Let's add this to the buffer.
