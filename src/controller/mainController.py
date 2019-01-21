@@ -147,7 +147,6 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_play_next, menuitem=self.window.player_next)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_play_previous, menuitem=self.window.player_previous)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_play_all, menuitem=self.window.player_play_all)
-		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_stop, menuitem=self.window.player_stop)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_volume_down, menuitem=self.window.player_volume_down)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_volume_up, menuitem=self.window.player_volume_up)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_mute, menuitem=self.window.player_mute)
@@ -598,14 +597,14 @@ class Controller(object):
 		os.chdir("../../")
 
 	def menu_play_pause(self, *args, **kwargs):
-		if player.player.check_is_playing() != False:
+		if player.player.stream != None:
 			return player.player.pause()
-		b = self.get_current_buffer()
-		if hasattr(b, "play_next"):
-			b.play_audio()
 		else:
-			b = self.search("me_audio")
-			b.play_audio()
+			b = self.get_current_buffer()
+			if hasattr(b, "play_audio"):
+				b.play_audio()
+			else:
+				self.search("me_audio").play_audio()
 
 	def menu_play_next(self, *args, **kwargs):
 		b = self.get_current_buffer()
@@ -627,9 +626,6 @@ class Controller(object):
 			b.play_all()
 		else:
 			self.search("me_audio").play_all()
-
-	def menu_stop(self, *args, **kwargs):
-		player.player.stop()
 
 	def menu_volume_down(self, *args, **kwargs):
 		player.player.volume = player.player.volume-5
