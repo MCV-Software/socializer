@@ -56,7 +56,6 @@ alpha_python3:
     - '%PYTHON3% -v'
     - '%PYTHON3% -m pip install --upgrade pip'
     - '%PYTHON3% -m pip install --upgrade -r requirements.txt'
-    - '%PYTHON3% -m pip install --upgrade pyenchant pypubsub'
     - '%PYTHON3% -m pip uninstall enum34 -y'
   script:
     - copy changelog.md doc\changelog.md
@@ -87,7 +86,6 @@ stable:
     - '%PYTHON3% -v'
     - '%PYTHON3% -m pip install --upgrade pip'
     - '%PYTHON3% -m pip install --upgrade -r requirements.txt'
-    - '%PYTHON3% -m pip install --upgrade pyenchant pypubsub'
     - '%PYTHON3% -m pip uninstall enum34 -y'
   script:
     - copy changelog.md doc\changelog.md

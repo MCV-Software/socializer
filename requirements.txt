@@ -1,11 +1,12 @@
 ﻿# Stay in wxPython 4.0.3 because 4.0.4 has some regressions in accessibility related components.
 wxpython==4.0.3
 pywin32
+pyenchant
 markdown
 vk_api
 bs4
 configobj
-pypubsub==3.3.0
+pypubsub
 requests-oauthlib
 future
 arrow
