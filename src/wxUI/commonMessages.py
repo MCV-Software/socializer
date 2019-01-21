@@ -49,3 +49,6 @@ def group_joined():
 
 def proxy_question():
 	return wx.MessageDialog(None, _("If you live in a country where VK is blocked, you can use a proxy to bypass such restrictions. Socializer includes a working proxy to ensure all users can connect to VK. Do you want to use Socializer through the proxy?"), _("Attention"), style=wx.ICON_QUESTION|wx.YES_NO).ShowModal()
+
+def remove_friend(user):
+	return wx.MessageDialog(None, _("Are you sure you want to remove {user1_nom} from your friends?").format(**user), _("Attention"), style=wx.ICON_QUESTION|wx.YES_NO).ShowModal()

@@ -1095,7 +1095,20 @@ class peopleBuffer(feedBuffer):
 		pass
 
 	def decline_friendship(self, *args, **kwargs):
-		pass
+		person = self.get_post()
+		if person == None:
+			return
+		user = self.session.get_user(person["id"])
+		question = commonMessages.remove_friend(user)
+		if question == widgetUtils.NO:
+			return
+		result = self.session.vk.client.friends.delete(user_id=person["id"])
+		if "friend_deleted" in result:
+			msg = _("You've deleted {user1_nom} from your friends.").format(**user,)
+		print(msg)
+		pub.sendMessage("notify", message=msg)
+		self.session.db[self.name]["items"].pop(self.tab.list.get_selected())
+		self.tab.list.remove_item(self.tab.list.get_selected())
 
 	def keep_as_follower(self, *args, **kwargs):
 		pass
