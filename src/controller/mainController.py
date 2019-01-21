@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-from builtins import range
 import time
 import os
 import webbrowser
@@ -459,12 +457,13 @@ class Controller(object):
 			return
 		try:
 			log.debug("Getting possible unread messages.")
-			msgs = self.session.vk.client.messages.getDialogs(count=200, unread=True)
+			msgs = self.session.vk.client.messages.getConversations(count=200)
 		except VkApiError as ex:
 			if ex.code == 6:
 				log.exception("Something went wrong when getting messages. Waiting a second to retry")
 		for i in msgs["items"]:
-			call_threaded(self.chat_from_id, i["message"]["user_id"], setfocus=False, unread=True)
+			call_threaded(self.chat_from_id, i["last_message"]["peer_id"], setfocus=False, unread=False)
+			time.sleep(0.6)
 
 	def mark_as_read(self):
 		for i in self.buffers:
