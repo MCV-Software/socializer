@@ -6,6 +6,11 @@
 * Fixed an error in Socializer that was making it unable to detect unread messages properly.
 * Socializer should save all tracebacks directly to error.log instead of displaying an error message during exit. ([#27,](https://code.manuelcortez.net/manuelcortez/socializer/issues/27))
 * When displaying user profiles, fixed an error where a married person without specifing relation partner would cause an error in the program. ([#29,](https://code.manuelcortez.net/manuelcortez/socializer/issues/29))
+* Added new global keystrokes, available in the main window of Socializer.
+    * Alt + up/down arrows: Increase / decrease volume.
+    * Alt + Left/down arrows: Play previous and next song if playing an audios buffer.
+    * Control + P: Play/pause.
+    * control+Shift+P: Play all.
 
 ## Changes in version 0.18 (21.01.2019)
 

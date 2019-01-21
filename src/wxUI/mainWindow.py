@@ -39,9 +39,8 @@ class mainWindow(wx.Frame):
 		mb.Append(me, _("Me"))
 		mb.Append(buffer, _("Buffer"))
 		player = wx.Menu()
-		self.player_play = player.Append(wx.NewId(), _("Play"))
+		self.player_play = player.Append(wx.NewId(), _("Play/Pause"))
 		self.player_play_all = player.Append(wx.NewId(), _("Play all"))
-		self.player_stop = player.Append(wx.NewId(), _("Stop"))
 		self.player_previous = player.Append(wx.NewId(), _("Previous"))
 		self.player_next = player.Append(wx.NewId(), _("Next"))
 		self.player_shuffle = player.AppendCheckItem(wx.NewId(), _("Shuffle"))
@@ -57,6 +56,17 @@ class mainWindow(wx.Frame):
 		mb.Append(player, _("Audio player"))
 		mb.Append(help_, _("Help"))
 		self.SetMenuBar(mb)
+		self.accel_tbl = wx.AcceleratorTable([
+			# Assign keystrokes to control the player object.
+			(wx.ACCEL_ALT, wx.WXK_LEFT, self.player_previous.GetId()),
+			(wx.ACCEL_ALT, wx.WXK_RIGHT, self.player_next.GetId()),
+			(wx.ACCEL_ALT, wx.WXK_DOWN, self.player_volume_down.GetId()),
+			(wx.ACCEL_ALT, wx.WXK_UP, self.player_volume_up.GetId()),
+			# Translators: Keystroke used to play/pause the current item in the playback queue. Use the latin alphabet, but you can match a different key here. For example if you want to assign this to the key "П", use G.
+			(wx.ACCEL_CTRL, ord(_("P")), self.player_play.GetId()),
+			(wx.ACCEL_CTRL|wx.ACCEL_SHIFT, ord(_("P")), self.player_play_all.GetId()),
+		])
+		self.SetAcceleratorTable(self.accel_tbl)
 
 	def __init__(self):
 		super(mainWindow, self).__init__(parent=None, id=wx.NewId(), title=application.name)
@@ -129,8 +139,5 @@ class mainWindow(wx.Frame):
 		self.tb.DeletePage(pos)
 
 	def notify(self, title, text):
-		try:
-			self.notification = wx.adv.NotificationMessage(title, text, parent=self)
-		except AttributeError:
-			self.notification = wx.NotificationMessage(title, text)
+		self.notification = wx.adv.NotificationMessage(title, text, parent=self)
 		self.notification.Show()
