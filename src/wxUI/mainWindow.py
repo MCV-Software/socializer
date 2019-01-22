@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-from builtins import range
 import wx
 import wx.adv
 import application
-from wx.lib.agw import toasterbox
 
 class mainWindow(wx.Frame):
 	def makeMenu(self):
@@ -147,5 +144,5 @@ class mainWindow(wx.Frame):
 		return self.tb.RemovePage(pos)
 
 	def notify(self, title, text):
-		self.notification = wx.adv.NotificationMessage(title, text, parent=self)
+		self.notification = wx.adv.NotificationMessage(title=title, message=text, parent=self)
 		self.notification.Show()

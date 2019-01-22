@@ -647,7 +647,7 @@ class Controller(object):
 
 	def notify(self, message="", sound="", type="native"):
 		if type == "native":
-			wx.CallAfter(self.window.notify, _("Socializer"), message)
+			self.window.notify(_("Socializer"), message)
 		else:
 			if sound != "":
 				self.session.soundplayer.play(sound)
