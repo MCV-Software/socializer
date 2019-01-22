@@ -12,6 +12,7 @@
     * Alt + Left/down arrows: Play previous and next song if playing an audios buffer.
     * Control + P: Play/pause.
     * control+Shift+P: Play all.
+* Fixed an error in the audio player that was skipping the first track if you were in the last song and pressed "play next" in the menu bar or via the keystroke.
 
 ## Changes in version 0.18 (21.01.2019)
 

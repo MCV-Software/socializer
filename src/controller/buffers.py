@@ -494,7 +494,7 @@ class audioBuffer(feedBuffer):
 
 	def play_next(self, *args, **kwargs):
 		selected = self.tab.list.get_selected()
-		if selected < 0 or selected == self.tab.list.get_count()-1:
+		if selected < 0:
 			selected = 0
 		if self.tab.list.get_count() <= selected+1:
 			newpos = 0
