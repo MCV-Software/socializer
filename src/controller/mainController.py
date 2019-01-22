@@ -433,6 +433,7 @@ class Controller(object):
 		num = self.session.order_buffer(buffer.name, data, True)
 		buffer.insert(self.session.db[buffer.name]["items"][-1], False)
 		self.session.soundplayer.play("message_received.ogg")
+		wx.CallAfter(self.reorder_buffer, buffer)
 		# Check if we have to read the message aloud
 		if buffer == self.get_current_buffer():
 			rendered_message = renderers.render_message(message, self.session)
@@ -671,3 +672,30 @@ class Controller(object):
 
 	def on_report_error(self, *args, **kwargs):
 		r = issueReporter.reportBug()
+
+	def reorder_buffer(self, buffer):
+		""" this puts the chat buffers at the top of the list when there are new incoming messages.
+		In order to do so, we search for the current buffer's tab, remove the page from the TreeCtrl (without destroying the associated tab)
+		and reinsert it as a new child of the chat buffer.
+		Lastly we ensure the user is focused in the same buffer than before."""
+		buffer_window =  self.window.search(buffer.name)
+		# If buffer window is already in the first position after chat, we should not do anything here because calculations for moving buffers are expensive.
+		if buffer_window == self.window.search("chats")+1:
+			return
+		# Gets buffer title so we don't have to generate it again in future.
+		buffer_title = self.window.get_buffer_text(buffer_window)
+		# Determine if the current buffer is the buffer receiving a new message.
+		if buffer == self.get_current_buffer():
+			focused_buffer = True
+		else:
+			focused_buffer = False
+		# This call will not destroy the associated tab for the chat buffer, thus allowing us to readd it in other position.
+		self.window.remove_buffer_from_position(buffer_window)
+		self.window.insert_chat_buffer(buffer.tab, buffer_title, self.window.search("chats")+1)
+		# Let's manipulate focus so users will not notice the change in buffers.
+		if focused_buffer:
+			new_position = self.window.search(buffer.name)
+			self.window.change_buffer(new_position)
+		else:
+			new_position = self.window.search(self.get_current_buffer().name)
+			self.window.change_buffer(new_position)

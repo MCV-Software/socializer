@@ -99,6 +99,9 @@ class mainWindow(wx.Frame):
 	def insert_buffer(self, buffer, name, pos):
 		return self.tb.InsertSubPage(pos, buffer, name)
 
+	def insert_chat_buffer(self, buffer, name, pos):
+		return self.tb.InsertPage(pos, buffer, name)
+
 	def search(self, name_):
 		for i in range(0, self.tb.GetPageCount()):
 			if self.tb.GetPage(i).name == name_: return i
@@ -115,8 +118,10 @@ class mainWindow(wx.Frame):
 	def change_buffer(self, position):
 		self.tb.ChangeSelection(position)
 
-	def get_buffer_text(self):
-		return self.tb.GetPageText(self.tb.GetSelection())
+	def get_buffer_text(self, pos=None):
+		if pos == None:
+			pos = self.tb.GetSelection()
+		return self.tb.GetPageText(pos)
 
 	def get_buffer_by_id(self, id):
 		return self.nb.FindWindowById(id)
@@ -137,6 +142,9 @@ class mainWindow(wx.Frame):
 
 	def remove_buffer(self, pos):
 		self.tb.DeletePage(pos)
+
+	def remove_buffer_from_position(self, pos):
+		return self.tb.RemovePage(pos)
 
 	def notify(self, title, text):
 		self.notification = wx.adv.NotificationMessage(title, text, parent=self)
