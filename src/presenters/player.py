@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 import sys
 import random
 import output
@@ -95,8 +94,7 @@ class audioPlayer(object):
 
 	@property
 	def volume(self):
-		if self.stream != None:
-			return self.vol
+		return self.vol
 
 	@volume.setter
 	def volume(self, vol):
