@@ -218,12 +218,12 @@ class Controller(object):
 		call_threaded(utils.download_file, url, filename, self.window)
 
 	def play_audio(self, audio_object):
-		# Restricted audios does not include an URL paramether.
+		# Restricted audios don't include an URL paramether.
 		# Restriction can be due to licensed content to unauthorized countries.
 		if "url" in audio_object and audio_object["url"] =="":
 			self.notify(message=_("This file could not be played because it is not allowed in your country"))
 			return
-		call_threaded(player.player.play, audio_object)
+		call_threaded(player.player.play, audio_object, fresh=True)
 
 	def play_audios(self, audios):
 		player.player.play_all(audios, shuffle=self.window.player_shuffle.IsChecked())
@@ -601,24 +601,26 @@ class Controller(object):
 			return player.player.pause()
 		else:
 			b = self.get_current_buffer()
-			if hasattr(b, "play_audio"):
-				b.play_audio()
+			if hasattr(b, "play_all"):
+				b.play_all()
 			else:
-				self.search("me_audio").play_audio()
+				self.search("me_audio").play_all()
 
 	def menu_play_next(self, *args, **kwargs):
-		b = self.get_current_buffer()
-		if hasattr(b, "play_next"):
-			b.play_next()
-		else:
-			self.search("me_audio").play_next()
+		return player.player.play_next()
+#		b = self.get_current_buffer()
+#		if hasattr(b, "play_next"):
+#			b.play_next()
+#		else:
+#			self.search("me_audio").play_next()
 
 	def menu_play_previous(self, *args, **kwargs):
-		b = self.get_current_buffer()
-		if hasattr(b, "play_previous"):
-			b.play_previous()
-		else:
-			self.search("me_audio").play_previous()
+		return player.player.play_previous()
+#		b = self.get_current_buffer()
+#		if hasattr(b, "play_previous"):
+#			b.play_previous()
+#		else:
+#			self.search("me_audio").play_previous()
 
 	def menu_play_all(self, *args, **kwargs):
 		b = self.get_current_buffer()

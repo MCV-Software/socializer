@@ -27,6 +27,7 @@ class audioPlayer(object):
 		self.vol = 100
 		self.is_working = False
 		self.queue = []
+		self.playing_track = 0
 		self.stopped = True
 		# Modify some default settings present in Bass so it will increase timeout connection, thus causing less "connection timed out" errors when playing.
 		bassconfig = BassConfig()
@@ -36,7 +37,7 @@ class audioPlayer(object):
 		if config.app["app-settings"]["use_proxy"] == True:
 			bassconfig["net_proxy"] = b"socializer:socializer@socializer.su:3128"
 
-	def play(self, url, set_info=True):
+	def play(self, url, set_info=True, fresh=False):
 		if self.stream != None and self.stream.is_playing == True:
 			try:
 				self.stream.stop()
@@ -44,7 +45,7 @@ class audioPlayer(object):
 				log.exception("error when stopping the file")
 				self.stream = None
 			self.stopped = True
-			if hasattr(self, "worker") and self.worker != None:
+			if fresh == True and hasattr(self, "worker") and self.worker != None:
 				self.worker.cancel()
 				self.worker = None
 				self.queue = []
@@ -104,23 +105,42 @@ class audioPlayer(object):
 			self.stream.volume = self.vol/100.0
 
 	def play_all(self, list_of_urls, shuffle=False):
+		self.playing_track = 0
 		self.stop()
 		# Skip all country restricted tracks as they are not playable here.
 		self.queue = [i for i in list_of_urls if i["url"] != ""]
 		if shuffle:
 			random.shuffle(self.queue)
-		self.play(self.queue[0])
-		self.queue.remove(self.queue[0])
+		self.play(self.queue[self.playing_track])
 		self.worker = RepeatingTimer(5, self.player_function)
 		self.worker.start()
 
 	def player_function(self):
 		if self.stream != None and self.stream.is_playing == False and self.stopped == False and len(self.stream) == self.stream.position:
-			if len(self.queue) == 0:
+			if len(self.queue) == 0 or self.playing_track >= len(self.queue):
 				self.worker.cancel()
 				return
-			self.play(self.queue[0])
-			self.queue.remove(self.queue[0])
+			if self.playing_track < len(self.queue):
+				self.playing_track += 1
+			self.play(self.queue[self.playing_track])
+
+	def play_next(self):
+		if len(self.queue) == 0:
+			return
+		if self.playing_track < len(self.queue):
+			self.playing_track += 1
+		else:
+			self.playing_track = 0
+		self.play(self.queue[self.playing_track])
+
+	def play_previous(self):
+		if len(self.queue) == 0:
+			return
+		if self.playing_track <= 0:
+			self.playing_track = len(self.queue)-1
+		else:
+			self.playing_track -= 1
+		self.play(self.queue[self.playing_track])
 
 	def check_is_playing(self):
 		if self.stream == None:
