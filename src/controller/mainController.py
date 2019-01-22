@@ -9,6 +9,7 @@ import output
 import presenters
 import interactors
 import views
+import config
 from vk_api.exceptions import LoginRequired, VkApiError
 from requests.exceptions import ConnectionError
 from pubsub import pub
@@ -235,6 +236,9 @@ class Controller(object):
 		log.debug("Receibed an exit signal. closing...")
 		self.set_offline()
 		self.disconnect_events()
+		volume = player.player.volume
+		config.app["sound"]["volume"] = volume
+		config.app.write()
 		self.window.Destroy()
 		wx.GetApp().ExitMainLoop()
 

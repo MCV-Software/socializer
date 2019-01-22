@@ -17,13 +17,6 @@ count_for_wall_buffers = integer(default=100)
 count_for_video_buffers = integer(default=200)
 count_for_audio_buffers = integer(default=1000)
 
-[sound]
-volume = float(default=1.0)
-input_device = string(default="Default")
-output_device = string(default="Default")
-session_mute = boolean(default=False)
-current_soundpack = string(default="default")
-
 [chat]
 notify_online = boolean(default=True)
 notify_offline = boolean(default=True)

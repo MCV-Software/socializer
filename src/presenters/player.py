@@ -24,7 +24,7 @@ class audioPlayer(object):
 	def __init__(self):
 		self.is_playing = False
 		self.stream = None
-		self.vol = 100
+		self.vol = config.app["sound"]["volume"]
 		self.is_working = False
 		self.queue = []
 		self.playing_track = 0

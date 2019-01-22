@@ -1,6 +1,11 @@
 [app-settings]
-username = string(default="")
-password = string(default="")
 language = string(default="system")
 use_proxy = boolean(default=False)
 first_start = boolean(default=True)
+
+[sound]
+volume = integer(default=100)
+input_device = string(default="Default")
+output_device = string(default="Default")
+session_mute = boolean(default=False)
+current_soundpack = string(default="default")
