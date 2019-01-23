@@ -935,7 +935,7 @@ class chatBuffer(baseBuffer):
 		return local_attachments
 
 	def _send_message(self, text, attachments=[]):
-		if hasattr(self, "attachments_to_be_sent"):
+		if hasattr(self, "attachments_to_be_sent") and type(self.attachments_to_be_sent) == list:
 			self.attachments_to_be_sent = self.upload_attachments(self.attachments_to_be_sent)
 		try:
 		# Let's take care about the random_id attribute.
@@ -950,6 +950,9 @@ class chatBuffer(baseBuffer):
 		except ValueError as ex:
 			if ex.code == 9:
 				output.speak(_("You have been sending a message that is already sent. Try to update the buffer if you can't see the new message in the history."))
+		finally:
+			if hasattr(self, "attachments_to_be_sent"):
+				del self.attachments_to_be_sent
 
 	def __init__(self, unread=False, *args, **kwargs):
 		super(chatBuffer, self).__init__(*args, **kwargs)
