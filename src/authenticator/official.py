@@ -28,7 +28,9 @@ def get_sig(method, values, secret):
 	""" Create a signature for parameters passed to VK API. """
 	postdata = ""
 	for key in values:
-		postdata = postdata + "{key}={value}&".format(key=key, value=values[key])
+		# None values should be excluded from SIG, otherwise VK won't validate it correctly.
+		if values[key] != None:
+			postdata = postdata + "{key}={value}&".format(key=key, value=values[key])
 	# Remove the last "&" character.
 	postdata = postdata[:-1]
 	sig = md5(b"/method/"+method.encode("utf-8")+b"?"+postdata.encode("utf-8")+secret.encode("utf-8"))
