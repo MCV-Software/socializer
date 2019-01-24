@@ -5,6 +5,7 @@ block_cipher = None
 a = Analysis(['main.py'],
              pathex=['.'],
              binaries=[("sounds", "sounds"),
+("documentation", "documentation"),
 ("locales", "locales"),
 ("..\\windows-dependencies\\x86\\oggenc2.exe", "."),
 ("..\\windows-dependencies\\x86\\bootstrap.exe", "."),
