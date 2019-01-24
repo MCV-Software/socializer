@@ -164,10 +164,21 @@ class chatTab(wx.Panel):
 	def create_controls(self):
 		lbl1 = wx.StaticText(self, wx.NewId(), _("History"))
 		self.history = wx.TextCtrl(self, wx.NewId(), style=wx.TE_READONLY|wx.TE_MULTILINE, size=(500, 300))
+		selectId = wx.NewId()
+		self.Bind(wx.EVT_MENU, self.onSelect, id=selectId)
+		self.accel_tbl = wx.AcceleratorTable([(wx.ACCEL_CTRL, ord('A'), selectId)])
+		self.SetAcceleratorTable(self.accel_tbl)
 		box = wx.BoxSizer(wx.HORIZONTAL)
 		box.Add(lbl1, 0, wx.ALL, 5)
 		box.Add(self.history, 0, wx.ALL, 5)
 		return box
+
+	def onSelect(self, event, *args, **kwargs):
+		if self.history.HasFocus():
+			self.history.SelectAll()
+		else:
+			self.text.SelectAll()
+		event.Skip()
 
 	def create_attachments(self):
 		lbl = wx.StaticText(self, -1, _("Attachments"))

@@ -16,10 +16,18 @@ class displayBasicPost(widgetUtils.BaseDialog):
 	def create_post_view(self, label=_("Message")):
 		lbl = wx.StaticText(self.panel, -1, label)
 		self.post_view = wx.TextCtrl(self.panel, -1, size=(730, -1), style=wx.TE_READONLY|wx.TE_MULTILINE)
+		selectId = wx.NewId()
+		self.Bind(wx.EVT_MENU, self.onSelect, id=selectId)
+		self.accel_tbl = wx.AcceleratorTable([
+			(wx.ACCEL_CTRL, ord('A'), selectId),])
+		self.SetAcceleratorTable(self.accel_tbl)
 		box = wx.BoxSizer(wx.HORIZONTAL)
 		box.Add(lbl, 0, wx.ALL, 5)
 		box.Add(self.post_view, 0, wx.ALL, 5)
 		return box
+
+	def onSelect(self, event):
+		self.post_view.SelectAll()
 
 	def create_views_control(self):
 		lbl = wx.StaticText(self.panel, -1, _("Views"))
