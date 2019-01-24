@@ -15,6 +15,7 @@
 * Fixed an error in the audio player that was skipping the first track if you were in the last song and pressed "play next" in the menu bar or via the keystroke.
 * Chats with unread messages will be placed at the top of the chats section. When a chat buffer receives a new message, socializer will move  the buffer to the first position in the chats list. This should make easier for everyone to determine which chats contain unread items. ([#24,](https://code.manuelcortez.net/manuelcortez/socializer/issues/24))
 * In dialogs for displaying posts and comments, and also in the two edit boxes present in chat buffers, it is possible to select all by pressing Control+A.
+* Now it is possible to remove friends directly from the friends buffer. There is a new option for this purpose in the context menu for the focused friend. After being removed, the person will be placed in the subscribers buffer.
 
 ## Changes in version 0.18 (21.01.2019)
 

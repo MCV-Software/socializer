@@ -1080,6 +1080,7 @@ class peopleBuffer(feedBuffer):
 			widgetUtils.connect_event(m, widgetUtils.MENU, self.accept_friendship, menuitem=m.add)
 		else:
 			m = menus.peopleMenu(is_request=False)
+			widgetUtils.connect_event(m, widgetUtils.MENU, self.decline_friendship, menuitem=m.decline)
 		# It is not allowed to send messages to people who is not your friends, so let's disable it if we're in a pending or outgoing requests folder.
 		if "friend_requests" in self.name:
 			m.message.Enable(False)
@@ -1107,8 +1108,7 @@ class peopleBuffer(feedBuffer):
 			return
 		result = self.session.vk.client.friends.delete(user_id=person["id"])
 		if "friend_deleted" in result:
-			msg = _("You've deleted {user1_nom} from your friends.").format(**user,)
-		print(msg)
+			msg = _("You've removed {user1_nom} from your friends.").format(**user,)
 		pub.sendMessage("notify", message=msg)
 		self.session.db[self.name]["items"].pop(self.tab.list.get_selected())
 		self.tab.list.remove_item(self.tab.list.get_selected())

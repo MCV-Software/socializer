@@ -58,6 +58,9 @@ class peopleMenu(wx.Menu):
 		self.Append(self.timeline)
 		self.common_friends = wx.MenuItem(self, wx.NewId(), _("View friends in common"))
 		self.Append(self.common_friends)
+		if is_request == False and is_subscriber == False:
+			self.decline = wx.MenuItem(self, wx.NewId(), _("Remove from friends"))
+			self.Append(self.decline)
 
 	def create_request_items(self):
 		self.accept = wx.MenuItem(self, wx.NewId(), _("Accept"))
