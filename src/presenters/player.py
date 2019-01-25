@@ -33,9 +33,6 @@ class audioPlayer(object):
 		bassconfig = BassConfig()
 		# Set timeout connection to 30 seconds.
 		bassconfig["net_timeout"] = 30000
-		# Adds proxy settings
-		if config.app["app-settings"]["use_proxy"] == True:
-			bassconfig["net_proxy"] = b"socializer:socializer@socializer.su:3128"
 
 	def play(self, url, set_info=True, fresh=False):
 		if self.stream != None and self.stream.is_playing == True:
