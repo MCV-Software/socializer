@@ -5,6 +5,7 @@ import widgetUtils
 import wx
 from pubsub import pub
 from wxUI import menus
+from wxUI import commonMessages
 from .import base
 
 class displayPostInteractor(base.baseInteractor):
@@ -39,6 +40,9 @@ class displayPostInteractor(base.baseInteractor):
 			raise AttributeError("The control is not present in the view.")
 		getattr(self.view, control).clear()
 
+	def post_deleted(self):
+		msg = commonMessages.post_deleted()
+
 	def install(self, *args, **kwargs):
 		super(displayPostInteractor, self).install(*args, **kwargs)
 		self.view.comments.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.on_show_comment)
@@ -58,6 +62,7 @@ class displayPostInteractor(base.baseInteractor):
 		pub.subscribe(self.add_items, self.modulename+"_add_items")
 		pub.subscribe(self.enable_attachments, self.modulename+"_enable_attachments")
 		pub.subscribe(self.enable_photo_controls, self.modulename+"_enable_photo_controls")
+		pub.subscribe(self.post_deleted, self.modulename+"_post_deleted")
 
 	def uninstall(self):
 		super(displayPostInteractor, self).uninstall()
@@ -66,6 +71,7 @@ class displayPostInteractor(base.baseInteractor):
 		pub.unsubscribe(self.add_items, self.modulename+"_add_items")
 		pub.unsubscribe(self.enable_attachments, self.modulename+"_enable_attachments")
 		pub.unsubscribe(self.enable_photo_controls, self.modulename+"_enable_photo_controls")
+		pub.unsubscribe(self.post_deleted, self.modulename+"_post_deleted")
 
 	def on_focus(self, *args, **kwargs):
 		item = self.view.comments.get_selected()

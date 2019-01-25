@@ -52,3 +52,6 @@ def proxy_question():
 
 def remove_friend(user):
 	return wx.MessageDialog(None, _("Are you sure you want to remove {user1_nom} from your friends?").format(**user), _("Attention"), style=wx.ICON_QUESTION|wx.YES_NO).ShowModal()
+
+def post_deleted():
+	return wx.MessageDialog(None, _("This post has been removed."), _("Error"), wx.ICON_ERROR).ShowModal()

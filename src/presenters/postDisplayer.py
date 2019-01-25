@@ -56,6 +56,11 @@ class displayPostPresenter(base.basePresenter):
 			else:
 				self.user_identifier = "owner_id"
 			self.post_identifier = "id"
+		result = self.get_post_information()
+		# Stop loading everything else if post was deleted.
+		if result == False:
+			self.interactor.uninstall()
+			return
 		self.worker = threading.Thread(target=self.load_all_components)
 		self.worker.finished = threading.Event()
 		self.worker.start()
@@ -110,6 +115,10 @@ class displayPostPresenter(base.basePresenter):
 		# Retrieve again the post, so we'll make sure to get the most up to date information.
 		# And we add a counter for views.
 		post = self.session.vk.client.wall.getById(posts="{owner_id}_{post_id}".format(owner_id=self.post[self.user_identifier], post_id=self.post[self.post_identifier]))
+		# If this post has been deleted, let's send an event to the interactor so it won't be displayed.
+		if len(post) == 0:
+			self.send_message("post_deleted")
+			return False
 		self.post = post[0]
 		if "views" in self.post and self.post["views"]["count"] > 0:
 			self.send_message("set", control="views", value=str(self.post["views"]["count"]))
@@ -204,7 +213,6 @@ class displayPostPresenter(base.basePresenter):
 		return url
 
 	def load_all_components(self):
-		self.get_post_information()
 		self.get_likes()
 		self.get_reposts()
 		self.get_comments()
