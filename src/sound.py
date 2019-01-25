@@ -9,6 +9,7 @@ import logging
 import paths
 import sound_lib
 import output
+import config
 from sound_lib import recording
 from mysc.repeating_timer import RepeatingTimer
 from mysc.thread_utils import call_threaded
@@ -61,7 +62,9 @@ class soundSystem(object):
 			log.error("Error in input or output devices, using defaults...")
 			self.config["output_device"] = "Default"
 			self.config["input_device"] = "Default"
-
+		# Set proxy for audio.
+		if config.app["app-settings"]["use_proxy"]:
+			self.output.set_proxy(b"socializer:socializer@socializer.su:3128")
 		self.files = []
 		self.cleaner = RepeatingTimer(60, self.clear_list)
 		self.cleaner.start()
@@ -81,6 +84,6 @@ class soundSystem(object):
 		if self.soundpack_OK == False: return
 		if self.config["session_mute"] == True: return
 		sound_object = sound_lib.stream.FileStream(file="%s/%s" % (self.path, sound))
-		sound_object.volume = self.config["volume"]/100
+#		sound_object.volume = self.config["volume"]/100
 		self.files.append(sound_object)
 		sound_object.play()
