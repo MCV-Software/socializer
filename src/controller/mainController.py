@@ -269,7 +269,7 @@ class Controller(object):
 		dlg = searchDialogs.searchVideoDialog()
 		if dlg.get_response() == widgetUtils.OK:
 			params = {}
-			params["q"] = dlg.get("term").encode("utf-8")
+			params["q"] = dlg.get("term")
 			params["count"] = 200
 			hd = dlg.get_checkable("hd")
 			if hd != 0:
