@@ -56,6 +56,11 @@ class displayPostPresenter(base.basePresenter):
 			else:
 				self.user_identifier = "owner_id"
 			self.post_identifier = "id"
+		self.attachments = []
+		self.load_images = False
+		# We'll put images here, so it will be easier to work with them.
+		self.images = []
+		self.imageIndex = 0
 		result = self.get_post_information()
 		# Stop loading everything else if post was deleted.
 		if result == False:
@@ -64,11 +69,6 @@ class displayPostPresenter(base.basePresenter):
 		self.worker = threading.Thread(target=self.load_all_components)
 		self.worker.finished = threading.Event()
 		self.worker.start()
-		self.attachments = []
-		self.load_images = False
-		# We'll put images here, so it will be easier to work with them.
-		self.images = []
-		self.imageIndex = 0
 		self.run()
 
 	def get_comments(self):
