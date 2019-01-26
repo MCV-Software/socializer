@@ -16,6 +16,16 @@ class searchAudioDialog(widgetUtils.BaseDialog):
 		self.term.SetSize(dc.GetTextExtent("0"*40))
 		sizer.Add(label, 0, wx.ALL, 5)
 		sizer.Add(self.term, 0, wx.ALL, 5)
+		radioSizer = wx.StaticBoxSizer(parent=panel, orient=wx.HORIZONTAL, label=_("Search by"))
+		self.title  = wx.RadioButton(radioSizer.GetStaticBox(), wx.NewId(), _("Title"), style=wx.RB_GROUP)
+		self.artist = wx.RadioButton(radioSizer.GetStaticBox(), wx.NewId(), _("Artist"))
+		radioSizer.Add(self.title, 0, wx.ALL, 5)
+		radioSizer.Add(self.artist, 0, wx.ALL, 5)
+		sizer.Add(radioSizer, 0, wx.ALL, 5)
+		sortBox = wx.StaticBoxSizer(parent=panel, orient=wx.HORIZONTAL, label=_("Sort by"))
+		self.sortorder  = wx.ComboBox(sortBox.GetStaticBox(), wx.NewId(), choices=[_("Date added"), _("Duration"), _("Popularity")], value=_("Popularity"), style=wx.CB_READONLY)
+		sortBox.Add(self.sortorder, 0, wx.ALL, 5)
+		sizer.Add(sortBox, 0, wx.ALL, 5)
 		ok = wx.Button(panel, wx.ID_OK, _("&OK"))
 		ok.SetDefault()
 		cancel = wx.Button(panel, wx.ID_CANCEL, _("&Close"))
@@ -25,6 +35,15 @@ class searchAudioDialog(widgetUtils.BaseDialog):
 		sizer.Add(btnsizer, 0, wx.ALL, 5)
 		panel.SetSizer(sizer)
 		self.SetClientSize(sizer.CalcMin())
+
+	def get_state(self, control):
+		if getattr(self, control).GetValue() == True:
+			return 1
+		else:
+			return 0
+
+	def get_sort_order(self):
+		return self.sortorder.GetSelection()
 
 class searchVideoDialog(widgetUtils.BaseDialog):
 	def __init__(self, value=""):
