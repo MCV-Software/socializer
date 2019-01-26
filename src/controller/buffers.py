@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """ A buffer is a (virtual) list of items. All items belong to a category (wall posts, messages, persons...)"""
-from __future__ import unicode_literals
 import time
 import random
 import logging
@@ -181,8 +180,7 @@ class baseBuffer(object):
 		""" Bind all events to this buffer"""
 		widgetUtils.connect_event(self.tab.post, widgetUtils.BUTTON_PRESSED, self.post)
 		widgetUtils.connect_event(self.tab.list.list, widgetUtils.KEYPRESS, self.get_event)
-		widgetUtils.connect_event(self.tab.list.list, wx.EVT_LIST_ITEM_RIGHT_CLICK, self.show_menu)
-		widgetUtils.connect_event(self.tab.list.list, wx.EVT_LIST_KEY_DOWN, self.show_menu_by_key)
+		widgetUtils.connect_event(self.tab.list.list, wx.EVT_CONTEXT_MENU, self.show_menu)
 		self.tab.set_focus_function(self.onFocus)
 
 	def show_menu(self, ev, pos=0, *args, **kwargs):
