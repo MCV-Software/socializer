@@ -17,9 +17,10 @@
 * In dialogs for displaying posts and comments, and also in the two edit boxes present in chat buffers, it is possible to select all by pressing Control+A.
 * Now it is possible to remove friends directly from the friends buffer. There is a new option for this purpose in the context menu for the focused friend. After being removed, the person will be placed in the subscribers buffer.
 * Deleted posts will display an error message when trying to view details about those. Before, the dialog was created and left blank.
-* The audio search feature has received improvements: Now it is possible to indicate wether the search will be performed by title or artist, and select to sort the results by duration, popularity or date of addition to VK.
-* Now it is possible to create and delete audio albums again.
-* Fixed errors when moving songs to albums. Now everything works as expected.
+* Improvements in audio features present in Socializer:
+    * The audio search feature has received improvements: Now it is possible to indicate wether the search will be performed by title or artist, and select to sort the results by duration, popularity or date of addition to VK.
+    * Now it is possible to create and delete audio albums again.
+    * Fixed errors when moving songs to albums. Now everything works as expected.
 
 ## Changes in version 0.18 (21.01.2019)
 
