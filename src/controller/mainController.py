@@ -375,10 +375,10 @@ class Controller(object):
 		# for users.
 		if user_id > 0 and user_id < 2000000000:
 			user = self.session.get_user(user_id, key="user1")
-			name = _("Chat with {user1_nom}").format(**user)
+			name = user["user1_nom"]
 		elif user_id > 2000000000:
 			chat = self.session.vk.client.messages.getChat(chat_id=user_id-2000000000)
-			name = _("Chat in {chat_name}").format(chat_name=chat["title"],)
+			name = chat["title"]
 		wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="chatBuffer", buffer_title=name, parent_tab="chats", get_items=True, kwargs=dict(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="render_message", session=self.session, unread=unread, count=200,  peer_id=user_id, rev=0, extended=True, fields="id, user_id, date, read_state, out, body, attachments, deleted"))
 #		if setfocus:
 #			pos = self.window.search(buffer.name)
