@@ -582,7 +582,7 @@ class audioBuffer(feedBuffer):
 		album = selector.album(_("Select the album where you want to move this song"), self.session)
 		if album.item == None: return
 		id = post["id"]
-		response = self.session.vk.client.audio.moveToAlbum(album_id=album.item, audio_ids=id)
+		response = self.session.vk.client.audio.add(playlist_id=album.item, audio_id=id, owner_id=post["owner_id"])
 		if response == 1:
 		# Translators: Used when the user has moved an audio to an album.
 			output.speak(_("Moved"))
