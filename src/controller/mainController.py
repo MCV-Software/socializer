@@ -19,7 +19,7 @@ from mysc import localization
 from sessionmanager import session, utils, renderers
 from wxUI import (mainWindow, commonMessages)
 from wxUI.dialogs import search as searchDialogs
-from wxUI.dialogs import timeline
+from wxUI.dialogs import creation, timeline
 from update import updater
 from issueReporter import issueReporter
 from . import buffers
@@ -137,8 +137,8 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.changelog, menuitem=self.window.changelog)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.configuration, menuitem=self.window.settings_dialog)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.new_timeline, menuitem=self.window.timeline)
-#		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.create_audio_album, menuitem=self.window.audio_album)
-#		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.delete_audio_album, menuitem=self.window.delete_audio_album)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.create_audio_album, menuitem=self.window.audio_album)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.delete_audio_album, menuitem=self.window.delete_audio_album)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.create_video_album, menuitem=self.window.video_album)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.delete_video_album, menuitem=self.window.delete_video_album)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.check_documentation, menuitem=self.window.documentation)
@@ -539,9 +539,10 @@ class Controller(object):
 	def create_audio_album(self, *args, **kwargs):
 		d = creation.audio_album()
 		if d.get_response() == widgetUtils.OK and d.get("title") != "":
-			response = self.session.vk.client.audio.addAlbum(title=d.get("title"))
-			if ("album_id" in response) == False: return
-			album_id = response["album_id"]
+			response = self.session.vk.client.audio.createPlaylist(owner_id=self.session.user_id, title=d.get("title"))
+			if "id" not in response:
+				return
+			album_id = response["id"]
 			buffer = buffers.audioAlbum(parent=self.window.tb, name="{0}_audio_album".format(album_id,), composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"], user_id=self.session.user_id, album_id=album_id)
 			buffer.can_get_items = False
 			# Translators: {0} will be replaced with an audio album's title.
@@ -549,7 +550,7 @@ class Controller(object):
 			self.buffers.append(buffer)
 			self.window.insert_buffer(buffer.tab, name_, self.window.search("albums"))
 			buffer.get_items()
-			self.session.audio_albums = self.session.vk.client.audio.getAlbums(owner_id=self.session.user_id)["items"]
+			self.get_audio_albums(user_id=self.session.user_id, create_buffers=False)
 
 	def delete_audio_album(self, *args, **kwargs):
 		if len(self.session.audio_albums) == 0:
@@ -559,13 +560,14 @@ class Controller(object):
 			return
 		response = commonMessages.delete_audio_album()
 		if response != widgetUtils.YES: return
-		removal = self.session.vk.client.audio.deleteAlbum(album_id=answer.item)
-		buffer = self.search("{0}_audio_album".format(answer.item,))
-		buff = self.window.search(buffer.name)
-		self.window.remove_buffer(buff)
-		self.buffers.remove(buffer)
-		del buffer
-		self.session.audio_albums = self.session.vk.client.audio.getAlbums(owner_id=self.session.user_id)["items"]
+		removal = self.session.vk.client.audio.deletePlaylist(playlist_id=answer.item, owner_id=self.session.user_id)
+		if removal == 1:
+			buffer = self.search("{0}_audio_album".format(answer.item,))
+			buff = self.window.search(buffer.name)
+			self.window.remove_buffer(buff)
+			self.buffers.remove(buffer)
+			del buffer
+			self.get_audio_albums(user_id=self.session.user_id, create_buffers=False)
 
 	def create_video_album(self, *args, **kwargs):
 		d = creation.audio_album()
