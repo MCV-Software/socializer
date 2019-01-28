@@ -21,6 +21,7 @@
     * The audio search feature has received improvements: Now it is possible to indicate wether the search will be performed by title or artist, and select to sort the results by duration, popularity or date of addition to VK.
     * Now it is possible to create and delete audio albums again.
     * Fixed errors when moving songs to albums. Now everything works as expected.
+* Added documents to the list of supported files when adding attachments to a wall post or private message.
 
 ## Changes in version 0.18 (21.01.2019)
 

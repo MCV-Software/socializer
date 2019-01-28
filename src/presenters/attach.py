@@ -63,6 +63,16 @@ class attachPresenter(base.basePresenter):
 			self.send_message("insert_attachment", attachment=info)
 			self.send_message("enable_control", control="remove")
 
+	def upload_document(self, document):
+		""" allows uploading a document from the computer.
+		"""
+		doc_info = {"type": "document", "file": document, "from": "local", "title": os.path.basename(os.path.splitext(document)[0])}
+		self.attachments.append(doc_info)
+		# Translators: This is the text displayed in the attachments dialog, when the user adds  a document.
+		info = [_("Document"), os.path.basename(document)]
+		self.send_message("insert_attachment", attachment=info)
+		self.send_message("enable_control", control="remove")
+
 	def upload_voice_message(self):
 		a = audioRecorder.audioRecorderPresenter(view=views.audioRecorderDialog(), interactor=interactors.audioRecorderInteractor())
 		if a.file != None and a.duration != 0:

@@ -14,19 +14,20 @@ class attachDialog(widgetUtils.BaseDialog):
 		box.Add(lbl1, 0, wx.ALL, 5)
 		box.Add(self.attachments.list, 0, wx.ALL, 5)
 		sizer.Add(box, 0, wx.ALL, 5)
-		static = wx.StaticBox(panel, label=_("Add attachments"))
-		self.photo = wx.Button(panel, wx.NewId(), _("&Photo"))
-		self.audio = wx.Button(panel, wx.NewId(), _("Audio file"))
+		static = wx.StaticBoxSizer(parent=panel, orient=wx.HORIZONTAL, label=_("Add attachments"))
+		self.photo = wx.Button(static.GetStaticBox(), wx.NewId(), _("&Photo"))
+		self.audio = wx.Button(static.GetStaticBox(), wx.NewId(), _("Audio file"))
+		self.document = wx.Button(static.GetStaticBox(), wx.NewId(), _("Document"))
 		if voice_messages:
-			self.voice_message = wx.Button(panel, wx.NewId(), _("Voice message"))
-		self.remove = wx.Button(panel, wx.NewId(), _("Remove attachment"))
+			self.voice_message = wx.Button(static.GetStaticBox(), wx.NewId(), _("Voice message"))
+		self.remove = wx.Button(static.GetStaticBox(), wx.NewId(), _("Remove attachment"))
 		self.remove.Enable(False)
-		btnsizer = wx.StaticBoxSizer(static, wx.HORIZONTAL)
-		btnsizer.Add(self.photo, 0, wx.ALL, 5)
-		btnsizer.Add(self.audio, 0, wx.ALL, 5)
+		static.Add(self.photo, 0, wx.ALL, 5)
+		static.Add(self.audio, 0, wx.ALL, 5)
+		static.Add(self.document, 0, wx.ALL, 5)
 		if voice_messages:
-			btnsizer.Add(self.voice_message, 0, wx.ALL, 5)
-		sizer.Add(btnsizer, 0, wx.ALL, 5)
+			static.Add(self.voice_message, 0, wx.ALL, 5)
+		sizer.Add(static, 0, wx.ALL, 5)
 		ok = wx.Button(panel, wx.ID_OK)
 		ok.SetDefault()
 		cancelBtn = wx.Button(panel, wx.ID_CANCEL)
@@ -56,3 +57,12 @@ class attachDialog(widgetUtils.BaseDialog):
 		if openFileDialog.ShowModal() == wx.ID_CANCEL:
 			return None
 		return openFileDialog.GetPath()
+
+	def get_document(self):
+		openFileDialog = wx.FileDialog(self, _("Select the file to be uploaded. All extensions are allowed except .mp3 and .exe."), "", "", _("All files (*.*)|*.*"), wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
+		if openFileDialog.ShowModal() == wx.ID_CANCEL:
+			return None
+		return openFileDialog.GetPath()
+
+	def invalid_attachment(self):
+		return wx.MessageDialog(None, _("The file you are trying to upload contains an extension that is not allowed by VK."), _("Error"), style=wx.ICON_ERROR).ShowModal()

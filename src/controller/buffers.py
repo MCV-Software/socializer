@@ -147,8 +147,7 @@ class baseBuffer(object):
 
 	def upload_attachments(self, attachments):
 		""" Upload attachments to VK before posting them.
-		Returns attachments formatted as string, as required by VK API.
-		Currently this function only supports photos and audios."""
+		Returns attachments formatted as string, as required by VK API."""
 		# To do: Check the caption and description fields for this kind of attachments.
 		local_attachments = ""
 		uploader = upload.VkUpload(self.session.vk.session_object)
@@ -174,6 +173,13 @@ class baseBuffer(object):
 				id = r["id"]
 				owner_id = r["owner_id"]
 				local_attachments += "audio{0}_{1},".format(owner_id, id)
+			elif i["from"] == "local" and i["type"] == "document":
+				document = i["file"]
+				title = i["title"]
+				r = uploader.document(document, title=title, to_wall=True)
+				id = r["doc"]["id"]
+				owner_id = r["doc"]["owner_id"]
+				local_attachments += "doc{0}_{1},".format(owner_id, id)
 		return local_attachments
 
 	def connect_events(self):
@@ -931,6 +937,13 @@ class chatBuffer(baseBuffer):
 				id = r["audio_message"]["id"]
 				owner_id = r["audio_message"]["owner_id"]
 				local_attachments += "audio_message{0}_{1},".format(owner_id, id)
+			elif i["from"] == "local" and i["type"] == "document":
+				document = i["file"]
+				title = i["title"]
+				r = uploader.document(document, title=title, message_peer_id=self.kwargs["peer_id"])
+				id = r["doc"]["id"]
+				owner_id = r["doc"]["owner_id"]
+				local_attachments += "doc{0}_{1},".format(owner_id, id)
 		return local_attachments
 
 	def _send_message(self, text, attachments=[]):

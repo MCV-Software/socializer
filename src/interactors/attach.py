@@ -18,6 +18,7 @@ class attachInteractor(base.baseInteractor):
 		super(attachInteractor, self).install(*args, **kwargs)
 		widgetUtils.connect_event(self.view.photo, widgetUtils.BUTTON_PRESSED, self.on_image)
 		widgetUtils.connect_event(self.view.audio, widgetUtils.BUTTON_PRESSED, self.on_audio)
+		widgetUtils.connect_event(self.view.document, widgetUtils.BUTTON_PRESSED, self.on_document)
 		if hasattr(self.view, "voice_message"):
 			widgetUtils.connect_event(self.view.voice_message, widgetUtils.BUTTON_PRESSED, self.on_upload_voice_message)
 		widgetUtils.connect_event(self.view.remove, widgetUtils.BUTTON_PRESSED, self.on_remove_attachment)
@@ -44,6 +45,14 @@ class attachInteractor(base.baseInteractor):
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.on_add_audio, menuitem=m.add)
 		self.view.PopupMenu(m, self.view.audio.GetPosition())
 
+	def on_document(self, *args, **kwargs):
+		""" display menu for adding document attachments. """
+		m = attachMenu()
+		# disable add from VK as it is not supported in documents, yet.
+		m.add.Enable(False)
+		widgetUtils.connect_event(m, widgetUtils.MENU, self.on_upload_document, menuitem=m.upload)
+		self.view.PopupMenu(m, self.view.photo.GetPosition())
+
 	def on_upload_image(self, *args, **kwargs):
 		""" allows uploading an image from the computer.
 		"""
@@ -56,6 +65,16 @@ class attachInteractor(base.baseInteractor):
 		audio  = self.view.get_audio()
 		if audio != None:
 			self.presenter.upload_audio(audio)
+
+	def on_upload_document(self, *args, **kwargs):
+		""" allows uploading a document from the computer.
+		"""
+		document  = self.view.get_document()
+		if document != None:
+			if document.endswith(".mp3") or document.endswith(".exe"):
+				self.view.invalid_attachment()
+				return
+			self.presenter.upload_document(document)
 
 	def on_upload_voice_message(self, *args, **kwargs):
 		self.presenter.upload_voice_message()
