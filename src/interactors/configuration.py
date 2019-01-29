@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 import widgetUtils
 from pubsub import pub
+from wxUI.commonMessages import restart_program as restart_program_dialog
 from . import base
 
 class configurationInteractor(base.baseInteractor):
@@ -12,15 +13,22 @@ class configurationInteractor(base.baseInteractor):
 	def set_setting(self, tab, setting, value):
 		self.view.set_value(tab, setting, value)
 
+	def restart(self):
+		dlg = restart_program_dialog()
+		if dlg == widgetUtils.YES:
+			self.presenter.restart_application()
+
 	def install(self, *args, **kwargs):
 		super(configurationInteractor, self).install(*args, **kwargs)
 		pub.subscribe(self.create_tab, self.modulename+"_create_tab")
 		pub.subscribe(self.set_setting, self.modulename+"_set")
+		pub.subscribe(self.restart, self.modulename+"_restart_program")
 
 	def uninstall(self):
 		super(configurationInteractor, self).uninstall()
 		pub.unsubscribe(self.create_tab, self.modulename+"_create_tab")
 		pub.unsubscribe(self.set_setting, self.modulename+"_set")
+		pub.unsubscribe(self.restart, self.modulename+"_restart_program")
 
 	def start(self):
 		self.view.realize()
@@ -53,3 +61,4 @@ class configurationInteractor(base.baseInteractor):
 		self.presenter.update_setting(section="load_at_startup", setting="video_albums", value=self.view.get_value("startup", "video_albums"))
 		self.presenter.update_setting(section="load_at_startup", setting="communities", value=self.view.get_value("startup", "communities"))
 		self.presenter.save_settings_file()
+		self.presenter.update_proxy(self.view.get_value("general", "use_proxy"))

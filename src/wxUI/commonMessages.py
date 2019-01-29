@@ -55,3 +55,6 @@ def remove_friend(user):
 
 def post_deleted():
 	return wx.MessageDialog(None, _("This post has been removed."), _("Error"), wx.ICON_ERROR).ShowModal()
+
+def restart_program():
+	return wx.MessageDialog(None, _("In order to apply the changes you requested, you must restart the program. Do you want to restart Socializer now?"), _("Attention"), style=wx.ICON_QUESTION|wx.YES_NO).ShowModal()

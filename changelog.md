@@ -22,6 +22,7 @@
     * Now it is possible to create and delete audio albums again.
     * Fixed errors when moving songs to albums. Now everything works as expected.
 * Added documents to the list of supported files when adding attachments to a wall post or private message.
+* It is possible to enable or disable proxy from the preferences dialog. The application must be restarted for this change to take effect.
 
 ## Changes in version 0.18 (21.01.2019)
 

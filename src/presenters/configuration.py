@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import config
+from mysc import restart
 from . import base
 
 class configurationPresenter(base.basePresenter):
@@ -43,6 +45,7 @@ class configurationPresenter(base.basePresenter):
 		self.send_message("set", tab="general", setting="wall_buffer_count", value=self.session.settings["buffers"]["count_for_wall_buffers"])
 		self.send_message("set", tab="general", setting="video_buffers_count", value=self.session.settings["buffers"]["count_for_video_buffers"])
 		self.send_message("set", tab="general", setting="load_images", value=self.session.settings["general"]["load_images"])
+		self.send_message("set", tab="general", setting="use_proxy", value=config.app["app-settings"]["use_proxy"])
 		self.send_message("set", tab="general", setting="update_channel", value=self.get_update_channel_label(self.session.settings["general"]["update_channel"]))
 		self.send_message("create_tab", tab="chat")
 		self.send_message("set", tab="chat", setting="notify_online", value=self.session.settings["chat"]["notify_online"])
@@ -64,3 +67,12 @@ class configurationPresenter(base.basePresenter):
 
 	def save_settings_file(self):
 		self.session.settings.write()
+
+	def update_proxy(self, proxy_value):
+		if proxy_value != config.app["app-settings"]["use_proxy"]:
+			config.app["app-settings"]["use_proxy"] = proxy_value
+			config.app.write()
+			self.send_message("restart_program")
+
+	def restart_application(self):
+		restart.restart_program()
