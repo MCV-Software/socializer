@@ -17,7 +17,7 @@ from mysc.repeating_timer import RepeatingTimer
 from mysc.thread_utils import call_threaded
 from mysc import localization
 from sessionmanager import session, utils, renderers
-from wxUI import (mainWindow, commonMessages)
+from wxUI import (mainWindow, commonMessages, menus)
 from wxUI.dialogs import search as searchDialogs
 from wxUI.dialogs import creation, timeline
 from update import updater
@@ -43,6 +43,13 @@ class Controller(object):
 		if hasattr(buffer, "name"):
 			buffer = self.search(buffer.name)
 			return buffer
+
+	def get_all_buffers(self, contains):
+		results = []
+		for i in self.buffers:
+			if contains in i.name:
+				results.append(i)
+		return results
 
 	def __init__(self):
 		super(Controller, self).__init__()
@@ -154,6 +161,7 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.view_my_profile_in_browser, menuitem=self.window.open_in_browser)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.set_status, menuitem=self.window.set_status)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_report_error, menuitem=self.window.report)
+		self.window.tb.Bind(wx.EVT_CONTEXT_MENU, self.on_context_menu)
 
 	def disconnect_events(self):
 		log.debug("Disconnecting some events...")
@@ -167,6 +175,53 @@ class Controller(object):
 		pub.unsubscribe(self.user_online, "user-online")
 		pub.unsubscribe(self.user_offline, "user-offline")
 		pub.unsubscribe(self.notify, "notify")
+
+	def on_context_menu(self, event, *args, **kwargs):
+		""" Handles context menu event in the tree buffers."""
+		# If the focus is not in the TreeCtrl of the Treebook, then we should not display any menu.
+		if isinstance(self.window.FindFocus(), wx.TreeCtrl) == False:
+			event.Skip()
+			return
+		menu = None
+		# Get the current buffer and let's choose a different menu depending on the selected buffer.
+		current_buffer = self.get_current_buffer()
+		# Deals with menu for community buffers.
+		if current_buffer.name.endswith("_community"):
+			menu = menus.communityBufferMenu()
+			# disable post loading if the community has already loaded posts.
+			if current_buffer.can_get_items:
+				menu.load_posts.Enable(False)
+			if self.search(current_buffer.name+"_audios") != False:
+				menu.load_audios.Enable(False)
+			elif hasattr(current_buffer, "group_info") and "audios" not in current_buffer.group_info["counters"]:
+				menu.load_audios.Enable(False)
+			if self.search(current_buffer.name+"_videos") != False:
+				menu.load_videos.Enable(False)
+			elif hasattr(current_buffer, "group_info") and "videos" not in current_buffer.group_info["counters"]:
+				menu.load_videos.Enable(False)
+			if self.search(current_buffer.name+"_topics") != False:
+				menu.load_topics.Enable(False)
+			elif hasattr(current_buffer, "group_info") and "topics" not in current_buffer.group_info["counters"]:
+				menu.load_topics.Enable(False)
+			# Connect the rest of the functions.
+			widgetUtils.connect_event(menu, widgetUtils.MENU, self.load_community_posts, menuitem=menu.load_posts)
+			widgetUtils.connect_event(menu, widgetUtils.MENU, self.load_community_topics, menuitem=menu.load_topics)
+			widgetUtils.connect_event(menu, widgetUtils.MENU, self.load_community_audios, menuitem=menu.load_audios)
+			widgetUtils.connect_event(menu, widgetUtils.MENU, self.load_community_videos, menuitem=menu.load_videos)
+
+		# Deal with the communities section itself.
+		if current_buffer.name == "communities":
+			menu = wx.Menu()
+			if self.session.settings["load_at_startup"]["communities"] == False and not hasattr(self.session, "groups"):
+				option = menu.Append(wx.NewId(), _("Load groups"))
+				widgetUtils.connect_event(menu, widgetUtils.MENU, self.load_community_buffers, menuitem=option)
+			else:
+				option = menu.Append(wx.NewId(), _("Discard groups"))
+				widgetUtils.connect_event(menu, widgetUtils.MENU, self.unload_community_buffers, menuitem=option)
+		if menu != None:
+			self.window.PopupMenu(menu, self.window.FindFocus().GetPosition())
+		else:
+			output.speak(_("menu unavailable for this buffer."))
 
 	def authorisation_failed(self):
 		commonMessages.bad_authorisation()
@@ -508,7 +563,7 @@ class Controller(object):
 				wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="videoAlbum", buffer_title=_("Album: {0}").format(i["title"],), parent_tab="video_albums", loadable=True, kwargs=dict(parent=self.window.tb, name="{0}_video_album".format(i["id"],), composefunc="render_video", session=self.session, endpoint="get", parent_endpoint="video", count=self.session.settings["buffers"]["count_for_video_buffers"], user_id=user_id, album_id=i["id"]))
 				time.sleep(0.15)
 
-	def get_communities(self, user_id=None, create_buffers=True):
+	def get_communities(self, user_id=None, create_buffers=True, force_action=False):
 		if self.session.settings["vk"]["invited_to_group"] == False:
 			self.session.settings["vk"]["invited_to_group"] = True
 			self.session.settings.write()
@@ -523,17 +578,17 @@ class Controller(object):
 						commonMessages.group_joined()
 					else:
 						log.error("Invalid result when joining the Socializer's group: %d" % (result))
-		if self.session.settings["load_at_startup"]["communities"] == False:
+		if self.session.settings["load_at_startup"]["communities"] == False and force_action == False:
 			return
 		log.debug("Create community buffers...")
-		groups= self.session.vk.client.groups.get(user_id=user_id, extended=1, fields="city, country, place, description, wiki_page, members_count, counters, start_date, finish_date, can_post, can_see_all_posts, activity, status, contacts, links, fixed_post, verified, site, can_create_topic", count=1000)
+		groups= self.session.vk.client.groups.get(user_id=user_id, extended=1, count=1000)
 		self.session.groups=groups["items"]
 		# Let's feed the local database cache with new groups coming from here.
-		data= dict(profiles=[], groups=groups["items"])
+		data= dict(profiles=[], groups=self.session.groups)
 		self.session.process_usernames(data)
 		if create_buffers:
-			for i in groups["items"]:
-				wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="communityBuffer", buffer_title=i["name"], parent_tab="communities", loadable=True, kwargs=dict(parent=self.window.tb, name="{0}_community".format(i["id"],), composefunc="render_status", session=self.session, endpoint="get", parent_endpoint="wall", count=self.session.settings["buffers"]["count_for_wall_buffers"], owner_id=-1*i["id"]))
+			for i in self.session.groups:
+				wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="communityBuffer", buffer_title=i["name"], parent_tab="communities", loadable=True, get_items=True, kwargs=dict(parent=self.window.tb, name="{0}_community".format(i["id"],), composefunc="render_status", session=self.session, endpoint="get", parent_endpoint="wall", count=self.session.settings["buffers"]["count_for_wall_buffers"], owner_id=-1*i["id"]))
 				time.sleep(0.15)
 
 	def create_audio_album(self, *args, **kwargs):
@@ -711,3 +766,44 @@ class Controller(object):
 		else:
 			new_position = self.window.search(self.get_current_buffer().name)
 			self.window.change_buffer(new_position)
+
+	def load_community_posts(self, *args, **kwargs):
+		current_buffer = self.get_current_buffer()
+		if current_buffer.name.endswith("_community"):
+			current_buffer.load_community()
+
+	def load_community_audios(self, *args, **kwargs):
+		current_buffer = self.get_current_buffer()
+		if not hasattr(current_buffer, "group_info"):
+			group_info = self.session.vk.client.groups.getById(group_ids=-1*current_buffer.kwargs["owner_id"], fields="counters")[0]
+			current_buffer.group_info = group_info
+		if "audios" not in current_buffer.group_info["counters"]:
+			commonMessages.community_no_items()
+			return
+		new_name = current_buffer.name+"_audios"
+		wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="audioBuffer", buffer_title=_("Audios"), parent_tab=current_buffer.tab.name, get_items=True, kwargs=dict(parent=self.window.tb, name=new_name, composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio", owner_id=current_buffer.kwargs["owner_id"]))
+
+	def load_community_videos(self, *args, **kwargs):
+		current_buffer = self.get_current_buffer()
+		if not hasattr(current_buffer, "group_info"):
+			group_info = self.session.vk.client.groups.getById(group_ids=-1*current_buffer.kwargs["owner_id"], fields="counters")[0]
+			current_buffer.group_info = group_info
+		if "videos" not in current_buffer.group_info["counters"]:
+			commonMessages.community_no_items()
+			return
+		new_name = current_buffer.name+"_videos"
+		wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="videoBuffer", buffer_title=_("Videos"), parent_tab=current_buffer.tab.name, get_items=True, kwargs=dict(parent=self.window.tb, name=new_name, composefunc="render_video", session=self.session, endpoint="get", parent_endpoint="video", count=self.session.settings["buffers"]["count_for_video_buffers"], owner_id=current_buffer.kwargs["owner_id"]))
+
+	def load_community_topics(self, *args, **kwargs):
+		pass
+
+	def load_community_buffers(self, *args, **kwargs):
+		call_threaded(self.get_communities, self.session.user_id, force_action=True)
+
+	def unload_community_buffers(self, *args, **kwargs):
+		communities = self.get_all_buffers("_community")
+		for buffer in communities:
+			buff = self.window.search(buffer.name)
+			self.window.remove_buffer(buff)
+			self.buffers.remove(buffer)
+		del self.session.groups

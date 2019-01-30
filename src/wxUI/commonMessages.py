@@ -58,3 +58,6 @@ def post_deleted():
 
 def restart_program():
 	return wx.MessageDialog(None, _("In order to apply the changes you requested, you must restart the program. Do you want to restart Socializer now?"), _("Attention"), style=wx.ICON_QUESTION|wx.YES_NO).ShowModal()
+
+def community_no_items():
+	return wx.MessageDialog(None, _("There are 0 items for this community."), _("Error"), wx.ICON_ERROR).ShowModal()

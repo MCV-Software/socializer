@@ -473,6 +473,14 @@ class communityBuffer(feedBuffer):
 		self.tab.load.Enable(False)
 		wx.CallAfter(self.get_items)
 
+	def get_items(self, *args, **kwargs):
+		""" This method retrieves community information, useful to show different parts of the community itself."""
+		if self.can_get_items:
+			# Strangely, groups.get does not return counters so we need those to show options for loading specific posts for communities.
+			self.group_info = self.session.vk.client.groups.getById(group_ids=-1*self.kwargs["owner_id"], fields="counters")[0]
+			print(self.group_info["counters"])
+		super(communityBuffer, self).get_items(*args, **kwargs)
+
 class audioBuffer(feedBuffer):
 	""" this buffer was supposed to be used with audio elements
 	but is deprecated as VK removed its audio support for third party apps."""
