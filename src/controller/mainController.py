@@ -185,12 +185,15 @@ class Controller(object):
 		menu = None
 		# Get the current buffer and let's choose a different menu depending on the selected buffer.
 		current_buffer = self.get_current_buffer()
-		# Deals with menu for community buffers.
+		# Deal with menu for community buffers.
 		if current_buffer.name.endswith("_community"):
 			menu = menus.communityBufferMenu()
 			# disable post loading if the community has already loaded posts.
 			if current_buffer.can_get_items:
 				menu.load_posts.Enable(False)
+			# Disable loading of audios, videos or topics depending in two conditions.
+			# 1. If the buffer already exists, which means they are already loaded, or
+			# 2. If the group_info does not have counters for such items, which would indicate there are no items posted yet.
 			if self.search(current_buffer.name+"_audios") != False:
 				menu.load_audios.Enable(False)
 			elif hasattr(current_buffer, "group_info") and "audios" not in current_buffer.group_info["counters"]:
@@ -212,6 +215,7 @@ class Controller(object):
 		# Deal with the communities section itself.
 		if current_buffer.name == "communities":
 			menu = wx.Menu()
+			# Insert a different option depending if group buffers are loaded or scheduled to be loaded or not.
 			if self.session.settings["load_at_startup"]["communities"] == False and not hasattr(self.session, "groups"):
 				option = menu.Append(wx.NewId(), _("Load groups"))
 				widgetUtils.connect_event(menu, widgetUtils.MENU, self.load_community_buffers, menuitem=option)
@@ -220,6 +224,7 @@ class Controller(object):
 				widgetUtils.connect_event(menu, widgetUtils.MENU, self.unload_community_buffers, menuitem=option)
 		if menu != None:
 			self.window.PopupMenu(menu, self.window.FindFocus().GetPosition())
+		# If there are no available menus, let's indicate it.
 		else:
 			output.speak(_("menu unavailable for this buffer."))
 
@@ -768,12 +773,15 @@ class Controller(object):
 			self.window.change_buffer(new_position)
 
 	def load_community_posts(self, *args, **kwargs):
+		""" Load community posts. It just calls to the needed method in the community buffer."""
 		current_buffer = self.get_current_buffer()
 		if current_buffer.name.endswith("_community"):
 			current_buffer.load_community()
 
 	def load_community_audios(self, *args, **kwargs):
+		""" Load community audios if they are not loaded already."""
 		current_buffer = self.get_current_buffer()
+		# Get group_info if the community buffer does not have it already, so future menus will be able to use it.
 		if not hasattr(current_buffer, "group_info"):
 			group_info = self.session.vk.client.groups.getById(group_ids=-1*current_buffer.kwargs["owner_id"], fields="counters")[0]
 			current_buffer.group_info = group_info
@@ -784,7 +792,9 @@ class Controller(object):
 		wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="audioBuffer", buffer_title=_("Audios"), parent_tab=current_buffer.tab.name, get_items=True, kwargs=dict(parent=self.window.tb, name=new_name, composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio", owner_id=current_buffer.kwargs["owner_id"]))
 
 	def load_community_videos(self, *args, **kwargs):
+		""" Load community videos if they are not loaded already."""
 		current_buffer = self.get_current_buffer()
+		# Get group_info if the community buffer does not have it already, so future menus will be able to use it.
 		if not hasattr(current_buffer, "group_info"):
 			group_info = self.session.vk.client.groups.getById(group_ids=-1*current_buffer.kwargs["owner_id"], fields="counters")[0]
 			current_buffer.group_info = group_info
@@ -795,12 +805,24 @@ class Controller(object):
 		wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="videoBuffer", buffer_title=_("Videos"), parent_tab=current_buffer.tab.name, get_items=True, kwargs=dict(parent=self.window.tb, name=new_name, composefunc="render_video", session=self.session, endpoint="get", parent_endpoint="video", count=self.session.settings["buffers"]["count_for_video_buffers"], owner_id=current_buffer.kwargs["owner_id"]))
 
 	def load_community_topics(self, *args, **kwargs):
-		pass
+		""" Load community topics."""
+		current_buffer = self.get_current_buffer()
+		# Get group_info if the community buffer does not have it already, so future menus will be able to use it.
+		if not hasattr(current_buffer, "group_info"):
+			group_info = self.session.vk.client.groups.getById(group_ids=-1*current_buffer.kwargs["owner_id"], fields="counters")[0]
+			current_buffer.group_info = group_info
+		if "topics" not in current_buffer.group_info["counters"]:
+			commonMessages.community_no_items()
+			return
+		new_name = current_buffer.name+"_topics"
+		wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="topicBuffer", buffer_title=_("Topics"), parent_tab=current_buffer.tab.name, get_items=True, kwargs=dict(parent=self.window.tb, name=new_name, composefunc="render_topic", session=self.session, endpoint="getTopics", parent_endpoint="board", count=100, group_id=-1*current_buffer.kwargs["owner_id"], extended=1))
 
 	def load_community_buffers(self, *args, **kwargs):
+		""" Load all community buffers regardless of the setting present in optional buffers tab of the preferences dialog."""
 		call_threaded(self.get_communities, self.session.user_id, force_action=True)
 
 	def unload_community_buffers(self, *args, **kwargs):
+		""" Delete all buffers belonging to groups."""
 		communities = self.get_all_buffers("_community")
 		for buffer in communities:
 			buff = self.window.search(buffer.name)
