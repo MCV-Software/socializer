@@ -38,7 +38,7 @@ class displayPostInteractor(base.baseInteractor):
 	def clean_list(self, list):
 		if not hasattr(self.view, list):
 			raise AttributeError("The control is not present in the view.")
-		getattr(self.view, control).clear()
+		getattr(self.view, list).clear()
 
 	def post_deleted(self):
 		msg = commonMessages.post_deleted()
@@ -63,6 +63,8 @@ class displayPostInteractor(base.baseInteractor):
 		pub.subscribe(self.enable_attachments, self.modulename+"_enable_attachments")
 		pub.subscribe(self.enable_photo_controls, self.modulename+"_enable_photo_controls")
 		pub.subscribe(self.post_deleted, self.modulename+"_post_deleted")
+		pub.subscribe(self.clean_list, self.modulename+"_clean_list")
+		self.view.comments.list.Bind(wx.EVT_LIST_ITEM_FOCUSED, self.on_comment_changed)
 
 	def uninstall(self):
 		super(displayPostInteractor, self).uninstall()
@@ -72,6 +74,7 @@ class displayPostInteractor(base.baseInteractor):
 		pub.unsubscribe(self.enable_attachments, self.modulename+"_enable_attachments")
 		pub.unsubscribe(self.enable_photo_controls, self.modulename+"_enable_photo_controls")
 		pub.unsubscribe(self.post_deleted, self.modulename+"_post_deleted")
+		pub.unsubscribe(self.clean_list, self.modulename+"_clean_list")
 
 	def on_focus(self, *args, **kwargs):
 		item = self.view.comments.get_selected()
@@ -125,6 +128,11 @@ class displayPostInteractor(base.baseInteractor):
 	def on_show_comment(self, *args, **kwargs):
 		comment = self.view.comments.get_selected()
 		self.presenter.show_comment(comment)
+
+	def on_comment_changed(self, *args, **kwargs):
+		if hasattr(self.presenter, "change_comment"):
+			comment = self.view.comments.get_selected()
+			self.presenter.change_comment(comment)
 
 class displayAudioInteractor(base.baseInteractor):
 
