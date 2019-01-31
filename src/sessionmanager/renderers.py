@@ -250,3 +250,13 @@ def render_audio_message(audio_message, session=None):
 	if audio_message == False:
 		return [_("Voice message not available"), "", ""]
 	return [seconds_to_string(audio_message["duration"])]
+
+def render_topic(topic, session):
+	user = session.get_user(topic["created_by"])
+	title = topic["title"]
+	comments = topic["comments"]
+	last_commenter = session.get_user(topic["updated_by"])
+	last_update = arrow.get(topic["updated"]).humanize(locale=languageHandler.curLang[:2])
+	last_commenter.update(date=last_update)
+	lastupdate = _("Last post by {user1_nom} {date}").format(**last_commenter)
+	return [user["user1_nom"], title, str(comments), lastupdate]
