@@ -502,6 +502,90 @@ class displayCommentPresenter(displayPostPresenter):
 		a = displayCommentPresenter(session=self.session, postObject=c, interactor=interactors.displayPostInteractor(), view=views.displayComment())
 		self.clear_comments_list()
 
+class displayTopicPresenter(displayPostPresenter):
+
+	def __init__(self, session, postObject, group_id, view, interactor):
+		self.type = "topic"
+		self.modulename = "display_topic"
+		self.interactor = interactor
+		self.view = view
+		self.interactor.install(view=view, presenter=self, modulename=self.modulename)
+		self.session = session
+		self.post = postObject
+		self.group_id = group_id
+		self.load_images = False
+		# We'll put images here, so it will be easier to work with them.
+		self.images = []
+		self.imageIndex = 0
+		result = self.get_post_information()
+		# Stop loading everything else if post was deleted.
+		if result == False:
+			self.interactor.uninstall()
+			return
+		self.worker = threading.Thread(target=self.load_all_components)
+		self.worker.finished = threading.Event()
+		self.worker.start()
+		self.attachments = []
+		self.run()
+
+	def load_all_components(self):
+		self.get_comments()
+
+	def get_post_information(self):
+		title = self.post["title"]
+		self.send_message("set_title", value=title)
+		return True
+
+	def get_comments(self):
+		""" Get comments and insert them in a list."""
+		self.comments = self.session.vk.client.board.getComments(group_id=self.group_id, topic_id=self.post["id"], need_likes=1, count=100, extended=1)
+#		print(self.comments["items"])
+#		print(self.post)
+		comments_ = []
+		for i in self.comments["items"]:
+			# If comment has a "deleted" key it should not be displayed, obviously.
+			if "deleted" in i:
+				continue
+			from_ = get_user(i["from_id"], self.comments["profiles"])
+			# match user mentions inside text comment.
+			matched_data = re.match(".*(\[id\d+:bp-\d+_\d+\|)(\D+)(\])", i["text"])
+			# If matched data exists we should modify the title.
+#			if len(matched_data.groups()) > 2:
+#				from_ = "{from_} > {to_}".format(from_=from_, to_=matched_data.groups()[1])
+			original_date = arrow.get(i["date"])
+			created_at = original_date.humanize(locale=languageHandler.curLang[:2])
+			likes = str(i["likes"]["count"])
+			if matched_data != None:
+				text = re.sub("\[id\d+:bp-\d+_\d+\|\D+\]", matched_data.groups()[1]+", ", i["text"])
+			else:
+				text = i["text"]
+			comments_.append((from_, text, created_at, likes))
+		self.send_message("add_items", control="comments", items=comments_)
+
+	def post_like(self):
+		c = self.interactor.view.comments.get_selected()
+		id = self.comments["items"][c]["id"]
+		if self.comments["items"][c]["likes"]["user_likes"] == 1:
+			l = self.session.vk.client.likes.delete(owner_id=-1*self.group_id, item_id=id, type="topic_comment")
+			output.speak(_("You don't like this"))
+			self.comments["items"][c]["likes"]["count"] = l["likes"]
+			self.comments["items"][c]["likes"]["user_likes"] = 2
+			self.send_message("set_label", control="like", label=_("&Like"))
+		else:
+			l = self.session.vk.client.likes.add(owner_id=-1*self.group_id, item_id=id, type="topic_comment")
+			output.speak(_("You liked this"))
+			self.send_message("set_label", control="like", label=_("&Dislike"))
+			self.comments["items"][c]["likes"]["count"] = l["likes"]
+			self.comments["items"][c]["likes"]["user_likes"] = 1
+		self.clear_comments_list()
+
+	def change_comment(self, comment):
+		comment = self.comments["items"][comment]
+		if comment["likes"]["user_likes"] == 1:
+			self.send_message("set_label", control="like", label=_("&Dislike"))
+		else:
+			self.send_message("set_label", control="like", label=_("&Like"))
+
 class displayAudioPresenter(base.basePresenter):
 	def __init__(self, session, postObject, view, interactor):
 		super(displayAudioPresenter, self).__init__(view=view, interactor=interactor, modulename="display_audio")
