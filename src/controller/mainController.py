@@ -361,9 +361,10 @@ class Controller(object):
 		del buffer
 
 	def changelog(self, *args, **kwargs):
-		os.chdir("documentation")
+		lang = localization.get("documentation")
+		os.chdir("documentation/%s" % (lang,))
 		webbrowser.open("changelog.html")
-		os.chdir("../")
+		os.chdir("../../")
 
 	def configuration(self, *args, **kwargs):
 		""" Opens the global settings dialogue."""
