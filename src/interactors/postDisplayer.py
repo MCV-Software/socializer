@@ -90,7 +90,7 @@ class displayPostInteractor(base.baseInteractor):
 		self.presenter.post_repost()
 
 	def on_reply(self, *args, **kwargs):
-		if hasattr(self.view, "repost"):
+		if hasattr(self.view, "repost") or not hasattr(self, "post_view"):
 			comment = self.view.comments.get_selected()
 			self.presenter.reply(comment)
 		else:

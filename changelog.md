@@ -27,7 +27,7 @@
 * Added improvements to groups:
     * It is possible to load topics, audios and videos for a group. In order to do so, you need to go to the group buffer and press the menu key, or right mouse click, in the tree item representing the group. New buffers will be created inside the current group's buffer.
     * You can create or delete all buffers for groups by pressing the menu key or right mouse click in the "communities" buffer.
-    * There is some support for group topics. When opening them, they will be displayed as a list of posts. You can like or dislike such posts.
+    * There is  support for group topics. When opening them, they will be displayed as a list of posts. You can like or reply to such posts, as well as adding new posts in the topic.
 
 ## Changes in version 0.18 (21.01.2019)
 

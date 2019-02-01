@@ -144,6 +144,7 @@ class displayPostPresenter(base.basePresenter):
 
 	def get_attachments(self, post, text):
 		attachments = []
+		self.attachments = []
 		if "attachments" in post:
 			for i in post["attachments"]:
 				# We don't need the photos_list attachment, so skip it.
@@ -167,6 +168,8 @@ class displayPostPresenter(base.basePresenter):
 		if len(self.attachments) > 0:
 			self.send_message("enable_attachments")
 			self.send_message("add_items", control="attachments", items=attachments)
+		else:
+			self.interactor.view.attachments.list.Enable(False)
 
 	def check_image_load(self):
 		if self.load_images and len(self.images) > 0 and self.session.settings["general"]["load_images"]:
@@ -539,8 +542,6 @@ class displayTopicPresenter(displayPostPresenter):
 	def get_comments(self):
 		""" Get comments and insert them in a list."""
 		self.comments = self.session.vk.client.board.getComments(group_id=self.group_id, topic_id=self.post["id"], need_likes=1, count=100, extended=1)
-#		print(self.comments["items"])
-#		print(self.post)
 		comments_ = []
 		for i in self.comments["items"]:
 			# If comment has a "deleted" key it should not be displayed, obviously.
@@ -581,10 +582,49 @@ class displayTopicPresenter(displayPostPresenter):
 
 	def change_comment(self, comment):
 		comment = self.comments["items"][comment]
+		self.send_message("clean_list", list="attachments")
+		self.get_attachments(comment, "")
 		if comment["likes"]["user_likes"] == 1:
 			self.send_message("set_label", control="like", label=_("&Dislike"))
 		else:
 			self.send_message("set_label", control="like", label=_("&Like"))
+
+	def add_comment(self):
+		comment = createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Add a comment"), message="", text="", mode="comment"))
+		if hasattr(comment, "text") or hasattr(comment, "privacy"):
+			group_id = self.group_id
+			topic_id = self.post["id"]
+			call_threaded(self.do_last, comment, group_id=group_id, topic_id=topic_id)
+
+	def do_last(self, comment, **kwargs):
+		msg = comment.text
+		attachments = ""
+		if hasattr(comment, "attachments"):
+			attachments = self.upload_attachments(comment.attachments)
+		urls = utils.find_urls_in_text(msg)
+		if len(urls) != 0:
+			if len(attachments) == 0: attachments = urls[0]
+			else: attachments += urls[0]
+			msg = msg.replace(urls[0], "")
+		if msg != "":
+			kwargs.update(message=msg)
+		if attachments != "":
+			kwargs.update(attachments=attachments)
+		if "message" not in kwargs and "attachments" not in kwargs:
+			return # No comment made here.
+		result = self.session.vk.client.board.createComment(**kwargs)
+		self.clear_comments_list()
+
+	def reply(self, comment):
+		c = self.comments["items"][comment]
+		comment = createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Reply to {user1_nom}").format(**self.session.get_user(c["from_id"])), message="", text="", mode="comment"))
+		if hasattr(comment, "text") or hasattr(comment, "privacy"):
+			user = self.session.get_user(c["from_id"])
+			name = user["user1_nom"].split(" ")[0]
+			comment.text = "[post{post_id}|{name}], {text}".format(post_id=c["id"], text=comment.text, name=name)
+			group_id = self.group_id
+			topic_id = self.post["id"]
+			call_threaded(self.do_last, comment, group_id=group_id, topic_id=topic_id, reply_to_comment=c["id"])
 
 class displayAudioPresenter(base.basePresenter):
 	def __init__(self, session, postObject, view, interactor):
