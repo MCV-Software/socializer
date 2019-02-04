@@ -340,7 +340,8 @@ class Controller(object):
 				params["hd"] = 1
 			params["adult"] = dlg.get_checkable("safe_search")
 			params["sort"] = dlg.get_sort_order()
-			params["filters"] = "youtube, vimeo, short, long"
+#			params["filters"] = "youtube, vimeo, short, long, mp4"
+			print(params)
 			newbuff = buffers.videoBuffer(parent=self.window.tb, name="{0}_videosearch".format(params["q"],), session=self.session, composefunc="render_video", parent_endpoint="video", endpoint="search", **params)
 			self.buffers.append(newbuff)
 			call_threaded(newbuff.get_items)
