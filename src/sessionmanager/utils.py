@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """ Some utilities. I no have idea how I should put these, so..."""
 import os
-import requests
 import re
+import html
 import logging
+import requests
 
 log = logging.getLogger("utils")
 url_re = re.compile("(?:\w+://|www\.)[^ ,.?!#%=+][^ ]*")
@@ -57,3 +58,18 @@ def download_file(url, local_filename, window):
 	window.change_status(_("Ready"))
 	return local_filename
 
+def detect_users(text):
+	""" Detect all users and communities mentionned in any text posted in VK."""
+	# This regexp gets group and users mentionned in topic comments.
+	for matched_data in re.finditer("(\[)(id|club)(\d+:bp-\d+_\d+\|)(\D+)(\])", text):
+		text = re.sub("\[(id|club)\d+:bp-\d+_\d+\|\D+\]", matched_data.groups()[3]+", ", text, count=1)
+	# This is for users and communities just mentionned in wall comments or posts.
+	for matched_data in  re.finditer("(\[)(id|club)(\d+\|)(\D+)(\])", text):
+		text = re.sub("\[(id|club)\d+\|\D+\]", matched_data.groups()[3]+", ", text, count=1)
+	return text
+
+def clean_text(text):
+	""" Clean text, removing all unneeded HTMl and converting HTML represented characters in their unicode counterparts."""
+	text = detect_users(text)
+	text = html.unescape(text)
+	return text

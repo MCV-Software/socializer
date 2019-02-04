@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 """ this module contains everything used to render different kind of posts (posts in the home buffer,
 Chat messages, audios, videos, photos, comments in posts, etc)"""
-from __future__ import unicode_literals
-from builtins import range
 import arrow
 import languageHandler
 import logging
-from . utils import seconds_to_string
+from . utils import seconds_to_string, clean_text
 
 log = logging.getLogger(__file__)
 
@@ -49,12 +47,6 @@ def clean_audio(audio):
 			audio["items"].remove(i)
 			audio["count"] = audio["count"] -1
 	return audio
-
-def clean_text(text):
-	""" Replaces all HTML entities and put the plain text equivalent if it's possible."""
-	text = text.replace("<br>", "\n")
-	text = text.replace("\\n", "\n")
-	return text 
 
 def add_attachment(attachment):
 	msg = ""

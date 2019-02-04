@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-import re
 import os
 import six
 import threading
@@ -25,7 +23,7 @@ log = logging.getLogger(__file__)
 def get_message(status):
 	message = ""
 	if "text" in status:
-		message = renderers.clean_text(status["text"])
+		message = utils.clean_text(status["text"])
 	return message
 
 class displayPostPresenter(base.basePresenter):
@@ -83,7 +81,7 @@ class displayPostPresenter(base.basePresenter):
 				extra_info = self.session.get_user(i["reply_to_user"])["user1_nom"]
 				from_ = _("{0} > {1}").format(from_, extra_info)
 			# As we set the comment reply properly in the from_ field, let's remove the first username from here if it exists.
-			fixed_text = re.sub("^\[id\d+\|\D+\], ", "", i["text"])
+			fixed_text = utils.clean_text(i["text"])
 			if len(fixed_text) > 140:
 				text = fixed_text[:141]
 			else:
@@ -297,7 +295,7 @@ class displayPostPresenter(base.basePresenter):
 			else:
 				from_ = from_["user1_nom"]
 			# As we set the comment reply properly in the from_ field, let's remove the first username from here if it exists.
-			fixed_text = re.sub("^\[id\d+\|\D+\], ", "", comment_object["text"])
+			fixed_text = utils.clean_text(comment_object["text"])
 			if len(fixed_text) > 140:
 				text = fixed_text[:141]
 			else:
@@ -484,7 +482,7 @@ class displayCommentPresenter(displayPostPresenter):
 			else:
 				from_ = from_["user1_nom"]
 			# As we set the comment reply properly in the from_ field, let's remove the first username from here if it exists.
-			fixed_text = re.sub("^\[id\d+\|\D+\], ", "", i["text"])
+			fixed_text = utils.clean_text(i["text"])
 			if len(fixed_text) > 140:
 				text = fixed_text[:141]
 			else:
@@ -548,17 +546,10 @@ class displayTopicPresenter(displayPostPresenter):
 				continue
 			from_ = self.session.get_user(i["from_id"])["user1_nom"]
 			# match user mentions inside text comment.
-			matched_data = re.match(".*(\[)(id|club)(\d+:bp-\d+_\d+\|)(\D+)(\])", i["text"])
-			# If matched data exists we should modify the title.
-#			if len(matched_data.groups()) > 2:
-#				from_ = "{from_} > {to_}".format(from_=from_, to_=matched_data.groups()[1])
 			original_date = arrow.get(i["date"])
 			created_at = original_date.humanize(locale=languageHandler.curLang[:2])
 			likes = str(i["likes"]["count"])
-			if matched_data != None:
-				text = re.sub("\[(id|club)\d+:bp-\d+_\d+\|\D+\]", matched_data.groups()[3]+", ", i["text"])
-			else:
-				text = i["text"]
+			text = utils.clean_text(text=i["text"])
 			comments_.append((from_, text, created_at, likes))
 		self.send_message("add_items", control="comments", items=comments_)
 
