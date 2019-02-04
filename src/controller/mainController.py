@@ -485,7 +485,7 @@ class Controller(object):
 			self.session.soundplayer.play("conversation_opened.ogg")
 			return
 		# If the chat already exists, let's create a dictionary wich will contains data of the received message.
-		message.update(id=obj.message_id, user_id=uid, date=obj.timestamp, body=obj.text, attachments=obj.attachments)
+		message.update(id=obj.message_id, user_id=uid, date=obj.timestamp, body=utils.clean_text(obj.text), attachments=obj.attachments)
 		# if attachments is true, let's request for the full message with attachments formatted in a better way.
 		# ToDo: code improvements. We shouldn't need to request the same message again just for these attachments.
 		if len(message["attachments"]) != 0:
