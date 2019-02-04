@@ -22,14 +22,6 @@ from .postCreation import createPostPresenter
 
 log = logging.getLogger(__file__)
 
-def get_user(id, profiles):
-	""" Returns an user name and last name  based in the id receibed."""
-	for i in profiles:
-		if i["id"] == id:
-			return "{0} {1}".format(i["first_name"], i["last_name"])
-	# Translators: This string is used when socializer can't find the right user information.
-	return _("Unknown username")
-
 def get_message(status):
 	message = ""
 	if "text" in status:
@@ -77,13 +69,18 @@ class displayPostPresenter(base.basePresenter):
 		id = self.post[self.post_identifier]
 		self.comments = self.session.vk.client.wall.getComments(owner_id=user, post_id=id, need_likes=1, count=100, extended=1, preview_length=0, thread_items_count=10)
 		comments_ = []
+		# Save profiles in session local storage for a future usage.
+		# Although community objects are returned here, we should not add those because their names are changed.
+		# For example, self reference to a group is marked as "Administrator", which would ruin this profile to be rendered somewhere else.
+		data = dict(groups=[], profiles=self.comments["profiles"])
+		self.session.process_usernames(data)
 		for i in self.comments["items"]:
 			# If comment has a "deleted" key it should not be displayed, obviously.
 			if "deleted" in i:
 				continue
-			from_ = get_user(i["from_id"], self.comments["profiles"])
+			from_ = self.session.get_user(i["from_id"])["user1_nom"]
 			if "reply_to_user" in i:
-				extra_info = get_user(i["reply_to_user"], self.comments["profiles"])
+				extra_info = self.session.get_user(i["reply_to_user"])["user1_nom"]
 				from_ = _("{0} > {1}").format(from_, extra_info)
 			# As we set the comment reply properly in the from_ field, let's remove the first username from here if it exists.
 			fixed_text = re.sub("^\[id\d+\|\D+\], ", "", i["text"])
@@ -543,13 +540,15 @@ class displayTopicPresenter(displayPostPresenter):
 		""" Get comments and insert them in a list."""
 		self.comments = self.session.vk.client.board.getComments(group_id=self.group_id, topic_id=self.post["id"], need_likes=1, count=100, extended=1)
 		comments_ = []
+		data = dict(profiles=self.comments["profiles"], groups=[])
+		self.session.process_usernames(data)
 		for i in self.comments["items"]:
 			# If comment has a "deleted" key it should not be displayed, obviously.
 			if "deleted" in i:
 				continue
-			from_ = get_user(i["from_id"], self.comments["profiles"])
+			from_ = self.session.get_user(i["from_id"])["user1_nom"]
 			# match user mentions inside text comment.
-			matched_data = re.match(".*(\[id\d+:bp-\d+_\d+\|)(\D+)(\])", i["text"])
+			matched_data = re.match(".*(\[)(id|club)(\d+:bp-\d+_\d+\|)(\D+)(\])", i["text"])
 			# If matched data exists we should modify the title.
 #			if len(matched_data.groups()) > 2:
 #				from_ = "{from_} > {to_}".format(from_=from_, to_=matched_data.groups()[1])
@@ -557,7 +556,7 @@ class displayTopicPresenter(displayPostPresenter):
 			created_at = original_date.humanize(locale=languageHandler.curLang[:2])
 			likes = str(i["likes"]["count"])
 			if matched_data != None:
-				text = re.sub("\[id\d+:bp-\d+_\d+\|\D+\]", matched_data.groups()[1]+", ", i["text"])
+				text = re.sub("\[(id|club)\d+:bp-\d+_\d+\|\D+\]", matched_data.groups()[3]+", ", i["text"])
 			else:
 				text = i["text"]
 			comments_.append((from_, text, created_at, likes))

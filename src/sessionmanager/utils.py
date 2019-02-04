@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 """ Some utilities. I no have idea how I should put these, so..."""
-from __future__ import division
-from __future__ import unicode_literals
 import os
 import requests
 import re
@@ -12,6 +10,8 @@ url_re = re.compile("(?:\w+://|www\.)[^ ,.?!#%=+][^ ]*")
 bad_chars = '\'\\.,[](){}:;"'
 
 def seconds_to_string(seconds, precision=0):
+	""" convert a number of seconds in a string representation."""
+	# ToDo: Improve it to handle properly Russian plurals.
 	day = seconds // 86400
 	hour = seconds // 3600
 	min = (seconds // 60) % 60
