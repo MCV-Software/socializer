@@ -500,6 +500,25 @@ class topicBuffer(feedBuffer):
 			return
 		a = presenters.displayTopicPresenter(session=self.session, postObject=post, group_id=self.kwargs["group_id"], interactor=interactors.displayPostInteractor(), view=views.displayTopic())
 
+class documentBuffer(feedBuffer):
+
+	def create_tab(self, parent):
+		self.tab = home.documentTab(parent)
+		self.connect_events()
+		self.tab.name = self.name
+		if hasattr(self, "can_post") and self.can_post == False and hasattr(self.tab, "post"):
+			self.tab.post.Enable(False)
+
+	def onFocus(self, *args, **kwargs):
+		pass
+
+	def open_post(self, *args, **kwargs):
+		""" Opens the currently focused post."""
+		post = self.get_post()
+		if post == None:
+			return
+		print(post)
+
 class audioBuffer(feedBuffer):
 	""" this buffer was supposed to be used with audio elements
 	but is deprecated as VK removed its audio support for third party apps."""

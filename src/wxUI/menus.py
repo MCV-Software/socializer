@@ -110,4 +110,5 @@ class communityBufferMenu(wx.Menu):
 		self.load_topics = load.Append(wx.NewId(), _("Load topics"))
 		self.load_audios = load.Append(wx.NewId(), _("Load audios"))
 		self.load_videos = load.Append(wx.NewId(), _("Load videos"))
+		self.load_documents = load.Append(wx.NewId(), _("Load documents"))
 		self.Append(wx.NewId(), _("Load"), load)

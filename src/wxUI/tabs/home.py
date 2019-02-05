@@ -147,6 +147,18 @@ class topicTab(homeTab):
 		self.list.set_size()
 		self.list.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnKeyDown)
 
+class documentTab(homeTab):
+	def create_list(self):
+		self.lbl = wx.StaticText(self, wx.NewId(), _("Documents"))
+		self.list = widgetUtils.list(self, *[_("User"), _("Title"), _("Type"), _("Size"), _("Date")], style=wx.LC_REPORT)
+		self.list.set_windows_size(0, 200)
+		self.list.set_windows_size(1, 128)
+		self.list.set_windows_size(2, 35)
+		self.list.set_windows_size(3, 15)
+		self.list.set_windows_size(4, 25)
+		self.list.set_size()
+		self.list.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnKeyDown)
+
 class empty(wx.Panel):
 	def __init__(self, parent, name):
 		super(empty, self).__init__(parent=parent, name=name)

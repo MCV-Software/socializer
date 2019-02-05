@@ -191,7 +191,7 @@ class Controller(object):
 			# disable post loading if the community has already loaded posts.
 			if current_buffer.can_get_items:
 				menu.load_posts.Enable(False)
-			# Disable loading of audios, videos or topics depending in two conditions.
+			# Disable loading of audios, videos, documents or topics depending in two conditions.
 			# 1. If the buffer already exists, which means they are already loaded, or
 			# 2. If the group_info does not have counters for such items, which would indicate there are no items posted yet.
 			if self.search(current_buffer.name+"_audios") != False:
@@ -206,12 +206,17 @@ class Controller(object):
 				menu.load_topics.Enable(False)
 			elif hasattr(current_buffer, "group_info") and "topics" not in current_buffer.group_info["counters"]:
 				menu.load_topics.Enable(False)
+
+			if self.search(current_buffer.name+"_documents") != False:
+				menu.load_documents.Enable(False)
+			elif hasattr(current_buffer, "group_info") and "docs" not in current_buffer.group_info["counters"]:
+				menu.load_documents.Enable(False)
 			# Connect the rest of the functions.
 			widgetUtils.connect_event(menu, widgetUtils.MENU, self.load_community_posts, menuitem=menu.load_posts)
 			widgetUtils.connect_event(menu, widgetUtils.MENU, self.load_community_topics, menuitem=menu.load_topics)
 			widgetUtils.connect_event(menu, widgetUtils.MENU, self.load_community_audios, menuitem=menu.load_audios)
 			widgetUtils.connect_event(menu, widgetUtils.MENU, self.load_community_videos, menuitem=menu.load_videos)
-
+			widgetUtils.connect_event(menu, widgetUtils.MENU, self.load_community_documents, menuitem=menu.load_documents)
 		# Deal with the communities section itself.
 		if current_buffer.name == "communities":
 			menu = wx.Menu()
@@ -819,6 +824,18 @@ class Controller(object):
 		new_name = current_buffer.name+"_topics"
 		wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="topicBuffer", buffer_title=_("Topics"), parent_tab=current_buffer.tab.name, get_items=True, kwargs=dict(parent=self.window.tb, name=new_name, composefunc="render_topic", session=self.session, endpoint="getTopics", parent_endpoint="board", count=100, group_id=-1*current_buffer.kwargs["owner_id"], extended=1))
 
+	def load_community_documents(self, *args, **kwargs):
+		current_buffer = self.get_current_buffer()
+		# Get group_info if the community buffer does not have it already, so future menus will be able to use it.
+		if not hasattr(current_buffer, "group_info"):
+			group_info = self.session.vk.client.groups.getById(group_ids=-1*current_buffer.kwargs["owner_id"], fields="counters")[0]
+			current_buffer.group_info = group_info
+		if "docs" not in current_buffer.group_info["counters"]:
+			commonMessages.community_no_items()
+			return
+		new_name = current_buffer.name+"_documents"
+		wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="documentBuffer", buffer_title=_("Documents"), parent_tab=current_buffer.tab.name, get_items=True, kwargs=dict(parent=self.window.tb, name=new_name, composefunc="render_document", session=self.session, endpoint="get", parent_endpoint="docs", owner_id=current_buffer.kwargs["owner_id"]))
+
 	def load_community_buffers(self, *args, **kwargs):
 		""" Load all community buffers regardless of the setting present in optional buffers tab of the preferences dialog."""
 		call_threaded(self.get_communities, self.session.user_id, force_action=True)
@@ -831,3 +848,4 @@ class Controller(object):
 			self.window.remove_buffer(buff)
 			self.buffers.remove(buffer)
 		del self.session.groups
+

@@ -4,6 +4,7 @@ Chat messages, audios, videos, photos, comments in posts, etc)"""
 import arrow
 import languageHandler
 import logging
+from update.utils import convert_bytes
 from . utils import seconds_to_string, clean_text
 
 log = logging.getLogger(__file__)
@@ -244,6 +245,8 @@ def render_audio_message(audio_message, session=None):
 	return [seconds_to_string(audio_message["duration"])]
 
 def render_topic(topic, session):
+	""" Render topics for a community.
+	Reference: https://vk.com/dev/objects/topic"""
 	user = session.get_user(topic["created_by"])
 	title = topic["title"]
 	comments = topic["comments"]
@@ -252,3 +255,12 @@ def render_topic(topic, session):
 	last_commenter.update(date=last_update)
 	lastupdate = _("Last post by {user1_nom} {date}").format(**last_commenter)
 	return [user["user1_nom"], title, str(comments), lastupdate]
+
+def render_document(document, session):
+	doc_types = {1: _("Text document"), 2: _("Archive"), 3: _("Gif"), 4: _("Image"), 5: _("Audio"), 6: _("Video"), 7: _("Ebook"), 8: _("Unknown document")}
+	user = session.get_user(document["owner_id"])
+	title = document["title"]
+	size = convert_bytes(document["size"])
+	date = arrow.get(document["date"]).humanize(locale=languageHandler.curLang[:2])
+	doc_type = doc_types[document["type"]]
+	return [user["user1_nom"], title, doc_type, size, date]
