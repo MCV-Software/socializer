@@ -147,7 +147,7 @@ class topicTab(homeTab):
 		self.list.set_size()
 		self.list.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnKeyDown)
 
-class documentTab(homeTab):
+class documentCommunityTab(homeTab):
 	def create_list(self):
 		self.lbl = wx.StaticText(self, wx.NewId(), _("Documents"))
 		self.list = widgetUtils.list(self, *[_("User"), _("Title"), _("Type"), _("Size"), _("Date")], style=wx.LC_REPORT)
@@ -158,6 +158,14 @@ class documentTab(homeTab):
 		self.list.set_windows_size(4, 25)
 		self.list.set_size()
 		self.list.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnKeyDown)
+
+class documentTab(documentCommunityTab):
+	def create_post_buttons(self):
+		self.postBox = wx.StaticBoxSizer(parent=self, orient=wx.HORIZONTAL, label=_("Actions"))
+		self.load = wx.Button(self.postBox.GetStaticBox(), wx.NewId(), _("Load album"))
+		self.post = wx.Button(self.postBox.GetStaticBox(), -1, _("&Post"))
+		self.postBox.Add(self.load, 0, wx.ALL, 5)
+		self.postBox.Add(self.post, 0, wx.ALL, 5)
 
 class empty(wx.Panel):
 	def __init__(self, parent, name):
