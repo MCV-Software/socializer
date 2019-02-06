@@ -65,50 +65,44 @@ class Controller(object):
 		self.create_controls()
 		call_threaded(updater.do_update, update_type=self.session.settings["general"]["update_channel"])
 
-	def create_buffer(self, buffer_type="baseBuffer", buffer_title="", parent_tab="posts", loadable=False, get_items=False, kwargs={}):
+	def create_buffer(self, buffer_type="baseBuffer", buffer_title="", parent_tab=None, loadable=False, get_items=False, kwargs={}):
 		if not hasattr(buffers, buffer_type):
-			raise AttributeError("Specified buffer type does not exist.")
+			raise AttributeError("Specified buffer type does not exist: %s" % (buffer_type,))
 		buffer = getattr(buffers, buffer_type)(**kwargs)
 		if loadable:
 			buffer.can_get_items = False
-		self.buffers.append(buffer)
-		self.window.insert_buffer(buffer.tab, buffer_title, self.window.search(parent_tab))
-		if get_items:
-			call_threaded(buffer.get_items)
-
-	def create_empty_buffer(self, buffer_type="empty", buffer_title="", parent_tab=None, kwargs={}):
-		if not hasattr(buffers, buffer_type):
-			raise AttributeError("Specified buffer type does not exist.")
-		buffer = getattr(buffers, buffer_type)(**kwargs)
 		self.buffers.append(buffer)
 		if parent_tab == None:
 			self.window.add_buffer(buffer.tab, buffer_title)
 		else:
 			self.window.insert_buffer(buffer.tab, buffer_title, self.window.search(parent_tab))
+		if get_items:
+			call_threaded(buffer.get_items)
 
 	def create_controls(self):
 		log.debug("Creating controls for the window...")
-		pub.sendMessage("create_empty_buffer", buffer_title=_("Posts"), kwargs=dict(parent=self.window.tb, name="posts"))
+		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("Posts"), kwargs=dict(parent=self.window.tb, name="posts"))
 		pub.sendMessage("create_buffer", buffer_type="baseBuffer", buffer_title=_("Home"), parent_tab="posts", kwargs=dict(parent=self.window.tb, name="home_timeline", session=self.session, composefunc="render_newsfeed_item", endpoint="newsfeed", count=self.session.settings["buffers"]["count_for_wall_buffers"]))
 		pub.sendMessage("create_buffer", buffer_type="feedBuffer", buffer_title=_("My wall"), parent_tab="posts", kwargs=dict(parent=self.window.tb, name="me_feed", composefunc="render_status", session=self.session, endpoint="get", parent_endpoint="wall", extended=1, count=self.session.settings["buffers"]["count_for_wall_buffers"]))
-		pub.sendMessage("create_empty_buffer", buffer_title=_("Music"), kwargs=dict(parent=self.window.tb, name="audios"))
+		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("Music"), kwargs=dict(parent=self.window.tb, name="audios"))
 		pub.sendMessage("create_buffer", buffer_type="audioBuffer", buffer_title=_("My audios"), parent_tab="audios", kwargs=dict(parent=self.window.tb, name="me_audio", composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio"))
 		if self.session.settings["vk"]["use_alternative_tokens"] == False:
 			pub.sendMessage("create_buffer", buffer_type="audioBuffer", buffer_title=_("Populars"), parent_tab="audios", kwargs=dict(parent=self.window.tb, name="popular_audio", composefunc="render_audio", session=self.session, endpoint="getPopular", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"]))
 			pub.sendMessage("create_buffer", buffer_type="audioBuffer", buffer_title=_("Recommendations"), parent_tab="audios", kwargs=dict(parent=self.window.tb, name="recommended_audio", composefunc="render_audio", session=self.session, endpoint="getRecommendations", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"]))
-		pub.sendMessage("create_empty_buffer", buffer_type="empty", buffer_title=_("Albums"), parent_tab="audios", kwargs=dict(parent=self.window.tb, name="albums"))
-		pub.sendMessage("create_empty_buffer", buffer_title=_("Video"), kwargs=dict(parent=self.window.tb, name="videos"))
+		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("Albums"), parent_tab="audios", kwargs=dict(parent=self.window.tb, name="albums"))
+		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("Video"), kwargs=dict(parent=self.window.tb, name="videos"))
 		pub.sendMessage("create_buffer", buffer_type="videoBuffer", buffer_title=_("My videos"), parent_tab="videos", kwargs=dict(parent=self.window.tb, name="me_video", composefunc="render_video", session=self.session, endpoint="get", parent_endpoint="video", count=self.session.settings["buffers"]["count_for_video_buffers"]))
-		pub.sendMessage("create_empty_buffer", buffer_title=_("Albums"), parent_tab="videos", kwargs=dict(parent=self.window.tb, name="video_albums"))
-		pub.sendMessage("create_empty_buffer", buffer_title=_("People"), kwargs=dict(parent=self.window.tb, name="people"))
+		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("Albums"), parent_tab="videos", kwargs=dict(parent=self.window.tb, name="albums"))
+		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("People"), kwargs=dict(parent=self.window.tb, name="people"))
 		pub.sendMessage("create_buffer", buffer_type="peopleBuffer", buffer_title=_("Friends"), parent_tab="people", kwargs=dict(parent=self.window.tb, name="friends_", composefunc="render_person", session=self.session, endpoint="get", parent_endpoint="friends", count=5000, order="hints", fields="uid, first_name, last_name, last_seen"))
-		pub.sendMessage("create_empty_buffer", buffer_title=_("Friendship requests"), parent_tab="people", kwargs=dict(parent=self.window.tb, name="requests"))
+		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("Friendship requests"), parent_tab="people", kwargs=dict(parent=self.window.tb, name="requests"))
 		pub.sendMessage("create_buffer", buffer_type="requestsBuffer", buffer_title=_("Pending requests"), parent_tab="requests", kwargs=dict(parent=self.window.tb, name="friend_requests", composefunc="render_person", session=self.session, count=1000))
 		pub.sendMessage("create_buffer", buffer_type="requestsBuffer", buffer_title=_("I follow"), parent_tab="requests", kwargs=dict(parent=self.window.tb, name="friend_requests_sent", composefunc="render_person", session=self.session, count=1000, out=1))
 		pub.sendMessage("create_buffer", buffer_type="requestsBuffer", buffer_title=_("Subscribers"), parent_tab="requests", kwargs=dict(parent=self.window.tb, name="subscribers", composefunc="render_person", session=self.session, count=1000, need_viewed=1))
-		pub.sendMessage("create_empty_buffer", buffer_title=_("Communities"), kwargs=dict(parent=self.window.tb, name="communities"))
-		pub.sendMessage("create_empty_buffer", buffer_title=_("Chats"), kwargs=dict(parent=self.window.tb, name="chats"))
-		pub.sendMessage("create_empty_buffer", buffer_title=_("Timelines"), kwargs=dict(parent=self.window.tb, name="timelines"))
+		pub.sendMessage("create_buffer", buffer_type="documentBuffer", buffer_title=_("Documents"), parent_tab=None, loadable=True, kwargs=dict(parent=self.window.tb, name="documents", composefunc="render_document", session=self.session, endpoint="get", parent_endpoint="docs"))
+		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("Groups"), kwargs=dict(parent=self.window.tb, name="communities"))
+		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("Chats"), kwargs=dict(parent=self.window.tb, name="chats"))
+		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("Timelines"), kwargs=dict(parent=self.window.tb, name="timelines"))
 		self.window.realize()
 		self.repeatedUpdate = RepeatingTimer(120, self.update_all_buffers)
 		self.repeatedUpdate.start()
@@ -131,7 +125,6 @@ class Controller(object):
 		pub.subscribe(self.notify, "notify")
 		pub.subscribe(self.handle_longpoll_read_timeout, "longpoll-read-timeout")
 		pub.subscribe(self.create_buffer, "create_buffer")
-		pub.subscribe(self.create_empty_buffer, "create_empty_buffer")
 		pub.subscribe(self.user_typing, "user-typing")
 		widgetUtils.connect_event(self.window, widgetUtils.CLOSE_EVENT, self.exit)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.update_buffer, menuitem=self.window.update_buffer)
@@ -834,7 +827,7 @@ class Controller(object):
 			commonMessages.community_no_items()
 			return
 		new_name = current_buffer.name+"_documents"
-		wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="documentBuffer", buffer_title=_("Documents"), parent_tab=current_buffer.tab.name, get_items=True, kwargs=dict(parent=self.window.tb, name=new_name, composefunc="render_document", session=self.session, endpoint="get", parent_endpoint="docs", owner_id=current_buffer.kwargs["owner_id"]))
+		wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="documentCommunityBuffer", buffer_title=_("Documents"), parent_tab=current_buffer.tab.name, get_items=True, kwargs=dict(parent=self.window.tb, name=new_name, composefunc="render_document", session=self.session, endpoint="get", parent_endpoint="docs", owner_id=current_buffer.kwargs["owner_id"]))
 
 	def load_community_buffers(self, *args, **kwargs):
 		""" Load all community buffers regardless of the setting present in optional buffers tab of the preferences dialog."""
