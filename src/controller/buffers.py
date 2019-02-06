@@ -11,18 +11,18 @@ import views
 import interactors
 import languageHandler
 import widgetUtils
-from presenters import player
 import output
-from . import selector
 from pubsub import pub
 from vk_api.exceptions import VkApiError
 from vk_api import upload
 from requests.exceptions import ReadTimeout, ConnectionError
+from presenters import player
 from wxUI.tabs import home
 from sessionmanager import session, renderers, utils
 from mysc.thread_utils import call_threaded
 from wxUI import commonMessages, menus
 from sessionmanager.renderers import add_attachment
+from . import selector
 
 log = logging.getLogger("controller.buffers")
 
@@ -500,10 +500,10 @@ class topicBuffer(feedBuffer):
 			return
 		a = presenters.displayTopicPresenter(session=self.session, postObject=post, group_id=self.kwargs["group_id"], interactor=interactors.displayPostInteractor(), view=views.displayTopic())
 
-class documentBuffer(feedBuffer):
+class documentCommunityBuffer(feedBuffer):
 
 	def create_tab(self, parent):
-		self.tab = home.documentTab(parent)
+		self.tab = home.documentCommunityTab(parent)
 		self.connect_events()
 		self.tab.name = self.name
 		if hasattr(self, "can_post") and self.can_post == False and hasattr(self.tab, "post"):
@@ -517,7 +517,26 @@ class documentBuffer(feedBuffer):
 		post = self.get_post()
 		if post == None:
 			return
-		print(post)
+
+class documentBuffer(feedBuffer):
+	can_get_items = False
+
+	def create_tab(self, parent):
+		self.tab = home.documentTab(parent)
+		self.connect_events()
+		self.tab.name = self.name
+		if hasattr(self, "can_post") and self.can_post == False and hasattr(self.tab, "post"):
+			self.tab.post.Enable(False)
+
+	def connect_events(self):
+		super(documentBuffer, self).connect_events()
+		widgetUtils.connect_event(self.tab.load, widgetUtils.BUTTON_PRESSED, self.load_documents)
+
+	def load_documents(self, *args, **kwargs):
+		output.speak(_("Loading documents..."))
+		self.can_get_items = True
+		self.tab.load.Enable(False)
+		wx.CallAfter(self.get_items)
 
 class audioBuffer(feedBuffer):
 	""" this buffer was supposed to be used with audio elements
@@ -810,7 +829,7 @@ class videoAlbum(videoBuffer):
 		wx.CallAfter(self.get_items)
 		self.tab.play.Enable(True)
 
-class empty(object):
+class emptyBuffer(object):
 
 	def __init__(self, name=None, parent=None, *args, **kwargs):
 		self.tab = home.empty(parent=parent, name=name)
