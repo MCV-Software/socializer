@@ -204,7 +204,7 @@ class Controller(object):
 		self.session.process_usernames(data)
 		if create_buffers:
 			for i in self.session.groups:
-				wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="communityBuffer", buffer_title=i["name"], parent_tab="communities", loadable=True, get_items=True, kwargs=dict(parent=self.window.tb, name="{0}_community".format(i["id"],), composefunc="render_status", session=self.session, endpoint="get", parent_endpoint="wall", count=self.session.settings["buffers"]["count_for_wall_buffers"], owner_id=-1*i["id"]))
+				wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="communityBuffer", buffer_title=i["name"], parent_tab="communities", loadable=True, get_items=True, kwargs=dict(parent=self.window.tb, name="{0}_community".format(i["id"],), composefunc="render_status", session=self.session, endpoint="get", parent_endpoint="wall", extended=1, count=self.session.settings["buffers"]["count_for_wall_buffers"], owner_id=-1*i["id"]))
 				time.sleep(0.15)
 
 	def login(self):
