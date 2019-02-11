@@ -163,11 +163,18 @@ class vkSession(object):
 			p = getattr(c, p)
 		except AttributeError:
 			p = c
+		if name in self.db and "offset" in self.db[name]:
+			kwargs.update(offset=self.db[name]["offset"])
+		else:
+			kwargs.update(offset=0)
 		log.debug("Calling endpoint %s with params %r" % (p, kwargs,))
 		data = getattr(p, endpoint)(*args, **kwargs)
 		if data != None:
+			if "count" not in kwargs:
+				kwargs["count"] = 100
 			if type(data) == dict:
 				num = self.order_buffer(name, data["items"], show_nextpage)
+				self.db[name]["offset"] = kwargs["offset"]+kwargs["count"]
 				if len(data["items"]) > 0 and "first_name" in data["items"][0]:
 					data2 = {"profiles": [], "groups": []}
 					for i in data["items"]:
@@ -177,6 +184,7 @@ class vkSession(object):
 					self.process_usernames(data)
 			else:
 				num = self.order_buffer(name, data, show_nextpage)
+				self.db[name]["offset"] = kwargs["offset"]+kwargs["count"]
 			return num
 
 	def get_messages(self, name="", *args, **kwargs):

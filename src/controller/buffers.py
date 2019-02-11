@@ -410,6 +410,9 @@ class feedBuffer(baseBuffer):
 				[self.insert(i, True) for i in v]
 			else:
 				[self.insert(i) for i in self.session.db[self.name]["items"][:num]]
+		else:
+			if num > 0:
+				[self.insert(i, False) for i in self.session.db[self.name]["items"][-num:]]
 		return retrieved
 
 	def remove_buffer(self, mandatory=False):

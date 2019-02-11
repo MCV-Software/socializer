@@ -25,6 +25,9 @@
 * It is possible to enable or disable proxy from the preferences dialog. The application must be restarted for this change to take effect.
 * Fixed an error that was making Socializer unable to display the changelog properly, when opened from the help menu. ([#21](https://code.manuelcortez.net/manuelcortez/socializer/issues/21))
 * When receiving chat messages and in some other situations, socializer will display all characters properly. Before, usernames were rendered using the internal code VK uses for them, and some unicode characters were displaying their HTML representation.
+* It is possible to retrieve previous items for the home buffer and walls (current user's wall and any other timeline):
+    * For the home buffer, only a limited amount of items (around 700) can be loaded, supposedly due to VK API limits.
+    * For walls, all posts should be possible to be loaded, however, testing with walls containing more than 2000 posts are not performed yet.
 * Added improvements to groups:
     * It is possible to load topics, audios and videos for a group. In order to do so, you need to go to the group buffer and press the menu key, or right mouse click, in the tree item representing the group. New buffers will be created inside the current group's buffer.
     * You can create or delete all buffers for groups by pressing the menu key or right mouse click in the "communities" buffer.
