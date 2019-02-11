@@ -108,7 +108,7 @@ class baseBuffer(object):
 				[self.insert(i) for i in self.session.db[self.name]["items"][:num]]
 		else:
 			if num > 0:
-				[self.insert(i, False) for i in self.session.db[self.name]["items"][:num]]
+				[self.insert(i, False) for i in self.session.db[self.name]["items"][-num:]]
 		return retrieved
 
 	def get_more_items(self):

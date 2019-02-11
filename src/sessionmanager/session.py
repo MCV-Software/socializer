@@ -138,14 +138,12 @@ class vkSession(object):
 			log.debug("Params for sending to vk: %r" % (kwargs,))
 		data = getattr(self.vk.client.newsfeed, "get")(*args, **kwargs)
 		if data != None:
-			if show_nextpage == False:
-				self.process_usernames(data)
-#			else:
-#				print data.keys(), len(data["items"]), data["next_from"]
+			self.process_usernames(data)
 			num = self.order_buffer(name, data["items"], show_nextpage)
 			log.debug("Keys of the returned data for debug purposes: %r" % (list(data.keys()),))
 			if "next_from" in data:
 				self.db[name]["cursor"] = data["next_from"]
+				log.debug("Next cursor saved for data: {cursor}".format(cursor=data["next_from"]))
 			return num
 
 	def get_page(self, name="", show_nextpage=False, endpoint="", *args, **kwargs):
