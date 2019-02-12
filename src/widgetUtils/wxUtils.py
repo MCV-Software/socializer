@@ -179,3 +179,6 @@ class list(object):
    return 0
   else:
    return selected
+
+ def Enable(self, value):
+  return self.list.Enable(value)

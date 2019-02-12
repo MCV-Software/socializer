@@ -13,6 +13,7 @@ import config
 from vk_api.exceptions import LoginRequired, VkApiError
 from requests.exceptions import ConnectionError
 from pubsub import pub
+from mysc import restart
 from mysc.repeating_timer import RepeatingTimer
 from mysc.thread_utils import call_threaded
 from mysc import localization
@@ -386,6 +387,7 @@ class Controller(object):
 	def authorisation_failed(self):
 		""" display an informative message about a failed authorization process."""
 		commonMessages.bad_authorisation()
+		restart.restart_program()
 
 	def user_profile(self, person):
 		""" display someone's profile. For now, only users are supported."""

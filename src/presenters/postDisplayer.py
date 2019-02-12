@@ -500,6 +500,20 @@ class displayCommentPresenter(displayPostPresenter):
 		a = displayCommentPresenter(session=self.session, postObject=c, interactor=interactors.displayPostInteractor(), view=views.displayComment())
 		self.clear_comments_list()
 
+class displayTopicCommentPresenter(displayCommentPresenter):
+
+	def get_post_information(self):
+		from_ = self.session.get_user(self.post[self.user_identifier])
+		title = from_["user1_nom"]
+		self.send_message("set_title", value=title)
+		message = ""
+		message = get_message(self.post)
+		self.send_message("set", control="post_view", value=message)
+		self.get_attachments(self.post, message)
+		self.check_image_load()
+		self.send_message("disable_control", control="reply")
+		self.send_message("disable_control", control="comments")
+
 class displayTopicPresenter(displayPostPresenter):
 
 	def __init__(self, session, postObject, group_id, view, interactor):
@@ -615,6 +629,11 @@ class displayTopicPresenter(displayPostPresenter):
 			group_id = self.group_id
 			topic_id = self.post["id"]
 			call_threaded(self.do_last, comment, group_id=group_id, topic_id=topic_id, reply_to_comment=c["id"])
+
+	def show_comment(self, comment_index):
+		c = self.comments["items"][comment_index]
+		c["post_id"] = self.post["id"]
+		a = displayTopicCommentPresenter(session=self.session, postObject=c, interactor=interactors.displayPostInteractor(), view=views.displayComment())
 
 class displayAudioPresenter(base.basePresenter):
 	def __init__(self, session, postObject, view, interactor):

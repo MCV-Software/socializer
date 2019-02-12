@@ -24,7 +24,7 @@ def show_error_code(code):
 	return wx.MessageDialog(None, message, title, style=wx.ICON_ERROR).ShowModal()
 
 def bad_authorisation():
-	return wx.MessageDialog(None, _("authorisation failed. Your configuration will not be saved. Please close and open again the application for authorising your account. Make sure you have typed your credentials correctly."), _("Error"), style=wx.ICON_ERROR).ShowModal()
+	return wx.MessageDialog(None, _("authorisation failed. Your configuration will be deleted. If you recently changed your password in VK, you need to reauthorize Socializer. The application will be restarted and prompt you again for your user and password. Press OK to continue."), _("Error"), style=wx.ICON_ERROR).ShowModal()
 
 def no_audio_albums():
 	return wx.MessageDialog(None, _("You do not have audio albums."), _("Error"), style=wx.ICON_ERROR).ShowModal()

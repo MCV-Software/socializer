@@ -4,7 +4,7 @@ import random
 import requests
 import logging
 from hashlib import md5
-from .wxUI import two_factor_auth
+from .wxUI import two_factor_auth, bad_password
 
 log = logging.getLogger("authenticator.official")
 
@@ -49,7 +49,7 @@ def get_non_refreshed(login, password, scope=scope):
 	""" Retrieves a non-refreshed token, this should be the first token needed to authenticate in VK.
 	returns the access_token which still needs to be refreshed, device_id, and secret code, needed to sign all petitions in VK."""
 	if not (login or password):
-		raise ValueError
+		raise ValueError("Both user and password are required.")
 	device_id = get_device_id()
 	# Let's authenticate.
 	url = "https://oauth.vk.com/token"
@@ -89,8 +89,12 @@ def refresh_token(token, secret, device_id):
 	return perform_request(method, postdata, secret)
 
 def login(user, password):
-	access_token, secret, device_id = get_non_refreshed(user, password)
-	response = refresh_token(access_token, secret, device_id)
+	try:
+		access_token, secret, device_id = get_non_refreshed(user, password)
+		response = refresh_token(access_token, secret, device_id)
+	except AuthenticationError:
+		bad_password()
+		raise AuthenticationError("")
 	try:
 		return response["response"]["token"], secret, device_id
 	except KeyError:

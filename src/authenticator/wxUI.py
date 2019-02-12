@@ -22,3 +22,6 @@ def get_code():
 		code = dlg.GetValue()
 		dlg.Destroy()
 	dlg.Destroy()
+
+def bad_password():
+	return wx.MessageDialog(None, _("Your password or email address are incorrect. Please fix the mistakes and try it again."), _("Wrong data"), wx.ICON_ERROR).ShowModal()

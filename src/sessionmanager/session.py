@@ -110,6 +110,8 @@ class vkSession(object):
 #   log.exception("The session configuration has failed.")
 
 	def login(self):
+		if self.logged == True:
+			return
 		try:
 			config_filename = os.path.join(paths.config_path(), self.session_id, "vkconfig.json")
 			self.vk.login(self.settings["vk"]["user"], self.settings["vk"]["password"], token=self.settings["vk"]["token"], secret=self.settings["vk"]["secret"], device_id=self.settings["vk"]["device_id"], alt_token=self.settings["vk"]["use_alternative_tokens"], filename=config_filename)
@@ -119,11 +121,19 @@ class vkSession(object):
 			self.settings.write()
 			self.logged = True
 			self.get_my_data()
-		except ValueError:
-			self.settings["vk"]["user"] = ""
-			self.settings["vk"]["password"] = ""
-			self.settings.write()
-			pub.sendMessage("authorisation-failed")
+		except VkApiError as error:
+			if error.code == 5: # this means invalid access token.
+				self.settings["vk"]["user"] = ""
+				self.settings["vk"]["password"] = ""
+				self.settings["vk"]["token"] = ""
+				self.settings["vk"]["secret"] = ""
+				self.settings["vk"]["device_id"] = ""
+				self.settings.write()
+				pub.sendMessage("authorisation-failed")
+			else: # print out error so we we will handle it.
+				log.exception("Fatal error when authenticating the application.")
+				log.exception(error.code)
+				log.exception(error.message)
 
 	def post_wall_status(self, message, *args, **kwargs):
 		""" Sends a post to an user, group or community wall."""
@@ -242,8 +252,9 @@ class vkSession(object):
 				ids = ids + "{0},".format(i["id"],)
 		gids = ""
 		for i in data["groups"]:
-			self.db["groups"][i["id"]] = dict(nom=i["name"], gen=i["name"], dat=i["name"], acc=i["name"], ins=i["name"], abl=i["name"])
-			gids = "{0},".format(i["id"],)
+			if i["id"] not in self.db["groups"]:
+				self.db["groups"][i["id"]] = dict(nom=i["name"], gen=i["name"], dat=i["name"], acc=i["name"], ins=i["name"], abl=i["name"])
+				gids = "{0},".format(i["id"],)
 		user_fields = "first_name_nom, last_name_nom, first_name_gen, last_name_gen, first_name_ins, last_name_ins, first_name_dat, last_name_dat, first_name_abl, last_name_abl, first_name_acc, last_name_acc, sex"
 		user_fields_list = user_fields.split(", ")
 		if ids != "":

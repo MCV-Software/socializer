@@ -2,10 +2,11 @@
 import os
 import sys
 import widgetUtils
-from . import wxUI as view
 import paths
 import time
 import logging
+from authenticator.official import AuthenticationError
+from . import wxUI as view
 from . import session
 from .config_utils import Configuration
 
@@ -53,4 +54,9 @@ class sessionManagerController(object):
 		if dl.ShowModal() == widgetUtils.OK:
 			c.settings["vk"]["user"] = dl.get_email()
 			c.settings["vk"]["password"] = dl.get_password()
-			c.settings.write()
+			try:
+				c.login()
+			except AuthenticationError:
+				c.settings["vk"]["password"] = ""
+				c.settings["vk"]["user"]
+				return self.get_authorisation(c)
