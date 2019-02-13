@@ -49,6 +49,9 @@ class mainWindow(wx.Frame):
 		self.documentation = help_.Append(wx.NewId(), _("Manual"))
 		self.check_for_updates = help_.Append(wx.NewId(), _("Check for updates"))
 		self.changelog = help_.Append(wx.NewId(), _("Chan&gelog"))
+		self.open_logs = help_.Append(wx.NewId(), _("Open logs directory"))
+		self.open_config = help_.Append(wx.NewId(), _("Open config directory"))
+
 		self.report = help_.Append(wx.NewId(), _("Report an error"))
 		mb.Append(player, _("Audio player"))
 		mb.Append(help_, _("Help"))

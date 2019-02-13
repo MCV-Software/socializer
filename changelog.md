@@ -2,6 +2,7 @@
 
 ## changes in this  version
 
+* Added new options to open the config and logs folder, these options are located in the help menu and may be useful during error reporting.
 * Added experimental support to "subscribers" buffer, inside frienship requests. This shows friend requests that have been declined by the current user.
 * Fixed an error in Socializer that was making it unable to detect unread messages properly.
 * Socializer should save all tracebacks directly to error.log instead of displaying an error message during exit. ([#27,](https://code.manuelcortez.net/manuelcortez/socializer/issues/27))

@@ -2,6 +2,7 @@
 import time
 import os
 import webbrowser
+import subprocess
 import logging
 import wx
 import widgetUtils
@@ -10,6 +11,7 @@ import presenters
 import interactors
 import views
 import config
+import paths
 from vk_api.exceptions import LoginRequired, VkApiError
 from requests.exceptions import ConnectionError
 from pubsub import pub
@@ -522,6 +524,8 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU,self.remove_buffer, menuitem=self.window.remove_buffer_)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.get_more_items, menuitem=self.window.load_previous_items)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.changelog, menuitem=self.window.changelog)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.open_logs, menuitem=self.window.open_logs)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.open_config, menuitem=self.window.open_config)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.configuration, menuitem=self.window.settings_dialog)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.new_timeline, menuitem=self.window.timeline)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.create_audio_album, menuitem=self.window.audio_album)
@@ -618,6 +622,12 @@ class Controller(object):
 	def configuration(self, *args, **kwargs):
 		""" Opens the global settings dialogue."""
 		presenter = presenters.configurationPresenter(session=self.session, view=views.configurationDialog(title=_("Preferences")), interactor=interactors.configurationInteractor())
+
+	def open_logs(self, *args, **kwargs):
+		subprocess.call(["explorer", paths.logs_path()])
+
+	def open_config(self, *args, **kwargs):
+		subprocess.call(["explorer", paths.config_path()])
 
 	def new_timeline(self, *args, **kwargs):
 		b = self.get_current_buffer()
