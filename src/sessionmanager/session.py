@@ -55,6 +55,11 @@ class vkSession(object):
 		@data list: A list with items and some information about cursors.
 		returns the number of items that has been added in this execution"""
 		global post_types
+		# When this method is called by friends.getOnlyne, it gives only friend IDS so we need to retrieve full objects from VK.
+		# ToDo: It would be nice to investigate whether reusing some existing objects would be a good idea, whenever possible.
+		if name == "online_friends":
+			newdata = self.vk.client.users.get(user_ids=",".join([str(z) for z in data]), fields="last_seen")
+			data = newdata
 		first_addition = False
 		num = 0
 		if (name in self.db) == False:
@@ -62,7 +67,7 @@ class vkSession(object):
 			self.db[name]["items"] = []
 			first_addition = True
 		for i in data:
-			if "type" in i and (i["type"] == "wall_photo" or i["type"] == "photo_tag" or i["type"] == "photo"):
+			if "type" in i and not isinstance(i["type"], int) and (i["type"] == "wall_photo" or i["type"] == "photo_tag" or i["type"] == "photo"):
 				log.debug("Skipping unsupported item... %r" % (i,))
 				continue
 			# for some reason, VK sends post data if the post has been deleted already.

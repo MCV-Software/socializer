@@ -92,7 +92,8 @@ class Controller(object):
 		pub.sendMessage("create_buffer", buffer_type="videoBuffer", buffer_title=_("My videos"), parent_tab="videos", kwargs=dict(parent=self.window.tb, name="me_video", composefunc="render_video", session=self.session, endpoint="get", parent_endpoint="video", count=self.session.settings["buffers"]["count_for_video_buffers"]))
 		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("Albums"), parent_tab="videos", kwargs=dict(parent=self.window.tb, name="albums"))
 		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("People"), kwargs=dict(parent=self.window.tb, name="people"))
-		pub.sendMessage("create_buffer", buffer_type="peopleBuffer", buffer_title=_("Friends"), parent_tab="people", kwargs=dict(parent=self.window.tb, name="friends_", composefunc="render_person", session=self.session, endpoint="get", parent_endpoint="friends", count=5000, order="hints", fields="uid, first_name, last_name, last_seen"))
+		pub.sendMessage("create_buffer", buffer_type="peopleBuffer", buffer_title=_("Online"), parent_tab="people", kwargs=dict(parent=self.window.tb, name="online_friends", composefunc="render_person", session=self.session, endpoint="getOnline", parent_endpoint="friends", count=5000, order="hints", fields="uid, first_name, last_name, last_seen"))
+		pub.sendMessage("create_buffer", buffer_type="peopleBuffer", buffer_title=_("All friends"), parent_tab="people", kwargs=dict(parent=self.window.tb, name="friends_", composefunc="render_person", session=self.session, endpoint="get", parent_endpoint="friends", count=5000, order="hints", fields="uid, first_name, last_name, last_seen"))
 		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("Friendship requests"), parent_tab="people", kwargs=dict(parent=self.window.tb, name="requests"))
 		pub.sendMessage("create_buffer", buffer_type="requestsBuffer", buffer_title=_("Pending requests"), parent_tab="requests", kwargs=dict(parent=self.window.tb, name="friend_requests", composefunc="render_person", session=self.session, count=1000))
 		pub.sendMessage("create_buffer", buffer_type="requestsBuffer", buffer_title=_("I follow"), parent_tab="requests", kwargs=dict(parent=self.window.tb, name="friend_requests_sent", composefunc="render_person", session=self.session, count=1000, out=1))
@@ -243,9 +244,12 @@ class Controller(object):
 		self.get_audio_albums(self.session.user_id, create_buffers=False)
 		self.get_video_albums(self.session.user_id, create_buffers=False)
 		for i in self.buffers:
-			if hasattr(i, "get_items"):
+			# Online friends buffer should not be updated, as chat LongPoll server already gives status about offline and online friends.
+			if hasattr(i, "get_items") and i.name != "online_friends":
 				i.get_items()
 				log.debug("Updated %s" % (i.name))
+			else:
+				i.update_online()
 
 	def reorder_buffer(self, buffer):
 		""" this puts the chat buffers at the top of the list when there are new incoming messages.
@@ -415,6 +419,17 @@ class Controller(object):
 		msg = _("{user1_nom} is online.").format(**user_name)
 		sound = "friend_online.ogg"
 		self.notify(msg, sound, self.session.settings["chat"]["notifications"])
+		online_buffer = self.search("online_friends")
+		user = None
+		for i in self.session.db["friends_"]["items"]:
+			if i["id"] == event.user_id:
+				user = i
+				user["last_seen"]["time"] = time.time()
+				break
+		if user == None:
+			log.exception("Getting user manually...")
+			user = self.session.vk.client.users.get(user_ids=event.user_id, fields="last_seen")[0]
+		online_buffer.add_person(user)
 
 	def user_offline(self, event):
 		""" Sends a notification of an user logging off in VK.
@@ -426,6 +441,8 @@ class Controller(object):
 		msg = _("{user1_nom} is offline.").format(**user_name)
 		sound = "friend_offline.ogg"
 		self.notify(msg, sound, self.session.settings["chat"]["notifications"])
+		online_friends = self.search("online_friends")
+		online_friends.remove_person(event.user_id)
 
 	def notify(self, message="", sound="", type="native"):
 		""" display a notification in Socializer.
@@ -603,7 +620,7 @@ class Controller(object):
 			params["adult"] = dlg.get_checkable("safe_search")
 			params["sort"] = dlg.get_sort_order()
 #			params["filters"] = "youtube, vimeo, short, long, mp4"
-			print(params)
+#			print(params)
 			newbuff = buffers.videoBuffer(parent=self.window.tb, name="{0}_videosearch".format(params["q"],), session=self.session, composefunc="render_video", parent_endpoint="video", endpoint="search", **params)
 			self.buffers.append(newbuff)
 			call_threaded(newbuff.get_items)

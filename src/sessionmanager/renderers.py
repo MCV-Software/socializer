@@ -84,12 +84,18 @@ def render_person(status, session):
 	Reference: https://vk.com/dev/fields"""
 	if "last_seen" in status:
 		original_date = arrow.get(status["last_seen"]["time"])
+		now = arrow.now()
+		original_date.to(now.tzinfo)
+		diffdate = now-original_date
+		if diffdate.days == 0 and diffdate.seconds <= 360:
+			online_status = _("Online")
+		else:
 		# Translators: This is the date of last seen
-		last_seen = _("{0}").format(original_date.humanize(locale=languageHandler.curLang[:2]),)
+			online_status = _("Last seen {0}").format(original_date.humanize(locale=languageHandler.curLang[:2]),)
 	# Account suspended or deleted.
 	elif ("last_seen" in status) == False and "deactivated" in status:
-			last_seen = _("Account deactivated")
-	return ["{0} {1}".format(status["first_name"], status["last_name"]), last_seen]
+			online_status = _("Account deactivated")
+	return ["{0} {1}".format(status["first_name"], status["last_name"]), online_status]
 
 def render_newsfeed_item(status, session):
 	""" This me☻thod is used to render an item of the news feed.

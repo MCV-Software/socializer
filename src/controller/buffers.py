@@ -1139,8 +1139,15 @@ class peopleBuffer(feedBuffer):
 			return
 		if ("last_seen" in post) == False: return
 		original_date = arrow.get(post["last_seen"]["time"])
-		created_at = original_date.humanize(locale=languageHandler.curLang[:2])
-		self.tab.list.list.SetItem(self.tab.list.get_selected(), 1, created_at)
+		now = arrow.now()
+		original_date.to(now.tzinfo)
+		diffdate = now-original_date
+		if diffdate.days == 0 and diffdate.seconds <= 360:
+			online_status = _("Online")
+		else:
+		# Translators: This is the date of last seen
+			online_status = _("Last seen {0}").format(original_date.humanize(locale=languageHandler.curLang[:2]),)
+		self.tab.list.list.SetItem(self.tab.list.get_selected(), 1, online_status)
 
 	def open_timeline(self, *args, **kwargs):
 		pass
@@ -1195,6 +1202,49 @@ class peopleBuffer(feedBuffer):
 
 	def keep_as_follower(self, *args, **kwargs):
 		pass
+
+	def add_person(self, person):
+		# This tracks if the user already exists here, in such case we just will update the last_seen variable
+		existing = False
+		for i in self.session.db[self.name]["items"]:
+			if person["id"] == i["id"]:
+				existing = True
+				i["last_seen"]["time"] = person["last_seen"]["time"]
+				break
+		# Add the new user to the buffer just if it does not exists previously.
+		if existing == False:
+			self.session.db[self.name]["items"].insert(0, person)
+			self.insert(person, True)
+
+	def remove_person(self, user_id):
+		# Make sure the user is added in the buffer, otherwise don't attempt to remove a None Value from the list.
+		user = None
+		for i in self.session.db[self.name]["items"]:
+			if i["id"] == user_id:
+				user = i
+				break
+		if user != None:
+			person_index = self.session.db[self.name]["items"].index(user)
+			self.session.db[self.name]["items"].pop(person_index)
+			self.tab.list.remove_item(person_index)
+
+	def get_friend(self, user_id):
+		for i in self.session.db["friends_"]["items"]:
+			if i["id"] == user_id:
+				return i
+			log.exception("Getting user manually...")
+			user = self.session.vk.client.users.get(user_ids=event.user_id, fields="last_seen")[0]
+			return user
+
+	def update_online(self):
+		online_users = self.session.vk.client.friends.getOnline()
+		now = time.time()
+		for i in self.session.db[self.name]["items"]:
+			if i["id"] in online_users:
+				i["last_seen"]["time"] = now
+			else:
+				log.exception("Removing an user from online status manually... %r" % (i))
+				self.remove_person(i["id"])
 
 class requestsBuffer(peopleBuffer):
 

@@ -26,6 +26,9 @@ def show_error_code(code):
 def bad_authorisation():
 	return wx.MessageDialog(None, _("authorisation failed. Your configuration will be deleted. If you recently changed your password in VK, you need to reauthorize Socializer. The application will be restarted and prompt you again for your user and password. Press OK to continue."), _("Error"), style=wx.ICON_ERROR).ShowModal()
 
+def connection_error():
+	return wx.MessageDialog(None, _("Socializer could not connect to VK due to a connection issue. Be sure you have a working internet connection. The application will be closed when you press the OK button. If your internet connection is working correctly, please try to open socializer in a few minutes. If this problem persists, contact the developers to receive further assistance."), _("Connection Error"), style=wx.ICON_ERROR).ShowModal()
+
 def no_audio_albums():
 	return wx.MessageDialog(None, _("You do not have audio albums."), _("Error"), style=wx.ICON_ERROR).ShowModal()
 

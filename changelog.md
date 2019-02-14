@@ -2,6 +2,7 @@
 
 ## changes in this  version
 
+* A new buffer, called online, has been added in the friends section. It contains friends currently connected to VK. Items in this buffer will be added as soon as new friends are online in the social network, and will be removed when friends are offline. This buffer needs a lot of testing. Please report any possible inconsistency on this method.
 * Added new options to open the config and logs folder, these options are located in the help menu and may be useful during error reporting.
 * Added experimental support to "subscribers" buffer, inside frienship requests. This shows friend requests that have been declined by the current user.
 * Fixed an error in Socializer that was making it unable to detect unread messages properly.
