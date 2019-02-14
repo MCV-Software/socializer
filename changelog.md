@@ -36,6 +36,7 @@
 * Authentication errors should be handled gracefully by the application:
     * When there is a password change, Socializer must be reauthorized again. An error message will indicate this if the user forgot to do that. After the error, the app will be restarted, prompting the user to introduce the new data for authorizing the application.
     * If the user introduced incorrect or invalid data, Socializer will display an error and prompt the user again for valid information.
+    * If there is a connection problem when opening Socializer, it will display an error and inform the user about the issue.
 
 ## Changes in version 0.18 (21.01.2019)
 

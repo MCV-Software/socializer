@@ -286,6 +286,7 @@ class Controller(object):
 		pub.subscribe(self.update_status_bar, "update-status-bar")
 		pub.subscribe(self.chat_from_id, "new-chat")
 		pub.subscribe(self.authorisation_failed, "authorisation-failed")
+		pub.subscribe(self.connection_error, "connection_error")
 		pub.subscribe(self.user_profile, "user-profile")
 		pub.subscribe(self.user_online, "user-online")
 		pub.subscribe(self.user_offline, "user-offline")
@@ -390,6 +391,15 @@ class Controller(object):
 		""" display an informative message about a failed authorization process."""
 		commonMessages.bad_authorisation()
 		restart.restart_program()
+
+	def connection_error(self, *args, **kwargs):
+		commonMessages.connection_error()
+		self.disconnect_events()
+		volume = player.player.volume
+		config.app["sound"]["volume"] = volume
+		config.app.write()
+		self.window.Destroy()
+		wx.GetApp().ExitMainLoop()
 
 	def user_profile(self, person):
 		""" display someone's profile. For now, only users are supported."""

@@ -8,6 +8,7 @@ import languageHandler
 import paths
 import config
 import sound
+from requests.exceptions import ProxyError, ConnectionError
 from .config_utils import Configuration, ConfigurationResetException
 from . import vkSessionHandler
 from pubsub import pub
@@ -110,6 +111,8 @@ class vkSession(object):
 #   log.exception("The session configuration has failed.")
 
 	def login(self):
+		""" Logging in VK.com. This is basically the first method interacting with VK. """
+		# If user is already logged in, we should skip this method.
 		if self.logged == True:
 			return
 		try:
@@ -130,10 +133,12 @@ class vkSession(object):
 				self.settings["vk"]["device_id"] = ""
 				self.settings.write()
 				pub.sendMessage("authorisation-failed")
-			else: # print out error so we we will handle it.
+			else: # print out error so we we will handle it in future versions.
 				log.exception("Fatal error when authenticating the application.")
 				log.exception(error.code)
 				log.exception(error.message)
+		except (ProxyError, ConnectionError):
+			pub.sendMessage("connection_error")
 
 	def post_wall_status(self, message, *args, **kwargs):
 		""" Sends a post to an user, group or community wall."""
