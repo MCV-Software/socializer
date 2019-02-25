@@ -460,7 +460,7 @@ class displayCommentPresenter(displayPostPresenter):
 		self.get_attachments(self.post, message)
 		self.check_image_load()
 
-	def reply(self):
+	def reply(self, *args, **kwargs):
 		comment = createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Reply to {user1_nom}").format(**self.session.get_user(self.post["from_id"])), message="", text="", mode="comment"))
 		if hasattr(comment, "text") or hasattr(comment, "privacy"):
 			call_threaded(self.do_last, comment, owner_id=self.post["owner_id"], reply_to_comment=self.post["id"], post_id=self.post["post_id"], reply_to_user=self.post["owner_id"])
