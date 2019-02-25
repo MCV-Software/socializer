@@ -87,10 +87,10 @@ class Controller(object):
 		if self.session.settings["vk"]["use_alternative_tokens"] == False:
 			pub.sendMessage("create_buffer", buffer_type="audioBuffer", buffer_title=_("Populars"), parent_tab="audios", kwargs=dict(parent=self.window.tb, name="popular_audio", composefunc="render_audio", session=self.session, endpoint="getPopular", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"]))
 			pub.sendMessage("create_buffer", buffer_type="audioBuffer", buffer_title=_("Recommendations"), parent_tab="audios", kwargs=dict(parent=self.window.tb, name="recommended_audio", composefunc="render_audio", session=self.session, endpoint="getRecommendations", parent_endpoint="audio", full_list=True, count=self.session.settings["buffers"]["count_for_audio_buffers"]))
-		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("Albums"), parent_tab="audios", kwargs=dict(parent=self.window.tb, name="albums"))
+		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("Albums"), parent_tab="audios", kwargs=dict(parent=self.window.tb, name="audio_albums"))
 		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("Video"), kwargs=dict(parent=self.window.tb, name="videos"))
 		pub.sendMessage("create_buffer", buffer_type="videoBuffer", buffer_title=_("My videos"), parent_tab="videos", kwargs=dict(parent=self.window.tb, name="me_video", composefunc="render_video", session=self.session, endpoint="get", parent_endpoint="video", count=self.session.settings["buffers"]["count_for_video_buffers"]))
-		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("Albums"), parent_tab="videos", kwargs=dict(parent=self.window.tb, name="albums"))
+		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("Albums"), parent_tab="videos", kwargs=dict(parent=self.window.tb, name="video_albums"))
 		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("People"), kwargs=dict(parent=self.window.tb, name="people"))
 		pub.sendMessage("create_buffer", buffer_type="peopleBuffer", buffer_title=_("Online"), parent_tab="people", kwargs=dict(parent=self.window.tb, name="online_friends", composefunc="render_person", session=self.session, endpoint="getOnline", parent_endpoint="friends", count=5000, order="hints", fields="uid, first_name, last_name, last_seen"))
 		pub.sendMessage("create_buffer", buffer_type="peopleBuffer", buffer_title=_("All friends"), parent_tab="people", kwargs=dict(parent=self.window.tb, name="friends_", composefunc="render_person", session=self.session, endpoint="get", parent_endpoint="friends", count=5000, order="hints", fields="uid, first_name, last_name, last_seen"))
@@ -157,8 +157,8 @@ class Controller(object):
 				i.reads = []
 				time.sleep(1)
 
-	def get_audio_albums(self, user_id=None, create_buffers=True):
-		if self.session.settings["load_at_startup"]["audio_albums"] == False:
+	def get_audio_albums(self, user_id=None, create_buffers=True, force_action=False):
+		if self.session.settings["load_at_startup"]["audio_albums"] == False and force_action == False:
 			return
 		log.debug("Create audio albums...")
 		if self.session.settings["vk"]["use_alternative_tokens"]:
@@ -169,11 +169,11 @@ class Controller(object):
 		self.session.audio_albums = albums
 		if create_buffers:
 			for i in albums:
-				wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="audioAlbum", buffer_title=_("Album: {0}").format(i["title"],), parent_tab="albums", loadable=True, kwargs=dict(parent=self.window.tb, name="{0}_audio_album".format(i["id"],), composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio", owner_id=user_id, album_id=i["id"]))
+				wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="audioAlbum", buffer_title=_("Album: {0}").format(i["title"],), parent_tab="audio_albums", loadable=True, kwargs=dict(parent=self.window.tb, name="{0}_audio_album".format(i["id"],), composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio", owner_id=user_id, album_id=i["id"]))
 				time.sleep(0.6)
 
-	def get_video_albums(self, user_id=None, create_buffers=True):
-		if self.session.settings["load_at_startup"]["video_albums"] == False:
+	def get_video_albums(self, user_id=None, create_buffers=True, force_action=False):
+		if self.session.settings["load_at_startup"]["video_albums"] == False and force_action == False:
 			return
 		log.debug("Create video  albums...")
 		albums = self.session.vk.client.video.getAlbums(owner_id=user_id)
@@ -866,7 +866,7 @@ class Controller(object):
 			widgetUtils.connect_event(menu, widgetUtils.MENU, self.load_community_videos, menuitem=menu.load_videos)
 			widgetUtils.connect_event(menu, widgetUtils.MENU, self.load_community_documents, menuitem=menu.load_documents)
 		# Deal with the communities section itself.
-		if current_buffer.name == "communities":
+		elif current_buffer.name == "communities":
 			menu = wx.Menu()
 			# Insert a different option depending if group buffers are loaded or scheduled to be loaded or not.
 			if self.session.settings["load_at_startup"]["communities"] == False and not hasattr(self.session, "groups"):
@@ -875,6 +875,23 @@ class Controller(object):
 			else:
 				option = menu.Append(wx.NewId(), _("Discard groups"))
 				widgetUtils.connect_event(menu, widgetUtils.MENU, self.unload_community_buffers, menuitem=option)
+		elif current_buffer.name == "audio_albums":
+			menu = wx.Menu()
+			if self.session.settings["load_at_startup"]["audio_albums"] == False and not hasattr(self.session, "audio_albums"):
+				option = menu.Append(wx.NewId(), _("Load audio albums"))
+				widgetUtils.connect_event(menu, widgetUtils.MENU, self.load_audio_album_buffers, menuitem=option)
+			else:
+				option = menu.Append(wx.NewId(), _("Discard audio albums"))
+				widgetUtils.connect_event(menu, widgetUtils.MENU, self.unload_audio_album_buffers, menuitem=option)
+		elif current_buffer.name == "video_albums":
+			menu = wx.Menu()
+			if self.session.settings["load_at_startup"]["video_albums"] == False and not hasattr(self.session, "video_albums"):
+				option = menu.Append(wx.NewId(), _("Load video albums"))
+				widgetUtils.connect_event(menu, widgetUtils.MENU, self.load_video_album_buffers, menuitem=option)
+			else:
+				option = menu.Append(wx.NewId(), _("Discard video albums"))
+				widgetUtils.connect_event(menu, widgetUtils.MENU, self.unload_video_album_buffers, menuitem=option)
+
 		if menu != None:
 			self.window.PopupMenu(menu, self.window.FindFocus().GetPosition())
 		# If there are no available menus, let's indicate it.
@@ -950,3 +967,29 @@ class Controller(object):
 			self.window.remove_buffer(buff)
 			self.buffers.remove(buffer)
 		del self.session.groups
+
+	def load_audio_album_buffers(self, *args, **kwargs):
+		""" Load all audio album buffers regardless of the setting present in optional buffers tab of the preferences dialog."""
+		call_threaded(self.get_audio_albums, self.session.user_id, force_action=True)
+
+	def unload_audio_album_buffers(self, *args, **kwargs):
+		""" Delete all buffers belonging to audio albums."""
+		albums = self.get_all_buffers("_audio_album")
+		for buffer in albums:
+			buff = self.window.search(buffer.name)
+			self.window.remove_buffer(buff)
+			self.buffers.remove(buffer)
+		del self.session.audio_albums
+
+	def load_video_album_buffers(self, *args, **kwargs):
+		""" Load all video album buffers regardless of the setting present in optional buffers tab of the preferences dialog."""
+		call_threaded(self.get_video_albums, self.session.user_id, force_action=True)
+
+	def unload_video_album_buffers(self, *args, **kwargs):
+		""" Delete all buffers belonging to video albums."""
+		albums = self.get_all_buffers("_video_album")
+		for buffer in albums:
+			buff = self.window.search(buffer.name)
+			self.window.remove_buffer(buff)
+			self.buffers.remove(buffer)
+		del self.session.video_albums
