@@ -92,7 +92,7 @@ class baseBuffer(object):
 			log.error("Error {0}: {1}".format(err.code, err.error))
 			retrieved = err.code
 			return retrieved
-		except ReadTimeout as ConnectionError:
+		except:
 			log.exception("Connection error when updating buffer %s. Will try again in 2 minutes" % (self.name,))
 			return False
 		if not hasattr(self, "tab"):
@@ -395,7 +395,7 @@ class feedBuffer(baseBuffer):
 			log.error("Error {0}: {1}".format(err.code, err.error))
 			retrieved = err.code
 			return retrieved
-		except ReadTimeout as ConnectionError:
+		except:
 			log.exception("Connection error when updating buffer %s. Will try again in 2 minutes" % (self.name,))
 			return False
 		if not hasattr(self, "tab"):
@@ -481,7 +481,7 @@ class communityBuffer(feedBuffer):
 		if self.can_get_items:
 			# Strangely, groups.get does not return counters so we need those to show options for loading specific posts for communities.
 			self.group_info = self.session.vk.client.groups.getById(group_ids=-1*self.kwargs["owner_id"], fields="counters")[0]
-			print(self.group_info["counters"])
+#			print(self.group_info["counters"])
 		super(communityBuffer, self).get_items(*args, **kwargs)
 
 class topicBuffer(feedBuffer):
@@ -937,7 +937,7 @@ class chatBuffer(baseBuffer):
 			log.error("Error {0}: {1}".format(err.code, err.error))
 			retrieved = err.code
 			return retrieved
-		except ReadTimeout as ConnectionError:
+		except:
 			log.exception("Connection error when updating buffer %s. Will try again in 2 minutes" % (self.name,))
 			return False
 		if not hasattr(self, "tab"):
@@ -1257,7 +1257,7 @@ class requestsBuffer(peopleBuffer):
 			log.error("Error {0}: {1}".format(err.code, err.error))
 			retrieved = err.code
 			return retrieved
-		except ReadTimeout as ConnectionError:
+		except:
 			log.exception("Connection error when updating buffer %s. Will try again in 2 minutes" % (self.name,))
 			return False
 		num = self.session.get_page(name=self.name, show_nextpage=show_nextpage, endpoint="get", parent_endpoint="users", count=1000, user_ids=", ".join([str(i) for i in ids["items"]]), fields="uid, first_name, last_name, last_seen")
