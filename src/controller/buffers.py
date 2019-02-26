@@ -452,7 +452,7 @@ class feedBuffer(baseBuffer):
 			return super(feedBuffer, self).post()
 		owner_id = self.kwargs["owner_id"]
 		user = self.session.get_user(owner_id, key="user1")
-		title = _("Post to {user1_nom]'s wall").format(**user)
+		title = _("Post to {user1_nom}'s wall").format(**user)
 		p = presenters.createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=title, message="", text=""))
 		if hasattr(p, "text") or hasattr(p, "privacy"):
 			call_threaded(self.do_last, p=p, owner_id=owner_id)
