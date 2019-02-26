@@ -183,7 +183,7 @@ class vkSession(object):
 			p = getattr(c, p)
 		except AttributeError:
 			p = c
-		if name in self.db and "offset" in self.db[name]:
+		if name in self.db and "offset" in self.db[name] and show_nextpage == True:
 			kwargs.update(offset=self.db[name]["offset"])
 		else:
 			kwargs.update(offset=0)
