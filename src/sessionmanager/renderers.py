@@ -72,6 +72,9 @@ def add_attachment(attachment):
 	elif attachment["type"] == "audio_message":
 		msg = "{0}".format(" ".join(render_audio_message(attachment["audio_message"])))
 		tpe = _("Voice message")
+	elif attachment["type"] == "poll":
+		tpe = _("Poll")
+		msg = attachment["poll"]["question"]
 	else:
 		print(attachment)
 	return [tpe, msg]
