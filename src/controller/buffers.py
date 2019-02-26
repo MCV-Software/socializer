@@ -513,6 +513,14 @@ class documentBuffer(feedBuffer):
 		if hasattr(self, "can_post") and self.can_post == False and hasattr(self.tab, "post"):
 			self.tab.post.Enable(False)
 
+	def onFocus(self, *args,**kwargs):
+		post = self.get_post()
+		if post == None:
+			return
+		original_date = arrow.get(post["date"])
+		created_at = original_date.humanize(locale=languageHandler.curLang[:2])
+		self.tab.list.list.SetItem(self.tab.list.get_selected(), 4, created_at)
+
 	def connect_events(self):
 		super(documentBuffer, self).connect_events()
 		# Check if we have a load button in the tab, because documents community  buffers don't include it.
