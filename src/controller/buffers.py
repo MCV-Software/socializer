@@ -503,24 +503,6 @@ class topicBuffer(feedBuffer):
 			return
 		a = presenters.displayTopicPresenter(session=self.session, postObject=post, group_id=self.kwargs["group_id"], interactor=interactors.displayPostInteractor(), view=views.displayTopic())
 
-class documentCommunityBuffer(feedBuffer):
-
-	def create_tab(self, parent):
-		self.tab = home.documentCommunityTab(parent)
-		self.connect_events()
-		self.tab.name = self.name
-		if hasattr(self, "can_post") and self.can_post == False and hasattr(self.tab, "post"):
-			self.tab.post.Enable(False)
-
-	def onFocus(self, *args, **kwargs):
-		pass
-
-	def open_post(self, *args, **kwargs):
-		""" Opens the currently focused post."""
-		post = self.get_post()
-		if post == None:
-			return
-
 class documentBuffer(feedBuffer):
 	can_get_items = False
 
@@ -533,13 +515,51 @@ class documentBuffer(feedBuffer):
 
 	def connect_events(self):
 		super(documentBuffer, self).connect_events()
-		widgetUtils.connect_event(self.tab.load, widgetUtils.BUTTON_PRESSED, self.load_documents)
+		# Check if we have a load button in the tab, because documents community  buffers don't include it.
+		if hasattr(self.tab, "load"):
+			widgetUtils.connect_event(self.tab.load, widgetUtils.BUTTON_PRESSED, self.load_documents)
 
 	def load_documents(self, *args, **kwargs):
 		output.speak(_("Loading documents..."))
 		self.can_get_items = True
 		self.tab.load.Enable(False)
 		wx.CallAfter(self.get_items)
+
+	def get_menu(self):
+		p = self.get_post()
+		if p == None:
+			return
+		if p["owner_id"] == self.session.user_id:
+			added = True
+		else:
+			added = False
+		m = menus.documentMenu(added)
+		widgetUtils.connect_event(m, widgetUtils.MENU, self.add_remove_document, menuitem=m.action)
+		return m
+
+	def add_remove_document(self, *args, **kwargs):
+		p = self.get_post()
+		if p == None:
+			return
+		if p["owner_id"] == self.session.user_id:
+			result = self.session.vk.client.docs.delete(owner_id=p["owner_id"], doc_id=p["id"])
+			if result == 1:
+				output.speak(_("The document has been successfully deleted."))
+				self.session.db[self.name]["items"].pop(self.tab.list.get_selected())
+				self.tab.list.remove_item(self.tab.list.get_selected())
+		else:
+			result = self.session.vk.client.docs.add(owner_id=p["owner_id"], doc_id=p["id"])
+			output.speak(_("The document has been successfully added."))
+
+class documentCommunityBuffer(documentBuffer):
+	can_get_items = True
+
+	def create_tab(self, parent):
+		self.tab = home.documentCommunityTab(parent)
+		self.connect_events()
+		self.tab.name = self.name
+		if hasattr(self, "can_post") and self.can_post == False and hasattr(self.tab, "post"):
+			self.tab.post.Enable(False)
 
 class audioBuffer(feedBuffer):
 	""" this buffer was supposed to be used with audio elements

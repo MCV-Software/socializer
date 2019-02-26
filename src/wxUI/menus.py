@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
+""" This module contains all context menus needed to be displayed in different sections. Basically any menu that is bigger than 2 menu items should be here."""
 from __future__ import unicode_literals
 import wx
 
 class postMenu(wx.Menu):
+	""" Display a menu with actions related to posts in the news feed or walls. """
+
 	def __init__(self, can_delete=False, *args, **kwargs):
 		super(postMenu, self).__init__(*args, **kwargs)
 		self.open = wx.MenuItem(self, wx.NewId(), _("Open"))
@@ -73,6 +76,16 @@ class peopleMenu(wx.Menu):
 	def create_subscriber_items(self):
 		self.add = wx.MenuItem(self, wx.NewId(), _("Add to friends"))
 		self.Append(self.add)
+
+class documentMenu(wx.Menu):
+	def __init__(self, added=False, *args, **kwargs):
+		super(documentMenu, self).__init__(*args, **kwargs)
+		self.view_info = self.Append(wx.NewId(), _("View information"))
+		self.download = self.Append(wx.NewId(), _("Download document"))
+		if added == True:
+			self.action = self.Append(wx.NewId(), _("Remove from my documents"))
+		else:
+			self.action = self.Append(wx.NewId(), _("Add to my documents"))
 
 class commentMenu(wx.Menu):
 	def __init__(self, *args, **kwargs):
