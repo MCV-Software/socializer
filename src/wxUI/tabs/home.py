@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-#from __future__ import unicode_literals
 from __future__ import unicode_literals
 import wx
 import widgetUtils
@@ -74,12 +73,19 @@ class audioTab(homeTab):
 
 	def create_post_buttons(self):
 		self.postBox = wx.StaticBoxSizer(parent=self, orient=wx.HORIZONTAL, label=_("Actions"))
-		self.post = wx.Button(self.postBox.GetStaticBox(), -1, _("&Post"))
+		self.post = wx.Button(self.postBox.GetStaticBox(), -1, _("&Upload audio"))
+		self.post.Enable(False)
 		self.play = wx.Button(self.postBox.GetStaticBox(), -1, _("P&lay"))
 		self.play_all = wx.Button(self.postBox.GetStaticBox(), -1, _("Play &All"))
 		self.postBox.Add(self.post, 0, wx.ALL, 5)
 		self.postBox.Add(self.play, 0, wx.ALL, 5)
 		self.postBox.Add(self.play_all, 0, wx.ALL, 5)
+
+	def get_file_to_upload(self):
+		openFileDialog = wx.FileDialog(self, _("Select the audio file to be uploaded"), "", "", _("Audio files (*.mp3)|*.mp3"), wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
+		if openFileDialog.ShowModal() == wx.ID_CANCEL:
+			return None
+		return openFileDialog.GetPath()
 
 class audioAlbumTab(audioTab):
 

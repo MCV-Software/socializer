@@ -16,6 +16,7 @@ from pubsub import pub
 from vk_api.exceptions import VkApiError
 from vk_api import upload
 from requests.exceptions import ReadTimeout, ConnectionError
+from mutagen.id3 import ID3
 from presenters import player
 from wxUI.tabs import home
 from sessionmanager import session, renderers, utils
@@ -577,8 +578,8 @@ class audioBuffer(feedBuffer):
 		self.tab = home.audioTab(parent)
 		self.tab.name = self.name
 		self.connect_events()
-		if hasattr(self, "can_post") and self.can_post == False and hasattr(self.tab, "post"):
-			self.tab.post.Enable(False)
+		if self.name == "me_audio":
+			self.tab.post.Enable(True)
 
 	def connect_events(self):
 		widgetUtils.connect_event(self.tab.play, widgetUtils.BUTTON_PRESSED, self.play_audio)
@@ -705,6 +706,22 @@ class audioBuffer(feedBuffer):
 		else:
 			widgetUtils.connect_event(m, widgetUtils.MENU, self.add_to_library, menuitem=m.library)
 		return m
+	def post(self, *args, **kwargs):
+		""" Uploads an audio to the current user's library from the computer. """
+		file = self.tab.get_file_to_upload()
+		if file == None:
+			return
+		audio_tags = ID3(file)
+		if "TIT2" in audio_tags:
+			title = audio_tags["TIT2"].text[0]
+		else:
+			title = _("Untitled")
+		if "TPE1" in audio_tags:
+			artist = audio_tags["TPE1"].text[0]
+		else:
+			artist = _("Unknown artist")
+		uploader = upload.VkUpload(self.session.vk.session_object)
+		call_threaded(uploader.audio, file, title=title, artist=artist)
 
 class audioAlbum(audioBuffer):
 	""" this buffer was supposed to be used with audio albums
