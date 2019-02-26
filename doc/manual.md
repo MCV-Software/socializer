@@ -5,7 +5,7 @@
 Socializer is an application to use [VK.com](https://vk.com) in an easy and accessible way with minimal CPU resource usage. Socializer will allow you to interact with the VK social network by giving you access to the most relevant features such as:
 
 * Supports two factor authentication (2FA).
-* Basic post creation in your wall (including photos).
+* Post creation in user and community walls.
 * audio support.
 * Post comments.
 * like, unlike and repost other's posts.
@@ -24,6 +24,8 @@ If this is the first time you have launched socializer, you will see a message a
 
 After the proxy message, you will see a new message dialog asking you to proceed with the account authorisation process. It consists in providing the authentication data you normally use to sign in VK. It is very important to know that this data will be stored in a folder called config, located in the same folder where the socializer files are. Your config folder is a very important storage for your authentication data, so you must be sure you never will share it with anyone, mostly because your data is stored as plain text (this will be fixed in a future release and your data will be properly encrypted). Socializer will need your authentication data for acting in your behalf and offering you a better experience that what it could do with a simple access token. You must provide your phone number or email address in the first text box, and your password in the second. When pressing OK, your data will be saved and the application will start to retrieve all the required information for showing your buffers. If you have two factor authentication configured in your account, you will see an additional dialog where you have to type the code provided by VK via SMS.
 
+It is worth saying that whenever you change your password in the VK website, you will need to authorize Socializer again. When you open socializer after changing your password, you will see a message informing you of the problem and the application will be restarted, allowing you to write your new data and start the authorization again.
+
 Once started, the application will start loading your data (posts, audio files, conversations, friends). When done, it will show you a notification indicating that the program is ready.
 
 ## General concepts
@@ -32,12 +34,12 @@ Before starting to describe Socializer's usage, we'll explain some concepts that
 
 ### Buffer
 
-A buffer is a list of items that will manage the data which arrives from VK, after being processed by the application. When you configure your account on Socializer and start it, many buffers are created. Each of them may contain some of the items which this program works with: Newsfeed posts, wall posts, audio and video files, friendship requests and conversations. According to the buffer you are focusing, you will be able to do different actions with these items.
+A buffer is a list of items that will manage the data which arrives from VK, after being processed by the application. When you configure your account on Socializer and start it, many buffers are created. Each of them may contain some of the items which this program works with: Newsfeed posts, wall posts, audio and video files, documents, friendship requests and conversations. According to the buffer you are focusing, you will be able to do different actions with these items.
 
 All buffers will be updated in one of the following ways:
 
 * Periodically: Most buffers containing posts, audio or video files and people, will be updated periodically to reflect the new additions to them. Updates will be every 2 minutes for every buffer, so if you posted something and did not see the post in the buffer, you may need to wait a moment. There is an option, located in the buffer menu on the menu bar, which allows you to trigger a manual update in the current buffer.
-* Real time: Conversation buffers will be updated every time someone sends a message to you. When an user sends you a message, if there is not a conversation buffer created to receive the message, a new conversation buffer will be opened automatically and the message will be placed on it. If you already have an opened conversation for the user sending the message, the message will be placed at the end of the buffer. A different sound will indicate whether a new conversation has been opened or an existing buffer gets updated.
+* Real time: Conversation buffers will be updated every time someone sends a message to you. When an user sends you a message, if there is not a conversation buffer created to receive the message, a new conversation buffer will be opened automatically and the message will be placed on it. If you already have an opened conversation for the user sending the message, the message will be placed at the end of the buffer. A different sound will indicate whether a new conversation has been opened or an existing buffer gets updated. Socializer will sort conversation buffers by placing buffers with unread messages at the top of the conversations section. When a buffer gets a new message, it will be moved automatically to the first place in the conversations category.
 
 ### item
 
@@ -57,8 +59,8 @@ The following is a brief description of the kind of items socializer can work wi
 The graphical user interface of Socializer consists of a window containing:
 
 * a menu bar accomodating five menus (application, Me, buffer, player and help),
-* One tree view,
-* One list of items
+* One tree view, where you can press the menu key or right mouse click to display a context menu which contains actions you can apply in the selected buffer,
+* One list of items, which also accepts the menu key to display actions available for the selected item,
 * Some buttons, depending which is the focused buffer.
 
 The actions that are available for every item will be described later.
@@ -68,6 +70,7 @@ In summary, the GUI contains two core components. These are the controls you wil
 ### Buttons in the application
 
 * Post: this button opens up a dialogue box to write a post in the wall of the focused user. For example, if you are in the "my wall" buffer you will send a post to your own wall, but if you are in an user timeline the post will be sent to the owner of the timeline. You can upload an attachment  by pressing the "attach" button and choosing between uploading a  photo or audio file in the dialog which will appear, check spelling or translate your message by selecting one of the available buttons in the dialogue box. In addition, you can tag a friend in your post by pressing the corresponding button for that purpose. Also it is possible to configure the privacy settings for your post by  allowing all users or just your friends to read it. Press the send  button to send the post.
+* Load buffer: Some buffers are created but not loaded in VK. These special buffers need to be loaded manually by pressing the load button. Once loaded, this kind of buffers will behave in the same way other buffers do. Examples of these buffers are audio and video albums, community walls, and the current user's documents
 * Play: In audio buffers, plays the focused song. In video buffers, this button will open a web browser for playing the focused video, due to a limitation VK placed to third party developers with videos.
 * Play all: In audio buffers, play all songs starting from the focused buffer, until the last item in the list.
 * Send message: Send a message to a friend, which will open a conversation buffer if it does not exist already. Conversation buffers contain a full conversation, accommodating chat messages, between the current user and someone else. You can type your message in the provided box and press enter to send it to your friend. Additionally, You can upload an attachment  by pressing the "attach" button and choosing between uploading a  photo, audio file or record a voice message in the dialog which will appear, and open attachments sent in the focused message by pressing tab and finding them in the attachments list.
@@ -80,8 +83,8 @@ Visually, Towards the top of the main application window, A menu bar can be foun
 
 ### Application menu
 
-* Create: opens a menu where you can create a new album. At the moment, only video albums are supported.
-* Delete: opens a menu where you can delete an already existing album owned by yourself. Only video albums are supported at this time.
+* Create: opens a menu where you can create a new album. At the moment, only audio and video albums are supported.
+* Delete: opens a menu where you can delete an already existing album owned by yourself. Only audio and video albums are supported at this time.
 * Preferences: Opens a dialogue which lets you configure settings for the entire application.
 
 ### Me menu
@@ -117,17 +120,20 @@ Visually, Towards the top of the main application window, A menu bar can be foun
 * Documentation: opens up this file, where you can read some useful program concepts.
 * Check for updates: every time you open the program it automatically checks for new versions. If an update is available, it will ask you if you want to download the update. If you accept, the updating process will commence. When complete, Socializer will be restarted. This item checks for new updates without having to restart the application.
 * Changelog: opens up a document with the list of changes from the current version to the earliest.
+* Open logs directory: Opens windows explorer in the logs directory, useful to include your logs in a bug report.
+* Open config directory: Opens Windows explorer in your config directory.
 * Report an error: opens up a dialogue box to report a bug by completing a small number of fields. Pressing enter will send the report. If the operation doesn't succeed the program will display a warning.
 
 ## Keyboard shortcuts
 
-Socializer includes some keyboard shortcuts, available from any buffer (except empty buffers and conversations). Here you have the list of the available shortcuts:
+Socializer includes some keyboard shortcuts, available from any buffer. Here you have the list of the available shortcuts:
 
-* Enter: Execute the default action for the focused item. It may be opening a post, view friends added by someone else, view audio details or opening an user profile.
-* Control + Enter: Play audio.
-* Control + Shift+Enter: pause audio playback.
-* F5: Decrease volume by 5%.
-* F6: Increase volume by 5%.
+* Enter: Execute the default action for the focused item. It may be opening a post, view friends added by someone else, view audio details or opening an user profile. You need to be in the items list for using this key.
+* Alt+Up/down: Increase and decrease audio volume by 5%.
+* Control+P: Play/pause. If this is the firt time you press this keystroke, it will automatically play all items present in the focused buffer or in your audios.
+* control+Shift+P: Play all audio tracks. If the currently focused buffer does not contain audio items, it will play all items present in your audios buffer.
+* Alt+Left: Play the previous song.
+* Alt+Right: Play the next song.
 
 ## configuration
 
@@ -163,7 +169,7 @@ If you still have questions after reading this document, if you wish to collabor
 
 ## Credits
 
-Socializer is developed and mantained by [Manuel Cortez,](https://manuelcortez.net) with contributions by [Anibal Hernandez](https://dragodark.com)
+Socializer is developed and maintained by [Manuel Cortez,](https://manuelcortez.net) with contributions by [Anibal Hernandez](https://dragodark.com)
 
 We would also like to thank the translators of Socializer, who have allowed the spreading of the application.
 
