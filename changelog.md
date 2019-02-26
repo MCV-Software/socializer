@@ -5,6 +5,8 @@
 * A new buffer, called online, has been added in the friends section. It contains friends currently connected to VK. Items in this buffer will be added as soon as new friends are online in the social network, and will be removed when friends are offline. This buffer needs a lot of testing. Please report any possible inconsistency on this method.
 * Added new options to open the config and logs folder, these options are located in the help menu and may be useful during error reporting.
 * Added experimental support to "subscribers" buffer, inside frienship requests. This shows friend requests that have been declined by the current user.
+* the message when an user is typing in conversation buffers will be announced only if the socializer window is focused.
+* In "my audios" buffer, there is a button that allows a direct audio upload from your computer. The audio will be placed in your library.
 * Fixed an error in Socializer that was making it unable to detect unread messages properly.
 * Socializer should save all tracebacks directly to error.log instead of displaying an error message during exit. ([#27,](https://code.manuelcortez.net/manuelcortez/socializer/issues/27))
 * When displaying user profiles, fixed an error where a married person without specifing relation partner would cause an error in the program. ([#29,](https://code.manuelcortez.net/manuelcortez/socializer/issues/29))

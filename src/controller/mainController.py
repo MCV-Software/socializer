@@ -12,6 +12,7 @@ import interactors
 import views
 import config
 import paths
+import win32gui
 from vk_api.exceptions import LoginRequired, VkApiError
 from requests.exceptions import ConnectionError
 from pubsub import pub
@@ -73,6 +74,14 @@ class Controller(object):
 		self.connect_gui_events()
 		self.create_controls()
 		call_threaded(updater.do_update, update_type=self.session.settings["general"]["update_channel"])
+
+	def is_focused(self):
+		""" Return True if the Socializer Window is Focused. """
+		app_title = "socializer"
+		window_title = win32gui.GetWindowText(win32gui.GetForegroundWindow()).lower()
+		if app_title == window_title:
+			return True
+		return False
 
 	### action function
 	# These functions are called by other parts of the program, and are not connected to any event at all.
@@ -495,9 +504,8 @@ class Controller(object):
 		""" Indicates when someone is typing.
 		@ event vk_api.longpoll.event object: The event sent by the vk_api's longPoll module.
 		"""
-		# ToDo: Need to identify a way to do this only if the main Socializer window is focused.
 		buffer = self.search_chat_buffer(obj.user_id)
-		if buffer != None and buffer == self.get_current_buffer():
+		if buffer != None and buffer == self.get_current_buffer() and self.is_focused():
 			user = self.session.get_user(obj.user_id)
 			output.speak(_("{user1_nom} is typing...").format(**user))
 
