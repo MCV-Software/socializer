@@ -185,6 +185,31 @@ class displayAudioInteractor(base.baseInteractor):
 		post = self.view.get_audio()
 		self.presenter.remove_from_library(post)
 
+class displayPollInteractor(base.baseInteractor):
+
+	def set(self, control, value):
+		if not hasattr(self.view, control):
+			raise AttributeError("The control is not present in the view.")
+		getattr(self.view, control).SetValue(value)
+
+	def done(self):
+		self.view.done()
+
+	def add_options(self, options, multiple):
+		self.view.add_options(options, multiple)
+
+	def install(self, *args, **kwargs):
+		super(displayPollInteractor, self).install(*args, **kwargs)
+		pub.subscribe(self.set, self.modulename+"_set")
+		pub.subscribe(self.done, self.modulename+"_done")
+		pub.subscribe(self.add_options, self.modulename+"_add_options")
+
+	def uninstall(self):
+		super(displayPollInteractor, self).uninstall()
+		pub.unsubscribe(self.set, self.modulename+"_set")
+		pub.unsubscribe(self.done, self.modulename+"_done")
+		pub.unsubscribe(self.add_options, self.modulename+"_add_options")
+
 class displayFriendshipInteractor(base.baseInteractor):
 
 	def add_items(self, control, items):

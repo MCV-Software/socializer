@@ -404,6 +404,8 @@ class displayPostPresenter(base.basePresenter):
 					break
 			if url != "":
 				webbrowser.open_new_tab(url)
+		elif attachment["type"] == "poll":
+			a = displayPollPresenter(session=self.session, poll=attachment, interactor=interactors.displayPollInteractor(), view=views.displayPoll())
 		else:
 			log.debug("Unhandled attachment: %r" % (attachment,))
 
@@ -634,6 +636,27 @@ class displayTopicPresenter(displayPostPresenter):
 		c = self.comments["items"][comment_index]
 		c["post_id"] = self.post["id"]
 		a = displayTopicCommentPresenter(session=self.session, postObject=c, interactor=interactors.displayPostInteractor(), view=views.displayComment())
+
+class displayPollPresenter(base.basePresenter):
+
+	def __init__(self, session, poll, view, interactor):
+		super(displayPollPresenter, self).__init__(view=view, interactor=interactor, modulename="display_poll")
+		self.poll = poll["poll"]
+		self.session = session
+		self.load_poll()
+		self.run()
+
+	def load_poll(self):
+		user = self.session.get_user(self.poll["author_id"])
+		title = _("Poll from {user1_nom}").format(**user)
+		self.send_message("set_title", value=title)
+		self.send_message("set", control="question", value=self.poll["question"])
+		options = []
+		for i in self.poll["answers"]:
+			options.append(i["text"])
+		self.send_message("add_options", options=options, multiple=self.poll["multiple"])
+		print(self.poll)
+		self.send_message("done")
 
 class displayAudioPresenter(base.basePresenter):
 	def __init__(self, session, postObject, view, interactor):

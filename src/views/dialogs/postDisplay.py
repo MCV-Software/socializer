@@ -305,3 +305,38 @@ class displayFriendship(widgetUtils.BaseDialog):
 		sizer.Add(btnbox, 0, wx.ALL, 5)
 		panel.SetSizer(sizer)
 		self.SetClientSize(sizer.CalcMin())
+
+class displayPoll(widgetUtils.BaseDialog):
+
+	def __init__(self, question="", *args, **kwargs):
+		super(displayPoll, self).__init__(parent=None, *args, **kwargs)
+		self.panel = wx.Panel(self, -1)
+		self.sizer = wx.BoxSizer(wx.VERTICAL)
+		label = wx.StaticText(self.panel, wx.NewId(), _("Question"))
+		self.question = wx.TextCtrl(self.panel, wx.NewId(), question, style=wx.TE_MULTILINE|wx.TE_READONLY, size=(730, -1))
+		self.sizer.Add(label, 0, wx.ALL, 5)
+		self.sizer.Add(self.question, 0, wx.ALL, 5)
+
+	def add_options(self, options, multiple=False):
+		self.options = []
+		sizer = wx.StaticBoxSizer(parent=self.panel, orient=wx.VERTICAL, label=_("Options"))
+		for i in options:
+			if multiple == False:
+				if len(self.options) == 0:
+					control = wx.RadioButton(sizer.GetStaticBox(), wx.NewId(), i, style=wx.RB_GROUP)
+				else:
+					control = wx.RadioButton(sizer.GetStaticBox(), wx.NewId(), i)
+			else:
+				control = wx.CheckBox(sizer.GetStaticBox(), wx.NewId(), i)
+			self.options.append(control)
+			sizer.Add(control, 0, wx.ALL, 5)
+		self.sizer.Add(sizer, 0, wx.ALL, 5)
+
+	def done(self):
+		self.ok = wx.Button(self.panel, wx.ID_OK, _("Vote"))
+		cancel = wx.Button(self.panel, wx.ID_CANCEL)
+		sizer = wx.BoxSizer(wx.HORIZONTAL)
+		sizer.Add(self.ok, 0, wx.ALL, 5)
+		sizer.Add(cancel, 0, wx.ALL, 5)
+		self.panel.SetSizer(self.sizer)
+		self.SetClientSize(self.sizer.CalcMin())
