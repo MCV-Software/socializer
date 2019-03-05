@@ -124,7 +124,7 @@ class audioPlayer(object):
 	def play_next(self):
 		if len(self.queue) == 0:
 			return
-		if self.playing_track < len(self.queue):
+		if self.playing_track < len(self.queue)-1:
 			self.playing_track += 1
 		else:
 			self.playing_track = 0
