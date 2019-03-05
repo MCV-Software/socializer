@@ -1258,20 +1258,37 @@ class peopleBuffer(feedBuffer):
 				break
 		# Add the new user to the buffer just if it does not exists previously.
 		if existing == False:
+			# Ensure the user won't loose the focus after the new item is added.
+			focused_item = self.tab.list.get_selected()+1
 			self.session.db[self.name]["items"].insert(0, person)
 			self.insert(person, True)
+			# Selects back the previously focused item.
+			self.tab.list.select_item(focused_item)
 
 	def remove_person(self, user_id):
-		# Make sure the user is added in the buffer, otherwise don't attempt to remove a None Value from the list.
+		# Make sure the user is present in the buffer, otherwise don't attempt to remove a None Value from the list.
 		user = None
+		focused_user = self.get_post()
 		for i in self.session.db[self.name]["items"]:
 			if i["id"] == user_id:
 				user = i
 				break
 		if user != None:
 			person_index = self.session.db[self.name]["items"].index(user)
+			focused_item = self.tab.list.get_selected()
 			self.session.db[self.name]["items"].pop(person_index)
 			self.tab.list.remove_item(person_index)
+			if user != focused_user:
+			# Let's find the position of the previously focused user.
+				focus = None
+				for i in range(0, len(self.session.db[self.name]["items"])):
+					if focused_user["id"] == self.session.db[self.name]["items"][i]["id"]:
+						self.tab.list.select_item(i)
+						return
+			elif user == focused_user and user_index < len(self.tab.list.get_count()):
+				self.tab.list.select_item(user_index)
+			else:
+				self.tab.list.select_item(self.tab.list.get_count()-1)
 
 	def get_friend(self, user_id):
 		for i in self.session.db["friends_"]["items"]:
