@@ -210,6 +210,12 @@ class displayPollInteractor(base.baseInteractor):
 		pub.unsubscribe(self.done, self.modulename+"_done")
 		pub.unsubscribe(self.add_options, self.modulename+"_add_options")
 
+	def start(self, *args, **kwargs):
+		super(displayPollInteractor, self).start(*args, **kwargs)
+		if self.result == widgetUtils.OK: # USer votd.
+			answers = self.view.get_answers()
+			self.presenter.vote(answers)
+
 class displayFriendshipInteractor(base.baseInteractor):
 
 	def add_items(self, control, items):

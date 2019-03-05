@@ -7,6 +7,9 @@
 * Added experimental support to "subscribers" buffer, inside frienship requests. This shows friend requests that have been declined by the current user.
 * the message when an user is typing in conversation buffers will be announced only if the socializer window is focused.
 * In "my audios" buffer, there is a button that allows a direct audio upload from your computer. The audio will be placed in your library.
+* Added experimental support to user and community polls:
+    * If the poll is already closed or the user has send a vote to the poll previously, it will display only the results of the poll.
+    * Otherwise it will display a dialog from where the user can vote in the current poll.
 * Fixed an error in Socializer that was making it unable to detect unread messages properly.
 * Socializer should save all tracebacks directly to error.log instead of displaying an error message during exit. ([#27,](https://code.manuelcortez.net/manuelcortez/socializer/issues/27))
 * When displaying user profiles, fixed an error where a married person without specifing relation partner would cause an error in the program. ([#29,](https://code.manuelcortez.net/manuelcortez/socializer/issues/29))

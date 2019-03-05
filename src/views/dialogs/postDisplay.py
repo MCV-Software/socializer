@@ -318,6 +318,8 @@ class displayPoll(widgetUtils.BaseDialog):
 		self.sizer.Add(self.question, 0, wx.ALL, 5)
 
 	def add_options(self, options, multiple=False):
+		if not isinstance(options[0], str):
+			return self.add_results(options)
 		self.options = []
 		sizer = wx.StaticBoxSizer(parent=self.panel, orient=wx.VERTICAL, label=_("Options"))
 		for i in options:
@@ -332,6 +334,23 @@ class displayPoll(widgetUtils.BaseDialog):
 			sizer.Add(control, 0, wx.ALL, 5)
 		self.sizer.Add(sizer, 0, wx.ALL, 5)
 
+	def get_answers(self):
+		answers = []
+		for i in self.options:
+			answers.append(i.GetValue())
+		return answers
+
+	def add_results(self, options):
+		sizer = wx.StaticBoxSizer(parent=self.panel, orient=wx.VERTICAL, label=_("Poll results"))
+		for i in options:
+			sizer2 = wx.StaticBoxSizer(parent=sizer.GetStaticBox(), orient=wx.HORIZONTAL, label=i[0])
+			staticcontrol = wx.StaticText(sizer2.GetStaticBox(), wx.NewId(), i[0])
+			control = wx.TextCtrl(sizer2.GetStaticBox(), wx.NewId(), _("{votes} votes ({rate}% rate)").format(votes=i[1], rate=i[2]), style=wx.TE_READONLY|wx.TE_MULTILINE)
+			sizer2.Add(staticcontrol, 0, wx.ALL, 5)
+			sizer2.Add(control, 0, wx.ALL, 5)
+			sizer.Add(sizer2, 0, wx.ALL, 5)
+		self.sizer.Add(sizer, 0, wx.ALL, 5)
+
 	def done(self):
 		self.ok = wx.Button(self.panel, wx.ID_OK, _("Vote"))
 		cancel = wx.Button(self.panel, wx.ID_CANCEL)
@@ -340,3 +359,4 @@ class displayPoll(widgetUtils.BaseDialog):
 		sizer.Add(cancel, 0, wx.ALL, 5)
 		self.panel.SetSizer(self.sizer)
 		self.SetClientSize(self.sizer.CalcMin())
+
