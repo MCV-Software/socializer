@@ -165,6 +165,11 @@ class documentCommunityTab(homeTab):
 		self.list.set_size()
 		self.list.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnKeyDown)
 
+	def get_download_path(self, filename):
+		saveFileDialog = wx.FileDialog(self, _("Save document as"), "", filename, _("All files (*.*)|*.*"), wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT)
+		if saveFileDialog.ShowModal() == widgetUtils.OK:
+			return saveFileDialog.GetPath()
+
 class documentTab(documentCommunityTab):
 	def create_post_buttons(self):
 		self.postBox = wx.StaticBoxSizer(parent=self, orient=wx.HORIZONTAL, label=_("Actions"))

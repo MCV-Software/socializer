@@ -544,6 +544,7 @@ class documentBuffer(feedBuffer):
 			added = False
 		m = menus.documentMenu(added)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.add_remove_document, menuitem=m.action)
+		widgetUtils.connect_event(m, widgetUtils.MENU, self.download, menuitem=m.download)
 		return m
 
 	def add_remove_document(self, *args, **kwargs):
@@ -559,6 +560,16 @@ class documentBuffer(feedBuffer):
 		else:
 			result = self.session.vk.client.docs.add(owner_id=p["owner_id"], doc_id=p["id"])
 			output.speak(_("The document has been successfully added."))
+
+	def download(self, *args, **kwargs):
+		post = self.get_post()
+		filename = post["title"]
+		# If document does not end in .extension we must fix it so the file dialog will save it properly later.
+		if filename.endswith(post["ext"]) == False:
+			filename = filename+ "."+post["ext"]
+		filepath = self.tab.get_download_path(filename)
+		if filepath != None:
+			pub.sendMessage("download-file", url=post["url"], filename=filepath)
 
 class documentCommunityBuffer(documentBuffer):
 	can_get_items = True

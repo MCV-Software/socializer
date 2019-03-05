@@ -2,6 +2,7 @@
 
 ## changes in this  version
 
+* Added a new buffer called documents. When loading the buffer, it will contain all documents owned by the current user. The context menu of any item will allow you to download the document to your computer or remove it from VK.
 * A new buffer, called online, has been added in the friends section. It contains friends currently connected to VK. Items in this buffer will be added as soon as new friends are online in the social network, and will be removed when friends are offline. This buffer needs a lot of testing. Please report any possible inconsistency on this method.
 * Added new options to open the config and logs folder, these options are located in the help menu and may be useful during error reporting.
 * Added experimental support to "subscribers" buffer, inside frienship requests. This shows friend requests that have been declined by the current user.
@@ -36,7 +37,7 @@
     * For the home buffer, only a limited amount of items (around 700) can be loaded, supposedly due to VK API limits.
     * For walls, all posts should be possible to be loaded, however, testing with walls containing more than 2000 posts are not performed yet.
 * Added improvements to groups:
-    * It is possible to load topics, audios and videos for a group. In order to do so, you need to go to the group buffer and press the menu key, or right mouse click, in the tree item representing the group. New buffers will be created inside the current group's buffer.
+    * It is possible to load topics, audios, videos and documents for a group. In order to do so, you need to go to the group buffer and press the menu key, or right mouse click, in the tree item representing the group. New buffers will be created inside the current group's buffer.
     * You can create or delete all buffers for groups by pressing the menu key or right mouse click in the "communities" buffer.
     * There is  support for group topics. When opening them, they will be displayed as a list of posts. You can like or reply to such posts, as well as adding new posts in the topic.
 * Authentication errors should be handled gracefully by the application:
