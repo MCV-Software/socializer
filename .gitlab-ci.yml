@@ -68,13 +68,19 @@ alpha_python3:
     - cd ..
     - cd scripts
     - '%PYTHON3% prepare_zipversion.py'
+    - genpot_interface.bat
+    - genpot_doc.bat
     - cd ..
     - move src\socializer.zip socializer.zip
+    - move scripts\socializer.pot
+    - src\socializer-documentation.pot
   only:
     - schedules
   artifacts:
     paths:
     - socializer.zip
+    - socializer.pot
+    - socializer-documentation.pot
     name: socializer_py3
     expire_in: 1 day
 
