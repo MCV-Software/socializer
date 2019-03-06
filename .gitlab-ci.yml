@@ -68,8 +68,8 @@ alpha_python3:
     - cd ..
     - cd scripts
     - '%PYTHON3% prepare_zipversion.py'
-    - genpot_interface.bat
-    - genpot_doc.bat
+    - call genpot_interface.bat
+    - call genpot_doc.bat
     - cd ..
     - move src\socializer.zip socializer.zip
     - move scripts\socializer.pot socializer.pot
