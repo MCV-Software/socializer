@@ -72,8 +72,8 @@ alpha_python3:
     - genpot_doc.bat
     - cd ..
     - move src\socializer.zip socializer.zip
-    - move scripts\socializer.pot
-    - src\socializer-documentation.pot
+    - move scripts\socializer.pot socializer.pot
+    - move scripts\socializer-documentation.pot socializer-documentation.pot
   only:
     - schedules
   artifacts:
