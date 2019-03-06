@@ -8,7 +8,7 @@ from . import utils
 progress_dialog = None
 
 def available_update_dialog(version, description):
-	dialog = wx.MessageDialog(None, _("There's a new %s version available. Would you like to download it now?\n\n %s version: %s\n\nChanges:\n%s") % (application.name, application.name, version, description), _("New version for %s") % application.name, style=wx.YES|wx.NO|wx.ICON_WARNING)
+	dialog = wx.MessageDialog(None, _("There's a new {app_name} version available. Would you like to download it now?\n\n {app_name} version: {app_version}\n\nChanges:\n{changes}").format(app_name=application.name, app_version=version, changes=description), _("New version for %s") % application.name, style=wx.YES|wx.NO|wx.ICON_WARNING)
 	if dialog.ShowModal() == wx.ID_YES:
 		return True
 	else:
@@ -28,7 +28,7 @@ def _progress_callback(total_downloaded, total_size):
 	if total_downloaded == total_size:
 		progress_dialog.Destroy()
 	else:
-		progress_dialog.Update((total_downloaded*100)/total_size, _("Updating... %s of %s") % (utils.convert_bytes(total_downloaded), utils.convert_bytes(total_size)))
+		progress_dialog.Update((total_downloaded*100)/total_size, _("Updating... {total_transferred} of {total_size}").format(total_transferred=utils.convert_bytes(total_downloaded), total_size=utils.convert_bytes(total_size)))
 
 def update_finished():
 	return wx.MessageDialog(None, _("The update has been downloaded and installed successfully. Press OK to continue."), _("Done!")).ShowModal()
