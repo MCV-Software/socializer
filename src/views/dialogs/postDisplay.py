@@ -345,7 +345,7 @@ class displayPoll(widgetUtils.BaseDialog):
 		for i in options:
 			sizer2 = wx.StaticBoxSizer(parent=sizer.GetStaticBox(), orient=wx.HORIZONTAL, label=i[0])
 			staticcontrol = wx.StaticText(sizer2.GetStaticBox(), wx.NewId(), i[0])
-			control = wx.TextCtrl(sizer2.GetStaticBox(), wx.NewId(), _("{votes} votes ({rate}% rate)").format(votes=i[1], rate=i[2]), style=wx.TE_READONLY|wx.TE_MULTILINE)
+			control = wx.TextCtrl(sizer2.GetStaticBox(), wx.NewId(), _("{votes} ({rate}%)").format(votes=i[1], rate=i[2]), style=wx.TE_READONLY|wx.TE_MULTILINE)
 			sizer2.Add(staticcontrol, 0, wx.ALL, 5)
 			sizer2.Add(control, 0, wx.ALL, 5)
 			sizer.Add(sizer2, 0, wx.ALL, 5)

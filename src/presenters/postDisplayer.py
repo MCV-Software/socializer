@@ -657,7 +657,7 @@ class displayPollPresenter(base.basePresenter):
 		title = _("Poll from {user1_nom}").format(**user)
 		self.send_message("set_title", value=title)
 		self.send_message("set", control="question", value=self.poll["question"])
-		if len(self.poll["answer_ids"]) > 0 or ("is_closed" in self.poll and self.poll["is_closed"] == True) or load_results == True:
+		if len(self.poll["answer_ids"]) > 0 or ("is_closed" in self.poll and self.poll["is_closed"] == True) or load_results == True or ("can_vote" in self.poll and self.poll["can_vote"] == False):
 			options = []
 			for i in self.poll["answers"]:
 				options.append((i["text"], i["votes"], i["rate"]))
