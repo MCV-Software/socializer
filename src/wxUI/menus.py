@@ -80,7 +80,7 @@ class peopleMenu(wx.Menu):
 class documentMenu(wx.Menu):
 	def __init__(self, added=False, *args, **kwargs):
 		super(documentMenu, self).__init__(*args, **kwargs)
-		self.view_info = self.Append(wx.NewId(), _("View information"))
+#		self.view_info = self.Append(wx.NewId(), _("View information"))
 		self.download = self.Append(wx.NewId(), _("Download document"))
 		if added == True:
 			self.action = self.Append(wx.NewId(), _("Remove from my documents"))
