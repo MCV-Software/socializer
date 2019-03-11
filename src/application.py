@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 name = "Socializer"
-version = "0.18"
+version = "0.19"
 author = "Manuel Cortez"
 authorEmail = "manuel@manuelcortez.net"
-copyright = "Copyright (C) 2016-2018, Manuel Cortez"
+copyright = "Copyright (C) 2016-2019, Manuel Cortez"
 description = name+" Is an accessible VK client for Windows."
-url = "https://manuelcortez.net/socializer"
+url = "http://socializer.su"
 # The short name will be used for detecting translation files. See languageHandler for more details.
 short_name = "socializer"
 translators = ["Darya Ratnikova (Russian)", "Manuel Cortez (Spanish)"]
