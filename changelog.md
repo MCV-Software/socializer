@@ -2,6 +2,11 @@
 
 ## changes in this  version
 
+* Improvements in the audio player module:
+    * When modifying volume of the playing audio, it will decrease or increase the volume by 2% instead of 5%. 
+
+## Changes in version 0.19 (13.03.2019)
+
 * Added a new buffer called documents. When loading the buffer, it will contain all documents owned by the current user. The context menu of any item will allow you to download the document to your computer or remove it from VK.
 * A new buffer, called online, has been added in the friends section. It contains friends currently connected to VK. Items in this buffer will be added as soon as new friends are online in the social network, and will be removed when friends are offline. This buffer needs a lot of testing. Please report any possible inconsistency on this method.
 * Added new options to open the config and logs folder, these options are located in the help menu and may be useful during error reporting.

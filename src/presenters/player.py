@@ -98,6 +98,10 @@ class audioPlayer(object):
 	def volume(self, vol):
 		if vol <= 100 and vol >= 0:
 			self.vol = vol
+		elif vol < 0:
+			self.vol = 0
+		elif vol > 100:
+			self.vol = 100
 		if self.stream != None:
 			self.stream.volume = self.vol/100.0
 

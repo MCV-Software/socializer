@@ -808,10 +808,10 @@ class Controller(object):
 			self.search("me_audio").play_all()
 
 	def menu_volume_down(self, *args, **kwargs):
-		player.player.volume = player.player.volume-5
+		player.player.volume = player.player.volume-2
 
 	def menu_volume_up(self, *args, **kwargs):
-		player.player.volume = player.player.volume+5
+		player.player.volume = player.player.volume+2
 
 	def menu_mute(self, *args, **kwargs):
 		player.player.volume = 0

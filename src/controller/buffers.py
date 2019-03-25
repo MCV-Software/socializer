@@ -315,12 +315,12 @@ class baseBuffer(object):
 				pass
 
 	def volume_down(self):
-		""" Decreases player volume by 5%"""
-		player.player.volume = player.player.volume-5
+		""" Decreases player volume by 2%"""
+		player.player.volume = player.player.volume-2
 
 	def volume_up(self):
-		""" Increases player volume by 5%"""
-		player.player.volume = player.player.volume+5
+		""" Increases player volume by 2%"""
+		player.player.volume = player.player.volume+2
 
 	def play_audio(self, *args, **kwargs):
 		""" Play audio in currently focused buffer, if possible."""
