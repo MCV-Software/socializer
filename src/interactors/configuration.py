@@ -7,8 +7,8 @@ from . import base
 
 class configurationInteractor(base.baseInteractor):
 
-	def create_tab(self, tab):
-		getattr(self.view, "create_"+tab)()
+	def create_tab(self, tab, arglist=dict()):
+		getattr(self.view, "create_"+tab)(**arglist)
 
 	def set_setting(self, tab, setting, value):
 		self.view.set_value(tab, setting, value)
@@ -60,5 +60,8 @@ class configurationInteractor(base.baseInteractor):
 		self.presenter.update_setting(section="load_at_startup", setting="audio_albums", value=self.view.get_value("startup", "audio_albums"))
 		self.presenter.update_setting(section="load_at_startup", setting="video_albums", value=self.view.get_value("startup", "video_albums"))
 		self.presenter.update_setting(section="load_at_startup", setting="communities", value=self.view.get_value("startup", "communities"))
+		self.presenter.update_app_setting(section="sound", setting="input_device", value=self.view.get_value("sound", "input"))
+		self.presenter.update_app_setting(section="sound", setting="output_device", value=self.view.get_value("sound", "output"))
+		self.presenter.update_app_setting(section="app-settings", setting="use_proxy", value=self.view.get_value("general", "use_proxy"))
+		self.presenter.save_app_settings_file()
 		self.presenter.save_settings_file()
-		self.presenter.update_proxy(self.view.get_value("general", "use_proxy"))

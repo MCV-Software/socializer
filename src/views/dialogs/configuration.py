@@ -65,6 +65,48 @@ class loadAtStartup(wx.Panel, widgetUtils.BaseDialog):
 		sizer.Add(self.communities, 0, wx.ALL, 5)
 		self.SetSizer(sizer)
 
+class sound(wx.Panel, widgetUtils.BaseDialog):
+	def __init__(self, panel, input_devices, output_devices, soundpacks):
+		super(sound, self).__init__(panel)
+		sizer = wx.BoxSizer(wx.VERTICAL)
+		output_label = wx.StaticText(self, wx.NewId(), _("Output device"))
+		self.output = wx.ComboBox(self, wx.NewId(), choices=output_devices, style=wx.CB_READONLY)
+		self.output.SetSize(self.output.GetBestSize())
+		outputBox = wx.BoxSizer(wx.HORIZONTAL)
+		outputBox.Add(output_label, 0, wx.ALL, 5)
+		outputBox.Add(self.output, 0, wx.ALL, 5)
+		sizer.Add(outputBox, 0, wx.ALL, 5)
+		input_label = wx.StaticText(self, wx.NewId(), _("Input device"))
+		self.input = wx.ComboBox(self, wx.NewId(), choices=input_devices, style=wx.CB_READONLY)
+		self.input.SetSize(self.input.GetBestSize())
+		inputBox = wx.BoxSizer(wx.HORIZONTAL)
+		inputBox.Add(input_label, 0, wx.ALL, 5)
+		inputBox.Add(self.input, 0, wx.ALL, 5)
+		sizer.Add(inputBox, 0, wx.ALL, 5)
+#		soundBox =  wx.BoxSizer(wx.VERTICAL)
+#		soundpack_label = wx.StaticText(self, wx.NewId(), _(u"Sound pack"))
+#		self.soundpack = wx.ComboBox(self, -1, choices=soundpacks, style=wx.CB_READONLY)
+#		self.soundpack.SetSize(self.soundpack.GetBestSize())
+#		soundBox.Add(soundpack_label, 0, wx.ALL, 5)
+#		soundBox.Add(self.soundpack, 0, wx.ALL, 5)
+#		sizer.Add(soundBox, 0, wx.ALL, 5)
+		self.SetSizer(sizer)
+
+	def on_keypress(self, event, *args, **kwargs):
+		""" Invert movement of up and down arrow keys when dealing with a wX Slider.
+		See https://github.com/manuelcortez/TWBlue/issues/261
+		and http://trac.wxwidgets.org/ticket/2068
+		"""
+		keycode = event.GetKeyCode()
+		if keycode == wx.WXK_UP:
+			return self.volumeCtrl.SetValue(self.volumeCtrl.GetValue()+1)
+		elif keycode == wx.WXK_DOWN:
+			return self.volumeCtrl.SetValue(self.volumeCtrl.GetValue()-1)
+		event.Skip()
+
+	def get(self, control):
+		return getattr(self, control).GetStringSelection()
+
 class configurationDialog(widgetUtils.BaseDialog):
 
 	def __init__(self, title):
@@ -85,6 +127,10 @@ class configurationDialog(widgetUtils.BaseDialog):
 	def create_startup_options(self):
 		self.startup = loadAtStartup(self.notebook)
 		self.notebook.AddPage(self.startup, _("Optional buffers"))
+
+	def create_sound(self, input_devices, output_devices, soundpacks):
+		self.sound = sound(self.notebook, input_devices, output_devices, soundpacks)
+		self.notebook.AddPage(self.sound, _("Sound settings"))
 
 	def realize(self):
 		self.sizer.Add(self.notebook, 0, wx.ALL, 5)
