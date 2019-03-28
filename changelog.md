@@ -2,6 +2,7 @@
 
 ## changes in this  version
 
+* All spelling dictionaries are included by default for the following languages: Russian, English, German, French, italian, Polish, spanish and Turkish. Before, some dictionaries were missing and the spelling checker was failing.
 * Improvements in the audio player module:
     * When modifying volume of the playing audio, it will decrease or increase the volume by 2% instead of 5%. 
     * For users with multiple soundcards, there is a new tab in the preferences dialogue of Socializer, called sound. From there, you can define what soundcard will be used for input and output.
