@@ -392,7 +392,7 @@ class Controller(object):
 		elif user_id > 2000000000:
 			chat = self.session.vk.client.messages.getChat(chat_id=user_id-2000000000)
 			name = chat["title"]
-		wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="chatBuffer", buffer_title=name, parent_tab="chats", get_items=True, kwargs=dict(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="render_message", session=self.session, unread=unread, count=200,  peer_id=user_id, rev=0, extended=True, fields="id, user_id, date, read_state, out, body, attachments, deleted"))
+		wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="chatBuffer", buffer_title=name, parent_tab="chats", get_items=True, kwargs=dict(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="render_message", parent_endpoint="messages", endpoint="getHistory", session=self.session, unread=unread, count=200,  peer_id=user_id, rev=0, extended=True, fields="id, user_id, date, read_state, out, body, attachments, deleted"))
 #		if setfocus:
 #			pos = self.window.search(buffer.name)
 #			self.window.change_buffer(pos)
@@ -538,7 +538,7 @@ class Controller(object):
 		data = [message]
 		# Let's add this to the buffer.
 		# ToDo: Clean this code and test how is the database working with this set to True.
-		num = self.session.order_buffer(buffer.name, data, True)
+		buffer.session.db[buffer.name]["items"].append(message)
 		buffer.insert(self.session.db[buffer.name]["items"][-1], False)
 		self.session.soundplayer.play("message_received.ogg")
 		wx.CallAfter(self.reorder_buffer, buffer)
