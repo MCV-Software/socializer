@@ -883,6 +883,7 @@ class Controller(object):
 			else:
 				option = menu.Append(wx.NewId(), _("Discard groups"))
 				widgetUtils.connect_event(menu, widgetUtils.MENU, self.unload_community_buffers, menuitem=option)
+		# Deal with video and audio albums' sections.
 		elif current_buffer.name == "audio_albums":
 			menu = wx.Menu()
 			if self.session.settings["load_at_startup"]["audio_albums"] == False and not hasattr(self.session, "audio_albums"):
@@ -899,6 +900,9 @@ class Controller(object):
 			else:
 				option = menu.Append(wx.NewId(), _("Discard video albums"))
 				widgetUtils.connect_event(menu, widgetUtils.MENU, self.unload_video_album_buffers, menuitem=option)
+		elif current_buffer.name.endswith("_messages"):
+			menu = menus.conversationBufferMenu()
+			widgetUtils.connect_event(menu, widgetUtils.MENU, self.delete_conversation, menuitem=menu.delete)
 
 		if menu != None:
 			self.window.PopupMenu(menu, self.window.FindFocus().GetPosition())
@@ -1001,3 +1005,12 @@ class Controller(object):
 			self.window.remove_buffer(buff)
 			self.buffers.remove(buffer)
 		del self.session.video_albums
+
+	def delete_conversation(self, *args, **kwargs):
+		current_buffer = self.get_current_buffer()
+		d = commonMessages.delete_conversation()
+		if d == widgetUtils.YES:
+			results = self.session.vk.client.messages.deleteConversation(peer_id=current_buffer.kwargs["peer_id"])
+			buff = self.window.search(current_buffer.name)
+			self.window.remove_buffer(buff)
+			self.buffers.remove(current_buffer)

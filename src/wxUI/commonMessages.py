@@ -64,3 +64,6 @@ def restart_program():
 
 def community_no_items():
 	return wx.MessageDialog(None, _("There are 0 items for this community."), _("Error"), wx.ICON_ERROR).ShowModal()
+
+def delete_conversation():
+	return wx.MessageDialog(None, _("do you really want to delete all messages of this conversation in VK?"), _("Attention"), style=wx.ICON_QUESTION|wx.YES_NO).ShowModal()
