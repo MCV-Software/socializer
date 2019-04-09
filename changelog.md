@@ -6,6 +6,7 @@
 * Improvements in the audio player module:
     * When modifying volume of the playing audio, it will decrease or increase the volume by 2% instead of 5%. 
     * For users with multiple soundcards, there is a new tab in the preferences dialogue of Socializer, called sound. From there, you can define what soundcard will be used for input and output.
+* it is possible to retrieve more items for conversation buffers. Due to API limitations, it is possible to load up to the last 600 messages for every conversation. Take into account that the process of loading more items takes some time. You will hear a message when the process is done.
 
 ## Changes in version 0.19 (13.03.2019)
 
