@@ -21,33 +21,6 @@ test_py3:
     - '%PYTHON3% -m coverage report --omit="test*"'
   coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
 
-.alpha:
-  type: deploy
-  tags:
-    - windows
-  script:
-    - pip install --upgrade pip
-    - pip install --upgrade -r requirements.txt
-    - copy changelog.md doc\changelog.md
-    - cd doc
-    - python documentation_importer.py
-    - cd ..\src
-    - python ..\doc\generator.py
-    - python write_version_data.py
-    - python setup.py py2exe
-    - cd ..
-    - cd scripts
-    - python prepare_zipversion.py
-    - cd ..
-    - move src\socializer.zip socializer.zip
-  only:
-    - schedules
-  artifacts:
-    paths:
-    - socializer.zip
-    name: socializer
-    expire_in: 1 day
-
 alpha_python3:
   type: deploy
   tags:
