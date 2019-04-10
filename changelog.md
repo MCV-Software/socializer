@@ -8,7 +8,8 @@
     * For users with multiple soundcards, there is a new tab in the preferences dialogue of Socializer, called sound. From there, you can define what soundcard will be used for input and output.
 * Improvements in conversation buffers:
     * it is possible to retrieve more items for conversation buffers. Due to API limitations, it is possible to load up to the last 600 messages for every conversation. Take into account that the process of loading more items takes some time. You will hear a message when the process is done.
-    * It is possible to delete entire conversations from the tree of buffers, by using the menu key and selecting "delete conversation". The conversation will be removed from VK.
+    * It is possible to delete entire conversations from the buffer's tree, by using the menu key and selecting "delete conversation". The conversation will be removed from VK.
+    * Read confirmations will be sent to VK as soon as you read the message. Before, read confirmations were being sent every 3 minutes to the social network.
 
 ## Changes in version 0.19 (13.03.2019)
 

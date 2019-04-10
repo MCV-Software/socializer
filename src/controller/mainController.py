@@ -114,8 +114,6 @@ class Controller(object):
 		self.window.realize()
 		self.repeatedUpdate = RepeatingTimer(120, self.update_all_buffers)
 		self.repeatedUpdate.start()
-		self.readMarker = RepeatingTimer(60, self.mark_as_read)
-		self.readMarker.start()
 
 	def complete_buffer_creation(self, buffer, name_, position):
 		answer = buffer.get_items()
@@ -157,14 +155,6 @@ class Controller(object):
 		for i in msgs["items"]:
 			call_threaded(self.chat_from_id, i["last_message"]["peer_id"], setfocus=False, unread=False)
 			time.sleep(0.6)
-
-	def mark_as_read(self):
-		for i in self.buffers:
-			if hasattr(i, "reads") and len(i.reads) != 0:
-				response = self.session.vk.client.messages.markAsRead(peer_id=i.kwargs["peer_id"])
-				i.clear_reads()
-				i.reads = []
-				time.sleep(1)
 
 	def get_audio_albums(self, user_id=None, create_buffers=True, force_action=False):
 		if self.session.settings["load_at_startup"]["audio_albums"] == False and force_action == False:

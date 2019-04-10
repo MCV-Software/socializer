@@ -911,13 +911,11 @@ class chatBuffer(baseBuffer):
 
 	def insert(self, item, reversed=False):
 		""" Add a new item to the list. Uses session.composefunc for parsing the dictionary and create a valid result for putting it in the list."""
+		# as this tab is based in a text control, we have to overwrite the defaults.
 		item_ = getattr(renderers, self.compose_function)(item, self.session)
 		# the self.chat dictionary will have (first_line, last_line) as keys and message ID as a value for looking into it when needed.
 		# Here we will get first and last line of a chat message appended to the history.
-		lines = self.tab.history.GetNumberOfLines()
 		values = self.tab.add_message(item_[0], reverse=reversed)
-		if reversed:
-			values = (values[0]-lines, values[1]-lines)
 		self.chats[values] = item["id"]
 
 	def get_focused_post(self):
@@ -933,7 +931,6 @@ class chatBuffer(baseBuffer):
 			# position[2]+1 is added because line may start with 0, while in wx.TextCtrl.GetNumberLines() that is not possible.
 			if position[2]+1 >= i[0] and position[2]+1 < i[1]:
 				id_ = self.chats[i]
-#				print i
 				break
 		# Retrieve here the object based in id_
 		if id_ != None:
@@ -949,9 +946,10 @@ class chatBuffer(baseBuffer):
 			msg = self.get_focused_post()
 			if msg == False: # Handle the case where the last line of the control cannot be matched to anything.
 				return
-			if "read_state" in msg and msg["read_state"] == 0 and msg["id"] not in self.reads and "out" in msg and msg["out"] == 0:
+			# Mark unread conversations as read.
+			if "read_state" in msg and msg["read_state"] == 0 and "out" in msg and msg["out"] == 0:
 				self.session.soundplayer.play("message_unread.ogg")
-				self.reads.append(msg["id"])
+				call_threaded(self.session.vk.client.messages.markAsRead, peer_id=self.kwargs["peer_id"])
 				self.session.db[self.name]["items"][-1]["read_state"] = 1
 			if "attachments" in msg and len(msg["attachments"]) > 0:
 				self.tab.attachments.list.Enable(True)
@@ -1115,7 +1113,6 @@ class chatBuffer(baseBuffer):
 	def __init__(self, unread=False, *args, **kwargs):
 		super(chatBuffer, self).__init__(*args, **kwargs)
 		self.unread = unread
-		self.reads = []
 		self.chats = dict()
 		self.peer_typing = 0
 		self.last_keypress = time.time()
