@@ -45,6 +45,12 @@ class audioPlayer(object):
 		bassconfig = BassConfig()
 		# Set timeout connection to 30 seconds.
 		bassconfig["net_timeout"] = 30000
+		pub.subscribe(self.play, "play")
+		pub.subscribe(self.play_all, "play_all")
+		pub.subscribe(self.pause, "pause")
+		pub.subscribe(self.stop, "stop")
+		pub.subscribe(self.play_next, "play_next")
+		pub.subscribe(self.play_previous, "play_previous")
 
 	def play(self, object, set_info=True, fresh=False):
 		""" Play an URl Stream.

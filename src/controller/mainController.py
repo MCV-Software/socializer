@@ -340,13 +340,13 @@ class Controller(object):
 		if "url" in audio_object and audio_object["url"] =="":
 			self.notify(message=_("This file could not be played because it is not allowed in your country"))
 			return
-		call_threaded(player.player.play, audio_object, fresh=True)
+		pub.sendMessage("play", object=audio_object, fresh=True)
 
 	def play_audios(self, audios):
 		""" Play all audios passed in alist, putting the audio in a queue of the media player.
 		@audios list: A list of Vk audio objects.
 		"""
-		player.player.play_all(audios, shuffle=self.window.player_shuffle.IsChecked())
+		pub.sendMessage("play_all", list_of_songs=audios, shuffle=self.window.player_shuffle.IsChecked())
 
 	def view_post(self, post_object, controller_):
 		""" Display the passed post in the passed post presenter.
