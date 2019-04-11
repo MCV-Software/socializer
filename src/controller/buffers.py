@@ -328,7 +328,7 @@ class baseBuffer(object):
 		if post == None:
 			return
 		if "type" in post and post["type"] == "audio":
-			pub.sendMessage("play-audio", audio_object=post["audio"]["items"][0])
+			pub.sendMessage("play-audio", object=post["audio"]["items"][0])
 			return True
 
 	def open_person_profile(self, *args, **kwargs):
@@ -357,7 +357,7 @@ class baseBuffer(object):
 
 	def pause_audio(self, *args, **kwargs):
 		""" pauses audio playback."""
-		player.player.pause()
+		pub.sendMessage("pause")
 
 	def remove_buffer(self, mandatory):
 		""" Function for removing a buffer. Returns True if removal is successful, False otherwise"""
@@ -601,7 +601,7 @@ class audioBuffer(feedBuffer):
 		selected = self.tab.list.get_selected()
 		if selected == -1:
 			selected = 0
-		pub.sendMessage("play-audio", audio_object=self.session.db[self.name]["items"][selected])
+		pub.sendMessage("play-audio", object=self.session.db[self.name]["items"][selected])
 		return True
 
 	def play_next(self, *args, **kwargs):
@@ -1138,7 +1138,7 @@ class chatBuffer(baseBuffer):
 		elif attachment["type"] == "audio_message":
 			link = attachment["audio_message"]["link_mp3"]
 			output.speak(_("Playing..."))
-			player.player.play(url=dict(url=link), set_info=False)
+			pub.sendMessage("play", object=dict(url=link), set_info=False)
 		elif attachment["type"] == "link":
 			output.speak(_("Opening URL..."), True)
 			webbrowser.open_new_tab(attachment["link"]["url"])
