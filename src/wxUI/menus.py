@@ -125,3 +125,8 @@ class communityBufferMenu(wx.Menu):
 		self.load_videos = load.Append(wx.NewId(), _("Load videos"))
 		self.load_documents = load.Append(wx.NewId(), _("Load documents"))
 		self.Append(wx.NewId(), _("Load"), load)
+
+class conversationBufferMenu(wx.Menu):
+	def __init__(self):
+		super(conversationBufferMenu, self).__init__()
+		self.delete = self.Append(wx.NewId(), _("Delete conversation"))

@@ -66,6 +66,9 @@ class vkSession(object):
 			self.db[name] = {}
 			self.db[name]["items"] = []
 			first_addition = True
+		# Handles chat messages case, as the buffer is inverted
+		if name.endswith("_messages") and show_nextpage == True:
+			show_nextpage = False
 		for i in data:
 			if "type" in i and not isinstance(i["type"], int) and (i["type"] == "wall_photo" or i["type"] == "photo_tag" or i["type"] == "photo"):
 				log.debug("Skipping unsupported item... %r" % (i,))
@@ -124,8 +127,11 @@ class vkSession(object):
 			config_filename = os.path.join(paths.config_path(), self.session_id, "vkconfig.json")
 			self.vk.login(self.settings["vk"]["user"], self.settings["vk"]["password"], token=self.settings["vk"]["token"], secret=self.settings["vk"]["secret"], device_id=self.settings["vk"]["device_id"], alt_token=self.settings["vk"]["use_alternative_tokens"], filename=config_filename)
 			self.settings["vk"]["token"] = self.vk.session_object.token["access_token"]
-			self.settings["vk"]["secret"] = self.vk.session_object.secret
-			self.settings["vk"]["device_id"] = self.vk.session_object.device_id
+			try:
+				self.settings["vk"]["secret"] = self.vk.session_object.secret
+				self.settings["vk"]["device_id"] = self.vk.session_object.device_id
+			except AttributeError:
+				pass
 			self.settings.write()
 			self.logged = True
 			self.get_my_data()
@@ -192,6 +198,10 @@ class vkSession(object):
 		if data != None:
 			if "count" not in kwargs:
 				kwargs["count"] = 100
+			# Let's handle a little exception when dealing with conversation buffers.
+			# the first results of the query should be reversed before being sent to order_buffer.
+			if type(data) == dict and "items" in data and endpoint == "getHistory" and kwargs["offset"] == 0:
+				data["items"].reverse()
 			if type(data) == dict:
 				num = self.order_buffer(name, data["items"], show_nextpage)
 				self.db[name]["offset"] = kwargs["offset"]+kwargs["count"]

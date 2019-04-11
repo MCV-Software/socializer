@@ -911,10 +911,11 @@ class chatBuffer(baseBuffer):
 
 	def insert(self, item, reversed=False):
 		""" Add a new item to the list. Uses session.composefunc for parsing the dictionary and create a valid result for putting it in the list."""
+		# as this tab is based in a text control, we have to overwrite the defaults.
 		item_ = getattr(renderers, self.compose_function)(item, self.session)
 		# the self.chat dictionary will have (first_line, last_line) as keys and message ID as a value for looking into it when needed.
 		# Here we will get first and last line of a chat message appended to the history.
-		values = self.tab.add_message(item_[0])
+		values = self.tab.add_message(item_[0], reverse=reversed)
 		self.chats[values] = item["id"]
 
 	def get_focused_post(self):
@@ -930,7 +931,6 @@ class chatBuffer(baseBuffer):
 			# position[2]+1 is added because line may start with 0, while in wx.TextCtrl.GetNumberLines() that is not possible.
 			if position[2]+1 >= i[0] and position[2]+1 < i[1]:
 				id_ = self.chats[i]
-#				print i
 				break
 		# Retrieve here the object based in id_
 		if id_ != None:
@@ -946,9 +946,10 @@ class chatBuffer(baseBuffer):
 			msg = self.get_focused_post()
 			if msg == False: # Handle the case where the last line of the control cannot be matched to anything.
 				return
-			if "read_state" in msg and msg["read_state"] == 0 and msg["id"] not in self.reads and "out" in msg and msg["out"] == 0:
+			# Mark unread conversations as read.
+			if "read_state" in msg and msg["read_state"] == 0 and "out" in msg and msg["out"] == 0:
 				self.session.soundplayer.play("message_unread.ogg")
-				self.reads.append(msg["id"])
+				call_threaded(self.session.vk.client.messages.markAsRead, peer_id=self.kwargs["peer_id"])
 				self.session.db[self.name]["items"][-1]["read_state"] = 1
 			if "attachments" in msg and len(msg["attachments"]) > 0:
 				self.tab.attachments.list.Enable(True)
@@ -985,10 +986,11 @@ class chatBuffer(baseBuffer):
 		event.Skip()
 
 	def get_items(self, show_nextpage=False):
+		""" Update buffer with newest items or get older items in the buffer."""
 		if self.can_get_items == False: return
-		retrieved = True # Control variable for handling unauthorised/connection errors.
+		retrieved = True
 		try:
-			num = getattr(self.session, "get_messages")(name=self.name, *self.args, **self.kwargs)
+			num = getattr(self.session, "get_page")(show_nextpage=show_nextpage, name=self.name, *self.args, **self.kwargs)
 		except VkApiError as err:
 			log.error("Error {0}: {1}".format(err.code, err.error))
 			retrieved = err.code
@@ -1001,19 +1003,37 @@ class chatBuffer(baseBuffer):
 			self.create_tab(self.parent)
 			# Add name to the new control so we could look for it when needed.
 			self.tab.name = self.name
+
 		if show_nextpage  == False:
 			if self.tab.history.GetValue() != "" and num > 0:
 				v = [i for i in self.session.db[self.name]["items"][:num]]
-#				v.reverse()
 				[self.insert(i, False) for i in v]
 			else:
 				[self.insert(i) for i in self.session.db[self.name]["items"][:num]]
 		else:
 			if num > 0:
-				[self.insert(i, False) for i in self.session.db[self.name]["items"][:num]]
+				# At this point we save more CPU and mathematical work if we just delete everything in the chat history and readd all messages.
+				# Otherwise we'd have to insert new lines at the top and recalculate positions everywhere else.
+				# Firstly, we'd have to save the current focused object so we will place the user in the right part of the text after loading everything again.
+				focused_post = self.get_post()
+				self.chats = dict()
+				self.tab.history.SetValue("")
+				v = [i for i in self.session.db[self.name]["items"]]
+				[self.insert(i) for i in v]
+				# Now it's time to set back the focus in the post.
+				for i in self.chats.keys():
+					if self.chats[i] == focused_post["id"]:
+						line = i[0]
+						self.tab.history.SetInsertionPoint(self.tab.history.XYToPosition(0, line))
+						output.speak(_("Items loaded"))
+						break
 		if self.unread == True and num > 0:
 			self.session.db[self.name]["items"][-1].update(read_state=0)
 		return retrieved
+
+	def get_more_items(self):
+		output.speak(_("Getting more items..."))
+		call_threaded(self.get_items, show_nextpage=True)
 
 	def add_attachment(self, *args, **kwargs):
 		a = presenters.attachPresenter(session=self.session, view=views.attachDialog(voice_messages=True), interactor=interactors.attachInteractor())
@@ -1093,7 +1113,6 @@ class chatBuffer(baseBuffer):
 	def __init__(self, unread=False, *args, **kwargs):
 		super(chatBuffer, self).__init__(*args, **kwargs)
 		self.unread = unread
-		self.reads = []
 		self.chats = dict()
 		self.peer_typing = 0
 		self.last_keypress = time.time()

@@ -7,6 +7,10 @@
     * When modifying volume of the playing audio, it will decrease or increase the volume by 2% instead of 5%. 
     * For users with multiple soundcards, there is a new tab in the preferences dialogue of Socializer, called sound. From there, you can define what soundcard will be used for input and output.
 * it is possible to select the language used in socializer from the preferences dialog. When changing the language, the application must be restarted for the changes to take effect.
+* Improvements in conversation buffers:
+    * it is possible to retrieve more items for conversation buffers. Due to API limitations, it is possible to load up to the last 600 messages for every conversation. Take into account that the process of loading more items takes some time. You will hear a message when the process is done.
+    * It is possible to delete entire conversations from the buffer's tree, by using the menu key and selecting "delete conversation". The conversation will be removed from VK.
+    * Read confirmations will be sent to VK as soon as you read the message. Before, read confirmations were being sent every 3 minutes to the social network.
 
 ## Changes in version 0.19 (13.03.2019)
 

@@ -114,8 +114,6 @@ class Controller(object):
 		self.window.realize()
 		self.repeatedUpdate = RepeatingTimer(120, self.update_all_buffers)
 		self.repeatedUpdate.start()
-		self.readMarker = RepeatingTimer(60, self.mark_as_read)
-		self.readMarker.start()
 
 	def complete_buffer_creation(self, buffer, name_, position):
 		answer = buffer.get_items()
@@ -157,14 +155,6 @@ class Controller(object):
 		for i in msgs["items"]:
 			call_threaded(self.chat_from_id, i["last_message"]["peer_id"], setfocus=False, unread=False)
 			time.sleep(0.6)
-
-	def mark_as_read(self):
-		for i in self.buffers:
-			if hasattr(i, "reads") and len(i.reads) != 0:
-				response = self.session.vk.client.messages.markAsRead(peer_id=i.kwargs["peer_id"])
-				i.clear_reads()
-				i.reads = []
-				time.sleep(1)
 
 	def get_audio_albums(self, user_id=None, create_buffers=True, force_action=False):
 		if self.session.settings["load_at_startup"]["audio_albums"] == False and force_action == False:
@@ -350,13 +340,13 @@ class Controller(object):
 		if "url" in audio_object and audio_object["url"] =="":
 			self.notify(message=_("This file could not be played because it is not allowed in your country"))
 			return
-		call_threaded(player.player.play, audio_object, fresh=True)
+		pub.sendMessage("play", object=audio_object, fresh=True)
 
 	def play_audios(self, audios):
 		""" Play all audios passed in alist, putting the audio in a queue of the media player.
 		@audios list: A list of Vk audio objects.
 		"""
-		player.player.play_all(audios, shuffle=self.window.player_shuffle.IsChecked())
+		pub.sendMessage("play_all", list_of_songs=audios, shuffle=self.window.player_shuffle.IsChecked())
 
 	def view_post(self, post_object, controller_):
 		""" Display the passed post in the passed post presenter.
@@ -392,7 +382,7 @@ class Controller(object):
 		elif user_id > 2000000000:
 			chat = self.session.vk.client.messages.getChat(chat_id=user_id-2000000000)
 			name = chat["title"]
-		wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="chatBuffer", buffer_title=name, parent_tab="chats", get_items=True, kwargs=dict(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="render_message", session=self.session, unread=unread, count=200,  peer_id=user_id, rev=0, extended=True, fields="id, user_id, date, read_state, out, body, attachments, deleted"))
+		wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="chatBuffer", buffer_title=name, parent_tab="chats", get_items=True, kwargs=dict(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="render_message", parent_endpoint="messages", endpoint="getHistory", session=self.session, unread=unread, count=200,  peer_id=user_id, rev=0, extended=True, fields="id, user_id, date, read_state, out, body, attachments, deleted"))
 #		if setfocus:
 #			pos = self.window.search(buffer.name)
 #			self.window.change_buffer(pos)
@@ -538,7 +528,7 @@ class Controller(object):
 		data = [message]
 		# Let's add this to the buffer.
 		# ToDo: Clean this code and test how is the database working with this set to True.
-		num = self.session.order_buffer(buffer.name, data, True)
+		buffer.session.db[buffer.name]["items"].append(message)
 		buffer.insert(self.session.db[buffer.name]["items"][-1], False)
 		self.session.soundplayer.play("message_received.ogg")
 		wx.CallAfter(self.reorder_buffer, buffer)
@@ -883,6 +873,7 @@ class Controller(object):
 			else:
 				option = menu.Append(wx.NewId(), _("Discard groups"))
 				widgetUtils.connect_event(menu, widgetUtils.MENU, self.unload_community_buffers, menuitem=option)
+		# Deal with video and audio albums' sections.
 		elif current_buffer.name == "audio_albums":
 			menu = wx.Menu()
 			if self.session.settings["load_at_startup"]["audio_albums"] == False and not hasattr(self.session, "audio_albums"):
@@ -899,6 +890,9 @@ class Controller(object):
 			else:
 				option = menu.Append(wx.NewId(), _("Discard video albums"))
 				widgetUtils.connect_event(menu, widgetUtils.MENU, self.unload_video_album_buffers, menuitem=option)
+		elif current_buffer.name.endswith("_messages"):
+			menu = menus.conversationBufferMenu()
+			widgetUtils.connect_event(menu, widgetUtils.MENU, self.delete_conversation, menuitem=menu.delete)
 
 		if menu != None:
 			self.window.PopupMenu(menu, self.window.FindFocus().GetPosition())
@@ -1001,3 +995,12 @@ class Controller(object):
 			self.window.remove_buffer(buff)
 			self.buffers.remove(buffer)
 		del self.session.video_albums
+
+	def delete_conversation(self, *args, **kwargs):
+		current_buffer = self.get_current_buffer()
+		d = commonMessages.delete_conversation()
+		if d == widgetUtils.YES:
+			results = self.session.vk.client.messages.deleteConversation(peer_id=current_buffer.kwargs["peer_id"])
+			buff = self.window.search(current_buffer.name)
+			self.window.remove_buffer(buff)
+			self.buffers.remove(current_buffer)
