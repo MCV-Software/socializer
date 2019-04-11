@@ -18,17 +18,22 @@ class configurationInteractor(base.baseInteractor):
 		if dlg == widgetUtils.YES:
 			self.presenter.restart_application()
 
+	def set_language(self, language):
+		self.view.general.language.SetSelection(language)
+
 	def install(self, *args, **kwargs):
 		super(configurationInteractor, self).install(*args, **kwargs)
 		pub.subscribe(self.create_tab, self.modulename+"_create_tab")
 		pub.subscribe(self.set_setting, self.modulename+"_set")
 		pub.subscribe(self.restart, self.modulename+"_restart_program")
+		pub.subscribe(self.set_language, self.modulename+"_set_language")
 
 	def uninstall(self):
 		super(configurationInteractor, self).uninstall()
 		pub.unsubscribe(self.create_tab, self.modulename+"_create_tab")
 		pub.unsubscribe(self.set_setting, self.modulename+"_set")
 		pub.unsubscribe(self.restart, self.modulename+"_restart_program")
+		pub.unsubscribe(self.set_language, self.modulename+"_set_language")
 
 	def start(self):
 		self.view.realize()
@@ -60,6 +65,7 @@ class configurationInteractor(base.baseInteractor):
 		self.presenter.update_setting(section="load_at_startup", setting="audio_albums", value=self.view.get_value("startup", "audio_albums"))
 		self.presenter.update_setting(section="load_at_startup", setting="video_albums", value=self.view.get_value("startup", "video_albums"))
 		self.presenter.update_setting(section="load_at_startup", setting="communities", value=self.view.get_value("startup", "communities"))
+		self.presenter.update_app_setting(section="app-settings", setting="language", value=self.presenter.codes[self.view.general.language.GetSelection()])
 		self.presenter.update_app_setting(section="sound", setting="input_device", value=self.view.get_value("sound", "input"))
 		self.presenter.update_app_setting(section="sound", setting="output_device", value=self.view.get_value("sound", "output"))
 		self.presenter.update_app_setting(section="app-settings", setting="use_proxy", value=self.view.get_value("general", "use_proxy"))

@@ -6,6 +6,7 @@
 * Improvements in the audio player module:
     * When modifying volume of the playing audio, it will decrease or increase the volume by 2% instead of 5%. 
     * For users with multiple soundcards, there is a new tab in the preferences dialogue of Socializer, called sound. From there, you can define what soundcard will be used for input and output.
+* it is possible to select the language used in socializer from the preferences dialog. When changing the language, the application must be restarted for the changes to take effect.
 
 ## Changes in version 0.19 (13.03.2019)
 

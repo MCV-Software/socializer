@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 import sound_lib.input, sound_lib.output
 import config
+import languageHandler
 from mysc import restart
 from . import base
 
@@ -44,7 +45,12 @@ class configurationPresenter(base.basePresenter):
 			return "alpha"
 
 	def create_config(self):
-		self.send_message("create_tab", tab="general")
+		self.langs = languageHandler.getAvailableLanguages()
+		langs = [i[1] for i in self.langs]
+		self.codes = [i[0] for i in self.langs]
+		id = self.codes.index(config.app["app-settings"]["language"])
+		self.send_message("create_tab", tab="general", arglist=dict(languages=langs))
+		self.send_message("set_language", language=id)
 		self.send_message("set", tab="general", setting="wall_buffer_count", value=self.session.settings["buffers"]["count_for_wall_buffers"])
 		self.send_message("set", tab="general", setting="video_buffers_count", value=self.session.settings["buffers"]["count_for_video_buffers"])
 		self.send_message("set", tab="general", setting="load_images", value=self.session.settings["general"]["load_images"])
@@ -83,7 +89,7 @@ class configurationPresenter(base.basePresenter):
 			raise AttributeError("The setting you specified is not present in the config file.")
 		# check if certain settings have been changed so we'd restart the client.
 		# List of app settings that require a restart after being changed.
-		settings_needing_restart = ["use_proxy", "input_device", "output_device"]
+		settings_needing_restart = ["language", "use_proxy", "input_device", "output_device"]
 		if value != config.app[section][setting] and setting in settings_needing_restart:
 			self.needs_restart = True
 		config.app[section][setting] = value

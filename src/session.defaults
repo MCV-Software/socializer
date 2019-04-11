@@ -4,7 +4,7 @@ password = string(default="")
 token = string(default="")
 secret = string(default="")
 device_id = string(default="")
-use_alternative_tokens = boolean(default=False)
+use_alternative_tokens = boolean(default=True)
 invited_to_group = boolean(default=False)
 
 [general]

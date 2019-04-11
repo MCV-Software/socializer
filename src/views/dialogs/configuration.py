@@ -4,9 +4,14 @@ import wx
 import widgetUtils
 
 class general(wx.Panel, widgetUtils.BaseDialog):
-	def __init__(self, panel):
+	def __init__(self, panel, languages):
 		super(general, self).__init__(panel)
 		sizer = wx.BoxSizer(wx.VERTICAL)
+		langBox = wx.StaticBoxSizer(parent=self, orient=wx.HORIZONTAL, label=_("Language"))
+		self.language = wx.ListBox(langBox.GetStaticBox(), wx.NewId(), choices=languages)
+		self.language.SetSize(self.language.GetBestSize())
+		langBox.Add(self.language, 0, wx.ALL, 5)
+		sizer.Add(langBox, 0, wx.ALL, 5)
 		lbl1 = wx.StaticText(self, wx.NewId(), _("Number of items to load for newsfeed and wall buffers (maximun 100)"))
 		self.wall_buffer_count = wx.SpinCtrl(self, wx.NewId())
 		self.wall_buffer_count.SetRange(1, 100)
@@ -115,8 +120,8 @@ class configurationDialog(widgetUtils.BaseDialog):
 		self.sizer = wx.BoxSizer(wx.VERTICAL)
 		self.notebook = wx.Notebook(self.panel)
 
-	def create_general(self):
-		self.general = general(self.notebook)
+	def create_general(self, languages):
+		self.general = general(self.notebook, languages)
 		self.notebook.AddPage(self.general, _("General"))
 		self.general.SetFocus()
 
