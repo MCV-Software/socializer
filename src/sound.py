@@ -17,8 +17,8 @@ from sound_lib import output, input
 
 log = logging.getLogger("sound")
 
-def recode_audio(filename, quality=4.5):
-	subprocess.call(r'"%s" -q %r "%s"' % (os.path.join(paths.app_path(), 'oggenc2.exe'), quality, filename))
+def recode_audio(filename, quality=10):
+	subprocess.call(r'"%s" --downmix -q %r "%s"' % (os.path.join(paths.app_path(), 'oggenc2.exe'), quality, filename))
 
 def get_recording(filename):
 # try:
