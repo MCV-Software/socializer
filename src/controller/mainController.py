@@ -754,20 +754,10 @@ class Controller(object):
 				self.search("me_audio").play_all()
 
 	def menu_play_next(self, *args, **kwargs):
-		return player.player.play_next()
-#		b = self.get_current_buffer()
-#		if hasattr(b, "play_next"):
-#			b.play_next()
-#		else:
-#			self.search("me_audio").play_next()
+		pub.sendMessage("play-next")
 
 	def menu_play_previous(self, *args, **kwargs):
-		return player.player.play_previous()
-#		b = self.get_current_buffer()
-#		if hasattr(b, "play_previous"):
-#			b.play_previous()
-#		else:
-#			self.search("me_audio").play_previous()
+		pub.sendMessage("play-previous")
 
 	def menu_play_all(self, *args, **kwargs):
 		b = self.get_current_buffer()

@@ -13,6 +13,7 @@ from sound_lib.stream import URLStream
 from sound_lib.main import BassError
 from pubsub import pub
 from mysc.repeating_timer import RepeatingTimer
+from mysc.thread_utils import call_threaded
 
 player = None
 log = logging.getLogger("player")
@@ -49,8 +50,8 @@ class audioPlayer(object):
 		pub.subscribe(self.play_all, "play-all")
 		pub.subscribe(self.pause, "pause")
 		pub.subscribe(self.stop, "stop")
-		pub.subscribe(self.play_next, "play_next")
-		pub.subscribe(self.play_previous, "play_previous")
+		pub.subscribe(self.play_next, "play-next")
+		pub.subscribe(self.play_previous, "play-previous")
 
 	def play(self, object, set_info=True, fresh=False):
 		""" Play an URl Stream.
@@ -132,13 +133,15 @@ class audioPlayer(object):
 		""" Play all passed songs and adds all of those to the queue.
 		@list_of_songs list: A list of audio objects returned by VK.
 		@shuffle bool: If True, the files will be played randomly."""
+		if self.is_working:
+			return
 		self.playing_track = 0
 		self.stop()
 		# Skip all country restricted tracks as they are not playable here.
 		self.queue = [i for i in list_of_songs if i["url"] != ""]
 		if shuffle:
 			random.shuffle(self.queue)
-		self.play(self.queue[self.playing_track])
+		call_threaded(self.play, self.queue[self.playing_track])
 		self.worker = RepeatingTimer(5, self.player_function)
 		self.worker.start()
 
@@ -156,21 +159,25 @@ class audioPlayer(object):
 		""" Play the next song in the queue. """
 		if len(self.queue) == 0:
 			return
+		if self.is_working:
+			return
 		if self.playing_track < len(self.queue)-1:
 			self.playing_track += 1
 		else:
 			self.playing_track = 0
-		self.play(self.queue[self.playing_track])
+		call_threaded(self.play, self.queue[self.playing_track])
 
 	def play_previous(self):
 		""" Play the previous song in the queue. """
 		if len(self.queue) == 0:
 			return
+		if self.is_working:
+			return
 		if self.playing_track <= 0:
 			self.playing_track = len(self.queue)-1
 		else:
 			self.playing_track -= 1
-		self.play(self.queue[self.playing_track])
+		call_threaded(self.play, self.queue[self.playing_track])
 
 	def check_is_playing(self):
 		""" check if the player is already playing a stream. """
