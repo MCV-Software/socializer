@@ -328,7 +328,7 @@ class baseBuffer(object):
 		if post == None:
 			return
 		if "type" in post and post["type"] == "audio":
-			pub.sendMessage("play-audio", object=post["audio"]["items"][0])
+			pub.sendMessage("play", object=post["audio"]["items"][0])
 			return True
 
 	def open_person_profile(self, *args, **kwargs):
@@ -601,7 +601,7 @@ class audioBuffer(feedBuffer):
 		selected = self.tab.list.get_selected()
 		if selected == -1:
 			selected = 0
-		pub.sendMessage("play-audio", object=self.session.db[self.name]["items"][selected])
+		pub.sendMessage("play", object=self.session.db[self.name]["items"][selected])
 		return True
 
 	def play_next(self, *args, **kwargs):
@@ -637,7 +637,7 @@ class audioBuffer(feedBuffer):
 		if self.name not in self.session.db:
 			return
 		audios = [i for i in self.session.db[self.name]["items"][selected:]]
-		pub.sendMessage("play-audios", audios=audios)
+		pub.sendMessage("play-all", list_of_songs=audios)
 		return True
 
 	def remove_buffer(self, mandatory=False):

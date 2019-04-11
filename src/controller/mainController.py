@@ -283,8 +283,6 @@ class Controller(object):
 		log.debug("Connecting events to responses...")
 		pub.subscribe(self.in_post, "posted")
 		pub.subscribe(self.download, "download-file")
-		pub.subscribe(self.play_audio, "play-audio")
-		pub.subscribe(self.play_audios, "play-audios")
 		pub.subscribe(self.view_post, "open-post")
 		pub.subscribe(self.update_status_bar, "update-status-bar")
 		pub.subscribe(self.chat_from_id, "new-chat")
@@ -303,9 +301,7 @@ class Controller(object):
 		log.debug("Disconnecting some events...")
 		pub.unsubscribe(self.in_post, "posted")
 		pub.unsubscribe(self.download, "download-file")
-		pub.unsubscribe(self.play_audio, "play-audio")
 		pub.unsubscribe(self.authorisation_failed, "authorisation-failed")
-		pub.unsubscribe(self.play_audios, "play-audios")
 		pub.unsubscribe(self.view_post, "open-post")
 		pub.unsubscribe(self.update_status_bar, "update-status-bar")
 		pub.unsubscribe(self.user_online, "user-online")
@@ -330,23 +326,6 @@ class Controller(object):
 		"""
 		log.debug("downloading %s URL to %s filename" % (url, filename,))
 		call_threaded(utils.download_file, url, filename, self.window)
-
-	def play_audio(self, audio_object):
-		""" Play an audio by using the local media player object.
-		@ audio_object dict: An audio representation returned by the VK API.
-		"""
-		# Restricted audios don't include an URL paramether.
-		# Restriction can be due to licensed content to unauthorized countries.
-		if "url" in audio_object and audio_object["url"] =="":
-			self.notify(message=_("This file could not be played because it is not allowed in your country"))
-			return
-		pub.sendMessage("play", object=audio_object, fresh=True)
-
-	def play_audios(self, audios):
-		""" Play all audios passed in alist, putting the audio in a queue of the media player.
-		@audios list: A list of Vk audio objects.
-		"""
-		pub.sendMessage("play_all", list_of_songs=audios, shuffle=self.window.player_shuffle.IsChecked())
 
 	def view_post(self, post_object, controller_):
 		""" Display the passed post in the passed post presenter.

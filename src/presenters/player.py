@@ -46,7 +46,7 @@ class audioPlayer(object):
 		# Set timeout connection to 30 seconds.
 		bassconfig["net_timeout"] = 30000
 		pub.subscribe(self.play, "play")
-		pub.subscribe(self.play_all, "play_all")
+		pub.subscribe(self.play_all, "play-all")
 		pub.subscribe(self.pause, "pause")
 		pub.subscribe(self.stop, "stop")
 		pub.subscribe(self.play_next, "play_next")
@@ -57,6 +57,9 @@ class audioPlayer(object):
 		@object dict: typically an audio object as returned by VK, with a "url" component which must be a valid URL to a media file.
 		@set_info bool: If true, will set information about the currently playing audio in the application status bar.
 		@fresh bool: If True, will remove everything playing in the queue and start this file only. otherwise it will play the new file but not remove the current queue."""
+		if "url" in object and object["url"] =="":
+			pub.sendMessage("notify", message=_("This file could not be played because it is not allowed in your country"))
+			return
 		if self.stream != None and self.stream.is_playing == True:
 			try:
 				self.stream.stop()

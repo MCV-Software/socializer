@@ -763,7 +763,7 @@ class displayAudioPresenter(base.basePresenter):
 
 	def play(self, audio_index):
 		post = self.post[audio_index]
-		pub.sendMessage("play-audio", audio_object=post)
+		pub.sendMessage("play", object=post)
 
 	def load_audios(self):
 		audios = []
