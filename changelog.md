@@ -5,8 +5,9 @@
 * All spelling dictionaries are included by default for the following languages: Russian, English, German, French, italian, Polish, spanish and Turkish. Before, some dictionaries were missing and the spelling checker was failing.
 * Improvements in the audio player module:
     * When modifying volume of the playing audio, it will decrease or increase the volume by 2% instead of 5%. 
-    * For users with multiple soundcards, there is a new tab in the preferences dialogue of Socializer, called sound. From there, you can define what soundcard will be used for input and output.
+    * For users with multiple soundcards, there is a new tab in the preferences dialogue of Socializer, called sound. From there, you can define which soundcard will be used for input and output.
 * it is possible to select the language used in socializer from the preferences dialog. When changing the language, the application must be restarted for the changes to take effect.
+* A new option, called open in vk.com, has been added in the context menu for almost all objects (items in home timeline, walls, documents, people, group topics and in buffers for conversations). This option will open the selected item in the VK website.
 * Improvements in conversation buffers:
     * it is possible to retrieve more items for conversation buffers. Due to API limitations, it is possible to load up to the last 600 messages for every conversation. Take into account that the process of loading more items takes some time. You will hear a message when the process is done.
     * It is possible to delete entire conversations from the buffer's tree, by using the menu key and selecting "delete conversation". The conversation will be removed from VK.

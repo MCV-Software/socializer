@@ -224,10 +224,14 @@ class baseBuffer(object):
 			m.dislike.Enable(True)
 		if ("comments" in p) == False:
 			m.comment.Enable(False)
+		m.open_in_browser.Enable(False)
+		if "type" in p and p["type"] != "friend" and p["type"] != "audio" and p["type"] != "video" and p["type"] != "playlist":
+			m.open_in_browser.Enable(True)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.open_post, menuitem=m.open)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.do_like, menuitem=m.like)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.do_dislike, menuitem=m.dislike)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.do_comment, menuitem=m.comment)
+		widgetUtils.connect_event(m, widgetUtils.MENU, self.open_in_browser, menuitem=m.open_in_browser)
 		if hasattr(m, "view_profile"):
 			widgetUtils.connect_event(m, widgetUtils.MENU, self.open_person_profile, menuitem=m.view_profile)
 		if hasattr(m, "delete"):
@@ -383,6 +387,13 @@ class baseBuffer(object):
 		created_at = original_date.humanize(locale=languageHandler.curLang[:2])
 		self.tab.list.list.SetItem(self.tab.list.get_selected(), 2, created_at)
 
+	def open_in_browser(self, *args, **kwargs):
+		post = self.get_post()
+		if post == None:
+			return
+		url = "https://vk.com/wall{user_id}_{post_id}".format(user_id=post["source_id"], post_id=post["post_id"])
+		webbrowser.open_new_tab(url)
+
 class feedBuffer(baseBuffer):
 	""" This buffer represents an user's wall. It may be used either for the current user or someone else."""
 
@@ -458,6 +469,13 @@ class feedBuffer(baseBuffer):
 		if hasattr(p, "text") or hasattr(p, "privacy"):
 			call_threaded(self.do_last, p=p, owner_id=owner_id)
 
+	def open_in_browser(self, *args, **kwargs):
+		post = self.get_post()
+		if post == None:
+			return
+		url = "https://vk.com/wall{user_id}_{post_id}".format(user_id=post["from_id"], post_id=post["id"])
+		webbrowser.open_new_tab(url)
+
 class communityBuffer(feedBuffer):
 
 	def create_tab(self, parent):
@@ -504,6 +522,16 @@ class topicBuffer(feedBuffer):
 			return
 		a = presenters.displayTopicPresenter(session=self.session, postObject=post, group_id=self.kwargs["group_id"], interactor=interactors.displayPostInteractor(), view=views.displayTopic())
 
+	def open_in_browser(self, *args, **kwargs):
+		post = self.get_post()
+		if post == None:
+			return
+		# In order to load the selected topic we firstly have to catch the group_id, which is present in self.kwargs
+		# After getting the group_id we should make it negative
+		group_id = self.kwargs["group_id"]*-1
+		url = "https://vk.com/topic{group_id}_{topic_id}".format(group_id=group_id, topic_id=post["id"])
+		webbrowser.open_new_tab(url)
+
 class documentBuffer(feedBuffer):
 	can_get_items = False
 
@@ -545,6 +573,7 @@ class documentBuffer(feedBuffer):
 		m = menus.documentMenu(added)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.add_remove_document, menuitem=m.action)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.download, menuitem=m.download)
+		widgetUtils.connect_event(m, widgetUtils.MENU, self.open_in_browser, menuitem=m.open_in_browser)
 		return m
 
 	def add_remove_document(self, *args, **kwargs):
@@ -570,6 +599,13 @@ class documentBuffer(feedBuffer):
 		filepath = self.tab.get_download_path(filename)
 		if filepath != None:
 			pub.sendMessage("download-file", url=post["url"], filename=filepath)
+
+	def open_in_browser(self, *args, **kwargs):
+		post = self.get_post()
+		if post == None:
+			return
+		url = "https://vk.com/doc{user_id}_{post_id}".format(user_id=post["owner_id"], post_id=post["id"])
+		webbrowser.open_new_tab(url)
 
 class documentCommunityBuffer(documentBuffer):
 	can_get_items = True
@@ -734,6 +770,13 @@ class audioBuffer(feedBuffer):
 		uploader = upload.VkUpload(self.session.vk.session_object)
 		call_threaded(uploader.audio, file, title=title, artist=artist)
 
+	def open_in_browser(self, *args, **kwargs):
+		post = self.get_post()
+		if post == None:
+			return
+		url = "https://vk.com/audio{user_id}_{post_id}".format(user_id=post["owner_id"], post_id=post["id"])
+		webbrowser.open_new_tab(url)
+
 class audioAlbum(audioBuffer):
 	""" this buffer was supposed to be used with audio albums
 	but is deprecated as VK removed its audio support for third party apps."""
@@ -856,8 +899,6 @@ class videoBuffer(feedBuffer):
 		if p == None:
 			return
 		m = menus.audioMenu()
-#		widgetUtils.connect_event(m, widgetUtils.MENU, self.open_post, menuitem=m.open)
-#		widgetUtils.connect_event(m, widgetUtils.MENU, self.play_audio, menuitem=m.play)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.move_to_album, menuitem=m.move)
 		# if owner_id is the current user, the audio is added to the user's audios.
 		if p["owner_id"] == self.session.user_id:
@@ -866,6 +907,13 @@ class videoBuffer(feedBuffer):
 		else:
 			widgetUtils.connect_event(m, widgetUtils.MENU, self.add_to_library, menuitem=m.library)
 		return m
+
+	def open_in_browser(self, *args, **kwargs):
+		post = self.get_post()
+		if post == None:
+			return
+		url = "https://vk.com/video{user_id}_{video_id}".format(user_id=post["owner_id"], video_id=post["id"])
+		webbrowser.open_new_tab(url)
 
 class videoAlbum(videoBuffer):
 
@@ -1188,6 +1236,11 @@ class chatBuffer(baseBuffer):
 		else:
 			return False
 
+	def open_in_browser(self, *args, **kwargs):
+		peer_id = self.kwargs["peer_id"]
+		url = "https://vk.com/im?sel={peer_id}".format(peer_id=peer_id)
+		webbrowser.open_new_tab(url)
+
 class peopleBuffer(feedBuffer):
 
 	def create_tab(self, parent):
@@ -1243,12 +1296,13 @@ class peopleBuffer(feedBuffer):
 		else:
 			m = menus.peopleMenu(is_request=False)
 			widgetUtils.connect_event(m, widgetUtils.MENU, self.decline_friendship, menuitem=m.decline)
-		# It is not allowed to send messages to people who is not your friends, so let's disable it if we're in a pending or outgoing requests folder.
+		# It is not allowed to send messages to people who is not your friends, so let's disable it if we're in a pending or outgoing requests buffer.
 		if "friend_requests" in self.name:
 			m.message.Enable(False)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.new_chat, menuitem=m.message)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.open_timeline, menuitem=m.timeline)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.open_person_profile, menuitem=m.view_profile)
+		widgetUtils.connect_event(m, widgetUtils.MENU, self.open_in_browser, menuitem=m.open_in_browser)
 		return m
 
 	def open_post(self, *args, **kwargs): pass
@@ -1337,6 +1391,13 @@ class peopleBuffer(feedBuffer):
 			else:
 				log.exception("Removing an user from online status manually... %r" % (i))
 				self.remove_person(i["id"])
+
+	def open_in_browser(self, *args, **kwargs):
+		post = self.get_post()
+		if post == None:
+			return
+		url = "https://vk.com/id{user_id}".format(user_id=post["id"])
+		webbrowser.open_new_tab(url)
 
 class requestsBuffer(peopleBuffer):
 

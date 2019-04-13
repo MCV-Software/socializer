@@ -862,7 +862,7 @@ class Controller(object):
 		elif current_buffer.name.endswith("_messages"):
 			menu = menus.conversationBufferMenu()
 			widgetUtils.connect_event(menu, widgetUtils.MENU, self.delete_conversation, menuitem=menu.delete)
-
+			widgetUtils.connect_event(menu, widgetUtils.MENU, current_buffer.open_in_browser, menuitem=menu.open_in_browser)
 		if menu != None:
 			self.window.PopupMenu(menu, self.window.FindFocus().GetPosition())
 		# If there are no available menus, let's indicate it.
