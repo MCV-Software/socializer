@@ -327,12 +327,12 @@ class Controller(object):
 		log.debug("downloading %s URL to %s filename" % (url, filename,))
 		call_threaded(utils.download_file, url, filename, self.window)
 
-	def view_post(self, post_object, controller_):
+	def view_post(self, post_object, controller_, vars=dict()):
 		""" Display the passed post in the passed post presenter.
 		@ post_object dict: A post representation returned by the VK api. The fields present in this dict are different depending on the presenter used to render it.
 		@controller_ string: Name of the post controller, this name will be used for calling interactors, views and presenters. For example, displayPost, displayAudio, etc.
 		"""
-		p = getattr(presenters, controller_+"Presenter")(session=self.session, postObject=post_object, interactor=getattr(interactors, controller_+"Interactor")(), view=getattr(views, controller_)())
+		p = getattr(presenters, controller_+"Presenter")(session=self.session, postObject=post_object, interactor=getattr(interactors, controller_+"Interactor")(), view=getattr(views, controller_)(), **vars)
 
 	def update_status_bar(self, status):
 		""" Update the status bar present in the main Window.

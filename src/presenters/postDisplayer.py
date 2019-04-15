@@ -417,6 +417,14 @@ class displayPostPresenter(base.basePresenter):
 		self.send_message("clean_list", list="comments")
 		self.get_comments()
 
+	def show_likes(self):
+		""" show likes for the specified post."""
+		data = dict(type="post", owner_id=self.post[self.user_identifier], item_id=self.post["id"], extended=True, count=1000, skip_own=True)
+		result = self.session.vk.client.likes.getList(**data)
+		if result["count"] > 0:
+			post = {"source_id": self.post[self.user_identifier], "friends": {"items": result["items"]}}
+			pub.sendMessage("open-post", post_object=post, controller_="displayFriendship", vars=dict(caption=_("people who liked this")))
+
 class displayCommentPresenter(displayPostPresenter):
 
 	def __init__(self, session, postObject, view, interactor):
@@ -780,7 +788,7 @@ class displayAudioPresenter(base.basePresenter):
 
 class displayFriendshipPresenter(base.basePresenter):
 
-	def __init__(self, session, postObject, view, interactor, caption=_("{user1_nom} added the following friends")):
+	def __init__(self, session, postObject, view, interactor, caption=""):
 		self.session = session
 		self.post = postObject
 		super(displayFriendshipPresenter, self).__init__(view=view, interactor=interactor, modulename="display_friendship")
@@ -793,16 +801,30 @@ class displayFriendshipPresenter(base.basePresenter):
 
 	def get_friend_names(self):
 		self.friends = self.post["friends"]["items"]
-		return [self.session.get_user(i["user_id"])["user1_nom"] for i in self.friends]
+		friends = list()
+		for i in self.friends:
+			if "user_id" in i:
+				friends.append(self.session.get_user(i["user_id"])["user1_nom"])
+			else:
+				friends.append(self.session.get_user(i["id"])["user1_nom"])
+		return friends
 
 	def set_friends_list(self, friendslist):
 		self.send_message("add_items", control="friends", items=friendslist)
 
 	def view_profile(self, item):
 		user = self.friends[item]
-		pub.sendMessage("user-profile", person=user["user_id"])
+		if "user_id" in user:
+			id = user["user_id"]
+		else:
+			id = user["id"]
+		pub.sendMessage("user-profile", person=id)
 
 	def open_in_browser(self, item):
 		user = self.friends[item]
-		url = "https://vk.com/id{user_id}".format(user_id=user["user_id"])
+		if "user_id" in user:
+			id = user["user_id"]
+		else:
+			id = user["id"]
+		url = "https://vk.com/id{user_id}".format(user_id=id)
 		webbrowser.open_new_tab(url)

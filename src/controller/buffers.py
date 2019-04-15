@@ -355,7 +355,7 @@ class baseBuffer(object):
 		if "type" in post and post["type"] == "audio":
 			a = presenters.displayAudioPresenter(session=self.session, postObject=post["audio"]["items"], interactor=interactors.displayAudioInteractor(), view=views.displayAudio())
 		elif "type" in post and post["type"] == "friend":
-			pub.sendMessage("open-post", post_object=post, controller_="displayFriendship")
+			pub.sendMessage("open-post", post_object=post, controller_="displayFriendship", vars=dict(caption=_("{user1_nom} added the following friends")))
 		else:
 			pub.sendMessage("open-post", post_object=post, controller_="displayPost")
 
