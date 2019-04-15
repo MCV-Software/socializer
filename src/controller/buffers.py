@@ -225,7 +225,7 @@ class baseBuffer(object):
 		if ("comments" in p) == False:
 			m.comment.Enable(False)
 		m.open_in_browser.Enable(False)
-		if "type" in p and p["type"] != "friend" and p["type"] != "audio" and p["type"] != "video" and p["type"] != "playlist":
+		if "type" in p and p["type"] != "friend" and p["type"] != "audio" and p["type"] != "video" and p["type"] != "playlist" or self.name != "home_timeline":
 			m.open_in_browser.Enable(True)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.open_post, menuitem=m.open)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.do_like, menuitem=m.like)
@@ -524,6 +524,7 @@ class topicBuffer(feedBuffer):
 
 	def open_in_browser(self, *args, **kwargs):
 		post = self.get_post()
+		print(post)
 		if post == None:
 			return
 		# In order to load the selected topic we firstly have to catch the group_id, which is present in self.kwargs
