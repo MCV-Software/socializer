@@ -224,11 +224,30 @@ class displayFriendshipInteractor(base.baseInteractor):
 		for i in items:
 			getattr(self.view, control).insert_item(False, *[i])
 
-
 	def install(self, *args, **kwargs):
 		super(displayFriendshipInteractor, self).install(*args, **kwargs)
 		pub.subscribe(self.add_items, self.modulename+"_add_items")
+		self.view.friends.list.Bind(wx.EVT_CONTEXT_MENU, self.on_context_menu)
 
 	def uninstall(self):
 		super(displayFriendshipInteractor, self).uninstall()
 		pub.unsubscribe(self.add_items, self.modulename+"_add_items")
+
+	def on_context_menu(self, *args, **kwargs):
+		item = self.view.friends.get_selected()
+		if item < 0:
+			return
+		menu = menus.peopleMenu(False, False, True)
+		widgetUtils.connect_event(menu, widgetUtils.MENU, self.on_view_profile, menuitem=menu.view_profile)
+		widgetUtils.connect_event(menu, widgetUtils.MENU, self.on_open_in_browser, menuitem=menu.open_in_browser)
+		# Generally message sending is blocked.
+		menu.message.Enable(False)
+		self.view.PopupMenu(menu, self.view.friends.list.GetPosition())
+
+	def on_view_profile(self, *args, **kwargs):
+		item = self.view.friends.get_selected()
+		self.presenter.view_profile(item)
+
+	def on_open_in_browser(self, *args, **kwargs):
+		item = self.view.friends.get_selected()
+		self.presenter.open_in_browser(item)

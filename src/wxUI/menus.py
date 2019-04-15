@@ -32,7 +32,7 @@ class audioMenu(wx.Menu):
 #		self.open_in_browser = self.Append(wx.NewId(), _("Open in vk.com"))
 
 class peopleMenu(wx.Menu):
-	def __init__(self, is_request=False, is_subscriber=False, *args, **kwargs):
+	def __init__(self, is_request=False, is_subscriber=False, not_friend=False, *args, **kwargs):
 		super(peopleMenu, self).__init__(*args, **kwargs)
 		if is_request:
 			self.create_request_items()
@@ -41,8 +41,9 @@ class peopleMenu(wx.Menu):
 		self.view_profile = self.Append(wx.NewId(), _("View profile"))
 		self.message = self.Append(wx.NewId(), _("Send a message"))
 		self.timeline = self.Append(wx.NewId(), _("Open timeline"))
-		self.common_friends = self.Append(wx.NewId(), _("View friends in common"))
-		if is_request == False and is_subscriber == False:
+		if not_friend == False:
+			self.common_friends = self.Append(wx.NewId(), _("View friends in common"))
+		if is_request == False and is_subscriber == False and not_friend == False:
 			self.decline = self.Append(wx.NewId(), _("Remove from friends"))
 		self.open_in_browser = self.Append(wx.NewId(), _("Open in vk.com"))
 

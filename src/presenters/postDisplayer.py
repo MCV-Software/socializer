@@ -780,13 +780,13 @@ class displayAudioPresenter(base.basePresenter):
 
 class displayFriendshipPresenter(base.basePresenter):
 
-	def __init__(self, session, postObject, view, interactor):
+	def __init__(self, session, postObject, view, interactor, caption=_("{user1_nom} added the following friends")):
 		self.session = session
 		self.post = postObject
 		super(displayFriendshipPresenter, self).__init__(view=view, interactor=interactor, modulename="display_friendship")
 		list_of_friends = self.get_friend_names()
 		from_ = self.session.get_user(self.post["source_id"])
-		title = _("{user1_nom} added the following friends").format(**from_)
+		title = caption.format(**from_)
 		self.send_message("set_title", value=title)
 		self.set_friends_list(list_of_friends)
 		self.run()
@@ -797,3 +797,12 @@ class displayFriendshipPresenter(base.basePresenter):
 
 	def set_friends_list(self, friendslist):
 		self.send_message("add_items", control="friends", items=friendslist)
+
+	def view_profile(self, item):
+		user = self.friends[item]
+		pub.sendMessage("user-profile", person=user["user_id"])
+
+	def open_in_browser(self, item):
+		user = self.friends[item]
+		url = "https://vk.com/id{user_id}".format(user_id=user["user_id"])
+		webbrowser.open_new_tab(url)
