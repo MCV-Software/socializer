@@ -73,3 +73,15 @@ def clean_text(text):
 	text = detect_users(text)
 	text = html.unescape(text)
 	return text
+
+def transform_audio_url(url):
+	""" Transforms the URL offered by VK to the unencrypted stream so we can still play it. """
+	if "vkuseraudio.net" not in url and "index.m3u8" not in url:
+		return url
+	url = url.replace("/index.m3u8", ".mp3")
+	parts = url.split("/")
+	if "/audio" not in url:
+		url = url.replace("/"+parts[-2], "")
+	else:
+		url = url.replace("/"+parts[-3], "")
+	return url

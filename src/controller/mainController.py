@@ -324,6 +324,7 @@ class Controller(object):
 		@ filename: the current path to where the file will be saved.
 		The dowwload progress will be displayed in the status bar on the window.
 		"""
+		url = utils.transform_audio_url(url)
 		log.debug("downloading %s URL to %s filename" % (url, filename,))
 		call_threaded(utils.download_file, url, filename, self.window)
 

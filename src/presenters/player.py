@@ -14,6 +14,7 @@ from sound_lib.main import BassError
 from pubsub import pub
 from mysc.repeating_timer import RepeatingTimer
 from mysc.thread_utils import call_threaded
+from sessionmanager import utils
 
 player = None
 log = logging.getLogger("player")
@@ -76,10 +77,11 @@ class audioPlayer(object):
 		if self.is_working == False:
 			self.is_working = True
 			# Let's encode the URL as bytes if on Python 3
-			url_ = bytes(object["url"], "utf-8")
+			url_ = utils.transform_audio_url(object["url"])
+			url_ = bytes(url_, "utf-8")
 			try:
 				self.stream = URLStream(url=url_)
-			except IndexError:
+			except:
 				log.error("Unable to play URL %s" % (url_))
 				return
 			# Translators: {0} will be replaced with a song's title and {1} with the artist.
@@ -187,4 +189,3 @@ class audioPlayer(object):
 			return False
 		else:
 			return True
-

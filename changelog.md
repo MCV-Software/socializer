@@ -18,6 +18,7 @@
 
 ### Changes
 
+* Updated method for accessing audio files due to the latest changes on VK apps.
 * When changing volume of the playing audio, it will decrease or increase the volume by 2% instead of 5%. 
 * Read confirmations will be sent to VK as soon as you read the message. Before, read confirmations were being sent every 3 minutes to the social network.
 
