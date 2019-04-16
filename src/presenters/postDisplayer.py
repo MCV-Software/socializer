@@ -425,6 +425,13 @@ class displayPostPresenter(base.basePresenter):
 			post = {"source_id": self.post[self.user_identifier], "friends": {"items": result["items"]}}
 			pub.sendMessage("open-post", post_object=post, controller_="displayFriendship", vars=dict(caption=_("people who liked this")))
 
+	def show_shares(self):
+		data = dict(type="post", owner_id=self.post[self.user_identifier], item_id=self.post["id"], extended=True, count=1000, skip_own=True, filter="copies")
+		result = self.session.vk.client.likes.getList(**data)
+		if result["count"] > 0:
+			post = {"source_id": self.post[self.user_identifier], "friends": {"items": result["items"]}}
+			pub.sendMessage("open-post", post_object=post, controller_="displayFriendship", vars=dict(caption=_("people who shared this")))
+
 class displayCommentPresenter(displayPostPresenter):
 
 	def __init__(self, session, postObject, view, interactor):

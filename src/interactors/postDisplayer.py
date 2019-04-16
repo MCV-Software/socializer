@@ -52,6 +52,8 @@ class displayPostInteractor(base.baseInteractor):
 		widgetUtils.connect_event(self.view.tools, widgetUtils.BUTTON_PRESSED, self.on_show_tools_menu)
 		if hasattr(self.view, "likes"):
 			widgetUtils.connect_event(self.view.likes, widgetUtils.BUTTON_PRESSED, self.on_show_likes_menu)
+		if hasattr(self.view, "shares"):
+			widgetUtils.connect_event(self.view.shares, widgetUtils.BUTTON_PRESSED, self.on_show_shares_menu)
 		if hasattr(self.view, "repost"):
 			widgetUtils.connect_event(self.view.repost, widgetUtils.BUTTON_PRESSED, self.on_repost)
 			self.view.comments.list.Bind(wx.EVT_LIST_ITEM_FOCUSED, self.on_focus)
@@ -138,6 +140,9 @@ class displayPostInteractor(base.baseInteractor):
 
 	def on_show_likes_menu(self, *args, **kwargs):
 		self.presenter.show_likes()
+
+	def on_show_shares_menu(self, *args, **kwargs):
+		self.presenter.show_shares()
 
 class displayAudioInteractor(base.baseInteractor):
 
