@@ -7,8 +7,8 @@ import output
 from logging import getLogger
 from pubsub import pub
 from extra import SpellChecker, translator
-from .import attach
-from .import base
+from presenters import attach
+from presenters import base
 
 log = getLogger("controller.message")
 

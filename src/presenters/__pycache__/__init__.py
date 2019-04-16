@@ -13,7 +13,7 @@
 """
 from .attach import *
 from .audioRecorder import *
-from .createPosts import *
-from .displayPosts import *
+from .postCreation import *
+from .postDisplayer import *
 from .configuration import *
 from .profiles import *
