@@ -542,6 +542,8 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_play_next, menuitem=self.window.player_next)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_play_previous, menuitem=self.window.player_previous)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_play_all, menuitem=self.window.player_play_all)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.seek_left, menuitem=self.window.player_seek_left)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.seek_right, menuitem=self.window.player_seek_right)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_volume_down, menuitem=self.window.player_volume_down)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_volume_up, menuitem=self.window.player_volume_up)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.menu_mute, menuitem=self.window.player_mute)
@@ -775,6 +777,12 @@ class Controller(object):
 
 	def menu_mute(self, *args, **kwargs):
 		player.player.volume = 0
+
+	def seek_left(self, *args, **kwargs):
+		pub.sendMessage("seek", ms=-500000)
+
+	def seek_right(self, *args, **kwargs):
+		pub.sendMessage("seek", ms=500000)
 
 	def view_my_profile(self, *args, **kwargs):
 		self.user_profile(self.session.user_id)

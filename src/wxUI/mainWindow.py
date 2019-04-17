@@ -41,6 +41,8 @@ class mainWindow(wx.Frame):
 		self.player_previous = player.Append(wx.NewId(), _("Previous"))
 		self.player_next = player.Append(wx.NewId(), _("Next"))
 		self.player_shuffle = player.AppendCheckItem(wx.NewId(), _("Shuffle"))
+		self.player_seek_left = player.Append(wx.NewId(), _("Seek backwards"))
+		self.player_seek_right = player.Append(wx.NewId(), _("Seek forwards"))
 		self.player_volume_up = player.Append(wx.NewId(), _("Volume up"))
 		self.player_volume_down = player.Append(wx.NewId(), _("Volume down"))
 		self.player_mute = player.Append(wx.NewId(), _("Mute"))
@@ -65,6 +67,8 @@ class mainWindow(wx.Frame):
 			# Translators: Keystroke used to play/pause the current item in the playback queue. Use the latin alphabet, but you can match a different key here. For example if you want to assign this to the key "П", use G.
 			(wx.ACCEL_CTRL, ord(_("P")), self.player_play.GetId()),
 			(wx.ACCEL_CTRL|wx.ACCEL_SHIFT, ord(_("P")), self.player_play_all.GetId()),
+			(wx.ACCEL_ALT|wx.ACCEL_SHIFT, wx.WXK_LEFT, self.player_seek_left.GetId()),
+			(wx.ACCEL_ALT|wx.ACCEL_SHIFT, wx.WXK_RIGHT, self.player_seek_right.GetId()),
 		])
 		self.SetAcceleratorTable(self.accel_tbl)
 

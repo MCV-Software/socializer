@@ -53,6 +53,7 @@ class audioPlayer(object):
 		pub.subscribe(self.stop, "stop")
 		pub.subscribe(self.play_next, "play-next")
 		pub.subscribe(self.play_previous, "play-previous")
+		pub.subscribe(self.seek, "seek")
 
 	def play(self, object, set_info=True, fresh=False):
 		""" Play an URl Stream.
@@ -180,6 +181,16 @@ class audioPlayer(object):
 		else:
 			self.playing_track -= 1
 		call_threaded(self.play, self.queue[self.playing_track])
+
+	def seek(self, ms=0):
+		if self.check_is_playing():
+			if self.stream.position < 500000 and ms < 0:
+				self.stream.position = 0
+			else:
+				try:
+					self.stream.position = self.stream.position+ms
+				except:
+					pass
 
 	def check_is_playing(self):
 		""" check if the player is already playing a stream. """

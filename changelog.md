@@ -5,6 +5,9 @@
 ### New additions
 
 * For users with multiple soundcards, there is a new tab in the preferences dialogue of Socializer, called sound. From there, you can define which soundcard will be used for input and output.
+* the audio player can seek positions in the currently playing track. You can use the menu items (located in the main menu) or use the new available keystrokes dedicated to the actions. Seeking will be made in 5 second intervals.
+    * Alt+Shift+Left arrow: Seek 5 seconds backwards.
+    * Alt+Shift+Right arrow: Seek 5 seconds forwards.
 * it is possible to select the language used in socializer from the preferences dialog. When changing the language, the application must be restarted for the changes to take effect.
 * A new option, called open in vk.com, has been added in the context menu for almost all objects (items in home timeline, walls, documents, people, group topics and in buffers for conversations). This option will open the selected item in the VK website.
 * when opening the list of friends added by an user, you can display the context menu from an item on the list and view the user profile, open it in VK.com, among other actions.
