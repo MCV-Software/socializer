@@ -1370,8 +1370,8 @@ class peopleBuffer(feedBuffer):
 					if focused_user["id"] == self.session.db[self.name]["items"][i]["id"]:
 						self.tab.list.select_item(i)
 						return
-			elif user == focused_user and user_index < len(self.tab.list.get_count()):
-				self.tab.list.select_item(user_index)
+			elif user == focused_user and person_index < self.tab.list.get_count():
+				self.tab.list.select_item(person_index)
 			else:
 				self.tab.list.select_item(self.tab.list.get_count()-1)
 
