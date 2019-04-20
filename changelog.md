@@ -4,14 +4,14 @@
 
 ### New additions
 
-* For users with multiple soundcards, there is a new tab in the preferences dialogue of Socializer, called sound. From there, you can define which soundcard will be used for input and output.
+* For users with multiple soundcards, there is a new tab in the preferences dialogue of Socializer, called sound. From there, you can define which soundcard will be used for input and output. [#25,](https://code.manuelcortez.net/manuelcortez/socializer/issues/25)
 * the audio player can seek positions in the currently playing track. You can use the menu items (located in the main menu) or use the new available keystrokes dedicated to the actions. Seeking will be made in 5 second intervals.
     * Alt+Shift+Left arrow: Seek 5 seconds backwards.
     * Alt+Shift+Right arrow: Seek 5 seconds forwards.
 * it is possible to select the language used in socializer from the preferences dialog. When changing the language, the application must be restarted for the changes to take effect.
 * A new option, called open in vk.com, has been added in the context menu for almost all objects (items in home timeline, walls, documents, people, group topics and in buffers for conversations). This option will open the selected item in the VK website.
-* when opening the list of friends added by an user, you can display the context menu from an item on the list and view the user profile, open it in VK.com, among other actions.
-* When displaying a post, if you press enter in the button indicating how many people liked or shared the post, Socializer will display the listt of people who have liked or shared it. You can use the context menu in the list to do certain actions.
+* when opening the list of friends added by an user, you can display the context menu from an item on the list and view the user profile, open it in VK.com, among other actions. [#8,](https://code.manuelcortez.net/manuelcortez/socializer/issues/8)
+* When displaying a post, if you press enter in the button indicating how many people liked or shared the post, Socializer will display the listt of people who have liked or shared it. You can use the context menu in the list to do certain actions. [#38,](https://code.manuelcortez.net/manuelcortez/socializer/issues/38)
 * it is possible to retrieve more items for conversation buffers. Due to API limitations, it is possible to load up to the last 600 messages for every conversation. Take into account that the process of loading more items takes some time. You will hear a message when the process is done.
 * It is possible to delete entire conversations from the buffer's tree, by using the menu key and selecting "delete conversation". The conversation will be removed from VK.
 
