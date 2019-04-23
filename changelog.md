@@ -20,6 +20,8 @@
 * All spelling dictionaries are included by default for the following languages: Russian, English, German, French, italian, Polish, spanish and Turkish. Before, some dictionaries were missing and the spelling checker was failing.
 * Fixed an error in the default configuration template used for new sessions in the application. This error was making Socializer to fail when loading any conversation buffer.
 * Fixed an error in the algorithm to detect friends disconnecting from VK. This problem was interrupting the connection with  the chat server every time it was happening, thus chat server's connection should be more reliable now.
+* The audio player should behave better in situations where a song is interrupted. Before, if you pressed "next song" while the currently playing sound was interrupted due to internet connection issues, two or more songs were played at the same time.
+* The bug reporting feature works normally again.
 
 ### Changes
 

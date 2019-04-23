@@ -63,7 +63,7 @@ class audioPlayer(object):
 		if "url" in object and object["url"] =="":
 			pub.sendMessage("notify", message=_("This file could not be played because it is not allowed in your country"))
 			return
-		if self.stream != None and (self.stream.is_playing == True or self.stream.is_stayed == True):
+		if self.stream != None and (self.stream.is_playing == True or self.stream.is_stalled == True):
 			try:
 				self.stream.stop()
 			except BassError:
@@ -196,7 +196,7 @@ class audioPlayer(object):
 		""" check if the player is already playing a stream. """
 		if self.stream == None:
 			return False
-		if self.stream != None and self.stream.is_playing == False and self.stream.is_stayed == False:
+		if self.stream != None and self.stream.is_playing == False and self.stream.is_stalled == False:
 			return False
 		else:
 			return True
