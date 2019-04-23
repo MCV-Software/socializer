@@ -221,6 +221,7 @@ class displayTopic(displayBasicPost):
 	def create_comments_list(self):
 		lbl = wx.StaticText(self.panel, -1, _("Posts"))
 		self.comments = widgetUtils.list(self.panel, _("User"), _("Comment"), _("Date"), _("Likes"), style=wx.LC_REPORT)
+		self.load_more_comments = wx.Button(self.panel, wx.NewId(), _("Load previous comments"))
 		self.reply = wx.Button(self.panel, -1, _("Reply"))
 		box = wx.BoxSizer(wx.HORIZONTAL)
 		box.Add(lbl, 0, wx.ALL, 5)

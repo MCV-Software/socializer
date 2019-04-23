@@ -14,6 +14,7 @@
 * When displaying a post, if you press enter in the button indicating how many people liked or shared the post, Socializer will display the listt of people who have liked or shared it. You can use the context menu in the list to do certain actions. [#38,](https://code.manuelcortez.net/manuelcortez/socializer/issues/38)
 * it is possible to retrieve more items for conversation buffers. Due to API limitations, it is possible to load up to the last 600 messages for every conversation. Take into account that the process of loading more items takes some time. You will hear a message when the process is done.
 * It is possible to delete entire conversations from the buffer's tree, by using the menu key and selecting "delete conversation". The conversation will be removed from VK.
+* When loading a topic in a group, socializer will display the latest 100 messages. In order to load more messages, you will find a button that will load the previous 100 messages present in the topic, or the amount of messages not loaded yet.
 
 ### bugfixes
 

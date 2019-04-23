@@ -51,10 +51,19 @@ class displayTopicPresenter(basePost.displayPostPresenter):
 
 	def get_comments(self):
 		""" Get comments and insert them in a list."""
-		self.comments = self.session.vk.client.board.getComments(group_id=self.group_id, topic_id=self.post["id"], need_likes=1, count=100, extended=1)
+		self.comments = self.session.vk.client.board.getComments(group_id=self.group_id, topic_id=self.post["id"], need_likes=1, count=100, extended=1, sort="desc")
 		comments_ = []
 		data = dict(profiles=self.comments["profiles"], groups=[])
 		self.session.process_usernames(data)
+		self.comments["items"].reverse()
+		# If there are less than 100 comments in the topic we should disable the "load previous" button.
+		if self.comments["count"] <= 100:
+			self.send_message("disable_control", control="load_more_comments")
+		else:
+			left_comments = self.comments["count"]-len(self.comments["items"])
+			if left_comments > 100:
+				left_comments = 100
+			self.send_message("set_label", control="load_more_comments", label=_("Load {comments} previous comments").format(comments=left_comments))
 		for i in self.comments["items"]:
 			# If comment has a "deleted" key it should not be displayed, obviously.
 			if "deleted" in i:
@@ -135,3 +144,30 @@ class displayTopicPresenter(basePost.displayPostPresenter):
 		c = self.comments["items"][comment_index]
 		c["post_id"] = self.post["id"]
 		a = displayTopicCommentPresenter(session=self.session, postObject=c, interactor=interactors.displayPostInteractor(), view=views.displayComment())
+
+	def load_more_comments(self):
+		offset = len(self.comments["items"])
+		comments = self.session.vk.client.board.getComments(group_id=self.group_id, topic_id=self.post["id"], need_likes=1, count=100, extended=1, sort="desc", offset=offset)
+		data = dict(profiles=comments["profiles"], groups=[])
+		self.session.process_usernames(data)
+		# If there are less than 100 comments in the topic we should disable the "load previous" button.
+		for i in comments["items"]:
+			self.comments["items"].insert(0, i)
+		for i in comments["items"]:
+			# If comment has a "deleted" key it should not be displayed, obviously.
+			if "deleted" in i:
+				continue
+			from_ = self.session.get_user(i["from_id"])["user1_nom"]
+			# match user mentions inside text comment.
+			original_date = arrow.get(i["date"])
+			created_at = original_date.humanize(locale=languageHandler.curLang[:2])
+			likes = str(i["likes"]["count"])
+			text = utils.clean_text(text=i["text"])
+			self.send_message("add_item", control="comments", item=(from_, text, created_at, likes), reversed=True)
+		if len(self.comments["items"]) == self.comments["count"]:
+			self.send_message("disable_control", control="load_more_comments")
+		else:
+			left_comments = self.comments["count"]-len(self.comments["items"])
+			if left_comments > 100:
+				left_comments = 100
+			self.send_message("set_label", control="load_more_comments", label=_("Load {comments} previous comments").format(comments=left_comments))

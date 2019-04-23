@@ -29,6 +29,11 @@ class displayPostInteractor(base.baseInteractor):
 		for i in items:
 			getattr(self.view, control).insert_item(False, *i)
 
+	def add_item(self, control, item, reversed=False):
+		if not hasattr(self.view, control):
+			raise AttributeError("The control is not present in the view.")
+		getattr(self.view, control).insert_item(reversed, *item)
+
 	def enable_attachments(self):
 		self.view.attachments.list.Enable(True)
 
@@ -59,11 +64,14 @@ class displayPostInteractor(base.baseInteractor):
 			self.view.comments.list.Bind(wx.EVT_LIST_ITEM_FOCUSED, self.on_focus)
 		if hasattr(self.view, "reply"):
 			widgetUtils.connect_event(self.view.reply, widgetUtils.BUTTON_PRESSED, self.on_reply)
+		if hasattr(self.view, "load_more_comments"):
+			widgetUtils.connect_event(self.view.load_more_comments, widgetUtils.BUTTON_PRESSED, self.on_load_more_comments)
 #		self.view.Bind(wx.EVT_LIST_ITEM_RIGHT_CLICK, self.on_show_menu, self.view.comments.list)
 #		self.view.Bind(wx.EVT_LIST_KEY_DOWN, self.on_show_menu_by_key, self.view.comments.list)
 		pub.subscribe(self.set, self.modulename+"_set")
 		pub.subscribe(self.load_image, self.modulename+"_load_image")
 		pub.subscribe(self.add_items, self.modulename+"_add_items")
+		pub.subscribe(self.add_item, self.modulename+"_add_item")
 		pub.subscribe(self.enable_attachments, self.modulename+"_enable_attachments")
 		pub.subscribe(self.enable_photo_controls, self.modulename+"_enable_photo_controls")
 		pub.subscribe(self.post_deleted, self.modulename+"_post_deleted")
@@ -75,6 +83,7 @@ class displayPostInteractor(base.baseInteractor):
 		pub.unsubscribe(self.set, self.modulename+"_set")
 		pub.unsubscribe(self.load_image, self.modulename+"_load_image")
 		pub.unsubscribe(self.add_items, self.modulename+"_add_items")
+		pub.unsubscribe(self.add_item, self.modulename+"_add_item")
 		pub.unsubscribe(self.enable_attachments, self.modulename+"_enable_attachments")
 		pub.unsubscribe(self.enable_photo_controls, self.modulename+"_enable_photo_controls")
 		pub.unsubscribe(self.post_deleted, self.modulename+"_post_deleted")
@@ -102,6 +111,10 @@ class displayPostInteractor(base.baseInteractor):
 
 	def on_add_comment(self, *args, **kwargs):
 		self.presenter.add_comment()
+
+	def on_load_more_comments(self, *args, **kwargs):
+		if hasattr(self.presenter, "load_more_comments"):
+			self.presenter.load_more_comments()
 
 	def on_show_tools_menu(self, *args, **kwargs):
 		menu = menus.toolsMenu()
