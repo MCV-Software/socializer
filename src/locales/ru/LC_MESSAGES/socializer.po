@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Socializer 0.19\n"
-"Report-Msgid-Bugs-To: Manuel Cortez <manuel@manuelcortez.net>\n"
-"POT-Creation-Date: 2019-03-09 04:22+0300\n"
-"PO-Revision-Date: 2019-03-12 10:00-0600\n"
+"Project-Id-Version: Socializer 0.20\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-04-23 15:40-0500\n"
+"PO-Revision-Date: 2019-04-24 16:12-0500\n"
 "Last-Translator: Manuel Cortez <manuel@manuelcortez.net>\n"
 "Language-Team: Дарья Ратникова <dariafreja@yandex.ru>\n"
 "Language: ru\n"
@@ -57,6 +57,10 @@ msgstr "Комментировать"
 
 msgid "You've posted a comment"
 msgstr "Ваш комментарий добавлен."
+
+#, python-brace-format
+msgid "{user1_nom} added the following friends"
+msgstr "{user1_nom} добавил(а) друзей:"
 
 msgid "This buffer can't be deleted"
 msgstr "Этот буфер не может быть удалён."
@@ -118,6 +122,12 @@ msgstr "Видео удалено из Вашей библиотеки."
 
 msgid "Select the album where you want to move this video"
 msgstr "Выберете альбом, в который хотите переместить это видео."
+
+msgid "Items loaded"
+msgstr "Элементы загружены"
+
+msgid "Getting more items..."
+msgstr "Загрузить больше элементов..."
 
 msgid ""
 "You have been sending a message that is already sent. Try to update the "
@@ -252,9 +262,6 @@ msgstr "Загрузка данных для {0}"
 
 msgid "Chat server reconnected"
 msgstr "Повторное подключение сервера чата."
-
-msgid "This file could not be played because it is not allowed in your country"
-msgstr "Эта аудиозапись недоступна в Вашем регионе."
 
 #, python-brace-format
 msgid "{user1_nom} is online."
@@ -797,79 +804,12 @@ msgstr "Друзья"
 msgid "Communities"
 msgstr "Группы"
 
+msgid "This file could not be played because it is not allowed in your country"
+msgstr "Эта аудиозапись недоступна в Вашем регионе."
+
 #, python-brace-format
 msgid "Playing {0} by {1}"
 msgstr "Играет {0} {1}"
-
-msgid "Translated"
-msgstr "Переведено"
-
-#, python-brace-format
-msgid "{0} > {1}"
-msgstr "{0} > {1}"
-
-#, python-brace-format
-msgid "repost from {user1_nom}"
-msgstr "Репост от {user1_gen}"
-
-#, python-brace-format
-msgid "Post from {user1_nom} in the {user2_nom}'s wall"
-msgstr "Запись от {user1_gen}на стене {user2_dat}"
-
-#, python-brace-format
-msgid "Post from {user1_nom}"
-msgstr "Запись от {user1_gen}"
-
-msgid "Untitled link"
-msgstr "Ссылка без названия"
-
-#. Translators: {0} is the number of the current photo and {1} is the total number of photos.
-#, python-brace-format
-msgid "Loaded photo {0} of {1}"
-msgstr "Загруженное фото {0} из {1}"
-
-msgid "&Dislike"
-msgstr "&Не нравится"
-
-msgid "&Like"
-msgstr "&Нравится"
-
-msgid "Repost"
-msgstr "Поделиться"
-
-msgid "Add your comment here"
-msgstr "Комментировать"
-
-#, python-brace-format
-msgid "{0} people like this"
-msgstr "{0} отметок нравится"
-
-#, python-brace-format
-msgid "Shared {0} times"
-msgstr "Поделились {0} раз"
-
-#, python-brace-format
-msgid "{user1_nom} > {user2_nom}"
-msgstr "{user1_nom} > {user2_nom}"
-
-#, python-brace-format
-msgid "Reply to {user1_nom}"
-msgstr "Ответить {user1_dat}"
-
-#, python-brace-format
-msgid "Comment from {user1_nom} in the {user2_nom}'s post"
-msgstr "Комментарий от {user1_gen} к записи {user1_gen}"
-
-#, python-brace-format
-msgid "Poll from {user1_nom}"
-msgstr "Опрос от {user1_nom}"
-
-msgid "Your vote has been added to this poll."
-msgstr "Вы проголосовали в опросе."
-
-#, python-brace-format
-msgid "{user1_nom} added the following friends"
-msgstr "{user1_nom} добавил(а) друзей:"
 
 msgid "Information for groups is not supported, yet."
 msgstr "Информация для групп пока не поддерживается."
@@ -937,6 +877,82 @@ msgstr "Профиль загружен"
 
 msgid "No URL addresses were detected."
 msgstr "URL-адреса не обнаружены."
+
+msgid "Translated"
+msgstr "Переведено"
+
+#, python-brace-format
+msgid "{0} > {1}"
+msgstr "{0} > {1}"
+
+#, python-brace-format
+msgid "repost from {user1_nom}"
+msgstr "Репост от {user1_gen}"
+
+#, python-brace-format
+msgid "Post from {user1_nom} in the {user2_nom}'s wall"
+msgstr "Запись от {user1_gen}на стене {user2_dat}"
+
+#, python-brace-format
+msgid "Post from {user1_nom}"
+msgstr "Запись от {user1_gen}"
+
+msgid "Untitled link"
+msgstr "Ссылка без названия"
+
+#. Translators: {0} is the number of the current photo and {1} is the total number of photos.
+#, python-brace-format
+msgid "Loaded photo {0} of {1}"
+msgstr "Загруженное фото {0} из {1}"
+
+msgid "&Dislike"
+msgstr "&Не нравится"
+
+msgid "&Like"
+msgstr "&Нравится"
+
+msgid "Repost"
+msgstr "Поделиться"
+
+msgid "Add your comment here"
+msgstr "Комментировать"
+
+#, python-brace-format
+msgid "{0} people like this"
+msgstr "{0} отметок нравится"
+
+#, python-brace-format
+msgid "Shared {0} times"
+msgstr "Поделились {0} раз"
+
+#, python-brace-format
+msgid "{user1_nom} > {user2_nom}"
+msgstr "{user1_nom} > {user2_nom}"
+
+#, python-brace-format
+msgid "Reply to {user1_nom}"
+msgstr "Ответить {user1_dat}"
+
+msgid "people who liked this"
+msgstr "Люди, которым это понравилось"
+
+msgid "people who shared this"
+msgstr "Люди, которые этим поделились"
+
+#, python-brace-format
+msgid "Comment from {user1_nom} in the {user2_nom}'s post"
+msgstr "Комментарий от {user1_gen} к записи {user1_gen}"
+
+#, python-brace-format
+msgid "Poll from {user1_nom}"
+msgstr "Опрос от {user1_nom}"
+
+msgid "Your vote has been added to this poll."
+msgstr "Вы проголосовали в опросе."
+
+#, python-brace-format
+msgid "Load {comments} previous comments"
+msgstr "Загрузить {comments} предыдущие комментарии"
 
 msgid "photo with no description available"
 msgstr "Нет описания фото."
@@ -1205,6 +1221,9 @@ msgstr "&добавить"
 msgid "&Cancel"
 msgstr "&Отмена"
 
+msgid "Language"
+msgstr "Язык"
+
 msgid "Number of items to load for newsfeed and wall buffers (maximun 100)"
 msgstr ""
 "Количество элементов допустимое для загрузки в новостном буфере (максимум "
@@ -1246,6 +1265,12 @@ msgstr "Создание буферов для видео альбомов пр�
 msgid "Create buffers for communities and public pages at startup"
 msgstr "Создание буферов для групп и публичных страниц при запуске."
 
+msgid "Output device"
+msgstr "Устройство вывода"
+
+msgid "Input device"
+msgstr "Устройства ввода"
+
 msgid "General"
 msgstr "Общие"
 
@@ -1254,6 +1279,9 @@ msgstr "Настройки чата"
 
 msgid "Optional buffers"
 msgstr "Дополнительные буферы"
+
+msgid "Sound settings"
+msgstr "Настройки звука"
 
 msgid "Save"
 msgstr "Сохранить"
@@ -1363,6 +1391,9 @@ msgstr "Ответы"
 
 msgid "Reply to thread"
 msgstr "Ответить в теме"
+
+msgid "Load previous comments"
+msgstr "Загрузить предыдущие комментарии"
 
 msgid "Reply"
 msgstr "Ответить"
@@ -1564,6 +1595,10 @@ msgstr ""
 msgid "There are 0 items for this community."
 msgstr "0 элементов для этой группы."
 
+msgid "do you really want to delete all messages of this conversation in VK?"
+msgstr ""
+"Вы действительно хотите удалить все сообщения из этого диалога \"ВКонтакте\"?"
+
 msgid "Audio album"
 msgstr "Аудиоальбом"
 
@@ -1587,7 +1622,7 @@ msgid "Profile"
 msgstr "Профиль"
 
 msgid "Set status message"
-msgstr "Установить статус сообщение"
+msgstr "Установить статус-сообщение"
 
 msgid "&New timeline"
 msgstr "&Новая пользовательская лента"
@@ -1627,6 +1662,12 @@ msgstr "Следующая."
 
 msgid "Shuffle"
 msgstr "Перемешать."
+
+msgid "Seek backwards"
+msgstr "Искать назад"
+
+msgid "Seek forwards"
+msgstr "Искать вперёд"
 
 msgid "Volume up"
 msgstr "Громче."
@@ -1690,6 +1731,9 @@ msgstr "Опубликовать на этой странице."
 msgid "View user profile"
 msgstr "Посмотреть профиль пользователя."
 
+msgid "Open in vk.com"
+msgstr "Открыть на сайте \"ВКонтакте\""
+
 msgid "&Open"
 msgstr "&Открыть"
 
@@ -1709,7 +1753,7 @@ msgid "View friends in common"
 msgstr "Посмотреть общих друзей"
 
 msgid "Remove from friends"
-msgstr "Убрать из друзей"
+msgstr "Удалить из друзей"
 
 msgid "Accept"
 msgstr "Принять"
@@ -1723,7 +1767,6 @@ msgstr "Оставить в подписчиках"
 msgid "Add to friends"
 msgstr "Добавить в друзья"
 
-#. self.view_info = self.Append(wx.NewId(), _("View information"))
 msgid "Download document"
 msgstr "Скачать документ"
 
@@ -1732,12 +1775,6 @@ msgstr "Удалить из моих документов"
 
 msgid "Add to my documents"
 msgstr "Добавить в мои документы"
-
-msgid "Unlike"
-msgstr "Не нравится"
-
-msgid "Mark as read"
-msgstr "Пометить как прочитанное"
 
 msgid "Upload from computer"
 msgstr "Загрузить с компьютера"
@@ -1762,6 +1799,9 @@ msgstr "Загрузка документов"
 
 msgid "Load"
 msgstr "Загрузка"
+
+msgid "Delete conversation"
+msgstr "Удалить диалог"
 
 msgid "Create a new album"
 msgstr "Создать новый альбом"
@@ -1895,3 +1935,9 @@ msgstr "Отправить сообщение"
 
 msgid "Video&s"
 msgstr "Видеозапис&и"
+
+#~ msgid "Unlike"
+#~ msgstr "Не нравится"
+
+#~ msgid "Mark as read"
+#~ msgstr "Пометить как прочитанное"
