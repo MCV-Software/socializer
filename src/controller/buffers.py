@@ -304,11 +304,7 @@ class baseBuffer(object):
 
 	def get_event(self, ev):
 		""" Parses keyboard input in the ListCtrl and executes the event associated with user keypresses."""
-		if ev.GetKeyCode() == wx.WXK_RETURN and ev.ControlDown() and ev.ShiftDown(): event = "pause_audio"
-		elif ev.GetKeyCode() == wx.WXK_RETURN and ev.ControlDown(): event = "play_audio"
-		elif ev.GetKeyCode() == wx.WXK_RETURN: event = "open_post"
-		elif ev.GetKeyCode() == wx.WXK_F5: event = "volume_down"
-		elif ev.GetKeyCode() == wx.WXK_F6: event = "volume_up"
+		if ev.GetKeyCode() == wx.WXK_RETURN: event = "open_post"
 		else:
 			event = None
 			ev.Skip()
@@ -629,12 +625,33 @@ class audioBuffer(feedBuffer):
 		if self.name == "me_audio":
 			self.tab.post.Enable(True)
 
+	def get_event(self, ev):
+		if ev.GetKeyCode() == wx.WXK_RETURN: event = "play_audio_from_keystroke"
+		else:
+			event = None
+			ev.Skip()
+		if event != None:
+			try:
+				getattr(self, event)()
+			except AttributeError:
+				pass
+
 	def connect_events(self):
 		widgetUtils.connect_event(self.tab.play, widgetUtils.BUTTON_PRESSED, self.play_audio)
 		widgetUtils.connect_event(self.tab.play_all, widgetUtils.BUTTON_PRESSED, self.play_all)
+		pub.subscribe(self.change_label, "playback-changed")
 		super(audioBuffer, self).connect_events()
 
 	def play_audio(self, *args, **kwargs):
+		if player.player.stream != None:
+			return player.player.pause()
+		selected = self.tab.list.get_selected()
+		if selected == -1:
+			selected = 0
+		pub.sendMessage("play", object=self.session.db[self.name]["items"][selected])
+		return True
+
+	def play_audio_from_keystroke(self, *args, **kwargs):
 		selected = self.tab.list.get_selected()
 		if selected == -1:
 			selected = 0
@@ -777,6 +794,16 @@ class audioBuffer(feedBuffer):
 			return
 		url = "https://vk.com/audio{user_id}_{post_id}".format(user_id=post["owner_id"], post_id=post["id"])
 		webbrowser.open_new_tab(url)
+
+	def change_label(self, stopped):
+		if hasattr(self.tab, "play"):
+			if stopped == False:
+				self.tab.play.SetLabel(_("P&ause"))
+			else:
+				self.tab.play.SetLabel(_("P&lay"))
+
+	def __del__(self):
+		pub.unsubscribe(self.change_label, "playback-changed")
 
 class audioAlbum(audioBuffer):
 	""" this buffer was supposed to be used with audio albums
@@ -1186,8 +1213,7 @@ class chatBuffer(baseBuffer):
 			a = presenters.displayAudioPresenter(session=self.session, postObject=[attachment["audio"]], interactor=interactors.displayAudioInteractor(), view=views.displayAudio())
 		elif attachment["type"] == "audio_message":
 			link = attachment["audio_message"]["link_mp3"]
-			output.speak(_("Playing..."))
-			pub.sendMessage("play", object=dict(url=link), set_info=False)
+			pub.sendMessage("play-message", message_url=link)
 		elif attachment["type"] == "link":
 			output.speak(_("Opening URL..."), True)
 			webbrowser.open_new_tab(attachment["link"]["url"])

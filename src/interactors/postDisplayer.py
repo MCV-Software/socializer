@@ -171,6 +171,13 @@ class displayAudioInteractor(base.baseInteractor):
 			getattr(self.view, control).Append(i)
 		getattr(self.view, control).SetSelection(0)
 
+	def change_label(self, stopped):
+
+		if stopped == False:
+			self.view.play.SetLabel(_("P&ause"))
+		else:
+			self.view.play.SetLabel(_("P&lay"))
+
 	def install(self, *args, **kwargs):
 		super(displayAudioInteractor, self).install(*args, **kwargs)
 		widgetUtils.connect_event(self.view.list, widgetUtils.LISTBOX_CHANGED, self.on_change)
@@ -180,11 +187,13 @@ class displayAudioInteractor(base.baseInteractor):
 		widgetUtils.connect_event(self.view.remove, widgetUtils.BUTTON_PRESSED, self.on_remove_from_library)
 		pub.subscribe(self.set, self.modulename+"_set")
 		pub.subscribe(self.add_items, self.modulename+"_add_items")
+		pub.subscribe(self.change_label, "playback-changed")
 
 	def uninstall(self):
 		super(displayAudioInteractor, self).uninstall()
 		pub.unsubscribe(self.set, self.modulename+"_set")
 		pub.unsubscribe(self.add_items, self.modulename+"_add_items")
+		pub.unsubscribe(self.change_label, "playback-changed")
 
 	def on_change(self, *args, **kwargs):
 		post = self.view.get_audio()

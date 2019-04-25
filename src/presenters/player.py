@@ -3,6 +3,7 @@
 As this player does not have (still) an associated GUI, I have decided to place here the code for the interactor, which connects a bunch of pubsub events, and the presenter itself.
 """
 import sys
+import time
 import random
 import logging
 import sound_lib
@@ -19,7 +20,6 @@ from sessionmanager import utils
 player = None
 log = logging.getLogger("player")
 
-# This function will be deprecated when the player works with pubsub events, as will no longer be needed to instantiate and import the player directly.
 def setup():
 	global player
 	if player == None:
@@ -34,6 +34,7 @@ class audioPlayer(object):
 		self.is_playing = False
 		# This will be the URLStream handler
 		self.stream = None
+		self.message = None
 		self.vol = config.app["sound"]["volume"]
 		# this variable is set to true when the URLPlayer is decoding something, thus it will block other calls to the play method.
 		self.is_working = False
@@ -41,19 +42,36 @@ class audioPlayer(object):
 		self.queue = []
 		# Index of the currently playing track.
 		self.playing_track = 0
+		self.playing_all = False
+		self.worker = RepeatingTimer(5, self.player_function)
+		self.worker.start()
 		# Status of the player.
 		self.stopped = True
 		# Modify some default settings present in Bass so it will increase timeout connection, thus causing less "connection timed out" errors when playing.
 		bassconfig = BassConfig()
 		# Set timeout connection to 30 seconds.
 		bassconfig["net_timeout"] = 30000
+		# subscribe all pubsub events.
 		pub.subscribe(self.play, "play")
+		pub.subscribe(self.play_message, "play-message")
 		pub.subscribe(self.play_all, "play-all")
 		pub.subscribe(self.pause, "pause")
 		pub.subscribe(self.stop, "stop")
 		pub.subscribe(self.play_next, "play-next")
 		pub.subscribe(self.play_previous, "play-previous")
 		pub.subscribe(self.seek, "seek")
+
+	# Stopped has a special function here, hence the decorator
+	# when stopped will be set to True, it will send a pubsub event to inform other parts of the application about the status change.
+	# this is useful for changing labels between play and pause, and so on, in buttons.
+	@property
+	def stopped(self):
+		return self._stopped
+
+	@stopped.setter
+	def stopped(self, value):
+		self._stopped = value
+		pub.sendMessage("playback-changed", stopped=value)
 
 	def play(self, object, set_info=True, fresh=False):
 		""" Play an URl Stream.
@@ -70,9 +88,7 @@ class audioPlayer(object):
 				log.exception("error when stopping the file")
 				self.stream = None
 			self.stopped = True
-			if fresh == True and hasattr(self, "worker") and self.worker != None:
-				self.worker.cancel()
-				self.worker = None
+			if fresh == True:
 				self.queue = []
 		# Make sure that  there are no other sounds trying to be played.
 		if self.is_working == False:
@@ -94,15 +110,40 @@ class audioPlayer(object):
 			self.stopped = False
 			self.is_working = False
 
+	def play_message(self, message_url):
+		if self.message != None and (self.message.is_playing == True or self.message.is_stalled == True):
+			return self.stop_message()
+		output.speak(_("Playing..."))
+		url_ = utils.transform_audio_url(message_url)
+		url_ = bytes(url_, "utf-8")
+		try:
+			self.message = URLStream(url=url_)
+		except:
+			log.error("Unable to play URL %s" % (url_))
+			return
+			self.message.volume = self.vol/100.0
+		self.message.play()
+		volume_percent = self.volume*0.25
+		volume_step = self.volume*0.15
+		while self.stream.volume*100 > volume_percent:
+			self.stream.volume = self.stream.volume-(volume_step/100)
+			time.sleep(0.1)
+
 	def stop(self):
 		""" Stop audio playback. """
 		if self.stream != None and self.stream.is_playing == True:
 			self.stream.stop()
 			self.stopped = True
-		if hasattr(self, "worker") and self.worker != None:
-			self.worker.cancel()
-			self.worker = None
 			self.queue = []
+
+	def stop_message(self):
+		if hasattr(self, "message") and self.message != None and self.message.is_playing == True:
+			self.message.stop()
+			volume_step = self.volume*0.15
+			while self.stream.volume*100 < self.volume:
+				self.stream.volume = self.stream.volume+(volume_step/100)
+				time.sleep(0.1)
+			self.message = None
 
 	def pause(self):
 		""" pause the current playback, without destroying the queue or the current stream. If the stream is already paused this function will resume  the playback. """
@@ -116,6 +157,8 @@ class audioPlayer(object):
 					self.stopped = False
 				except BassError:
 					pass
+				if self.playing_all == False and len(self.queue) > 0:
+					self.playing_all == True
 
 	@property
 	def volume(self):
@@ -130,7 +173,11 @@ class audioPlayer(object):
 		elif vol > 100:
 			self.vol = 100
 		if self.stream != None:
-			self.stream.volume = self.vol/100.0
+			if self.message != None and self.message.is_playing:
+				self.stream.volume = (self.vol*0.25)/100.0
+				self.message.volume = self.vol/100.0
+			else:
+				self.stream.volume = self.vol/100.0
 
 	def play_all(self, list_of_songs, shuffle=False):
 		""" Play all passed songs and adds all of those to the queue.
@@ -145,16 +192,24 @@ class audioPlayer(object):
 		if shuffle:
 			random.shuffle(self.queue)
 		call_threaded(self.play, self.queue[self.playing_track])
-		self.worker = RepeatingTimer(5, self.player_function)
-		self.worker.start()
+		self.playing_all = True
 
 	def player_function(self):
 		""" Check if the stream has reached the end of the file  so it will play the next song. """
+		if self.message != None and self.message.is_playing == False and len(self.message) == self.message.position:
+			volume_step = self.volume*0.15
+			while self.stream.volume*100 < self.volume:
+				self.stream.volume = self.stream.volume+(volume_step/100)
+				time.sleep(0.1)
 		if self.stream != None and self.stream.is_playing == False and self.stopped == False and len(self.stream) == self.stream.position:
-			if len(self.queue) == 0 or self.playing_track >= len(self.queue):
-				self.worker.cancel()
+			if self.playing_track >= len(self.queue):
+				self.stopped = True
+				self.playing_all = False
 				return
-			if self.playing_track < len(self.queue):
+			elif self.playing_all == False:
+				self.stopped = True
+				return
+			elif self.playing_track < len(self.queue):
 				self.playing_track += 1
 			self.play(self.queue[self.playing_track])
 
