@@ -19,7 +19,6 @@ from sessionmanager import utils
 player = None
 log = logging.getLogger("player")
 
-# This function will be deprecated when the player works with pubsub events, as will no longer be needed to instantiate and import the player directly.
 def setup():
 	global player
 	if player == None:
@@ -41,12 +40,16 @@ class audioPlayer(object):
 		self.queue = []
 		# Index of the currently playing track.
 		self.playing_track = 0
+		self.playing_all = False
+		self.worker = RepeatingTimer(5, self.player_function)
+		self.worker.start()
 		# Status of the player.
 		self.stopped = True
 		# Modify some default settings present in Bass so it will increase timeout connection, thus causing less "connection timed out" errors when playing.
 		bassconfig = BassConfig()
 		# Set timeout connection to 30 seconds.
 		bassconfig["net_timeout"] = 30000
+		# subscribe all pubsub events.
 		pub.subscribe(self.play, "play")
 		pub.subscribe(self.play_all, "play-all")
 		pub.subscribe(self.pause, "pause")
@@ -82,9 +85,7 @@ class audioPlayer(object):
 				log.exception("error when stopping the file")
 				self.stream = None
 			self.stopped = True
-			if fresh == True and hasattr(self, "worker") and self.worker != None:
-				self.worker.cancel()
-				self.worker = None
+			if fresh == True:
 				self.queue = []
 		# Make sure that  there are no other sounds trying to be played.
 		if self.is_working == False:
@@ -111,9 +112,6 @@ class audioPlayer(object):
 		if self.stream != None and self.stream.is_playing == True:
 			self.stream.stop()
 			self.stopped = True
-		if hasattr(self, "worker") and self.worker != None:
-			self.worker.cancel()
-			self.worker = None
 			self.queue = []
 
 	def pause(self):
@@ -128,6 +126,8 @@ class audioPlayer(object):
 					self.stopped = False
 				except BassError:
 					pass
+				if self.playing_all == False and len(self.queue) > 0:
+					self.playing_all == True
 
 	@property
 	def volume(self):
@@ -157,16 +157,19 @@ class audioPlayer(object):
 		if shuffle:
 			random.shuffle(self.queue)
 		call_threaded(self.play, self.queue[self.playing_track])
-		self.worker = RepeatingTimer(5, self.player_function)
-		self.worker.start()
+		self.playing_all = True
 
 	def player_function(self):
 		""" Check if the stream has reached the end of the file  so it will play the next song. """
 		if self.stream != None and self.stream.is_playing == False and self.stopped == False and len(self.stream) == self.stream.position:
-			if len(self.queue) == 0 or self.playing_track >= len(self.queue):
-				self.worker.cancel()
+			if self.playing_track >= len(self.queue):
+				self.stopped = True
+				self.playing_all = False
 				return
-			if self.playing_track < len(self.queue):
+			elif self.playing_all == False:
+				self.stopped = True
+				return
+			elif self.playing_track < len(self.queue):
 				self.playing_track += 1
 			self.play(self.queue[self.playing_track])
 
