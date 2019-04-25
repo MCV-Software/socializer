@@ -3,7 +3,7 @@ import logging
 from sessionmanager import utils
 from pubsub import pub
 from mysc.thread_utils import call_threaded
-from presenters import base
+from presenters import base, player
 
 log = logging.getLogger(__file__)
 
@@ -82,6 +82,8 @@ class displayAudioPresenter(base.basePresenter):
 
 	def play(self, audio_index):
 		post = self.post[audio_index]
+		if player.player.stream != None:
+			return player.player.pause()
 		pub.sendMessage("play", object=post)
 
 	def load_audios(self):
