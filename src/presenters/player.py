@@ -3,6 +3,7 @@
 As this player does not have (still) an associated GUI, I have decided to place here the code for the interactor, which connects a bunch of pubsub events, and the presenter itself.
 """
 import sys
+import time
 import random
 import logging
 import sound_lib
@@ -120,7 +121,13 @@ class audioPlayer(object):
 		except:
 			log.error("Unable to play URL %s" % (url_))
 			return
+			self.message.volume = self.vol/100.0
 		self.message.play()
+		volume_percent = self.volume*0.25
+		volume_step = self.volume*0.15
+		while self.stream.volume*100 > volume_percent:
+			self.stream.volume = self.stream.volume-(volume_step/100)
+			time.sleep(0.1)
 
 	def stop(self):
 		""" Stop audio playback. """
@@ -132,6 +139,10 @@ class audioPlayer(object):
 	def stop_message(self):
 		if hasattr(self, "message") and self.message != None and self.message.is_playing == True:
 			self.message.stop()
+			volume_step = self.volume*0.15
+			while self.stream.volume*100 < self.volume:
+				self.stream.volume = self.stream.volume+(volume_step/100)
+				time.sleep(0.1)
 			self.message = None
 
 	def pause(self):
@@ -162,7 +173,11 @@ class audioPlayer(object):
 		elif vol > 100:
 			self.vol = 100
 		if self.stream != None:
-			self.stream.volume = self.vol/100.0
+			if self.message != None and self.message.is_playing:
+				self.stream.volume = (self.vol*0.25)/100.0
+				self.message.volume = self.vol/100.0
+			else:
+				self.stream.volume = self.vol/100.0
 
 	def play_all(self, list_of_songs, shuffle=False):
 		""" Play all passed songs and adds all of those to the queue.
@@ -181,6 +196,11 @@ class audioPlayer(object):
 
 	def player_function(self):
 		""" Check if the stream has reached the end of the file  so it will play the next song. """
+		if self.message != None and self.message.is_playing == False and len(self.message) == self.message.position:
+			volume_step = self.volume*0.15
+			while self.stream.volume*100 < self.volume:
+				self.stream.volume = self.stream.volume+(volume_step/100)
+				time.sleep(0.1)
 		if self.stream != None and self.stream.is_playing == False and self.stopped == False and len(self.stream) == self.stream.position:
 			if self.playing_track >= len(self.queue):
 				self.stopped = True
