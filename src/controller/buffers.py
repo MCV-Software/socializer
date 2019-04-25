@@ -304,11 +304,7 @@ class baseBuffer(object):
 
 	def get_event(self, ev):
 		""" Parses keyboard input in the ListCtrl and executes the event associated with user keypresses."""
-		if ev.GetKeyCode() == wx.WXK_RETURN and ev.ControlDown() and ev.ShiftDown(): event = "pause_audio"
-		elif ev.GetKeyCode() == wx.WXK_RETURN and ev.ControlDown(): event = "play_audio"
-		elif ev.GetKeyCode() == wx.WXK_RETURN: event = "open_post"
-		elif ev.GetKeyCode() == wx.WXK_F5: event = "volume_down"
-		elif ev.GetKeyCode() == wx.WXK_F6: event = "volume_up"
+		if ev.GetKeyCode() == wx.WXK_RETURN: event = "open_post"
 		else:
 			event = None
 			ev.Skip()
@@ -629,6 +625,17 @@ class audioBuffer(feedBuffer):
 		if self.name == "me_audio":
 			self.tab.post.Enable(True)
 
+	def get_event(self, ev):
+		if ev.GetKeyCode() == wx.WXK_RETURN: event = "play_audio_from_keystroke"
+		else:
+			event = None
+			ev.Skip()
+		if event != None:
+			try:
+				getattr(self, event)()
+			except AttributeError:
+				pass
+
 	def connect_events(self):
 		widgetUtils.connect_event(self.tab.play, widgetUtils.BUTTON_PRESSED, self.play_audio)
 		widgetUtils.connect_event(self.tab.play_all, widgetUtils.BUTTON_PRESSED, self.play_all)
@@ -638,6 +645,13 @@ class audioBuffer(feedBuffer):
 	def play_audio(self, *args, **kwargs):
 		if player.player.stream != None:
 			return player.player.pause()
+		selected = self.tab.list.get_selected()
+		if selected == -1:
+			selected = 0
+		pub.sendMessage("play", object=self.session.db[self.name]["items"][selected])
+		return True
+
+	def play_audio_from_keystroke(self, *args, **kwargs):
 		selected = self.tab.list.get_selected()
 		if selected == -1:
 			selected = 0
