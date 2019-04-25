@@ -33,6 +33,7 @@ class audioPlayer(object):
 		self.is_playing = False
 		# This will be the URLStream handler
 		self.stream = None
+		self.message = None
 		self.vol = config.app["sound"]["volume"]
 		# this variable is set to true when the URLPlayer is decoding something, thus it will block other calls to the play method.
 		self.is_working = False
@@ -51,6 +52,7 @@ class audioPlayer(object):
 		bassconfig["net_timeout"] = 30000
 		# subscribe all pubsub events.
 		pub.subscribe(self.play, "play")
+		pub.subscribe(self.play_message, "play-message")
 		pub.subscribe(self.play_all, "play-all")
 		pub.subscribe(self.pause, "pause")
 		pub.subscribe(self.stop, "stop")
@@ -107,12 +109,30 @@ class audioPlayer(object):
 			self.stopped = False
 			self.is_working = False
 
+	def play_message(self, message_url):
+		if self.message != None and (self.message.is_playing == True or self.message.is_stalled == True):
+			return self.stop_message()
+		output.speak(_("Playing..."))
+		url_ = utils.transform_audio_url(message_url)
+		url_ = bytes(url_, "utf-8")
+		try:
+			self.message = URLStream(url=url_)
+		except:
+			log.error("Unable to play URL %s" % (url_))
+			return
+		self.message.play()
+
 	def stop(self):
 		""" Stop audio playback. """
 		if self.stream != None and self.stream.is_playing == True:
 			self.stream.stop()
 			self.stopped = True
 			self.queue = []
+
+	def stop_message(self):
+		if hasattr(self, "message") and self.message != None and self.message.is_playing == True:
+			self.message.stop()
+			self.message = None
 
 	def pause(self):
 		""" pause the current playback, without destroying the queue or the current stream. If the stream is already paused this function will resume  the playback. """

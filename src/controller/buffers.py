@@ -1213,8 +1213,7 @@ class chatBuffer(baseBuffer):
 			a = presenters.displayAudioPresenter(session=self.session, postObject=[attachment["audio"]], interactor=interactors.displayAudioInteractor(), view=views.displayAudio())
 		elif attachment["type"] == "audio_message":
 			link = attachment["audio_message"]["link_mp3"]
-			output.speak(_("Playing..."))
-			pub.sendMessage("play", object=dict(url=link), set_info=False)
+			pub.sendMessage("play-message", message_url=link)
 		elif attachment["type"] == "link":
 			output.speak(_("Opening URL..."), True)
 			webbrowser.open_new_tab(attachment["link"]["url"])
