@@ -632,9 +632,12 @@ class audioBuffer(feedBuffer):
 	def connect_events(self):
 		widgetUtils.connect_event(self.tab.play, widgetUtils.BUTTON_PRESSED, self.play_audio)
 		widgetUtils.connect_event(self.tab.play_all, widgetUtils.BUTTON_PRESSED, self.play_all)
+		pub.subscribe(self.change_label, "playback-changed")
 		super(audioBuffer, self).connect_events()
 
 	def play_audio(self, *args, **kwargs):
+		if player.player.stream != None:
+			return player.player.pause()
 		selected = self.tab.list.get_selected()
 		if selected == -1:
 			selected = 0
@@ -777,6 +780,16 @@ class audioBuffer(feedBuffer):
 			return
 		url = "https://vk.com/audio{user_id}_{post_id}".format(user_id=post["owner_id"], post_id=post["id"])
 		webbrowser.open_new_tab(url)
+
+	def change_label(self, stopped):
+		if hasattr(self.tab, "play"):
+			if stopped == False:
+				self.tab.play.SetLabel(_("P&ause"))
+			else:
+				self.tab.play.SetLabel(_("P&lay"))
+
+	def __del__(self):
+		pub.unsubscribe(self.change_label, "playback-changed")
 
 class audioAlbum(audioBuffer):
 	""" this buffer was supposed to be used with audio albums

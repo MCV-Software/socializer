@@ -55,6 +55,18 @@ class audioPlayer(object):
 		pub.subscribe(self.play_previous, "play-previous")
 		pub.subscribe(self.seek, "seek")
 
+	# Stopped has a special function here, hence the decorator
+	# when stopped will be set to True, it will send a pubsub event to inform other parts of the application about the status change.
+	# this is useful for changing labels between play and pause, and so on, in buttons.
+	@property
+	def stopped(self):
+		return self._stopped
+
+	@stopped.setter
+	def stopped(self, value):
+		self._stopped = value
+		pub.sendMessage("playback-changed", stopped=value)
+
 	def play(self, object, set_info=True, fresh=False):
 		""" Play an URl Stream.
 		@object dict: typically an audio object as returned by VK, with a "url" component which must be a valid URL to a media file.
