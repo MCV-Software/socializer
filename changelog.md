@@ -11,6 +11,7 @@
 * the audio player module has received some improvements:
     - When there is something being played, the label of the "play" button, located in all audio buffers, will change automatically to "pause". When pressed, it will pause the song instead of starting the playback again since the beginning.
     - The last change will work also in the dialog for displaying audio information. Now it's possible to play and pause an audio from such dialog.
+    - When playing a voice message, if a song is playing already socializer will decrease the volume so you can hear the voice message well enough. Some seconds after the message has finished, the song's volume will be restored.
 * In audio buffers, you will play the focused audio when pressing enter in the item, instead of opening the audio information dialog.
 * Removed some old keystrokes in socializer buffers due to better alternatives. The reason for this change is that currently you don't need to be focusing an item in a buffer for being able to use the alternative keystrokes, which makes those a better implementation.
     - Control+Enter and control+Shift+Enter: superseeded by Control+P for playing (and pausing) the currently focused audio.
