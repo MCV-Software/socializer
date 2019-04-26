@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 import languageHandler
 import paths
 import wx
+import wx.lib.mixins.listctrl as listmix
 from builtins import range
 
 toolkit = "wx"
@@ -133,6 +134,22 @@ class mainLoopObject(wx.App):
 
 	def run(self):
 		self.app.MainLoop()
+
+class selectableList(wx.ListCtrl, listmix.CheckListCtrlMixin):
+ def __init__(self, *args, **kwargs):
+  wx.ListCtrl.__init__(self, *args, **kwargs)
+  listmix.CheckListCtrlMixin.__init__(self)
+  listmix.ListCtrlAutoWidthMixin.__init__(self)
+  self.Bind(wx.EVT_CHAR_HOOK, self.on_keydown)
+
+ def OnCheckItem(self, index, flag):
+  print(index, flag)
+
+ def on_keydown(self, event):
+  if event.GetKeyCode() == wx.WXK_SPACE:
+   print("spacebar")
+   self.ToggleItem(self.GetFocusedItem())
+  event.Skip()
 
 class list(object):
  def __init__(self, parent, *columns, **listArguments):
