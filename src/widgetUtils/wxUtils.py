@@ -199,3 +199,10 @@ class list(object):
 
  def Enable(self, value):
   return self.list.Enable(value)
+
+class selectableList(list):
+
+ def create_list(self, parent):
+  self.list = selectableBaseList(parent, -1, **self.listArguments)
+  for i in range(0, len(self.columns)):
+   self.list.InsertColumn(i, "%s" % (self.columns[i]))
