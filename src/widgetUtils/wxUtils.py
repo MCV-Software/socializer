@@ -135,7 +135,7 @@ class mainLoopObject(wx.App):
 	def run(self):
 		self.app.MainLoop()
 
-class selectableList(wx.ListCtrl, listmix.CheckListCtrlMixin):
+class selectableBaseList(wx.ListCtrl, listmix.CheckListCtrlMixin):
  def __init__(self, *args, **kwargs):
   wx.ListCtrl.__init__(self, *args, **kwargs)
   listmix.CheckListCtrlMixin.__init__(self)
