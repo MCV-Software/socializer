@@ -158,7 +158,7 @@ class audioPlayer(object):
 				except BassError:
 					pass
 				if self.playing_all == False and len(self.queue) > 0:
-					self.playing_all == True
+					self.playing_all = True
 
 	@property
 	def volume(self):
