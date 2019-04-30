@@ -6,6 +6,7 @@ import paths
 import wx
 import wx.lib.mixins.listctrl as listmix
 from builtins import range
+from pubsub import pub
 
 toolkit = "wx"
 
@@ -135,22 +136,29 @@ class mainLoopObject(wx.App):
 	def run(self):
 		self.app.MainLoop()
 
-class selectableBaseList(wx.ListCtrl, listmix.CheckListCtrlMixin):
+class multiselectionBaseList(wx.ListCtrl, listmix.CheckListCtrlMixin):
  def __init__(self, *args, **kwargs):
   wx.ListCtrl.__init__(self, *args, **kwargs)
   listmix.CheckListCtrlMixin.__init__(self)
-  listmix.ListCtrlAutoWidthMixin.__init__(self)
   self.Bind(wx.EVT_CHAR_HOOK, self.on_keydown)
+  self.Bind(wx.EVT_LIST_ITEM_FOCUSED, self.on_focus)
+
+ def on_focus(self, event):
+  currentItem = self.GetFocusedItem()
+  if self.IsChecked(currentItem):
+   pub.sendMessage("play-sound", sound="selected.ogg")
+  event.Skip()
 
  def OnCheckItem(self, index, flag):
-  print(index, flag)
+  if flag == True:
+   pub.sendMessage("play-sound", sound="checked.ogg")
+  else:
+   pub.sendMessage("play-sound", sound="unchecked.ogg")
 
  def on_keydown(self, event):
   if event.GetKeyCode() == wx.WXK_SPACE:
-   print("spacebar")
    self.ToggleItem(self.GetFocusedItem())
   event.Skip()
-
 class list(object):
  def __init__(self, parent, *columns, **listArguments):
   self.columns = columns
@@ -200,9 +208,20 @@ class list(object):
  def Enable(self, value):
   return self.list.Enable(value)
 
-class selectableList(list):
+class multiselectionList(list):
 
  def create_list(self, parent):
-  self.list = selectableBaseList(parent, -1, **self.listArguments)
+  self.list = multiselectionBaseList(parent, -1, **self.listArguments)
   for i in range(0, len(self.columns)):
    self.list.InsertColumn(i, "%s" % (self.columns[i]))
+
+ def get_selected(self):
+  selected = []
+  for item in range(0, self.list.GetItemCount()):
+   if self.list.IsChecked(item):
+    selected.append(item)
+  if len(selected) == 1:
+   return selected
+  elif len(selected) == 0:
+   return self.list.GetFocusedItem()
+  return selected

@@ -64,7 +64,7 @@ class communityTab(feedTab):
 class audioTab(homeTab):
 	def create_list(self):
 		self.lbl = wx.StaticText(self, wx.NewId(), _("Mu&sic"))
-		self.list = widgetUtils.list(self, *[_("Title"), _("Artist"), _("Duration")], style=wx.LC_REPORT)
+		self.list = widgetUtils.multiselectionList(self, *[_("Title"), _("Artist"), _("Duration")], style=wx.LC_REPORT)
 		self.list.set_windows_size(0, 160)
 		self.list.set_windows_size(1, 380)
 		self.list.set_windows_size(2, 80)

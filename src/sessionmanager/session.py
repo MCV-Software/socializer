@@ -115,8 +115,13 @@ class vkSession(object):
 		log.debug("Creating config file %s" % (file_,))
 		self.settings = Configuration(os.path.join(paths.config_path(), file_), os.path.join(paths.app_path(), "session.defaults"))
 		self.soundplayer = sound.soundSystem(config.app["sound"])
+		pub.subscribe(self.play_sound, "play-sound")
 #  except:
 #   log.exception("The session configuration has failed.")
+
+	def play_sound(self, sound):
+		print(sound)
+		self.soundplayer.play(sound)
 
 	def login(self):
 		""" Logging in VK.com. This is basically the first method interacting with VK. """

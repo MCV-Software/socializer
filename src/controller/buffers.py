@@ -373,7 +373,7 @@ class baseBuffer(object):
 		else:
 			return [post["source_id"]]
 
-	def onFocus(self, *args,**kwargs):
+	def onFocus(self, event, *args,**kwargs):
 		""" Function executed when the item in a list is selected.
 		For this buffer it updates the date of posts in the list."""
 		post = self.get_post()
@@ -382,6 +382,7 @@ class baseBuffer(object):
 		original_date = arrow.get(post["date"])
 		created_at = original_date.humanize(locale=languageHandler.curLang[:2])
 		self.tab.list.list.SetItem(self.tab.list.get_selected(), 2, created_at)
+		event.Skip()
 
 	def open_in_browser(self, *args, **kwargs):
 		post = self.get_post()
@@ -508,8 +509,8 @@ class topicBuffer(feedBuffer):
 		if hasattr(self, "can_post") and self.can_post == False and hasattr(self.tab, "post"):
 			self.tab.post.Enable(False)
 
-	def onFocus(self, *args, **kwargs):
-		pass
+	def onFocus(self, event, *args, **kwargs):
+		event.Skip()
 
 	def open_post(self, *args, **kwargs):
 		""" Opens the currently focused post."""
@@ -539,13 +540,14 @@ class documentBuffer(feedBuffer):
 		if hasattr(self, "can_post") and self.can_post == False and hasattr(self.tab, "post"):
 			self.tab.post.Enable(False)
 
-	def onFocus(self, *args,**kwargs):
+	def onFocus(self, event, *args,**kwargs):
 		post = self.get_post()
 		if post == None:
 			return
 		original_date = arrow.get(post["date"])
 		created_at = original_date.humanize(locale=languageHandler.curLang[:2])
 		self.tab.list.list.SetItem(self.tab.list.get_selected(), 4, created_at)
+		event.Skip()
 
 	def connect_events(self):
 		super(documentBuffer, self).connect_events()
@@ -713,8 +715,8 @@ class audioBuffer(feedBuffer):
 		# Translators: Some buffers can't use the get previous item feature due to API limitations.
 		output.speak(_("This buffer doesn't support getting more items."))
 
-	def onFocus(self, *args, **kwargs):
-		pass
+	def onFocus(self, event, *args, **kwargs):
+		event.Skip()
 
 	def add_to_library(self, *args, **kwargs):
 		post = self.get_post()
@@ -879,8 +881,8 @@ class videoBuffer(feedBuffer):
 		# Translators: Some buffers can't use the get previous item feature due to API limitations.
 		output.speak(_("This buffer doesn't support getting more items."))
 
-	def onFocus(self, *args, **kwargs):
-		pass
+	def onFocus(self, event, *args, **kwargs):
+		event.Skip()
 
 	def add_to_library(self, *args, **kwargs):
 		post = self.get_post()
