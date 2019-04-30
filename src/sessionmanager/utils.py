@@ -78,19 +78,16 @@ def transform_audio_url(url):
 	""" Transforms the URL offered by VK to the unencrypted stream so we can still play it.
 		This function will be updated every time VK decides to change something in their Audio API'S.
 		Changelog:
-		16/04/2019: Implemented this function. For now it replaces /index.m3u8 by .mp3, also removes the path component before "/audios" if the URL contains the word /audios, or the last path component before the filename if doesn't.
-		17/04/2019: Updated function. Now it is not required to strip anything, just replacing /index.m3u8 with .mp3 should be enough.
+		30/04/2019: Re-enabled old methods as VK changed everything as how it was working on 16.04.2019.
+		17.04.2019: Updated function. Now it is not required to strip anything, just replacing /index.m3u8 with .mp3 should be enough.
+		16.04.2019: Implemented this function. For now it replaces /index.m3u8 by .mp3, also removes the path component before "/audios" if the URL contains the word /audios, or the last path component before the filename if doesn't.
 """
 	if "vkuseraudio.net" not in url and "index.m3u8" not in url:
 		return url
 	url = url.replace("/index.m3u8", ".mp3")
+	parts = url.split("/")
+	if "/audios" not in url:
+		url = url.replace("/"+parts[-2], "")
+	else:
+		url = url.replace("/"+parts[-3], "")
 	return url
-	### The following code was useful for VK audio methods prior to 17/04/2019.
-			# I just left this here because they may enable such change any time soon.
-			### basically this method was requiring us to strip a part of the full URL.
-#	parts = url.split("/")
-#	if "/audio" not in url:
-#		url = url.replace("/"+parts[-2], "")
-#	else:
-#		url = url.replace("/"+parts[-3], "")
-#	return url
