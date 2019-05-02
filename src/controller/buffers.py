@@ -617,9 +617,6 @@ class documentCommunityBuffer(documentBuffer):
 			self.tab.post.Enable(False)
 
 class audioBuffer(feedBuffer):
-	""" this buffer was supposed to be used with audio elements
-	but is deprecated as VK removed its audio support for third party apps."""
-
 	def create_tab(self, parent):
 		self.tab = home.audioTab(parent)
 		self.tab.name = self.name
@@ -628,7 +625,7 @@ class audioBuffer(feedBuffer):
 			self.tab.post.Enable(True)
 
 	def get_event(self, ev):
-		if ev.GetKeyCode() == wx.WXK_RETURN: event = "play_audio_from_keystroke"
+		if ev.GetKeyCode() == wx.WXK_RETURN: event = "play_audio"
 		else:
 			event = None
 			ev.Skip()
@@ -645,19 +642,16 @@ class audioBuffer(feedBuffer):
 		super(audioBuffer, self).connect_events()
 
 	def play_audio(self, *args, **kwargs):
-		if player.player.stream != None:
-			return player.player.pause()
-		selected = self.tab.list.get_selected()
-		if selected == -1:
-			selected = 0
-		pub.sendMessage("play", object=self.session.db[self.name]["items"][selected])
-		return True
-
-	def play_audio_from_keystroke(self, *args, **kwargs):
-		selected = self.tab.list.get_selected()
-		if selected == -1:
-			selected = 0
-		pub.sendMessage("play", object=self.session.db[self.name]["items"][selected])
+		if player.player.check_is_playing():
+			return pub.sendMessage("pause")
+		selected = self.tab.list.get_multiple_selection()
+		if len(selected) == 0:
+			return
+		elif len(selected) == 1:
+			pub.sendMessage("play", object=self.session.db[self.name]["items"][selected[0]])
+		else:
+			selected_audios = [self.session.db[self.name]["items"][item] for item in selected]
+			pub.sendMessage("play-all", list_of_songs=selected_audios)
 		return True
 
 	def play_next(self, *args, **kwargs):

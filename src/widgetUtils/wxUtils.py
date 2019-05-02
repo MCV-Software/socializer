@@ -215,13 +215,11 @@ class multiselectionList(list):
   for i in range(0, len(self.columns)):
    self.list.InsertColumn(i, "%s" % (self.columns[i]))
 
- def get_selected(self):
+ def get_multiple_selection(self):
   selected = []
   for item in range(0, self.list.GetItemCount()):
    if self.list.IsChecked(item):
     selected.append(item)
-  if len(selected) == 1:
-   return selected
-  elif len(selected) == 0:
-   return self.list.GetFocusedItem()
+  if len(selected) == 0 and self.list.GetFocusedItem() != -1:
+   selected.append(self.list.GetFocusedItem())
   return selected

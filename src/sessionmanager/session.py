@@ -120,7 +120,6 @@ class vkSession(object):
 #   log.exception("The session configuration has failed.")
 
 	def play_sound(self, sound):
-		print(sound)
 		self.soundplayer.play(sound)
 
 	def login(self):
