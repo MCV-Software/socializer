@@ -60,6 +60,7 @@ def get_non_refreshed(login, password, scope=scope):
 	params["2fa_supported"] = 1
 	headers = {'User-Agent': user_agent}
 	r = requests.get(url, params=params, headers=headers)
+	log.exception(r.json())
 	# If a 401 error is raised, we need to use 2FA here.
 	# see https://vk.com/dev/auth_direct (switch lang to russian, english docs are very incomplete in the matter)
 	# ToDo: this needs testing after implemented official VK tokens.
@@ -71,7 +72,9 @@ def get_non_refreshed(login, password, scope=scope):
 			client_id=client_id, client_secret=client_secret, username=login,
 			password=password, v=api_ver, scope=scope, device_id=device_id, code=code)
 		r = requests.get(url, params=params, headers=headers)
+		log.exception(r.json())
 	if r.status_code == 200 and 'access_token' in r.text:
+		log.exception(r.json())
 		res = r.json()
 		# Retrieve access_token and secret.
 		access_token = res['access_token']
