@@ -6,6 +6,8 @@
 
 ### bugfixes
 
+* Fixed an error with two factor authentication in the recent socializer version. Now it works reliably again.
+
 ### Changes
 
 * the audio player module has received some improvements:

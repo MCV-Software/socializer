@@ -72,9 +72,7 @@ def get_non_refreshed(login, password, scope=scope):
 			client_id=client_id, client_secret=client_secret, username=login,
 			password=password, v=api_ver, scope=scope, device_id=device_id, code=code)
 		r = requests.get(url, params=params, headers=headers)
-		log.exception(r.json())
 	if r.status_code == 200 and 'access_token' in r.text:
-		log.exception(r.json())
 		res = r.json()
 		# Retrieve access_token and secret.
 		access_token = res['access_token']
