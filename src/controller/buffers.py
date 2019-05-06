@@ -501,7 +501,6 @@ class communityBuffer(feedBuffer):
 			# Strangely, groups.get does not return counters so we need those to show options for loading specific posts for communities.
 			group_info = self.session.vk.client.groups.getById(group_ids=-1*self.kwargs["owner_id"], fields="counters")[0]
 			self.session.db["group_info"][self.group_info].update(group_info)
-			print(self.session.db["group_info"][self.group_info])
 			if "can_post" in self.session.db["group_info"][self.group_id] and self.session.db["group_info"][self.group_id]["can_post"] == True:
 				self.tab.post.Enable(True)
 		super(communityBuffer, self).get_items(*args, **kwargs)
@@ -530,7 +529,7 @@ class topicBuffer(feedBuffer):
 		self.tab = home.topicTab(parent)
 		self.connect_events()
 		self.tab.name = self.name
-		if hasattr(self, "can_post") and self.can_post == False and hasattr(self.tab, "post"):
+		if "can_create_topic" not in self.session.db["group_info"][self.kwargs["group_id"]*-1] or ("can_create_topic" in self.session.db["group_info"][self.kwargs["group_id"]*-1] and self.session.db["group_info"][self.kwargs["group_id"]*-1]["can_create_topic"] != True):
 			self.tab.post.Enable(False)
 
 	def onFocus(self, event, *args, **kwargs):
@@ -545,7 +544,6 @@ class topicBuffer(feedBuffer):
 
 	def open_in_browser(self, *args, **kwargs):
 		post = self.get_post()
-		print(post)
 		if post == None:
 			return
 		# In order to load the selected topic we firstly have to catch the group_id, which is present in self.kwargs
@@ -553,6 +551,43 @@ class topicBuffer(feedBuffer):
 		group_id = self.kwargs["group_id"]*-1
 		url = "https://vk.com/topic{group_id}_{topic_id}".format(group_id=group_id, topic_id=post["id"])
 		webbrowser.open_new_tab(url)
+
+	def post(self, *args, **kwargs):
+		menu = wx.Menu()
+		user1 = self.session.get_user(self.session.user_id)
+		user2 = self.session.get_user(-1*self.kwargs["group_id"])
+		user = menu.Append(wx.NewId(), _("Post as {user1_nom}").format(**user1))
+		group = menu.Append(wx.NewId(), _("Post as {user1_nom}").format(**user2))
+		menu.Bind(widgetUtils.MENU, lambda evt: self._post(evt, 1), group)
+		menu.Bind(widgetUtils.MENU, lambda evt: self._post(evt, 0), user)
+		self.tab.post.PopupMenu(menu, self.tab.post.GetPosition())
+
+	def _post(self, event, from_group):
+		owner_id = self.kwargs["group_id"]
+		user = self.session.get_user(-1*owner_id, key="user1")
+		title = _("Create topic in {user1_nom}").format(**user)
+		p = presenters.createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createTopicDialog(title=title, message="", text=""))
+		if hasattr(p, "text") or hasattr(p, "privacy"):
+			call_threaded(self.do_last, p=p, group_id=owner_id, from_group=from_group)
+
+	def do_last(self, p, *args, **kwargs):
+		title = p.view.title
+		msg = p.text
+		attachments = ""
+		if hasattr(p, "attachments"):
+			attachments = self.upload_attachments(p.attachments)
+		urls = utils.find_urls_in_text(msg)
+		if len(urls) != 0:
+			if len(attachments) == 0: attachments = urls[0]
+			else: attachments += urls[0]
+			msg = msg.replace(urls[0], "")
+		if msg != "":
+			kwargs.update(text=msg, title=title.GetValue())
+		if attachments != "":
+			kwargs.update(attachments=attachments)
+		# Determines the correct functions to call here.
+		post = self.session.vk.client.board.addTopic(**kwargs)
+		pub.sendMessage("posted", buffer=self.name)
 
 class documentBuffer(feedBuffer):
 	can_get_items = False

@@ -200,7 +200,7 @@ class Controller(object):
 		if self.session.settings["load_at_startup"]["communities"] == False and force_action == False:
 			return
 		log.debug("Create community buffers...")
-		groups= self.session.vk.client.groups.get(user_id=user_id, extended=1, count=1000, fields="can_post, can_create_topic")
+		groups= self.session.vk.client.groups.get(user_id=user_id, extended=1, count=1000, fields="can_post,can_create_topic")
 		self.session.groups=groups["items"]
 		# Let's feed the local database cache with new groups coming from here.
 		data= dict(profiles=[], groups=self.session.groups)
@@ -890,8 +890,8 @@ class Controller(object):
 		current_buffer = self.get_current_buffer()
 		# Get group_info if the community buffer does not have it already, so future menus will be able to use it.
 		if current_buffer.group_id not in self.session.db["group_info"] or "counters" not in self.session.db["group_info"][current_buffer.group_id]:
-			group_info = self.session.vk.client.groups.getById(group_ids=-1*current_buffer.kwargs["owner_id"], fields="counters")[0]
-			self.session.db["group_info"][current_buffer.kwargs["owner_id"]] = group_info
+			group_info = self.session.vk.client.groups.getById(group_ids=-1*current_buffer.kwargs["owner_id"], fields="counters,can_create_topics,can_post")[0]
+			self.session.db["group_info"][current_buffer.kwargs["owner_id"]].update(group_info)
 		if "audios" not in self.session.db["group_info"][current_buffer.group_id]["counters"]:
 			commonMessages.community_no_items()
 			return
@@ -903,8 +903,8 @@ class Controller(object):
 		current_buffer = self.get_current_buffer()
 		# Get group_info if the community buffer does not have it already, so future menus will be able to use it.
 		if current_buffer.group_id not in self.session.db["group_info"]  or "counters" not in self.session.db["group_info"][current_buffer.group_id]:
-			group_info = self.session.vk.client.groups.getById(group_ids=-1*current_buffer.kwargs["owner_id"], fields="counters")[0]
-			self.session.db["group_info"][current_buffer.kwargs["owner_id"]] = group_info
+			group_info = self.session.vk.client.groups.getById(group_ids=-1*current_buffer.kwargs["owner_id"], fields="counters,can_create_topics,can_post")[0]
+			self.session.db["group_info"][current_buffer.kwargs["owner_id"]].update(group_info)
 		if "videos" not in self.session.db["group_info"][current_buffer.group_id]["counters"]:
 			commonMessages.community_no_items()
 			return
@@ -916,8 +916,8 @@ class Controller(object):
 		current_buffer = self.get_current_buffer()
 		# Get group_info if the community buffer does not have it already, so future menus will be able to use it.
 		if current_buffer.group_id not in self.session.db["group_info"]  or "counters" not in self.session.db["group_info"][current_buffer.group_id]:
-			group_info = self.session.vk.client.groups.getById(group_ids=-1*current_buffer.kwargs["owner_id"], fields="counters")[0]
-			self.session.db["group_info"][current_buffer.kwargs["owner_id"]] = group_info
+			group_info = self.session.vk.client.groups.getById(group_ids=-1*current_buffer.kwargs["owner_id"], fields="counters,can_create_topic,can_post")[0]
+			self.session.db["group_info"][current_buffer.kwargs["owner_id"]].update(group_info)
 		if "topics" not in self.session.db["group_info"][current_buffer.group_id]["counters"]:
 			commonMessages.community_no_items()
 			return
@@ -928,8 +928,8 @@ class Controller(object):
 		current_buffer = self.get_current_buffer()
 		# Get group_info if the community buffer does not have it already, so future menus will be able to use it.
 		if current_buffer.group_id not in self.session.db["group_info"]  or "counters" not in self.session.db["group_info"][current_buffer.group_id]:
-			group_info = self.session.vk.client.groups.getById(group_ids=-1*current_buffer.kwargs["owner_id"], fields="counters")[0]
-			self.session.db["group_info"][current_buffer.kwargs["owner_id"]] = group_info
+			group_info = self.session.vk.client.groups.getById(group_ids=-1*current_buffer.kwargs["owner_id"], fields="counters,can_create_topics,can_post")[0]
+			self.session.db["group_info"][current_buffer.kwargs["owner_id"]].update(group_info)
 		if "docs" not in self.session.db["group_info"][current_buffer.group_id]["counters"]:
 			commonMessages.community_no_items()
 			return
