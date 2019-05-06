@@ -625,13 +625,17 @@ class audioBuffer(feedBuffer):
 			self.tab.post.Enable(True)
 
 	def get_event(self, ev):
-		if ev.GetKeyCode() == wx.WXK_RETURN: event = "play_audio"
+		if ev.GetKeyCode() == wx.WXK_RETURN:
+			if len(self.tab.list.get_multiple_selection()) < 2:
+				event = "play_all"
+			else:
+				event = "play_audio"
 		else:
 			event = None
 			ev.Skip()
 		if event != None:
 			try:
-				getattr(self, event)()
+				getattr(self, event)(skip_pause=True)
 			except AttributeError:
 				pass
 
@@ -642,7 +646,7 @@ class audioBuffer(feedBuffer):
 		super(audioBuffer, self).connect_events()
 
 	def play_audio(self, *args, **kwargs):
-		if player.player.check_is_playing():
+		if player.player.check_is_playing() and not "skip_pause" in kwargs:
 			return pub.sendMessage("pause")
 		selected = self.tab.list.get_multiple_selection()
 		if len(selected) == 0:
