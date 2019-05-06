@@ -200,14 +200,14 @@ class Controller(object):
 		if self.session.settings["load_at_startup"]["communities"] == False and force_action == False:
 			return
 		log.debug("Create community buffers...")
-		groups= self.session.vk.client.groups.get(user_id=user_id, extended=1, count=1000)
+		groups= self.session.vk.client.groups.get(user_id=user_id, extended=1, count=1000, fields="can_post")
 		self.session.groups=groups["items"]
 		# Let's feed the local database cache with new groups coming from here.
 		data= dict(profiles=[], groups=self.session.groups)
 		self.session.process_usernames(data)
 		if create_buffers:
 			for i in self.session.groups:
-				wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="communityBuffer", buffer_title=i["name"], parent_tab="communities", loadable=True, get_items=True, kwargs=dict(parent=self.window.tb, name="{0}_community".format(i["id"],), composefunc="render_status", session=self.session, endpoint="get", parent_endpoint="wall", extended=1, count=self.session.settings["buffers"]["count_for_wall_buffers"], owner_id=-1*i["id"]))
+				wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="communityBuffer", buffer_title=i["name"], parent_tab="communities", loadable=True, get_items=True, kwargs=dict(parent=self.window.tb, name="{0}_community".format(i["id"],), composefunc="render_status", session=self.session, group_info=i, endpoint="get", parent_endpoint="wall", extended=1, count=self.session.settings["buffers"]["count_for_wall_buffers"], owner_id=-1*i["id"]))
 				time.sleep(0.15)
 
 	def login(self):

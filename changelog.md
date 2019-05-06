@@ -4,6 +4,8 @@
 
 ### New additions
 
+* Added "post in groups" feature. In order to do so, you need to load the posts for the group where you want to send something. Once loaded, go to the post button in the group's wall and select whether you want to post in the group's behalf or as yourself.
+
 ### bugfixes
 
 * Fixed an error with two factor authentication in the recent socializer version. Now it works reliably again.

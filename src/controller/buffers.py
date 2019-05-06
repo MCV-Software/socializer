@@ -475,12 +475,15 @@ class feedBuffer(baseBuffer):
 
 class communityBuffer(feedBuffer):
 
+	def __init__(self, group_info, *args, **kwargs):
+		super(communityBuffer, self).__init__(*args, **kwargs)
+		self.group_data = group_info
+
 	def create_tab(self, parent):
 		self.tab = home.communityTab(parent)
 		self.connect_events()
 		self.tab.name = self.name
-		if hasattr(self, "can_post") and self.can_post == False and hasattr(self.tab, "post"):
-			self.tab.post.Enable(False)
+		self.tab.post.Enable(False)
 
 	def connect_events(self):
 		super(communityBuffer, self).connect_events()
@@ -497,8 +500,29 @@ class communityBuffer(feedBuffer):
 		if self.can_get_items:
 			# Strangely, groups.get does not return counters so we need those to show options for loading specific posts for communities.
 			self.group_info = self.session.vk.client.groups.getById(group_ids=-1*self.kwargs["owner_id"], fields="counters")[0]
-#			print(self.group_info["counters"])
+			self.group_info.update(self.group_data)
+			print(self.group_info)
+			if "can_post" in self.group_info and self.group_info["can_post"] == True:
+				self.tab.post.Enable(True)
 		super(communityBuffer, self).get_items(*args, **kwargs)
+
+	def post(self, *args, **kwargs):
+		menu = wx.Menu()
+		user1 = self.session.get_user(self.session.user_id)
+		user2 = self.session.get_user(self.kwargs["owner_id"])
+		user = menu.Append(wx.NewId(), _("Post as {user1_nom}").format(**user1))
+		group = menu.Append(wx.NewId(), _("Post as {user1_nom}").format(**user2))
+		menu.Bind(widgetUtils.MENU, lambda evt: self._post(evt, 1), group)
+		menu.Bind(widgetUtils.MENU, lambda evt: self._post(evt, 0), user)
+		self.tab.post.PopupMenu(menu, self.tab.post.GetPosition())
+
+	def _post(self, event, from_group):
+		owner_id = self.kwargs["owner_id"]
+		user = self.session.get_user(owner_id, key="user1")
+		title = _("Post to {user1_nom}'s wall").format(**user)
+		p = presenters.createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=title, message="", text=""))
+		if hasattr(p, "text") or hasattr(p, "privacy"):
+			call_threaded(self.do_last, p=p, owner_id=owner_id, from_group=from_group)
 
 class topicBuffer(feedBuffer):
 
