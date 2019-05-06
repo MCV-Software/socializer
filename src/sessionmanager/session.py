@@ -101,6 +101,7 @@ class vkSession(object):
 		self.db = {}
 		self.db["users"] = {}
 		self.db["groups"] = {}
+		self.db["group_info"] = {}
 
 	@property
 	def is_logged(self):

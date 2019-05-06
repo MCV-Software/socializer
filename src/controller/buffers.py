@@ -475,9 +475,9 @@ class feedBuffer(baseBuffer):
 
 class communityBuffer(feedBuffer):
 
-	def __init__(self, group_info, *args, **kwargs):
+	def __init__(self, *args, **kwargs):
 		super(communityBuffer, self).__init__(*args, **kwargs)
-		self.group_data = group_info
+		self.group_id = self.kwargs["owner_id"]
 
 	def create_tab(self, parent):
 		self.tab = home.communityTab(parent)
@@ -499,10 +499,10 @@ class communityBuffer(feedBuffer):
 		""" This method retrieves community information, useful to show different parts of the community itself."""
 		if self.can_get_items:
 			# Strangely, groups.get does not return counters so we need those to show options for loading specific posts for communities.
-			self.group_info = self.session.vk.client.groups.getById(group_ids=-1*self.kwargs["owner_id"], fields="counters")[0]
-			self.group_info.update(self.group_data)
-			print(self.group_info)
-			if "can_post" in self.group_info and self.group_info["can_post"] == True:
+			group_info = self.session.vk.client.groups.getById(group_ids=-1*self.kwargs["owner_id"], fields="counters")[0]
+			self.session.db["group_info"][self.group_info].update(group_info)
+			print(self.session.db["group_info"][self.group_info])
+			if "can_post" in self.session.db["group_info"][self.group_id] and self.session.db["group_info"][self.group_id]["can_post"] == True:
 				self.tab.post.Enable(True)
 		super(communityBuffer, self).get_items(*args, **kwargs)
 

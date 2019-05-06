@@ -200,14 +200,15 @@ class Controller(object):
 		if self.session.settings["load_at_startup"]["communities"] == False and force_action == False:
 			return
 		log.debug("Create community buffers...")
-		groups= self.session.vk.client.groups.get(user_id=user_id, extended=1, count=1000, fields="can_post")
+		groups= self.session.vk.client.groups.get(user_id=user_id, extended=1, count=1000, fields="can_post, can_create_topic")
 		self.session.groups=groups["items"]
 		# Let's feed the local database cache with new groups coming from here.
 		data= dict(profiles=[], groups=self.session.groups)
 		self.session.process_usernames(data)
 		if create_buffers:
 			for i in self.session.groups:
-				wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="communityBuffer", buffer_title=i["name"], parent_tab="communities", loadable=True, get_items=True, kwargs=dict(parent=self.window.tb, name="{0}_community".format(i["id"],), composefunc="render_status", session=self.session, group_info=i, endpoint="get", parent_endpoint="wall", extended=1, count=self.session.settings["buffers"]["count_for_wall_buffers"], owner_id=-1*i["id"]))
+				self.session.db["group_info"][i["id"]*-1] = i
+				wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="communityBuffer", buffer_title=i["name"], parent_tab="communities", loadable=True, get_items=True, kwargs=dict(parent=self.window.tb, name="{0}_community".format(i["id"],), composefunc="render_status", session=self.session, endpoint="get", parent_endpoint="wall", extended=1, count=self.session.settings["buffers"]["count_for_wall_buffers"], owner_id=-1*i["id"]))
 				time.sleep(0.15)
 
 	def login(self):
@@ -821,19 +822,19 @@ class Controller(object):
 			# 2. If the group_info does not have counters for such items, which would indicate there are no items posted yet.
 			if self.search(current_buffer.name+"_audios") != False:
 				menu.load_audios.Enable(False)
-			elif hasattr(current_buffer, "group_info") and "audios" not in current_buffer.group_info["counters"]:
+			elif "counters" in self.session.db["group_info"][current_buffer.group_id] and "audios" not in self.session.db["group_info"][current_buffer.group_id]["counters"]:
 				menu.load_audios.Enable(False)
 			if self.search(current_buffer.name+"_videos") != False:
 				menu.load_videos.Enable(False)
-			elif hasattr(current_buffer, "group_info") and "videos" not in current_buffer.group_info["counters"]:
+			elif "counters" in self.session.db["group_info"][current_buffer.group_id] and "videos" not in self.session.db["group_info"][current_buffer.group_id]["counters"]:
 				menu.load_videos.Enable(False)
 			if self.search(current_buffer.name+"_topics") != False:
 				menu.load_topics.Enable(False)
-			elif hasattr(current_buffer, "group_info") and "topics" not in current_buffer.group_info["counters"]:
+			elif "counters" in self.session.db["group_info"][current_buffer.group_id] and "topics" not in self.session.db["group_info"][current_buffer.group_id]["counters"]:
 				menu.load_topics.Enable(False)
 			if self.search(current_buffer.name+"_documents") != False:
 				menu.load_documents.Enable(False)
-			elif hasattr(current_buffer, "group_info") and "docs" not in current_buffer.group_info["counters"]:
+			elif "counters" in self.session.db["group_info"][current_buffer.group_id] and "docs" not in self.session.db["group_info"][current_buffer.group_id]["counters"]:
 				menu.load_documents.Enable(False)
 			# Connect the rest of the functions.
 			widgetUtils.connect_event(menu, widgetUtils.MENU, self.load_community_posts, menuitem=menu.load_posts)
@@ -888,10 +889,10 @@ class Controller(object):
 		""" Load community audios if they are not loaded already."""
 		current_buffer = self.get_current_buffer()
 		# Get group_info if the community buffer does not have it already, so future menus will be able to use it.
-		if not hasattr(current_buffer, "group_info"):
+		if current_buffer.group_id not in self.session.db["group_info"] or "counters" not in self.session.db["group_info"][current_buffer.group_id]:
 			group_info = self.session.vk.client.groups.getById(group_ids=-1*current_buffer.kwargs["owner_id"], fields="counters")[0]
-			current_buffer.group_info = group_info
-		if "audios" not in current_buffer.group_info["counters"]:
+			self.session.db["group_info"][current_buffer.kwargs["owner_id"]] = group_info
+		if "audios" not in self.session.db["group_info"][current_buffer.group_id]["counters"]:
 			commonMessages.community_no_items()
 			return
 		new_name = current_buffer.name+"_audios"
@@ -901,10 +902,10 @@ class Controller(object):
 		""" Load community videos if they are not loaded already."""
 		current_buffer = self.get_current_buffer()
 		# Get group_info if the community buffer does not have it already, so future menus will be able to use it.
-		if not hasattr(current_buffer, "group_info"):
+		if current_buffer.group_id not in self.session.db["group_info"]  or "counters" not in self.session.db["group_info"][current_buffer.group_id]:
 			group_info = self.session.vk.client.groups.getById(group_ids=-1*current_buffer.kwargs["owner_id"], fields="counters")[0]
-			current_buffer.group_info = group_info
-		if "videos" not in current_buffer.group_info["counters"]:
+			self.session.db["group_info"][current_buffer.kwargs["owner_id"]] = group_info
+		if "videos" not in self.session.db["group_info"][current_buffer.group_id]["counters"]:
 			commonMessages.community_no_items()
 			return
 		new_name = current_buffer.name+"_videos"
@@ -914,10 +915,10 @@ class Controller(object):
 		""" Load community topics."""
 		current_buffer = self.get_current_buffer()
 		# Get group_info if the community buffer does not have it already, so future menus will be able to use it.
-		if not hasattr(current_buffer, "group_info"):
+		if current_buffer.group_id not in self.session.db["group_info"]  or "counters" not in self.session.db["group_info"][current_buffer.group_id]:
 			group_info = self.session.vk.client.groups.getById(group_ids=-1*current_buffer.kwargs["owner_id"], fields="counters")[0]
-			current_buffer.group_info = group_info
-		if "topics" not in current_buffer.group_info["counters"]:
+			self.session.db["group_info"][current_buffer.kwargs["owner_id"]] = group_info
+		if "topics" not in self.session.db["group_info"][current_buffer.group_id]["counters"]:
 			commonMessages.community_no_items()
 			return
 		new_name = current_buffer.name+"_topics"
@@ -926,10 +927,10 @@ class Controller(object):
 	def load_community_documents(self, *args, **kwargs):
 		current_buffer = self.get_current_buffer()
 		# Get group_info if the community buffer does not have it already, so future menus will be able to use it.
-		if not hasattr(current_buffer, "group_info"):
+		if current_buffer.group_id not in self.session.db["group_info"]  or "counters" not in self.session.db["group_info"][current_buffer.group_id]:
 			group_info = self.session.vk.client.groups.getById(group_ids=-1*current_buffer.kwargs["owner_id"], fields="counters")[0]
-			current_buffer.group_info = group_info
-		if "docs" not in current_buffer.group_info["counters"]:
+			self.session.db["group_info"][current_buffer.kwargs["owner_id"]] = group_info
+		if "docs" not in self.session.db["group_info"][current_buffer.group_id]["counters"]:
 			commonMessages.community_no_items()
 			return
 		new_name = current_buffer.name+"_documents"
