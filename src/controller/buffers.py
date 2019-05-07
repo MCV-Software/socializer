@@ -500,7 +500,7 @@ class communityBuffer(feedBuffer):
 		if self.can_get_items:
 			# Strangely, groups.get does not return counters so we need those to show options for loading specific posts for communities.
 			group_info = self.session.vk.client.groups.getById(group_ids=-1*self.kwargs["owner_id"], fields="counters")[0]
-			self.session.db["group_info"][self.group_info].update(group_info)
+			self.session.db["group_info"][self.group_id].update(group_info)
 			if "can_post" in self.session.db["group_info"][self.group_id] and self.session.db["group_info"][self.group_id]["can_post"] == True:
 				self.tab.post.Enable(True)
 		super(communityBuffer, self).get_items(*args, **kwargs)
