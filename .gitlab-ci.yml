@@ -33,7 +33,7 @@ documentation:
     - '%PYTHON2% documentation_importer.py'
     - cd ..\src
     - '%PYTHON2% ..\doc\generator.py'
-    - 'move documentation\* ..\'
+    - 'move documentation ..\'
   only:
     - master
   artifacts:
