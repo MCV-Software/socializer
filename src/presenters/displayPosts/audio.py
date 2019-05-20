@@ -82,8 +82,8 @@ class displayAudioPresenter(base.basePresenter):
 
 	def play(self, audio_index):
 		post = self.post[audio_index]
-		if player.player.stream != None:
-			return player.player.pause()
+		if player.player.check_is_playing() == True:
+			return pub.sendMessage("stop")
 		pub.sendMessage("play", object=post)
 
 	def load_audios(self):
