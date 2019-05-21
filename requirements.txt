@@ -3,7 +3,10 @@ wxpython==4.0.3
 pywin32
 pyenchant
 markdown
-vk_api
+# For the moment we will use the modified vk_api version that does not try to include enum34 and
+# already fixed the caption for wall uploaded photos.
+# Hopefully I can uncomment this in the near future when my changes will get merged upstream.
+#vk_api
 bs4
 configobj
 pypubsub
@@ -19,3 +22,5 @@ git+https://code.manuelcortez.net/manuelcortez/libloader
 git+https://code.manuelcortez.net/manuelcortez/platform_utils
 git+https://github.com/chrisnorman7/sound_lib
 git+https://code.manuelcortez.net/manuelcortez/accessible_output2
+# Modified vk_api.
+git+https://github.com/manuelcortez/vk_api
