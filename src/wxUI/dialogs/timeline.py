@@ -5,16 +5,18 @@ import widgetUtils
 
 class timelineDialog(widgetUtils.BaseDialog):
 
-	def __init__(self, users=[]):
+	def __init__(self, users=[], show_selector=True):
 		super(timelineDialog, self).__init__(parent=None, title=_("New timeline for {0}").format(users[0],))
 		panel = wx.Panel(self)
 		sizer = wx.BoxSizer(wx.HORIZONTAL)
-		userLabel = wx.StaticText(panel, -1, _("User"))
-		self.cb = wx.ComboBox(panel, -1, choices=users, value=users[0])
-		self.cb.SetFocus()
-		userSizer = wx.BoxSizer()
-		userSizer.Add(userLabel, 0, wx.ALL, 5)
-		userSizer.Add(self.cb, 0, wx.ALL, 5)
+		if show_selector:
+			userLabel = wx.StaticText(panel, -1, _("User"))
+			self.cb = wx.ComboBox(panel, -1, choices=users, value=users[0])
+			self.cb.SetFocus()
+			userSizer = wx.BoxSizer()
+			userSizer.Add(userLabel, 0, wx.ALL, 5)
+			userSizer.Add(self.cb, 0, wx.ALL, 5)
+			sizer.Add(userSizer, 0, wx.ALL, 5)
 		actionsSizer = wx.StaticBoxSizer(parent=panel, orient=wx.VERTICAL, label=_("Buffer type"))
 		self.wall    = wx.RadioButton(actionsSizer.GetStaticBox(), wx.NewId(), _("&Wall posts"), style=wx.RB_GROUP)
 		self.audio = wx.RadioButton(actionsSizer.GetStaticBox(), wx.NewId(), _("Audio"))
