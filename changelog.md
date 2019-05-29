@@ -5,12 +5,14 @@
 ### New additions
 
 * Added "post in groups" feature. In order to do so, you need to load the posts for the group where you want to send something. Once loaded, go to the post button in the group's wall and select whether you want to post in the group's behalf or as yourself.
-* In all audio buffers, it is possible to select individual tracks to be played. In order to do so, you need to press space to start the selection of items. When selected, the item will emit a sound to indicate the change. Press space in all items you want to select/unselect. When you're focusing an already selected item it will play a sound to indicate that it is already selected. Once you're done with your selection, pressing enter in the list of tracks will start the playback of the list of items you have selected. This is a very experimental feature. More actions can be supported based in this selection method if it proves to be useful.
+* In all audio buffers, it is possible to select individual tracks to be played together. In order to do so, you need to press space to start the selection of items. When selected, the item will emit a sound to indicate the change. Press space in all items you want to select/unselect. When you're focusing an already selected item it will play a sound to indicate that it is already selected. Once you're done with your selection, pressing enter in the list of tracks will start the playback of the list of items you have selected. This is a very experimental feature. More actions can be supported based in this selection method if it proves to be useful.
+* In conversation buffers, it is possible to display and open wall posts sent as attachments in messages.
 
 ### bugfixes
 
 * Fixed an error with two factor authentication in the recent socializer version. Now it works reliably again.
-* Fixed an error when trying to attach a photo to a wall post. The error was fixed in the [vk_api](https://github.com/python273/vk_api) module and the fix was sent to the developer of the library, so he will be able to merge it in the next version. In the meantime, socializer already include the fix for this method, so you can upload photos to wall posts normally.
+* Fixed an error when trying to attach a photo to a wall post. The error was fixed in the [vk_api](https://github.com/python273/vk_api) module and the fix was sent to the developer of the library, so he will be able to merge it in the next version. In the meantime, socializer already includes the fix for this method, so you can upload photos to wall posts normally.
+* Fixed an error retrieving some group information for the current session.
 
 ### Changes
 

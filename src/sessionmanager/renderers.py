@@ -75,6 +75,14 @@ def add_attachment(attachment):
 	elif attachment["type"] == "poll":
 		tpe = _("Poll")
 		msg = attachment["poll"]["question"]
+	elif attachment["type"] == "wall":
+		tpe = _("Post")
+		user = attachment["wall"]["from"]["name"]
+		if len(attachment["wall"]["text"]) > 140:
+			text = attachment["wall"]["text"][:145]+"..."
+		else:
+			text = attachment["wall"]["text"]
+		msg = _("{user}: {post}").format(user=user, post=text)
 	else:
 		print(attachment)
 	return [tpe, msg]

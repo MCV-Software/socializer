@@ -1302,6 +1302,8 @@ class chatBuffer(baseBuffer):
 					break
 			if url != "":
 				webbrowser.open_new_tab(url)
+		if attachment["type"] == "wall":
+			pub.sendMessage("open-post", post_object=attachment["wall"], controller_="displayPost")
 		else:
 			log.debug("Unhandled attachment: %r" % (attachment,))
 
