@@ -19,6 +19,7 @@ from requests.exceptions import ReadTimeout, ConnectionError
 from mutagen.id3 import ID3
 from presenters import player
 from wxUI.tabs import home
+from wxUI.dialogs import timeline
 from sessionmanager import session, renderers, utils
 from mysc.thread_utils import call_threaded
 from wxUI import commonMessages, menus
@@ -1366,7 +1367,14 @@ class peopleBuffer(feedBuffer):
 		self.tab.list.list.SetItem(self.tab.list.get_selected(), 1, online_status)
 
 	def open_timeline(self, *args, **kwargs):
-		pass
+		user = self.get_post()
+		if user == None:
+			return
+		a = timeline.timelineDialog([self.session.get_user(user["id"])["user1_gen"]], show_selector=False)
+		if a.get_response() == widgetUtils.OK:
+			buffer_type = a.get_buffer_type()
+			user_id = user["id"]
+			pub.sendMessage("create-timeline", user_id=user_id, buffer_type=buffer_type)
 
 	def get_menu(self, *args, **kwargs):
 		""" display menu for people buffers (friends and requests)"""

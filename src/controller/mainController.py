@@ -297,6 +297,7 @@ class Controller(object):
 		pub.subscribe(self.create_buffer, "create_buffer")
 		pub.subscribe(self.user_typing, "user-typing")
 		pub.subscribe(self.get_chat, "order-sent-message")
+		pub.subscribe(self.create_timeline, "create-timeline")
 
 	def disconnect_events(self):
 		log.debug("Disconnecting some events...")
@@ -308,6 +309,7 @@ class Controller(object):
 		pub.unsubscribe(self.user_online, "user-online")
 		pub.unsubscribe(self.user_offline, "user-offline")
 		pub.unsubscribe(self.notify, "notify")
+		pub.subscribe(self.create_timeline, "create-timeline")
 
 	def in_post(self, buffer):
 		""" This event is triggered whenever an user requires an update in their buffers. For example after sending a post successfully.
@@ -518,6 +520,27 @@ class Controller(object):
 			rendered_message = renderers.render_message(message, self.session)
 			output.speak(rendered_message[0])
 
+	def create_timeline(self, user_id, buffer_type, user=""):
+		if user_id == "":
+			user_data = self.session.vk.client.utils.resolveScreenName(screen_name=user)
+			if type(user_data) == list:
+				commonMessages.no_user_exist()
+				return
+			user_id = user_data["object_id"]
+		if buffer_type == "audio":
+			buffer = buffers.audioBuffer(parent=self.window.tb, name="{0}_audio".format(user_id,), composefunc="render_audio", session=self.session, create_tab=False, endpoint="get", parent_endpoint="audio", owner_id=user_id)
+			user = self.session.get_user(user_id, key="user1")
+			name_ = _("{user1_nom}'s audios").format(**user)
+		elif buffer_type == "wall":
+			buffer = buffers.feedBuffer(parent=self.window.tb, name="{0}_feed".format(user_id,), composefunc="render_status", session=self.session, create_tab=False, endpoint="get", parent_endpoint="wall", extended=1, count=self.session.settings["buffers"]["count_for_wall_buffers"],  owner_id=user_id)
+			user = self.session.get_user(user_id, key="user1")
+			name_ = _("{user1_nom}'s posts").format(**user)
+		elif buffer_type == "friends":
+			buffer = buffers.peopleBuffer(parent=self.window.tb, name="friends_{0}".format(user_id,), composefunc="render_person", session=self.session, create_tab=False, endpoint="get", parent_endpoint="friends", count=5000, fields="uid, first_name, last_name, last_seen", user_id=user_id)
+			user = self.session.get_user(user_id, key="user1")
+			name_ = _("{user1_nom}'s friends").format(**user)
+		wx.CallAfter(self.complete_buffer_creation, buffer=buffer, name_=name_, position=self.window.search("timelines"))
+
 	### GUI events
 	# These functions are connected to GUI elements such as menus, buttons and so on.
 	def connect_gui_events(self):
@@ -657,25 +680,7 @@ class Controller(object):
 			for i in d:
 				if i[1] == user:
 					user_id = i[0]
-			if user_id == "":
-				user_data = self.session.vk.client.utils.resolveScreenName(screen_name=user)
-				if type(user_data) == list:
-					commonMessages.no_user_exist()
-					return
-				user_id = user_data["object_id"]
-			if buffertype == "audio":
-				buffer = buffers.audioBuffer(parent=self.window.tb, name="{0}_audio".format(user_id,), composefunc="render_audio", session=self.session, create_tab=False, endpoint="get", parent_endpoint="audio", owner_id=user_id)
-				user = self.session.get_user(user_id, key="user1")
-				name_ = _("{user1_nom}'s audios").format(**user)
-			elif buffertype == "wall":
-				buffer = buffers.feedBuffer(parent=self.window.tb, name="{0}_feed".format(user_id,), composefunc="render_status", session=self.session, create_tab=False, endpoint="get", parent_endpoint="wall", extended=1, count=self.session.settings["buffers"]["count_for_wall_buffers"],  owner_id=user_id)
-				user = self.session.get_user(user_id, key="user1")
-				name_ = _("{user1_nom}'s posts").format(**user)
-			elif buffertype == "friends":
-				buffer = buffers.peopleBuffer(parent=self.window.tb, name="friends_{0}".format(user_id,), composefunc="render_person", session=self.session, create_tab=False, endpoint="get", parent_endpoint="friends", count=5000, fields="uid, first_name, last_name, last_seen", user_id=user_id)
-				user = self.session.get_user(user_id, key="user1")
-				name_ = _("{user1_nom}'s friends").format(**user)
-			wx.CallAfter(self.complete_buffer_creation, buffer=buffer, name_=name_, position=self.window.search("timelines"))
+			pub.sendMessage("create-timeline", user_id=user_id, buffer_type=buffertype)
 
 	def create_audio_album(self, *args, **kwargs):
 		d = creation.audio_album()

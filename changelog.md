@@ -7,6 +7,7 @@
 * Added "post in groups" feature. In order to do so, you need to load the posts for the group where you want to send something. Once loaded, go to the post button in the group's wall and select whether you want to post in the group's behalf or as yourself.
 * In all audio buffers, it is possible to select individual tracks to be played together. In order to do so, you need to press space to start the selection of items. When selected, the item will emit a sound to indicate the change. Press space in all items you want to select/unselect. When you're focusing an already selected item it will play a sound to indicate that it is already selected. Once you're done with your selection, pressing enter in the list of tracks will start the playback of the list of items you have selected. This is a very experimental feature. More actions can be supported based in this selection method if it proves to be useful.
 * In conversation buffers, it is possible to display and open wall posts sent as attachments in messages.
+* In people buffers, it is possible to create a new timeline by using the context menu while focusing an user. This method will create the buffer for the selected user, as opposed to creating the buffer from the menu bar, where you have to type the username or find it in a list.
 
 ### bugfixes
 
