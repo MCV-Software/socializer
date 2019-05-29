@@ -263,6 +263,10 @@ class vkSession(object):
 					k = "{key}_{case}".format(key=key, case=i)
 					v = self.db["groups"][abs(user_id)][i]
 					user_data[k] = v
+			else:
+				group = self.vk.client.groups.getById(group_ids=-1*user_id)[0]
+				self.process_usernames(data=dict(profiles=[], groups=[group]))
+				return self.get_user(user_id=user_id, key=key)
 			return user_data
 
 	def process_usernames(self, data):
