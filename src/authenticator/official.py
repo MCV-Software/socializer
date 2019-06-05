@@ -55,7 +55,7 @@ def get_non_refreshed(login, password, scope=scope):
 	url = "https://oauth.vk.com/token"
 	params = dict(grant_type="password",
 		client_id=client_id, client_secret=client_secret, username=login,
-		password=password, v=api_ver, scope=scope, lang="en", device_id=device_id)
+		password=password, v=api_ver, scope=scope, lang="en", device_id=device_id, force_sms=1)
 	# Add two factor auth later due to python's syntax.
 	params["2fa_supported"] = 1
 	headers = {'User-Agent': user_agent}
