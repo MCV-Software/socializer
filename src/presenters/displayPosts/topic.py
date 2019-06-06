@@ -115,11 +115,6 @@ class displayTopicPresenter(basePost.displayPostPresenter):
 		attachments = ""
 		if hasattr(comment, "attachments"):
 			attachments = self.upload_attachments(comment.attachments)
-		urls = utils.find_urls_in_text(msg)
-		if len(urls) != 0:
-			if len(attachments) == 0: attachments = urls[0]
-			else: attachments += urls[0]
-			msg = msg.replace(urls[0], "")
 		if msg != "":
 			kwargs.update(message=msg)
 		if attachments != "":
