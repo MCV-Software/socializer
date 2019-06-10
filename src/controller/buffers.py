@@ -80,7 +80,7 @@ class baseBuffer(object):
 	def insert(self, item, reversed=False):
 		""" Add a new item to the list. Uses renderers.composefunc for parsing the dictionary and create a valid result for putting it in the list."""
 		item_ = getattr(renderers, self.compose_function)(item, self.session)
-		self.tab.list.insert_item(reversed, *item_)
+		wx.CallAfter(self.tab.list.insert_item, reversed, *item_)
 
 	def get_items(self, show_nextpage=False):
 		""" Retrieve items from the VK API. This function is called repeatedly by the main controller and users could call it implicitly as well with the update buffer option.
@@ -1143,9 +1143,9 @@ class chatBuffer(baseBuffer):
 		if show_nextpage  == False:
 			if self.tab.history.GetValue() != "" and num > 0:
 				v = [i for i in self.session.db[self.name]["items"][:num]]
-				[self.insert(i, False) for i in v]
+				[wx.CallAfter(self.insert, i, False) for i in v]
 			else:
-				[self.insert(i) for i in self.session.db[self.name]["items"][:num]]
+				[wx.CallAfter(self.insert, i) for i in self.session.db[self.name]["items"][:num]]
 		else:
 			if num > 0:
 				# At this point we save more CPU and mathematical work if we just delete everything in the chat history and readd all messages.
@@ -1155,7 +1155,7 @@ class chatBuffer(baseBuffer):
 				self.chats = dict()
 				self.tab.history.SetValue("")
 				v = [i for i in self.session.db[self.name]["items"]]
-				[self.insert(i) for i in v]
+				[wx.CallAfter(self.insert, i) for i in v]
 				# Now it's time to set back the focus in the post.
 				for i in self.chats.keys():
 					if self.chats[i] == focused_post["id"]:

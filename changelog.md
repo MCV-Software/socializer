@@ -14,6 +14,8 @@
 * Fixed an error with two factor authentication in the recent socializer version. Now it works reliably again.
 * Fixed an error when trying to attach a photo to a wall post. The error was fixed in the [vk_api](https://github.com/python273/vk_api) module and the fix was sent to the developer of the library, so he will be able to merge it in the next version. In the meantime, socializer already includes the fix for this method, so you can upload photos to wall posts normally.
 * Fixed an error retrieving some group information for the current session.
+* When posting in a topic, links will be posted properly.
+
 
 ### Changes
 

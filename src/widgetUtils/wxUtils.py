@@ -137,89 +137,90 @@ class mainLoopObject(wx.App):
 		self.app.MainLoop()
 
 class multiselectionBaseList(wx.ListCtrl, listmix.CheckListCtrlMixin):
- def __init__(self, *args, **kwargs):
-  wx.ListCtrl.__init__(self, *args, **kwargs)
-  listmix.CheckListCtrlMixin.__init__(self)
-  self.Bind(wx.EVT_CHAR_HOOK, self.on_keydown)
-  self.Bind(wx.EVT_LIST_ITEM_FOCUSED, self.on_focus)
+	def __init__(self, *args, **kwargs):
+		wx.ListCtrl.__init__(self, *args, **kwargs)
+		listmix.CheckListCtrlMixin.__init__(self)
+		self.Bind(wx.EVT_CHAR_HOOK, self.on_keydown)
+		self.Bind(wx.EVT_LIST_ITEM_FOCUSED, self.on_focus)
 
- def on_focus(self, event):
-  currentItem = self.GetFocusedItem()
-  if self.IsChecked(currentItem):
-   pub.sendMessage("play-sound", sound="selected.ogg")
-  event.Skip()
+	def on_focus(self, event):
+		currentItem = self.GetFocusedItem()
+		if self.IsChecked(currentItem):
+			pub.sendMessage("play-sound", sound="selected.ogg")
+		event.Skip()
 
- def OnCheckItem(self, index, flag):
-  if flag == True:
-   pub.sendMessage("play-sound", sound="checked.ogg")
-  else:
-   pub.sendMessage("play-sound", sound="unchecked.ogg")
+	def OnCheckItem(self, index, flag):
+		if flag == True:
+			pub.sendMessage("play-sound", sound="checked.ogg")
+		else:
+			pub.sendMessage("play-sound", sound="unchecked.ogg")
 
- def on_keydown(self, event):
-  if event.GetKeyCode() == wx.WXK_SPACE:
-   self.ToggleItem(self.GetFocusedItem())
-  event.Skip()
+	def on_keydown(self, event):
+		if event.GetKeyCode() == wx.WXK_SPACE:
+			self.ToggleItem(self.GetFocusedItem())
+		event.Skip()
+
 class list(object):
- def __init__(self, parent, *columns, **listArguments):
-  self.columns = columns
-  self.listArguments = listArguments
-  self.create_list(parent)
+	def __init__(self, parent, *columns, **listArguments):
+		self.columns = columns
+		self.listArguments = listArguments
+		self.create_list(parent)
 
- def set_windows_size(self, column, characters_max):
-  self.list.SetColumnWidth(column, characters_max*2)
+	def set_windows_size(self, column, characters_max):
+		self.list.SetColumnWidth(column, characters_max*2)
 
- def set_size(self):
-  self.list.SetSize((self.list.GetBestSize()[0], 1000))
+	def set_size(self):
+		self.list.SetSize((self.list.GetBestSize()[0], 1000))
 
- def create_list(self, parent):
-  self.list = wx.ListCtrl(parent, -1, **self.listArguments)
-  for i in range(0, len(self.columns)):
-   self.list.InsertColumn(i, "%s" % (self.columns[i]))
+	def create_list(self, parent):
+		self.list = wx.ListCtrl(parent, -1, **self.listArguments)
+		for i in range(0, len(self.columns)):
+			self.list.InsertColumn(i, "%s" % (self.columns[i]))
 
- def insert_item(self, reversed, *item):
-  """ Inserts an item on the list."""
-  if reversed == False: items = self.list.GetItemCount()
-  else: items = 0
-  self.list.InsertItem(items, item[0])
-  for i in range(1, len(self.columns)):
-   self.list.SetItem(items, i, item[i])
+	def insert_item(self, reversed, *item):
+		""" Inserts an item on the list."""
+		if reversed == False: items = self.list.GetItemCount()
+		else: items = 0
+		self.list.InsertItem(items, item[0])
+		for i in range(1, len(self.columns)):
+			self.list.SetItem(items, i, item[i])
 
- def remove_item(self, pos):
-  """ Deletes an item from the list."""
-  if pos > 0: self.list.Focus(pos-1)
-  self.list.DeleteItem(pos)
+	def remove_item(self, pos):
+		""" Deletes an item from the list."""
+		if pos > 0: self.list.Focus(pos-1)
+		self.list.DeleteItem(pos)
 
- def clear(self):
-  self.list.DeleteAllItems()
+	def clear(self):
+		self.list.DeleteAllItems()
 
- def get_selected(self):
-  return self.list.GetFocusedItem()
+	def get_selected(self):
+		return self.list.GetFocusedItem()
 
- def select_item(self, pos):
-  self.list.Focus(pos)
+	def select_item(self, pos):
+		self.list.Focus(pos)
 
- def get_count(self):
-  selected = self.list.GetItemCount()
-  if selected == -1:
-   return 0
-  else:
-   return selected
+	def get_count(self):
+		selected = self.list.GetItemCount()
+		if selected == -1:
+			return 0
+		else:
+			return selected
 
- def Enable(self, value):
-  return self.list.Enable(value)
+	def Enable(self, value):
+		return self.list.Enable(value)
 
 class multiselectionList(list):
 
- def create_list(self, parent):
-  self.list = multiselectionBaseList(parent, -1, **self.listArguments)
-  for i in range(0, len(self.columns)):
-   self.list.InsertColumn(i, "%s" % (self.columns[i]))
+	def create_list(self, parent):
+		self.list = multiselectionBaseList(parent, -1, **self.listArguments)
+		for i in range(0, len(self.columns)):
+			self.list.InsertColumn(i, "%s" % (self.columns[i]))
 
- def get_multiple_selection(self):
-  selected = []
-  for item in range(0, self.list.GetItemCount()):
-   if self.list.IsChecked(item):
-    selected.append(item)
-  if len(selected) == 0 and self.list.GetFocusedItem() != -1:
-   selected.append(self.list.GetFocusedItem())
-  return selected
+	def get_multiple_selection(self):
+		selected = []
+		for item in range(0, self.list.GetItemCount()):
+			if self.list.IsChecked(item):
+				selected.append(item)
+		if len(selected) == 0 and self.list.GetFocusedItem() != -1:
+			selected.append(self.list.GetFocusedItem())
+		return selected

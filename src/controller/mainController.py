@@ -411,7 +411,7 @@ class Controller(object):
 		if user == None:
 			log.exception("Getting user manually...")
 			user = self.session.vk.client.users.get(user_ids=event.user_id, fields="last_seen")[0]
-		online_buffer.add_person(user)
+		wx.CallAfter(online_buffer.add_person, user)
 
 	def user_offline(self, event):
 		""" Sends a notification of an user logging off in VK.
@@ -424,7 +424,7 @@ class Controller(object):
 		sound = "friend_offline.ogg"
 		self.notify(msg, sound, self.session.settings["chat"]["notifications"])
 		online_friends = self.search("online_friends")
-		online_friends.remove_person(event.user_id)
+		wx.CallAfter(online_friends.remove_person, event.user_id)
 
 	def notify(self, message="", sound="", type="native"):
 		""" display a notification in Socializer.
@@ -512,7 +512,7 @@ class Controller(object):
 		# Let's add this to the buffer.
 		# ToDo: Clean this code and test how is the database working with this set to True.
 		buffer.session.db[buffer.name]["items"].append(message)
-		buffer.insert(self.session.db[buffer.name]["items"][-1], False)
+		wx.CallAfter(buffer.insert, self.session.db[buffer.name]["items"][-1], False)
 		self.session.soundplayer.play("message_received.ogg")
 		wx.CallAfter(self.reorder_buffer, buffer)
 		# Check if we have to read the message aloud
