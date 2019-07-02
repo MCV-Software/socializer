@@ -547,7 +547,7 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.CLOSE_EVENT, self.exit)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.update_buffer, menuitem=self.window.update_buffer)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.check_for_updates, menuitem=self.window.check_for_updates)
-		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.window.about_dialog, menuitem=self.window.about)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_about, menuitem=self.window.about)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.search_audios, menuitem=self.window.search_audios)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.search_videos, menuitem=self.window.search_videos)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU,self.remove_buffer, menuitem=self.window.remove_buffer_)
@@ -597,6 +597,10 @@ class Controller(object):
 		update = updater.do_update(update_type=self.session.settings["general"]["update_channel"])
 		if update == False:
 			commonMessages.no_update_available()
+
+	def on_about(self, *args, **kwargs):
+		channel = self.session.settings["general"]["update_channel"]
+		self.window.about_dialog(channel)
 
 	def search_audios(self, *args, **kwargs):
 		dlg = searchDialogs.searchAudioDialog()
