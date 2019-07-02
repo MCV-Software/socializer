@@ -59,8 +59,6 @@ class configurationInteractor(base.baseInteractor):
 					self.presenter.update_setting(section="general", setting="update_channel", value=update_channel)
 		self.presenter.update_setting(section="chat", setting="notify_online", value=self.view.get_value("chat", "notify_online"))
 		self.presenter.update_setting(section="chat", setting="notify_offline", value=self.view.get_value("chat", "notify_offline"))
-		self.presenter.update_setting(section="chat", setting="open_unread_conversations", value=self.view.get_value("chat", "open_unread_conversations"))
-		self.presenter.update_setting(section="chat", setting="automove_to_conversations", value=self.view.get_value("chat", "automove_to_conversations"))
 		self.presenter.update_setting(section="chat", setting="notifications", value=self.presenter.get_notification_type(self.view.get_value("chat", "notifications")))
 		self.presenter.update_setting(section="load_at_startup", setting="audio_albums", value=self.view.get_value("startup", "audio_albums"))
 		self.presenter.update_setting(section="load_at_startup", setting="video_albums", value=self.view.get_value("startup", "video_albums"))

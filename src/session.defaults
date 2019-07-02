@@ -20,8 +20,6 @@ count_for_audio_buffers = integer(default=1000)
 [chat]
 notify_online = boolean(default=True)
 notify_offline = boolean(default=True)
-open_unread_conversations = boolean(default=True)
-automove_to_conversations = boolean(default=False)
 notifications = string(default="custom")
 
 [load_at_startup]
