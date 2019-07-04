@@ -3,6 +3,7 @@ import time
 import os
 import webbrowser
 import subprocess
+import functools
 import logging
 import wx
 import widgetUtils
@@ -13,6 +14,7 @@ import views
 import config
 import paths
 import win32gui
+from concurrent import futures
 from vk_api.exceptions import LoginRequired, VkApiError
 from requests.exceptions import ConnectionError
 from pubsub import pub
@@ -32,6 +34,30 @@ from presenters import longpollthread
 from . import selector
 
 log = logging.getLogger("controller.main")
+
+thread_pool_executor = futures.ThreadPoolExecutor(max_workers=1)
+
+def wx_call_after(target):
+	@functools.wraps(target)
+	def wrapper(self, *args, **kwargs):
+		args = (self,) + args
+		wx.CallAfter(target, *args, **kwargs)
+	return wrapper
+
+def submit_to_pool_executor(executor):
+	def decorator(target):
+		@functools.wraps(target)
+		def wrapper(*args, **kwargs):
+			result = executor.submit(target, *args, **kwargs)
+			result.add_done_callback(executor_done_call_back)
+			return result
+		return wrapper
+	return decorator
+
+def executor_done_call_back(future):
+	exception = future.exception()
+	if exception:
+		raise exception
 
 class Controller(object):
 
@@ -144,8 +170,6 @@ class Controller(object):
 			log.error("Error in setting offline status for the current user")
 
 	def create_unread_messages(self):
-		if self.session.settings["chat"]["open_unread_conversations"] == False:
-			return
 		try:
 			log.debug("Getting possible unread messages.")
 			msgs = self.session.vk.client.messages.getConversations(count=200)
@@ -153,8 +177,7 @@ class Controller(object):
 			if ex.code == 6:
 				log.exception("Something went wrong when getting messages. Waiting a second to retry")
 		for i in msgs["items"]:
-			call_threaded(self.chat_from_id, i["last_message"]["peer_id"], setfocus=False, unread=False)
-			time.sleep(0.6)
+			self.chat_from_id(i["last_message"]["peer_id"], setfocus=False, unread=False)
 
 	def get_audio_albums(self, user_id=None, create_buffers=True, force_action=False):
 		if self.session.settings["load_at_startup"]["audio_albums"] == False and force_action == False:
@@ -168,8 +191,7 @@ class Controller(object):
 		self.session.audio_albums = albums
 		if create_buffers:
 			for i in albums:
-				wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="audioAlbum", buffer_title=_("Album: {0}").format(i["title"],), parent_tab="audio_albums", loadable=True, kwargs=dict(parent=self.window.tb, name="{0}_audio_album".format(i["id"],), composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio", owner_id=user_id, album_id=i["id"]))
-				time.sleep(0.6)
+				pub.sendMessage("create_buffer", buffer_type="audioAlbum", buffer_title=_("Album: {0}").format(i["title"],), parent_tab="audio_albums", loadable=True, kwargs=dict(parent=self.window.tb, name="{0}_audio_album".format(i["id"],), composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio", owner_id=user_id, album_id=i["id"]))
 
 	def get_video_albums(self, user_id=None, create_buffers=True, force_action=False):
 		if self.session.settings["load_at_startup"]["video_albums"] == False and force_action == False:
@@ -179,8 +201,7 @@ class Controller(object):
 		self.session.video_albums = albums["items"]
 		if create_buffers:
 			for i in albums["items"]:
-				wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="videoAlbum", buffer_title=_("Album: {0}").format(i["title"],), parent_tab="video_albums", loadable=True, kwargs=dict(parent=self.window.tb, name="{0}_video_album".format(i["id"],), composefunc="render_video", session=self.session, endpoint="get", parent_endpoint="video", count=self.session.settings["buffers"]["count_for_video_buffers"], user_id=user_id, album_id=i["id"]))
-				time.sleep(0.15)
+				pub.sendMessage("create_buffer", buffer_type="videoAlbum", buffer_title=_("Album: {0}").format(i["title"],), parent_tab="video_albums", loadable=True, kwargs=dict(parent=self.window.tb, name="{0}_video_album".format(i["id"],), composefunc="render_video", session=self.session, endpoint="get", parent_endpoint="video", count=self.session.settings["buffers"]["count_for_video_buffers"], user_id=user_id, album_id=i["id"]))
 
 	def get_communities(self, user_id=None, create_buffers=True, force_action=False):
 		if self.session.settings["vk"]["invited_to_group"] == False:
@@ -208,8 +229,8 @@ class Controller(object):
 		if create_buffers:
 			for i in self.session.groups:
 				self.session.db["group_info"][i["id"]*-1] = i
-				wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="communityBuffer", buffer_title=i["name"], parent_tab="communities", loadable=True, get_items=True, kwargs=dict(parent=self.window.tb, name="{0}_community".format(i["id"],), composefunc="render_status", session=self.session, endpoint="get", parent_endpoint="wall", extended=1, count=self.session.settings["buffers"]["count_for_wall_buffers"], owner_id=-1*i["id"]))
-				time.sleep(0.15)
+				pub.sendMessage("create_buffer", buffer_type="communityBuffer", buffer_title=i["name"], parent_tab="communities", loadable=True, get_items=True, kwargs=dict(parent=self.window.tb, name="{0}_community".format(i["id"],), composefunc="render_status", session=self.session, endpoint="get", parent_endpoint="wall", extended=1, count=self.session.settings["buffers"]["count_for_wall_buffers"], owner_id=-1*i["id"]))
+
 
 	def login(self):
 		self.window.change_status(_("Logging in VK"))
@@ -221,7 +242,7 @@ class Controller(object):
 				self.window.change_status(_("Loading items for {0}").format(i.name,))
 				i.get_items()
 		self.window.change_status(_("Ready"))
-		self.create_unread_messages()
+		call_threaded(self.create_unread_messages)
 		self.status_setter = RepeatingTimer(280, self.set_online)
 		self.status_setter.start()
 		self.set_online(notify=True)
@@ -365,7 +386,7 @@ class Controller(object):
 		elif user_id > 2000000000:
 			chat = self.session.vk.client.messages.getChat(chat_id=user_id-2000000000)
 			name = chat["title"]
-		wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="chatBuffer", buffer_title=name, parent_tab="chats", get_items=True, kwargs=dict(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="render_message", parent_endpoint="messages", endpoint="getHistory", session=self.session, unread=unread, count=200,  peer_id=user_id, rev=0, extended=True, fields="id, user_id, date, read_state, out, body, attachments, deleted"))
+		pub.sendMessage("create_buffer", buffer_type="chatBuffer", buffer_title=name, parent_tab="chats", get_items=True, kwargs=dict(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="render_message", parent_endpoint="messages", endpoint="getHistory", session=self.session, unread=unread, count=200,  peer_id=user_id, rev=0, extended=True, fields="id, user_id, date, read_state, out, body, attachments, deleted"))
 #		if setfocus:
 #			pos = self.window.search(buffer.name)
 #			self.window.change_buffer(pos)
@@ -451,7 +472,7 @@ class Controller(object):
 		if hasattr(self, "longpoll"):
 			del self.longpoll
 		self.create_longpoll_thread(notify=True)
-
+	@wx_call_after
 	def create_buffer(self, buffer_type="baseBuffer", buffer_title="", parent_tab=None, loadable=False, get_items=False, kwargs={}):
 		""" Create and insert a buffer in the specified place.
 		@buffer_type str: name of the buffer type to be created. This should be a class in the buffers.py module.
@@ -905,7 +926,7 @@ class Controller(object):
 			commonMessages.community_no_items()
 			return
 		new_name = current_buffer.name+"_audios"
-		wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="audioBuffer", buffer_title=_("Audios"), parent_tab=current_buffer.tab.name, get_items=True, kwargs=dict(parent=self.window.tb, name=new_name, composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio", owner_id=current_buffer.kwargs["owner_id"]))
+		pub.sendMessage("create_buffer", buffer_type="audioBuffer", buffer_title=_("Audios"), parent_tab=current_buffer.tab.name, get_items=True, kwargs=dict(parent=self.window.tb, name=new_name, composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio", owner_id=current_buffer.kwargs["owner_id"]))
 
 	def load_community_videos(self, *args, **kwargs):
 		""" Load community videos if they are not loaded already."""
@@ -918,7 +939,7 @@ class Controller(object):
 			commonMessages.community_no_items()
 			return
 		new_name = current_buffer.name+"_videos"
-		wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="videoBuffer", buffer_title=_("Videos"), parent_tab=current_buffer.tab.name, get_items=True, kwargs=dict(parent=self.window.tb, name=new_name, composefunc="render_video", session=self.session, endpoint="get", parent_endpoint="video", count=self.session.settings["buffers"]["count_for_video_buffers"], owner_id=current_buffer.kwargs["owner_id"]))
+		pub.sendMessage("create_buffer", buffer_type="videoBuffer", buffer_title=_("Videos"), parent_tab=current_buffer.tab.name, get_items=True, kwargs=dict(parent=self.window.tb, name=new_name, composefunc="render_video", session=self.session, endpoint="get", parent_endpoint="video", count=self.session.settings["buffers"]["count_for_video_buffers"], owner_id=current_buffer.kwargs["owner_id"]))
 
 	def load_community_topics(self, *args, **kwargs):
 		""" Load community topics."""
@@ -931,7 +952,7 @@ class Controller(object):
 			commonMessages.community_no_items()
 			return
 		new_name = current_buffer.name+"_topics"
-		wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="topicBuffer", buffer_title=_("Topics"), parent_tab=current_buffer.tab.name, get_items=True, kwargs=dict(parent=self.window.tb, name=new_name, composefunc="render_topic", session=self.session, endpoint="getTopics", parent_endpoint="board", count=100, group_id=-1*current_buffer.kwargs["owner_id"], extended=1))
+		pub.sendMessage("create_buffer", buffer_type="topicBuffer", buffer_title=_("Topics"), parent_tab=current_buffer.tab.name, get_items=True, kwargs=dict(parent=self.window.tb, name=new_name, composefunc="render_topic", session=self.session, endpoint="getTopics", parent_endpoint="board", count=100, group_id=-1*current_buffer.kwargs["owner_id"], extended=1))
 
 	def load_community_documents(self, *args, **kwargs):
 		current_buffer = self.get_current_buffer()
@@ -943,7 +964,7 @@ class Controller(object):
 			commonMessages.community_no_items()
 			return
 		new_name = current_buffer.name+"_documents"
-		wx.CallAfter(pub.sendMessage, "create_buffer", buffer_type="documentCommunityBuffer", buffer_title=_("Documents"), parent_tab=current_buffer.tab.name, get_items=True, kwargs=dict(parent=self.window.tb, name=new_name, composefunc="render_document", session=self.session, endpoint="get", parent_endpoint="docs", owner_id=current_buffer.kwargs["owner_id"]))
+		pub.sendMessage("create_buffer", buffer_type="documentCommunityBuffer", buffer_title=_("Documents"), parent_tab=current_buffer.tab.name, get_items=True, kwargs=dict(parent=self.window.tb, name=new_name, composefunc="render_document", session=self.session, endpoint="get", parent_endpoint="docs", owner_id=current_buffer.kwargs["owner_id"]))
 
 	def load_community_buffers(self, *args, **kwargs):
 		""" Load all community buffers regardless of the setting present in optional buffers tab of the preferences dialog."""
