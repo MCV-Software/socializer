@@ -40,7 +40,8 @@ def find_item(list, item):
 			break
 	if identifier == None:
 		# if there are objects that can't be processed by lack of identifier, let's print  keys for finding one.
-		log.exception("Can't find an identifier for the following object: %r" % (list(item.keys()),))
+		log.exception("Can't find an identifier for the following object: %r" % (item.keys(),))
+		return False
 	for i in list:
 		if identifier in i and i[identifier] == item[identifier]:
 			return True
@@ -53,7 +54,7 @@ class vkSession(object):
 		""" Put new items on the local cache database.
 		@name str: The name for the buffer stored in the dictionary.
 		@data list: A list with items and some information about cursors.
-		returns the number of items that has been added in this execution"""
+		returns the number of items that have been added in this execution"""
 		global post_types
 		# When this method is called by friends.getOnlyne, it gives only friend IDS so we need to retrieve full objects from VK.
 		# ToDo: It would be nice to investigate whether reusing some existing objects would be a good idea, whenever possible.
