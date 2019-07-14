@@ -144,10 +144,8 @@ class Controller(object):
 			log.error("Error in setting offline status for the current user")
 
 	def create_unread_messages(self):
-		if self.session.settings["chat"]["open_unread_conversations"] == False:
-			return
 		try:
-			log.debug("Getting possible unread messages.")
+			log.debug("Creating conversation buffers...")
 			msgs = self.session.vk.client.messages.getConversations(count=200)
 		except VkApiError as ex:
 			if ex.code == 6:
