@@ -40,7 +40,7 @@ def find_item(list, item):
 			break
 	if identifier == None:
 		# if there are objects that can't be processed by lack of identifier, let's print  keys for finding one.
-		log.exception("Can't find an identifier for the following object: %r" % (item.keys(),))
+		log.exception("Can't find an identifier for the following object: %r" % (item,))
 		return False
 	for i in list:
 		if identifier in i and i[identifier] == item[identifier]:
@@ -185,8 +185,10 @@ class vkSession(object):
 			c = self.vk.client_audio
 		else:
 			c = self.vk.client
+		formatted_endpoint = ""
 		if "parent_endpoint" in kwargs:
 			p = kwargs["parent_endpoint"]
+			formatted_endpoint = kwargs["parent_endpoint"]
 			if "audio" in p and self.settings["vk"]["use_alternative_tokens"]:
 				log.info("Using alternative audio methods.")
 				c = self.vk.client_audio
@@ -199,7 +201,8 @@ class vkSession(object):
 			kwargs.update(offset=self.db[name]["offset"])
 		else:
 			kwargs.update(offset=0)
-		log.debug("Calling endpoint %s with params %r" % (p, kwargs,))
+		formatted_endpoint = "{formatted_endpoint}.{new_path}".format(formatted_endpoint=formatted_endpoint, new_path=endpoint)
+		log.debug("Calling endpoint %s with params %r" % (formatted_endpoint, kwargs,))
 		data = getattr(p, endpoint)(*args, **kwargs)
 		if data != None:
 			if "count" not in kwargs:
