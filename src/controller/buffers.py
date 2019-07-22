@@ -105,12 +105,12 @@ class baseBuffer(object):
 			if self.tab.list.get_count() > 0 and num > 0:
 				v = [i for i in self.session.db[self.name]["items"][:num]]
 				v.reverse()
-				[self.insert(i, True) for i in v]
+				[wx.CallAfter(self.insert, i, True) for i in v]
 			else:
-				[self.insert(i) for i in self.session.db[self.name]["items"][:num]]
+				[wx.CallAfter(self.insert, i) for i in self.session.db[self.name]["items"][:num]]
 		else:
 			if num > 0:
-				[self.insert(i, False) for i in self.session.db[self.name]["items"][-num:]]
+				[wx.CallAfter(self.insert, i, False) for i in self.session.db[self.name]["items"][-num:]]
 		return retrieved
 
 	def get_more_items(self):
@@ -417,12 +417,12 @@ class feedBuffer(baseBuffer):
 			if self.tab.list.get_count() > 0 and num > 0:
 				v = [i for i in self.session.db[self.name]["items"][:num]]
 				v.reverse()
-				[self.insert(i, True) for i in v]
+				[wx.CallAfter(self.insert, i, True) for i in v]
 			else:
-				[self.insert(i) for i in self.session.db[self.name]["items"][:num]]
+				[wx.CallAfter(self.insert, i) for i in self.session.db[self.name]["items"][:num]]
 		else:
 			if num > 0:
-				[self.insert(i, False) for i in self.session.db[self.name]["items"][-num:]]
+				[wx.CallAfter(self.insert, i, False) for i in self.session.db[self.name]["items"][-num:]]
 		return retrieved
 
 	def remove_buffer(self, mandatory=False):
@@ -1519,9 +1519,9 @@ class requestsBuffer(peopleBuffer):
 			if self.tab.list.get_count() > 0 and num > 0:
 				v = [i for i in self.session.db[self.name]["items"][:num]]
 				v.reverse()
-				[self.insert(i, True) for i in v]
+				[wx.CallAfter(self.insert, i, True) for i in v]
 			else:
-				[self.insert(i) for i in self.session.db[self.name]["items"][:num]]
+				[wx.CallAfter(self.insert, i) for i in self.session.db[self.name]["items"][:num]]
 		return retrieved
 
 	def accept_friendship(self, *args, **kwargs):

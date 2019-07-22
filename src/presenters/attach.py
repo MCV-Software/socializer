@@ -8,6 +8,7 @@ import logging
 import interactors
 import views
 from mutagen.id3 import ID3
+from mutagen.id3._util import ID3NoHeaderError
 from sessionmanager.utils import seconds_to_string
 from . import audioRecorder, base
 
@@ -47,15 +48,19 @@ class attachPresenter(base.basePresenter):
 		if audio != None:
 			# Define data structure for this attachment, as will be required by VK API later.
 			# Let's extract the ID3 tags to show them in the list and send them to VK, too.
-			audio_tags = ID3(audio)
-			if "TIT2" in audio_tags:
-				title = audio_tags["TIT2"].text[0]
-			else:
-				title = _("Untitled")
-			if "TPE1" in audio_tags:
-				artist = audio_tags["TPE1"].text[0]
-			else:
+			try:
+				audio_tags = ID3(audio)
+				if "TIT2" in audio_tags:
+					title = audio_tags["TIT2"].text[0]
+				else:
+					title = _("Untitled")
+				if "TPE1" in audio_tags:
+					artist = audio_tags["TPE1"].text[0]
+				else:
+					artist = _("Unknown artist")
+			except ID3NoHeaderError: # File doesn't include ID3 tags so let's assume unknown artist.
 				artist = _("Unknown artist")
+				title = os.path.basename(audio).replace(".mp3", "")
 			audioInfo = {"type": "audio", "file": audio, "from": "local", "title": title, "artist": artist}
 			self.attachments.append(audioInfo)
 			# Translators: This is the text displayed in the attachments dialog, when the user adds  an audio file.

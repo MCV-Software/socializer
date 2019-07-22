@@ -14,6 +14,8 @@ formatter = logging.Formatter(MESSAGE_FORMAT, datefmt=DATE_FORMAT)
 
 requests_log = logging.getLogger("requests")
 requests_log.setLevel(logging.WARNING)
+urllib3 = logging.getLogger("urllib3")
+urllib3.setLevel(logging.WARNING)
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
