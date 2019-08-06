@@ -79,7 +79,10 @@ class baseBuffer(object):
 
 	def insert(self, item, reversed=False):
 		""" Add a new item to the list. Uses renderers.composefunc for parsing the dictionary and create a valid result for putting it in the list."""
-		item_ = getattr(renderers, self.compose_function)(item, self.session)
+		try:
+			item_ = getattr(renderers, self.compose_function)(item, self.session)
+		except:
+			log.exception(item)
 		wx.CallAfter(self.tab.list.insert_item, reversed, *item_)
 
 	def get_items(self, show_nextpage=False):
@@ -1261,7 +1264,11 @@ class chatBuffer(baseBuffer):
 				# We don't need the photos_list attachment, so skip it.
 				if i["type"] == "photos_list":
 					continue
-				attachments.append(add_attachment(i))
+				try:
+					rendered_object = add_attachment(i)
+				except:
+					log.exception("Error parsing the following attachment on chat: %r" % (i,))
+				attachments.append(rendered_object)
 				self.attachments.append(i)
 		self.tab.attachments.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.open_attachment)
 		self.tab.insert_attachments(attachments)
