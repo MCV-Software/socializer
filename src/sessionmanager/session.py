@@ -71,7 +71,7 @@ class vkSession(object):
 		if name.endswith("_messages") and show_nextpage == True:
 			show_nextpage = False
 		for i in data:
-			if "type" in i and not isinstance(i["type"], int) and not isinstance(i["type"], bool) and (i["type"] == "wall_photo" or i["type"] == "photo_tag" or i["type"] == "photo"):
+			if "type" in i and not isinstance(i["type"], int) and (i["type"] == "wall_photo" or i["type"] == "photo_tag" or i["type"] == "photo" or i["type"] == False or i["type"] == True):
 				log.debug("Skipping unsupported item... %r" % (i,))
 				continue
 			# for some reason, VK sends post data if the post has been deleted already.
