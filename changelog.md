@@ -9,10 +9,12 @@
 * Fixed an error that was making Socializer unable to attach audio files from the computer, if the file does not include correct ID3 TAGS.
 * Fixed a traceback that was being logged when attempting to load an image but cancel the dialog for attaching it.
 * Fixed an error that was making Socializer to fail when loading the newsfeed buffer, thus not loading any other buffers. This error was caused due to VK sending a new object type (undocumented for now) representing push subscriptions. The item is ignored by Socializer so it will not break the newsfeed buffer anymore.
+* Fixed an error that was making the status bar to not fit the full size of the Window. This was cutting the messages placed on it, now, all messages are displayed properly again.
 
 ### Changes
 
 * Less confidential user data will be send to the logs, so it will be much safer to pass logs publicly.
+* automatic update checks will be disabled if using socializer from the source code.
 
 ## changes in Versions 0.21 and 0.22 (14.07.2019)
 

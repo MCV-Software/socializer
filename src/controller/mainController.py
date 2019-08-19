@@ -93,7 +93,7 @@ class Controller(object):
 		player.setup()
 		self.window = mainWindow.mainWindow()
 		log.debug("Main window created")
-		self.window.change_status(_("Ready"))
+		wx.CallAfter(self.window.change_status, _("Ready"))
 		self.session = session.sessions[list(session.sessions.keys())[0]]
 		self.window.Show()
 		self.connect_pubsub_events()
@@ -137,7 +137,7 @@ class Controller(object):
 		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("Groups"), kwargs=dict(parent=self.window.tb, name="communities"))
 		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("Chats"), kwargs=dict(parent=self.window.tb, name="chats"))
 		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("Timelines"), kwargs=dict(parent=self.window.tb, name="timelines"))
-		self.window.realize()
+		wx.CallAfter(self.window.realize)
 		self.repeatedUpdate = RepeatingTimer(120, self.update_all_buffers)
 		self.repeatedUpdate.start()
 
@@ -233,15 +233,15 @@ class Controller(object):
 
 
 	def login(self):
-		self.window.change_status(_("Logging in VK"))
+		wx.CallAfter(self.window.change_status, _("Logging in VK"))
 		self.session.login()
-		self.window.change_status(_("Ready"))
+		wx.CallAfter(self.window.change_status, _("Ready"))
 		for i in self.buffers:
 			if hasattr(i, "get_items"):
 				# Translators: {0} will be replaced with the name of a buffer.
-				self.window.change_status(_("Loading items for {0}").format(i.name,))
+				wx.CallAfter(self.window.change_status, _("Loading items for {0}").format(i.name,))
 				i.get_items()
-		self.window.change_status(_("Ready"))
+		wx.CallAfter(self.window.change_status, _("Ready"))
 		call_threaded(self.create_unread_messages)
 		self.status_setter = RepeatingTimer(280, self.set_online)
 		self.status_setter.start()
@@ -363,7 +363,7 @@ class Controller(object):
 		""" Update the status bar present in the main Window.
 		@ status str: Text to be placed in the status bar.
 		"""
-		self.window.change_status(status)
+		wx.CallAfter(self.window.change_status, status)
 
 	def chat_from_id(self, user_id, setfocus=True, unread=False):
 		""" Create a conversation buffer for.
