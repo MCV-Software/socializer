@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import sys
 import application
 import platform
 import logging
@@ -9,6 +10,9 @@ from .wxUpdater import *
 logger = logging.getLogger("updater")
 
 def do_update(update_type="stable"):
+ # Updates cannot be performed in the source code version of Socializer.
+ if hasattr(sys, "frozen") == False:
+  return
  if update_type == "stable":
   endpoint = application.update_stable_url
   version = application.version
