@@ -4,6 +4,8 @@
 
 ### New additions
 
+* when selecting multiple audio files in audio buffers, multiple actions can be performed in all items, these actions are present in the contextual menu of the buffer (namely play, add/remove from the library and move to a different playlist). This means you can select all the audios you want and Socializer will perform the selected options in all items, making it a bit easier to operate with multiple songs.
+
 ### bugfixes
 
 * Fixed an error that was making Socializer unable to attach audio files from the computer, if the file does not include correct ID3 TAGS.

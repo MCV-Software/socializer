@@ -741,10 +741,10 @@ class audioBuffer(feedBuffer):
 		self.play_audio()
 
 	def open_post(self, *args, **kwargs):
-		selected = self.tab.list.get_selected()
-		if selected == -1:
+		selected = self.tab.list.get_multiple_selection()
+		if len(selected) < 1:
 			return
-		audios = [self.session.db[self.name]["items"][selected]]
+		audios = [self.session.db[self.name]["items"][audio] for audio in selected]
 		a = presenters.displayAudioPresenter(session=self.session, postObject=audios, interactor=interactors.displayAudioInteractor(), view=views.displayAudio())
 
 	def play_all(self, *args, **kwargs):
@@ -780,44 +780,101 @@ class audioBuffer(feedBuffer):
 		event.Skip()
 
 	def add_to_library(self, *args, **kwargs):
-		post = self.get_post()
-		if post == None:
+		call_threaded(self._add_to_library, *args, **kwargs)
+
+	def _add_to_library(self, *args, **kwargs):
+		selected = self.tab.list.get_multiple_selection()
+		if len(selected) < 1:
 			return
-		args = {}
-		args["audio_id"] = post["id"]
-		if "album_id" in post:
-			args["album_id"] = post["album_id"]
-		args["owner_id"] = post["owner_id"]
-		audio = self.session.vk.client.audio.add(**args)
-		if audio != None and int(audio) > 21:
-			output.speak(_("Audio added to your library"))
+		audios = [self.session.db[self.name]["items"][audio] for audio in selected]
+		errors_detected = 0
+		for i in audios:
+			args = {}
+			args["audio_id"] = i["id"]
+			if "album_id" in i:
+				args["album_id"] = i["album_id"]
+			args["owner_id"] = i["owner_id"]
+			try:
+				audio = self.session.vk.client.audio.add(**args)
+			except VkApiError:
+				errors_detected = errors_detected + 1
+				continue
+			if audio != None and int(audio) < 21:
+				errors_detected = errors_detected + 1
+		if errors_detected == 0:
+			if len(selected) == 1:
+				msg = _("Audio added to your library")
+			elif len(selected) > 1 and len(selected) < 5:
+				msg = _("{0} audios were added to your library.").format(len(selected),)
+			else:
+				msg = _("{audios} audios were added to your library.").format(audios=len(selected),)
+			output.speak(msg)
+		else:
+			output.speak(_("{0} errors occurred while attempting to add {1} audios to your library.").format(errors_detected, len(selected)))
 
 	def remove_from_library(self, *args, **kwargs):
-		post = self.get_post()
-		if post == None:
+		call_threaded(self._remove_from_library, *args, **kwargs)
+
+	def _remove_from_library(self, *args, **kwargs):
+		selected = self.tab.list.get_multiple_selection()
+		if len(selected) < 1:
 			return
-		args = {}
-		args["audio_id"] = post["id"]
-		args["owner_id"] = self.session.user_id
-		result = self.session.vk.client.audio.delete(**args)
-		if int(result) == 1:
-			output.speak(_("Removed audio from library"))
-			self.session.db[self.name]["items"].pop(self.tab.list.get_selected())
-			self.tab.list.remove_item(self.tab.list.get_selected())
+		audios = [self.session.db[self.name]["items"][audio] for audio in selected]
+		errors_detected = 0
+		audios_removed = 0
+		for i in range(0, len(selected)):
+			args = {}
+			args["audio_id"] = audios[i]["id"]
+			args["owner_id"] = self.session.user_id
+			result = self.session.vk.client.audio.delete(**args)
+			if int(result) != 1:
+				errors_dtected = errors_detected + 1
+			else:
+				self.session.db[self.name]["items"].pop(selected[i]-audios_removed)
+				self.tab.list.remove_item(selected[i]-audios_removed)
+				audios_removed = audios_removed + 1 
+		if errors_detected == 0:
+			if len(selected) == 1:
+				msg = _("Audio removed.")
+			elif len(selected) > 1 and len(selected) < 5:
+				msg = _("{0} audios were removed.").format(len(selected),)
+			else:
+				msg = _("{audios} audios were removed.").format(audios=len(selected),)
+			output.speak(msg)
+		else:
+			output.speak(_("{0} errors occurred while attempting to remove {1} audios.").format(errors_detected, len(selected)))
 
 	def move_to_album(self, *args, **kwargs):
 		if len(self.session.audio_albums) == 0:
 			return commonMessages.no_audio_albums()
-		post = self.get_post()
-		if post == None:
-			return
 		album = selector.album(_("Select the album where you want to move this song"), self.session)
-		if album.item == None: return
-		id = post["id"]
-		response = self.session.vk.client.audio.add(playlist_id=album.item, audio_id=id, owner_id=post["owner_id"])
-		if response == 1:
-		# Translators: Used when the user has moved an audio to an album.
-			output.speak(_("Moved"))
+		if album.item == None:
+			return
+		call_threaded(self._move_to_album, album.item, *args, **kwargs)
+
+	def _move_to_album(self, album, *args, **kwargs):
+		selected = self.tab.list.get_multiple_selection()
+		if len(selected) < 1:
+			return
+		audios = [self.session.db[self.name]["items"][audio] for audio in selected]
+		errors_detected = 0
+		for i in audios:
+			id = i["id"]
+			try:
+				response = self.session.vk.client.audio.add(playlist_id=album, audio_id=id, owner_id=i["owner_id"])
+			except VkApiError:
+				errors_detected = errors_detected + 1
+		if errors_detected == 0:
+			if len(selected) == 1:
+				msg = _("Audio added to playlist.")
+			elif len(selected) > 1 and len(selected) < 5:
+				msg = _("{0} audios were added to playlist.").format(len(selected),)
+			else:
+				msg = _("{audios} audios were added to playlist.").format(audios=len(selected),)
+			output.speak(msg)
+		else:
+			output.speak(_("{0} errors occurred while attempting to add {1} audios to your playlist.").format(errors_detected, len(selected)))
+
 
 	def get_menu(self):
 		p = self.get_post()
@@ -829,7 +886,7 @@ class audioBuffer(feedBuffer):
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.move_to_album, menuitem=m.move)
 		# if owner_id is the current user, the audio is added to the user's audios.
 		if p["owner_id"] == self.session.user_id:
-			m.library.SetItemLabel(_("&Remove from library"))
+			m.library.SetItemLabel(_("&Remove"))
 			widgetUtils.connect_event(m, widgetUtils.MENU, self.remove_from_library, menuitem=m.library)
 		else:
 			widgetUtils.connect_event(m, widgetUtils.MENU, self.add_to_library, menuitem=m.library)
@@ -993,7 +1050,7 @@ class videoBuffer(feedBuffer):
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.move_to_album, menuitem=m.move)
 		# if owner_id is the current user, the audio is added to the user's audios.
 		if p["owner_id"] == self.session.user_id:
-			m.library.SetItemLabel(_("&Remove from library"))
+			m.library.SetItemLabel(_("&Remove"))
 			widgetUtils.connect_event(m, widgetUtils.MENU, self.remove_from_library, menuitem=m.library)
 		else:
 			widgetUtils.connect_event(m, widgetUtils.MENU, self.add_to_library, menuitem=m.library)
