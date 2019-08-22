@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
+import output
 from sessionmanager import renderers, utils # We'll use some functions from there
 from presenters import base
 from presenters.createPosts.basePost import createPostPresenter
@@ -26,3 +27,19 @@ class displayTopicCommentPresenter(comment.displayCommentPresenter):
 		self.check_image_load()
 		self.send_message("disable_control", control="reply")
 		self.send_message("disable_control", control="comments")
+
+	def post_like(self):
+		id = self.post["id"]
+		if self.post["likes"]["user_likes"] == 1:
+			l = self.session.vk.client.likes.delete(owner_id=self.post["group_id"], item_id=id, type="topic_comment")
+			output.speak(_("You don't like this"))
+			self.post["likes"]["count"] = l["likes"]
+			self.post["likes"]["user_likes"] = 2
+			self.send_message("set_label", control="like", label=_("&Like"))
+		else:
+			l = self.session.vk.client.likes.add(owner_id=self.post["group_id"], item_id=id, type="topic_comment")
+			output.speak(_("You liked this"))
+			self.send_message("set_label", control="like", label=_("&Dislike"))
+			self.post["likes"]["count"] = l["likes"]
+			self.post["likes"]["user_likes"] = 1
+		self.get_likes()

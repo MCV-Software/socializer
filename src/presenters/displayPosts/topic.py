@@ -138,6 +138,7 @@ class displayTopicPresenter(basePost.displayPostPresenter):
 	def show_comment(self, comment_index):
 		c = self.comments["items"][comment_index]
 		c["post_id"] = self.post["id"]
+		c["group_id"] = -1*self.group_id
 		a = displayTopicCommentPresenter(session=self.session, postObject=c, interactor=interactors.displayPostInteractor(), view=views.displayComment())
 
 	def load_more_comments(self):
