@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
 import output
+from pubsub import pub
 from sessionmanager import renderers, utils # We'll use some functions from there
 from presenters import base
 from presenters.createPosts.basePost import createPostPresenter
@@ -43,3 +44,11 @@ class displayTopicCommentPresenter(comment.displayCommentPresenter):
 			self.post["likes"]["count"] = l["likes"]
 			self.post["likes"]["user_likes"] = 1
 		self.get_likes()
+
+	def show_likes(self):
+		""" show likes for the specified post."""
+		data = dict(type="topic_comment", owner_id=self.post["group_id"], item_id=self.post["id"], extended=True, count=100, skip_own=True)
+		result = self.session.vk.client.likes.getList(**data)
+		if result["count"] > 0:
+			post = {"source_id": self.post["group_id"], "friends": {"items": result["items"]}}
+			pub.sendMessage("open-post", post_object=post, controller_="displayFriendship", vars=dict(caption=_("people who liked this")))

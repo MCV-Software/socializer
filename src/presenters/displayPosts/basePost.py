@@ -419,7 +419,7 @@ class displayPostPresenter(base.basePresenter):
 
 	def show_likes(self):
 		""" show likes for the specified post."""
-		data = dict(type="post", owner_id=self.post[self.user_identifier], item_id=self.post["id"], extended=True, count=1000, skip_own=True)
+		data = dict(type="post", owner_id=self.post[self.user_identifier], item_id=self.post["id"], extended=True, count=100, skip_own=True)
 		result = self.session.vk.client.likes.getList(**data)
 		if result["count"] > 0:
 			post = {"source_id": self.post[self.user_identifier], "friends": {"items": result["items"]}}

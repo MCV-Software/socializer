@@ -5,6 +5,7 @@ import languageHandler
 import views
 import interactors
 import logging
+from pubsub import pub
 from sessionmanager import renderers, utils # We'll use some functions from there
 from mysc.thread_utils import call_threaded
 from presenters import base
@@ -103,3 +104,12 @@ class displayCommentPresenter(basePost.displayPostPresenter):
 		c["post_id"] = self.post["post_id"]
 		a = displayCommentPresenter(session=self.session, postObject=c, interactor=interactors.displayPostInteractor(), view=views.displayComment())
 		self.clear_comments_list()
+
+	def show_likes(self):
+		""" show likes for the specified post."""
+		data = dict(type="comment", owner_id=self.post["owner_id"], item_id=self.post["id"], extended=True, count=100, skip_own=True)
+		result = self.session.vk.client.likes.getList(**data)
+		print(result)
+		if result["count"] > 0:
+			post = {"source_id": self.post[self.user_identifier], "friends": {"items": result["items"]}}
+			pub.sendMessage("open-post", post_object=post, controller_="displayFriendship", vars=dict(caption=_("people who liked this")))
