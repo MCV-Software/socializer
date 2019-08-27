@@ -9,10 +9,12 @@ import paths
 import config
 import sound
 from requests.exceptions import ProxyError, ConnectionError
-from .config_utils import Configuration, ConfigurationResetException
-from . import vkSessionHandler
 from pubsub import pub
 from vk_api.exceptions import LoginRequired, VkApiError
+from vk_api import upload
+from .config_utils import Configuration, ConfigurationResetException
+from . import vkSessionHandler
+from . import utils
 
 log = logging.getLogger("session")
 
@@ -71,7 +73,7 @@ class vkSession(object):
 		if name.endswith("_messages") and show_nextpage == True:
 			show_nextpage = False
 		for i in data:
-			if "type" in i and not isinstance(i["type"], int) and (i["type"] == "wall_photo" or i["type"] == "photo_tag" or i["type"] == "photo" or i["type"] == False or i["type"] == True):
+			if "type" in i and (i["type"] == "wall_photo" or i["type"] == "photo_tag" or i["type"] == "photo" or i["type"] == False or i["type"] == True):
 				log.debug("Skipping unsupported item... %r" % (i,))
 				continue
 			# for some reason, VK sends post data if the post has been deleted already.
@@ -118,6 +120,7 @@ class vkSession(object):
 		self.settings = Configuration(os.path.join(paths.config_path(), file_), os.path.join(paths.app_path(), "session.defaults"))
 		self.soundplayer = sound.soundSystem(config.app["sound"])
 		pub.subscribe(self.play_sound, "play-sound")
+		pub.subscribe(self.post, "post")
 #  except:
 #   log.exception("The session configuration has failed.")
 
@@ -304,3 +307,69 @@ class vkSession(object):
 		log.debug("Getting user identifier...")
 		user = self.vk.client.users.get(fields="uid, first_name, last_name")
 		self.user_id = user[0]["id"]
+
+	def post(self, parent_endpoint, child_endpoint, attachments_list=[], post_arguments={}):
+		""" Generic function to be called whenever user wants to post something to VK.
+		This function should be capable of uploading all attachments before posting, and send a special event in case the post has failed,
+		So the program can recreate the post and show it back to the user."""
+		attachments = ""
+		if len(attachments_list) > 0:
+			attachments = self.upload_attachments(attachments_list)
+			print(attachments)
+		# VK generally defines all kind of messages under "text", "message" or "body" so let's try with all of those
+		possible_message_keys = ["text", "message", "body"]
+		for i in possible_message_keys:
+			if post_arguments.get(i):
+				urls = utils.find_urls_in_text(post_arguments[i])
+				if len(urls) != 0:
+					if len(attachments) == 0:
+						attachments = urls[0]
+					else:
+						attachments += urls[0]
+					post_arguments[i] = post_arguments[i].replace(urls[0], "")
+		# After modifying everything, let's update the post arguments if needed.
+		if len(attachments) > 0:
+			post_arguments.update(attachments=attachments)
+		print(post_arguments)
+		# Determines the correct functions to call here.
+		parent_endpoint = getattr(self.vk.client, parent_endpoint)
+		endpoint = getattr(parent_endpoint, child_endpoint)
+		post = endpoint(**post_arguments)
+		print(post)
+
+	def upload_attachments(self, attachments):
+		""" Upload attachments to VK before posting them.
+		Returns attachments formatted as string, as required by VK API."""
+		# To do: Check the caption and description fields for this kind of attachments.
+		local_attachments = ""
+		uploader = upload.VkUpload(self.vk.session_object)
+		for i in attachments:
+			if i["from"] == "online":
+				local_attachments += "{0}{1}_{2},".format(i["type"], i["owner_id"], i["id"])
+			elif i["from"] == "local" and i["type"] == "photo":
+				photos = i["file"]
+				description = i["description"]
+				r = uploader.photo_wall(photos, caption=description)
+				id = r[0]["id"]
+				owner_id = r[0]["owner_id"]
+				local_attachments += "photo{0}_{1},".format(owner_id, id)
+			elif i["from"] == "local" and i["type"] == "audio":
+				audio = i["file"]
+				title = "untitled"
+				artist = "unnamed"
+				if "artist" in i:
+					artist = i["artist"]
+				if "title" in i:
+					title = i["title"]
+				r = uploader.audio(audio, title=title, artist=artist)
+				id = r["id"]
+				owner_id = r["owner_id"]
+				local_attachments += "audio{0}_{1},".format(owner_id, id)
+			elif i["from"] == "local" and i["type"] == "document":
+				document = i["file"]
+				title = i["title"]
+				r = uploader.document(document, title=title, to_wall=True)
+				id = r["doc"]["id"]
+				owner_id = r["doc"]["owner_id"]
+				local_attachments += "doc{0}_{1},".format(owner_id, id)
+		return local_attachments
