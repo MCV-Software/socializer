@@ -1182,69 +1182,16 @@ class chatBuffer(baseBuffer):
 			wx.Bell()
 			return
 		self.tab.text.SetValue("")
-		call_threaded(self._send_message, text=text)
-
-	def upload_attachments(self, attachments):
-		""" Upload attachments to VK before posting them.
-		Returns attachments formatted as string, as required by VK API.
-		"""
-		local_attachments = ""
-		uploader = upload.VkUpload(self.session.vk.session_object)
-		for i in attachments:
-			if i["from"] == "online":
-				local_attachments += "{0}{1}_{2},".format(i["type"], i["owner_id"], i["id"])
-			elif i["from"] == "local" and i["type"] == "photo":
-				photos = i["file"]
-				description = i["description"]
-				r = uploader.photo_messages(photos)
-				id = r[0]["id"]
-				owner_id = r[0]["owner_id"]
-				local_attachments += "photo{0}_{1},".format(owner_id, id)
-			elif i["from"] == "local" and i["type"] == "audio":
-				audio = i["file"]
-				title = "untitled"
-				artist = "unnamed"
-				if "artist" in i:
-					artist = i["artist"]
-				if "title" in i:
-					title = i["title"]
-				r = uploader.audio(audio, title=title, artist=artist)
-				id = r["id"]
-				owner_id = r["owner_id"]
-				local_attachments += "audio{0}_{1},".format(owner_id, id)
-			elif i["from"] == "local" and i["type"] == "voice_message":
-				r = uploader.audio_message(i["file"], peer_id=self.kwargs["peer_id"])
-				id = r["audio_message"]["id"]
-				owner_id = r["audio_message"]["owner_id"]
-				local_attachments += "audio_message{0}_{1},".format(owner_id, id)
-			elif i["from"] == "local" and i["type"] == "document":
-				document = i["file"]
-				title = i["title"]
-				r = uploader.document(document, title=title, message_peer_id=self.kwargs["peer_id"])
-				id = r["doc"]["id"]
-				owner_id = r["doc"]["owner_id"]
-				local_attachments += "doc{0}_{1},".format(owner_id, id)
-		return local_attachments
-
-	def _send_message(self, text, attachments=[]):
-		if hasattr(self, "attachments_to_be_sent") and type(self.attachments_to_be_sent) == list:
-			self.attachments_to_be_sent = self.upload_attachments(self.attachments_to_be_sent)
-		try:
-		# Let's take care about the random_id attribute.
-		# This should be unique per message and should be changed right after the message has been sent.
-		# If the message is tried to be sent twice this random_id should be the same for both copies.
-		# At the moment we just calculate len(text)_user_id, hope that will work.
-			random_id = random.randint(0, 100000)
-			if hasattr(self, "attachments_to_be_sent"):
-				response = self.session.vk.client.messages.send(peer_id=self.kwargs["peer_id"], message=text, attachment=self.attachments_to_be_sent, random_id=random_id)
-			else:
-				response = self.session.vk.client.messages.send(peer_id=self.kwargs["peer_id"], message=text, random_id=random_id)
-		except ValueError as ex:
-			if ex.code == 9:
-				output.speak(_("You have been sending a message that is already sent. Try to update the buffer if you can't see the new message in the history."))
-		finally:
-			if hasattr(self, "attachments_to_be_sent"):
-				del self.attachments_to_be_sent
+		post_arguments = dict(random_id = random.randint(0, 100000), peer_id=self.kwargs["peer_id"])
+		if len(text) > 0:
+			post_arguments.update(message=text)
+		if hasattr(self, "attachments_to_be_sent") and len(self.attachments_to_be_sent) > 0:
+			attachments = self.attachments_to_be_sent[::]
+		else:
+			attachments = []
+		call_threaded(pub.sendMessage, "post", parent_endpoint="messages", child_endpoint="send", attachments_list=attachments, post_arguments=post_arguments)
+		if hasattr(self, "attachments_to_be_sent"):
+			del self.attachments_to_be_sent
 
 	def __init__(self, unread=False, *args, **kwargs):
 		super(chatBuffer, self).__init__(*args, **kwargs)

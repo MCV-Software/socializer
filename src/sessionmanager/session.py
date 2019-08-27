@@ -313,8 +313,9 @@ class vkSession(object):
 		This function should be capable of uploading all attachments before posting, and send a special event in case the post has failed,
 		So the program can recreate the post and show it back to the user."""
 		attachments = ""
+		print(attachments_list)
 		if len(attachments_list) > 0:
-			attachments = self.upload_attachments(attachments_list)
+			attachments = self.upload_attachments(attachments_list, post_arguments.get("peer_id"))
 		# VK generally defines all kind of messages under "text", "message" or "body" so let's try with all of those
 		possible_message_keys = ["text", "message", "body"]
 		for i in possible_message_keys:
@@ -328,16 +329,20 @@ class vkSession(object):
 					post_arguments[i] = post_arguments[i].replace(urls[0], "")
 		# After modifying everything, let's update the post arguments if needed.
 		if len(attachments) > 0:
-			post_arguments.update(attachments=attachments)
+			if parent_endpoint == "messages":
+				post_arguments.update(attachment=attachments)
+			else:
+				post_arguments.update(attachments=attachments)
 		# Determines the correct functions to call here.
 		parent_endpoint = getattr(self.vk.client, parent_endpoint)
 		endpoint = getattr(parent_endpoint, child_endpoint)
 		post = endpoint(**post_arguments)
-		print(post)
 
-	def upload_attachments(self, attachments):
+	def upload_attachments(self, attachments, peer_id=None):
 		""" Upload attachments to VK before posting them.
-		Returns attachments formatted as string, as required by VK API."""
+		Returns attachments formatted as string, as required by VK API.
+		@ peer_id int: if this value is passed, let's assume attachments will be send in private messages.
+		"""
 		# To do: Check the caption and description fields for this kind of attachments.
 		local_attachments = ""
 		uploader = upload.VkUpload(self.vk.session_object)
@@ -347,7 +352,10 @@ class vkSession(object):
 			elif i["from"] == "local" and i["type"] == "photo":
 				photos = i["file"]
 				description = i["description"]
-				r = uploader.photo_wall(photos, caption=description)
+				if peer_id == None:
+					r = uploader.photo_wall(photos, caption=description)
+				else:
+					r = uploader.photo_messages(photos)
 				id = r[0]["id"]
 				owner_id = r[0]["owner_id"]
 				local_attachments += "photo{0}_{1},".format(owner_id, id)
@@ -363,10 +371,18 @@ class vkSession(object):
 				id = r["id"]
 				owner_id = r["owner_id"]
 				local_attachments += "audio{0}_{1},".format(owner_id, id)
+			elif i["from"] == "local" and i["type"] == "voice_message":
+				r = uploader.audio_message(i["file"], peer_id=peer_id)
+				id = r["audio_message"]["id"]
+				owner_id = r["audio_message"]["owner_id"]
+				local_attachments += "audio_message{0}_{1},".format(owner_id, id)
 			elif i["from"] == "local" and i["type"] == "document":
 				document = i["file"]
 				title = i["title"]
-				r = uploader.document(document, title=title, to_wall=True)
+				if peer_id == None:
+					r = uploader.document(document, title=title, to_wall=True)
+				else:
+					r = uploader.document(document, title=title, message_peer_id=peer_id)
 				id = r["doc"]["id"]
 				owner_id = r["doc"]["owner_id"]
 				local_attachments += "doc{0}_{1},".format(owner_id, id)
