@@ -126,66 +126,11 @@ class baseBuffer(object):
 		During the second part (threaded), the post will be sent to the API."""
 		p = presenters.createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Write your post"), message="", text=""))
 		if hasattr(p, "text") or hasattr(p, "privacy"):
-			call_threaded(self.do_last, p=p)
-
-	def do_last(self, p, parent_endpoint="wall", child_endpoint="post", *args, **kwargs):
-		""" Second part of post function. Here everything is going to be sent to the API"""
-		msg = p.text
-		attachments = ""
-		if hasattr(p, "attachments"):
-			attachments = self.upload_attachments(p.attachments)
-		urls = utils.find_urls_in_text(msg)
-		if len(urls) != 0:
-			if len(attachments) == 0: attachments = urls[0]
-			else: attachments += urls[0]
-			msg = msg.replace(urls[0], "")
-		if msg != "":
-			kwargs.update(message=msg)
-		kwargs.update(privacy=p.privacy)
-		if attachments != "":
-			kwargs.update(attachments=attachments)
-		# Determines the correct functions to call here.
-		parent_endpoint = getattr(self.session.vk.client, parent_endpoint)
-		endpoint = getattr(parent_endpoint, child_endpoint)
-		post = endpoint(**kwargs)
-		pub.sendMessage("posted", buffer=self.name)
-
-	def upload_attachments(self, attachments):
-		""" Upload attachments to VK before posting them.
-		Returns attachments formatted as string, as required by VK API."""
-		# To do: Check the caption and description fields for this kind of attachments.
-		local_attachments = ""
-		uploader = upload.VkUpload(self.session.vk.session_object)
-		for i in attachments:
-			if i["from"] == "online":
-				local_attachments += "{0}{1}_{2},".format(i["type"], i["owner_id"], i["id"])
-			elif i["from"] == "local" and i["type"] == "photo":
-				photos = i["file"]
-				description = i["description"]
-				r = uploader.photo_wall(photos, caption=description)
-				id = r[0]["id"]
-				owner_id = r[0]["owner_id"]
-				local_attachments += "photo{0}_{1},".format(owner_id, id)
-			elif i["from"] == "local" and i["type"] == "audio":
-				audio = i["file"]
-				title = "untitled"
-				artist = "unnamed"
-				if "artist" in i:
-					artist = i["artist"]
-				if "title" in i:
-					title = i["title"]
-				r = uploader.audio(audio, title=title, artist=artist)
-				id = r["id"]
-				owner_id = r["owner_id"]
-				local_attachments += "audio{0}_{1},".format(owner_id, id)
-			elif i["from"] == "local" and i["type"] == "document":
-				document = i["file"]
-				title = i["title"]
-				r = uploader.document(document, title=title, to_wall=True)
-				id = r["doc"]["id"]
-				owner_id = r["doc"]["owner_id"]
-				local_attachments += "doc{0}_{1},".format(owner_id, id)
-		return local_attachments
+			post_arguments=dict(privacy=p.privacy, message=p.text)
+			attachments = []
+			if hasattr(p, "attachments"):
+				attachments = p.attachments
+			call_threaded(pub.sendMessage, "post", parent_endpoint="wall", child_endpoint="post", attachments_list=attachments, post_arguments=post_arguments)
 
 	def connect_events(self):
 		""" Bind all events to this buffer"""
@@ -468,7 +413,11 @@ class feedBuffer(baseBuffer):
 		title = _("Post to {user1_nom}'s wall").format(**user)
 		p = presenters.createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=title, message="", text=""))
 		if hasattr(p, "text") or hasattr(p, "privacy"):
-			call_threaded(self.do_last, p=p, owner_id=owner_id)
+			post_arguments=dict(privacy=p.privacy, message=p.text, owner_id=owner_id)
+			attachments = []
+			if hasattr(p, "attachments"):
+				attachments = p.attachments
+			call_threaded(pub.sendMessage, "post", parent_endpoint="wall", child_endpoint="post", attachments_list=attachments, post_arguments=post_arguments)
 
 	def open_in_browser(self, *args, **kwargs):
 		post = self.get_post()
@@ -525,7 +474,11 @@ class communityBuffer(feedBuffer):
 		title = _("Post to {user1_nom}'s wall").format(**user)
 		p = presenters.createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=title, message="", text=""))
 		if hasattr(p, "text") or hasattr(p, "privacy"):
-			call_threaded(self.do_last, p=p, owner_id=owner_id, from_group=from_group)
+			post_arguments=dict(privacy=p.privacy, message=p.text, owner_id=owner_id, from_group=from_group)
+			attachments = []
+			if hasattr(p, "attachments"):
+				attachments = p.attachments
+			call_threaded(pub.sendMessage, "post", parent_endpoint="wall", child_endpoint="post", attachments_list=attachments, post_arguments=post_arguments)
 
 class topicBuffer(feedBuffer):
 
@@ -572,26 +525,13 @@ class topicBuffer(feedBuffer):
 		title = _("Create topic in {user1_nom}").format(**user)
 		p = presenters.createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createTopicDialog(title=title, message="", text=""))
 		if hasattr(p, "text") or hasattr(p, "privacy"):
-			call_threaded(self.do_last, p=p, group_id=owner_id, from_group=from_group)
-
-	def do_last(self, p, *args, **kwargs):
-		title = p.view.title
-		msg = p.text
-		attachments = ""
-		if hasattr(p, "attachments"):
-			attachments = self.upload_attachments(p.attachments)
-		urls = utils.find_urls_in_text(msg)
-		if len(urls) != 0:
-			if len(attachments) == 0: attachments = urls[0]
-			else: attachments += urls[0]
-			msg = msg.replace(urls[0], "")
-		if msg != "":
-			kwargs.update(text=msg, title=title.GetValue())
-		if attachments != "":
-			kwargs.update(attachments=attachments)
-		# Determines the correct functions to call here.
-		post = self.session.vk.client.board.addTopic(**kwargs)
-		pub.sendMessage("posted", buffer=self.name)
+			title = p.view.title.GetValue()
+			msg = p.text
+			post_arguments = dict(title=title, text=msg, group_id=owner_id, from_group=from_group)
+			attachments = []
+			if hasattr(p, "attachments"):
+				attachments = p.attachments
+			call_threaded(pub.sendMessage, "post", parent_endpoint="board", child_endpoint="addTopic", attachments_list=attachments, post_arguments=post_arguments)
 
 class documentBuffer(feedBuffer):
 	can_get_items = False
