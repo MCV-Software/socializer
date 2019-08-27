@@ -315,7 +315,6 @@ class vkSession(object):
 		attachments = ""
 		if len(attachments_list) > 0:
 			attachments = self.upload_attachments(attachments_list)
-			print(attachments)
 		# VK generally defines all kind of messages under "text", "message" or "body" so let's try with all of those
 		possible_message_keys = ["text", "message", "body"]
 		for i in possible_message_keys:
@@ -330,7 +329,6 @@ class vkSession(object):
 		# After modifying everything, let's update the post arguments if needed.
 		if len(attachments) > 0:
 			post_arguments.update(attachments=attachments)
-		print(post_arguments)
 		# Determines the correct functions to call here.
 		parent_endpoint = getattr(self.vk.client, parent_endpoint)
 		endpoint = getattr(parent_endpoint, child_endpoint)
