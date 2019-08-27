@@ -332,15 +332,11 @@ class Controller(object):
 		pub.unsubscribe(self.notify, "notify")
 		pub.subscribe(self.create_timeline, "create-timeline")
 
-	def in_post(self, buffer):
-		""" This event is triggered whenever an user requires an update in their buffers. For example after sending a post successfully.
-		The function updates the main newsfeed buffer, and the buffer from where the post was sent.
-		@buffer str: name of the buffer where the post has been generated.
-		"""
-		buffer = self.search(buffer)
-		buffer.get_items()
-		buffer = self.search("home_timeline")
-		buffer.get_items()
+	def in_post(self, from_buffer=None):
+		if from_buffer != None:
+			log.debug("Post received in buffer %s, updating... " % (from_buffer,))
+			buffer = self.search(from_buffer)
+			buffer.get_items()
 
 	def download(self, url, filename):
 		""" Download a file to te current user's computer.

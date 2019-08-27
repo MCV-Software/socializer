@@ -308,14 +308,18 @@ class vkSession(object):
 		user = self.vk.client.users.get(fields="uid, first_name, last_name")
 		self.user_id = user[0]["id"]
 
-	def post(self, parent_endpoint, child_endpoint, attachments_list=[], post_arguments={}):
+	def post(self, parent_endpoint, child_endpoint, from_buffer=None, attachments_list=[], post_arguments={}):
 		""" Generic function to be called whenever user wants to post something to VK.
 		This function should be capable of uploading all attachments before posting, and send a special event in case the post has failed,
 		So the program can recreate the post and show it back to the user."""
 		attachments = ""
-		print(attachments_list)
 		if len(attachments_list) > 0:
-			attachments = self.upload_attachments(attachments_list, post_arguments.get("peer_id"))
+			try:
+				attachments = self.upload_attachments(attachments_list, post_arguments.get("peer_id"))
+			except Exception as error:
+				log.exception("Error calling method %s.%s with arguments: %r. Failed during loading attachments. Error: %s" % (parent_endpoint, child_endpoint, post_arguments, str(error)))
+				# Report a failed function here too with same arguments so the client should be able to recreate it again.
+				pub.sendMessage("postFailed", parent_endpoint=parent_endpoint, child_endpoint=child_endpoint, from_buffer=from_buffer, attachments_list=attachments_list, post_arguments=post_arguments)
 		# VK generally defines all kind of messages under "text", "message" or "body" so let's try with all of those
 		possible_message_keys = ["text", "message", "body"]
 		for i in possible_message_keys:
@@ -334,9 +338,16 @@ class vkSession(object):
 			else:
 				post_arguments.update(attachments=attachments)
 		# Determines the correct functions to call here.
-		parent_endpoint = getattr(self.vk.client, parent_endpoint)
-		endpoint = getattr(parent_endpoint, child_endpoint)
-		post = endpoint(**post_arguments)
+		endpoint = getattr(self.vk.client, parent_endpoint)
+		endpoint = getattr(endpoint, child_endpoint)
+		try:
+			post = endpoint(**post_arguments)
+			# Once the post has been send, let's report it to the interested objects.
+			pub.sendMessage("posted", from_buffer=from_buffer)
+		except Exception as error:
+			log.exception("Error calling method %s.%s with arguments: %r. Error: %s" % (parent_endpoint, child_endpoint, post_arguments, str(error)))
+			# Report a failed function here too with same arguments so the client should be able to recreate it again.
+			pub.sendMessage("postFailed", parent_endpoint=parent_endpoint, child_endpoint=child_endpoint, from_buffer=from_buffer, attachments_list=attachments_list, post_arguments=post_arguments)
 
 	def upload_attachments(self, attachments, peer_id=None):
 		""" Upload attachments to VK before posting them.

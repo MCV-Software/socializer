@@ -130,7 +130,7 @@ class baseBuffer(object):
 			attachments = []
 			if hasattr(p, "attachments"):
 				attachments = p.attachments
-			call_threaded(pub.sendMessage, "post", parent_endpoint="wall", child_endpoint="post", attachments_list=attachments, post_arguments=post_arguments)
+			call_threaded(pub.sendMessage, "post", parent_endpoint="wall", child_endpoint="post", from_buffer=self.name, attachments_list=attachments, post_arguments=post_arguments)
 
 	def connect_events(self):
 		""" Bind all events to this buffer"""
@@ -417,7 +417,7 @@ class feedBuffer(baseBuffer):
 			attachments = []
 			if hasattr(p, "attachments"):
 				attachments = p.attachments
-			call_threaded(pub.sendMessage, "post", parent_endpoint="wall", child_endpoint="post", attachments_list=attachments, post_arguments=post_arguments)
+			call_threaded(pub.sendMessage, "post", parent_endpoint="wall", child_endpoint="post", from_buffer=self.name, attachments_list=attachments, post_arguments=post_arguments)
 
 	def open_in_browser(self, *args, **kwargs):
 		post = self.get_post()
@@ -478,7 +478,7 @@ class communityBuffer(feedBuffer):
 			attachments = []
 			if hasattr(p, "attachments"):
 				attachments = p.attachments
-			call_threaded(pub.sendMessage, "post", parent_endpoint="wall", child_endpoint="post", attachments_list=attachments, post_arguments=post_arguments)
+			call_threaded(pub.sendMessage, "post", parent_endpoint="wall", child_endpoint="post", from_buffer=self.name, attachments_list=attachments, post_arguments=post_arguments)
 
 class topicBuffer(feedBuffer):
 
@@ -531,7 +531,7 @@ class topicBuffer(feedBuffer):
 			attachments = []
 			if hasattr(p, "attachments"):
 				attachments = p.attachments
-			call_threaded(pub.sendMessage, "post", parent_endpoint="board", child_endpoint="addTopic", attachments_list=attachments, post_arguments=post_arguments)
+			call_threaded(pub.sendMessage, "post", parent_endpoint="board", child_endpoint="addTopic", from_buffer=self.name, attachments_list=attachments, post_arguments=post_arguments)
 
 class documentBuffer(feedBuffer):
 	can_get_items = False
