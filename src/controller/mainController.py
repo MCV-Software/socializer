@@ -304,6 +304,7 @@ class Controller(object):
 	def connect_pubsub_events(self):
 		log.debug("Connecting events to responses...")
 		pub.subscribe(self.in_post, "posted")
+		pub.subscribe(self.post_failed, "postFailed")
 		pub.subscribe(self.download, "download-file")
 		pub.subscribe(self.view_post, "open-post")
 		pub.subscribe(self.update_status_bar, "update-status-bar")
@@ -333,10 +334,43 @@ class Controller(object):
 		pub.subscribe(self.create_timeline, "create-timeline")
 
 	def in_post(self, from_buffer=None):
-		if from_buffer != None:
+		if from_buffer != None and "_messages" not in from_buffer:
 			log.debug("Post received in buffer %s, updating... " % (from_buffer,))
 			buffer = self.search(from_buffer)
 			buffer.get_items()
+
+	def post_failed(self, parent_endpoint, child_endpoint, from_buffer=None, attachments_list=[], post_arguments={}):
+		""" Function to be called when the post (using the pubsub method) will fail. It takes the same params than post() and use the parent and child endpoints to call the appropiate dialogs. """
+		# Ask the user if he/she wants to attempt to post the same again.
+		msgdialog = commonMessages.post_failed()
+		if msgdialog != widgetUtils.YES: # Cancelled.
+			return
+		# Let's check which kind of post has failed, and do something about it.
+		if parent_endpoint == "wall": # A wall post has failed, so let's create it in a  dialogue.
+			p = presenters.createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Write your post"), message="", text=post_arguments.get("message")))
+			if hasattr(p, "text") or hasattr(p, "privacy"):
+				post_arguments.update(privacy=p.privacy, message=p.text)
+				if hasattr(p, "attachments"):
+					attachments_list = p.attachments
+			call_threaded(pub.sendMessage, "post", parent_endpoint=parent_endpoint, child_endpoint=child_endpoint, from_buffer=from_buffer, attachments_list=attachments_list, post_arguments=post_arguments)
+		elif parent_endpoint == "board": # topic creation and comments.
+			if child_endpoint == "addTopic":
+				p = presenters.createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createTopicDialog(title=_("Create topic"), message="", topic_title=post_arguments.get("title"), text=post_arguments.get("text")))
+				if hasattr(p, "text") or hasattr(p, "privacy"):
+					post_arguments.update(title=p.view.title.GetValue(), text=p.text)
+					if hasattr(p, "attachments"):
+						attachments_list = p.attachments
+				call_threaded(pub.sendMessage, "post", parent_endpoint=parent_endpoint, child_endpoint=child_endpoint, from_buffer=from_buffer, attachments_list=attachments_list, post_arguments=post_arguments)
+		elif parent_endpoint == "messages": # Private messages
+			if child_endpoint == "send":
+				buffer = self.search(from_buffer)
+				print(buffer)
+				buffer_window =  self.window.search(buffer.name)
+				print(buffer_window)
+				self.window.change_buffer(buffer_window)
+				buffer.tab.text.SetValue(post_arguments.get("message"))
+				buffer.tab.text.SetFocus()
+				buffer.attachments_to_be_sent = attachments_list
 
 	def download(self, url, filename):
 		""" Download a file to te current user's computer.

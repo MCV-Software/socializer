@@ -16,6 +16,7 @@
 
 ### Changes
 
+* Socializer is now more tolerant to internet issues. When attempting to create a wall post, topic or send a chat message, if the data is unable to be posted to VK, socializer will allow you to try to post it again, giving you the opportunity to edit or copy the text of the post in case you want to save it for later. Later change will also be introduced when posting comments, too.
 * Less confidential user data will be send to the logs, so it will be much safer to pass logs publicly.
 * automatic update checks will be disabled if using socializer from the source code.
 

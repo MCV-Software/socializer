@@ -523,7 +523,7 @@ class topicBuffer(feedBuffer):
 		owner_id = self.kwargs["group_id"]
 		user = self.session.get_user(-1*owner_id, key="user1")
 		title = _("Create topic in {user1_nom}").format(**user)
-		p = presenters.createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createTopicDialog(title=title, message="", text=""))
+		p = presenters.createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createTopicDialog(title=title, message="", text="", topic_title=""))
 		if hasattr(p, "text") or hasattr(p, "privacy"):
 			title = p.view.title.GetValue()
 			msg = p.text
@@ -1189,7 +1189,7 @@ class chatBuffer(baseBuffer):
 			attachments = self.attachments_to_be_sent[::]
 		else:
 			attachments = []
-		call_threaded(pub.sendMessage, "post", parent_endpoint="messages", child_endpoint="send", attachments_list=attachments, post_arguments=post_arguments)
+		call_threaded(pub.sendMessage, "post", parent_endpoint="messages", child_endpoint="send", from_buffer=self.name, attachments_list=attachments, post_arguments=post_arguments)
 		if hasattr(self, "attachments_to_be_sent"):
 			del self.attachments_to_be_sent
 

@@ -91,7 +91,7 @@ class createPostDialog(createTextMessage):
 		self.SetClientSize(self.mainBox.CalcMin())
 
 class createCommentDialog(createTextMessage):
-	def createControls(self, title, message,  text):
+	def createControls(self, title, message,  text, **kwargs):
 		self.mainBox = wx.BoxSizer(wx.VERTICAL)
 		self.createTextArea(message, text)
 		self.mainBox.Add(self.textBox, 0, wx.ALL, 5)
@@ -117,17 +117,17 @@ class createCommentDialog(createTextMessage):
 		self.panel.SetSizer(self.mainBox)
 		self.SetTitle(title)
 
-	def __init__(self, title, message, text):
+	def __init__(self, title, message, text, *args, **kwargs):
 		super(createCommentDialog, self).__init__()
-		self.createControls(message, title, text)
+		self.createControls(message, title, text, **kwargs)
 		self.SetClientSize(self.mainBox.CalcMin())
 		self.SetTitle(title)
 
 class createTopicDialog(createCommentDialog):
-	def createTextArea(self, message="", text=""):
+	def createTextArea(self, message="", text="", topic_title=""):
 		self.panel = wx.Panel(self)
 		label = wx.StaticText(self.panel, -1, _("Title"))
-		self.title = wx.TextCtrl(self.panel, wx.NewId())
+		self.title = wx.TextCtrl(self.panel, wx.NewId(), topic_title)
 		label2 = wx.StaticText(self.panel, -1, _("Message"))
 		self.text = wx.TextCtrl(self.panel, -1, text, size=(439, -1), style=wx.TE_MULTILINE)
 		self.title.SetFocus()
@@ -141,9 +141,9 @@ class createTopicDialog(createCommentDialog):
 		textb.Add(self.text, 0, wx.ALL, 5)
 		self.textBox.Add(textb, 0, wx.ALL, 5)
 
-	def createControls(self, title, message,  text):
+	def createControls(self, title, message,  text, topic_title):
 		self.mainBox = wx.BoxSizer(wx.VERTICAL)
-		self.createTextArea(message, text)
+		self.createTextArea(message, text, topic_title)
 		self.mainBox.Add(self.textBox, 0, wx.ALL, 5)
 		self.attach = wx.Button(self.panel, -1, _("Attach"), size=wx.DefaultSize)
 		self.mention = wx.Button(self.panel, wx.NewId(), _("Tag a friend"))

@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 import os
 import logging
 import warnings
+import wx
 import languageHandler
 import paths
 import config
@@ -323,7 +324,7 @@ class vkSession(object):
 			except Exception as error:
 				log.error("Error calling method %s.%s with arguments: %r. Failed during loading attachments. Error: %s" % (parent_endpoint, child_endpoint, post_arguments, str(error)))
 				# Report a failed function here too with same arguments so the client should be able to recreate it again.
-				pub.sendMessage("postFailed", parent_endpoint=parent_endpoint, child_endpoint=child_endpoint, from_buffer=from_buffer, attachments_list=attachments_list, post_arguments=post_arguments)
+				wx.CallAfter(pub.sendMessage, "postFailed", parent_endpoint=parent_endpoint, child_endpoint=child_endpoint, from_buffer=from_buffer, attachments_list=attachments_list, post_arguments=post_arguments)
 		# VK generally defines all kind of messages under "text", "message" or "body" so let's try with all of those
 		possible_message_keys = ["text", "message", "body"]
 		for i in possible_message_keys:
@@ -351,7 +352,7 @@ class vkSession(object):
 		except Exception as error:
 			log.exception("Error calling method %s.%s with arguments: %r. Error: %s" % (parent_endpoint, child_endpoint, post_arguments, str(error)))
 			# Report a failed function here too with same arguments so the client should be able to recreate it again.
-			pub.sendMessage("postFailed", parent_endpoint=parent_endpoint, child_endpoint=child_endpoint, from_buffer=from_buffer, attachments_list=attachments_list, post_arguments=post_arguments)
+			wx.CallAfter(pub.sendMessage, "postFailed", parent_endpoint=parent_endpoint, child_endpoint=child_endpoint, from_buffer=from_buffer, attachments_list=attachments_list, post_arguments=post_arguments)
 
 	def upload_attachments(self, attachments, peer_id=None):
 		""" Upload attachments to VK before posting them.
