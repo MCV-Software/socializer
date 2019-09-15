@@ -12,6 +12,23 @@ class general(wx.Panel, widgetUtils.BaseDialog):
 		self.language.SetSize(self.language.GetBestSize())
 		langBox.Add(self.language, 0, wx.ALL, 5)
 		sizer.Add(langBox, 0, wx.ALL, 5)
+		self.load_images = wx.CheckBox(self, wx.NewId(), _("Load images in posts"))
+		sizer.Add(self.load_images, 0, wx.ALL, 5)
+		self.use_proxy = wx.CheckBox(self, wx.NewId(), _("Use proxy"))
+		sizer.Add(self.use_proxy, 0, wx.ALL, 5)
+		lbl4 = wx.StaticText(self, wx.NewId(), _("Update channel"))
+		self.update_channel = wx.ComboBox(self, wx.NewId(), choices=[_("Stable"), _("Alpha")], value=_("Native"), style=wx.CB_READONLY)
+		box4 = wx.BoxSizer(wx.HORIZONTAL)
+		box4.Add(lbl4, 0, wx.ALL, 5)
+		box4.Add(self.update_channel, 0, wx.ALL, 5)
+		sizer.Add(box4, 0, wx.ALL, 5)
+		self.SetSizer(sizer)
+
+class buffers(wx.Panel, widgetUtils.BaseDialog):
+
+	def __init__(self, panel):
+		super(buffers, self).__init__(panel)
+		sizer = wx.BoxSizer(wx.VERTICAL)
 		lbl1 = wx.StaticText(self, wx.NewId(), _("Number of items to load for newsfeed and wall buffers (maximun 100)"))
 		self.wall_buffer_count = wx.SpinCtrl(self, wx.NewId())
 		self.wall_buffer_count.SetRange(1, 100)
@@ -32,16 +49,6 @@ class general(wx.Panel, widgetUtils.BaseDialog):
 		box4 = wx.BoxSizer(wx.HORIZONTAL)
 		box4.Add(lbl4, 0, wx.ALL, 5)
 		box4.Add(self.chat_buffers_count, 0, wx.ALL, 5)
-		sizer.Add(box4, 0, wx.ALL, 5)
-		self.load_images = wx.CheckBox(self, wx.NewId(), _("Load images in posts"))
-		sizer.Add(self.load_images, 0, wx.ALL, 5)
-		self.use_proxy = wx.CheckBox(self, wx.NewId(), _("Use proxy"))
-		sizer.Add(self.use_proxy, 0, wx.ALL, 5)
-		lbl4 = wx.StaticText(self, wx.NewId(), _("Update channel"))
-		self.update_channel = wx.ComboBox(self, wx.NewId(), choices=[_("Stable"), _("Alpha")], value=_("Native"), style=wx.CB_READONLY)
-		box4 = wx.BoxSizer(wx.HORIZONTAL)
-		box4.Add(lbl4, 0, wx.ALL, 5)
-		box4.Add(self.update_channel, 0, wx.ALL, 5)
 		sizer.Add(box4, 0, wx.ALL, 5)
 		self.SetSizer(sizer)
 
@@ -127,6 +134,10 @@ class configurationDialog(widgetUtils.BaseDialog):
 		self.general = general(self.notebook, languages)
 		self.notebook.AddPage(self.general, _("General"))
 		self.general.SetFocus()
+
+	def create_buffers(self):
+		self.buffers = buffers(self.notebook)
+		self.notebook.AddPage(self.buffers, _("Buffer settings"))
 
 	def create_chat(self):
 		self.chat = chat(self.notebook)

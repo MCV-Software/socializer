@@ -7,6 +7,7 @@
 * when selecting multiple audio files in audio buffers, multiple actions can be performed in all items, these actions are present in the contextual menu of the buffer (namely play, add/remove from the library and move to a different playlist). This means you can select all the audios you want and Socializer will perform the selected options in all items, making it a bit easier to operate with multiple songs.
 * Now it is possible to like and see who liked a comment when displaying it individually. This applies to comments in wall posts and topics.
 * Now it is possible to choose how many items Socializer will load in conversation buffers, from the General tab in the preferences dialog. The default value is 50 items, and the maximum value is 200.
+* There is a new tab called buffer settings, in the preferences dialog. Settings related to how many items should be loaded in certain buffer types have been moved to this tab, so it will separate better the configuration options in the application.
 
 ### bugfixes
 
