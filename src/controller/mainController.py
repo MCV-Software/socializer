@@ -443,15 +443,14 @@ class Controller(object):
 		p = presenters.userProfilePresenter(session=self.session, user_id=person, view=views.userProfileDialog(), interactor=interactors.userProfileInteractor())
 
 	def user_online(self, event):
-		""" Sends a notification of an user connecting to VK.
+		""" Add user to the online  buffer and Send a notification of an user connecting to VK.
 		@ event vk_api.longpoll.event object: The event sent by the vk_api's longPoll module.
 		"""
-		if self.session.settings["chat"]["notify_online"] == False:
-			return
-		user_name = self.session.get_user(event.user_id)
-		msg = _("{user1_nom} is online.").format(**user_name)
-		sound = "friend_online.ogg"
-		self.notify(msg, sound, self.session.settings["chat"]["notifications"])
+		if self.session.settings["chat"]["notify_online"] == True:
+			user_name = self.session.get_user(event.user_id)
+			msg = _("{user1_nom} is online.").format(**user_name)
+			sound = "friend_online.ogg"
+			self.notify(msg, sound, self.session.settings["chat"]["notifications"])
 		online_buffer = self.search("online_friends")
 		user = None
 		for i in self.session.db["friends_"]["items"]:
@@ -465,15 +464,14 @@ class Controller(object):
 		wx.CallAfter(online_buffer.add_person, user)
 
 	def user_offline(self, event):
-		""" Sends a notification of an user logging off in VK.
+		""" Remove user from the online buffer and Send a notification of an user logging off in VK.
 		@ event vk_api.longpoll.event object: The event sent by the vk_api's longPoll module.
 		"""
-		if self.session.settings["chat"]["notify_offline"] == False:
-			return
-		user_name = self.session.get_user(event.user_id)
-		msg = _("{user1_nom} is offline.").format(**user_name)
-		sound = "friend_offline.ogg"
-		self.notify(msg, sound, self.session.settings["chat"]["notifications"])
+		if self.session.settings["chat"]["notify_offline"] == True:
+			user_name = self.session.get_user(event.user_id)
+			msg = _("{user1_nom} is offline.").format(**user_name)
+			sound = "friend_offline.ogg"
+			self.notify(msg, sound, self.session.settings["chat"]["notifications"])
 		online_friends = self.search("online_friends")
 		wx.CallAfter(online_friends.remove_person, event.user_id)
 

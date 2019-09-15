@@ -9,6 +9,7 @@
 
 ### bugfixes
 
+* Fixed an error that was causing socializer to not update the "Online friends" buffer if chat notifications were disabled.
 * Fixed an error that was making Socializer unable to attach audio files from the computer, if the file does not include correct ID3 TAGS.
 * Fixed a traceback that was being logged when attempting to load an image but cancel the dialog for attaching it.
 * Fixed an error that was making Socializer to fail when loading the newsfeed buffer, thus not loading any other buffers. This error was caused due to VK sending a new object type (undocumented for now) representing push subscriptions. The item is ignored by Socializer so it will not break the newsfeed buffer anymore.
