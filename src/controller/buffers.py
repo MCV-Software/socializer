@@ -1283,6 +1283,21 @@ class chatBuffer(baseBuffer):
 
 class peopleBuffer(feedBuffer):
 
+	def post(self, *args, **kwargs):
+		user = self.get_post()
+		if "can_post" not in user: # retrieve data if not present in the object.
+			user = self.session.vk.client.users.get(user_ids=user["id"], fields="can_post")[0]
+		if user.get("can_post") == True:
+			user_str = self.session.get_user(user["id"], key="user1")
+			title = _("Post to {user1_nom}'s wall").format(**user_str)
+			p = presenters.createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=title, message="", text=""))
+			if hasattr(p, "text") or hasattr(p, "privacy"):
+				post_arguments=dict(privacy=p.privacy, message=p.text, owner_id=user["id"])
+				attachments = []
+				if hasattr(p, "attachments"):
+					attachments = p.attachments
+				call_threaded(pub.sendMessage, "post", parent_endpoint="wall", child_endpoint="post", from_buffer=self.name, attachments_list=attachments, post_arguments=post_arguments)
+
 	def create_tab(self, parent):
 		self.tab = home.peopleTab(parent)
 		self.connect_events()
@@ -1305,6 +1320,10 @@ class peopleBuffer(feedBuffer):
 		post = self.get_post()
 		if post == None:
 			return
+		if post.get("can_post") == True:
+			self.tab.post.Enable(True)
+		else:
+			self.tab.post.Enable(False)
 		if ("last_seen" in post) == False: return
 		original_date = arrow.get(post["last_seen"]["time"])
 		now = arrow.now()

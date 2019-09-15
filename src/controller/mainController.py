@@ -127,12 +127,12 @@ class Controller(object):
 		pub.sendMessage("create_buffer", buffer_type="videoBuffer", buffer_title=_("My videos"), parent_tab="videos", kwargs=dict(parent=self.window.tb, name="me_video", composefunc="render_video", session=self.session, endpoint="get", parent_endpoint="video", count=self.session.settings["buffers"]["count_for_video_buffers"]))
 		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("Albums"), parent_tab="videos", kwargs=dict(parent=self.window.tb, name="video_albums"))
 		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("People"), kwargs=dict(parent=self.window.tb, name="people"))
-		pub.sendMessage("create_buffer", buffer_type="peopleBuffer", buffer_title=_("Online"), parent_tab="people", kwargs=dict(parent=self.window.tb, name="online_friends", composefunc="render_person", session=self.session, endpoint="getOnline", parent_endpoint="friends", count=5000, order="hints", fields="uid, first_name, last_name, last_seen"))
-		pub.sendMessage("create_buffer", buffer_type="peopleBuffer", buffer_title=_("All friends"), parent_tab="people", kwargs=dict(parent=self.window.tb, name="friends_", composefunc="render_person", session=self.session, endpoint="get", parent_endpoint="friends", count=5000, order="hints", fields="uid, first_name, last_name, last_seen"))
+		pub.sendMessage("create_buffer", buffer_type="peopleBuffer", buffer_title=_("Online"), parent_tab="people", kwargs=dict(parent=self.window.tb, name="online_friends", composefunc="render_person", session=self.session, endpoint="getOnline", parent_endpoint="friends", count=5000, order="hints", fields="uid, first_name, last_name, last_seen, can_post"))
+		pub.sendMessage("create_buffer", buffer_type="peopleBuffer", buffer_title=_("All friends"), parent_tab="people", kwargs=dict(parent=self.window.tb, name="friends_", composefunc="render_person", session=self.session, endpoint="get", parent_endpoint="friends", count=5000, order="hints", fields="uid, first_name, last_name, last_seen, can_post"))
 		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("Friendship requests"), parent_tab="people", kwargs=dict(parent=self.window.tb, name="requests"))
-		pub.sendMessage("create_buffer", buffer_type="requestsBuffer", buffer_title=_("Pending requests"), parent_tab="requests", kwargs=dict(parent=self.window.tb, name="friend_requests", composefunc="render_person", session=self.session, count=1000))
-		pub.sendMessage("create_buffer", buffer_type="requestsBuffer", buffer_title=_("I follow"), parent_tab="requests", kwargs=dict(parent=self.window.tb, name="friend_requests_sent", composefunc="render_person", session=self.session, count=1000, out=1))
-		pub.sendMessage("create_buffer", buffer_type="requestsBuffer", buffer_title=_("Subscribers"), parent_tab="requests", kwargs=dict(parent=self.window.tb, name="subscribers", composefunc="render_person", session=self.session, count=1000, need_viewed=1))
+		pub.sendMessage("create_buffer", buffer_type="requestsBuffer", buffer_title=_("Pending requests"), parent_tab="requests", kwargs=dict(parent=self.window.tb, name="friend_requests", composefunc="render_person", session=self.session, count=1000, fields="can_post"))
+		pub.sendMessage("create_buffer", buffer_type="requestsBuffer", buffer_title=_("I follow"), parent_tab="requests", kwargs=dict(parent=self.window.tb, name="friend_requests_sent", composefunc="render_person", session=self.session, count=1000, out=1, fields="can_post"))
+		pub.sendMessage("create_buffer", buffer_type="requestsBuffer", buffer_title=_("Subscribers"), parent_tab="requests", kwargs=dict(parent=self.window.tb, name="subscribers", composefunc="render_person", session=self.session, count=1000, need_viewed=1, fields="can_post"))
 		pub.sendMessage("create_buffer", buffer_type="documentBuffer", buffer_title=_("Documents"), parent_tab=None, loadable=True, kwargs=dict(parent=self.window.tb, name="documents", composefunc="render_document", session=self.session, endpoint="get", parent_endpoint="docs"))
 		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("Groups"), kwargs=dict(parent=self.window.tb, name="communities"))
 		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("Chats"), kwargs=dict(parent=self.window.tb, name="chats"))
@@ -460,7 +460,7 @@ class Controller(object):
 				break
 		if user == None:
 			log.exception("Getting user manually...")
-			user = self.session.vk.client.users.get(user_ids=event.user_id, fields="last_seen")[0]
+			user = self.session.vk.client.users.get(user_ids=event.user_id, fields="last_seen, can_post")[0]
 		wx.CallAfter(online_buffer.add_person, user)
 
 	def user_offline(self, event):

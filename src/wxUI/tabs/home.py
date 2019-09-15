@@ -265,7 +265,7 @@ class peopleTab(homeTab):
 
 	def create_post_buttons(self):
 		self.postBox = wx.StaticBoxSizer(parent=self, orient=wx.HORIZONTAL, label=_("Actions"))
-		self.post = wx.Button(self.postBox.GetStaticBox(), -1, _("&Post"))
+		self.post = wx.Button(self.postBox.GetStaticBox(), -1, _("&Post on user's wall"))
 		self.new_chat = wx.Button(self.postBox.GetStaticBox(), wx.NewId(), _("Send message"))
 		self.postBox.Add(self.post, 0, wx.ALL, 5)
 		self.postBox.Add(self.new_chat, 0, wx.ALL, 5)
