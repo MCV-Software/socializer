@@ -13,9 +13,10 @@ load_images = boolean(default=True)
 update_channel = string(default="stable")
 
 [buffers]
-count_for_wall_buffers = integer(default=100)
-count_for_video_buffers = integer(default=200)
+count_for_wall_buffers = integer(default=50)
+count_for_video_buffers = integer(default=50)
 count_for_audio_buffers = integer(default=1000)
+count_for_chat_buffers = integer(default=50)
 
 [chat]
 notify_online = boolean(default=True)

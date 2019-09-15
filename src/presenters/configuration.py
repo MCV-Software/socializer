@@ -53,6 +53,7 @@ class configurationPresenter(base.basePresenter):
 		self.send_message("set_language", language=id)
 		self.send_message("set", tab="general", setting="wall_buffer_count", value=self.session.settings["buffers"]["count_for_wall_buffers"])
 		self.send_message("set", tab="general", setting="video_buffers_count", value=self.session.settings["buffers"]["count_for_video_buffers"])
+		self.send_message("set", tab="general", setting="chat_buffers_count", value=self.session.settings["buffers"]["count_for_chat_buffers"])
 		self.send_message("set", tab="general", setting="load_images", value=self.session.settings["general"]["load_images"])
 		self.send_message("set", tab="general", setting="use_proxy", value=config.app["app-settings"]["use_proxy"])
 		self.send_message("set", tab="general", setting="update_channel", value=self.get_update_channel_label(self.session.settings["general"]["update_channel"]))
