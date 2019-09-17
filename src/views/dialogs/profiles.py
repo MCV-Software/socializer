@@ -68,6 +68,22 @@ class mainInfo(wx.Panel):
 		sizerLastSeen.Add(self.last_seen, 0, wx.ALL, 5)
 		sizer.Add(sizerLastSeen, 0, wx.ALL, 5)
 
+		lblMobilePhone = wx.StaticText(self, wx.NewId(), _("Mobile phone"))
+		self.mobile_phone = wx.TextCtrl(self, wx.NewId(), style=wx.TE_READONLY|wx.TE_MULTILINE)
+		self.mobile_phone.Enable(False)
+		sizerMobilePhone = wx.BoxSizer(wx.HORIZONTAL)
+		sizerMobilePhone.Add(lblMobilePhone, 0, wx.ALL, 5)
+		sizerMobilePhone.Add(self.mobile_phone, 0, wx.ALL, 5)
+		sizer.Add(sizerMobilePhone, 0, wx.ALL, 5)
+
+		lblHomePhone = wx.StaticText(self, wx.NewId(), _("Home phone"))
+		self.home_phone = wx.TextCtrl(self, wx.NewId(), style=wx.TE_READONLY|wx.TE_MULTILINE)
+		self.home_phone.Enable(False)
+		sizerHomePhone = wx.BoxSizer(wx.HORIZONTAL)
+		sizerHomePhone.Add(lblHomePhone, 0, wx.ALL, 5)
+		sizerHomePhone.Add(self.home_phone, 0, wx.ALL, 5)
+		sizer.Add(sizerHomePhone, 0, wx.ALL, 5)
+
 		lblBDate = wx.StaticText(self, wx.NewId(), _("Birthdate"))
 		self.bdate = wx.TextCtrl(self, wx.NewId(), style=wx.TE_READONLY|wx.TE_MULTILINE)
 		self.bdate.Enable(False)

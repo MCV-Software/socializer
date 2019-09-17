@@ -23,6 +23,7 @@
 * Less confidential user data will be send to the logs, so it will be much safer to pass logs publicly.
 * automatic update checks will be disabled if using socializer from the source code.
 * it is possible to post in an user's wall by using the post button located next to the user, in people buffers. This applies only to online users and list of friends.
+* When displaying a profile, information about mobile and home phone is displayed in the basic information tab.
 
 ## changes in Versions 0.21 and 0.22 (14.07.2019)
 

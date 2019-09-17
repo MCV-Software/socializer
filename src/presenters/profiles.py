@@ -38,7 +38,7 @@ class userProfilePresenter(base.basePresenter):
 		See https://vk.com/dev/users.get"""
 		# List of fields (information) to retrieve. For a list of fields available for user objects,
 		# see https://vk.com/dev/fields
-		fields = "first_name, last_name, bdate, city, country, home_town, photo_200_orig, online,  site,  status, last_seen, occupation, relation, relatives, personal, connections, activities, interests, music, movies, tv, books, games, about, quotes, can_write_private_message"
+		fields = "first_name, last_name, bdate, city, country, home_town, photo_200_orig, online,  site,  status, last_seen, occupation, relation, relatives, personal, connections, activities, interests, music, movies, tv, books, games, about, quotes, can_write_private_message, contacts, has_mobile, universities, education, schools"
 		# ToDo: this method supports multiple user IDS, I'm not sure if this may be of any help for profile viewer.
 		person = self.session.vk.client.users.get(user_ids=self.user_id, fields=fields)
 		# If VK does not return anything it is very likely we have found a community.
@@ -50,6 +50,13 @@ class userProfilePresenter(base.basePresenter):
 		# From this part we will format data from VK so users will see it in the GUI control.
 		# Format full name.
 		n = "{0} {1}".format(person["first_name"], person["last_name"])
+		# format phones
+		if person.get("mobile_phone") != None and person.get("mobile_phone") != "":
+			self.send_message("enable_control", tab="main_info", control="mobile_phone")
+			self.send_message("set", tab="main_info", control="mobile_phone", value=person["mobile_phone"])
+		if person.get("home_phone") != None and person.get("home_phone") != "":
+			self.send_message("enable_control", tab="main_info", control="home_phone")
+			self.send_message("set", tab="main_info", control="home_phone", value=person["home_phone"])
 		# Format birthdate.
 		if "bdate" in person and person["bdate"] != "":
 			self.send_message("enable_control", tab="main_info", control="bdate")
