@@ -14,7 +14,7 @@ def text_size(wxObject, chars):
 	(x, y) = dc.GetMultiLineTextExtent("0"*chars)
 	return (x, -1)
 
-class mainInfo(wx.Panel):
+class baseTab(wx.Panel):
 	""" Panel to store main user information in a profile viewer."""
 
 	def get(self, control):
@@ -39,6 +39,8 @@ class mainInfo(wx.Panel):
 
 	def disable(self, control):
 		getattr(self, control).Enable(False)
+
+class mainInfo(baseTab):
 
 	def __init__(self, panel):
 		super(mainInfo, self).__init__(panel)

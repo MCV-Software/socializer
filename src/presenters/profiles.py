@@ -66,7 +66,13 @@ class userProfilePresenter(base.basePresenter):
 				self.send_message("set", tab="main_info", control="bdate", value=d.format(_("MMMM D"), locale=languageHandler.curLang[:2]))
 			else: # mm.dd.yyyy
 				d = arrow.get(person["bdate"], "D.M.YYYY")
-				self.send_message("set", tab="main_info", control="bdate", value=d.format(_("MMMM D, YYYY"), locale=languageHandler.curLang[:2]))
+				# Calculate user's years.
+				now = arrow.get()
+				timedelta = now-d
+				years = int(timedelta.days/365)
+				date = d.format(_("MMMM D, YYYY"), locale=languageHandler.curLang[:2])
+				msg = _("{date} ({age} years)").format(date=date, age=years)
+				self.send_message("set", tab="main_info", control="bdate", value=msg)
 		# Format current city and home town
 		city = ""
 		if "home_town" in person and person["home_town"] != "":
