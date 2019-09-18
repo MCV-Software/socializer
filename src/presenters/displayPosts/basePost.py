@@ -58,7 +58,13 @@ class displayPostPresenter(base.basePresenter):
 		self.worker = threading.Thread(target=self.load_all_components)
 		self.worker.finished = threading.Event()
 		self.worker.start()
+		# connect here the pubsub event for successful posting of comments.
+		pub.subscribe(self.posted, "posted")
 		self.run()
+		pub.unsubscribe(self.posted, "posted")
+
+	def posted(self, from_buffer=None):
+		self.clear_comments_list()
 
 	def get_comments(self):
 		""" Get comments and insert them in a list."""

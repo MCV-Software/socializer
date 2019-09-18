@@ -40,7 +40,10 @@ class displayCommentPresenter(basePost.displayPostPresenter):
 		# We'll put images here, so it will be easier to work with them.
 		self.images = []
 		self.imageIndex = 0
+		# connect here the pubsub event for successful posting of comments.
+		pub.subscribe(self.posted, "posted")
 		self.run()
+		pub.unsubscribe(self.posted, "posted")
 
 	def load_all_components(self):
 		self.get_post_information()
