@@ -251,8 +251,11 @@ class displayPostPresenter(base.basePresenter):
 		object_id = "wall{0}_{1}".format(self.post[self.user_identifier], self.post[self.post_identifier])
 		p = createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Repost"), message=_("Add your comment here"), text="", mode="comment"))
 		if hasattr(p, "text") or hasattr(p, "privacy"):
-			msg = p.text
-			self.session.vk.client.wall.repost(object=object_id, message=msg)
+			post_arguments = dict(object=object_id, message=p.text)
+			attachments = []
+			if hasattr(p, "attachments"):
+				attachments = p.attachments
+			call_threaded(pub.sendMessage, "post", parent_endpoint="wall", child_endpoint="repost", attachments_list=attachments, post_arguments=post_arguments)
 
 	def get_likes(self):
 		self.send_message("set_label", control="likes", label=_("{0} people like this").format(self.post["likes"]["count"],))
@@ -265,92 +268,22 @@ class displayPostPresenter(base.basePresenter):
 		if hasattr(comment, "text") or hasattr(comment, "privacy"):
 			owner_id = self.post[self.user_identifier]
 			post_id = self.post[self.post_identifier]
-			call_threaded(self.do_last, comment, owner_id=owner_id, post_id=post_id)
-
-	def do_last(self, comment, **kwargs):
-		msg = comment.text
-		attachments = ""
-		if hasattr(comment, "attachments"):
-			attachments = self.upload_attachments(comment.attachments)
-		urls = utils.find_urls_in_text(msg)
-		if len(urls) != 0:
-			if len(attachments) == 0: attachments = urls[0]
-			else: attachments += urls[0]
-			msg = msg.replace(urls[0], "")
-		if msg != "":
-			kwargs.update(message=msg)
-		if attachments != "":
-			kwargs.update(attachments=attachments)
-		if "message" not in kwargs and "attachments" not in kwargs:
-			return # No comment made here.
-		try:
-			result = self.session.vk.client.wall.createComment(**kwargs)
-			comment_object = self.session.vk.client.wall.getComment(comment_id=result["comment_id"], owner_id=kwargs["owner_id"])["items"][0]
-			from_ = self.session.get_user(comment_object["from_id"])
-			if "reply_to_user" in comment_object:
-				extra_info = self.session.get_user(comment_object["reply_to_user"], "user2")
-				extra_info.update(from_)
-				from_ = _("{user1_nom} > {user2_nom}").format(**extra_info)
-			else:
-				from_ = from_["user1_nom"]
-			# As we set the comment reply properly in the from_ field, let's remove the first username from here if it exists.
-			fixed_text = utils.clean_text(comment_object["text"])
-			if len(fixed_text) > 140:
-				text = fixed_text[:141]
-			else:
-				text = fixed_text
-			original_date = arrow.get(comment_object["date"])
-			created_at = original_date.humanize(locale=languageHandler.curLang[:2])
-			likes = str(comment_object["likes"]["count"])
-			replies = ""
-			item = (from_, text, created_at, likes, replies)
-			if hasattr(self, "comments"):
-				self.comments["items"].append(comment_object)
-			else:
-				if "items" not in self.post["thread"]:
-					self.post["thread"]["items"] = []
-				self.post["thread"]["items"].append(comment_object)
-			self.send_message("add_items", control="comments", items=[item])
-			output.speak(_("You've posted a comment"))
-		except IndexError as msg:
-			log.error(msg)
-
-	def upload_attachments(self, attachments):
-		""" Upload attachments to VK before posting them.
-		Returns attachments formatted as string, as required by VK API.
-		Currently this function only supports photos and audios."""
-		# To do: Check the caption and description fields for this kind of attachments.
-		local_attachments = ""
-		uploader = upload.VkUpload(self.session.vk.session_object)
-		for i in attachments:
-			if i["from"] == "online":
-				local_attachments += "{0}{1}_{2},".format(i["type"], i["owner_id"], i["id"])
-			elif i["from"] == "local" and i["type"] == "photo":
-				photos = i["file"]
-				description = i["description"]
-				r = uploader.photo_wall(photos, caption=description)
-				id = r[0]["id"]
-				owner_id = r[0]["owner_id"]
-				local_attachments += "photo{0}_{1},".format(owner_id, id)
-			elif i["from"] == "local" and i["type"] == "audio":
-				audio = i["file"]
-				title = "untitled"
-				artist = "unnamed"
-				if "artist" in i:
-					artist = i["artist"]
-				if "title" in i:
-					title = i["title"]
-				r = uploader.audio(audio, title=title, artist=artist)
-				id = r["id"]
-				owner_id = r["owner_id"]
-				local_attachments += "audio{0}_{1},".format(owner_id, id)
-		return local_attachments
+			post_arguments=dict(message=comment.text, owner_id=owner_id, post_id=post_id)
+			attachments = []
+			if hasattr(comment, "attachments"):
+				attachments = comment.attachments
+			call_threaded(pub.sendMessage, "post", parent_endpoint="wall", child_endpoint="createComment", attachments_list=attachments, post_arguments=post_arguments)
 
 	def reply(self, comment):
 		c = self.comments["items"][comment]
 		comment = createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Reply to {user1_nom}").format(**self.session.get_user(c["from_id"])), message="", text="", mode="comment"))
 		if hasattr(comment, "text") or hasattr(comment, "privacy"):
-			call_threaded(self.do_last, comment, owner_id=c["owner_id"], reply_to_comment=c["id"], post_id=c["post_id"], reply_to_user=c["owner_id"])
+			post_id = self.post[self.post_identifier]
+			post_arguments=dict(message=comment.text, owner_id=c["owner_id"], reply_to_comment=c["id"], post_id=c["post_id"], reply_to_user=c["owner_id"])
+			attachments = []
+			if hasattr(comment, "attachments"):
+				attachments = comment.attachments
+			call_threaded(pub.sendMessage, "post", parent_endpoint="wall", child_endpoint="createComment", attachments_list=attachments, post_arguments=post_arguments)
 
 	def show_comment(self, comment_index):
 		from . import comment

@@ -68,7 +68,11 @@ class displayCommentPresenter(basePost.displayPostPresenter):
 	def reply(self, *args, **kwargs):
 		comment = createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Reply to {user1_nom}").format(**self.session.get_user(self.post["from_id"])), message="", text="", mode="comment"))
 		if hasattr(comment, "text") or hasattr(comment, "privacy"):
-			call_threaded(self.do_last, comment, owner_id=self.post["owner_id"], reply_to_comment=self.post["id"], post_id=self.post["post_id"], reply_to_user=self.post["owner_id"])
+			post_arguments = dict(owner_id=self.post["owner_id"], reply_to_comment=self.post["id"], post_id=self.post["post_id"], reply_to_user=self.post["owner_id"], message=comment.text)
+			attachments = []
+			if hasattr(comment, "attachments"):
+				attachments = comment.attachments
+			call_threaded(pub.sendMessage, "post", parent_endpoint="wall", child_endpoint="createComment", attachments_list=attachments, post_arguments=post_arguments)
 
 	def get_comments(self):
 		""" Get comments and insert them in a list."""
