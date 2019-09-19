@@ -49,7 +49,6 @@ class displayCommentPresenter(basePost.displayPostPresenter):
 		self.get_post_information()
 		self.get_likes()
 		self.send_message("disable_control", control="comment")
-		self.get_comments()
 		if self.post["likes"]["can_like"] == 0 and self.post["likes"]["user_likes"] == 0:
 			self.send_message("disable_control", "like")
 		elif self.post["likes"]["user_likes"] == 1:
@@ -77,46 +76,14 @@ class displayCommentPresenter(basePost.displayPostPresenter):
 				attachments = comment.attachments
 			call_threaded(pub.sendMessage, "post", parent_endpoint="wall", child_endpoint="createComment", attachments_list=attachments, post_arguments=post_arguments)
 
-	def get_comments(self):
-		""" Get comments and insert them in a list."""
-		comments_ = []
-		if "thread" not in self.post:
-			return
-		for i in self.post["thread"]["items"]:
-			# If comment has a "deleted" key it should not be displayed, obviously.
-			if "deleted" in i:
-				continue
-			from_ = self.session.get_user(i["from_id"])
-			if "reply_to_user" in i:
-				extra_info = self.session.get_user(i["reply_to_user"], "user2")
-				extra_info.update(from_)
-				from_ = _("{user1_nom} > {user2_nom}").format(**extra_info)
-			else:
-				from_ = from_["user1_nom"]
-			# As we set the comment reply properly in the from_ field, let's remove the first username from here if it exists.
-			fixed_text = utils.clean_text(i["text"])
-			if len(fixed_text) > 140:
-				text = fixed_text[:141]
-			else:
-				text = fixed_text
-			original_date = arrow.get(i["date"])
-			created_at = original_date.humanize(locale=languageHandler.curLang[:2])
-			likes = str(i["likes"]["count"])
-			replies = ""
-			comments_.append((from_, text, created_at, likes, replies))
-		self.send_message("add_items", control="comments", items=comments_)
-
-	def show_comment(self, comment_index):
-		c = self.post["thread"]["items"][comment_index]
-		c["post_id"] = self.post["post_id"]
-		a = displayCommentPresenter(session=self.session, postObject=c, interactor=interactors.displayPostInteractor(), view=views.displayComment())
-		self.clear_comments_list()
-
 	def show_likes(self):
 		""" show likes for the specified post."""
 		data = dict(type="comment", owner_id=self.post["owner_id"], item_id=self.post["id"], extended=True, count=100, skip_own=True)
 		result = self.session.vk.client.likes.getList(**data)
-		print(result)
 		if result["count"] > 0:
 			post = {"source_id": self.post[self.user_identifier], "friends": {"items": result["items"]}}
 			pub.sendMessage("open-post", post_object=post, controller_="displayFriendship", vars=dict(caption=_("people who liked this")))
+
+	def posted(self, from_buffer=None):
+		self.interactor.uninstall()
+		return

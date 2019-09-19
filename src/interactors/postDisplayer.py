@@ -50,7 +50,9 @@ class displayPostInteractor(base.baseInteractor):
 
 	def install(self, *args, **kwargs):
 		super(displayPostInteractor, self).install(*args, **kwargs)
-		self.view.comments.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.on_show_comment)
+		if hasattr(self.view, "comments"):
+			self.view.comments.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.on_show_comment)
+			self.view.comments.list.Bind(wx.EVT_LIST_ITEM_FOCUSED, self.on_comment_changed)
 		self.view.attachments.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.on_open_attachment)
 		widgetUtils.connect_event(self.view.like, widgetUtils.BUTTON_PRESSED, self.on_like)
 		widgetUtils.connect_event(self.view.comment, widgetUtils.BUTTON_PRESSED, self.on_add_comment)
@@ -76,7 +78,6 @@ class displayPostInteractor(base.baseInteractor):
 		pub.subscribe(self.enable_photo_controls, self.modulename+"_enable_photo_controls")
 		pub.subscribe(self.post_deleted, self.modulename+"_post_deleted")
 		pub.subscribe(self.clean_list, self.modulename+"_clean_list")
-		self.view.comments.list.Bind(wx.EVT_LIST_ITEM_FOCUSED, self.on_comment_changed)
 
 	def uninstall(self):
 		super(displayPostInteractor, self).uninstall()
@@ -103,7 +104,7 @@ class displayPostInteractor(base.baseInteractor):
 		self.presenter.post_repost()
 
 	def on_reply(self, *args, **kwargs):
-		if hasattr(self.view, "repost") or not hasattr(self, "post_view"):
+		if hasattr(self.view, "comments") and (hasattr(self.view, "repost") or not hasattr(self, "post_view")):
 			comment = self.view.comments.get_selected()
 			self.presenter.reply(comment)
 		else:

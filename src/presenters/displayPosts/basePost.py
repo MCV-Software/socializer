@@ -70,7 +70,13 @@ class displayPostPresenter(base.basePresenter):
 		""" Get comments and insert them in a list."""
 		user = self.post[self.user_identifier]
 		id = self.post[self.post_identifier]
-		self.comments = self.session.vk.client.wall.getComments(owner_id=user, post_id=id, need_likes=1, count=100, extended=1, preview_length=0, thread_items_count=10)
+		comments_data = self.session.vk.client.wall.getComments(owner_id=user, post_id=id, need_likes=1, count=100, extended=1, preview_length=0, thread_items_count=10)
+		self.comments = dict(items=[], profiles=comments_data["profiles"])
+		for i in comments_data["items"]:
+			self.comments["items"].append(i)
+			if i.get("thread") != None and i["thread"].get("count") > 0:
+				for newI in i["thread"]["items"]:
+					self.comments["items"].append(newI)
 		comments_ = []
 		# Save profiles in session local storage for a future usage.
 		# Although community objects are returned here, we should not add those because their names are changed.
@@ -94,8 +100,7 @@ class displayPostPresenter(base.basePresenter):
 			original_date = arrow.get(i["date"])
 			created_at = original_date.humanize(locale=languageHandler.curLang[:2])
 			likes = str(i["likes"]["count"])
-			replies = str(i["thread"]["count"])
-			comments_.append((from_, text, created_at, likes, replies))
+			comments_.append((from_, text, created_at, likes))
 		self.send_message("add_items", control="comments", items=comments_)
 
 	def get_post_information(self):

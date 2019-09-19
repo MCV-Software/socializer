@@ -40,7 +40,7 @@ class displayBasicPost(widgetUtils.BaseDialog):
 
 	def create_comments_list(self):
 		lbl = wx.StaticText(self.panel, -1, _("Comments"))
-		self.comments = widgetUtils.list(self.panel, _("User"), _("Comment"), _("Date"), _("Likes"), _("replies"), style=wx.LC_REPORT)
+		self.comments = widgetUtils.list(self.panel, _("User"), _("Comment"), _("Date"), _("Likes"), style=wx.LC_REPORT)
 		self.reply = wx.Button(self.panel, -1, _("Reply to comment"))
 		self.reply.Enable(False)
 		box = wx.BoxSizer(wx.HORIZONTAL)
@@ -170,22 +170,12 @@ class displayComment(displayBasicPost):
 		self.sizer.Add(likes_box, 0, wx.ALL, 5)
 		actions_box = self.create_action_buttons()
 		self.sizer.Add(actions_box, 0, wx.ALL, 5)
-		comments_box = self.create_comments_list()
-		self.sizer.Add(comments_box, 0, wx.ALL, 5)
 		self.sizer.Add(self.create_dialog_buttons())
 		self.done()
 
-	def create_comments_list(self):
-		lbl = wx.StaticText(self.panel, -1, _("Replies"))
-		self.comments = widgetUtils.list(self.panel, _("User"), _("Comment"), _("Date"), _("Likes"), _("Replies"), style=wx.LC_REPORT)
-		box = wx.BoxSizer(wx.HORIZONTAL)
-		box.Add(lbl, 0, wx.ALL, 5)
-		box.Add(self.comments.list, 0, wx.ALL, 5)
-		return box
-
 	def create_action_buttons(self, comment=True):
 		self.like = wx.Button(self.panel, -1, _("&Like"))
-		self.reply = wx.Button(self.panel, -1, _("Reply to thread"))
+		self.reply = wx.Button(self.panel, -1, _("Reply"))
 		if comment: self.comment = wx.Button(self.panel, -1, _("Add comment"))
 		box = wx.BoxSizer(wx.HORIZONTAL)
 		box.Add(self.like, 0, wx.ALL, 5)
