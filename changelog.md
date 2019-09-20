@@ -4,6 +4,7 @@
 
 ### New additions
 
+* Socializer is now more tolerant to internet issues. When attempting to create a wall post, comment, topic or send a chat message, if the data is unable to be posted to VK, socializer will allow you to try to post it again, giving you the opportunity to edit or copy the text of the post in case you want to save it for later.
 * when selecting multiple audio files in audio buffers, multiple actions can be performed in all items, these actions are present in the contextual menu of the buffer (namely play, add/remove from the library and move to a different playlist). This means you can select all the audios you want and Socializer will perform the selected options in all items, making it a bit easier to operate with multiple songs.
 * Now it is possible to like and see who liked a comment when displaying it individually. This applies to comments in wall posts and topics.
 * Now it is possible to choose how many items Socializer will load in conversation buffers, from the General tab in the preferences dialog. The default value is 50 items, and the maximum value is 200.
@@ -19,7 +20,6 @@
 
 ### Changes
 
-* Socializer is now more tolerant to internet issues. When attempting to create a wall post, topic or send a chat message, if the data is unable to be posted to VK, socializer will allow you to try to post it again, giving you the opportunity to edit or copy the text of the post in case you want to save it for later. Later change will also be introduced when posting comments, too.
 * Less confidential user data will be send to the logs, so it will be much safer to pass logs publicly.
 * automatic update checks will be disabled if using socializer from the source code.
 * it is possible to post in an user's wall by using the post button located next to the user, in people buffers. This applies only to online users and list of friends.

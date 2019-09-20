@@ -6,6 +6,7 @@ import views
 import interactors
 import output
 import logging
+from pubsub import pub
 from sessionmanager import utils # We'll use some functions from there
 from mysc.thread_utils import call_threaded
 from presenters import base
@@ -39,7 +40,10 @@ class displayTopicPresenter(basePost.displayPostPresenter):
 		self.worker.finished = threading.Event()
 		self.worker.start()
 		self.attachments = []
+		# connect pubsub event for posted comments.
+		pub.subscribe(self.posted, "posted")
 		self.run()
+		pub.unsubscribe(self.posted, "posted")
 
 	def load_all_components(self):
 		self.get_comments()
@@ -106,23 +110,11 @@ class displayTopicPresenter(basePost.displayPostPresenter):
 	def add_comment(self):
 		comment = createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Add a comment"), message="", text="", mode="comment"))
 		if hasattr(comment, "text") or hasattr(comment, "privacy"):
-			group_id = self.group_id
-			topic_id = self.post["id"]
-			call_threaded(self.do_last, comment, group_id=group_id, topic_id=topic_id)
-
-	def do_last(self, comment, **kwargs):
-		msg = comment.text
-		attachments = ""
-		if hasattr(comment, "attachments"):
-			attachments = self.upload_attachments(comment.attachments)
-		if msg != "":
-			kwargs.update(message=msg)
-		if attachments != "":
-			kwargs.update(attachments=attachments)
-		if "message" not in kwargs and "attachments" not in kwargs:
-			return # No comment made here.
-		result = self.session.vk.client.board.createComment(**kwargs)
-		self.clear_comments_list()
+			post_arguments = dict(group_id=self.group_id, topic_id=self.post["id"], message=comment.text)
+			attachments = []
+			if hasattr(comment, "attachments"):
+				attachments = comment.attachments
+			call_threaded(pub.sendMessage, "post", parent_endpoint="board", child_endpoint="createComment", attachments_list=attachments, post_arguments=post_arguments)
 
 	def reply(self, comment):
 		c = self.comments["items"][comment]
@@ -133,7 +125,11 @@ class displayTopicPresenter(basePost.displayPostPresenter):
 			comment.text = "[post{post_id}|{name}], {text}".format(post_id=c["id"], text=comment.text, name=name)
 			group_id = self.group_id
 			topic_id = self.post["id"]
-			call_threaded(self.do_last, comment, group_id=group_id, topic_id=topic_id, reply_to_comment=c["id"])
+			post_arguments = dict(group_id=group_id, topic_id=topic_id, reply_to_comment=c["id"], message=comment.text)
+			attachments = []
+			if hasattr(comment, "attachments"):
+				attachments = comment.attachments
+			call_threaded(pub.sendMessage, "post", parent_endpoint="board", child_endpoint="createComment", attachments_list=attachments, post_arguments=post_arguments)
 
 	def show_comment(self, comment_index):
 		c = self.comments["items"][comment_index]
@@ -167,3 +163,6 @@ class displayTopicPresenter(basePost.displayPostPresenter):
 			if left_comments > 100:
 				left_comments = 100
 			self.send_message("set_label", control="load_more_comments", label=_("Load {comments} previous comments").format(comments=left_comments))
+
+	def posted(self, from_buffer=None):
+		self.clear_comments_list()

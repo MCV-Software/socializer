@@ -376,6 +376,13 @@ class Controller(object):
 					if hasattr(p, "attachments"):
 						attachments_list = p.attachments
 				call_threaded(pub.sendMessage, "post", parent_endpoint=parent_endpoint, child_endpoint=child_endpoint, from_buffer=from_buffer, attachments_list=attachments_list, post_arguments=post_arguments)
+			elif child_endpoint == "createComment": # topic comments.
+				p = presenters.createPostPresenter(session=self.session, interactor=interactors.createPostInteractor(), view=views.createPostDialog(title=_("Add a comment to the topic"), message="", text=post_arguments.get("message"), mode="comment"))
+				if hasattr(p, "text") or hasattr(p, "privacy"):
+					post_arguments.update(message=p.text)
+					if hasattr(p, "attachments"):
+						attachments_list = p.attachments
+				call_threaded(pub.sendMessage, "post", parent_endpoint=parent_endpoint, child_endpoint=child_endpoint, from_buffer=from_buffer, attachments_list=attachments_list, post_arguments=post_arguments)
 		elif parent_endpoint == "messages": # Private messages
 			if child_endpoint == "send":
 				buffer = self.search(from_buffer)
