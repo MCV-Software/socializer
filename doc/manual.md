@@ -48,9 +48,9 @@ An item is an element representing some data provided by VK. Items are separated
 The following is a brief description of the kind of items socializer can work with, and what actions are available for those.
 
 * Newsfeed post: It represents a post displayed in your "home" page on VK. It may contain a variety of information based in what you or your friends do. A newsfeed item may contain information about new audios added to your friend's library, new people added to friends, wall posts, reposts and new photos added. Depending on the kind of data VK has supplied, the item can open a dialog showing information about the post, a list displaying the people added to friends, or a dialog displaying information for every audio added to library. If a wall post contains a long message, only the first 140 characters will be displayed. You can open the post to read the full message in the dialog. Available options for this item are different depending in the information the item contains. You can open or view the profile of the user that generated the item, like, dislike or add a comment to a post.
-* Wall post: Represent a post in an user's wall. This post will be similar to wall posts displayed in the newsfeed. If a wall post contains a long message, only the first 140 characters will be displayed. You can open the post to read the full message in the dialog. When opened (by pressing enter or the open option in the associated menu), it will show a dialogue where you can read the message, see how many times the post has been viewed by other users, interact with attachment files (by searching the list and pressing enter in the focused attachment to open it), see the photos included in the post, read information related to likes and times the post has been shared, read and reply to comments. Additionally, you can share the post, indicate you like it, or add a comment. You can cycle through every item in the dialog by pressing tab.
-* Audio: It represent an audio uploaded to the VK'S platform. Actions available for this item are opening the audio in a dialog, add or remove it from your library, move the audio to a playlist, and play it. When opened, it will be displayed in a dialog allowing you to read the title of the song, artist name, duration and a few buttons: play, add or remove from your library and download. You can control playback of audio items from the buffer by using the player menu on the menu bar or the corresponding keyboard shortcuts.
-* Video: It represent a video uploaded to the VK'S platform. Actions available for this item are opening the video in your default web browser and move it to a video album. When opened, it will open a web browser and play the video automatically due to VK limitations in access to video files.
+* Wall post: Represents a post in an user's wall. This post will be similar to wall posts displayed in the newsfeed. If a wall post contains a long message, only the first 140 characters will be displayed. You can open the post to read the full message in the dialog. When opened (by pressing enter or the open option in the associated menu), it will show a dialogue where you can read the message, see how many times the post has been viewed by other users, interact with attachment files (by searching the list and pressing enter in the focused attachment to open it), see the photos included in the post, read information related to likes and times the post has been shared, read and reply to comments. Additionally, you can share the post, indicate you like it, or add a comment. You can cycle through every item in the dialog by pressing tab.
+* Audio: It represents an audio uploaded to the VK'S platform. Actions available for this item are opening the audio in a dialog, add or remove it from your library, move the audio to a playlist, and play it. When opened, it will be displayed in a dialog allowing you to read the title of the song, artist name, duration and a few buttons: play, add or remove from your library and download. You can control playback of audio items from the buffer by using the player menu on the menu bar or the corresponding keyboard shortcuts. Additionally, it is possible to select multiple audios in the same buffer to perform specific actions on them, such as play, remove or add the selected audios to a playlist.  In order to select multiple audios, press the spacebar in every audio item you want to select. You will hear a sound when an item is selected, and when you focus a selected audio. When you're done, press enter to play all the selected audios or use the context menu to see available actions. All actions will be  applied in the selected audios.
+* Video: It represents a video uploaded to the VK'S platform. Actions available for this item are opening the video in your default web browser and move it to a video album. When opened, it will open a web browser and play the video automatically due to VK limitations in access to video files.
 * person: It contains information about a VK user, this item is present in all buffers under the "people" category. Actions available for this item are view user profile, send message and create a timeline, which is a special buffer to track all posts, friends or audios owned by the user. When opened, it will display the profile of this user in a dialog and will provide actions to send a message to the user, or view other sections of her/his profile.
 * Message: A message appears only in conversation buffers and represents a chat message. It may include a list of attached files that will be displayed in a separated list. You can tab to that list (from the history) and press enter in the attached file you want to open. Chat items are marked as read automatically as soon as they are focused.
 
@@ -69,7 +69,7 @@ In summary, the GUI contains two core components. These are the controls you wil
 
 ### Buttons in the application
 
-* Post: this button opens up a dialogue box to write a post in the wall of the focused user. For example, if you are in the "my wall" buffer you will send a post to your own wall, but if you are in an user timeline the post will be sent to the owner of the timeline. You can upload an attachment  by pressing the "attach" button and choosing between uploading a  photo or audio file in the dialog which will appear, check spelling or translate your message by selecting one of the available buttons in the dialogue box. In addition, you can tag a friend in your post by pressing the corresponding button for that purpose. Also it is possible to configure the privacy settings for your post by  allowing all users or just your friends to read it. Press the send  button to send the post.
+* Post: this button opens up a dialogue box to write a post in the wall of the focused user. For example, if you are in the "my wall" buffer you will send a post to your own wall, but if you are in an user timeline the post will be sent to the owner of the timeline. You can upload an attachment  by pressing the "attach" button and choosing between uploading a  photo, audio file or document in the dialog which will appear, check spelling or translate your message by selecting one of the available buttons in the dialogue box. In addition, you can tag a friend in your post by pressing the corresponding button for that purpose. Also it is possible to configure the privacy settings for your post by  allowing all users or just your friends to read it. Press the send  button to send the post.
 * Load buffer: Some buffers are created but not loaded in VK. These special buffers need to be loaded manually by pressing the load button. Once loaded, this kind of buffers will behave in the same way other buffers do. Examples of these buffers are audio and video albums, community walls, and the current user's documents
 * Play: In audio buffers, plays the focused song. In video buffers, this button will open a web browser for playing the focused video, due to a limitation VK placed to third party developers with videos.
 * Play all: In audio buffers, play all songs starting from the focused buffer, until the last item in the list.
@@ -96,11 +96,11 @@ Visually, Towards the top of the main application window, A menu bar can be foun
 
 ### Buffer menu
 
-* New timeline: Lets you open a user's timeline by choosing the user in a dialog box. You can choose which items you want to track: wall posts, friends or audio items. It is created when you press enter. If you invoke this option relative to a user that has no items of the kind you specified, the operation will fail. If you try creating an existing timeline the program will warn you and will not create it again.
+* New timeline: Lets you open an user's timeline by choosing the user in a dialog box. You can choose which items you want to track: wall posts, friends or audio items. It is created when you press enter. If you invoke this option relative to a user that has no items of the kind you specified, the operation will fail. If you try creating an existing timeline the program will warn you and will not create it again.
 * Search: Shows a menu where you can search for audios or videos on VK. Search results will be created in a new buffer inside "music" or "videos".
 * Update buffer: Performs a manual update operation in the buffer, which will retrieve all new items present in the social network since the last update.
 * Load previous items: This allows more items to be loaded for the specified buffer. Bear in mind that not all buffers support this setting.
-* Destroy: dismisses the list you're on, if possible.
+* Remove buffer: dismisses the list you're on, if possible.
 
 ### Player menu
 
@@ -141,16 +141,20 @@ As described above, this application has a preferences dialogue accessible under
 
 ### General tab
 
-* Number of items to load for newsfeed and wall buffers: Allows you to specify how many items should be retrieved from VK in the newsfeed buffer and when opening walls for other users. Default and maximum is 100.
-* Number of items to load in video buffers: Allows you to specify how many items should be retrieved from VK in video buffers. Default and maximum is 200.
+* Language: allows you to switch the interface language for socializer. The application must be restarted after changing the language.
 * Load images in posts: Allows you to specify whether you want socializer to display all images when opening a post, or not. This can be useful for people with slow connections or not needing images.
+* Use proxy: for countries where Vk is blocked by the internet providers, this settings allows socializer to connect via a proxy server already included in the application.
 * Update channel: allows you to specify how often you will receive updates for the program. There are two update channels available: Alpha channel, which contains unstable versions of the application and gets updates almost dayly, and stable, which contain tested and more stable versions of the program, but gets updates once in a month, approximately.
+
+### Buffer settings tab
+
+* Number of items to load for newsfeed and wall buffers: Allows you to specify how many items should be retrieved from VK in the newsfeed buffer and when opening walls for other users. Default is 50 items, and maximum is 100.
+* Number of items to load in video buffers: Allows you to specify how many items should be retrieved from VK in video buffers. Default is 50, maximum value is 200.
+* Number of items to load in conversation buffers: allows you to specify how many messages Socializer will retrieve when loading a conversation. Default is 50, maximum value is 200.
 
 ### Chat settings tab
 
 * Show notifications when users are online/offline: These two checkboxes allows you to specify if you want socializer to notify you when someone is connected or disconnected in the VK network.
-* Open unread conversations at startup: When enabled, Socializer will load any conversation with unread messages after started.
-* Move focus to new conversations: When enabled, new conversations will be focused automatically right after being created.
 * Notification type: This setting allows you to specify the notification type you prefer to use in socializer. The options are native and custom. Native notifications send a system notification every time someone is online or offline, while custom notifications play a sound and announce the notification in the screen reader only.
 
 ### Optional buffers tab
@@ -169,12 +173,11 @@ If you still have questions after reading this document, if you wish to collabor
 
 ## Credits
 
-Socializer is developed and maintained by [Manuel Cortez,](https://manuelcortez.net) with contributions by [Anibal Hernandez](https://dragodark.com)
+Socializer is developed and maintained by [Manuel Cortez.](https://manuelcortez.net)
 
 We would also like to thank the translators of Socializer, who have allowed the spreading of the application.
 
 * English: Manuel Cortéz.
-* Spanish: Manuel Cortéz.
 * Russian: Дарья Ратникова.
 
 Special thanks to Дарья Ратникова, as she also manages the Socializer's community in VK, translates the website and the documentation into Russian.
