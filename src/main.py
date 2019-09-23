@@ -52,6 +52,7 @@ def setup():
 
 	log.debug("Created Application mainloop object")
 	sm = sessionManager.sessionManagerController()
+	sm.show()
 	del sm
 	r = mainController.Controller()
 	call_threaded(r.login)

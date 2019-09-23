@@ -111,7 +111,7 @@ class vkSession(object):
 	def is_logged(self):
 		return self.logged
 
-	def get_configuration(self):
+	def get_configuration(self, nosound=False):
 
 		""" Gets settings for a session."""
  
@@ -119,9 +119,10 @@ class vkSession(object):
 #  try:
 		log.debug("Creating config file %s" % (file_,))
 		self.settings = Configuration(os.path.join(paths.config_path(), file_), os.path.join(paths.app_path(), "session.defaults"))
-		self.soundplayer = sound.soundSystem(config.app["sound"])
-		pub.subscribe(self.play_sound, "play-sound")
-		pub.subscribe(self.post, "post")
+		if nosound == False:
+			self.soundplayer = sound.soundSystem(config.app["sound"])
+			pub.subscribe(self.play_sound, "play-sound")
+			pub.subscribe(self.post, "post")
 #  except:
 #   log.exception("The session configuration has failed.")
 
