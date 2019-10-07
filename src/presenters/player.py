@@ -198,7 +198,7 @@ class audioPlayer(object):
 		""" Check if the stream has reached the end of the file  so it will play the next song. """
 		if self.message != None and self.message.is_playing == False and len(self.message) == self.message.position:
 			volume_step = self.volume*0.15
-			while self.stream.volume*100 < self.volume:
+			while self.stream != None and self.stream.volume*100 < self.volume:
 				self.stream.volume = self.stream.volume+(volume_step/100)
 				time.sleep(0.1)
 		if self.stream != None and self.stream.is_playing == False and self.stopped == False and len(self.stream) == self.stream.position:
