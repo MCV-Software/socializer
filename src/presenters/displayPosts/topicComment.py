@@ -27,7 +27,6 @@ class displayTopicCommentPresenter(comment.displayCommentPresenter):
 		self.get_attachments(self.post, message)
 		self.check_image_load()
 		self.send_message("disable_control", control="reply")
-		self.send_message("disable_control", control="comments")
 
 	def post_like(self):
 		id = self.post["id"]

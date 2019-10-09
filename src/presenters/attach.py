@@ -25,7 +25,7 @@ class attachPresenter(base.basePresenter):
 	def __init__(self, session, view, interactor, voice_messages=False):
 		""" Constructor.
 	@ session sessionmanager.session object: an object capable of calling all VK methods and accessing the session database.
-		@voice_messages bool: If True, will add a button for sending voice messages. Functionality for this button has not been added yet.
+		@voice_messages bool: If True, will add a button for sending voice messages.
 		"""
 		super(attachPresenter, self).__init__(view=view, interactor=interactor, modulename="attach")
 		self.session = session
@@ -34,7 +34,7 @@ class attachPresenter(base.basePresenter):
 		self.run()
 
 	def upload_image(self, image, description):
-		""" allows uploading an image from the computer.
+		""" allows uploading an image from the computer. Description will be used when posting to VK.
 		"""
 		imageInfo = {"type": "photo", "file": image, "description": description, "from": "local"}
 		self.attachments.append(imageInfo)
