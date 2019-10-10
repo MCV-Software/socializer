@@ -68,5 +68,11 @@ def community_no_items():
 def delete_conversation():
 	return wx.MessageDialog(None, _("do you really want to delete all messages of this conversation in VK?"), _("Attention"), style=wx.ICON_QUESTION|wx.YES_NO).ShowModal()
 
+def block_person(person):
+	return wx.MessageDialog(None, _("Are you really sure you want to block {user1_nom} from your VK account?").format(**person,), _("Attention"), style=wx.ICON_QUESTION|wx.YES_NO).ShowModal()
+
+def unblock_person():
+	return wx.MessageDialog(None, _("Are you sure you want to unblock this user?"), _("Attention"), style=wx.ICON_QUESTION|wx.YES_NO).ShowModal()
+
 def post_failed():
 	return wx.MessageDialog(None, _("Unfortunately, we could not send your last post or message to VK. Would you like to try again?"), _("Post failed"), style=wx.ICON_QUESTION|wx.YES_NO).ShowModal()

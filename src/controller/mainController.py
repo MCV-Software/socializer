@@ -624,6 +624,7 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.changelog, menuitem=self.window.changelog)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.open_logs, menuitem=self.window.open_logs)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.open_config, menuitem=self.window.open_config)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.blacklist, menuitem=self.window.blacklist)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.configuration, menuitem=self.window.settings_dialog)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.new_timeline, menuitem=self.window.timeline)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.create_audio_album, menuitem=self.window.audio_album)
@@ -723,9 +724,14 @@ class Controller(object):
 		os.chdir("documentation/%s" % (lang,))
 		webbrowser.open("changelog.html")
 		os.chdir("../../")
+
 	def configuration(self, *args, **kwargs):
 		""" Opens the global settings dialogue."""
 		presenter = presenters.configurationPresenter(session=self.session, view=views.configurationDialog(title=_("Preferences")), interactor=interactors.configurationInteractor())
+
+	def blacklist(self, *args, **kwargs):
+		""" Opens the blacklist presenter."""
+		presenter = presenters.blacklistPresenter(session=self.session, view=views.blacklistDialog(), interactor=interactors.blacklistInteractor())
 
 	def open_logs(self, *args, **kwargs):
 		subprocess.call(["explorer", paths.logs_path()])

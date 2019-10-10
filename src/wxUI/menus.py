@@ -45,15 +45,18 @@ class peopleMenu(wx.Menu):
 			self.common_friends = self.Append(wx.NewId(), _("View friends in common"))
 		if is_request == False and is_subscriber == False and not_friend == False:
 			self.decline = self.Append(wx.NewId(), _("Remove from friends"))
+		self.block = self.Append(wx.NewId(), _("Block"))
 		self.open_in_browser = self.Append(wx.NewId(), _("Open in vk.com"))
 
 	def create_request_items(self):
 		self.accept = self.Append(wx.NewId(), _("Accept"))
 		self.decline = self.Append(wx.NewId(), _("Decline"))
 		self.keep_as_follower = self.Append(wx.NewId(), _("Keep as follower"))
+		self.block = self.Append(wx.NewId(), _("Block"))
 
 	def create_subscriber_items(self):
 		self.add = self.Append(wx.NewId(), _("Add to friends"))
+		self.block = self.Append(wx.NewId(), _("Block"))
 
 class documentMenu(wx.Menu):
 	def __init__(self, added=False, *args, **kwargs):

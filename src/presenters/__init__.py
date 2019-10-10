@@ -13,6 +13,7 @@
 """
 from .attach import *
 from .audioRecorder import *
+from .blacklist import *
 from .createPosts import *
 from .displayPosts import *
 from .configuration import *

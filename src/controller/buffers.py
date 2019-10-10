@@ -1362,6 +1362,7 @@ class peopleBuffer(feedBuffer):
 		else:
 			m = menus.peopleMenu(is_request=False)
 			widgetUtils.connect_event(m, widgetUtils.MENU, self.decline_friendship, menuitem=m.decline)
+		widgetUtils.connect_event(m, widgetUtils.MENU, self.block_person, menuitem=m.block)
 		# It is not allowed to send messages to people who is not your friends, so let's disable it if we're in a pending or outgoing requests buffer.
 		if "friend_requests" in self.name:
 			m.message.Enable(False)
@@ -1394,6 +1395,21 @@ class peopleBuffer(feedBuffer):
 		pub.sendMessage("notify", message=msg)
 		self.session.db[self.name]["items"].pop(self.tab.list.get_selected())
 		self.tab.list.remove_item(self.tab.list.get_selected())
+
+	def block_person(self, *args, **kwargs):
+		person = self.get_post()
+		if person == None:
+			return
+		user = self.session.get_user(person["id"])
+		question = commonMessages.block_person(user)
+		if question == widgetUtils.NO:
+			return
+		result = self.session.vk.client.account.ban(owner_id=person["id"])
+		if result == 1:
+			msg = _("You've blocked {user1_nom} from your friends.").format(**user,)
+			pub.sendMessage("notify", message=msg)
+			self.session.db[self.name]["items"].pop(self.tab.list.get_selected())
+			self.tab.list.remove_item(self.tab.list.get_selected())
 
 	def keep_as_follower(self, *args, **kwargs):
 		pass

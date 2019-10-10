@@ -15,6 +15,7 @@ class mainWindow(wx.Frame):
 		self.delete_audio_album = delete.Append(wx.NewId(), _("Audio album"))
 		self.delete_video_album = delete.Append(wx.NewId(), _("Video album"))
 		app_.Append(wx.NewId(), _("Delete"), delete)
+		self.blacklist = app_.Append(wx.NewId(), _("Blacklist"))
 		self.settings_dialog = app_.Append(wx.NewId(), _("Preferences"))
 		me = wx.Menu()
 		profile = wx.Menu()

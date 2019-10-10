@@ -5,6 +5,7 @@
 """
 from .dialogs.attach import *
 from .dialogs.audioRecorder import *
+from .dialogs.blacklist import *
 from .dialogs.postCreation import *
 from .dialogs.postDisplay import *
 from .dialogs.configuration import *
