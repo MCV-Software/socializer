@@ -86,6 +86,7 @@ Visually, Towards the top of the main application window, A menu bar can be foun
 * Create: opens a menu where you can create a new album. At the moment, only audio and video albums are supported.
 * Delete: opens a menu where you can delete an already existing album owned by yourself. Only audio and video albums are supported at this time.
 * blacklist: Opens a dialog which allows you to manage blocked people on VK.
+* Manage accounts: Opens up a dialogue from where you are able to add or delete an account in socializer. If you have more than an account, you will be asked at startup for the account you want to use in the application. You can use an account at once, but it is possible to have multiple accounts and switch between them by restarting the application.
 * Preferences: Opens a dialogue which lets you configure settings for the entire application.
 
 ### Me menu
