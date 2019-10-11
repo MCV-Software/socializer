@@ -39,8 +39,8 @@ class newSessionDialog(widgetUtils.BaseDialog):
 		return self.passw.GetValue()
 
 class sessionManagerWindow(widgetUtils.BaseDialog):
-	def __init__(self):
-		super(sessionManagerWindow, self).__init__(parent=None, title=_("Select an account"), size=wx.DefaultSize)
+	def __init__(self, title, starting=True):
+		super(sessionManagerWindow, self).__init__(parent=None, title=title, size=wx.DefaultSize)
 		panel = wx.Panel(self)
 		sizer = wx.BoxSizer(wx.VERTICAL)
 		label = wx.StaticText(panel, -1, _(u"Accounts list"), size=wx.DefaultSize)
@@ -51,13 +51,20 @@ class sessionManagerWindow(widgetUtils.BaseDialog):
 		sizer.Add(listSizer, 0, wx.ALL, 5)
 		self.new = wx.Button(panel, -1, _("New account"), size=wx.DefaultSize)
 		self.remove = wx.Button(panel, -1, _(u"Remove account"))
-		ok = wx.Button(panel, wx.ID_OK, size=wx.DefaultSize)
+		if starting:
+			id_ok = wx.ID_OK
+		else:
+			id_ok = wx.ID_CANCEL
+		ok = wx.Button(panel, id_ok, size=wx.DefaultSize)
 		ok.SetDefault()
-		cancel = wx.Button(panel, wx.ID_CANCEL, size=wx.DefaultSize)
+		if starting:
+			cancel = wx.Button(panel, wx.ID_CANCEL, size=wx.DefaultSize)
+		self.SetAffirmativeId(id_ok)
 		buttons = wx.BoxSizer(wx.HORIZONTAL)
 		buttons.Add(self.new, 0, wx.ALL, 5)
 		buttons.Add(ok, 0, wx.ALL, 5)
-		buttons.Add(cancel, 0, wx.ALL, 5)
+		if starting:
+			buttons.Add(cancel, 0, wx.ALL, 5)
 		sizer.Add(buttons, 0, wx.ALL, 5)
 		panel.SetSizer(sizer)
 		min = sizer.CalcMin()

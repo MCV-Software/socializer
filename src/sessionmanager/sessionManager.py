@@ -14,10 +14,14 @@ from .config_utils import Configuration
 log = logging.getLogger("sessionmanager.sessionManager")
 
 class sessionManagerController(object):
-	def __init__(self):
+	def __init__(self, starting=True):
 		super(sessionManagerController, self).__init__()
 		log.debug("Setting up the session manager.")
-		self.view = view.sessionManagerWindow()
+		if starting:
+			title=_("Select an account")
+		else:
+			title = _("Manage accounts")
+		self.view = view.sessionManagerWindow(starting=starting, title=title)
 		widgetUtils.connect_event(self.view.new, widgetUtils.BUTTON_PRESSED, self.manage_new_account)
 		widgetUtils.connect_event(self.view.remove, widgetUtils.BUTTON_PRESSED, self.remove)
 		self.fill_list()
@@ -50,6 +54,7 @@ class sessionManagerController(object):
 			name = s.settings["vk"]["user"]
 			self.sessions.append((location, name))
 			self.view.list.insert_item(False, *[name])
+			self.modified = True
 
 	def get_authorisation(self, c):
 		log.debug("Starting the authorisation process...")
@@ -88,3 +93,4 @@ class sessionManagerController(object):
 			shutil.rmtree(path=os.path.join(paths.config_path(), selected_session[0]), ignore_errors=True)
 			self.sessions.remove(selected_session)
 			self.view.list.remove_item(self.view.list.get_selected())
+			self.modified = True

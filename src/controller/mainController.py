@@ -22,7 +22,7 @@ from mysc import restart
 from mysc.repeating_timer import RepeatingTimer
 from mysc.thread_utils import call_threaded
 from mysc import localization
-from sessionmanager import session, utils, renderers
+from sessionmanager import session, utils, renderers, sessionManager
 from wxUI import (mainWindow, commonMessages, menus)
 from wxUI.dialogs import search as searchDialogs
 from wxUI.dialogs import creation, timeline
@@ -629,6 +629,7 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.open_logs, menuitem=self.window.open_logs)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.open_config, menuitem=self.window.open_config)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.blacklist, menuitem=self.window.blacklist)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.manage_accounts, menuitem=self.window.accounts)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.configuration, menuitem=self.window.settings_dialog)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.new_timeline, menuitem=self.window.timeline)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.create_audio_album, menuitem=self.window.audio_album)
@@ -736,6 +737,14 @@ class Controller(object):
 	def blacklist(self, *args, **kwargs):
 		""" Opens the blacklist presenter."""
 		presenter = presenters.blacklistPresenter(session=self.session, view=views.blacklistDialog(), interactor=interactors.blacklistInteractor())
+
+	def manage_accounts(self, *args, **kwargs):
+		accounts = sessionManager.sessionManagerController(starting=False)
+		accounts.view.get_response()
+		if hasattr(accounts, "modified"):
+			restart_msg = commonMessages.restart_program()
+			if restart_msg == widgetUtils.YES:
+				restart.restart_program()
 
 	def open_logs(self, *args, **kwargs):
 		subprocess.call(["explorer", paths.logs_path()])

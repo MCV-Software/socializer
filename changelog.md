@@ -5,12 +5,13 @@
 ### New additions
 
 * Socializer is now more tolerant to internet issues. When attempting to create a wall post, comment, topic or send a chat message, if the data is unable to be posted to VK, socializer will allow you to try to post it again, giving you the opportunity to edit or copy the text of the post in case you want to save it for later.
+* Switching accounts is now supported in socializer. In the application menu, there is an option called "manage accounts" which allows you to add or remove an account. Socializer will take changes after a restart of the application. In case of having multiple accounts, every time Socializer starts, you will see a dialog from where is possible to choose the account for logging in.
 * when selecting multiple audio files in audio buffers, multiple actions can be performed in all items, these actions are present in the contextual menu of the buffer (namely play, add/remove from the library and move to a different playlist). This means you can select all the audios you want and Socializer will perform the selected options in all items, making it a bit easier to operate with multiple songs.
 * Now it is possible to like and see who liked a comment when displaying it individually. This applies to comments in wall posts and topics.
 * Now it is possible to choose how many items Socializer will load in conversation buffers, from the General tab in the preferences dialog. The default value is 50 items, and the maximum value is 200.
 * There is a new tab called buffer settings, in the preferences dialog. Settings related to how many items should be loaded in certain buffer types have been moved to this tab, so it will separate better the configuration options in the application.
 * Added management of the Blacklist on VK. Users can be blocked from people buffers (friends, online, or any buffer inside friend requests). You can access the blacklist from the application menu, located in the menu bar. From there, you can unblock any previously blocked user.
-* In the new timeline dialog, it is possible to create video buffers.
+* In the new timeline dialog, it is possible to create video buffers by selecting the "video" radio button as buffer type.
 
 ### bugfixes
 
