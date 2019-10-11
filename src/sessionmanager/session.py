@@ -27,7 +27,7 @@ sessions = {}
 identifiers = ["aid", "gid", "uid", "pid", "id", "post_id", "nid", "date"]
 
 # Different VK post types, present in the newsfeed buffer. This is useful for filtering by post and remove deleted posts.
-post_types = dict(audio="audio", friend="friends", video="video", post="post_type", audio_playlist="audio_playlist")
+post_types = dict(audio="audio", friend="friends", video="files", post="post_type", audio_playlist="audio_playlist")
 
 def find_item(list, item):
 	""" Find an item in a list  by taking an identifier.
