@@ -10,6 +10,7 @@
 * Now it is possible to choose how many items Socializer will load in conversation buffers, from the General tab in the preferences dialog. The default value is 50 items, and the maximum value is 200.
 * There is a new tab called buffer settings, in the preferences dialog. Settings related to how many items should be loaded in certain buffer types have been moved to this tab, so it will separate better the configuration options in the application.
 * Added management of the Blacklist on VK. Users can be blocked from people buffers (friends, online, or any buffer inside friend requests). You can access the blacklist from the application menu, located in the menu bar. From there, you can unblock any previously blocked user.
+* In the new timeline dialog, it is possible to create video buffers.
 
 ### bugfixes
 
@@ -19,6 +20,7 @@
 * Fixed an error that was making Socializer to fail when loading the newsfeed buffer, thus not loading any other buffers. This error was caused due to VK sending a new object type representing push subscriptions. The item is ignored by Socializer so it will not break the newsfeed buffer anymore.
 * Fixed an error that was making the status bar to not fit the full size of the Window. This was cutting the messages placed on it, now, all messages are displayed properly again.
 * fixed an unhandled condition when playing a song and voice message at the same time, that was potentially making Socializer to stop loading certain buffers.
+* fixed an error that was making socializer unable to parse video data, thus video buffers were impossible to be loaded.
 
 ### Changes
 

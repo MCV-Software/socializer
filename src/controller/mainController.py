@@ -604,6 +604,10 @@ class Controller(object):
 			buffer = buffers.feedBuffer(parent=self.window.tb, name="{0}_feed".format(user_id,), composefunc="render_status", session=self.session, create_tab=False, endpoint="get", parent_endpoint="wall", extended=1, count=self.session.settings["buffers"]["count_for_wall_buffers"],  owner_id=user_id)
 			user = self.session.get_user(user_id, key="user1")
 			name_ = _("{user1_nom}'s posts").format(**user)
+		elif buffer_type == "video":
+			buffer = buffers.videoBuffer(parent=self.window.tb, name="{0}_video".format(user_id,), composefunc="render_video", session=self.session, create_tab=False, endpoint="get", parent_endpoint="video", owner_id=user_id, count=self.session.settings["buffers"]["count_for_video_buffers"])
+			user = self.session.get_user(user_id, key="user1")
+			name_ = _("{user1_nom}'s videos").format(**user)
 		elif buffer_type == "friends":
 			buffer = buffers.peopleBuffer(parent=self.window.tb, name="friends_{0}".format(user_id,), composefunc="render_person", session=self.session, create_tab=False, endpoint="get", parent_endpoint="friends", count=5000, fields="uid, first_name, last_name, last_seen", user_id=user_id)
 			user = self.session.get_user(user_id, key="user1")

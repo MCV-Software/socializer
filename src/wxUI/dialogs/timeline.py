@@ -20,9 +20,11 @@ class timelineDialog(widgetUtils.BaseDialog):
 		actionsSizer = wx.StaticBoxSizer(parent=panel, orient=wx.VERTICAL, label=_("Buffer type"))
 		self.wall    = wx.RadioButton(actionsSizer.GetStaticBox(), wx.NewId(), _("&Wall posts"), style=wx.RB_GROUP)
 		self.audio = wx.RadioButton(actionsSizer.GetStaticBox(), wx.NewId(), _("Audio"))
+		self.video = wx.RadioButton(actionsSizer.GetStaticBox(), wx.NewId(), _("Video"))
 		self.friends = wx.RadioButton(actionsSizer.GetStaticBox(), wx.NewId(), _("Friends"))
 		actionsSizer.Add(self.wall, 0, wx.ALL, 5)
 		actionsSizer.Add(self.audio, 0, wx.ALL, 5)
+		actionsSizer.Add(self.video, 0, wx.ALL, 5)
 		actionsSizer.Add(self.friends, 0, wx.ALL, 5)
 		sizer.Add(actionsSizer, 0, wx.ALL, 5)
 		ok = wx.Button(panel, wx.ID_OK, _("&OK"))
@@ -41,6 +43,8 @@ class timelineDialog(widgetUtils.BaseDialog):
 	def get_buffer_type(self):
 		if self.audio.GetValue() == True:
 			return "audio"
+		elif self.video.GetValue() == True:
+			return "video"
 		elif self.wall.GetValue() == True:
 			return "wall"
 		elif self.friends.GetValue() == True:
