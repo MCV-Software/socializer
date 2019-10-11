@@ -9,7 +9,7 @@ Socializer is an application to use [VK.com](https://vk.com) in an easy and acce
 * audio support.
 * Post comments.
 * like, unlike and repost other's posts.
-* Open other's timelines so you could track their friends, posts or audio files.
+* Open other's timelines so you could track their friends, posts, audio or video files.
 * Basic chat features.
 
 ## Usage
@@ -51,7 +51,7 @@ The following is a brief description of the kind of items socializer can work wi
 * Wall post: Represents a post in an user's wall. This post will be similar to wall posts displayed in the newsfeed. If a wall post contains a long message, only the first 140 characters will be displayed. You can open the post to read the full message in the dialog. When opened (by pressing enter or the open option in the associated menu), it will show a dialogue where you can read the message, see how many times the post has been viewed by other users, interact with attachment files (by searching the list and pressing enter in the focused attachment to open it), see the photos included in the post, read information related to likes and times the post has been shared, read and reply to comments. Additionally, you can share the post, indicate you like it, or add a comment. You can cycle through every item in the dialog by pressing tab.
 * Audio: It represents an audio uploaded to the VK'S platform. Actions available for this item are opening the audio in a dialog, add or remove it from your library, move the audio to a playlist, and play it. When opened, it will be displayed in a dialog allowing you to read the title of the song, artist name, duration and a few buttons: play, add or remove from your library and download. You can control playback of audio items from the buffer by using the player menu on the menu bar or the corresponding keyboard shortcuts. Additionally, it is possible to select multiple audios in the same buffer to perform specific actions on them, such as play, remove or add the selected audios to a playlist.  In order to select multiple audios, press the spacebar in every audio item you want to select. You will hear a sound when an item is selected, and when you focus a selected audio. When you're done, press enter to play all the selected audios or use the context menu to see available actions. All actions will be  applied in the selected audios.
 * Video: It represents a video uploaded to the VK'S platform. Actions available for this item are opening the video in your default web browser and move it to a video album. When opened, it will open a web browser and play the video automatically due to VK limitations in access to video files.
-* person: It contains information about a VK user, this item is present in all buffers under the "people" category. Actions available for this item are view user profile, send message and create a timeline, which is a special buffer to track all posts, friends or audios owned by the user. When opened, it will display the profile of this user in a dialog and will provide actions to send a message to the user, or view other sections of her/his profile.
+* person: It contains information about a VK user, this item is present in all buffers under the "people" category. Actions available for this item are view user profile, send message and create a timeline, which is a special buffer to track all posts, friends, audios or videos owned by the user. When opened, it will display the profile of this user in a dialog and will provide actions to send a message to the user, or view other sections of her/his profile.
 * Message: A message appears only in conversation buffers and represents a chat message. It may include a list of attached files that will be displayed in a separated list. You can tab to that list (from the history) and press enter in the attached file you want to open. Chat items are marked as read automatically as soon as they are focused.
 
 ## Main interface
@@ -85,6 +85,7 @@ Visually, Towards the top of the main application window, A menu bar can be foun
 
 * Create: opens a menu where you can create a new album. At the moment, only audio and video albums are supported.
 * Delete: opens a menu where you can delete an already existing album owned by yourself. Only audio and video albums are supported at this time.
+* blacklist: Opens a dialog which allows you to manage blocked people on VK.
 * Preferences: Opens a dialogue which lets you configure settings for the entire application.
 
 ### Me menu
@@ -96,7 +97,7 @@ Visually, Towards the top of the main application window, A menu bar can be foun
 
 ### Buffer menu
 
-* New timeline: Lets you open an user's timeline by choosing the user in a dialog box. You can choose which items you want to track: wall posts, friends or audio items. It is created when you press enter. If you invoke this option relative to a user that has no items of the kind you specified, the operation will fail. If you try creating an existing timeline the program will warn you and will not create it again.
+* New timeline: Lets you open an user's timeline by choosing the user in a dialog box. You can choose which items you want to track: wall posts, videos, friends or audio items. It is created when you press enter. If you invoke this option relative to a user that has no items of the kind you specified, the operation will fail. If you try creating an existing timeline the program will warn you and will not create it again.
 * Search: Shows a menu where you can search for audios or videos on VK. Search results will be created in a new buffer inside "music" or "videos".
 * Update buffer: Performs a manual update operation in the buffer, which will retrieve all new items present in the social network since the last update.
 * Load previous items: This allows more items to be loaded for the specified buffer. Bear in mind that not all buffers support this setting.
