@@ -281,3 +281,21 @@ def render_document(document, session):
 	date = arrow.get(document["date"]).humanize(locale=languageHandler.curLang[:2])
 	doc_type = doc_types[document["type"]]
 	return [user["user1_nom"], title, doc_type, size, date]
+
+def render_notification(notification, session):
+	notification.pop("hide_buttons")
+	print(notification["icon_type"])
+#	print(notification["header"])
+	print(notification)
+	date = arrow.get(notification["date"]).humanize(locale=languageHandler.curLang[:2])
+	msg = notification["header"]
+#	msg = notification["header"]
+#	if notification["type"] == "follow":
+#		if len(notification["feedback"]) == 1:
+#			user = session.get_user(notification["feedback"][0])
+#			msg = _("{user1_nom} subscribed to your account").format(**user)
+#		else:
+#			users = ["{first_name} {last_name},".format(first_name=user["first_name"], last_name=user["last_name"]) for user in notification["feedback"]]
+#			msg = " ".join(users)
+#	print(msg)
+	return [msg, date]

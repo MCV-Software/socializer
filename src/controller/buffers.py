@@ -1553,3 +1553,13 @@ class requestsBuffer(peopleBuffer):
 			pub.sendMessage("notify", message=msg)
 			self.session.db[self.name]["items"].pop(self.tab.list.get_selected())
 			self.tab.list.remove_item(self.tab.list.get_selected())
+
+class notificationBuffer(feedBuffer):
+
+	def create_tab(self, parent):
+		self.tab = home.notificationTab(parent)
+		self.connect_events()
+		self.tab.name = self.name
+
+	def onFocus(self, event, *args, **kwargs):
+		event.Skip()

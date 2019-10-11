@@ -100,9 +100,9 @@ class audioAlbumTab(audioTab):
 		self.postBox.Add(self.play, 0, wx.ALL, 5)
 		self.postBox.Add(self.play_all, 0, wx.ALL, 5)
 
-class notificationsTab(homeTab):
+class notificationTab(homeTab):
 	def __init__(self, parent):
-		super(notificationsTab, self).__init__(parent=parent)
+		super(notificationTab, self).__init__(parent=parent)
 		self.name = "notifications"
 
 	def OnKeyDown(self, ev=None):
@@ -110,7 +110,8 @@ class notificationsTab(homeTab):
 		ev.Skip()
 
 	def create_list(self):
-		self.list = widgetUtils.list(self, *[_("Notification")], style=wx.LC_REPORT)
+		self.lbl = wx.StaticText(self, wx.NewId(), _("Po&sts"))
+		self.list = widgetUtils.list(self, *[_("Notification"), _("Date")], style=wx.LC_REPORT)
 		self.list.set_windows_size(0, 190)
 		self.list.list.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnKeyDown)
 

@@ -207,6 +207,9 @@ class vkSession(object):
 		else:
 			kwargs.update(offset=0)
 		formatted_endpoint = "{formatted_endpoint}.{new_path}".format(formatted_endpoint=formatted_endpoint, new_path=endpoint)
+		offset_deprecated = ["notifications.get"]
+		if formatted_endpoint in offset_deprecated:
+			kwargs.update(offset=None)
 		log.debug("Calling endpoint %s with params %r" % (formatted_endpoint, kwargs,))
 		data = getattr(p, endpoint)(*args, **kwargs)
 		if data != None:
@@ -218,7 +221,8 @@ class vkSession(object):
 				data["items"].reverse()
 			if type(data) == dict:
 				num = self.order_buffer(name, data["items"], show_nextpage)
-				self.db[name]["offset"] = kwargs["offset"]+kwargs["count"]
+				if formatted_endpoint not in offset_deprecated:
+					self.db[name]["offset"] = kwargs["offset"]+kwargs["count"]
 				if len(data["items"]) > 0 and "first_name" in data["items"][0]:
 					data2 = {"profiles": [], "groups": []}
 					for i in data["items"]:
