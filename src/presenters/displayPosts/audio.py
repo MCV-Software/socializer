@@ -73,7 +73,7 @@ class displayAudioPresenter(base.basePresenter):
 
 	def get_suggested_filename(self, audio_index):
 		post = self.post[audio_index]
-		return "{0} - {1}.mp3".format(post["title"], post["artist"])
+		return utils.safe_filename("{0} - {1}.mp3".format(post["title"], post["artist"]))
 
 	def download(self, audio_index, path):
 		post = self.post[audio_index]

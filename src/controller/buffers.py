@@ -594,7 +594,7 @@ class documentBuffer(feedBuffer):
 
 	def download(self, *args, **kwargs):
 		post = self.get_post()
-		filename = post["title"]
+		filename = utils.safe_filename(post["title"])
 		# If document does not end in .extension we must fix it so the file dialog will save it properly later.
 		if filename.endswith(post["ext"]) == False:
 			filename = filename+ "."+post["ext"]

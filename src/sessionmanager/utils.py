@@ -91,3 +91,7 @@ def transform_audio_url(url):
 	else:
 		url = url.replace("/"+parts[-3], "")
 	return url
+
+def safe_filename(filename):
+	allowed_symbols = ["_", ".", ",", "-", "(", ")"]
+	return "".join([c for c in filename if c.isalpha() or c.isdigit() or c==' ' or c in allowed_symbols]).rstrip()
