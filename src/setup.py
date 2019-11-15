@@ -1,103 +1,40 @@
 # -*- coding: utf-8 -*-
-""" Setup file to create executables and distribute the source code of this application. Don't forget this file! """
-############################################################
-#    Copyright (c) 2016 Manuel Eduardo Cortéz Vallejo <manuel@manuelcortez.net>
-#       
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 2 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-############################################################
-from setuptools import setup, find_packages
-import py2exe
-import os
+import sys
 import application
+from cx_Freeze import setup, Executable
 import platform
+import os
 from glob import glob
 
-def get_architecture_files():
- if platform.architecture()[0][:2] == "32":
-  return [
-  ("", ["../windows-dependencies/x86/oggenc2.exe", "../windows-dependencies/x86/bootstrap.exe"]),
-  ("Microsoft.VC90.CRT", glob("../windows-dependencies/x86/Microsoft.VC90.CRT/*")),
-  ("Microsoft.VC90.MFC", glob("../windows-dependencies/x86/Microsoft.VC90.MFC/*")),]
- elif platform.architecture()[0][:2] == "64":
-  return [
-  ("", ["../windows-dependencies/x86/bootstrap.exe"]),
-  ("Microsoft.VC90.CRT", glob("../windows-dependencies/x64/Microsoft.VC90.CRT/*")),
-  ("Microsoft.VC90.MFC", glob("../windows-dependencies/x64/Microsoft.VC90.MFC/*")),]
-
 def get_data():
- import accessible_output2
- import sound_lib
- import enchant
- return [
-  ("", ["session.defaults", "app-configuration.defaults", "cacert.pem"]),
-  ("accessible_output2/lib", glob("accessible_output2/lib/*.dll")),
- 
-]+get_sounds()+get_locales()+get_documentation()+accessible_output2.find_datafiles()+enchant.utils.win32_data_files()+get_architecture_files()+sound_lib.find_datafiles()
+    """ Get data files for the project. """
+    import accessible_output2
+    import sound_lib
+    datas = [
+        (["session.defaults", "app-configuration.defaults", "cacert.pem"], ""),]+get_sounds()+get_locales()+get_documentation()+get_architecture_files()
+    print(datas)
+    return datas
 
-def get_documentation ():
- answer = [("documentation", ["documentation/license.txt"])]
- depth = 6
- for root, dirs, files in os.walk('documentation'):
-  if depth == 0:
-   break
-  new = (root, glob(os.path.join(root, "*.html")))
-  answer.append(new)
-  depth -= 1
- return answer
+base = None
+if sys.platform == 'win32':
+    base = 'Win32GUI'
 
-def get_sounds():
- answer = []
- depth = 6
- for root, dirs, files in os.walk('sounds'):
-  if depth == 0:
-   break
-  new = (root, glob(os.path.join(root, "*.ogg")))
-  answer.append(new)
-  depth -= 1
- return answer
+build_exe_options = dict(
+	build_exe="dist",
+	optimize=2,
+	include_msvcr=True,
+#	zip_include_packages="*",
+#	zip_exclude_packages=["lxml", "wx", "sound_lib", "enchant", "accessible_output2"],
+	include_files=["session.defaults", "app-configuration.defaults", "cacert.pem", "locales", "sounds", "documentation", "../windows-dependencies/x86/oggenc2.exe", "../windows-dependencies/x86/bootstrap.exe"],
+	)
 
-def get_locales():
- answer = []
- for root, dirs, files in os.walk('locales'):
-  new = (root, glob(os.path.join(root, '*.mo')))
-  answer.append(new)
- return answer
+executables = [
+    Executable('main.py', base=base)
+]
 
-if __name__ == '__main__':
- setup(
-  name = application.name,
-  author = application.author,
-  author_email = application.authorEmail,
-  version = application.version,
-  url = application.url,
-packages= find_packages(),
-data_files = get_data(),
-options = {
-   'py2exe': {   
-    'optimize':2,
-   'packages': ["pubsub", "pubsub.core", "pubsub.core.kwargs", "future"],
-    'dll_excludes': ["MPR.dll", "api-ms-win-core-apiquery-l1-1-0.dll", "api-ms-win-core-console-l1-1-0.dll", "api-ms-win-core-delayload-l1-1-1.dll", "api-ms-win-core-errorhandling-l1-1-1.dll", "api-ms-win-core-file-l1-2-0.dll", "api-ms-win-core-handle-l1-1-0.dll", "api-ms-win-core-heap-obsolete-l1-1-0.dll", "api-ms-win-core-libraryloader-l1-1-1.dll", "api-ms-win-core-localization-l1-2-0.dll", "api-ms-win-core-processenvironment-l1-2-0.dll", "api-ms-win-core-processthreads-l1-1-1.dll", "api-ms-win-core-profile-l1-1-0.dll", "api-ms-win-core-registry-l1-1-0.dll", "api-ms-win-core-synch-l1-2-0.dll", "api-ms-win-core-sysinfo-l1-2-0.dll", "api-ms-win-security-base-l1-2-0.dll", "api-ms-win-core-heap-l1-2-0.dll", "api-ms-win-core-interlocked-l1-2-0.dll", "api-ms-win-core-localization-obsolete-l1-1-0.dll", "api-ms-win-core-string-l2-1-0.dll", "api-ms-win-core-string-obsolete-l1-1-0.dll", "WLDAP32.dll", "MSVCP90.dll", "CRYPT32.dll", "api-ms-win-core-memory-l1-1-2.dll", "api-ms-win-core-psapi-l1-1-0.dll", "api-ms-win-core-libraryloader-l1-2-2.dll", "api-ms-win-core-string-l2-1-0.dll", "api-ms-win-core-string-l1-1-0.dll", "api-ms-win-core-processthreads-l1-1-2.dll", "api-ms-win-core-atoms-l1-1-0.dll", "api-ms-win-core-heap-l2-1-0.dll", "api-ms-win-core-com-midlproxystub-l1-1-0.dll", "api-ms-win-core-libraryloader-l1-2-0.dll", "api-ms-win-core-localization-l1-2-1.dll", "api-ms-win-core-sysinfo-l1-2-1.dll"],
-#    'skip_archive': False
-   },
-  },
-  windows = [
-   {
-    'script': 'main.py',
-    'dest_base': 'socializer',
-}
-  ],
-  install_requires = [
-  ]
- )
+setup(name='Socializer',
+      version=application.version,
+      description=application.description,
+      options = {"build_exe": build_exe_options},
+      executables=executables
+      )
