@@ -78,6 +78,42 @@ alpha_python3:
     name: socializer_py3
     expire_in: 1 day
 
+alpha:
+  type: deploy
+  tags:
+    - windows10
+  before_script:
+    - '%PYTHON3% -v'
+    - '%PYTHON3% -m pip install --upgrade pip cx_freeze'
+    - '%PYTHON3% -m pip install --upgrade -r requirements.txt'
+    - '%PYTHON3% -m pip uninstall enum34 -y'
+  script:
+    - copy changelog.md doc\changelog.md
+    - cd doc
+    - '%PYTHON2% documentation_importer.py'
+    - cd ..\src
+    - '%PYTHON2% ..\doc\generator.py'
+    - '%PYTHON3% write_version_data.py'
+    - '%PYTHON3% setup.py build'
+    - cd ..
+    - cd scripts
+    - '%PYTHON3% prepare_zipversion_cxfreeze.py'
+    - call genpot_interface.bat
+    - call genpot_doc.bat
+    - cd ..
+    - move src\socializer.zip socializer.zip
+    - move scripts\socializer.pot socializer.pot
+    - move scripts\socializer-documentation.pot socializer-documentation.pot
+  only:
+    - schedules
+  artifacts:
+    paths:
+    - socializer.zip
+    - socializer.pot
+    - socializer-documentation.pot
+    name: socializer_alpha
+    expire_in: 1 day
+
 stable:
   type: deploy
   tags:
