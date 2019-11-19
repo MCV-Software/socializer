@@ -1,3 +1,4 @@
+from .base import *
 from .attach import *
 from . audioRecorder import *
 from . blacklist import *

@@ -11,6 +11,8 @@
 	
 	By using this design pattern it allows more decoupled code, easier testing (as we don't need to instantiate the views) and easy to switch (or add) a new graphical user interface by replacing interactors and views.
 """
+from . import player
+from .base import *
 from .attach import *
 from .audioRecorder import *
 from .blacklist import *
