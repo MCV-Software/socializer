@@ -147,6 +147,7 @@ class vkSession(object):
 			self.logged = True
 			self.get_my_data()
 		except VkApiError as error:
+			print(error)
 			if error.code == 5: # this means invalid access token.
 				self.settings["vk"]["user"] = ""
 				self.settings["vk"]["password"] = ""
@@ -330,17 +331,18 @@ class vkSession(object):
 				log.error("Error calling method %s.%s with arguments: %r. Failed during loading attachments. Error: %s" % (parent_endpoint, child_endpoint, post_arguments, str(error)))
 				# Report a failed function here too with same arguments so the client should be able to recreate it again.
 				wx.CallAfter(pub.sendMessage, "postFailed", parent_endpoint=parent_endpoint, child_endpoint=child_endpoint, from_buffer=from_buffer, attachments_list=attachments_list, post_arguments=post_arguments)
+		### ToDo: Let's avoid this piece of code cause it seems VK changes everything to lowercase letters.
 		# VK generally defines all kind of messages under "text", "message" or "body" so let's try with all of those
-		possible_message_keys = ["text", "message", "body"]
-		for i in possible_message_keys:
-			if post_arguments.get(i):
-				urls = utils.find_urls_in_text(post_arguments[i])
-				if len(urls) != 0:
-					if len(attachments) == 0:
-						attachments = urls[0]
-					else:
-						attachments += urls[0]
-					post_arguments[i] = post_arguments[i].replace(urls[0], "")
+#		possible_message_keys = ["text", "message", "body"]
+#		for i in possible_message_keys:
+#			if post_arguments.get(i):
+#				urls = utils.find_urls_in_text(post_arguments[i])
+#				if len(urls) != 0:
+#					if len(attachments) == 0:
+#						attachments = urls[0]
+#					else:
+#						attachments += urls[0]
+#					post_arguments[i] = post_arguments[i].replace(urls[0], "")
 		# After modifying everything, let's update the post arguments if needed.
 		if len(attachments) > 0:
 			if parent_endpoint == "messages":

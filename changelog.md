@@ -4,6 +4,16 @@
 
 ### New additions
 
+### bugfixes
+
+* Fixed an error that was making socializer unable to render correctly certain Links containing uppercase letters (such as yandex.disk shared links). Before, those links were giving 404 errors when pressed, now they should work normally. This error was present in wall posts, comments, topics and chat messages.
+
+### Changes
+
+## Changes in Version 0.23 (11.11.2019)
+
+### New additions
+
 * Socializer is now more tolerant to internet issues. When attempting to create a wall post, comment, topic or send a chat message, if the data is unable to be posted to VK, socializer will allow you to try to post it again, giving you the opportunity to edit or copy the text of the post in case you want to save it for later.
 * Switching accounts is now supported in socializer. In the application menu, there is an option called "manage accounts" which allows you to add or remove an account. Socializer will take changes after a restart of the application. In case of having multiple accounts, every time Socializer starts, you will see a dialog from where is possible to choose the account for logging in.
 * when selecting multiple audio files in audio buffers, multiple actions can be performed in all items, these actions are present in the contextual menu of the buffer (namely play, add/remove from the library and move to a different playlist). This means you can select all the audios you want and Socializer will perform the selected options in all items, making it a bit easier to operate with multiple songs.

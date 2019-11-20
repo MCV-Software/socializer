@@ -17,6 +17,8 @@ backports.functools_lru_cache
 yandex.translate
 mutagen
 mock
+# cx_freeze for building the executable files.
+cx_freeze
 # forked repositories previously found at http://q-continuum.net
 git+https://code.manuelcortez.net/manuelcortez/libloader
 git+https://code.manuelcortez.net/manuelcortez/platform_utils
