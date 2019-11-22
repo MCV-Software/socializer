@@ -13,6 +13,8 @@ class postMenu(wx.Menu):
 		self.dislike = self.Append(wx.NewId(), _("Dislike"))
 		self.dislike.Enable(False)
 		self.comment = self.Append(wx.NewId(), _("Add comment"))
+		self.fav = self.Append(wx.NewId(), _("Add to favorites"))
+		self.fav.Enable(False)
 		if can_delete:
 			self.delete = self.Append(wx.NewId(), _("Delete"))
 		else:
@@ -41,6 +43,8 @@ class peopleMenu(wx.Menu):
 		self.view_profile = self.Append(wx.NewId(), _("View profile"))
 		self.message = self.Append(wx.NewId(), _("Send a message"))
 		self.timeline = self.Append(wx.NewId(), _("Open timeline"))
+		self.fav = self.Append(wx.NewId(), _("Add to favorites"))
+		self.fav.Enable(False)
 		if not_friend == False:
 			self.common_friends = self.Append(wx.NewId(), _("View friends in common"))
 		if is_request == False and is_subscriber == False and not_friend == False:
@@ -67,6 +71,8 @@ class documentMenu(wx.Menu):
 		else:
 			self.action = self.Append(wx.NewId(), _("Add to my documents"))
 		self.open_in_browser = self.Append(wx.NewId(), _("Open in vk.com"))
+		self.fav = self.Append(wx.NewId(), _("Add to favorites"))
+		self.fav.Enable(False)
 
 class commentMenu(wx.Menu):
 	def __init__(self, *args, **kwargs):

@@ -1,4 +1,12 @@
 # -*- coding: utf-8 -*-
+import sys
+
+### ToDo: Remove this piece of code a month later or something like that, when the migration to the cx_freeze executable will be complete.
+def is_pyinstaller():
+	if hasattr(sys, 'frozen') and hasattr(sys, '_MEIPASS'):
+		return True
+	else:
+		return False
 
 name = "Socializer"
 version = "0.23"
