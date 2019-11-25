@@ -130,18 +130,14 @@ stable:
     - cd ..\src
     - '%PYTHON2% ..\doc\generator.py'
     - '%PYTHON3% write_version_data.py'
-    - '%PYINSTALLER% main.spec'
+    - '%PYTHON3% setup.py build'
     - '%NSIS% installer.nsi'
     - cd ..
     - move src\socializer* .
     - cd scripts
-    - '%PYTHON3% prepare_zipversion.py'
+    - '%PYTHON3% prepare_zipversion_cxfreeze.py'
     - cd ..
     - move src\socializer.zip socializer.zip
+    - '%PYTHON3% scripts/upload.py'
   only:
     - tags
-  artifacts:
-    paths:
-    - socializer.zip
-    - "socializer_*"
-    name: socializer
