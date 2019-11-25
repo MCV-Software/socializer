@@ -2,6 +2,7 @@
 variables:
   PYTHON3-32: "C:\\python37-32\\python.exe"
   PYTHON3-64: "C:\\python37-32\\python.exe"
+  PYINSTALLER: "C:\\python37-32\\scripts\\pyinstaller.exe"
   PYTHON2: "C:\\python27\\python.exe"
   NSIS: "C:\\nsis\\makensis.exe"
 
