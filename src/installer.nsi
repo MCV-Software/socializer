@@ -37,7 +37,7 @@ var StartMenuFolder
 Section
 SetShellVarContext All
 SetOutPath "$INSTDIR"
-File /r dist\main\*
+File /r dist\*
 CreateShortCut "$DESKTOP\socializer.lnk" "$INSTDIR\socializer.exe"
 !insertmacro MUI_STARTMENU_WRITE_BEGIN startmenu
 CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
