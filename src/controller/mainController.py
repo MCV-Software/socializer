@@ -504,7 +504,7 @@ class Controller(object):
 		Native notifications are made with WX and don't have sound, while custom notifications have sound but are not displayed in the window.
 		"""
 		if type == "native":
-			self.window.notify(_("Socializer"), message)
+			wx.CallAfter(self.window.notify, _("Socializer"), message)
 		else:
 			if sound != "":
 				self.session.soundplayer.play(sound)

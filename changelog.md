@@ -7,6 +7,7 @@
 ### bugfixes
 
 * Fixed an error that was making socializer unable to render correctly certain Links containing uppercase letters (such as yandex.disk shared links). Before, those links were giving 404 errors when pressed, now they should work normally. This error was present in wall posts, comments, topics and chat messages.
+* Fixed an error related to notifications in Socializer. Before, the "online now" notification could break the Socializer interface, making it unable to load the chat in real time.
 
 ### Changes
 
