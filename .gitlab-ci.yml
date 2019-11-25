@@ -1,7 +1,7 @@
 # Jobs to build the two channels in Socializer.
 variables:
-  PYTHON3-32: "C:\\python38-32\\python.exe"
-  PYTHON3-64: "C:\\python38-32\\python.exe"
+  PYTHON3-32: "C:\\python37-32\\python.exe"
+  PYTHON3-64: "C:\\python37-32\\python.exe"
   PYTHON2: "C:\\python27\\python.exe"
   NSIS: "C:\\nsis\\makensis.exe"
 
