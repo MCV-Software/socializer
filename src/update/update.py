@@ -75,7 +75,8 @@ def find_version_data(update_type, current_version, available_update):
 			return (False, False, False)
 		available_description = available_update["message"]
 		# ToDo: simplify this so it can be reused in other projects.
-		if sys.version[0] == "3":
+		import application
+		if application.is_pyinstaller():
 			update_url = "https://code.manuelcortez.net/manuelcortez/socializer/-/jobs/artifacts/master/raw/socializer.zip?job=alpha_python3"
 		else:
 			update_url = "https://code.manuelcortez.net/manuelcortez/socializer/-/jobs/artifacts/master/raw/socializer.zip?job=alpha"
