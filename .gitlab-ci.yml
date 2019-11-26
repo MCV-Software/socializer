@@ -109,14 +109,14 @@ alpha32:
     - call genpot_interface.bat
     - call genpot_doc.bat
     - cd ..
-    - move src\socializer.zip socializer.zip
+    - move src\socializer.zip socializer_x86.zip
     - move scripts\socializer.pot socializer.pot
     - move scripts\socializer-documentation.pot socializer-documentation.pot
   only:
     - schedules
   artifacts:
     paths:
-    - socializer.zip
+    - socializer_x86.zip
     - socializer.pot
     - socializer-documentation.pot
     name: socializer_alpha
