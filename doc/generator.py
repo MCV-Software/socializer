@@ -10,8 +10,6 @@ from importlib import reload
 def change_language(name, language):
  global _
  os.environ["lang"] = language
- print(name)
- print(os.path.join(os.getcwd(), "locales"))
  _ = gettext.install(name, os.path.join(os.getcwd(), "locales"))
 
 languages = ["en", "ru"]
