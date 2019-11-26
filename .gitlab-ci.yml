@@ -122,9 +122,11 @@ alpha32:
     name: socializer_alpha
     expire_in: 1 day
 
+### This is commented because there is no 64 bits version of enchant, thus pyenchant will not work.
+### I will reenable this when we will get rid of enchant, probably in favour of symspellpy
 # Creates a version built with Python 3.7 and cx-freeze
 # this is going to be the current alpha version after november 27.
-alpha64:
+.alpha64:
   type: deploy
   tags:
     - windows10
