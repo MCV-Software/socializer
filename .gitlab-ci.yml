@@ -46,44 +46,6 @@ documentation:
     name: socializer_documentation
     expire_in: 90 days
 
-# Create alpha version in Python 3.7 by using pyinstaller
-# This job is about to be removed on november 27.
-alpha_python3:
-  type: deploy
-  tags:
-    - windows10
-  before_script:
-    - '%PYTHON3-32% -V'
-    - '%PYTHON3-32% -m pip install --upgrade pip'
-    - '%PYTHON3-32% -m pip install --upgrade -r requirements.txt'
-    - '%PYTHON3-32% -m pip uninstall enum34 -y'
-  script:
-    - copy changelog.md doc\changelog.md
-    - cd doc
-    - '%PYTHON3-32% documentation_importer.py'
-    - cd ..\src
-    - '%PYTHON3-32% ..\doc\generator.py'
-    - '%PYTHON3-32% write_version_data.py'
-    - '%PYINSTALLER% main.spec'
-    - cd ..
-    - cd scripts
-    - '%PYTHON3-32% prepare_zipversion.py'
-    - call genpot_interface.bat
-    - call genpot_doc.bat
-    - cd ..
-    - move src\socializer.zip socializer.zip
-    - move scripts\socializer.pot socializer.pot
-    - move scripts\socializer-documentation.pot socializer-documentation.pot
-  only:
-    - schedules
-  artifacts:
-    paths:
-    - socializer.zip
-    - socializer.pot
-    - socializer-documentation.pot
-    name: socializer_py3
-    expire_in: 1 day
-
 # Creates a version built with Python 3.7 and cx-freeze
 # this is going to be the current alpha version after november 27.
 alpha32:
