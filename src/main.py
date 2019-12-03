@@ -61,7 +61,7 @@ def setup():
 	del sm
 	log.debug("Loading dictionaries for spelling correction...")
 	# Let's copy dictionary files for the selected language just in case it is not present already.
-	checker.prepare_dicts(languageHandler.curLang)
+	checker.prepare_dicts(languageHandler.curLang[:2])
 	call_threaded(checker.load_dicts)
 	r = mainController.Controller()
 	call_threaded(r.login)

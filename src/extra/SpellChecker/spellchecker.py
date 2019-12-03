@@ -19,7 +19,7 @@ class spellChecker(object):
 		self.checker = checker.SpellChecker()
 		log.debug("Using language: %s" % (languageHandler.getLanguage(),))
 		try:
-			self.checker.set_language(languageHandler.curLang)
+			self.checker.set_language(languageHandler.curLang::2])
 		except ValueError:
 			log.exception("Dictionary for language %s not found." % (languageHandler.curLang,))
 			wx_ui.dict_not_found_error()

@@ -74,8 +74,6 @@ class SpellChecker(object):
 			if len(suggestions) == 0:
 				continue
 			for s in suggestions:
-				print(s.term)
-				print(s.distance)
 				if s.distance == 0:
 					valid_word = False
 			if valid_word == False:
@@ -90,8 +88,6 @@ class SpellChecker(object):
 			else:
 				context = " ".join(self.transformed_words[word-5:word+5])
 			self.word_index = word
-#			print(self.word)
-#			print(suggestions[0].distance)
 			yield (suggestions, context, word)
 
 	def replace(self, suggestion):
