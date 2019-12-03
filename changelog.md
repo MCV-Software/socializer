@@ -4,6 +4,8 @@
 
 ### New additions
 
+* Socializer will ask for confirmation before closing the application.
+
 ### bugfixes
 
 * Fixed an error that was making socializer unable to render correctly certain Links containing uppercase letters (such as yandex.disk shared links). Before, those links were giving 404 errors when pressed, now they should work normally. This error was present in wall posts, comments, topics and chat messages.

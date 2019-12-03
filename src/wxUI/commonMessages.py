@@ -94,3 +94,7 @@ def alpha_reminder():
 		return
 	else:
 		return wx.MessageDialog(None, _("Please remember that from November 27, 2019, you will have to download the alpha version from scratch from the Socializer website. The alpha version you are currently running will no longer receive updates. The new alpha version, which must be downloaded  from the project's page, should not be considered suspicious by most antivirus vendors and all automatic updates will be sent to the new generation of socializer alpha. Thank you for your patience."), _("Important notice"), style=wx.OK).ShowModal()
+
+def exit():
+	dlg = wx.MessageDialog(None, _("Do you really want to close Socializer?"), _("Exit"), wx.YES_NO|wx.ICON_QUESTION)
+	return dlg.ShowModal()

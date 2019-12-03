@@ -619,6 +619,7 @@ class Controller(object):
 	### GUI events
 	# These functions are connected to GUI elements such as menus, buttons and so on.
 	def connect_gui_events(self):
+		widgetUtils.connectExitFunction(self.exit_)
 		widgetUtils.connect_event(self.window, widgetUtils.CLOSE_EVENT, self.exit)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.update_buffer, menuitem=self.window.update_buffer)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.check_for_updates, menuitem=self.window.check_for_updates)
@@ -655,6 +656,11 @@ class Controller(object):
 		self.window.tb.Bind(wx.EVT_CONTEXT_MENU, self.on_context_menu)
 
 	def exit(self, *args, **kwargs):
+		answer = commonMessages.exit()
+		if answer == widgetUtils.YES:
+			self.exit_()
+
+	def exit_(self, *args, **kwargs):
 		""" Try to set offline in the current user's profile at VK, then closes the application. """
 		log.debug("Receibed an exit signal. closing...")
 		self.set_offline()
