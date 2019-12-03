@@ -1,6 +1,5 @@
 ﻿wxpython
 pywin32
-pyenchant
 markdown
 # For the moment we will use the modified vk_api version that does not try to include enum34 and
 # already fixed the caption for wall uploaded photos.
