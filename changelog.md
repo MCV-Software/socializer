@@ -11,6 +11,8 @@
 
 ### Changes
 
+* Replaced the underlying library  we were using for spelling correction as is no longer in development. Instead, we started to use a new approach in socializer, which, in theory, should allow us to switch language for spelling correction and other benefits a bit later. For now, available languages are Russian, Ukranian, English, Polish and Spanish, but more languages can be added by request.
+
 ## Changes in Version 0.23 (11.11.2019)
 
 ### New additions

@@ -47,7 +47,7 @@ class createPostPresenter(base.basePresenter):
 		output.speak(_("Translated"))
 
 	def spellcheck(self, text):
-		checker = SpellChecker.spellchecker.spellChecker(text, "")
+		checker = SpellChecker.spellchecker.spellChecker(text)
 		if hasattr(checker, "fixed_text"):
 			self.send_message("set", control="text", value=checker.fixed_text)
 			self.send_message("focus_control", control="text")

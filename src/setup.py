@@ -34,7 +34,7 @@ build_exe_options = dict(
 	optimize=2,
 	include_msvcr=True,
 	zip_include_packages=["accessible_output2", "sound_lib", "arrow"],
-	include_files=["session.defaults", "cacert.pem", "app-configuration.defaults", "locales", "sounds", "documentation", "../windows-dependencies/x86/oggenc2.exe", "../windows-dependencies/x86/bootstrap.exe", ("../windows-dependencies/dictionaries", "lib/enchant/share/enchant/myspell"), find_sound_lib_datafiles(), find_accessible_output2_datafiles()],
+	include_files=["session.defaults", "cacert.pem", "app-configuration.defaults", "locales", "sounds", "documentation", "../windows-dependencies/x86/oggenc2.exe", "../windows-dependencies/x86/bootstrap.exe", "../windows-dependencies/dictionaries", find_sound_lib_datafiles(), find_accessible_output2_datafiles()],
 	packages=["interactors", "presenters", "views", "wxUI"],
 	)
 

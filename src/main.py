@@ -19,6 +19,7 @@ if hasattr(sys, "frozen"):
 	sys.excepthook = lambda x, y, z: logging.critical(''.join(traceback.format_exception(x, y, z)))
 from mysc.thread_utils import call_threaded
 from wxUI import commonMessages
+from extra.SpellChecker import checker # Load dictionaries in advance for spelling correction
 
 log = logging.getLogger("main")
 
@@ -58,6 +59,10 @@ def setup():
 	sm = sessionManager.sessionManagerController()
 	sm.show()
 	del sm
+	log.debug("Loading dictionaries for spelling correction...")
+	# Let's copy dictionary files for the selected language just in case it is not present already.
+	checker.prepare_dicts(languageHandler.curLang)
+	call_threaded(checker.load_dicts)
 	r = mainController.Controller()
 	call_threaded(r.login)
 	app.run()

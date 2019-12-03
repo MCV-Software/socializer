@@ -33,7 +33,7 @@ class sessionManagerController(object):
 		self.sessions = []
 		log.debug("Filling the session list...")
 		for i in os.listdir(paths.config_path()):
-			if os.path.isdir(os.path.join(paths.config_path(), i)):
+			if i != "dicts" and os.path.isdir(os.path.join(paths.config_path(), i)):
 				log.debug("Adding session %s" % (i,))
 				config_test = Configuration(os.path.join(paths.config_path(), i, "session.conf"))
 				name = config_test["vk"]["user"]
