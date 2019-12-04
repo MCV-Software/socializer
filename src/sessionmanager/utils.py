@@ -58,6 +58,10 @@ def download_file(url, local_filename, window):
 	window.change_status(_("Ready"))
 	return local_filename
 
+def download_files(downloads, window):
+		for download in downloads:
+			download_file(download[0], download[1], window)
+
 def detect_users(text):
 	""" Detect all users and communities mentionned in any text posted in VK."""
 	# This regexp gets group and users mentionned in topic comments.

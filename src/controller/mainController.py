@@ -307,6 +307,7 @@ class Controller(object):
 		pub.subscribe(self.in_post, "posted")
 		pub.subscribe(self.post_failed, "postFailed")
 		pub.subscribe(self.download, "download-file")
+		pub.subscribe(self.download_files, "download-files")
 		pub.subscribe(self.view_post, "open-post")
 		pub.subscribe(self.update_status_bar, "update-status-bar")
 		pub.subscribe(self.chat_from_id, "new-chat")
@@ -402,6 +403,9 @@ class Controller(object):
 		url = utils.transform_audio_url(url)
 		log.debug("downloading %s URL to %s filename" % (url, filename,))
 		call_threaded(utils.download_file, url, filename, self.window)
+
+	def download_files(self, downloads):
+		call_threaded(utils.download_files, downloads, self.window)
 
 	def view_post(self, post_object, controller_, vars=dict()):
 		""" Display the passed post in the passed post presenter.

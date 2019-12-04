@@ -8,7 +8,7 @@ class homeTab(wx.Panel):
 
 	def create_list(self):
 		self.lbl = wx.StaticText(self, wx.NewId(), _("Po&sts"))
-		self.list = widgetUtils.list(self, *[_("User"), _("Text"), _("Date")], style=wx.LC_REPORT)
+		self.list = widgetUtils.list(self, *[_("User"), _("Text"), _("Date")], style=wx.LC_REPORT, name=_("Posts"))
 		self.list.set_windows_size(0, 200)
 		self.list.set_windows_size(1, 300)
 		self.list.set_windows_size(2, 250)
@@ -64,7 +64,7 @@ class communityTab(feedTab):
 class audioTab(homeTab):
 	def create_list(self):
 		self.lbl = wx.StaticText(self, wx.NewId(), _("Mu&sic"))
-		self.list = widgetUtils.multiselectionList(self, *[_("Title"), _("Artist"), _("Duration")], style=wx.LC_REPORT)
+		self.list = widgetUtils.multiselectionList(self, *[_("Title"), _("Artist"), _("Duration")], style=wx.LC_REPORT, name=_("Music"))
 		self.list.set_windows_size(0, 160)
 		self.list.set_windows_size(1, 380)
 		self.list.set_windows_size(2, 80)
@@ -86,6 +86,15 @@ class audioTab(homeTab):
 		if openFileDialog.ShowModal() == wx.ID_CANCEL:
 			return None
 		return openFileDialog.GetPath()
+
+	def get_download_path(self, filename="", multiple=False):
+		if multiple == False:
+			d = wx.FileDialog(self, _("Save this file"), "", filename, _("Audio Files(*.mp3)|*.mp3"), wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT)
+		else:
+			d = wx.DirDialog(None, _("Select a folder to save all files"))
+		if d.ShowModal() == wx.ID_OK:
+			return d.GetPath()
+		d.Destroy()
 
 class audioAlbumTab(audioTab):
 

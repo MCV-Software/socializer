@@ -815,7 +815,6 @@ class audioBuffer(feedBuffer):
 		else:
 			output.speak(_("{0} errors occurred while attempting to add {1} audios to your playlist.").format(errors_detected, len(selected)))
 
-
 	def get_menu(self):
 		p = self.get_post()
 		if p == None:
@@ -824,6 +823,7 @@ class audioBuffer(feedBuffer):
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.open_post, menuitem=m.open)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.play_audio, menuitem=m.play)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.move_to_album, menuitem=m.move)
+		widgetUtils.connect_event(m, widgetUtils.MENU, self.download, menuitem=m.download)
 		# if owner_id is the current user, the audio is added to the user's audios.
 		if p["owner_id"] == self.session.user_id:
 			m.library.SetItemLabel(_("&Remove"))
@@ -831,6 +831,7 @@ class audioBuffer(feedBuffer):
 		else:
 			widgetUtils.connect_event(m, widgetUtils.MENU, self.add_to_library, menuitem=m.library)
 		return m
+
 	def post(self, *args, **kwargs):
 		""" Uploads an audio to the current user's library from the computer. """
 		file = self.tab.get_file_to_upload()
@@ -864,6 +865,35 @@ class audioBuffer(feedBuffer):
 
 	def __del__(self):
 		pub.unsubscribe(self.change_label, "playback-changed")
+
+	def download(self, *args, **kwargs):
+		selected = self.tab.list.get_multiple_selection()
+		if len(selected) < 1:
+			return
+		audios = [self.session.db[self.name]["items"][audio] for audio in selected]
+		if len(audios) == 0:
+			return
+		elif len(audios) == 1:
+			multiple = False
+			filename = utils.safe_filename("{0} - {1}.mp3".format(audios[0]["title"], audios[0]["artist"]))
+		else:
+			multiple = True
+			filename = "" # No default filename for multiple files.
+		path = self.tab.get_download_path(filename=filename, multiple=multiple)
+		call_threaded(self.download_threaded, path, multiple, audios)
+
+	def download_threaded(self, path, multiple, audios):
+		if multiple == False:
+			url = audios[0]["url"]
+			pub.sendMessage("download-file", url=url, filename=filename)
+			return
+		else:
+			downloads = []
+			for i in audios:
+				filename = utils.safe_filename("{0} - {1}.mp3".format(i["title"], i["artist"]))
+				filepath = os.path.join(path, filename)
+				downloads.append((utils.transform_audio_url(i["url"]), filepath))
+				pub.sendMessage("download-files", downloads)
 
 class audioAlbum(audioBuffer):
 	""" this buffer was supposed to be used with audio albums

@@ -31,7 +31,7 @@ class audioMenu(wx.Menu):
 		self.play = self.Append(wx.NewId(), _("&Play"))
 		self.library = self.Append(wx.NewId(), _("&Add to library"))
 		self.move = self.Append(wx.NewId(), _("Move to album"))
-#		self.open_in_browser = self.Append(wx.NewId(), _("Open in vk.com"))
+		self.download = self.Append(wx.NewId(), _("Download"))
 
 class peopleMenu(wx.Menu):
 	def __init__(self, is_request=False, is_subscriber=False, not_friend=False, *args, **kwargs):
