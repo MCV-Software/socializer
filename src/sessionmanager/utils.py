@@ -5,6 +5,7 @@ import re
 import html
 import logging
 import requests
+from pubsub import pub
 
 log = logging.getLogger("utils")
 url_re = re.compile("(?:\w+://|www\.)[^ ,.?!#%=+][^ ]*")
@@ -41,26 +42,27 @@ def seconds_to_string(seconds, precision=0):
 def find_urls_in_text(text):
 	return [s.strip(bad_chars) for s in url_re.findall(text)]
 
-def download_file(url, local_filename, window):
+def download_file(url, local_filename):
 	r = requests.get(url, stream=True)
-	window.change_status(_("Downloading {0}").format(local_filename,))
+	pub.sendMessage("change_status", status=_("Downloading {0}").format(local_filename,))
 	total_length = r.headers.get("content-length")
 	dl = 0
 	total_length = int(total_length)
 	with open(local_filename, 'wb') as f:
-		for chunk in r.iter_content(chunk_size=64): 
+		for chunk in r.iter_content(chunk_size=512*1024): 
 			if chunk: # filter out keep-alive new chunks
 				dl += len(chunk)
 				f.write(chunk)
 				done = int(100 * dl/total_length)
 				msg = _("Downloading {0} ({1}%)").format(os.path.basename(local_filename), done)
-				window.change_status(msg)
-	window.change_status(_("Ready"))
+#				print(msg)
+				pub.sendMessage("change_status", status=msg)
+	pub.sendMessage("change_status", status=_("Ready"))
 	return local_filename
 
-def download_files(downloads, window):
+def download_files(downloads):
 		for download in downloads:
-			download_file(download[0], download[1], window)
+			download_file(download[0], download[1])
 
 def detect_users(text):
 	""" Detect all users and communities mentionned in any text posted in VK."""

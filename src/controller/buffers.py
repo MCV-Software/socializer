@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """ A buffer is a (virtual) list of items. All items belong to a category (wall posts, messages, persons...)"""
+import os
 import time
 import random
 import logging
@@ -880,12 +881,12 @@ class audioBuffer(feedBuffer):
 			multiple = True
 			filename = "" # No default filename for multiple files.
 		path = self.tab.get_download_path(filename=filename, multiple=multiple)
-		call_threaded(self.download_threaded, path, multiple, audios)
+		self.download_threaded(path, multiple, audios)
 
 	def download_threaded(self, path, multiple, audios):
 		if multiple == False:
 			url = audios[0]["url"]
-			pub.sendMessage("download-file", url=url, filename=filename)
+			pub.sendMessage("download-file", url=url, filename=path)
 			return
 		else:
 			downloads = []
@@ -893,7 +894,7 @@ class audioBuffer(feedBuffer):
 				filename = utils.safe_filename("{0} - {1}.mp3".format(i["title"], i["artist"]))
 				filepath = os.path.join(path, filename)
 				downloads.append((utils.transform_audio_url(i["url"]), filepath))
-				pub.sendMessage("download-files", downloads)
+				pub.sendMessage("download-files", downloads=downloads)
 
 class audioAlbum(audioBuffer):
 	""" this buffer was supposed to be used with audio albums

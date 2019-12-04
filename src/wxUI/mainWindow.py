@@ -2,6 +2,7 @@
 import wx
 import wx.adv
 import application
+from pubsub import pub
 
 class mainWindow(wx.Frame):
 	def makeMenu(self):
@@ -83,6 +84,7 @@ class mainWindow(wx.Frame):
 		self.sb = self.CreateStatusBar()
 		self.tb = wx.Treebook(self.panel, -1)
 		self.sizer.Add(self.tb, 1, wx.ALL|wx.EXPAND, 5)
+		pub.subscribe(self.change_status, "change_status")
 
 	def realize(self):
 		self.panel.SetSizer(self.sizer)
@@ -91,7 +93,7 @@ class mainWindow(wx.Frame):
 		self.SetSize(self.GetBestSize())
 
 	def change_status(self, status):
-		self.sb.SetStatusText(status)
+		wx.CallAfter(self.sb.SetStatusText, status)
 
 	def connection_error(self):
 		wx.MessageDialog(self, _("There is a connection error. Check your internet connection and try again later."), _("Connection error"), wx.ICON_ERROR).ShowModal()

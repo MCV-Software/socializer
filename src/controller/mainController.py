@@ -402,10 +402,10 @@ class Controller(object):
 		"""
 		url = utils.transform_audio_url(url)
 		log.debug("downloading %s URL to %s filename" % (url, filename,))
-		call_threaded(utils.download_file, url, filename, self.window)
+		call_threaded(utils.download_file, url, filename)
 
 	def download_files(self, downloads):
-		call_threaded(utils.download_files, downloads, self.window)
+		call_threaded(utils.download_files, downloads)
 
 	def view_post(self, post_object, controller_, vars=dict()):
 		""" Display the passed post in the passed post presenter.

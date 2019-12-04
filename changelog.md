@@ -5,6 +5,7 @@
 ### New additions
 
 * Socializer will ask for confirmation before closing the application.
+* In all audio buffers, there is a new item in the context menu that allows downloading of the audio directly from the buffer. If there are multiple audios selected, socializer will ask for a folder where  all audios should be placed. When downloading multiple audios, socializer will name those automatically by following the template "song title - artist".
 
 ### bugfixes
 
@@ -14,6 +15,7 @@
 ### Changes
 
 * Replaced the underlying library  we were using for spelling correction as is no longer in development. Instead, we started to use a new approach in socializer, which, in theory, should allow us to switch language for spelling correction and other benefits a bit later. For now, available languages are Russian, Ukranian, English, Polish and Spanish, but more languages can be added by request.
+* When downloading a file (such as an audio file or document), the download process should be relatively faster due to some optimizations made in the function.
 
 ## Changes in Version 0.23 (11.11.2019)
 
