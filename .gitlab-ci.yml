@@ -88,7 +88,7 @@ alpha32:
 ### I will reenable this when we will get rid of enchant, probably in favour of symspellpy
 # Creates a version built with Python 3.7 and cx-freeze
 # this is going to be the current alpha version after november 27.
-alpha64:
+.alpha64:
   type: deploy
   tags:
     - windows10
