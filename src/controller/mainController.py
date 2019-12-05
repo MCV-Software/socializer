@@ -574,7 +574,6 @@ class Controller(object):
 		# if attachments is true or body contains at least an URL, let's request for the full message with attachments formatted in a better way.
 		# ToDo: code improvements. We shouldn't need to request the same message again just for these attachments.
 		if len(message["attachments"]) != 0 or len(utils.find_urls_in_text(message["body"])) != 0:
-			print(message["body"])
 			message_ids = message["id"]
 			results = self.session.vk.client.messages.getById(message_ids=message_ids)
 			message = results["items"][0]
