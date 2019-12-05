@@ -350,6 +350,9 @@ class displayPostPresenter(base.basePresenter):
 				webbrowser.open_new_tab(url)
 		elif attachment["type"] == "poll":
 			a = poll.displayPollPresenter(session=self.session, poll=attachment, interactor=interactors.displayPollInteractor(), view=views.displayPoll())
+		elif attachment["type"] == "article":
+			output.speak(_("Opening Article in web browser..."), True)
+			webbrowser.open_new_tab(attachment["article"]["url"])
 		else:
 			log.debug("Unhandled attachment: %r" % (attachment,))
 
