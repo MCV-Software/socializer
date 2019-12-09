@@ -6,6 +6,7 @@
 
 * Socializer will ask for confirmation before closing the application.
 * In all audio buffers, there is a new item in the context menu that allows downloading of the audio directly from the buffer. If there are multiple audios selected, socializer will ask for a folder where  all audios should be placed. When downloading multiple audios, socializer will name those automatically by following the template "song title - artist".
+* In all audio buffers, there are two new menu items for selecting and unselecting all items in the buffer.
 * Added displaying of articles as attachments in wall posts. When opened, Socializer will open the article in the web browser.
 
 ### bugfixes

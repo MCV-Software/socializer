@@ -83,6 +83,9 @@ def add_attachment(attachment):
 		else:
 			text = attachment["wall"]["text"]
 		msg = _("{user}: {post}").format(user=user, post=text)
+	elif attachment["type"] == "article":
+		tpe = _("Article")
+		msg = "{author}: {article}".format(author=attachment["article"]["owner_name"], article=attachment["article"]["title"])
 	else:
 		print(attachment)
 	return [tpe, msg]

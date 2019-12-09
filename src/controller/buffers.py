@@ -825,6 +825,8 @@ class audioBuffer(feedBuffer):
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.play_audio, menuitem=m.play)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.move_to_album, menuitem=m.move)
 		widgetUtils.connect_event(m, widgetUtils.MENU, self.download, menuitem=m.download)
+		widgetUtils.connect_event(m, widgetUtils.MENU, self.select_all, menuitem=m.select)
+		widgetUtils.connect_event(m, widgetUtils.MENU, self.unselect_all, menuitem=m.unselect)
 		# if owner_id is the current user, the audio is added to the user's audios.
 		if p["owner_id"] == self.session.user_id:
 			m.library.SetItemLabel(_("&Remove"))
@@ -895,6 +897,16 @@ class audioBuffer(feedBuffer):
 				filepath = os.path.join(path, filename)
 				downloads.append((utils.transform_audio_url(i["url"]), filepath))
 				pub.sendMessage("download-files", downloads=downloads)
+
+	def select_all(self, *args, **kwargs):
+		items = self.tab.list.list.GetItemCount()
+		for i in range(0, items):
+			self.tab.list.list.SetItemImage(i, 1)
+
+	def unselect_all(self, *args, **kwargs):
+		items = self.tab.list.list.GetItemCount()
+		for i in range(0, items):
+			self.tab.list.list.SetItemImage(i, 0)
 
 class audioAlbum(audioBuffer):
 	""" this buffer was supposed to be used with audio albums

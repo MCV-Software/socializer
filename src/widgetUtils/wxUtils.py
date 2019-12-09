@@ -138,8 +138,9 @@ class mainLoopObject(wx.App):
 
 class multiselectionBaseList(wx.ListCtrl, listmix.CheckListCtrlMixin):
 	def __init__(self, *args, **kwargs):
-		wx.ListCtrl.__init__(self, *args, **kwargs)
-		listmix.CheckListCtrlMixin.__init__(self)
+		super(multiselectionBaseList, self).__init__(*args, **kwargs)
+#		wx.ListCtrl.__init__(self, *args, **kwargs)
+#		listmix.CheckListCtrlMixin.__init__(self)
 		self.Bind(wx.EVT_CHAR_HOOK, self.on_keydown)
 		self.Bind(wx.EVT_LIST_ITEM_FOCUSED, self.on_focus)
 

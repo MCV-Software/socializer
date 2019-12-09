@@ -31,12 +31,13 @@
 ## Application features
 
 * Spelling correction:
+    - Add words to dictionaries.
     - allow users to set the spelling language
     - allow language switching within the spelling correction dialog
     - integrate this feature in chat messages.
 * Translator: Integrate translation service in chat messages (for translating incoming and outgoing messages if necessary).
 * timelines: persistent timelines saved in config.
-* Audio buffers: Select/unselect all.
+* (done) Audio buffers: Select/unselect all.
 * Allow copy of VK objects (such as wall posts or audios) to attach those in chat messages or other posts.
 * video playback inside the application.
 * Add fullscreen option to the photo viewer.
