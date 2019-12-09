@@ -16,7 +16,11 @@
     - edit profile
     - upload profile photo.
 * Wall posts: work with pinned posts (pin, unpin and indicate when the post is pinned somehow in the buffer).
-   * Notifications:
+* groups:
+    - view members.
+    - Interaction with group invites.
+    - Invite people to join owned groups.
+* Notifications: 
     - Receive notifications
     - view related objects
     - mark as read.
