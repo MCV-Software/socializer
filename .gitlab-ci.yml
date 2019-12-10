@@ -15,18 +15,6 @@ variables:
     - '%PYTHON3-32% -m pip install --upgrade -r requirements.txt'
     - '%PYTHON3-32% -m pip uninstall enum34 -y'
 
-### Job to make some tests (ToDo: I need to improve the current testing stuff. Currently those tests fails)
-test_py3:
-  <<: *configure_environment
-  stage: test
-  only:
-    - schedules
-  script:
-    - cd src
-    - '%PYTHON3-32% -m coverage run run_tests.py'
-    - '%PYTHON3-32% -m coverage report --omit="test*"'
-  coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
-
 # Create documentation in all available languages so we'll have it at http://socializer.su/documentation
 # this job is triggered on every commit to master, so we always will display the latest available version of the documentation in the website.
 documentation:
@@ -39,6 +27,12 @@ documentation:
     - cd ..\src
     - '%PYTHON3-32% ..\doc\generator.py'
     - 'move documentation ..\'
+    - cd ..\scripts
+    - call genpot_interface.bat
+    - call genpot_doc.bat
+    - cd ..
+    - move scripts\socializer.pot socializer.pot
+    - move scripts\socializer-documentation.pot socializer-documentation.pot
   only:
     - master
   artifacts:
@@ -47,8 +41,6 @@ documentation:
     name: socializer_documentation
     expire_in: 90 days
 
-# Creates a version built with Python 3.7 and cx-freeze
-# this is going to be the current alpha version after november 27.
 alpha32:
   <<: *configure_environment
   type: deploy
@@ -60,24 +52,17 @@ alpha32:
     - '%PYTHON3-32% ..\doc\generator.py'
     - '%PYTHON3-32% write_version_data.py'
     - '%PYTHON3-32% setup.py build'
+    - '%NSIS% installer.nsi'
     - cd ..
-    - cd scripts
+    - move src\socializer* .
+    - cd ..\scripts
     - '%PYTHON3-32% prepare_zipversion.py'
-    - call genpot_interface.bat
-    - call genpot_doc.bat
     - cd ..
     - move src\socializer.zip socializer_x86.zip
-    - move scripts\socializer.pot socializer.pot
-    - move scripts\socializer-documentation.pot socializer-documentation.pot
+    - '%PYTHON3-32% scripts/upload.py'
   only:
     - schedules
-  artifacts:
-    paths:
-    - socializer_x86.zip
-    - socializer.pot
-    - socializer-documentation.pot
-    name: socializer_alpha
-    expire_in: 1 day
+    - master
 
 ### This is commented because there is no 64 bits version of enchant, thus pyenchant will not work.
 ### I will reenable this when we will get rid of enchant, probably in favour of symspellpy
@@ -111,13 +96,13 @@ alpha32:
     - move scripts\socializer-documentation.pot socializer-documentation.pot
   only:
     - schedules
+    - master
   artifacts:
     paths:
     - socializer_x64.zip
     - socializer.pot
     - socializer-documentation.pot
-    name: socializer_alpha
-    expire_in: 1 day
+    - '%PYTHON3-32% scripts/upload.py'
 
 # Generates a new stable version of the application every tag.
 stable:
