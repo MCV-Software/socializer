@@ -6,15 +6,19 @@ variables:
   PYINSTALLER: "C:\\python37-32\\scripts\\pyinstaller.exe"
   NSIS: "C:\\nsis\\makensis.exe"
 
-### Job to make some tests (ToDo: I need to improve the current testing stuff. Currently those tests fails)
-test_py3:
-  stage: test
+.configure_environment: &configure_environment
   tags:
     - windows10
   before_script:
     - '%PYTHON3-32% -V'
     - '%PYTHON3-32% -m pip install --upgrade pip'
     - '%PYTHON3-32% -m pip install --upgrade -r requirements.txt'
+    - '%PYTHON3-32% -m pip uninstall enum34 -y'
+
+### Job to make some tests (ToDo: I need to improve the current testing stuff. Currently those tests fails)
+test_py3:
+    <<: *configure_environment
+  stage: test
   only:
     - schedules
   script:
@@ -26,11 +30,8 @@ test_py3:
 # Create documentation in all available languages so we'll have it at http://socializer.su/documentation
 # this job is triggered on every commit to master, so we always will display the latest available version of the documentation in the website.
 documentation:
+  <<: *configure_environment
   type: deploy
-  tags:
-    - windows10
-  before_script:
-    - '%PYTHON3-32% -V'
   script:
     - copy changelog.md doc\changelog.md
     - cd doc
@@ -49,14 +50,8 @@ documentation:
 # Creates a version built with Python 3.7 and cx-freeze
 # this is going to be the current alpha version after november 27.
 alpha32:
+  <<: *configure_environment
   type: deploy
-  tags:
-    - windows10
-  before_script:
-    - '%PYTHON3-32% -V'
-    - '%PYTHON3-32% -m pip install --upgrade pip cx_freeze'
-    - '%PYTHON3-32% -m pip install --upgrade -r requirements.txt'
-    - '%PYTHON3-32% -m pip uninstall enum34 -y'
   script:
     - copy changelog.md doc\changelog.md
     - cd doc
@@ -126,14 +121,8 @@ alpha32:
 
 # Generates a new stable version of the application every tag.
 stable:
+  <<: *configure_environment
   type: deploy
-  tags:
-    - windows
-  before_script:
-    - '%PYTHON3-32% -V'
-    - '%PYTHON3-32% -m pip install --upgrade pip'
-    - '%PYTHON3-32% -m pip install --upgrade -r requirements.txt'
-    - '%PYTHON3-32% -m pip uninstall enum34 -y'
   script:
     - copy changelog.md doc\changelog.md
     - cd doc
