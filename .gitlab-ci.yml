@@ -17,7 +17,7 @@ variables:
 
 ### Job to make some tests (ToDo: I need to improve the current testing stuff. Currently those tests fails)
 test_py3:
-    <<: *configure_environment
+  <<: *configure_environment
   stage: test
   only:
     - schedules
