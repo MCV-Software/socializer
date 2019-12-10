@@ -55,7 +55,7 @@ alpha32:
     - '%NSIS% installer_alpha.nsi'
     - cd ..
     - move src\socializer* .
-    - cd ..\scripts
+    - cd scripts
     - '%PYTHON3-32% prepare_zipversion.py'
     - cd ..
     - move src\socializer.zip socializer_x86.zip
