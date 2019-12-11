@@ -65,21 +65,11 @@ def find_version_data(update_type, current_version, available_update):
 		update_url = available_update ['downloads'][platform.system()+platform.architecture()[0][:2]]
 		return (available_version, available_description, update_url)
 	else: # Unstable versions, based in commits instead of version numbers.
-		# A condition for this to work is a successful ran of a pipeline.
-		if "status" not in available_update:
-			return (False, False, False)
-		if "status" in available_update and available_update["status"] != "success":
-			return (False, False, False)
-		available_version = available_update["short_id"]
+		available_version = available_update["current_version"]
 		if available_version == current_version:
 			return (False, False, False)
-		available_description = available_update["message"]
-		# ToDo: simplify this so it can be reused in other projects.
-		import platform
-		if platform.architecture()[0][:2] == "32":
-			update_url = "https://code.manuelcortez.net/manuelcortez/socializer/-/jobs/artifacts/master/raw/socializer_x86.zip?job=alpha32"
-		else:
-			update_url = "https://code.manuelcortez.net/manuelcortez/socializer/-/jobs/artifacts/master/raw/socializer_x64.zip?job=alpha64"
+		available_description = available_update["description"]
+		update_url = available_update ['downloads'][platform.system()+platform.architecture()[0][:2]]
 		return (available_version, available_description, update_url)
 
 def download_update(update_url, update_destination, requests_session, progress_callback=None, chunk_size=io.DEFAULT_BUFFER_SIZE):
