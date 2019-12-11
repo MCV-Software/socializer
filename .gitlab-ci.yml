@@ -60,6 +60,7 @@ alpha32:
     - cd ..
     - move src\socializer.zip socializer_x86.zip
     - '%PYTHON3-32% scripts/upload.py'
+    - '%PYTHON3-32% scripts/generate_update_file.py'
   only:
     - schedules
     - master
