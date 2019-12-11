@@ -42,14 +42,21 @@ connection.cwd("static/files/")
 if version not in connection.nlst():
 	print("Creating version directory {} because does not exists...".format(version,))
 	connection.mkd(version)
+
+if "update" not in connection.nlst():
+	print("Creating update info directory because does not exists...")
+	connection.mkd("update")
 connection.cwd(version)
 print("Moved into version directory")
-files = glob.glob("*.zip")+glob.glob("*.exe")
+files = glob.glob("*.zip")+glob.glob("*.exe")+glob.glob("*.json")
 print("These files will be uploaded into the version folder: {}".format(files,))
 for file in files:
 	transferred = 0
 	print("Uploading {}".format(file,))
 	with open(file, "rb") as f:
-		connection.storbinary('STOR %s' % file, f, callback=callback, blocksize=1024*1024) 
+		if file.endswith("json"):
+			connection.storbinary('STOR ../update/%s' % file, f, callback=callback, blocksize=1024*1024) 
+		else:
+			connection.storbinary('STOR %s' % file, f, callback=callback, blocksize=1024*1024) 
 print("Upload completed. exiting...")
 connection.quit()
