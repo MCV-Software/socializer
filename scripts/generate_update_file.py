@@ -14,11 +14,11 @@ print("Version detected: %s" % (version_type,))
 # Read update description and URL'S
 if version_type == "alpha":
 	description = os.environ.get("CI_COMMIT_MESSAGE")
-	urls = dict(win32="http://socializer.su/static/files/alpha/socializer_x86_alpha.zip", win64="http://socializer.su/static/files/alpha/socializer_x64_alpha.zip")
+	urls = dict(windows32="http://socializer.su/static/files/alpha/socializer_x86_alpha.zip", windows64="http://socializer.su/static/files/alpha/socializer_x64_alpha.zip")
 else:
 	with open("update-description",'r') as f:
 		description = f.read()
-	urls=dict(win32="http://socializer.su/static/files/{v}/socializer_{v}_x86.zip".format(v=version[1:]), win64="http://socializer.su/static/files/{v}/socializer_{v}_x64.zip".format(v=version[1:]))
+	urls=dict(windows32="http://socializer.su/static/files/{v}/socializer_{v}_x86.zip".format(v=version[1:]), windows64="http://socializer.su/static/files/{v}/socializer_{v}_x64.zip".format(v=version[1:]))
 
 # build the main dict object
 data = dict(current_version=version, description=description, downloads=urls)
