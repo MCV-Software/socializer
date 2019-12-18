@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import datetime
-import webbrowser
-import sys
 import wx
 import application
 
@@ -80,21 +77,7 @@ def unblock_person():
 def post_failed():
 	return wx.MessageDialog(None, _("Unfortunately, we could not send your last post or message to VK. Would you like to try again?"), _("Post failed"), style=wx.ICON_QUESTION|wx.YES_NO).ShowModal()
 
-### ToDo: same instructions than in application.py
-def alpha_reminder():
-	deadline = datetime.datetime(2019, 11, 27)
-	now = datetime.datetime.now()
-	if now >= deadline:
-		msg = wx.MessageDialog(None, _("In order to keep receiving updates, you are required to download the alpha version of socializer from scratch from our website. Would you like to download it now? If you press 'yes', you will be redirected automatically to the direct download for the new alpha version, and socializer will be closed automatically. If you do not wish to download the new alpha, take into account that the current version will no longer receive updates"), _("Attention"), style=wx.ICON_QUESTION|wx.YES_NO).ShowModal()
-		if msg == wx.ID_NO:
-			return
-		url = "https://code.manuelcortez.net/manuelcortez/socializer/-/jobs/artifacts/master/raw/socializer.zip?job=alpha"
-		webbrowser.open_new_tab(url)
-		sys.exit()
-		return
-	else:
-		return wx.MessageDialog(None, _("Please remember that from November 27, 2019, you will have to download the alpha version from scratch from the Socializer website. The alpha version you are currently running will no longer receive updates. The new alpha version, which must be downloaded  from the project's page, should not be considered suspicious by most antivirus vendors and all automatic updates will be sent to the new generation of socializer alpha. Thank you for your patience."), _("Important notice"), style=wx.OK).ShowModal()
-
 def exit():
 	dlg = wx.MessageDialog(None, _("Do you really want to close Socializer?"), _("Exit"), wx.YES_NO|wx.ICON_QUESTION)
 	return dlg.ShowModal()
+
