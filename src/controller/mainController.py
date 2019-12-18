@@ -554,7 +554,8 @@ class Controller(object):
 		buffer = self.search_chat_buffer(obj.user_id)
 		if buffer != None and buffer == self.get_current_buffer() and self.is_focused():
 			user = self.session.get_user(obj.user_id)
-			output.speak(_("{user1_nom} is typing...").format(**user))
+			user1_nom = user["user1_nom"].split()[0]
+			output.speak(_("{user1_nom} is typing...").format(user1_nom=user1_nom))
 
 	def get_chat(self, obj=None):
 		""" Searches or creates a chat buffer with the id of the user that is sending or receiving a message.
