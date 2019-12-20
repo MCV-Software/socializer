@@ -14,7 +14,6 @@ import output
 import logging
 import keys
 import application
-from wxUI.commonMessages import alpha_reminder
 if hasattr(sys, "frozen"):
 	sys.excepthook = lambda x, y, z: logging.critical(''.join(traceback.format_exception(x, y, z)))
 from mysc.thread_utils import call_threaded
@@ -53,9 +52,6 @@ def setup():
 	from sessionmanager import sessionManager
 
 	log.debug("Created Application mainloop object")
-	if application.is_pyinstaller():
-		log.debug("Showing reminder about next Socializer alpha... ")
-		alpha_reminder()
 	sm = sessionManager.sessionManagerController()
 	sm.show()
 	del sm

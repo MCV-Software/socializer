@@ -322,6 +322,7 @@ class Controller(object):
 		pub.subscribe(self.user_typing, "user-typing")
 		pub.subscribe(self.get_chat, "order-sent-message")
 		pub.subscribe(self.create_timeline, "create-timeline")
+		pub.subscribe(self.api_error, "api-error")
 
 	def disconnect_events(self):
 		log.debug("Disconnecting some events...")
@@ -393,6 +394,10 @@ class Controller(object):
 				buffer.tab.text.SetValue(post_arguments.get("message"))
 				buffer.tab.text.SetFocus()
 				buffer.attachments_to_be_sent = attachments_list
+
+	def api_error(self, code):
+		""" Display an understandable error dialog to users. """
+		commonMessages.vk_error(code)
 
 	def download(self, url, filename):
 		""" Download a file to te current user's computer.

@@ -19,6 +19,7 @@
 * Replaced the underlying library  we were using for spelling correction as is no longer in development. Instead, we started to use a new approach in socializer, which, in theory, should allow us to switch language for spelling correction and other benefits a bit later. For now, available languages are Russian, Ukranian, English, Polish and Spanish, but more languages can be added by request.
 * When downloading a file (such as an audio file or document), the download process should be relatively faster due to some optimizations made in the function.
 * Socializer now uses just the first name of users in typing notifications.
+* socializer should be able to inform users about common errors when sending chat messages (such as sending messages to people in the current user's blacklist or banned from VK). Later, more errors related to posts will be added.
 
 ## Changes in Version 0.23 (11.11.2019)
 

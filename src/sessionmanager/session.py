@@ -319,6 +319,8 @@ class vkSession(object):
 		""" Generic function to be called whenever user wants to post something to VK.
 		This function should be capable of uploading all attachments before posting, and send a special event in case the post has failed,
 		So the program can recreate the post and show it back to the user."""
+		# Define a list of error codes that are handled by the application.
+		handled_errors = [7, 900]
 		# ToDo: this function will occasionally be called with attachments already set to post_arguments, example if the user could upload the files but was unable to send the post due to a connection problem.
 		# We should see what can be done (reuploading everything vs using the already added attachments).
 		attachments = ""
@@ -331,18 +333,6 @@ class vkSession(object):
 				log.error("Error calling method %s.%s with arguments: %r. Failed during loading attachments. Error: %s" % (parent_endpoint, child_endpoint, post_arguments, str(error)))
 				# Report a failed function here too with same arguments so the client should be able to recreate it again.
 				wx.CallAfter(pub.sendMessage, "postFailed", parent_endpoint=parent_endpoint, child_endpoint=child_endpoint, from_buffer=from_buffer, attachments_list=attachments_list, post_arguments=post_arguments)
-		### ToDo: Let's avoid this piece of code cause it seems VK changes everything to lowercase letters.
-		# VK generally defines all kind of messages under "text", "message" or "body" so let's try with all of those
-#		possible_message_keys = ["text", "message", "body"]
-#		for i in possible_message_keys:
-#			if post_arguments.get(i):
-#				urls = utils.find_urls_in_text(post_arguments[i])
-#				if len(urls) != 0:
-#					if len(attachments) == 0:
-#						attachments = urls[0]
-#					else:
-#						attachments += urls[0]
-#					post_arguments[i] = post_arguments[i].replace(urls[0], "")
 		# After modifying everything, let's update the post arguments if needed.
 		if len(attachments) > 0:
 			if parent_endpoint == "messages":
@@ -358,8 +348,12 @@ class vkSession(object):
 			pub.sendMessage("posted", from_buffer=from_buffer)
 		except Exception as error:
 			log.exception("Error calling method %s.%s with arguments: %r. Error: %s" % (parent_endpoint, child_endpoint, post_arguments, str(error)))
-			# Report a failed function here too with same arguments so the client should be able to recreate it again.
-			wx.CallAfter(pub.sendMessage, "postFailed", parent_endpoint=parent_endpoint, child_endpoint=child_endpoint, from_buffer=from_buffer, attachments_list=attachments_list, post_arguments=post_arguments)
+			# Send handled errors to the corresponding function, call the default handler otherwise.
+			if error.code in handled_errors:
+				wx.CallAfter(pub.sendMessage, "api-error", code=error.code)
+			else:
+				# Report a failed function here too with same arguments so the client should be able to recreate it again.
+				wx.CallAfter(pub.sendMessage, "postFailed", parent_endpoint=parent_endpoint, child_endpoint=child_endpoint, from_buffer=from_buffer, attachments_list=attachments_list, post_arguments=post_arguments)
 
 	def upload_attachments(self, attachments, peer_id=None):
 		""" Upload attachments to VK before posting them.

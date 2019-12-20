@@ -81,3 +81,12 @@ def exit():
 	dlg = wx.MessageDialog(None, _("Do you really want to close Socializer?"), _("Exit"), wx.YES_NO|wx.ICON_QUESTION)
 	return dlg.ShowModal()
 
+def vk_error(code):
+	title = _("VK error")
+	if code == 7:
+		msg = _("You are not allowed to perform this action. Please be sure you are not attempting to post or send a message to a blocked or banned user. Error code 7.")
+	elif code == 900:
+		msg = _("You cannot send messages to users in your blacklist.")
+	else:
+		msg = str(code)
+	return wx.MessageDialog(None, msg, title, wx.ICON_ERROR).ShowModal()
