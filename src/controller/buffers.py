@@ -1129,7 +1129,7 @@ class chatBuffer(baseBuffer):
 			if "read_state" in msg and msg["read_state"] == 0 and "out" in msg and msg["out"] == 0:
 				self.session.soundplayer.play("message_unread.ogg")
 				call_threaded(self.session.vk.client.messages.markAsRead, peer_id=self.kwargs["peer_id"])
-				self.session.db[self.name]["items"][-1]["read_state"] = 1
+				[i.update(read_state=1) for i in self.session.db[self.name]["items"]]
 			if "attachments" in msg and len(msg["attachments"]) > 0:
 				self.tab.attachments.list.Enable(True)
 				self.attachments = list()

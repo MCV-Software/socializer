@@ -12,10 +12,12 @@
 ### bugfixes
 
 * Fixed an error that was making socializer unable to render correctly certain Links containing uppercase letters (such as yandex.disk shared links). Before, those links were giving 404 errors when pressed, now they should work normally. This error was present in wall posts, comments, topics and chat messages.
-* Fixed an error related to notifications in Socializer. Before, the "online now" notification could break the Socializer interface, making it unable to load the chat in real time.
+* Fixed an error related to chat notifications in Socializer. Before, the "online now" notification could break the Socializer interface, making it unable to load the chat in real time.
+* Fixed a small inconsistency when marking a conversation as read. Before, if two messages were sent by the recipient, only the last message was marked as read and the previous was making the unread sound all the time. Now that issue should be handled properly.
 
 ### Changes
 
+* Socializer will not be marked as Virus by most antivirus softwares due to a new build tool which is cleaner and less prone to be flagged by antivirus.
 * Replaced the underlying library  we were using for spelling correction as is no longer in development. Instead, we started to use a new approach in socializer, which, in theory, should allow us to switch language for spelling correction and other benefits a bit later. For now, available languages are Russian, Ukranian, English, Polish and Spanish, but more languages can be added by request.
 * When downloading a file (such as an audio file or document), the download process should be relatively faster due to some optimizations made in the function.
 * Socializer now uses just the first name of users in typing notifications.
