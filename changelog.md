@@ -6,8 +6,9 @@
 
 * Socializer will ask for confirmation before closing the application.
 * In all audio buffers, there is a new item in the context menu that allows downloading of the audio directly from the buffer. If there are multiple audios selected, socializer will ask for a folder where  all audios should be placed. When downloading multiple audios, socializer will name those automatically by following the template "song title - artist".
-* In all audio buffers, there are two new menu items for selecting and unselecting all items in the buffer.
+* In all audio buffers, there are two new menu items for selecting and deselecting all items in the buffer.
 * Added displaying of articles as attachments in wall posts. When opened, Socializer will open the article in the web browser.
+* Starting from Version 0.24, there will be an installer for the Alpha version of socializer, always available from our downloads page.
 
 ### bugfixes
 
@@ -22,6 +23,7 @@
 * When downloading a file (such as an audio file or document), the download process should be relatively faster due to some optimizations made in the function.
 * Socializer now uses just the first name of users in typing notifications.
 * socializer should be able to inform users about common errors when sending chat messages (such as sending messages to people in the current user's blacklist or banned from VK). Later, more errors related to posts will be added.
+* The application will load up to 100 audio albums instead of the default 10.
 
 ## Changes in Version 0.23 (11.11.2019)
 

@@ -187,7 +187,7 @@ class Controller(object):
 		if self.session.settings["vk"]["use_alternative_tokens"]:
 			albums = self.session.vk.client_audio.get_albums(owner_id=user_id)
 		else:
-			albums = self.session.vk.client.audio.getPlaylists(owner_id=user_id)
+			albums = self.session.vk.client.audio.getPlaylists(owner_id=user_id, count=100)
 			albums = albums["items"]
 		self.session.audio_albums = albums
 		if create_buffers:
@@ -198,7 +198,7 @@ class Controller(object):
 		if self.session.settings["load_at_startup"]["video_albums"] == False and force_action == False:
 			return
 		log.debug("Create video  albums...")
-		albums = self.session.vk.client.video.getAlbums(owner_id=user_id)
+		albums = self.session.vk.client.video.getAlbums(owner_id=user_id, count=100)
 		self.session.video_albums = albums["items"]
 		if create_buffers:
 			for i in albums["items"]:
@@ -320,6 +320,7 @@ class Controller(object):
 		pub.subscribe(self.handle_longpoll_read_timeout, "longpoll-read-timeout")
 		pub.subscribe(self.create_buffer, "create_buffer")
 		pub.subscribe(self.user_typing, "user-typing")
+		pub.subscribe(self.edit_message, "edit-message")
 		pub.subscribe(self.get_chat, "order-sent-message")
 		pub.subscribe(self.create_timeline, "create-timeline")
 		pub.subscribe(self.api_error, "api-error")
@@ -561,6 +562,9 @@ class Controller(object):
 			user = self.session.get_user(obj.user_id)
 			user1_nom = user["user1_nom"].split()[0]
 			output.speak(_("{user1_nom} is typing...").format(user1_nom=user1_nom))
+
+	def edit_message(self, obj):
+		print(vars(obj))
 
 	def get_chat(self, obj=None):
 		""" Searches or creates a chat buffer with the id of the user that is sending or receiving a message.
