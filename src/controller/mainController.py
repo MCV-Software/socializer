@@ -93,7 +93,7 @@ class Controller(object):
 		player.setup()
 		self.window = mainWindow.mainWindow()
 		log.debug("Main window created")
-		wx.CallAfter(self.window.change_status, _("Ready"))
+		self.window.change_status(_("Ready"))
 		self.session = session.sessions[list(session.sessions.keys())[0]]
 		self.window.Show()
 		self.connect_pubsub_events()
@@ -178,8 +178,9 @@ class Controller(object):
 			if ex.code == 6:
 				log.exception("Something went wrong when getting messages. Waiting a second to retry")
 		for i in msgs["items"]:
-			self.chat_from_id(i["last_message"]["peer_id"], setfocus=False, unread=False)
+			self.chat_from_id(i["last_message"]["peer_id"], setfocus=False, unread=False, getitems=False)
 
+#	@submit_to_pool_executor(thread_pool_executor)
 	def get_audio_albums(self, user_id=None, create_buffers=True, force_action=False):
 		if self.session.settings["load_at_startup"]["audio_albums"] == False and force_action == False:
 			return
@@ -194,6 +195,7 @@ class Controller(object):
 			for i in albums:
 				pub.sendMessage("create_buffer", buffer_type="audioAlbum", buffer_title=_("Album: {0}").format(i["title"],), parent_tab="audio_albums", loadable=True, kwargs=dict(parent=self.window.tb, name="{0}_audio_album".format(i["id"],), composefunc="render_audio", session=self.session, endpoint="get", parent_endpoint="audio", owner_id=user_id, album_id=i["id"]))
 
+	@submit_to_pool_executor(thread_pool_executor)
 	def get_video_albums(self, user_id=None, create_buffers=True, force_action=False):
 		if self.session.settings["load_at_startup"]["video_albums"] == False and force_action == False:
 			return
@@ -232,25 +234,24 @@ class Controller(object):
 				self.session.db["group_info"][i["id"]*-1] = i
 				pub.sendMessage("create_buffer", buffer_type="communityBuffer", buffer_title=i["name"], parent_tab="communities", loadable=True, get_items=True, kwargs=dict(parent=self.window.tb, name="{0}_community".format(i["id"],), composefunc="render_status", session=self.session, endpoint="get", parent_endpoint="wall", extended=1, count=self.session.settings["buffers"]["count_for_wall_buffers"], owner_id=-1*i["id"]))
 
-
 	def login(self):
 		wx.CallAfter(self.window.change_status, _("Logging in VK"))
 		self.session.login()
 		wx.CallAfter(self.window.change_status, _("Ready"))
+		self.create_unread_messages()
+		self.status_setter = RepeatingTimer(280, self.set_online)
+		self.status_setter.start()
+		self.set_online(notify=True)
+		call_threaded(self.get_audio_albums, self.session.user_id)
+		call_threaded(self.get_video_albums, self.session.user_id)
+		call_threaded(self.get_communities, self.session.user_id)
+		self.create_longpoll_thread()
 		for i in self.buffers:
 			if hasattr(i, "get_items"):
 				# Translators: {0} will be replaced with the name of a buffer.
 				wx.CallAfter(self.window.change_status, _("Loading items for {0}").format(i.name,))
 				i.get_items()
 		wx.CallAfter(self.window.change_status, _("Ready"))
-		call_threaded(self.create_unread_messages)
-		self.status_setter = RepeatingTimer(280, self.set_online)
-		self.status_setter.start()
-		self.set_online(notify=True)
-		self.get_audio_albums(self.session.user_id)
-		self.get_video_albums(self.session.user_id)
-		self.get_communities(self.session.user_id)
-		self.create_longpoll_thread()
 
 	def create_longpoll_thread(self, notify=False):
 		try:
@@ -426,7 +427,7 @@ class Controller(object):
 		"""
 		wx.CallAfter(self.window.change_status, status)
 
-	def chat_from_id(self, user_id, setfocus=True, unread=False):
+	def chat_from_id(self, user_id, setfocus=True, unread=False, getitems=True):
 		""" Create a conversation buffer for.
 		@ user_id: Vk user, chat or community ID to chat with.
 		@ setfocus boolean: If set to True, the buffer will receive focus automatically right after being created.
@@ -447,7 +448,7 @@ class Controller(object):
 		elif user_id > 2000000000:
 			chat = self.session.vk.client.messages.getChat(chat_id=user_id-2000000000)
 			name = chat["title"]
-		pub.sendMessage("create_buffer", buffer_type="chatBuffer", buffer_title=name, parent_tab="chats", get_items=True, kwargs=dict(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="render_message", parent_endpoint="messages", endpoint="getHistory", session=self.session, unread=unread, count=self.session.settings["buffers"]["count_for_chat_buffers"],  peer_id=user_id, rev=0, extended=True, fields="id, user_id, date, read_state, out, body, attachments, deleted"))
+		pub.sendMessage("create_buffer", buffer_type="chatBuffer", buffer_title=name, parent_tab="chats", get_items=getitems, kwargs=dict(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="render_message", parent_endpoint="messages", endpoint="getHistory", session=self.session, unread=unread, count=self.session.settings["buffers"]["count_for_chat_buffers"],  peer_id=user_id, rev=0, extended=True, fields="id, user_id, date, read_state, out, body, attachments, deleted"))
 #		if setfocus:
 #			pos = self.window.search(buffer.name)
 #			self.window.change_buffer(pos)
@@ -531,6 +532,7 @@ class Controller(object):
 		if hasattr(self, "longpoll"):
 			del self.longpoll
 		self.create_longpoll_thread(notify=True)
+
 	@wx_call_after
 	def create_buffer(self, buffer_type="baseBuffer", buffer_title="", parent_tab=None, loadable=False, get_items=False, kwargs={}):
 		""" Create and insert a buffer in the specified place.
@@ -540,6 +542,8 @@ class Controller(object):
 		@loadable bool: If set to True, the new buffer will not be able to load  contents until can_get_items will be set to True.
 		@get_items bool: If set to True, get_items will be called inmediately after creating the buffer.
 		"""
+		self.newtime = time.time()
+		log.debug("Creating buffer of type {0} with args {1}".format(buffer_type, kwargs))
 		if not hasattr(buffers, buffer_type):
 			raise AttributeError("Specified buffer type does not exist: %s" % (buffer_type,))
 		buffer = getattr(buffers, buffer_type)(**kwargs)
@@ -550,6 +554,7 @@ class Controller(object):
 			self.window.add_buffer(buffer.tab, buffer_title)
 		else:
 			self.window.insert_buffer(buffer.tab, buffer_title, self.window.search(parent_tab))
+		log.debug("Buffer created in {} seconds".format(time.time()-self.newtime))
 		if get_items:
 			call_threaded(buffer.get_items)
 
