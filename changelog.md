@@ -15,6 +15,7 @@
 * Fixed an error that was making socializer unable to render correctly certain Links containing uppercase letters (such as yandex.disk shared links). Before, those links were giving 404 errors when pressed, now they should work normally. This error was present in wall posts, comments, topics and chat messages.
 * Fixed an error related to chat notifications in Socializer. Before, the "online now" notification could break the Socializer interface, making it unable to load the chat in real time.
 * Fixed a small inconsistency when marking a conversation as read. Before, if two messages were sent by the recipient, only the last message was marked as read and the previous was making the unread sound all the time. Now that issue should be handled properly.
+* Some errors, where buffers were not updated, should be handled better due to work in Socializer initialization function which should make the application slightly faster during boot.
 
 ### Changes
 
