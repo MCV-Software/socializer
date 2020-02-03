@@ -1511,9 +1511,6 @@ class peopleBuffer(feedBuffer):
 	def update_online(self):
 		online_users = self.session.vk.client.friends.getOnline()
 		now = time.time()
-		# Attempt to fix a race condition in online buffers.
-		if self.session.db.get(self.name) == None:
-			self.session.db[self.name] = dict(items=[])
 		for i in self.session.db[self.name]["items"]:
 			if i["id"] in online_users:
 				i["last_seen"]["time"] = now

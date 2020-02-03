@@ -139,6 +139,8 @@ class Controller(object):
 		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("Chats"), kwargs=dict(parent=self.window.tb, name="chats"))
 		pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("Timelines"), kwargs=dict(parent=self.window.tb, name="timelines"))
 		wx.CallAfter(self.window.realize)
+		self.repeatedUpdate = RepeatingTimer(120, self.update_all_buffers)
+		self.repeatedUpdate.start()
 
 	def complete_buffer_creation(self, buffer, name_, position):
 		answer = buffer.get_items()
@@ -250,8 +252,6 @@ class Controller(object):
 				wx.CallAfter(self.window.change_status, _("Loading items for {0}").format(i.name,))
 				i.get_items()
 		wx.CallAfter(self.window.change_status, _("Ready"))
-		self.repeatedUpdate = RepeatingTimer(120, self.update_all_buffers)
-		self.repeatedUpdate.start()
 
 	def create_longpoll_thread(self, notify=False):
 		try:
