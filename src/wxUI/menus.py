@@ -33,7 +33,7 @@ class audioMenu(wx.Menu):
 		self.move = self.Append(wx.NewId(), _("Move to album"))
 		self.download = self.Append(wx.NewId(), _("Download"))
 		self.select = self.Append(wx.NewId(), _("Select all"))
-		self.deselect = self.Append(wx.NewId(), _("Deselect all"))
+		self.unselect = self.Append(wx.NewId(), _("Unselect all"))
 
 class peopleMenu(wx.Menu):
 	def __init__(self, is_request=False, is_subscriber=False, not_friend=False, *args, **kwargs):
@@ -107,9 +107,3 @@ class conversationBufferMenu(wx.Menu):
 		super(conversationBufferMenu, self).__init__()
 		self.delete = self.Append(wx.NewId(), _("Delete conversation"))
 		self.open_in_browser = self.Append(wx.NewId(), _("Open in vk.com"))
-
-class messageMenu(wx.Menu):
-	def __init__(self):
-		super(messageMenu, self).__init__()
-		self.forward = self.Append(wx.NewId(), _("Forward"))
-		self.delete = self.Append(wx.NewId(), _("Delete"))
