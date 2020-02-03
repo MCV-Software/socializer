@@ -173,7 +173,8 @@ class Controller(object):
 	def create_unread_messages(self):
 		try:
 			log.debug("Creating conversation buffers...")
-			msgs = self.session.vk.client.messages.getConversations(count=200)
+			msgs = self.session.vk.client.messages.getConversations(count=200, filter="all")
+			log.debug(msgs.get("count"))
 		except VkApiError as ex:
 			if ex.code == 6:
 				log.exception("Something went wrong when getting messages. Waiting a second to retry")
