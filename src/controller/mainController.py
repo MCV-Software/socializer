@@ -174,7 +174,9 @@ class Controller(object):
 		try:
 			log.debug("Creating conversation buffers...")
 			msgs = self.session.vk.client.messages.getConversations(count=200, filter="all")
-			log.debug(msgs.get("count"))
+			log.debug("Total conversations count: {}".format(msgs.get("count")))
+			log.debug("total conversations returned by VK: {}".format(len(msgs["items"])))
+			log.debug("Dictionary keys of conversations object: {}".format(msgs.keys()))
 		except VkApiError as ex:
 			if ex.code == 6:
 				log.exception("Something went wrong when getting messages. Waiting a second to retry")
@@ -532,7 +534,8 @@ class Controller(object):
 		if hasattr(self, "longpoll"):
 			del self.longpoll
 		self.create_longpoll_thread(notify=True)
-	@wx_call_after
+
+#	@wx_call_after
 	def create_buffer(self, buffer_type="baseBuffer", buffer_title="", parent_tab=None, loadable=False, get_items=False, kwargs={}):
 		""" Create and insert a buffer in the specified place.
 		@buffer_type str: name of the buffer type to be created. This should be a class in the buffers.py module.
@@ -548,9 +551,9 @@ class Controller(object):
 			buffer.can_get_items = False
 		self.buffers.append(buffer)
 		if parent_tab == None:
-			self.window.add_buffer(buffer.tab, buffer_title)
+			wx.CallAfter(self.window.add_buffer, buffer.tab, buffer_title)
 		else:
-			self.window.insert_buffer(buffer.tab, buffer_title, self.window.search(parent_tab))
+			wx.CallAfter(self.window.insert_buffer, buffer.tab, buffer_title, self.window.search(parent_tab))
 		if get_items:
 			call_threaded(buffer.get_items)
 
