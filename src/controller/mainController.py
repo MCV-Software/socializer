@@ -180,7 +180,9 @@ class Controller(object):
 		except VkApiError as ex:
 			if ex.code == 6:
 				log.exception("Something went wrong when getting messages. Waiting a second to retry")
+		log.debug("Creating buffer conversation for {} buffers".format(len(msgs["items"])))
 		for i in msgs["items"]:
+			log.debug("Creating chat buffer for peer_id {}".format(i["last_message"]["peer_id"]))
 			self.chat_from_id(i["last_message"]["peer_id"], setfocus=False, unread=False)
 
 	def get_audio_albums(self, user_id=None, create_buffers=True, force_action=False):
@@ -435,8 +437,10 @@ class Controller(object):
 		@ setfocus boolean: If set to True, the buffer will receive focus automatically right after being created.
 		@ unread: if set to True, the last message of the buffer will be marked as unread
 		"""
+		log.debug("Received request to create buffer for conversation {0} with args of unread={1}, setfocus={2}".format(user_id, unread, setfocus))
 		b = self.search_chat_buffer(user_id)
 		if b != None:
+			log.debug("Chat buffer found. Skipping...")
 			pos = self.window.search(b.name)
 			if setfocus:
 				self.window.change_buffer(pos)
@@ -444,12 +448,14 @@ class Controller(object):
 			return
 		# Get name based in the ID.
 		# for users.
+		log.debug("Determining name for buffer...")
 		if user_id > 0 and user_id < 2000000000:
 			user = self.session.get_user(user_id, key="user1")
 			name = user["user1_nom"]
 		elif user_id > 2000000000:
 			chat = self.session.vk.client.messages.getChat(chat_id=user_id-2000000000)
 			name = chat["title"]
+		log.debug("Buffer name: {}".format(name,))
 		pub.sendMessage("create_buffer", buffer_type="chatBuffer", buffer_title=name, parent_tab="chats", get_items=True, kwargs=dict(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="render_message", parent_endpoint="messages", endpoint="getHistory", session=self.session, unread=unread, count=self.session.settings["buffers"]["count_for_chat_buffers"],  peer_id=user_id, rev=0, extended=True, fields="id, user_id, date, read_state, out, body, attachments, deleted"))
 #		if setfocus:
 #			pos = self.window.search(buffer.name)
@@ -544,6 +550,7 @@ class Controller(object):
 		@loadable bool: If set to True, the new buffer will not be able to load  contents until can_get_items will be set to True.
 		@get_items bool: If set to True, get_items will be called inmediately after creating the buffer.
 		"""
+		log.debug("Creating buffer of type {0} with parent_tab of {2} arguments {1}".format(buffer_type, kwargs, parent_tab))
 		if not hasattr(buffers, buffer_type):
 			raise AttributeError("Specified buffer type does not exist: %s" % (buffer_type,))
 		buffer = getattr(buffers, buffer_type)(**kwargs)
@@ -551,9 +558,11 @@ class Controller(object):
 			buffer.can_get_items = False
 		self.buffers.append(buffer)
 		if parent_tab == None:
+			log.debug("Appending buffer {}...".format(buffer,))
 			self.window.add_buffer(buffer.tab, buffer_title)
 		else:
 			self.window.insert_buffer(buffer.tab, buffer_title, self.window.search(parent_tab))
+			log.debug("Inserting buffer {0} into control {1}".format(buffer, self.window.search(parent_tab)))
 		if get_items:
 			call_threaded(buffer.get_items)
 
