@@ -246,7 +246,7 @@ class Controller(object):
 				wx.CallAfter(self.window.change_status, _("Loading items for {0}").format(i.name,))
 				i.get_items()
 		wx.CallAfter(self.window.change_status, _("Ready"))
-		call_threaded(self.create_unread_messages)
+		self.create_unread_messages()
 		self.status_setter = RepeatingTimer(280, self.set_online)
 		self.status_setter.start()
 		self.set_online(notify=True)
