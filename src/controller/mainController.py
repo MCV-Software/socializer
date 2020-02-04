@@ -455,7 +455,11 @@ class Controller(object):
 		elif user_id > 2000000000:
 			chat = self.session.vk.client.messages.getChat(chat_id=user_id-2000000000)
 			name = chat["title"]
-		log.debug("Buffer name: {}".format(name,))
+			log.debug("Buffer name: {}".format(name,))
+		elif user_id < -20000000:
+			app = self.session.vk.client.apps.get(id=user_id*-1)
+			log.debug(app)
+			name = app["items"][0]["title"]
 		pub.sendMessage("create_buffer", buffer_type="chatBuffer", buffer_title=name, parent_tab="chats", get_items=True, kwargs=dict(parent=self.window.tb, name="{0}_messages".format(user_id,), composefunc="render_message", parent_endpoint="messages", endpoint="getHistory", session=self.session, unread=unread, count=self.session.settings["buffers"]["count_for_chat_buffers"],  peer_id=user_id, rev=0, extended=True, fields="id, user_id, date, read_state, out, body, attachments, deleted"))
 #		if setfocus:
 #			pos = self.window.search(buffer.name)
