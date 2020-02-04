@@ -535,7 +535,7 @@ class Controller(object):
 			del self.longpoll
 		self.create_longpoll_thread(notify=True)
 
-#	@wx_call_after
+	@wx_call_after
 	def create_buffer(self, buffer_type="baseBuffer", buffer_title="", parent_tab=None, loadable=False, get_items=False, kwargs={}):
 		""" Create and insert a buffer in the specified place.
 		@buffer_type str: name of the buffer type to be created. This should be a class in the buffers.py module.
@@ -551,9 +551,9 @@ class Controller(object):
 			buffer.can_get_items = False
 		self.buffers.append(buffer)
 		if parent_tab == None:
-			wx.CallAfter(self.window.add_buffer, buffer.tab, buffer_title)
+			self.window.add_buffer(buffer.tab, buffer_title)
 		else:
-			wx.CallAfter(self.window.insert_buffer, buffer.tab, buffer_title, self.window.search(parent_tab))
+			self.window.insert_buffer(buffer.tab, buffer_title, self.window.search(parent_tab))
 		if get_items:
 			call_threaded(buffer.get_items)
 
