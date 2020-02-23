@@ -10,22 +10,21 @@ variables:
   tags:
     - windows10
   before_script:
-    - '%PYTHON3-32% -V'
-    - '%PYTHON3-32% -m pip install --upgrade pip'
-    - '%PYTHON3-32% -m pip install --upgrade -r requirements.txt'
-    - '%PYTHON3-32% -m pip uninstall enum34 -y'
+    - '$env:PYTHON3-32 -V'
+    - '$env:PYTHON3-32 -m pip install --upgrade pip'
+    - '$env:PYTHON3-32 -m pip install --upgrade -r requirements.txt'
+    - '$env:PYTHON3-32 -m pip uninstall enum34 -y'
 
 # Create documentation in all available languages so we'll have it at http://socializer.su/documentation
 # this job is triggered on every commit to master, so we always will display the latest available version of the documentation in the website.
 documentation:
-  <<: *configure_environment
   type: deploy
   script:
     - copy changelog.md doc\changelog.md
     - cd doc
-    - '%PYTHON3-32% documentation_importer.py'
+    - '$env:PYTHON3-32 documentation_importer.py'
     - cd ..\src
-    - '%PYTHON3-32% ..\doc\generator.py'
+    - '$env:PYTHON3-32 ..\doc\generator.py'
     - 'move documentation ..\'
     - cd ..\scripts
     - call genpot_interface.bat
@@ -39,7 +38,7 @@ documentation:
     paths:
     - documentation
     name: socializer_documentation
-    expire_in: 90 days
+    expire_in: 30 days
 
 alpha32:
   <<: *configure_environment
@@ -47,20 +46,20 @@ alpha32:
   script:
     - copy changelog.md doc\changelog.md
     - cd doc
-    - '%PYTHON3-32% documentation_importer.py'
+    - '$env:PYTHON3-32 documentation_importer.py'
     - cd ..\src
-    - '%PYTHON3-32% ..\doc\generator.py'
-    - '%PYTHON3-32% write_version_data.py'
-    - '%PYTHON3-32% setup.py build'
-    - '%NSIS% installer_alpha.nsi'
+    - '$env:PYTHON3-32 ..\doc\generator.py'
+    - '$env:PYTHON3-32 write_version_data.py'
+    - '$env:PYTHON3-32 setup.py build'
+    - '$env:NSIS installer_alpha.nsi'
     - cd ..
     - move src\socializer* .
     - cd scripts
-    - '%PYTHON3-32% prepare_zipversion.py'
+    - '$env:PYTHON3-32 prepare_zipversion.py'
     - cd ..
     - move src\socializer.zip socializer_x86_alpha.zip
-    - '%PYTHON3-32% scripts/generate_update_file.py'
-    - '%PYTHON3-32% scripts/upload.py'
+    - '$env:PYTHON3-32 scripts/generate_update_file.py'
+    - '$env:PYTHON3-32 scripts/upload.py'
     - move socializer_x86_alpha.zip socializer_x86.zip
   only:
     - schedules
@@ -71,46 +70,6 @@ alpha32:
     name: socializer_alpha
     expire_in: 1 day
 
-### This is commented because there is no 64 bits version of enchant, thus pyenchant will not work.
-### I will reenable this when we will get rid of enchant, probably in favour of symspellpy
-# Creates a version built with Python 3.7 and cx-freeze
-# this is going to be the current alpha version after november 27.
-.alpha64:
-  type: deploy
-  tags:
-    - windows10
-  before_script:
-    - '%PYTHON3-64% -V'
-    - '%PYTHON3-64% -m pip install --upgrade pip cx_freeze'
-    - '%PYTHON3-64% -m pip install --upgrade -r requirements.txt'
-    - '%PYTHON3-64% -m pip uninstall enum34 -y'
-  script:
-    - copy changelog.md doc\changelog.md
-    - cd doc
-    - '%PYTHON3-64% documentation_importer.py'
-    - cd ..\src
-    - '%PYTHON3-64% ..\doc\generator.py'
-    - '%PYTHON3-64% write_version_data.py'
-    - '%PYTHON3-64% setup.py build'
-    - cd ..
-    - cd scripts
-    - '%PYTHON3-64% prepare_zipversion.py'
-    - call genpot_interface.bat
-    - call genpot_doc.bat
-    - cd ..
-    - move src\socializer.zip socializer_x64.zip
-    - move scripts\socializer.pot socializer.pot
-    - move scripts\socializer-documentation.pot socializer-documentation.pot
-  only:
-    - schedules
-    - master
-  artifacts:
-    paths:
-    - socializer_x64.zip
-    - socializer.pot
-    - socializer-documentation.pot
-    - '%PYTHON3-32% scripts/upload.py'
-
 # Generates a new stable version of the application every tag.
 stable:
   <<: *configure_environment
@@ -118,18 +77,18 @@ stable:
   script:
     - copy changelog.md doc\changelog.md
     - cd doc
-    - '%PYTHON3-32% documentation_importer.py'
+    - '$env:PYTHON3-32 documentation_importer.py'
     - cd ..\src
-    - '%PYTHON3-32% ..\doc\generator.py'
-    - '%PYTHON3-32% write_version_data.py'
-    - '%PYTHON3-32% setup.py build'
-    - '%NSIS% installer.nsi'
+    - '$env:PYTHON3-32 ..\doc\generator.py'
+    - '$env:PYTHON3-32 write_version_data.py'
+    - '$env:PYTHON3-32 setup.py build'
+    - '$env:NSIS installer.nsi'
     - cd ..
     - move src\socializer* .
     - cd scripts
-    - '%PYTHON3-32% prepare_zipversion_cxfreeze.py'
+    - '$env:PYTHON3-32 prepare_zipversion_cxfreeze.py'
     - cd ..
     - move src\socializer.zip socializer.zip
-    - '%PYTHON3-32% scripts/upload.py'
+    - '$env:PYTHON3-32 scripts/upload.py'
   only:
     - tags
