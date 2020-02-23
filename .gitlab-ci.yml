@@ -10,10 +10,10 @@ variables:
   tags:
     - windows10
   before_script:
-    - '$env:PYTHON3_32 -V'
-    - '$env:PYTHON3_32 -m pip install --upgrade pip'
-    - '$env:PYTHON3_32 -m pip install --upgrade -r requirements.txt'
-    - '$env:PYTHON3_32 -m pip uninstall enum34 -y'
+    - $env:PYTHON3_32 -V
+    - $env:PYTHON3_32 -m pip install --upgrade pip
+    - $env:PYTHON3_32 -m pip install --upgrade -r requirements.txt
+    - $env:PYTHON3_32 -m pip uninstall enum34 -y
 
 # Create documentation in all available languages so we'll have it at http://socializer.su/documentation
 # this job is triggered on every commit to master, so we always will display the latest available version of the documentation in the website.
@@ -22,9 +22,9 @@ documentation:
   script:
     - copy changelog.md doc\changelog.md
     - cd doc
-    - '$env:PYTHON3_32 documentation_importer.py'
+    - $env:PYTHON3_32 documentation_importer.py
     - cd ..\src
-    - '$env:PYTHON3_32 ..\doc\generator.py'
+    - $env:PYTHON3_32 ..\doc\generator.py
     - 'move documentation ..\'
     - cd ..\scripts
     - call genpot_interface.bat
@@ -46,20 +46,20 @@ alpha32:
   script:
     - copy changelog.md doc\changelog.md
     - cd doc
-    - '$env:PYTHON3_32 documentation_importer.py'
+    - $env:PYTHON3_32 documentation_importer.py
     - cd ..\src
-    - '$env:PYTHON3_32 ..\doc\generator.py'
-    - '$env:PYTHON3_32 write_version_data.py'
-    - '$env:PYTHON3_32 setup.py build'
-    - '$env:NSIS installer_alpha.nsi'
+    - $env:PYTHON3_32 ..\doc\generator.py
+    - $env:PYTHON3_32 write_version_data.py
+    - $env:PYTHON3_32 setup.py build
+    - $env:NSIS installer_alpha.nsi
     - cd ..
     - move src\socializer* .
     - cd scripts
-    - '$env:PYTHON3_32 prepare_zipversion.py'
+    - $env:PYTHON3_32 prepare_zipversion.py
     - cd ..
     - move src\socializer.zip socializer_x86_alpha.zip
-    - '$env:PYTHON3_32 scripts/generate_update_file.py'
-    - '$env:PYTHON3_32 scripts/upload.py'
+    - $env:PYTHON3_32 scripts/generate_update_file.py
+    - $env:PYTHON3_32 scripts/upload.py
     - move socializer_x86_alpha.zip socializer_x86.zip
   only:
     - schedules
@@ -77,18 +77,18 @@ stable:
   script:
     - copy changelog.md doc\changelog.md
     - cd doc
-    - '$env:PYTHON3_32 documentation_importer.py'
+    - $env:PYTHON3_32 documentation_importer.py
     - cd ..\src
-    - '$env:PYTHON3_32 ..\doc\generator.py'
-    - '$env:PYTHON3_32 write_version_data.py'
-    - '$env:PYTHON3_32 setup.py build'
-    - '$env:NSIS installer.nsi'
+    - $env:PYTHON3_32 ..\doc\generator.py
+    - $env:PYTHON3_32 write_version_data.py
+    - $env:PYTHON3_32 setup.py build
+    - $env:NSIS installer.nsi
     - cd ..
     - move src\socializer* .
     - cd scripts
-    - '$env:PYTHON3_32 prepare_zipversion_cxfreeze.py'
+    - $env:PYTHON3_32 prepare_zipversion_cxfreeze.py
     - cd ..
     - move src\socializer.zip socializer.zip
-    - '$env:PYTHON3_32 scripts/upload.py'
+    - $env:PYTHON3_32 scripts/upload.py
   only:
     - tags
