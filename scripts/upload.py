@@ -38,7 +38,7 @@ connection = ftplib.FTP(ftp_server)
 print("Connected to FTP server {}".format(ftp_server,))
 connection.login(user=ftp_username, passwd=ftp_password)
 print("Logged in successfully")
-connection.cwd("static/files/")
+connection.cwd("socializer.su/static/files/")
 if version not in connection.nlst():
 	print("Creating version directory {} because does not exists...".format(version,))
 	connection.mkd(version)
