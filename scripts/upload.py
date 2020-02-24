@@ -1,5 +1,11 @@
 #! /usr/bin/env python
-""" Upload socializer to the ftp server. """
+""" Upload socializer to the ftp server. This script has been created to be executed from a continuous integrations system.
+Important note: for this script to work, the following conditions should be met:
+* There must be ftp server data, via environment variables (FTP_SERVER, FTP_USERNAME and FTP_PASSWORD) or via arguments to the script call (in the prior order). Connection to this server is done via default ftp port.
+* If the version to upload is alpha, there's not need of an extra variable. Otherwise, CI_COMMIT_TAG should point to a version as vx.x, where v is a literal and x are numbers, example may be v0.18, v0.25, v0.3. This variable should be set in the environment.
+* Inside the ftp server, the following directory structure will be expected: socializer.su/static/files/. The script will create the <version> folder or alpha if needed.
+* The script will upload all .exe, .zip and .json files located in the root directory from where it was called. The json files are uploaded to socializer.su/static/files/update and other files are going to socializer.su/static/files/<version>.
+"""
 import sys
 import os
 import glob
@@ -8,19 +14,19 @@ import ftplib
 transferred=0
 
 def convert_bytes(n):
- K, M, G, T, P = 1 << 10, 1 << 20, 1 << 30, 1 << 40, 1 << 50
- if   n >= P:
-  return '%.2fPb' % (float(n) / T)
- elif   n >= T:
-  return '%.2fTb' % (float(n) / T)
- elif n >= G:
-  return '%.2fGb' % (float(n) / G)
- elif n >= M:
-  return '%.2fMb' % (float(n) / M)
- elif n >= K:
-  return '%.2fKb' % (float(n) / K)
- else:
-  return '%d' % n
+	K, M, G, T, P = 1 << 10, 1 << 20, 1 << 30, 1 << 40, 1 << 50
+	if   n >= P:
+		return '%.2fPb' % (float(n) / T)
+	elif   n >= T:
+		return '%.2fTb' % (float(n) / T)
+	elif n >= G:
+		return '%.2fGb' % (float(n) / G)
+	elif n >= M:
+		return '%.2fMb' % (float(n) / M)
+	elif n >= K:
+		return '%.2fKb' % (float(n) / K)
+	else:
+		return '%d' % n
 
 def callback(progress):
 	global transferred
