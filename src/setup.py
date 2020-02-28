@@ -4,6 +4,7 @@ import application
 import platform
 import os
 from cx_Freeze import setup, Executable
+from babel.messages import frontend as babel
 
 def find_sound_lib_datafiles():
 	import os
@@ -45,6 +46,12 @@ executables = [
 setup(name='Socializer',
       version=application.version,
       description=application.description,
+      # Register babel commands in setup file.
+      cmdclass = {'compile_catalog': babel.compile_catalog,
+                'extract_messages': babel.extract_messages,
+                'init_catalog': babel.init_catalog,
+                'update_catalog': babel.update_catalog},
+      message_extractors = {"socializer": [('**.py',                'python', None)]},
       options = {"build_exe": build_exe_options},
       executables=executables
       )
