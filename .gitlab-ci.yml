@@ -26,17 +26,15 @@ documentation:
     - cd ..\src
     - '&$env:PYTHON3_32 ..\doc\generator.py'
     - 'move documentation ..\'
-    - cd ..\scripts
-    - call genpot_interface.bat
-    - call genpot_doc.bat
-    - cd ..
-    - move scripts\socializer.pot socializer.pot
-    - move scripts\socializer-documentation.pot socializer-documentation.pot
+    - '&$env:PYTHON3_32 setup.py extract_messages -F babel.cfg --input-dirs . --output-file socializer.pot'
+    - '&$env:PYTHON3_32 setup.py update_catalog --no-fuzzy-matching --domain socializer --output-dir locales --input-file socializer.pot'
+    - 'move locales ..\'
   only:
     - master
   artifacts:
     paths:
     - documentation
+    - locales
     name: socializer_documentation
     expire_in: 30 days
 
