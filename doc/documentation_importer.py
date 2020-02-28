@@ -16,7 +16,7 @@ def prepare_documentation_in_file(fileSource, fileDest):
 		if "\n" == i:
 			newvar = "\"\","
 		elif "\n" == i[-1]:
-			newvar = "_(u\"\"\"%s\"\"\"),\n" % (i[:-1])
+			newvar = "_(u\"\"\"%s\"\"\"),\n" % (i.splitlines()[0])
 		else:
 			newvar = "_(u\"\"\"%s\"\"\"),\n" % (i)
 		f2.write(newvar)
