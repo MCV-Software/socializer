@@ -19,15 +19,22 @@ variables:
 # this job is triggered on every commit to master, so we always will display the latest available version of the documentation in the website.
 documentation:
   type: deploy
+  tags:
+    - windows10
   script:
+    # generate all html documents first.
     - copy changelog.md doc\changelog.md
     - cd doc
     - '&$env:PYTHON3_32 documentation_importer.py'
     - cd ..\src
     - '&$env:PYTHON3_32 ..\doc\generator.py'
     - 'move documentation ..\'
+    # Update interface and documentation translation catalogs.
     - '&$env:PYTHON3_32 setup.py extract_messages -F babel.cfg --input-dirs . --output-file socializer.pot'
     - '&$env:PYTHON3_32 setup.py update_catalog --no-fuzzy-matching --domain socializer --output-dir locales --input-file socializer.pot'
+    - cd ..\doc
+    - '&$env:PYTHON3_32 translate.py'
+    - cd ..\src
     - 'move locales ..\'
   only:
     - master
