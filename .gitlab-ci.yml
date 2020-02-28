@@ -22,6 +22,8 @@ documentation:
   tags:
     - windows10
   script:
+    ### Dependencies.
+    - '&$env:PYTHON3_32 -m pip install --upgrade babel'
     # generate all html documents first.
     - copy changelog.md doc\changelog.md
     - cd doc
