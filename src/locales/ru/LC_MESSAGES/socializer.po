@@ -2,449 +2,652 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Socializer 0.23\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-25 11:47-0600\n"
-"PO-Revision-Date: 2019-11-25 12:01-0600\n"
+"POT-Creation-Date: 2020-02-28 19:19-0600\n"
+"PO-Revision-Date: 2020-03-03 20:34-0600\n"
 "Last-Translator: Manuel Cortez <manuel@manuelcortez.net>\n"
-"Language-Team: Дарья Ратникова <dariafreja@yandex.ru>\n"
 "Language: ru\n"
+"Language-Team: Дарья Ратникова <dariafreja@yandex.ru>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 "
+"&& (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: pygettext.py 1.5\n"
-"X-Generator: Poedit 2.2.4\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Generated-By: Babel 2.8.0\n"
+"X-Generator: Poedit 2.0.2\n"
 
-#. Translators: the label for the Windows default NVDA interface language.
+#: languageHandler.py:61
+msgctxt "languageName"
+msgid "Amharic"
+msgstr "Амхарский"
+
+#: languageHandler.py:62
+msgctxt "languageName"
+msgid "Aragonese"
+msgstr "Арагонский"
+
+#: languageHandler.py:63
+msgctxt "languageName"
+msgid "Spanish"
+msgstr "Испанский"
+
+#: languageHandler.py:64
+msgctxt "languageName"
+msgid "Portuguese"
+msgstr "Португальский"
+
+#: languageHandler.py:65
+msgctxt "languageName"
+msgid "Russian"
+msgstr "Русский"
+
+#: languageHandler.py:66
+msgctxt "languageName"
+msgid "italian"
+msgstr "Итальянский"
+
+#: languageHandler.py:67
+msgctxt "languageName"
+msgid "Turkey"
+msgstr "Турецкий"
+
+#: languageHandler.py:68
+msgctxt "languageName"
+msgid "Galician"
+msgstr "Галисийский"
+
+#: languageHandler.py:69
+msgctxt "languageName"
+msgid "Catala"
+msgstr "Каталонский"
+
+#: languageHandler.py:70
+msgctxt "languageName"
+msgid "Vasque"
+msgstr "Баскский"
+
+#: languageHandler.py:71
+msgctxt "languageName"
+msgid "polish"
+msgstr "Польский"
+
+#: languageHandler.py:72
+msgctxt "languageName"
+msgid "Arabic"
+msgstr "Арабский"
+
+#: languageHandler.py:73
+msgctxt "languageName"
+msgid "Nepali"
+msgstr "Непальский"
+
+#: languageHandler.py:74
+msgctxt "languageName"
+msgid "Serbian (Latin)"
+msgstr "Сербский"
+
+#: languageHandler.py:75
+msgctxt "languageName"
+msgid "Japanese"
+msgstr "Японский"
+
+#: languageHandler.py:99
 msgid "User default"
 msgstr "Пользователь по умолчанию"
 
+#: authenticator/wxUI.py:9
 msgid "Please provide the authentication code you have received from VK."
 msgstr ""
-"Пожалуйста, предоставьте код аутентификации, который вы получили от "
-"\"ВКонтакте\"."
+"Пожалуйста, предоставьте код аутентификации, который вы получили от \"ВКонтакте"
+"\"."
 
+#: authenticator/wxUI.py:9
 msgid "Two factor authentication code"
 msgstr "Двухфакторный код аутентификации"
 
+#: authenticator/wxUI.py:17
 msgid ""
-"Your password or email address are incorrect. Please fix the mistakes and "
-"try it again."
+"Your password or email address are incorrect. Please fix the mistakes and try it "
+"again."
 msgstr ""
 "Неверный пароль или адрес электронной почты. Пожалуйста, исправьте ошибки и "
 "попробуйте снова."
 
+#: authenticator/wxUI.py:17
 msgid "Wrong data"
 msgstr "Неверные данные"
 
-#. A wall post has failed, so let's create it in a  dialogue.
+#: controller/buffers.py:128 controller/mainController.py:360
 msgid "Write your post"
 msgstr "Что у Вас нового?"
 
-#. Translators: This will be used when user presses like.
+#: controller/buffers.py:206 presenters/displayPosts/basePost.py:255
+#: presenters/displayPosts/topic.py:95 presenters/displayPosts/topicComment.py:41
 msgid "You liked this"
 msgstr "Мне нравится"
 
-#. Translators: This will be user in 'dislike'
+#: controller/buffers.py:223 presenters/displayPosts/basePost.py:248
+#: presenters/displayPosts/topic.py:89 presenters/displayPosts/topicComment.py:35
 msgid "You don't like this"
 msgstr "Мне не нравится"
 
-#. comments.
+#: controller/buffers.py:230 controller/mainController.py:374
+#: presenters/displayPosts/basePost.py:278 presenters/displayPosts/topic.py:111
 msgid "Add a comment"
 msgstr "Комментировать"
 
+#: controller/buffers.py:237
 msgid "You've posted a comment"
 msgstr "Ваш комментарий добавлен."
 
+#: controller/buffers.py:304
 #, python-brace-format
 msgid "{user1_nom} added the following friends"
 msgstr "{user1_nom} добавил(а) друзей:"
 
+#: controller/buffers.py:380 controller/buffers.py:704 controller/buffers.py:969
 msgid "This buffer can't be deleted"
 msgstr "Этот буфер не может быть удалён."
 
+#: controller/buffers.py:415 controller/buffers.py:476 controller/buffers.py:1336
 #, python-brace-format
 msgid "Post to {user1_nom}'s wall"
 msgstr "Разместить на стене {user1_nom}"
 
+#: controller/buffers.py:448
 msgid "Loading community..."
 msgstr "Загрузка сообщества..."
 
+#: controller/buffers.py:467 controller/buffers.py:468 controller/buffers.py:518
+#: controller/buffers.py:519
 #, python-brace-format
 msgid "Post as {user1_nom}"
 msgstr "Опубликовать как {user1_nom}"
 
+#: controller/buffers.py:527
 #, python-brace-format
 msgid "Create topic in {user1_nom}"
 msgstr "Создать тему в {user1_nom}"
 
+#: controller/buffers.py:564
 msgid "Loading documents..."
 msgstr "Загрузка документов..."
 
+#: controller/buffers.py:590
 msgid "The document has been successfully deleted."
 msgstr "Документ успешно удалён."
 
+#: controller/buffers.py:595
 msgid "The document has been successfully added."
 msgstr "Документ успешно добавлен."
 
-#. Translators: Some buffers can't use the get previous item feature due to API limitations.
+#: controller/buffers.py:719 controller/buffers.py:984 controller/buffers.py:1086
 msgid "This buffer doesn't support getting more items."
-msgstr "Невозможно загрузить больше элементов в этот буфер."
+msgstr "Невозможно загрузить больше элементов в этот буфер"
 
+#: controller/buffers.py:748
 msgid "Audio added to your library"
 msgstr "Аудиозапись добавлена в библиотеку."
 
+#: controller/buffers.py:750
 #, python-brace-format
 msgid "{0} audios were added to your library."
 msgstr "{0} аудиозаписей были добавлены в библиотеку."
 
+#: controller/buffers.py:752
 #, python-brace-format
 msgid "{audios} audios were added to your library."
 msgstr "{audios} аудиозаписи были добавлены в библиотеку."
 
+#: controller/buffers.py:755
 #, python-brace-format
 msgid "{0} errors occurred while attempting to add {1} audios to your library."
 msgstr "{0} возникли ошибки при попытке добавить {1} аудиозаписи в библиотеку."
 
+#: controller/buffers.py:780
 msgid "Audio removed."
 msgstr "Аудиозапись удалена."
 
+#: controller/buffers.py:782
 #, python-brace-format
 msgid "{0} audios were removed."
 msgstr "{0} аудиозаписей были удалены."
 
+#: controller/buffers.py:784
 #, python-brace-format
 msgid "{audios} audios were removed."
 msgstr "{audios}  аудиозаписи были удалены."
 
+#: controller/buffers.py:787
 #, python-brace-format
 msgid "{0} errors occurred while attempting to remove {1} audios."
 msgstr "{0} возникли ошибки при попытке удалить {1} аудиозаписи."
 
+#: controller/buffers.py:792
 msgid "Select the album where you want to move this song"
 msgstr "Выберите альбом, в который будет загружена данная композиция."
 
+#: controller/buffers.py:811
 msgid "Audio added to playlist."
 msgstr "Аудиозапись добавлена в плейлист."
 
+#: controller/buffers.py:813
 #, python-brace-format
 msgid "{0} audios were added to playlist."
 msgstr "{0} аудиозаписей были добавлены в плейлист."
 
+#: controller/buffers.py:815
 #, python-brace-format
 msgid "{audios} audios were added to playlist."
 msgstr "{audios} аудиозаписей были добавлены в плейлист."
 
+#: controller/buffers.py:818
 #, python-brace-format
-msgid ""
-"{0} errors occurred while attempting to add {1} audios to your playlist."
+msgid "{0} errors occurred while attempting to add {1} audios to your playlist."
 msgstr "{0} возникли ошибки при попытке добавить {1} аудиозаписи в плейлист."
 
+#: controller/buffers.py:833 controller/buffers.py:1037
 msgid "&Remove"
 msgstr "&Удалить"
 
+#: controller/buffers.py:848 presenters/attach.py:56
 msgid "Untitled"
 msgstr "Без названия"
 
-#. File doesn't include ID3 tags so let's assume unknown artist.
+#: controller/buffers.py:852 presenters/attach.py:60 presenters/attach.py:62
 msgid "Unknown artist"
 msgstr "Неизвестный исполнитель"
 
+#: controller/buffers.py:866 interactors/postDisplayer.py:178
 msgid "P&ause"
 msgstr "Пауза"
 
+#: controller/buffers.py:868 interactors/postDisplayer.py:180 wxUI/tabs/home.py:78
+#: wxUI/tabs/home.py:105 wxUI/tabs/home.py:296 wxUI/tabs/home.py:306
 msgid "P&lay"
 msgstr "В&оспроизвести"
 
+#: controller/buffers.py:930 controller/buffers.py:1065
 msgid "Loading album..."
 msgstr "Загрузка альбома..."
 
+#: controller/buffers.py:959
 msgid "Opening video in webbrowser..."
 msgstr "Открыть видео в браузере..."
 
+#: controller/buffers.py:1000
 msgid "Video added to your library"
 msgstr "Видео добавлено в библиотеку."
 
+#: controller/buffers.py:1011
 msgid "Removed video from library"
 msgstr "Видео удалено из библиотеки."
 
+#: controller/buffers.py:1020
 msgid "Select the album where you want to move this video"
 msgstr "Выберете альбом, в который хотите переместить это видео."
 
-#. Translators: Used when the user has moved an video  to an album.
+#: controller/buffers.py:1026
 msgid "Moved"
 msgstr "Перемещено"
 
+#: controller/buffers.py:1208
 msgid "Items loaded"
 msgstr "Элементы загружены"
 
+#: controller/buffers.py:1215
 msgid "Getting more items..."
 msgstr "Загрузить больше элементов..."
 
+#: controller/buffers.py:1273 presenters/displayPosts/basePost.py:323
+#: presenters/profiles.py:167
 msgid "Opening URL..."
 msgstr "Открываем URL..."
 
+#: controller/buffers.py:1276 presenters/displayPosts/basePost.py:326
 msgid "Opening document in web browser..."
 msgstr "Открыть документ в браузере..."
 
+#: controller/buffers.py:1288 presenters/displayPosts/basePost.py:338
 msgid "Opening video in web browser..."
 msgstr "Открыть видео в браузере..."
 
+#: controller/buffers.py:1291 presenters/displayPosts/basePost.py:341
 msgid "Opening photo in web browser..."
 msgstr "Открыть фото в браузере..."
 
+#: controller/buffers.py:1377 controller/mainController.py:130
+#: sessionmanager/renderers.py:105
 msgid "Online"
 msgstr "В сети"
 
-#. Translators: This is the date of last seen
+#: controller/buffers.py:1380 sessionmanager/renderers.py:108
 #, python-brace-format
 msgid "Last seen {0}"
 msgstr "Последний раз в сети {0}."
 
+#: controller/buffers.py:1438
 #, python-brace-format
 msgid "You've removed {user1_nom} from your friends."
 msgstr "Вы удалили {user1_nom} из друзей."
 
+#: controller/buffers.py:1453
 #, python-brace-format
 msgid "You've blocked {user1_nom} from your friends."
-msgstr "Вы заблокировали {user1_nom}"
+msgstr "Вы заблокировали {user1_nom}."
 
+#: controller/buffers.py:1566
 #, python-brace-format
 msgid "{0} {1} now is your friend."
 msgstr "{0} {1} теперь Ваш друг."
 
+#: controller/buffers.py:1580
 #, python-brace-format
 msgid "You've deleted the friends request to {0} {1}."
 msgstr ""
-"Вы отменили свою заявку на добавление в друзья и отписались от обновлений "
-"{0} {1}."
+"Вы отменили свою заявку на добавление в друзья и отписались от обновлений {0} "
+"{1}."
 
+#: controller/buffers.py:1582
 #, python-brace-format
 msgid "You've declined the friend request of {0} {1}."
 msgstr "Вы отклонили заявку на добавление в друзья от {0} {1}."
 
+#: controller/buffers.py:1596
 #, python-brace-format
 msgid "{0} {1} is following you."
 msgstr "{0} {1}подписан на Вас."
 
+#: controller/mainController.py:96 controller/mainController.py:244
+#: controller/mainController.py:250 presenters/main.py:227 presenters/main.py:233
+#: sessionmanager/utils.py:60
 msgid "Ready"
 msgstr "Готово"
 
+#: controller/mainController.py:117 presenters/main.py:75
+#: views/dialogs/postDisplay.py:212 wxUI/tabs/home.py:11 wxUI/tabs/home.py:158
 msgid "Posts"
 msgstr "Записи"
 
+#: controller/mainController.py:118 presenters/main.py:76
 msgid "Home"
 msgstr "Главное"
 
+#: controller/mainController.py:119 presenters/main.py:77
 msgid "My wall"
 msgstr "Стена"
 
+#: controller/mainController.py:120 presenters/main.py:78 wxUI/tabs/home.py:67
 msgid "Music"
 msgstr "Музыка"
 
+#: controller/mainController.py:121 presenters/main.py:79
 msgid "My audios"
 msgstr "Мои аудиозаписи"
 
+#: controller/mainController.py:123 presenters/main.py:81
 msgid "Populars"
 msgstr "Популярные"
 
+#: controller/mainController.py:124 presenters/main.py:82
 msgid "Recommendations"
 msgstr "Рекомендации"
 
+#: controller/mainController.py:125 controller/mainController.py:128
+#: presenters/main.py:83 presenters/main.py:86
 msgid "Albums"
 msgstr "Альбомы"
 
+#: controller/mainController.py:126 presenters/main.py:84
+#: sessionmanager/renderers.py:65 sessionmanager/renderers.py:280
+#: wxUI/dialogs/timeline.py:23 wxUI/mainWindow.py:32
 msgid "Video"
 msgstr "Видео"
 
+#: controller/mainController.py:127 presenters/main.py:85
 msgid "My videos"
 msgstr "Мои видеозаписи"
 
+#: controller/mainController.py:129 presenters/main.py:87
 msgid "People"
 msgstr "Люди"
 
+#: controller/mainController.py:131 wxUI/dialogs/selector.py:43
 msgid "All friends"
 msgstr "Все друзья"
 
+#: controller/mainController.py:132 presenters/main.py:89
 msgid "Friendship requests"
 msgstr "Заявки в друзья"
 
+#: controller/mainController.py:133 presenters/main.py:90
 msgid "Pending requests"
 msgstr "Новые заявки"
 
+#: controller/mainController.py:134 presenters/main.py:91
 msgid "I follow"
 msgstr "Исходящие заявки"
 
+#: controller/mainController.py:135 presenters/main.py:92
 msgid "Subscribers"
 msgstr "Подписчики"
 
-#. pub.sendMessage("create_buffer", buffer_type="notificationBuffer", buffer_title=_("Notifications"), parent_tab=None, loadable=False, kwargs=dict(parent=self.window.tb, name="notifications", composefunc="render_notification", session=self.session, endpoint="get", parent_endpoint="notifications", count=100, filters="wall,mentions,comments,likes,reposted,followers,friends"))
+#: controller/mainController.py:137 controller/mainController.py:1075
+#: presenters/main.py:93 presenters/main.py:822 wxUI/tabs/home.py:168
 msgid "Documents"
 msgstr "Документы"
 
+#: controller/mainController.py:138
 msgid "Groups"
 msgstr "Группы"
 
+#: controller/mainController.py:139 presenters/main.py:95
 msgid "Chats"
 msgstr "Чаты"
 
+#: controller/mainController.py:140 presenters/main.py:96
 msgid "Timelines"
 msgstr "Пользовательские ленты"
 
-#. Translators: {0} will be replaced with an audio album's title.
-#. Translators: {0} will be replaced with a video  album's title.
-#. Translators: {0} will be replaced with an audio album's title.
-#. Translators: {0} will be replaced with a video  album's title.
+#: controller/mainController.py:200 controller/mainController.py:210
+#: controller/mainController.py:825 controller/mainController.py:857
+#: presenters/main.py:549 presenters/main.py:560 presenters/main.py:601
+#: presenters/main.py:633
 #, python-brace-format
 msgid "Album: {0}"
 msgstr "Альбом: {0}"
 
+#: controller/mainController.py:242 presenters/main.py:225
 msgid "Logging in VK"
 msgstr "Вход..."
 
-#. Translators: {0} will be replaced with the name of a buffer.
+#: controller/mainController.py:248 presenters/main.py:231
 #, python-brace-format
 msgid "Loading items for {0}"
 msgstr "Загрузка данных для {0}"
 
+#: controller/mainController.py:265 presenters/main.py:248
 msgid "Chat server reconnected"
 msgstr "Повторное подключение сервера чата."
 
-#. repost
+#: controller/mainController.py:367 presenters/displayPosts/basePost.py:263
+#: views/dialogs/postDisplay.py:91
 msgid "Repost"
 msgstr "Поделиться"
 
+#: controller/mainController.py:382
 msgid "Create topic"
 msgstr "Создать тему"
 
-#. topic comments.
+#: controller/mainController.py:389
 msgid "Add a comment to the topic"
 msgstr "Оставить комментарий в теме..."
 
+#: controller/mainController.py:495 presenters/main.py:446
 #, python-brace-format
 msgid "{user1_nom} is online."
-msgstr "{user1_nom} в сети"
+msgstr "{user1_nom} в сети."
 
+#: controller/mainController.py:516 presenters/main.py:454
 #, python-brace-format
 msgid "{user1_nom} is offline."
-msgstr "{user1_nom} не в сети"
+msgstr "{user1_nom} не в сети."
 
+#: controller/mainController.py:530 presenters/main.py:714
 msgid "Socializer"
 msgstr "Socializer"
 
+#: controller/mainController.py:542 presenters/main.py:723
 msgid "Chat disconnected. Trying to connect in 60 seconds"
 msgstr "Чат отключился. Попытка повторного соединения в течении 60 секунд."
 
+#: controller/mainController.py:581 presenters/main.py:462
 #, python-brace-format
 msgid "{user1_nom} is typing..."
 msgstr "{user1_nom} печатает..."
 
+#: controller/mainController.py:634 presenters/main.py:393
 #, python-brace-format
 msgid "{user1_nom}'s audios"
 msgstr "Аудиозаписи {user1_gen}"
 
+#: controller/mainController.py:638 presenters/main.py:397
 #, python-brace-format
 msgid "{user1_nom}'s posts"
 msgstr "Записи {user1_gen}"
 
+#: controller/mainController.py:642
 #, python-brace-format
 msgid "{user1_nom}'s videos"
-msgstr "{user1_nom}'s видеозаписи"
+msgstr "Видеозаписи {user1_nom}'s"
 
+#: controller/mainController.py:646 presenters/main.py:401
 #, python-brace-format
 msgid "{user1_nom}'s friends"
 msgstr "Друзья {user1_gen}"
 
-#. Translators: {0} will be replaced with the search term.
+#: controller/mainController.py:730 controller/mainController.py:749
+#: presenters/main.py:320 presenters/main.py:339
 #, python-brace-format
 msgid "Search for {0}"
 msgstr "Поиск {0}"
 
+#: controller/mainController.py:773 presenters/main.py:362 wxUI/mainWindow.py:21
 msgid "Preferences"
 msgstr "Настройки"
 
+#: controller/mainController.py:834 controller/mainController.py:866
+#: presenters/main.py:610 presenters/main.py:642
 msgid "Select the album you want to delete"
 msgstr "Выберите альбом, который хотите удалить."
 
+#: controller/mainController.py:933 presenters/main.py:730
 msgid "Write your status message"
 msgstr "Написать статус..."
 
+#: controller/mainController.py:933 presenters/main.py:730
 msgid "Set status"
 msgstr "Установить статус..."
 
+#: controller/mainController.py:988 presenters/main.py:210
 msgid "Load groups"
 msgstr "Загрузить группы"
 
+#: controller/mainController.py:991 presenters/main.py:213
 msgid "Discard groups"
 msgstr "Сброс групп"
 
+#: controller/mainController.py:997
 msgid "Load audio albums"
 msgstr "Загрузка аудиоальбомов"
 
+#: controller/mainController.py:1000
 msgid "Discard audio albums"
 msgstr "Сброс аудиоальбомов"
 
+#: controller/mainController.py:1005
 msgid "Load video albums"
 msgstr "Загрузка видеоальбомов"
 
+#: controller/mainController.py:1008
 msgid "Discard video albums"
 msgstr "Сброс видеоальбомов"
 
+#: controller/mainController.py:1018 presenters/main.py:219
 msgid "menu unavailable for this buffer."
 msgstr "Меню недоступно для этого буфера."
 
+#: controller/mainController.py:1037 presenters/main.py:784
 msgid "Audios"
 msgstr "Аудиозаписи"
 
+#: controller/mainController.py:1050 presenters/main.py:797
 msgid "Videos"
 msgstr "Видеозаписи"
 
+#: controller/mainController.py:1063 presenters/main.py:810 wxUI/tabs/home.py:157
 msgid "Topics"
 msgstr "Темы"
 
+#: extra/SpellChecker/spellchecker.py:43
 #, python-format
 msgid "Misspelled word: %s"
 msgstr "Слово с орфографической ошибкой: %s"
 
+#: extra/SpellChecker/wx_ui.py:28
 msgid "&Misspelled word"
 msgstr "Слово с орфографической ошибкой"
 
+#: extra/SpellChecker/wx_ui.py:33
 msgid "Con&text"
 msgstr "Кон&текст"
 
+#: extra/SpellChecker/wx_ui.py:38
 msgid "&Suggestions"
 msgstr "&Рекомендованные"
 
+#: extra/SpellChecker/wx_ui.py:43
 msgid "&Ignore"
 msgstr "&Игнорировать"
 
+#: extra/SpellChecker/wx_ui.py:44
 msgid "Ignore &all"
 msgstr "Игнорировать &Все"
 
+#: extra/SpellChecker/wx_ui.py:45
 msgid "&Replace"
 msgstr "&Заменить"
 
+#: extra/SpellChecker/wx_ui.py:46
 msgid "Replace a&ll"
-msgstr "Заменить Вс&е"
+msgstr "Заменить Вс&ё"
 
+#: extra/SpellChecker/wx_ui.py:77
 #, python-brace-format
 msgid ""
 "An error has occurred. There are no dictionaries available for the selected "
 "language in {0}"
 msgstr "Ошибка. Нет доступных словарей для выбранного языка в {0}."
 
+#: extra/SpellChecker/wx_ui.py:77 issueReporter/wx_ui.py:95
+#: issueReporter/wx_ui.py:98 views/dialogs/attach.py:68 wxUI/commonMessages.py:16
+#: wxUI/commonMessages.py:27 wxUI/commonMessages.py:33 wxUI/commonMessages.py:36
+#: wxUI/commonMessages.py:60 wxUI/commonMessages.py:66
 msgid "Error"
 msgstr "Ошибка"
 
+#: extra/SpellChecker/wx_ui.py:80
 msgid "Spell check complete."
 msgstr "Проверка орфографии завершена."
 
+#: extra/translator/translator.py:14
 msgid "Afrikaans"
 msgstr "Африканский"
 
+#: extra/translator/translator.py:15
 msgid "Albanian"
 msgstr "Албанский"
 
+#: extra/translator/translator.py:16
 msgid "Amharic"
 msgstr ""
 "Амхарский\n"
@@ -452,764 +655,1002 @@ msgstr ""
 "Nouns:\n"
 "    Амхарский (Amharic)"
 
+#: extra/translator/translator.py:17
 msgid "Arabic"
 msgstr "Арабский"
 
+#: extra/translator/translator.py:18
 msgid "Armenian"
 msgstr "Армянский"
 
+#: extra/translator/translator.py:19
 msgid "Azerbaijani"
 msgstr "Азербайджанский"
 
+#: extra/translator/translator.py:20
 msgid "Basque"
 msgstr "баскский"
 
+#: extra/translator/translator.py:21
 msgid "Belarusian"
 msgstr "Белорусский"
 
+#: extra/translator/translator.py:22
 msgid "Bengali"
 msgstr "Бенгальский"
 
+#: extra/translator/translator.py:23
 msgid "Bihari"
 msgstr "Бихари"
 
+#: extra/translator/translator.py:24
 msgid "Bulgarian"
 msgstr "Болгарский"
 
+#: extra/translator/translator.py:25
 msgid "Burmese"
 msgstr "Бирманский"
 
+#: extra/translator/translator.py:26
 msgid "Catalan"
 msgstr "Каталанский"
 
+#: extra/translator/translator.py:27
 msgid "Cherokee"
 msgstr "Чероки"
 
+#: extra/translator/translator.py:28
 msgid "Chinese"
 msgstr "Китайский"
 
+#: extra/translator/translator.py:29
 msgid "Chinese_simplified"
 msgstr "Китайский (упрощённое письмо)"
 
+#: extra/translator/translator.py:30
 msgid "Chinese_traditional"
 msgstr "Китайский (традиционный)"
 
+#: extra/translator/translator.py:31
 msgid "Croatian"
 msgstr "Хорватский"
 
+#: extra/translator/translator.py:32
 msgid "Czech"
 msgstr "Чешский"
 
+#: extra/translator/translator.py:33
 msgid "Danish"
 msgstr "Датский"
 
+#: extra/translator/translator.py:34
 msgid "Dhivehi"
 msgstr "Дивехи"
 
+#: extra/translator/translator.py:35
 msgid "Dutch"
 msgstr "Голландский"
 
+#: extra/translator/translator.py:36
 msgid "English"
 msgstr "Английский"
 
+#: extra/translator/translator.py:37
 msgid "Esperanto"
 msgstr "Эсперанто"
 
+#: extra/translator/translator.py:38
 msgid "Estonian"
 msgstr "Эстонский"
 
+#: extra/translator/translator.py:39
 msgid "Filipino"
 msgstr "Филиппинский"
 
+#: extra/translator/translator.py:40
 msgid "Finnish"
 msgstr "Финский"
 
+#: extra/translator/translator.py:41
 msgid "French"
 msgstr "Французский"
 
+#: extra/translator/translator.py:42
 msgid "Galician"
 msgstr "Галисийский"
 
+#: extra/translator/translator.py:43
 msgid "Georgian"
 msgstr "Грузинский"
 
+#: extra/translator/translator.py:44
 msgid "German"
 msgstr "Немецкий"
 
+#: extra/translator/translator.py:45
 msgid "Greek"
 msgstr "Греческий"
 
+#: extra/translator/translator.py:46
 msgid "Guarani"
 msgstr "Гуарани"
 
+#: extra/translator/translator.py:47
 msgid "Gujarati"
 msgstr "Гуджарати"
 
+#: extra/translator/translator.py:48
 msgid "Hebrew"
 msgstr "Еврейский"
 
+#: extra/translator/translator.py:49
 msgid "Hindi"
 msgstr "Хинди"
 
+#: extra/translator/translator.py:50
 msgid "Hungarian"
 msgstr "Венгерский"
 
+#: extra/translator/translator.py:51
 msgid "Icelandic"
 msgstr "Исландский"
 
+#: extra/translator/translator.py:52
 msgid "Indonesian"
 msgstr "Индонезийский"
 
+#: extra/translator/translator.py:53
 msgid "Inuktitut"
 msgstr "Инуктитут"
 
+#: extra/translator/translator.py:54
 msgid "Irish"
 msgstr "Ирландский"
 
+#: extra/translator/translator.py:55
 msgid "Italian"
 msgstr "Итальянский"
 
+#: extra/translator/translator.py:56
 msgid "Japanese"
 msgstr "Японский"
 
+#: extra/translator/translator.py:57
 msgid "Kannada"
 msgstr "Канада"
 
+#: extra/translator/translator.py:58
 msgid "Kazakh"
 msgstr "Казахский"
 
+#: extra/translator/translator.py:59
 msgid "Khmer"
 msgstr "Кхмерский"
 
+#: extra/translator/translator.py:60
 msgid "Korean"
 msgstr "Корейский"
 
+#: extra/translator/translator.py:61
 msgid "Kurdish"
 msgstr "Курдский"
 
+#: extra/translator/translator.py:62
 msgid "Kyrgyz"
 msgstr "Киргизский"
 
+#: extra/translator/translator.py:63
 msgid "Laothian"
 msgstr "Лаосский"
 
+#: extra/translator/translator.py:64
 msgid "Latvian"
 msgstr "Латышский"
 
+#: extra/translator/translator.py:65
 msgid "Lithuanian"
 msgstr "Литовский"
 
+#: extra/translator/translator.py:66
 msgid "Macedonian"
 msgstr "Македонский"
 
+#: extra/translator/translator.py:67
 msgid "Malay"
 msgstr "Малайский"
 
+#: extra/translator/translator.py:68
 msgid "Malayalam"
 msgstr "Малаялам"
 
+#: extra/translator/translator.py:69
 msgid "Maltese"
 msgstr "Мальтийский"
 
+#: extra/translator/translator.py:70
 msgid "Marathi"
 msgstr "Маратхи"
 
+#: extra/translator/translator.py:71
 msgid "Mongolian"
 msgstr "Монгольский"
 
+#: extra/translator/translator.py:72
 msgid "Nepali"
 msgstr "Непальский"
 
+#: extra/translator/translator.py:73
 msgid "Norwegian"
 msgstr "Норвежский"
 
+#: extra/translator/translator.py:74
 msgid "Oriya"
 msgstr "Ория"
 
+#: extra/translator/translator.py:75
 msgid "Pashto"
 msgstr "Пушту"
 
+#: extra/translator/translator.py:76
 msgid "Persian"
 msgstr "Персидский"
 
+#: extra/translator/translator.py:77
 msgid "Polish"
 msgstr "Польский"
 
+#: extra/translator/translator.py:78
 msgid "Portuguese"
 msgstr "Португальский"
 
+#: extra/translator/translator.py:79
 msgid "Punjabi"
 msgstr "Панджаби"
 
+#: extra/translator/translator.py:80
 msgid "Romanian"
 msgstr "Румынский"
 
+#: extra/translator/translator.py:81
 msgid "Russian"
 msgstr "Русский"
 
+#: extra/translator/translator.py:82
 msgid "Sanskrit"
 msgstr "Санскрит"
 
+#: extra/translator/translator.py:83
 msgid "Serbian"
 msgstr "Сербский"
 
+#: extra/translator/translator.py:84
 msgid "Sindhi"
 msgstr "Синдхи"
 
+#: extra/translator/translator.py:85
 msgid "Sinhalese"
 msgstr "Сингальский"
 
+#: extra/translator/translator.py:86
 msgid "Slovak"
 msgstr "Словацкий"
 
+#: extra/translator/translator.py:87
 msgid "Slovenian"
 msgstr "Словенский"
 
+#: extra/translator/translator.py:88
 msgid "Spanish"
 msgstr "Испанский"
 
+#: extra/translator/translator.py:89
 msgid "Swahili"
 msgstr "Swahili"
 
+#: extra/translator/translator.py:90
 msgid "Swedish"
 msgstr "Шведский"
 
+#: extra/translator/translator.py:91
 msgid "Tajik"
 msgstr "Таджикский"
 
+#: extra/translator/translator.py:92
 msgid "Tamil"
 msgstr "Тамильский"
 
+#: extra/translator/translator.py:93
 msgid "Tagalog"
 msgstr "Тагальский"
 
+#: extra/translator/translator.py:94
 msgid "Telugu"
 msgstr "Телугу"
 
+#: extra/translator/translator.py:95
 msgid "Thai"
 msgstr "тайский"
 
+#: extra/translator/translator.py:96
 msgid "Tibetan"
 msgstr "Тибетский"
 
+#: extra/translator/translator.py:97
 msgid "Turkish"
 msgstr "Турецкий"
 
+#: extra/translator/translator.py:98
 msgid "Ukrainian"
 msgstr "Украинский"
 
+#: extra/translator/translator.py:99
 msgid "Urdu"
 msgstr "Урду"
 
+#: extra/translator/translator.py:100
 msgid "Uzbek"
 msgstr "Узбекский"
 
+#: extra/translator/translator.py:101
 msgid "Uighur"
 msgstr "Уйгурский"
 
+#: extra/translator/translator.py:102
 msgid "Vietnamese"
 msgstr "Вьетнамский"
 
+#: extra/translator/translator.py:103
 msgid "Welsh"
 msgstr "Валлийский"
 
+#: extra/translator/translator.py:104
 msgid "Yiddish"
 msgstr "Идиш"
 
+#: extra/translator/wx_ui.py:25 views/dialogs/postCreation.py:100
 msgid "Translate message"
 msgstr "Перевести сообщение"
 
+#: extra/translator/wx_ui.py:28
 msgid "Target language"
-msgstr "Конечный язык"
+msgstr "Язык перевода"
 
+#: interactors/attach.py:85
 msgid "Select the audio files you want to send"
 msgstr "Выберете аудиозаписи, которые выхотите отправить."
 
+#: interactors/postCreation.py:45 views/dialogs/postCreation.py:21
 msgid "Friends of friends"
 msgstr "Друзья друзей"
 
+#: interactors/postCreation.py:47 views/dialogs/postCreation.py:21
 msgid "All users"
 msgstr "Все пользователи"
 
+#: issueReporter/wx_ui.py:27 wxUI/mainWindow.py:60
 msgid "Report an error"
-msgstr "Сообщить об ошибке."
+msgstr "Сообщить об ошибке"
 
+#: issueReporter/wx_ui.py:31
 msgid ""
-"Briefly describe what happened. You will be able to thoroughly explain it "
-"later"
+"Briefly describe what happened. You will be able to thoroughly explain it later"
 msgstr "Кратко опишите, что произошло. Вы сможете описать это подробно позже."
 
+#: issueReporter/wx_ui.py:41
 msgid "First Name"
 msgstr "Имя"
 
+#: issueReporter/wx_ui.py:51
 msgid "Last Name"
 msgstr "Фамилия"
 
+#: issueReporter/wx_ui.py:61
 msgid "Email address (Will not be public)"
 msgstr "Электронный адрес. Не будет нигде опубликован."
 
+#: issueReporter/wx_ui.py:71
 msgid "Here, you can describe the bug in detail"
 msgstr "Здесь вы можете подробно описать ошибку."
 
+#: issueReporter/wx_ui.py:81
 #, python-brace-format
 msgid ""
-"I know that the {0} bug system will get my email address to contact me and "
-"fix the bug quickly"
+"I know that the {0} bug system will get my email address to contact me and fix "
+"the bug quickly"
 msgstr ""
 "Я знаю, что служба поддержки {0} получит мой адрес электронной почты, чтобы "
 "связаться со мной и быстро исправить ошибку."
 
+#: issueReporter/wx_ui.py:84
 msgid "Send report"
-msgstr "Отправить отчёт."
+msgstr "Отправить отчёт"
 
+#: issueReporter/wx_ui.py:86
 msgid "Cancel"
 msgstr "Отмена"
 
+#: issueReporter/wx_ui.py:95
 msgid ""
-"You must fill out the following fields: first name, last name, email address "
-"and issue information."
+"You must fill out the following fields: first name, last name, email address and "
+"issue information."
 msgstr ""
 "Вы должны заполнить следующие поля: имя, фамилия, адрес электронной почты и "
 "информация о выпуске."
 
+#: issueReporter/wx_ui.py:98
 msgid ""
-"You need to mark the checkbox to provide us your email address to contact "
-"you if it is necessary."
+"You need to mark the checkbox to provide us your email address to contact you if "
+"it is necessary."
 msgstr ""
-"Вам необходимо установить флажок, чтобы предоставить нам свой адрес "
-"электронной почты, чтобы связаться с Вами, если это необходимо."
+"Вам необходимо установить флажок, чтобы предоставить нам свой адрес электронной "
+"почты, чтобы связаться с Вами, если это необходимо."
 
+#: issueReporter/wx_ui.py:101
 #, python-format
 msgid ""
-"Thanks for reporting this bug! In future versions, you may be able to find "
-"it in the changes list. You have received an email with more information "
-"regarding your report. You've reported the bug number %i"
+"Thanks for reporting this bug! In future versions, you may be able to find it in "
+"the changes list. You have received an email with more information regarding "
+"your report. You've reported the bug number %i"
 msgstr ""
-"Спасибо за сообщение об этой ошибке! В будущих версиях Вы сможете найти его "
-"в списке изменений. Вы получили письмо с дополнительной информацией о вашем "
+"Спасибо за сообщение об этой ошибке! В будущих версиях Вы сможете найти его в "
+"списке изменений. Вы получили письмо с дополнительной информацией о вашем "
 "отчете. Вы сообщили об ошибке номеr %i."
 
+#: issueReporter/wx_ui.py:101
 msgid "reported"
 msgstr "Сообщено"
 
+#: issueReporter/wx_ui.py:105
 msgid ""
-"Something unexpected occurred while trying to report the bug. Please, try "
-"again later"
+"Something unexpected occurred while trying to report the bug. Please, try again "
+"later"
 msgstr ""
 "При попытке сообщить об ошибке произошло нечто неожиданное. Пожалуйста, "
 "попробуйте позже."
 
+#: issueReporter/wx_ui.py:105
 msgid "Error while reporting"
-msgstr "Ошибка при сообщении."
+msgstr "Ошибка при сообщении"
 
+#: issueReporter/wx_ui.py:109
 msgid "Sending report..."
 msgstr "Отправляем отчёт..."
 
+#: issueReporter/wx_ui.py:109
 msgid "Please wait while your report is being send."
 msgstr "Пожалуйста, подождите, пока ваш отчет отправляется."
 
-#. Translators: This is the text displayed in the attachments dialog, when the user adds  a photo.
+#: presenters/attach.py:42 sessionmanager/renderers.py:59
 msgid "Photo"
 msgstr "Фотография"
 
-#. Translators: This is the text displayed in the attachments dialog, when the user adds  an audio file.
+#: presenters/attach.py:67 presenters/attach.py:107 views/dialogs/attach.py:19
 msgid "Audio file"
 msgstr "Аудиозапись"
 
-#. Translators: This is the text displayed in the attachments dialog, when the user adds  a document.
+#: presenters/attach.py:77 views/dialogs/attach.py:20
 msgid "Document"
 msgstr "Документ"
 
-#. Translators: This is the text displayed in the attachments dialog, when the user adds  an audio file.
+#: presenters/attach.py:87 sessionmanager/renderers.py:74
+#: views/dialogs/attach.py:22
 msgid "Voice message"
 msgstr "Голосовое сообщение"
 
+#: presenters/audioRecorder.py:33 presenters/audioRecorder.py:75
+#: test/test_audiorecorder.py:31
 msgid "&Stop"
 msgstr "&Остановить"
 
+#: presenters/audioRecorder.py:34
 msgid "Recording"
 msgstr "Запись"
 
+#: presenters/audioRecorder.py:41 presenters/audioRecorder.py:86
 msgid "Stopped"
 msgstr "Остановлено"
 
+#: presenters/audioRecorder.py:43 test/test_audiorecorder.py:36
+#: views/dialogs/audioRecorder.py:13
 msgid "&Record"
 msgstr "&Запись"
 
+#: presenters/audioRecorder.py:62
 msgid "Discarded"
 msgstr "Загрузка отменена"
 
+#: presenters/audioRecorder.py:71 presenters/player.py:116
 msgid "Playing..."
 msgstr "Воспроизведение"
 
+#: presenters/audioRecorder.py:79 presenters/audioRecorder.py:89
+#: views/dialogs/audioRecorder.py:11 views/dialogs/postDisplay.py:257
+#: wxUI/menus.py:31
 msgid "&Play"
 msgstr "Воспроизвести"
 
+#: presenters/audioRecorder.py:94
 msgid "Recoding audio..."
 msgstr "Запись аудио..."
 
+#: presenters/blacklist.py:28
 #, python-brace-format
 msgid "You've unblocked {user1_nom} from your friends."
-msgstr "Вы разблокировали {user1_nom}"
+msgstr "Вы разблокировали {user1_nom}."
 
+#: presenters/configuration.py:21 presenters/configuration.py:34
+#: views/dialogs/configuration.py:20 views/dialogs/configuration.py:64
 msgid "Native"
 msgstr "собственные"
 
+#: presenters/configuration.py:23 views/dialogs/configuration.py:64
 msgid "Custom"
 msgstr "Пользовательские"
 
+#: presenters/configuration.py:27 presenters/configuration.py:40
+#: views/dialogs/configuration.py:20
 msgid "Stable"
 msgstr "Стабильный"
 
+#: presenters/configuration.py:29 presenters/configuration.py:42
 msgid "Weekly"
 msgstr "Еженедельно"
 
+#: presenters/configuration.py:31 views/dialogs/configuration.py:20
 msgid "Alpha"
 msgstr "Альфа"
 
+#: presenters/main.py:88 wxUI/dialogs/timeline.py:24 wxUI/tabs/home.py:269
 msgid "Friends"
 msgstr "Друзья"
 
+#: presenters/main.py:94
 msgid "Communities"
 msgstr "Группы"
 
+#: presenters/main.py:275 presenters/player.py:82
 msgid "This file could not be played because it is not allowed in your country"
 msgstr "Эта аудиозапись недоступна в Вашем регионе."
 
+#: presenters/player.py:106
 #, python-brace-format
 msgid "Playing {0} by {1}"
 msgstr "Воспроизводится {0} {1}"
 
+#: presenters/profiles.py:46
 msgid "Information for groups is not supported, yet."
 msgstr "Информация для групп пока не поддерживается."
 
+#: presenters/profiles.py:66
 msgid "MMMM D"
 msgstr "MMMM D"
 
+#: presenters/profiles.py:73
 msgid "MMMM D, YYYY"
 msgstr "MMMM D, YYYY"
 
+#: presenters/profiles.py:74
 #, python-brace-format
 msgid "{date} ({age} years)"
 msgstr "{date} ({age} лет)"
 
+#: presenters/profiles.py:94
 #, python-brace-format
 msgid "{user1_nom}'s profile"
 msgstr "{user1_gen} профиль"
 
+#: presenters/profiles.py:107
 msgid "Work "
-msgstr "Место работы."
+msgstr "Место работы"
 
+#: presenters/profiles.py:108 presenters/profiles.py:109
 msgid "Student "
-msgstr "Студент(ка)."
+msgstr "Студент(ка)"
 
+#: presenters/profiles.py:111
 #, python-brace-format
 msgid "In {0}"
 msgstr "В {0}."
 
+#: presenters/profiles.py:120
 msgid "Single"
-msgstr "Холост/не замужем."
+msgstr "Холост/не замужем"
 
+#: presenters/profiles.py:123
 #, python-brace-format
 msgid "Dating with {0} {1}"
-msgstr "Встречается с {0} {1}"
+msgstr "В отношениях с  {0} {1}"
 
+#: presenters/profiles.py:125
 msgid "Dating"
-msgstr "Встречается"
+msgstr "В отношениях"
 
+#: presenters/profiles.py:127
 #, python-brace-format
 msgid "Engaged with {0} {1}"
 msgstr "Помолвлен(на) с {0} {1}"
 
+#: presenters/profiles.py:130
 #, python-brace-format
 msgid "Married to {0} {1}"
 msgstr "В браке с {0} {1}"
 
+#: presenters/profiles.py:132
 msgid "Married"
 msgstr "Женат/замужем"
 
+#: presenters/profiles.py:134
 msgid "It's complicated"
 msgstr "Всё сложно"
 
+#: presenters/profiles.py:136
 msgid "Actively searching"
 msgstr "В активном поиске"
 
+#: presenters/profiles.py:138
 msgid "In love"
 msgstr "Влюблён(а)"
 
+#: presenters/profiles.py:140
 msgid "Relationship: "
 msgstr "В отношениях"
 
-#. Translators: This is the date of last seen
+#: presenters/profiles.py:145
 #, python-brace-format
 msgid "{0}"
 msgstr "{0}"
 
+#: presenters/profiles.py:154
 msgid "Profile loaded"
 msgstr "Профиль загружен"
 
+#: presenters/profiles.py:162
 msgid "No URL addresses were detected."
 msgstr "URL-адреса не обнаружены."
 
+#: presenters/createPosts/basePost.py:47 presenters/displayPosts/basePost.py:309
 msgid "Translated"
 msgstr "Переведено"
 
+#: presenters/displayPosts/basePost.py:93
 #, python-brace-format
 msgid "{0} > {1}"
 msgstr "{0} > {1}"
 
+#: presenters/displayPosts/basePost.py:109
 #, python-brace-format
 msgid "repost from {user1_nom}"
 msgstr "Репост от {user1_gen}"
 
+#: presenters/displayPosts/basePost.py:115
 #, python-brace-format
 msgid "Post from {user1_nom} in the {user2_nom}'s wall"
 msgstr "Запись от {user1_gen}на стене {user2_dat}"
 
+#: presenters/displayPosts/basePost.py:117
 #, python-brace-format
 msgid "Post from {user1_nom}"
 msgstr "Запись от {user1_gen}"
 
+#: presenters/displayPosts/basePost.py:169
 msgid "Untitled link"
 msgstr "Ссылка без названия"
 
-#. Translators: {0} is the number of the current photo and {1} is the total number of photos.
+#: presenters/displayPosts/basePost.py:212
 #, python-brace-format
 msgid "Loaded photo {0} of {1}"
 msgstr "Загруженное фото {0} из {1}"
 
+#: presenters/displayPosts/basePost.py:232 presenters/displayPosts/basePost.py:256
+#: presenters/displayPosts/comment.py:55 presenters/displayPosts/topic.py:96
+#: presenters/displayPosts/topic.py:106 presenters/displayPosts/topicComment.py:42
 msgid "&Dislike"
 msgstr "&Не нравится"
 
+#: presenters/displayPosts/basePost.py:252 presenters/displayPosts/topic.py:92
+#: presenters/displayPosts/topic.py:108 presenters/displayPosts/topicComment.py:38
+#: views/dialogs/postDisplay.py:90 views/dialogs/postDisplay.py:177
+#: views/dialogs/postDisplay.py:204
 msgid "&Like"
 msgstr "&Нравится"
 
+#: presenters/displayPosts/basePost.py:263
 msgid "Add your comment here"
 msgstr "Комментировать..."
 
+#: presenters/displayPosts/basePost.py:272 views/dialogs/postDisplay.py:122
 #, python-brace-format
 msgid "{0} people like this"
 msgstr "{0} отметок нравится"
 
+#: presenters/displayPosts/basePost.py:275 views/dialogs/postDisplay.py:128
 #, python-brace-format
 msgid "Shared {0} times"
 msgstr "Поделились {0} раз"
 
+#: presenters/displayPosts/basePost.py:290 presenters/displayPosts/comment.py:71
+#: presenters/displayPosts/topic.py:121
 #, python-brace-format
 msgid "Reply to {user1_nom}"
 msgstr "Ответить {user1_dat}"
 
+#: presenters/displayPosts/basePost.py:354
+msgid "Opening Article in web browser..."
+msgstr "Открыть статью в браузере..."
+
+#: presenters/displayPosts/basePost.py:373 presenters/displayPosts/comment.py:85
+#: presenters/displayPosts/topicComment.py:53
 msgid "people who liked this"
-msgstr "Люди, которым это понравилось"
+msgstr "Люди, которым это понравилось."
 
+#: presenters/displayPosts/basePost.py:380
 msgid "people who shared this"
-msgstr "Люди, которые этим поделились"
+msgstr "Люди, которые этим поделились."
 
+#: presenters/displayPosts/comment.py:62
 #, python-brace-format
 msgid "Comment from {user1_nom} in the {user2_nom}'s post"
 msgstr "Комментарий от {user1_gen} к записи {user1_gen}"
 
+#: presenters/displayPosts/poll.py:25
 #, python-brace-format
 msgid "Poll from {user1_nom}"
 msgstr "Опрос от {user1_nom}"
 
+#: presenters/displayPosts/poll.py:55
 msgid "Your vote has been added to this poll."
 msgstr "Вы проголосовали в опросе."
 
+#: presenters/displayPosts/topic.py:70 presenters/displayPosts/topic.py:165
 #, python-brace-format
 msgid "Load {comments} previous comments"
 msgstr "Загрузить {comments} предыдущие комментарии"
 
+#: sessionmanager/renderers.py:25
 msgid "photo with no description available"
 msgstr "Нет описания фото."
 
+#: sessionmanager/renderers.py:27
 #, python-brace-format
 msgid "video: {0}"
 msgstr "Видео: {0}"
 
+#: sessionmanager/renderers.py:57
 msgid "Link"
 msgstr "Ссылка"
 
+#: sessionmanager/renderers.py:62
 msgid "no description available"
-msgstr "Описание недоступно."
+msgstr "Описание недоступно"
 
+#: sessionmanager/renderers.py:68 sessionmanager/renderers.py:280
+#: wxUI/dialogs/timeline.py:22 wxUI/mainWindow.py:31
 msgid "Audio"
 msgstr "Аудиозапись"
 
+#: sessionmanager/renderers.py:71
 #, python-brace-format
 msgid "{0} file"
 msgstr "{0} файл"
 
+#: sessionmanager/renderers.py:76
 msgid "Poll"
 msgstr "Опрос"
 
+#: sessionmanager/renderers.py:79
 msgid "Post"
 msgstr "Запись"
 
+#: sessionmanager/renderers.py:85
 #, python-brace-format
 msgid "{user}: {post}"
 msgstr "{user}: {post}"
 
-msgid "Account deactivated"
-msgstr "Аккаунт деактивирован."
+#: sessionmanager/renderers.py:87
+msgid "Article"
+msgstr "Статья"
 
+#: sessionmanager/renderers.py:111
+msgid "Account deactivated"
+msgstr "Аккаунт деактивирован"
+
+#: sessionmanager/renderers.py:128 sessionmanager/renderers.py:226
+#: sessionmanager/renderers.py:233
 #, python-brace-format
 msgid "{user1_nom} has shared the {user2_nom}'s post"
 msgstr "{user1_nom} поделился записью {user2_gen}"
 
+#: sessionmanager/renderers.py:148
 #, python-brace-format
 msgid "{user1_nom} has added  an audio: {audio_file}"
 msgstr "{user1_nom} добавил(а) аудиозапись: {audio_file}"
 
+#: sessionmanager/renderers.py:156
 #, python-brace-format
 msgid "{user1_nom} has added  {total_audio_files} audios: {audio_files}"
 msgstr "{user1_nom} добавил {total_audio_files} аудиозаписи: {audio_files}"
 
+#: sessionmanager/renderers.py:162
 #, python-brace-format
 msgid ""
-"{user1_nom} has added an audio album: {audio_album}, "
-"{audio_album_description}"
-msgstr ""
-"{user1_nom} добавил аудиоальбом: {audio_album},  {audio_album_description}"
+"{user1_nom} has added an audio album: {audio_album}, {audio_album_description}"
+msgstr "{user1_nom} добавил аудиоальбом: {audio_album},  {audio_album_description}"
 
+#: sessionmanager/renderers.py:169
 #, python-brace-format
-msgid ""
-"{user1_nom} has added  {total_audio_albums} audio albums: {audio_albums}"
+msgid "{user1_nom} has added  {total_audio_albums} audio albums: {audio_albums}"
 msgstr "{user1_nom} добавил {total_audio_albums} аудио альбомы: {audio_albums}"
 
+#: sessionmanager/renderers.py:180
 #, python-brace-format
 msgid "{user1_nom} added friends: {friends}"
 msgstr "{user1_nom} добавил(а) друзей: {friends}"
 
+#: sessionmanager/renderers.py:185
 #, python-brace-format
 msgid "{user1_nom} has added  a video: {video}"
 msgstr "{user1_nom} добавил(а) видеозапись: {video}"
 
+#: sessionmanager/renderers.py:193
 #, python-brace-format
 msgid "{user1_nom} has added  {total_videos} videos: {videos}"
 msgstr "{user1_nom} добавил {total_videos} видеозаписи: {videos}"
 
+#: sessionmanager/renderers.py:207
 msgid "H:mm."
 msgstr "H:mm."
 
+#: sessionmanager/renderers.py:209
 msgid "H:mm. dddd, MMMM D, YYYY"
 msgstr "H:mm. dddd, MMMM D, YYYY"
 
+#: sessionmanager/renderers.py:247
 msgid "Audio removed from library"
 msgstr "Аудиозапись удалена из библиотеки."
 
+#: sessionmanager/renderers.py:256
 msgid "Video not available"
-msgstr "Видео недоступно."
+msgstr "Видео недоступно"
 
+#: sessionmanager/renderers.py:264
 msgid "Voice message not available"
 msgstr "Голосовое сообщение недоступно."
 
+#: sessionmanager/renderers.py:276
 #, python-brace-format
 msgid "Last post by {user1_nom} {date}"
 msgstr "Последняя запись {user1_nom} {date}"
 
+#: sessionmanager/renderers.py:280
 msgid "Text document"
 msgstr "Текстовый документ"
 
+#: sessionmanager/renderers.py:280
 msgid "Archive"
 msgstr "Архив"
 
+#: sessionmanager/renderers.py:280
 msgid "Gif"
 msgstr "Гиф-анимация"
 
+#: sessionmanager/renderers.py:280
 msgid "Image"
 msgstr "Изображение"
 
+#: sessionmanager/renderers.py:280
 msgid "Ebook"
 msgstr "Книга"
 
+#: sessionmanager/renderers.py:280
 msgid "Unknown document"
 msgstr "Неизвестный документ"
 
+#: sessionmanager/sessionManager.py:21
 msgid "Select an account"
-msgstr "Выберите уёетную запись"
+msgstr "Выберите учётную запись"
 
+#: sessionmanager/sessionManager.py:23 wxUI/mainWindow.py:20
 msgid "Manage accounts"
 msgstr "Управление учётными записями"
 
+#: sessionmanager/utils.py:25 update/utils.py:28
 #, python-format
 msgid "%d day, "
 msgstr "%d день"
 
+#: sessionmanager/utils.py:27 update/utils.py:30
 #, python-format
 msgid "%d days, "
 msgstr "%d дней"
 
+#: sessionmanager/utils.py:29 update/utils.py:32
 #, python-format
 msgid "%d hour, "
 msgstr "%d час, "
 
+#: sessionmanager/utils.py:31 update/utils.py:34
 #, python-format
 msgid "%d hours, "
 msgstr "%d часов"
 
+#: sessionmanager/utils.py:33 update/utils.py:36
 #, python-format
 msgid "%d minute, "
 msgstr "%d минута"
 
+#: sessionmanager/utils.py:35 update/utils.py:38
 #, python-format
 msgid "%d minutes, "
 msgstr "%d минут"
 
+#: sessionmanager/utils.py:37 update/utils.py:40
 #, python-format
 msgid "%s second"
 msgstr "%s секунда"
 
+#: sessionmanager/utils.py:39 update/utils.py:42
 #, python-format
 msgid "%s seconds"
 msgstr "%s секунд"
 
+#: sessionmanager/utils.py:47
 #, python-brace-format
 msgid "Downloading {0}"
 msgstr "Загрузка {0}"
 
+#: sessionmanager/utils.py:57
 #, python-brace-format
 msgid "Downloading {0} ({1}%)"
 msgstr "Загрузка {0} ({1}%)"
 
+#: sessionmanager/wxUI.py:7
 msgid ""
-"In order to continue, you need to configure your VK account before. Would "
-"you like to autorhise a new account now?"
+"In order to continue, you need to configure your VK account before. Would you "
+"like to autorhise a new account now?"
 msgstr ""
 "Для входа в Ваш аккаунт \"ВКонтакте\" необходимо пройти авторизацию. Хотите "
 "продолжить?"
 
+#: sessionmanager/wxUI.py:7
 msgid "Authorisation"
 msgstr "Авторизация"
 
+#: sessionmanager/wxUI.py:11
 msgid "Authorise VK"
 msgstr "Авторизация в \"ВКонтакте\""
 
+#: sessionmanager/wxUI.py:13
 msgid "&Email or phone number"
 msgstr "&Электронная почта или телефон"
 
+#: sessionmanager/wxUI.py:15
 msgid "&Password"
 msgstr "&Пароль"
 
+#: sessionmanager/wxUI.py:46
 msgid "Accounts list"
 msgstr "список учётных записей"
 
+#: sessionmanager/wxUI.py:48
 msgid "Account"
 msgstr "Учётная запись"
 
+#: sessionmanager/wxUI.py:52
 msgid "New account"
 msgstr "Новая учётная запись"
 
+#: sessionmanager/wxUI.py:53 sessionmanager/wxUI.py:74
 msgid "Remove account"
 msgstr "Удалить учётную запись"
 
+#: sessionmanager/wxUI.py:74
 msgid "Do you really want to delete this account?"
 msgstr "Вы действительно хотите удалить эту учётную запись?"
 
+#: update/wxUpdater.py:11
 #, python-brace-format
 msgid ""
-"There's a new {app_name} version available. Would you like to download it "
-"now?\n"
+"There's a new {app_name} version available. Would you like to download it now?\n"
 "\n"
 " {app_name} version: {app_version}\n"
 "\n"
@@ -1223,891 +1664,1162 @@ msgstr ""
 "Изменения: \n"
 "{changes}."
 
+#: update/wxUpdater.py:11
 #, python-format
 msgid "New version for %s"
 msgstr "Новая версия %s"
 
+#: update/wxUpdater.py:18
 msgid "Download in Progress"
 msgstr "Загрузка..."
 
+#: update/wxUpdater.py:18
 msgid "Downloading the new version..."
 msgstr "Загрузка новой версии..."
 
+#: update/wxUpdater.py:31
 #, python-brace-format
 msgid "Updating... {total_transferred} of {total_size}"
 msgstr "Обновление... {total_transferred} of {total_size}"
 
+#: update/wxUpdater.py:34
 msgid ""
-"The update has been downloaded and installed successfully. Press OK to "
-"continue."
+"The update has been downloaded and installed successfully. Press OK to continue."
 msgstr ""
-"Обновление было успешно загружено и установлено. Нажмите \"OK\" для "
-"продолжения."
+"Обновление было успешно загружено и установлено. Нажмите \"OK\" для продолжения."
 
+#: update/wxUpdater.py:34
 msgid "Done!"
 msgstr "Готово!"
 
+#: views/dialogs/attach.py:8
 msgid "Add an attachment"
 msgstr "Добавить вложение"
 
+#: views/dialogs/attach.py:11 views/dialogs/postDisplay.py:53 wxUI/tabs/home.py:236
 msgid "Attachments"
 msgstr "Вложения"
 
+#: views/dialogs/attach.py:12 views/dialogs/postDisplay.py:54 wxUI/tabs/home.py:169
+#: wxUI/tabs/home.py:237
 msgid "Type"
 msgstr "Тип"
 
+#: views/dialogs/attach.py:12 views/dialogs/postCreation.py:129
+#: views/dialogs/postDisplay.py:54 wxUI/dialogs/search.py:20 wxUI/tabs/home.py:67
+#: wxUI/tabs/home.py:158 wxUI/tabs/home.py:169 wxUI/tabs/home.py:237
+#: wxUI/tabs/home.py:286
 msgid "Title"
 msgstr "Название"
 
+#: views/dialogs/attach.py:17
 msgid "Add attachments"
 msgstr "Добавить вложения"
 
+#: views/dialogs/attach.py:18
 msgid "&Photo"
 msgstr "&Фотография"
 
+#: views/dialogs/attach.py:23
 msgid "Remove attachment"
 msgstr "Удалить вложение"
 
+#: views/dialogs/attach.py:42
 msgid "Select the picture to be uploaded"
 msgstr "Выберите фотографию, которую хотите загрузить."
 
+#: views/dialogs/attach.py:42
 msgid "Image files (*.png, *.jpg, *.gif)|*.png; *.jpg; *.gif"
 msgstr "Тип файлов (*.png, *.jpg, *.gif)|*.png; *.jpg; *.gif"
 
+#: views/dialogs/attach.py:49
 msgid "please provide a description"
 msgstr "Пожалуйста добавьте описание."
 
+#: views/dialogs/attach.py:49 wxUI/tabs/home.py:137 wxUI/tabs/home.py:286
 msgid "Description"
 msgstr "Описание"
 
+#: views/dialogs/attach.py:56 wxUI/tabs/home.py:85
 msgid "Select the audio file to be uploaded"
 msgstr "Выберите аудиозапись для загрузки."
 
+#: views/dialogs/attach.py:56 wxUI/tabs/home.py:85
 msgid "Audio files (*.mp3)|*.mp3"
 msgstr "Аудио Файлы(*.mp3)|*.mp3"
 
+#: views/dialogs/attach.py:62
 msgid ""
-"Select the file to be uploaded. All extensions are allowed except .mp3 and ."
-"exe."
+"Select the file to be uploaded. All extensions are allowed except .mp3 and .exe."
 msgstr ""
-"Выберите файл для загрузки. Все расширения разрешены за исключением. mp3 и. "
-"exe."
+"Выберите файл для загрузки. Все расширения разрешены за исключением. mp3 и. exe."
 
+#: views/dialogs/attach.py:62 wxUI/tabs/home.py:179
 msgid "All files (*.*)|*.*"
 msgstr "Все файлы (*. *) | *. *"
 
+#: views/dialogs/attach.py:68
 msgid ""
-"The file you are trying to upload contains an extension that is not allowed "
-"by VK."
+"The file you are trying to upload contains an extension that is not allowed by "
+"VK."
 msgstr ""
 "Файл, который Вы пытаетесь загрузить, имеет расширение, которое не "
 "поддерживается \"ВКонтакте\"."
 
+#: views/dialogs/audioRecorder.py:8
 msgid "Record voice message"
 msgstr "Запись голосового сообщения."
 
+#: views/dialogs/audioRecorder.py:15
 msgid "&Discard"
 msgstr "& Отменить"
 
+#: views/dialogs/audioRecorder.py:17
 msgid "&Add"
 msgstr "&добавить"
 
+#: views/dialogs/audioRecorder.py:18
 msgid "&Cancel"
 msgstr "&Отмена"
 
+#: views/dialogs/blacklist.py:8
 msgid "blacklist"
 msgstr "Чёрный список"
 
+#: views/dialogs/blacklist.py:11
 msgid "blocked users"
 msgstr "Заблокированные пользователи"
 
+#: views/dialogs/blacklist.py:12 views/dialogs/postDisplay.py:43
+#: views/dialogs/postDisplay.py:213 wxUI/dialogs/timeline.py:13
+#: wxUI/tabs/home.py:11 wxUI/tabs/home.py:137 wxUI/tabs/home.py:158
+#: wxUI/tabs/home.py:169
 msgid "User"
 msgstr "Пользователь"
 
+#: views/dialogs/blacklist.py:15
 msgid "Unblock"
 msgstr "Разблокировать"
 
+#: views/dialogs/configuration.py:10
 msgid "Language"
 msgstr "Язык"
 
+#: views/dialogs/configuration.py:15
 msgid "Load images in posts"
 msgstr "Загрузка изображений в публикациях."
 
+#: views/dialogs/configuration.py:17
 msgid "Use proxy"
 msgstr "Использовать прокси"
 
+#: views/dialogs/configuration.py:19
 msgid "Update channel"
 msgstr "Канал обновления"
 
+#: views/dialogs/configuration.py:32
 msgid "Number of items to load for newsfeed and wall buffers (maximun 100)"
 msgstr ""
-"Количество элементов допустимое для загрузки в новостном буфере (максимум "
-"100).."
+"Количество элементов допустимое для загрузки в новостном буфере (максимум 100).."
 
+#: views/dialogs/configuration.py:39
 msgid "Number of items to load in video buffers (maximun 200)"
 msgstr "Количество элементов для загрузки в видеобуферы (максимум 200).."
 
+#: views/dialogs/configuration.py:46
 msgid "Number of items to load in conversation buffers (maximun 200)"
 msgstr "Количество элементов для загрузки в буферах разговора (максимум 200)"
 
+#: views/dialogs/configuration.py:59
 msgid "Show notifications when users are online"
 msgstr "Показывать уведомления, когда пользователи в сети."
 
+#: views/dialogs/configuration.py:61
 msgid "Show notifications when users are offline"
 msgstr "Показывать уведомления, когда пользователи не в сети."
 
+#: views/dialogs/configuration.py:63
 msgid "Notification type"
 msgstr "Тип уведомлений"
 
+#: views/dialogs/configuration.py:75
 msgid "Create buffers for audio albums at startup"
 msgstr "Создание буферов для аудиоальбомов при запуске."
 
+#: views/dialogs/configuration.py:77
 msgid "Create buffers for video albums at startup"
 msgstr "Создание буферов для видео альбомов при запуске."
 
+#: views/dialogs/configuration.py:79
 msgid "Create buffers for communities and public pages at startup"
 msgstr "Создание буферов для групп и публичных страниц при запуске."
 
+#: views/dialogs/configuration.py:87
 msgid "Output device"
 msgstr "Устройство вывода"
 
+#: views/dialogs/configuration.py:94
 msgid "Input device"
 msgstr "Устройства ввода"
 
+#: views/dialogs/configuration.py:135
 msgid "General"
 msgstr "Общие"
 
+#: views/dialogs/configuration.py:140
 msgid "Buffer settings"
 msgstr "Настройки буфера"
 
+#: views/dialogs/configuration.py:144
 msgid "Chat settings"
 msgstr "Настройки чата"
 
+#: views/dialogs/configuration.py:148
 msgid "Optional buffers"
 msgstr "Дополнительные буферы"
 
+#: views/dialogs/configuration.py:152
 msgid "Sound settings"
 msgstr "Настройки звука"
 
+#: views/dialogs/configuration.py:157
 msgid "Save"
 msgstr "Сохранить"
 
+#: views/dialogs/configuration.py:159 views/dialogs/postCreation.py:69
+#: views/dialogs/postCreation.py:103 views/dialogs/postCreation.py:154
+#: views/dialogs/postDisplay.py:103
 msgid "Close"
 msgstr "Закрыть"
 
+#: views/dialogs/configuration.py:177
 msgid ""
-"The alpha channel contains bleeding edge changes introduced to Socializer. A "
-"new alpha update is generated every time there are new changes in the "
-"project. Take into account that updates are generated automatically and may "
-"fail at any time due to errors in the build process. Use alpha channels when "
-"you are sure you want to try the latest changes and contribute with reports "
-"to fix bugs. Never use alpha channel updates for everyday use. Do you want "
-"to continue?"
+"The alpha channel contains bleeding edge changes introduced to Socializer. A new "
+"alpha update is generated every time there are new changes in the project. Take "
+"into account that updates are generated automatically and may fail at any time "
+"due to errors in the build process. Use alpha channels when you are sure you "
+"want to try the latest changes and contribute with reports to fix bugs. Never "
+"use alpha channel updates for everyday use. Do you want to continue?"
 msgstr ""
 "Альфа-канал содержит новейшие изменения, внесённые в Socializer. Новое альфа-"
-"обновление генерируется каждый раз, когда появляются новые изменения в "
-"проекте. Примите во внимание, что обновления генерируются автоматически и "
-"могут произойти сбой в любое время из-за ошибок в процессе сборки. "
-"Используйте альфа-каналы, когда вы уверены, что хотите попробовать последние "
-"изменения и предоставить отчеты для исправления ошибок. Никогда не "
-"используйте обновления альфа-канала для повседневного использования. Вы "
-"хотите продолжить?"
+"обновление генерируется каждый раз, когда появляются новые изменения в проекте. "
+"Примите во внимание, что обновления генерируются автоматически и могут произойти "
+"сбой в любое время из-за ошибок в процессе сборки. Используйте альфа-каналы, "
+"когда вы уверены, что хотите попробовать последние изменения и предоставить "
+"отчеты для исправления ошибок. Никогда не используйте обновления альфа-канала "
+"для повседневного использования. Вы хотите продолжить?"
 
+#: views/dialogs/configuration.py:177 views/dialogs/configuration.py:180
+#: wxUI/commonMessages.py:13 wxUI/commonMessages.py:39 wxUI/commonMessages.py:45
+#: wxUI/commonMessages.py:48 wxUI/commonMessages.py:54 wxUI/commonMessages.py:57
+#: wxUI/commonMessages.py:63 wxUI/commonMessages.py:69 wxUI/commonMessages.py:72
+#: wxUI/commonMessages.py:75
 msgid "Attention"
 msgstr "Внимание"
 
+#: views/dialogs/configuration.py:180
 msgid ""
-"The weekly channel generates an update automatically every week by building "
-"the source code present in the project. This version is used to test "
-"features added to the next stable version. Do you want to continue?"
+"The weekly channel generates an update automatically every week by building the "
+"source code present in the project. This version is used to test features added "
+"to the next stable version. Do you want to continue?"
 msgstr ""
-"Еженедельный канал генерирует обновление автоматически каждую неделю, "
-"создавая исходный код, представленный в проекте. Эта версия используется для "
-"тестирования функций, добавленных в следующую стабильную версию. Вы хотите "
-"продолжить?"
+"Еженедельный канал генерирует обновление автоматически каждую неделю, создавая "
+"исходный код, представленный в проекте. Эта версия используется для тестирования "
+"функций, добавленных в следующую стабильную версию. Вы хотите продолжить?"
 
+#: views/dialogs/postCreation.py:20
 msgid "&Privacy"
 msgstr "&Приватность"
 
+#: views/dialogs/postCreation.py:63 views/dialogs/postCreation.py:148
 msgid "Attach"
 msgstr "Вложение"
 
+#: views/dialogs/postCreation.py:64 views/dialogs/postCreation.py:99
+#: views/dialogs/postCreation.py:149
 msgid "Tag a friend"
 msgstr "Отметить друга"
 
+#: views/dialogs/postCreation.py:65 views/dialogs/postCreation.py:150
 msgid "Spelling &correction"
 msgstr "Исправление ошибок"
 
+#: views/dialogs/postCreation.py:66 views/dialogs/postCreation.py:151
 msgid "&Translate message"
 msgstr "Перевести сообщение"
 
+#: views/dialogs/postCreation.py:67 views/dialogs/postCreation.py:101
+#: views/dialogs/postCreation.py:152 wxUI/tabs/home.py:212
 msgid "Send"
 msgstr "Отправить"
 
+#: views/dialogs/postCreation.py:98
 msgid "Spelling correction"
 msgstr "Исправление ошибок"
 
+#: views/dialogs/postCreation.py:131 views/dialogs/postDisplay.py:16
 msgid "Message"
 msgstr "Сообщение"
 
+#: views/dialogs/postDisplay.py:33
 msgid "Views"
 msgstr "Просмотры"
 
+#: views/dialogs/postDisplay.py:42
 msgid "Comments"
 msgstr "Комментарии"
 
+#: views/dialogs/postDisplay.py:43 views/dialogs/postDisplay.py:213
 msgid "Comment"
 msgstr "Комментарий"
 
+#: views/dialogs/postDisplay.py:43 views/dialogs/postDisplay.py:213
+#: wxUI/tabs/home.py:11 wxUI/tabs/home.py:123 wxUI/tabs/home.py:169
 msgid "Date"
 msgstr "Дата"
 
+#: views/dialogs/postDisplay.py:43 views/dialogs/postDisplay.py:213
 msgid "Likes"
 msgstr "Отметки нравится"
 
+#: views/dialogs/postDisplay.py:44
 msgid "Reply to comment"
 msgstr "Ответить на комментарий"
 
+#: views/dialogs/postDisplay.py:63
 msgid "Previous photo"
 msgstr "Предыдущая фотография"
 
+#: views/dialogs/postDisplay.py:64
 msgid "View in full screen"
 msgstr "Просмотр во весь экран"
 
+#: views/dialogs/postDisplay.py:65
 msgid "Next photo"
 msgstr "Следующее фото"
 
+#: views/dialogs/postDisplay.py:82 views/dialogs/postDisplay.py:86
 msgid "Loading data..."
 msgstr "Загрузка данных..."
 
+#: views/dialogs/postDisplay.py:92 views/dialogs/postDisplay.py:179
+#: views/dialogs/postDisplay.py:205 wxUI/menus.py:15
 msgid "Add comment"
 msgstr "Комментировать..."
 
+#: views/dialogs/postDisplay.py:100 wxUI/tabs/home.py:19 wxUI/tabs/home.py:58
+#: wxUI/tabs/home.py:75 wxUI/tabs/home.py:102 wxUI/tabs/home.py:185
+#: wxUI/tabs/home.py:277 wxUI/tabs/home.py:294 wxUI/tabs/home.py:303
 msgid "Actions"
 msgstr "Активность"
 
+#: views/dialogs/postDisplay.py:178 views/dialogs/postDisplay.py:215
 msgid "Reply"
 msgstr "Ответить"
 
+#: views/dialogs/postDisplay.py:214
 msgid "Load previous comments"
 msgstr "Загрузить предыдущие комментарии"
 
+#: views/dialogs/postDisplay.py:227
 msgid "Audio &files"
 msgstr "Аудио &записи"
 
+#: views/dialogs/postDisplay.py:233
 msgid "&Title"
 msgstr "&Название"
 
+#: views/dialogs/postDisplay.py:239
 msgid "&Artist"
 msgstr "&Исполнитель"
 
+#: views/dialogs/postDisplay.py:245
 msgid "&Duration"
 msgstr "&Продолжительность"
 
+#: views/dialogs/postDisplay.py:251
 msgid "&Lyric"
 msgstr "&Описание"
 
+#: views/dialogs/postDisplay.py:258
 msgid "&Download"
 msgstr "&Скачать"
 
+#: views/dialogs/postDisplay.py:259
 msgid "&Add to your library"
 msgstr "&Добавить в библиотеку."
 
+#: views/dialogs/postDisplay.py:260
 msgid "&Remove from your library"
 msgstr "&Удалить из библиотеки."
 
+#: views/dialogs/postDisplay.py:275 wxUI/tabs/home.py:92
 msgid "Save this file"
 msgstr "Сохранить файл"
 
+#: views/dialogs/postDisplay.py:275 wxUI/tabs/home.py:92
 msgid "Audio Files(*.mp3)|*.mp3"
 msgstr "Аудио записи(*.mp3)|*.mp3"
 
+#: views/dialogs/postDisplay.py:291
 msgid "Friend"
 msgstr "Друг"
 
+#: views/dialogs/postDisplay.py:306
 msgid "Question"
 msgstr "Вопрос"
 
+#: views/dialogs/postDisplay.py:315
 msgid "Options"
 msgstr "Опции"
 
+#: views/dialogs/postDisplay.py:335
 msgid "Poll results"
 msgstr "Результаты опроса"
 
+#: views/dialogs/postDisplay.py:339
 #, python-brace-format
 msgid "{votes} ({rate}%)"
 msgstr "{votes} ({rate}%)"
 
+#: views/dialogs/postDisplay.py:346
 msgid "Vote"
 msgstr "Проголосовать"
 
+#: views/dialogs/profiles.py:48 wxUI/tabs/home.py:137 wxUI/tabs/home.py:151
+#: wxUI/tabs/home.py:270
 msgid "Name"
 msgstr "Имя"
 
+#: views/dialogs/profiles.py:56
 msgid "Status"
 msgstr "Статус"
 
+#: views/dialogs/profiles.py:65 wxUI/tabs/home.py:270
 msgid "Last seen"
 msgstr "Последний визит"
 
+#: views/dialogs/profiles.py:73
 msgid "Mobile phone"
 msgstr "Мобильный телефон"
 
+#: views/dialogs/profiles.py:81
 msgid "Home phone"
 msgstr "Домашний телефон"
 
+#: views/dialogs/profiles.py:89
 msgid "Birthdate"
 msgstr "Дата рождения:"
 
+#: views/dialogs/profiles.py:101
 msgid "Current city"
 msgstr "Город проживания:"
 
+#: views/dialogs/profiles.py:110
 msgid "Home Town"
 msgstr "Родной город:"
 
+#: views/dialogs/profiles.py:119
 msgid "Website"
 msgstr "Веб-сайт:"
 
+#: views/dialogs/profiles.py:123
 msgid "Visit website"
 msgstr "Посетить веб-сайт"
 
+#: views/dialogs/profiles.py:131
 msgid "Occupation"
 msgstr "Деятельность"
 
+#: views/dialogs/profiles.py:151
 msgid "Basic information"
 msgstr "Основная информация"
 
+#: views/dialogs/urlList.py:7 wxUI/dialogs/urlList.py:7
 msgid "Select URL"
 msgstr "Выберите URL"
 
+#: wxUI/commonMessages.py:7
 msgid "You must provide Both user and password."
 msgstr "Вы должны предоставить имя пользователя и пароль."
 
+#: wxUI/commonMessages.py:7
 msgid "Information needed"
 msgstr "Необходимая информация"
 
+#: wxUI/commonMessages.py:10
 #, python-brace-format
 msgid "Your {0} version is up to date"
 msgstr "У вас установлена самая последняя версия {0}."
 
+#: wxUI/commonMessages.py:10
 msgid "Update"
 msgstr "Обновить"
 
+#: wxUI/commonMessages.py:13
 msgid "Do you really want to dismiss  this buffer?"
 msgstr "Вы действительно хотите удалить этот буфер?"
 
+#: wxUI/commonMessages.py:16
 msgid "This user does not exist"
 msgstr "Пользователь не найден."
 
+#: wxUI/commonMessages.py:22
 msgid "Restricted access"
 msgstr "Доступ ограничен"
 
+#: wxUI/commonMessages.py:23
 #, python-brace-format
 msgid "Access to user's audio is denied by the owner. Error code {0}"
 msgstr "Доступ к аудиозаписям данного пользователя закрыт. Код ошибки {0}."
 
+#: wxUI/commonMessages.py:27
 msgid ""
 "authorisation failed. Your configuration will be deleted. If you recently "
-"changed your password in VK, you need to reauthorize Socializer. The "
-"application will be restarted and prompt you again for your user and "
-"password. Press OK to continue."
+"changed your password in VK, you need to reauthorize Socializer. The application "
+"will be restarted and prompt you again for your user and password. Press OK to "
+"continue."
 msgstr ""
-"Авторизация не удалась. Ваша конфигурация будет удалена. Если Вы недавно "
-"сменили пароль \"ВКонтакте\", Вам необходимо заново авторизоваться. "
-"Приложение будет перезапущено и попросит Вас заново ввести имя пользователя "
-"и пароль. Нажмите \"OK\" для продолжения."
+"Авторизация не удалась. Ваша конфигурация будет удалена. Если Вы недавно сменили "
+"пароль \"ВКонтакте\", Вам необходимо заново авторизоваться. Приложение будет "
+"перезапущено и попросит Вас заново ввести имя пользователя и пароль. Нажмите \"OK"
+"\" для продолжения."
 
+#: wxUI/commonMessages.py:30
 msgid ""
-"Socializer could not connect to VK due to a connection issue. Be sure you "
-"have a working internet connection. The application will be closed when you "
-"press the OK button. If your internet connection is working correctly, "
-"please try to open socializer in a few minutes. If this problem persists, "
-"contact the developers to receive further assistance."
+"Socializer could not connect to VK due to a connection issue. Be sure you have a "
+"working internet connection. The application will be closed when you press the "
+"OK button. If your internet connection is working correctly, please try to open "
+"socializer in a few minutes. If this problem persists, contact the developers to "
+"receive further assistance."
 msgstr ""
-"Не удалось подключиться к \"ВКонтакте\" из-за проблем с соединением. "
-"Убедитесь, что у Вас есть рабочее подключение к интернету. Приложение будет "
-"закрыто после нажатия кнопки \"OK\". Если Ваше подключение к интернету "
-"работает правильно, пожалуйста, попробуйте открыть Socializer через "
-"несколько минут. Если проблема повторится, обратитесь к разработчику, чтобы "
-"получить дополнительную помощь."
+"Не удалось подключиться к \"ВКонтакте\" из-за проблем с соединением. Убедитесь, "
+"что у Вас есть рабочее подключение к интернету. Приложение будет закрыто после "
+"нажатия кнопки \"OK\". Если Ваше подключение к интернету работает правильно, "
+"пожалуйста, попробуйте открыть Socializer через несколько минут. Если проблема "
+"повторится, обратитесь к разработчику, чтобы получить дополнительную помощь."
 
+#: wxUI/commonMessages.py:30
 msgid "Connection Error"
 msgstr "Ошибка подключения"
 
+#: wxUI/commonMessages.py:33
 msgid "You do not have audio albums."
 msgstr "У Вас нет аудиоальбомов."
 
+#: wxUI/commonMessages.py:36
 msgid "You do not have video albums."
 msgstr "У Вас нет видеоальбомов."
 
+#: wxUI/commonMessages.py:39
 msgid ""
 "Do you really want to delete   this Album? this will be deleted from VK too."
 msgstr ""
-"Вы действительно хотите удалить этот альбом? Он также будет удалён из vk."
+"Вы действительно хотите удалить этот альбом? Он также будет удалён из \"ВКонтакте"
+"\".."
 
+#: wxUI/commonMessages.py:42
 msgid "Your status message has been successfully updated."
 msgstr "Ваше статус-сообщение было успешно обновлено."
 
+#: wxUI/commonMessages.py:42 wxUI/commonMessages.py:51
 msgid "Success"
 msgstr "Успешно"
 
+#: wxUI/commonMessages.py:45
 msgid "Do you really want to delete this post?"
 msgstr "Вы действительно хотите удалить эту запись?"
 
+#: wxUI/commonMessages.py:48
 msgid ""
 "If you like socializer, you can join or community from where you can ask for "
 "help, give us your feedback and help other users of the application. New "
 "releases are posted in the group too. Would you like to join the Socializer "
 "community?"
 msgstr ""
-"Если Вам нравится Socializer, Вы можете вступить в нашу группу \"ВКонтакте"
-"\", где можете оставить свой отзыв, попросить о технической помощи, а также, "
-"помочь другим пользователям приложения. В группе регулярно публикуются новые "
-"версии. Хотите вступить в группу?"
+"Если Вам нравится Socializer, Вы можете вступить в нашу группу \"ВКонтакте\", "
+"где можете оставить свой отзыв, попросить о технической помощи, а также, помочь "
+"другим пользователям приложения. В группе регулярно публикуются новые версии. "
+"Хотите вступить в группу?"
 
+#: wxUI/commonMessages.py:51
 msgid "You have joined the Socializer community."
 msgstr "Вы вступили в группу Socializer."
 
+#: wxUI/commonMessages.py:54
 msgid ""
-"If you live in a country where VK is blocked, you can use a proxy to bypass "
-"such restrictions. Socializer includes a working proxy to ensure all users "
-"can connect to VK. Do you want to use Socializer through the proxy?"
+"If you live in a country where VK is blocked, you can use a proxy to bypass such "
+"restrictions. Socializer includes a working proxy to ensure all users can "
+"connect to VK. Do you want to use Socializer through the proxy?"
 msgstr ""
 "Если Вы находитесь в стране, где \"ВКонтакте\" заблокирован, Вы можете "
-"использовать прокси для обхода блокировки. Socializer включает в себя "
-"рабочий прокси, чтобы все пользователи, независимо от региона, могли "
-"использовать \"ВКонтакте\". Хотите использовать Socializer через прокси?"
+"использовать прокси для обхода блокировки. Socializer включает в себя рабочий "
+"прокси, чтобы все пользователи, независимо от региона, могли использовать "
+"\"ВКонтакте\". Хотите использовать Socializer через прокси?"
 
+#: wxUI/commonMessages.py:57
 #, python-brace-format
 msgid "Are you sure you want to remove {user1_nom} from your friends?"
 msgstr "Вы уверены, что хотите удалить {user1_nom} из друзей?"
 
+#: wxUI/commonMessages.py:60
 msgid "This post has been removed."
 msgstr "Эта запись была удалена."
 
+#: wxUI/commonMessages.py:63
 msgid ""
-"In order to apply the changes you requested, you must restart the program. "
-"Do you want to restart Socializer now?"
+"In order to apply the changes you requested, you must restart the program. Do "
+"you want to restart Socializer now?"
 msgstr ""
 "Чтобы изменения вступили в силу, Вы должны перезапустить программу. Хотите "
 "перезапустить Socializer прямо сейчас?"
 
+#: wxUI/commonMessages.py:66
 msgid "There are 0 items for this community."
 msgstr "0 элементов для этой группы."
 
+#: wxUI/commonMessages.py:69
 msgid "do you really want to delete all messages of this conversation in VK?"
 msgstr ""
 "Вы действительно хотите удалить все сообщения из этого диалога \"ВКонтакте\"?"
 
+#: wxUI/commonMessages.py:72
 #, python-brace-format
 msgid "Are you really sure you want to block {user1_nom} from your VK account?"
 msgstr ""
-"Вы действительно уверены, что хотите заблокировать {user1_nom} во \"ВКонтакте"
-"\"?"
+"Вы действительно уверены, что хотите заблокировать {user1_nom} во \"ВКонтакте\"?"
 
+#: wxUI/commonMessages.py:75
 msgid "Are you sure you want to unblock this user?"
-msgstr ""
-"Вы действительно уверены, что хотите разблокировать этого пользователя?"
+msgstr "Вы действительно уверены, что хотите разблокировать этого пользователя?"
 
+#: wxUI/commonMessages.py:78
 msgid ""
-"Unfortunately, we could not send your last post or message to VK. Would you "
-"like to try again?"
+"Unfortunately, we could not send your last post or message to VK. Would you like "
+"to try again?"
 msgstr ""
 "К сожалению, не удалось опубликовать Вашу последнюю запись во \"ВКонтакте\". "
 "Хотите попробовать ещё раз?"
 
+#: wxUI/commonMessages.py:78
 msgid "Post failed"
 msgstr "Запись не опубликована"
 
+#: wxUI/commonMessages.py:81
+msgid "Do you really want to close Socializer?"
+msgstr "Вы действительно хотите закрыть Socializer?"
+
+#: wxUI/commonMessages.py:81
+msgid "Exit"
+msgstr "Выход"
+
+#: wxUI/commonMessages.py:85
+msgid "VK error"
+msgstr "Ошибка \"ВКонтакте\""
+
+#: wxUI/commonMessages.py:87
 msgid ""
-"In order to keep receiving updates, you are required to download the alpha "
-"version of socializer from scratch from our website. Would you like to "
-"download it now? If you press 'yes', you will be redirected automatically to "
-"the direct download for the new alpha version, and socializer will be closed "
-"automatically. If you do not wish to download the new alpha, take into "
-"account that the current version will no longer receive updates"
+"You are not allowed to perform this action. Please be sure you are not "
+"attempting to post or send a message to a blocked or banned user. Error code 7."
 msgstr ""
-"Для того, чтобы продолжать получать обновления, Вам необходимо скачать альфа-"
-"версию с нуля с нашего веб-сайта. Хотите загрузить сейчас? Если нажать \"да"
-"\", Вы будете автоматически перенаправлены на прямую загрузку новой альфа-"
-"версии и Socializer будет закрыт. Если Вы не хотите загружать новую альфа-"
-"версию, примите во внимания, что текущая версия больше не будет получать "
-"обновления."
+"Вы не можете выполнить это действие. Пожалуйста, убедитесь, что Вы не пытаетесь "
+"отправить сообщение заблокированному пользователю. Код ошибки 7"
 
-msgid ""
-"Please remember that from November 27, 2019, you will have to download the "
-"alpha version from scratch from the Socializer website. The alpha version "
-"you are currently running will no longer receive updates. The new alpha "
-"version, which must be downloaded  from the project's page, should not be "
-"considered suspicious by most antivirus vendors and all automatic updates "
-"will be sent to the new generation of socializer alpha. Thank you for your "
-"patience."
-msgstr ""
-"Пожалуйста, помните, что начиная с 27-го ноября 2019-го года Вам будет "
-"необходимо скачать с нуля альфа-версию Socializer с веб-сайта приложения. "
-"Текущая альфа-версия больше не будет получать обновления. Новая альфа-"
-"версия, которая будет загружена с веб-сайта Socializer будет считаться "
-"благонадёжной для большинства антивирусов и все необходимые обновления будут "
-"отправлены на новое поколение Socializer альфа. Большое спасибо за терпение "
-"и понимание!"
+#: wxUI/commonMessages.py:89
+msgid "You cannot send messages to users in your blacklist."
+msgstr "Вы не можете отправлять сообщения пользователям в Вашем чёрном списке."
 
-msgid "Important notice"
-msgstr "важное уведомление"
-
+#: wxUI/mainWindow.py:12 wxUI/mainWindow.py:16
 msgid "Audio album"
 msgstr "Аудиоальбом"
 
+#: wxUI/mainWindow.py:13 wxUI/mainWindow.py:17
 msgid "Video album"
 msgstr "Видеоальбом"
 
+#: wxUI/mainWindow.py:14
 msgid "Create"
 msgstr "Создать"
 
+#: wxUI/mainWindow.py:18 wxUI/menus.py:19
 msgid "Delete"
 msgstr "Удалить"
 
+#: wxUI/mainWindow.py:19
 msgid "Blacklist"
 msgstr "Чёрный список"
 
+#: wxUI/mainWindow.py:24 wxUI/menus.py:45
 msgid "View profile"
 msgstr "Посмотреть профиль"
 
-#. self.edit_profile = profile.Append(wx.NewId(), _("Edit profile"))
+#: wxUI/mainWindow.py:26
 msgid "Open in browser"
 msgstr "Открыть в браузере..."
 
+#: wxUI/mainWindow.py:27
 msgid "Profile"
 msgstr "Профиль"
 
+#: wxUI/mainWindow.py:28
 msgid "Set status message"
 msgstr "Установить статус-сообщение"
 
+#: wxUI/mainWindow.py:33
 msgid "&New timeline"
 msgstr "&Новая пользовательская лента"
 
+#: wxUI/mainWindow.py:34
 msgid "Search"
 msgstr "Поиск"
 
+#: wxUI/mainWindow.py:35
 msgid "Update current buffer"
-msgstr "Обновить текущий буфер."
+msgstr "Обновить текущий буфер"
 
+#: wxUI/mainWindow.py:36
 msgid "Load previous items"
 msgstr "Загрузка предыдущих элементов..."
 
+#: wxUI/mainWindow.py:37
 msgid "&Remove buffer"
 msgstr "Удалить буфер"
 
+#: wxUI/mainWindow.py:38
 msgid "Application"
 msgstr "Приложение"
 
+#: wxUI/mainWindow.py:39
 msgid "Me"
-msgstr "Мой профиль"
+msgstr "Обо мнеь"
 
+#: wxUI/mainWindow.py:40
 msgid "Buffer"
 msgstr "Буфер"
 
+#: wxUI/mainWindow.py:42
 msgid "Play/Pause"
 msgstr "Воспроизвести/пауза"
 
+#: wxUI/mainWindow.py:43
 msgid "Play all"
 msgstr "Воспроизвести все"
 
+#: wxUI/mainWindow.py:44
 msgid "Previous"
-msgstr "Предыдущая."
+msgstr "Предыдущая"
 
+#: wxUI/mainWindow.py:45
 msgid "Next"
-msgstr "Следующая."
+msgstr "Следующая"
 
+#: wxUI/mainWindow.py:46
 msgid "Shuffle"
-msgstr "Перемешать."
+msgstr "Перемешать"
 
+#: wxUI/mainWindow.py:47
 msgid "Seek backwards"
-msgstr "Перемотать назад."
+msgstr "Перемотать назад"
 
+#: wxUI/mainWindow.py:48
 msgid "Seek forwards"
-msgstr "Перемотать вперёд."
+msgstr "Перемотать вперёд"
 
+#: wxUI/mainWindow.py:49
 msgid "Volume up"
-msgstr "Громче."
+msgstr "Громче"
 
+#: wxUI/mainWindow.py:50
 msgid "Volume down"
-msgstr "Тише."
+msgstr "Тише"
 
+#: wxUI/mainWindow.py:51
 msgid "Mute"
 msgstr "Выключить звук"
 
+#: wxUI/mainWindow.py:53
 #, python-brace-format
 msgid "About {0}"
 msgstr "О {0}"
 
+#: wxUI/mainWindow.py:54
 msgid "Manual"
 msgstr "Инструкция"
 
+#: wxUI/mainWindow.py:55
 msgid "Check for updates"
 msgstr "Проверить на наличие обновлений."
 
+#: wxUI/mainWindow.py:56
 msgid "Chan&gelog"
 msgstr "Список изменений"
 
+#: wxUI/mainWindow.py:57
 msgid "Open logs directory"
-msgstr "Открыть каталог журналов."
+msgstr "Открыть каталог журналов"
 
+#: wxUI/mainWindow.py:58
 msgid "Open config directory"
-msgstr "Открыть каталог конфигураций."
+msgstr "Открыть каталог конфигураций"
 
+#: wxUI/dialogs/player.py:9 wxUI/mainWindow.py:61
 msgid "Audio player"
 msgstr "Аудио плеер"
 
+#: wxUI/mainWindow.py:62
 msgid "Help"
 msgstr "Помощь"
 
-#. Translators: Keystroke used to play/pause the current item in the playback queue. Use the latin alphabet, but you can match a different key here. For example if you want to assign this to the key "П", use G.
+#: wxUI/mainWindow.py:71 wxUI/mainWindow.py:72
 msgid "P"
 msgstr "P"
 
+#: wxUI/mainWindow.py:99
 msgid ""
-"There is a connection error. Check your internet connection and try again "
-"later."
+"There is a connection error. Check your internet connection and try again later."
 msgstr ""
 "Ошибка соединения. Проверьте ваше подключение к интернету и попробуйте позже."
 
+#: wxUI/mainWindow.py:99
 msgid "Connection error"
 msgstr "Ошибка подключения"
 
+#: wxUI/mainWindow.py:142
 #, python-brace-format
 msgid "{version} (stable)"
 msgstr "{version} стабильная"
 
+#: wxUI/mainWindow.py:144
 #, python-brace-format
 msgid "{version} (alpha)"
 msgstr "{version} альфа"
 
+#: wxUI/menus.py:11 wxUI/menus.py:82
 msgid "Open"
 msgstr "Открыть"
 
+#: wxUI/menus.py:12 wxUI/menus.py:83
 msgid "Like"
 msgstr "Нравится"
 
+#: wxUI/menus.py:13 wxUI/menus.py:84
 msgid "Dislike"
 msgstr "Не нравится"
 
+#: wxUI/menus.py:16 wxUI/menus.py:48 wxUI/menus.py:76
 msgid "Add to favorites"
-msgstr ""
+msgstr "Добавить в закладки"
 
+#: wxUI/menus.py:21
 msgid "Post to this profile"
 msgstr "Опубликовать на этой странице."
 
+#: wxUI/menus.py:23
 msgid "View user profile"
 msgstr "Посмотреть профиль пользователя."
 
+#: wxUI/menus.py:24 wxUI/menus.py:55 wxUI/menus.py:75 wxUI/menus.py:85
+#: wxUI/menus.py:103 wxUI/menus.py:109
 msgid "Open in vk.com"
 msgstr "Открыть во \"ВКонтакте\""
 
+#: wxUI/menus.py:30
 msgid "&Open"
 msgstr "&Открыть"
 
+#: wxUI/menus.py:32
 msgid "&Add to library"
 msgstr "&Добавить в библиотеку"
 
+#: wxUI/menus.py:33
 msgid "Move to album"
 msgstr "Переместить в альбом"
 
+#: wxUI/menus.py:34
+msgid "Download"
+msgstr "Загрузить"
+
+#: wxUI/menus.py:35
+msgid "Select all"
+msgstr "Выбрать всё"
+
+#: wxUI/menus.py:36
+msgid "Unselect all"
+msgstr "Отменить выбор"
+
+#: wxUI/menus.py:46
 msgid "Send a message"
 msgstr "Отправить сообщение"
 
+#: wxUI/menus.py:47
 msgid "Open timeline"
 msgstr "Открыть пользовательскую ленту"
 
+#: wxUI/menus.py:51
 msgid "View friends in common"
 msgstr "Посмотреть общих друзей"
 
+#: wxUI/menus.py:53
 msgid "Remove from friends"
 msgstr "Удалить из друзей"
 
+#: wxUI/menus.py:54 wxUI/menus.py:61 wxUI/menus.py:65
 msgid "Block"
 msgstr "Заблокировать"
 
+#: wxUI/menus.py:58
 msgid "Accept"
 msgstr "Принять"
 
+#: wxUI/menus.py:59
 msgid "Decline"
 msgstr "Отклонить"
 
+#: wxUI/menus.py:60
 msgid "Keep as follower"
 msgstr "Оставить в подписчиках"
 
+#: wxUI/menus.py:64
 msgid "Add to friends"
 msgstr "Добавить в друзья"
 
+#: wxUI/menus.py:70
 msgid "Download document"
 msgstr "Скачать документ"
 
+#: wxUI/menus.py:72
 msgid "Remove from my documents"
-msgstr "Удалить из документов"
+msgstr "Удалить из моих документов"
 
+#: wxUI/menus.py:74
 msgid "Add to my documents"
-msgstr "Добавить в документы"
+msgstr "Добавить в мои документы"
 
+#: wxUI/menus.py:90
 msgid "Upload from computer"
 msgstr "Загрузить с компьютера"
 
+#: wxUI/menus.py:91
 msgid "Add from VK"
 msgstr "Добавить из \"Вконтакте\""
 
+#: wxUI/menus.py:97
 msgid "Load posts"
 msgstr "Загрузка записей"
 
+#: wxUI/menus.py:98
 msgid "Load topics"
 msgstr "Загрузка тем"
 
+#: wxUI/menus.py:99
 msgid "Load audios"
 msgstr "Загрузка аудиозаписей"
 
+#: wxUI/menus.py:100
 msgid "Load videos"
 msgstr "Загрузка видеозаписей"
 
+#: wxUI/menus.py:101
 msgid "Load documents"
 msgstr "Загрузка документов"
 
+#: wxUI/menus.py:102
 msgid "Load"
 msgstr "Загрузка"
 
+#: wxUI/menus.py:108
 msgid "Delete conversation"
 msgstr "Удалить диалог"
 
+#: wxUI/dialogs/creation.py:9
 msgid "Create a new album"
 msgstr "Создать новый альбом"
 
+#: wxUI/dialogs/creation.py:12
 msgid "Album title"
 msgstr "Название альбома"
 
+#: wxUI/dialogs/creation.py:18 wxUI/dialogs/search.py:29 wxUI/dialogs/search.py:73
+#: wxUI/dialogs/selector.py:62 wxUI/dialogs/selector.py:116
+#: wxUI/dialogs/timeline.py:30
 msgid "&OK"
 msgstr "&OK"
 
+#: wxUI/dialogs/creation.py:20 wxUI/dialogs/search.py:31 wxUI/dialogs/search.py:75
+#: wxUI/dialogs/selector.py:64 wxUI/dialogs/selector.py:118
+#: wxUI/dialogs/timeline.py:32
 msgid "&Close"
 msgstr "&Закрыть"
 
+#: wxUI/dialogs/search.py:11
 msgid "audio Search"
 msgstr "Поиск Аудиозаписей"
 
+#: wxUI/dialogs/search.py:12 wxUI/dialogs/search.py:54
 msgid "&Search"
 msgstr "&Поиск"
 
+#: wxUI/dialogs/search.py:19
 msgid "Search by"
 msgstr "Поиск по"
 
+#: wxUI/dialogs/search.py:21 wxUI/tabs/home.py:67
 msgid "Artist"
 msgstr "Исполнитель"
 
+#: wxUI/dialogs/search.py:25
 msgid "Sort by"
 msgstr "Сортировать по:"
 
+#: wxUI/dialogs/search.py:26 wxUI/dialogs/search.py:62
 msgid "Date added"
 msgstr "Дата добавления"
 
+#: wxUI/dialogs/search.py:26 wxUI/dialogs/search.py:62 wxUI/tabs/home.py:67
+#: wxUI/tabs/home.py:286
 msgid "Duration"
 msgstr "Продолжительность"
 
+#: wxUI/dialogs/search.py:26 wxUI/dialogs/search.py:62
 msgid "Popularity"
 msgstr "Популярные"
 
+#: wxUI/dialogs/search.py:53
 msgid "video Search"
 msgstr "Поиск Видеозаписей"
 
+#: wxUI/dialogs/search.py:61
 msgid "&Sort order by: "
 msgstr "&Сортировать по: "
 
+#: wxUI/dialogs/search.py:67
 msgid "Search only for videos in &High definition"
-msgstr "Искать видео только в высоком качестве."
+msgstr "Искать видео только в высоком качестве"
 
+#: wxUI/dialogs/search.py:70
 msgid "S&afe search"
 msgstr "Поиск"
 
+#: wxUI/dialogs/selector.py:38
 msgid "Tag friends"
 msgstr "Отметить друзей"
 
+#: wxUI/dialogs/selector.py:49 wxUI/dialogs/selector.py:103
 msgid "Select"
 msgstr "Выбрать"
 
+#: wxUI/dialogs/selector.py:53
 msgid "Tagged users"
 msgstr "Отметить пользователей"
 
+#: wxUI/dialogs/selector.py:55 wxUI/dialogs/selector.py:109
 msgid "Remove"
 msgstr "Удалить"
 
+#: wxUI/dialogs/selector.py:97
 msgid "Available attachments"
 msgstr "Доступные вложения"
 
+#: wxUI/dialogs/selector.py:107
 msgid "Selected attachments"
 msgstr "Выбрать вложения"
 
+#: wxUI/dialogs/timeline.py:9
 #, python-brace-format
 msgid "New timeline for {0}"
 msgstr "Новая пользовательская лента для {0}"
 
+#: wxUI/dialogs/timeline.py:20
 msgid "Buffer type"
 msgstr "Тип буфера"
 
+#: wxUI/dialogs/timeline.py:21
 msgid "&Wall posts"
 msgstr "&Записи на стене"
 
+#: wxUI/tabs/home.py:10 wxUI/tabs/home.py:122
 msgid "Po&sts"
-msgstr "За&писи."
+msgstr "За&писи"
 
+#: wxUI/tabs/home.py:11
 msgid "Text"
 msgstr "Текст"
 
+#: wxUI/tabs/home.py:20 wxUI/tabs/home.py:104 wxUI/tabs/home.py:187
+#: wxUI/tabs/home.py:295 wxUI/tabs/home.py:305
 msgid "&Post"
-msgstr "&Запись."
+msgstr "&Запись"
 
+#: wxUI/tabs/home.py:59 wxUI/tabs/home.py:103 wxUI/tabs/home.py:186
+#: wxUI/tabs/home.py:304
 msgid "Load buffer"
 msgstr "Загрузка буфера"
 
+#: wxUI/tabs/home.py:60
 msgid "&Post in group"
 msgstr "& Опубликовать в группе"
 
+#: wxUI/tabs/home.py:66
 msgid "Mu&sic"
 msgstr "Му&зыка"
 
+#: wxUI/tabs/home.py:76
 msgid "&Upload audio"
 msgstr "&Загрузить аудио"
 
+#: wxUI/tabs/home.py:79 wxUI/tabs/home.py:106
 msgid "Play &All"
 msgstr "Воспроизвести &все"
 
+#: wxUI/tabs/home.py:94
+msgid "Select a folder to save all files"
+msgstr "Выберите папку для сохранения всех файлов"
+
+#: wxUI/tabs/home.py:123
 msgid "Notification"
 msgstr "Уведомление"
 
+#: wxUI/tabs/home.py:137
 msgid "Photos"
 msgstr "Фотографии"
 
+#: wxUI/tabs/home.py:137
 msgid "Created at"
 msgstr "Создано в"
 
+#: wxUI/tabs/home.py:158
 msgid "Last"
 msgstr "Последний"
 
+#: wxUI/tabs/home.py:169
 msgid "Size"
 msgstr "Размер"
 
+#: wxUI/tabs/home.py:179
 msgid "Save document as"
 msgstr "Сохранить документ как..."
 
+#: wxUI/tabs/home.py:210
 msgid "Add"
 msgstr "Добавить"
 
+#: wxUI/tabs/home.py:217
 msgid "History"
 msgstr "История"
 
+#: wxUI/tabs/home.py:245
 msgid "Write a message"
 msgstr "Написать сообщение"
 
+#: wxUI/tabs/home.py:278
 msgid "&Post on user's wall"
 msgstr "Запись на стене user's"
 
+#: wxUI/tabs/home.py:279
 msgid "Send message"
 msgstr "Отправить сообщение"
 
+#: wxUI/tabs/home.py:285
 msgid "Video&s"
 msgstr "Видеозапис&и"
 
@@ -2141,3 +2853,36 @@ msgstr "Видеозапис&и"
 
 #~ msgid "{user1_nom} > {user2_nom}"
 #~ msgstr "{user1_nom} > {user2_nom}"
+
+#~ msgid ""
+#~ "In order to keep receiving updates, you are required to download the alpha "
+#~ "version of socializer from scratch from our website. Would you like to "
+#~ "download it now? If you press 'yes', you will be redirected automatically to "
+#~ "the direct download for the new alpha version, and socializer will be closed "
+#~ "automatically. If you do not wish to download the new alpha, take into "
+#~ "account that the current version will no longer receive updates"
+#~ msgstr ""
+#~ "Для того, чтобы продолжать получать обновления, Вам необходимо скачать альфа-"
+#~ "версию с нуля с нашего веб-сайта. Хотите загрузить сейчас? Если нажать \"да"
+#~ "\", Вы будете автоматически перенаправлены на прямую загрузку новой альфа-"
+#~ "версии и Socializer будет закрыт. Если Вы не хотите загружать новую альфа-"
+#~ "версию, примите во внимания, что текущая версия больше не будет получать "
+#~ "обновления."
+
+#~ msgid ""
+#~ "Please remember that from November 27, 2019, you will have to download the "
+#~ "alpha version from scratch from the Socializer website. The alpha version you "
+#~ "are currently running will no longer receive updates. The new alpha version, "
+#~ "which must be downloaded  from the project's page, should not be considered "
+#~ "suspicious by most antivirus vendors and all automatic updates will be sent "
+#~ "to the new generation of socializer alpha. Thank you for your patience."
+#~ msgstr ""
+#~ "Пожалуйста, помните, что начиная с 27-го ноября 2019-го года Вам будет "
+#~ "необходимо скачать с нуля альфа-версию Socializer с веб-сайта приложения. "
+#~ "Текущая альфа-версия больше не будет получать обновления. Новая альфа-версия, "
+#~ "которая будет загружена с веб-сайта Socializer будет считаться благонадёжной "
+#~ "для большинства антивирусов и все необходимые обновления будут отправлены на "
+#~ "новое поколение Socializer альфа. Большое спасибо за терпение и понимание!"
+
+#~ msgid "Important notice"
+#~ msgstr "важное уведомление"
