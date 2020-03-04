@@ -33,7 +33,7 @@ class audioMenu(wx.Menu):
 		self.move = self.Append(wx.NewId(), _("Move to album"))
 		self.download = self.Append(wx.NewId(), _("Download"))
 		self.select = self.Append(wx.NewId(), _("Select all"))
-		self.unselect = self.Append(wx.NewId(), _("Unselect all"))
+		self.deselect = self.Append(wx.NewId(), _("Unselect all"))
 
 class peopleMenu(wx.Menu):
 	def __init__(self, is_request=False, is_subscriber=False, not_friend=False, *args, **kwargs):
