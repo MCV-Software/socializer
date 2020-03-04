@@ -980,6 +980,7 @@ class Controller(object):
 			widgetUtils.connect_event(menu, widgetUtils.MENU, self.load_community_audios, menuitem=menu.load_audios)
 			widgetUtils.connect_event(menu, widgetUtils.MENU, self.load_community_videos, menuitem=menu.load_videos)
 			widgetUtils.connect_event(menu, widgetUtils.MENU, self.load_community_documents, menuitem=menu.load_documents)
+			widgetUtils.connect_event(menu, widgetUtils.MENU, self.open_community_in_browser, menuitem=menu.open_in_browser)
 		# Deal with the communities section itself.
 		elif current_buffer.name == "communities":
 			menu = wx.Menu()
@@ -1073,6 +1074,11 @@ class Controller(object):
 			return
 		new_name = current_buffer.name+"_documents"
 		pub.sendMessage("create_buffer", buffer_type="documentCommunityBuffer", buffer_title=_("Documents"), parent_tab=current_buffer.tab.name, get_items=True, kwargs=dict(parent=self.window.tb, name=new_name, composefunc="render_document", session=self.session, endpoint="get", parent_endpoint="docs", owner_id=current_buffer.kwargs["owner_id"]))
+
+	def open_community_in_browser(self, *args, **kwargs):
+		current_buffer = self.get_current_buffer()
+		if current_buffer.name.endswith("_community"):
+			webbrowser.open_new_tab("https://vk.com/club{0}".format(-1*current_buffer.kwargs["owner_id"]))
 
 	def load_community_buffers(self, *args, **kwargs):
 		""" Load all community buffers regardless of the setting present in optional buffers tab of the preferences dialog."""
