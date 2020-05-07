@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Socializer 0.23\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-28 19:19-0600\n"
-"PO-Revision-Date: 2020-03-03 20:34-0600\n"
+"PO-Revision-Date: 2020-03-04 11:55-0600\n"
 "Last-Translator: Manuel Cortez <manuel@manuelcortez.net>\n"
 "Language: ru\n"
 "Language-Team: Дарья Ратникова <dariafreja@yandex.ru>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.8.0\n"
-"X-Generator: Poedit 2.0.2\n"
+"X-Generator: Poedit 2.2.4\n"
 
 #: languageHandler.py:61
 msgctxt "languageName"
@@ -2448,7 +2448,7 @@ msgstr "Инструкция"
 
 #: wxUI/mainWindow.py:55
 msgid "Check for updates"
-msgstr "Проверить на наличие обновлений."
+msgstr "Проверить на наличие обновлений"
 
 #: wxUI/mainWindow.py:56
 msgid "Chan&gelog"
