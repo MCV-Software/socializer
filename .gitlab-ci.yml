@@ -1,10 +1,9 @@
 # Jobs to build the two channels in Socializer.
-# Currently using python 3.7.5
+# Currently using python 3.7.7
 variables:
   PYTHON3_32: "C:\\python37-32\\python.exe"
   PYTHON3_64: "C:\\python37-64\\python.exe"
-  PYINSTALLER: "C:\\python37-32\\scripts\\pyinstaller.exe"
-  NSIS: "C:\\nsis\\makensis.exe"
+    NSIS: "C:\\nsis\\makensis.exe"
 
 .configure_environment: &configure_environment
   tags:
@@ -23,7 +22,7 @@ documentation:
     - windows10
   script:
     ### Dependencies.
-    - '&$env:PYTHON3_32 -m pip install --upgrade babel'
+    - '&$env:PYTHON3_32 -m pip install --upgrade babel markdown'
     # generate all html documents first.
     - copy changelog.md doc\changelog.md
     - cd doc
@@ -70,7 +69,6 @@ alpha32:
     - move socializer_x86_alpha.zip socializer_x86.zip
   only:
     - schedules
-    - master
   artifacts:
     paths:
     - socializer_x86.zip
