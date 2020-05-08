@@ -3,7 +3,7 @@
 variables:
   PYTHON3_32: "C:\\python37-32\\python.exe"
   PYTHON3_64: "C:\\python37-64\\python.exe"
-    NSIS: "C:\\nsis\\makensis.exe"
+  NSIS: "C:\\nsis\\makensis.exe"
 
 .configure_environment: &configure_environment
   tags:
