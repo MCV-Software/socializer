@@ -91,9 +91,9 @@ stable:
     - cd ..
     - move src\socializer* .
     - cd scripts
-    - '&$env:PYTHON3_32 prepare_zipversion_cxfreeze.py'
+    - '&$env:PYTHON3_32 prepare_zipversion.py'
     - cd ..
-    - move src\socializer.zip socializer.zip
+    - move src\socializer.zip socializer_x86.zip
     - '&$env:PYTHON3_32 scripts/upload.py'
   only:
     - tags
