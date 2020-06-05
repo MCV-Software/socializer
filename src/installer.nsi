@@ -5,7 +5,7 @@ CRCCheck on
 ManifestSupportedOS all
 XPStyle on
 Name "Socializer"
-OutFile "socializer_0.23_setup.exe"
+OutFile "socializer_0.24_setup.exe"
 InstallDir "$PROGRAMFILES\socializer"
 InstallDirRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\socializer" "InstallLocation"
 RequestExecutionLevel admin
@@ -14,10 +14,10 @@ SetCompressor /solid lzma
 SetDatablockOptimize on
 VIAddVersionKey ProductName "Socializer"
 VIAddVersionKey LegalCopyright "Copyright 2019 Manuel Cortez."
-VIAddVersionKey ProductVersion "0.23"
-VIAddVersionKey FileVersion "0.23"
-VIProductVersion "0.23.0.0"
-VIFileVersion "0.23.0.0"
+VIAddVersionKey ProductVersion "0.24"
+VIAddVersionKey FileVersion "0.24"
+VIProductVersion "0.24.0.0"
+VIFileVersion "0.24.0.0"
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_DIRECTORY
 var StartMenuFolder
@@ -50,7 +50,7 @@ WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\socializer
 WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\socializer" "UninstallString" '"$INSTDIR\uninstall.exe"'
 WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall" "InstallLocation" $INSTDIR
 WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall" "Publisher" "Manuel Cortez"
-WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\socializer" "DisplayVersion" "0.23"
+WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\socializer" "DisplayVersion" "0.24"
 WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\socializer" "URLInfoAbout" "http://socializer.su"
 WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\socializer" "VersionMajor" 0
 WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\socializer" "VersionMinor" 19
