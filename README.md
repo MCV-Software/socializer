@@ -22,16 +22,19 @@ Although most dependencies (except Python) can be found in the windows-dependenc
 
 #### Dependencies that must be installed using pip
 
-Python installs a tool called Pip that allows to install packages in a simple way. You can find it in the python scripts directory. To install packages using Pip, you have to navigate to the scripts directory using a command prompt, for example:
-cd C:\python37\scripts
+Python installs a tool called Pip that allows to install packages in a simple way. You can find it in the python scripts directory. To install packages using Pip, you have to navigate to the scripts directory using a command prompt, for example:  
+    cd C:\python37\scripts
 
 You can also add the scripts folder to your path environment variable or choose the corresponding option when installing Python.  
-Pip is able to install packages listed in a special text file, called the requirements file. To install all remaining dependencies, perform the following command:
-pip install -r requirements.txt
-Note that if you perform the command from the path where Pip is located, you need to specify the path to your Socializer root folder where the requirements file is located, for example:
-pip install -r D:\repos\socializer\requirements.txt
+Pip is able to install packages listed in a special text file, called the requirements file. To install all remaining dependencies, perform the following command:  
+    pip install -r requirements.txt  
+Note that if you perform the command from the path where Pip is located, you need to specify the path to your Socializer root folder where the requirements file is located, for example:  
+    pip install -r D:\repos\socializer\requirements.txt  
+
 Pip will automatically get the additional libraries that the listed packages need to work properly.
+
 If you need to update your dependencies, perform the following command:
+
 pip install --upgrade -r requirements.txt
 
 #### Other dependencies
@@ -58,9 +61,9 @@ Now that you have installed all these packages, you can run Socializer from sour
 ### Generating the documentation
 
 To generate the documentation in html format, ensure you are in the doc folder inside this repo. After that, run these commands:  
-    copy ..\changelog.md .
+    copy ..\changelog.md .  
     python document_importer.py  
-    cd ..\src
+    cd ..\src  
     python ..\doc\generator.py  
 
 The documentation will be generated, placing each language in a separate folder in the doc directory.
