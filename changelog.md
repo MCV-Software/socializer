@@ -2,6 +2,16 @@
 
 ## News in this  version
 
+## new additions
+
+* the spelling correction module is able to add words to the dictionary so it will learn which words should start to ignore.
+
+### Changes
+
+* The spelling correction module has been rewritten to take advantage of the newest enchant Python module which is more stable and can be added properly to the distribution, as opposed to the first enchant module we have tried.
+
+## News in Version 0.24
+
 ### New additions
 
 * Socializer will ask for confirmation before closing the application.

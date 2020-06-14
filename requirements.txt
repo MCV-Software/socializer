@@ -16,9 +16,8 @@ yandex.translate
 mutagen
 mock
 babel
-# cx_freeze for building the executable files.
 cx_freeze
-symspellpy
+pyenchant
 # forked repositories previously found at http://q-continuum.net
 git+https://code.manuelcortez.net/manuelcortez/libloader
 git+https://code.manuelcortez.net/manuelcortez/platform_utils

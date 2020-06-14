@@ -46,5 +46,5 @@
 ## Other
 
 * distribution:
-    - Create an installer for alpha versions
+    - (done) Create an installer for alpha versions
     - create a 64 bits distribution for both alpha and stable versions.
