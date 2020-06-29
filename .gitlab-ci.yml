@@ -68,12 +68,7 @@ alpha32:
     - '&$env:PYTHON3_32 scripts/upload.py'
     - move socializer_x86_alpha.zip socializer_x86.zip
   only:
-    - schedules
-  artifacts:
-    paths:
-    - socializer_x86.zip
-    name: socializer_alpha
-    expire_in: 1 day
+    - master
 
 # Generates a new stable version of the application every tag.
 stable:

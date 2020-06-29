@@ -44,6 +44,7 @@ print("Uploading files to the Socializer server...")
 connection = ftplib.FTP_TLS(ftp_server)
 print("Connected to FTP server {}".format(ftp_server,))
 connection.login(user=ftp_username, passwd=ftp_password)
+connection.prot_p()
 print("Logged in successfully")
 connection.cwd("socializer.su/static/files/")
 if version not in connection.nlst():
