@@ -14,6 +14,16 @@ import ftplib
 
 transferred=0
 
+class MyFTP_TLS(ftplib.FTP_TLS):
+	"""Explicit FTPS, with shared TLS session"""
+	def ntransfercmd(self, cmd, rest=None):
+		conn, size = ftplib.FTP.ntransfercmd(self, cmd, rest)
+		if self._prot_p:
+			conn = self.context.wrap_socket(conn,
+											server_hostname=self.host,
+											session=self.sock.session)  # this is the fix
+		return conn, size
+
 def convert_bytes(n):
 	K, M, G, T, P = 1 << 10, 1 << 20, 1 << 30, 1 << 40, 1 << 50
 	if   n >= P:
@@ -41,7 +51,7 @@ version = os.environ.get("CI_COMMIT_TAG") or "alpha"
 version = version.replace("v", "")
 
 print("Uploading files to the Socializer server...")
-connection = ftplib.FTP_TLS(ftp_server)
+connection = MyFTP_TLS(ftp_server)
 print("Connected to FTP server {}".format(ftp_server,))
 connection.login(user=ftp_username, passwd=ftp_password)
 connection.prot_p()
