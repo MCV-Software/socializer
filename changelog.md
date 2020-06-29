@@ -6,6 +6,10 @@
 
 * the spelling correction module is able to add words to the dictionary so it will learn which words should start to ignore.
 
+### bugfixes
+
+* Now it is possible to perform authentication in accounts using two factor verification again. This issue was caused due to a recent change in the VK workflow for two factor verification processes.
+
 ### Changes
 
 * The spelling correction module has been rewritten to take advantage of the newest enchant Python module which is more stable and can be added properly to the distribution, as opposed to the first enchant module we have tried.

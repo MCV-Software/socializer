@@ -1,7 +1,8 @@
 #! /usr/bin/env python
 """ Upload socializer to the ftp server. This script has been created to be executed from a continuous integrations system.
 Important note: for this script to work, the following conditions should be met:
-* There must be ftp server data, via environment variables (FTP_SERVER, FTP_USERNAME and FTP_PASSWORD) or via arguments to the script call (in the prior order). Connection to this server is done via default ftp port.
+* There must be ftp server data, via environment variables (FTP_SERVER, FTP_USERNAME and FTP_PASSWORD) or via arguments to the script call (in the prior order). Connection to this server is done via default ftp port via TLS.
+* this code assumes it's going to connect to an FTP via TLS.
 * If the version to upload is alpha, there's not need of an extra variable. Otherwise, CI_COMMIT_TAG should point to a version as vx.x, where v is a literal and x are numbers, example may be v0.18, v0.25, v0.3. This variable should be set in the environment.
 * Inside the ftp server, the following directory structure will be expected: socializer.su/static/files/. The script will create the <version> folder or alpha if needed.
 * The script will upload all .exe, .zip and .json files located in the root directory from where it was called. The json files are uploaded to socializer.su/static/files/update and other files are going to socializer.su/static/files/<version>.
@@ -40,7 +41,7 @@ version = os.environ.get("CI_COMMIT_TAG") or "alpha"
 version = version.replace("v", "")
 
 print("Uploading files to the Socializer server...")
-connection = ftplib.FTP(ftp_server)
+connection = ftplib.FTP_TLS(ftp_server)
 print("Connected to FTP server {}".format(ftp_server,))
 connection.login(user=ftp_username, passwd=ftp_password)
 print("Logged in successfully")

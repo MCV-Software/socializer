@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
-""" Set of methods used to retrieve access tokens by simulating the official VK application for Android. """
+""" Set of methods used to retrieve access tokens by simulating the official VK application for Android.
+This is a Python port of the PHP module developed by Vodka2 to retrieve VK audio tokens. More info at https://github.com/vodka2/vk-audio-token
+This module, as a Python port, just tries to get the tokens by using the Official VK app's tokens. I did not implemented the Kate mobile functionality as it involves a lot of more work and is not giving any advantage over the official way.
+there are a lot of features pending to be applied. Hopefully later I can make it working more efficiently and OOP based.
+"""
 import random
 import requests
 import logging
@@ -60,12 +64,19 @@ def get_non_refreshed(login, password, scope=scope):
 	params["2fa_supported"] = 1
 	headers = {'User-Agent': user_agent}
 	r = requests.get(url, params=params, headers=headers)
+	# Let's print this into logs as exceptions so we can catch future errors.
 	log.exception(r.json())
 	# If a 401 error is raised, we need to use 2FA here.
 	# see https://vk.com/dev/auth_direct (switch lang to russian, english docs are very incomplete in the matter)
 	# ToDo: this needs testing after implemented official VK tokens.
 	if r.status_code == 401 and "phone_mask" in r.text:
 		t = r.json()
+		log.exception(t)
+		validation_sid = t["validation_sid"]
+		url = "https://api.vk.com/method/auth.validatePhone"
+		params = dict(v="5.95", sid=validation_sid)
+		validated = requests.get(url, params=params, headers=headers)
+		log.exception(validated.json())
 		code, remember = two_factor_auth()
 		url = "https://oauth.vk.com/token"
 		params = dict(grant_type="password", lang="en",
