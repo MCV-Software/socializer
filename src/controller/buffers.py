@@ -1187,9 +1187,9 @@ class chatBuffer(baseBuffer):
 		if show_nextpage  == False:
 			if self.tab.history.GetValue() != "" and num > 0:
 				v = [i for i in self.session.db[self.name]["items"][:num]]
-				[wx.CallAfter(self.insert, i, False) for i in v]
+				[self.insert(i, False) for i in v]
 			else:
-				[wx.CallAfter(self.insert, i) for i in self.session.db[self.name]["items"][:num]]
+				[self.insert(i) for i in self.session.db[self.name]["items"][:num]]
 		else:
 			if num > 0:
 				# At this point we save more CPU and mathematical work if we just delete everything in the chat history and readd all messages.
@@ -1197,14 +1197,14 @@ class chatBuffer(baseBuffer):
 				# Firstly, we'd have to save the current focused object so we will place the user in the right part of the text after loading everything again.
 				focused_post = self.get_post()
 				self.chats = dict()
-				self.tab.history.SetValue("")
+				wx.CallAfter(self.tab.history.SetValue, "")
 				v = [i for i in self.session.db[self.name]["items"]]
-				[wx.CallAfter(self.insert, i) for i in v]
+				[self.insert(i) for i in v]
 				# Now it's time to set back the focus in the post.
 				for i in self.chats.keys():
 					if self.chats[i] == focused_post["id"]:
 						line = i[0]
-						self.tab.history.SetInsertionPoint(self.tab.history.XYToPosition(0, line))
+						wx.CallAfter(self.tab.history.SetInsertionPoint, self.tab.history.XYToPosition(0, line))
 						output.speak(_("Items loaded"))
 						break
 		if self.unread == True and num > 0:

@@ -13,6 +13,7 @@
 ### Changes
 
 * The spelling correction module has been rewritten to take advantage of the newest enchant Python module which is more stable and can be added properly to the distribution, as opposed to the first enchant module we have tried.
+* Better performance on Socializer should be noticed for users with many conversations opened. Before, socializer could freeze while loading all messages in conversations. Now that should work more efficiently and the application should not stop responding.
 
 ## News in Version 0.24
 

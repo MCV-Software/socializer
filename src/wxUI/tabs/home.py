@@ -256,10 +256,10 @@ class chatTab(wx.Panel):
 		old_line = self.history.GetNumberOfLines()#.count("\n")
 		point = self.history.GetInsertionPoint()
 		if reverse:
-			self.history.SetValue(message+"\n"+self.history.GetValue())
+			wx.CallAfter(self.history.SetValue, message+"\n"+self.history.GetValue())
 		else:
-			self.history.AppendText(message+"\n")
-		self.history.SetInsertionPoint(point)
+			wx.CallAfter(self.history.AppendText, message+"\n")
+		wx.CallAfter(self.history.SetInsertionPoint, point)
 		new_line = self.history.GetNumberOfLines()#.count("\n")
 		return (old_line, new_line)
 
