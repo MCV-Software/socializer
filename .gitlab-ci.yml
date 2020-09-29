@@ -64,7 +64,7 @@ update_catalogs:
     - 'git config  user.email "manuel@manuelcortez.net"'
     - 'git add scripts'
     - 'git remote set-url --push origin git@code.manuelcortez.net:$env:CI_PROJECT_PATH'
-    - 'git commit -m "Updated locales"'
+    - 'git commit -m "Updated locales [skip ci]"'
     - 'git push origin HEAD:$env:CI_COMMIT_REF_NAME'
   only:
     - master
