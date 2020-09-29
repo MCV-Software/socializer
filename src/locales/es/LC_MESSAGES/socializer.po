@@ -4,17 +4,19 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version:  \n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-29 11:28-0700\n"
-"PO-Revision-Date: 2016-06-29 13:20-0600\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2020-09-29 21:09+0000\n"
+"Last-Translator: Manuel Cortez <manuel@manuelcortez.net>\n"
+"Language-Team: Spanish <http://translations.manuelcortez.net/projects/"
+"socializer/interface/es/>\n"
 "Language: es\n"
-"Language-Team: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.2.2\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: languageHandler.py:61
@@ -30,37 +32,37 @@ msgstr ""
 #: languageHandler.py:63
 msgctxt "languageName"
 msgid "Spanish"
-msgstr ""
+msgstr "Español"
 
 #: languageHandler.py:64
 msgctxt "languageName"
 msgid "Portuguese"
-msgstr ""
+msgstr "Portugués"
 
 #: languageHandler.py:65
 msgctxt "languageName"
 msgid "Russian"
-msgstr ""
+msgstr "Ruso"
 
 #: languageHandler.py:66
 msgctxt "languageName"
 msgid "italian"
-msgstr ""
+msgstr "Italiano"
 
 #: languageHandler.py:67
 msgctxt "languageName"
 msgid "Turkey"
-msgstr ""
+msgstr "Turco"
 
 #: languageHandler.py:68
 msgctxt "languageName"
 msgid "Galician"
-msgstr ""
+msgstr "Gallego"
 
 #: languageHandler.py:69
 msgctxt "languageName"
 msgid "Catala"
-msgstr ""
+msgstr "Catalán"
 
 #: languageHandler.py:70
 msgctxt "languageName"
@@ -70,27 +72,27 @@ msgstr ""
 #: languageHandler.py:71
 msgctxt "languageName"
 msgid "polish"
-msgstr ""
+msgstr "Polaco"
 
 #: languageHandler.py:72
 msgctxt "languageName"
 msgid "Arabic"
-msgstr ""
+msgstr "Árabe"
 
 #: languageHandler.py:73
 msgctxt "languageName"
 msgid "Nepali"
-msgstr ""
+msgstr "Nepalí"
 
 #: languageHandler.py:74
 msgctxt "languageName"
 msgid "Serbian (Latin)"
-msgstr ""
+msgstr "Serbio (latino)"
 
 #: languageHandler.py:75
 msgctxt "languageName"
 msgid "Japanese"
-msgstr ""
+msgstr "Japonés"
 
 #: languageHandler.py:99
 msgid "User default"
@@ -2898,4 +2900,3 @@ msgstr ""
 
 #~ msgid "post"
 #~ msgstr "Publicar"
-
