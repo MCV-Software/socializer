@@ -46,12 +46,12 @@ documentation:
     name: socializer_documentation
     expire_in: 30 days
 
-translations:
+update_catalogs:
   type: deploy
   tags:
     - windows10
   script:
-        - '&$env:PYTHON3_32 -m pip install --upgrade babel'
+    - '&$env:PYTHON3_32 -m pip install --upgrade babel'
     - copy changelog.md doc\changelog.md
     - cd doc
     - '&$env:PYTHON3_32 documentation_importer.py'
