@@ -62,7 +62,7 @@ update_catalogs:
     - '&$env:PYTHON3_32 translate.py'
     - cd ..
     - 'git add .'
-    - 'git commit -m Updated locales'
+    - 'git commit -m "Updated locales"'
     - 'git push'
   only:
     - master
