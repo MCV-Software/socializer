@@ -46,6 +46,28 @@ documentation:
     name: socializer_documentation
     expire_in: 30 days
 
+translations:
+  type: deploy
+  tags:
+    - windows10
+  script:
+        - '&$env:PYTHON3_32 -m pip install --upgrade babel'
+    - copy changelog.md doc\changelog.md
+    - cd doc
+    - '&$env:PYTHON3_32 documentation_importer.py'
+
+    - cd ..\src
+    - '&$env:PYTHON3_32 setup.py extract_messages -F babel.cfg --input-dirs . --output-file ..\scripts\socializer.pot'
+    - '&$env:PYTHON3_32 setup.py update_catalog --no-fuzzy-matching --domain socializer --output-dir locales --input-file ..\scripts\socializer.pot'
+    - cd ..\doc
+    - '&$env:PYTHON3_32 translate.py'
+    - cd ..
+    - 'git add .'
+    - 'git commit -m "Updated locales"'
+    - 'git push'
+  only:
+    - master
+
 alpha32:
   <<: *configure_environment
   type: deploy
