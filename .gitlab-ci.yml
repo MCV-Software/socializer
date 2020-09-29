@@ -61,6 +61,8 @@ update_catalogs:
     - cd ..\doc
     - '&$env:PYTHON3_32 translate.py'
     - cd ..
+    - 'git config user.name "Windows runner"'
+    - 'git config  user.email "manuel@manuelcortez.net"'
     - 'git add .'
     - 'git commit -m "Updated locales"'
     - 'git push'
