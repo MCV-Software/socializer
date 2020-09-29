@@ -65,7 +65,7 @@ update_catalogs:
     - 'git config  user.email "manuel@manuelcortez.net"'
     - 'git add .'
     - 'git commit -m "Updated locales"'
-    - 'git push'
+    - 'git push origin HEAD:master'
   only:
     - master
 
