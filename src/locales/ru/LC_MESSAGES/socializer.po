@@ -1,19 +1,19 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: Socializer 0.23\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-28 19:19-0600\n"
+"POT-Creation-Date: 2020-09-29 11:24-0700\n"
 "PO-Revision-Date: 2020-03-04 11:55-0600\n"
 "Last-Translator: Manuel Cortez <manuel@manuelcortez.net>\n"
 "Language: ru\n"
 "Language-Team: Дарья Ратникова <dariafreja@yandex.ru>\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 "
-"&& (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.8.0\n"
-"X-Generator: Poedit 2.2.4\n"
 
 #: languageHandler.py:61
 msgctxt "languageName"
@@ -97,8 +97,8 @@ msgstr "Пользователь по умолчанию"
 #: authenticator/wxUI.py:9
 msgid "Please provide the authentication code you have received from VK."
 msgstr ""
-"Пожалуйста, предоставьте код аутентификации, который вы получили от \"ВКонтакте"
-"\"."
+"Пожалуйста, предоставьте код аутентификации, который вы получили от "
+"\"ВКонтакте\"."
 
 #: authenticator/wxUI.py:9
 msgid "Two factor authentication code"
@@ -106,11 +106,11 @@ msgstr "Двухфакторный код аутентификации"
 
 #: authenticator/wxUI.py:17
 msgid ""
-"Your password or email address are incorrect. Please fix the mistakes and try it "
-"again."
+"Your password or email address are incorrect. Please fix the mistakes and"
+" try it again."
 msgstr ""
-"Неверный пароль или адрес электронной почты. Пожалуйста, исправьте ошибки и "
-"попробуйте снова."
+"Неверный пароль или адрес электронной почты. Пожалуйста, исправьте ошибки"
+" и попробуйте снова."
 
 #: authenticator/wxUI.py:17
 msgid "Wrong data"
@@ -121,12 +121,14 @@ msgid "Write your post"
 msgstr "Что у Вас нового?"
 
 #: controller/buffers.py:206 presenters/displayPosts/basePost.py:255
-#: presenters/displayPosts/topic.py:95 presenters/displayPosts/topicComment.py:41
+#: presenters/displayPosts/topic.py:95
+#: presenters/displayPosts/topicComment.py:41
 msgid "You liked this"
 msgstr "Мне нравится"
 
 #: controller/buffers.py:223 presenters/displayPosts/basePost.py:248
-#: presenters/displayPosts/topic.py:89 presenters/displayPosts/topicComment.py:35
+#: presenters/displayPosts/topic.py:89
+#: presenters/displayPosts/topicComment.py:35
 msgid "You don't like this"
 msgstr "Мне не нравится"
 
@@ -144,11 +146,13 @@ msgstr "Ваш комментарий добавлен."
 msgid "{user1_nom} added the following friends"
 msgstr "{user1_nom} добавил(а) друзей:"
 
-#: controller/buffers.py:380 controller/buffers.py:704 controller/buffers.py:969
+#: controller/buffers.py:380 controller/buffers.py:704
+#: controller/buffers.py:969
 msgid "This buffer can't be deleted"
 msgstr "Этот буфер не может быть удалён."
 
-#: controller/buffers.py:415 controller/buffers.py:476 controller/buffers.py:1336
+#: controller/buffers.py:415 controller/buffers.py:476
+#: controller/buffers.py:1336
 #, python-brace-format
 msgid "Post to {user1_nom}'s wall"
 msgstr "Разместить на стене {user1_nom}"
@@ -157,8 +161,8 @@ msgstr "Разместить на стене {user1_nom}"
 msgid "Loading community..."
 msgstr "Загрузка сообщества..."
 
-#: controller/buffers.py:467 controller/buffers.py:468 controller/buffers.py:518
-#: controller/buffers.py:519
+#: controller/buffers.py:467 controller/buffers.py:468
+#: controller/buffers.py:518 controller/buffers.py:519
 #, python-brace-format
 msgid "Post as {user1_nom}"
 msgstr "Опубликовать как {user1_nom}"
@@ -180,7 +184,8 @@ msgstr "Документ успешно удалён."
 msgid "The document has been successfully added."
 msgstr "Документ успешно добавлен."
 
-#: controller/buffers.py:719 controller/buffers.py:984 controller/buffers.py:1086
+#: controller/buffers.py:719 controller/buffers.py:984
+#: controller/buffers.py:1086
 msgid "This buffer doesn't support getting more items."
 msgstr "Невозможно загрузить больше элементов в этот буфер"
 
@@ -261,8 +266,9 @@ msgstr "Неизвестный исполнитель"
 msgid "P&ause"
 msgstr "Пауза"
 
-#: controller/buffers.py:868 interactors/postDisplayer.py:180 wxUI/tabs/home.py:78
-#: wxUI/tabs/home.py:105 wxUI/tabs/home.py:296 wxUI/tabs/home.py:306
+#: controller/buffers.py:868 interactors/postDisplayer.py:180
+#: wxUI/tabs/home.py:78 wxUI/tabs/home.py:105 wxUI/tabs/home.py:296
+#: wxUI/tabs/home.py:306
 msgid "P&lay"
 msgstr "В&оспроизвести"
 
@@ -344,8 +350,8 @@ msgstr "{0} {1} теперь Ваш друг."
 #, python-brace-format
 msgid "You've deleted the friends request to {0} {1}."
 msgstr ""
-"Вы отменили свою заявку на добавление в друзья и отписались от обновлений {0} "
-"{1}."
+"Вы отменили свою заявку на добавление в друзья и отписались от обновлений"
+" {0} {1}."
 
 #: controller/buffers.py:1582
 #, python-brace-format
@@ -358,8 +364,8 @@ msgid "{0} {1} is following you."
 msgstr "{0} {1}подписан на Вас."
 
 #: controller/mainController.py:96 controller/mainController.py:244
-#: controller/mainController.py:250 presenters/main.py:227 presenters/main.py:233
-#: sessionmanager/utils.py:60
+#: controller/mainController.py:250 presenters/main.py:227
+#: presenters/main.py:233 sessionmanager/utils.py:60
 msgid "Ready"
 msgstr "Готово"
 
@@ -431,7 +437,7 @@ msgstr "Исходящие заявки"
 msgid "Subscribers"
 msgstr "Подписчики"
 
-#: controller/mainController.py:137 controller/mainController.py:1075
+#: controller/mainController.py:137 controller/mainController.py:1076
 #: presenters/main.py:93 presenters/main.py:822 wxUI/tabs/home.py:168
 msgid "Documents"
 msgstr "Документы"
@@ -531,7 +537,8 @@ msgstr "Друзья {user1_gen}"
 msgid "Search for {0}"
 msgstr "Поиск {0}"
 
-#: controller/mainController.py:773 presenters/main.py:362 wxUI/mainWindow.py:21
+#: controller/mainController.py:773 presenters/main.py:362
+#: wxUI/mainWindow.py:21
 msgid "Preferences"
 msgstr "Настройки"
 
@@ -548,94 +555,100 @@ msgstr "Написать статус..."
 msgid "Set status"
 msgstr "Установить статус..."
 
-#: controller/mainController.py:988 presenters/main.py:210
+#: controller/mainController.py:989 presenters/main.py:210
 msgid "Load groups"
 msgstr "Загрузить группы"
 
-#: controller/mainController.py:991 presenters/main.py:213
+#: controller/mainController.py:992 presenters/main.py:213
 msgid "Discard groups"
 msgstr "Сброс групп"
 
-#: controller/mainController.py:997
+#: controller/mainController.py:998
 msgid "Load audio albums"
 msgstr "Загрузка аудиоальбомов"
 
-#: controller/mainController.py:1000
+#: controller/mainController.py:1001
 msgid "Discard audio albums"
 msgstr "Сброс аудиоальбомов"
 
-#: controller/mainController.py:1005
+#: controller/mainController.py:1006
 msgid "Load video albums"
 msgstr "Загрузка видеоальбомов"
 
-#: controller/mainController.py:1008
+#: controller/mainController.py:1009
 msgid "Discard video albums"
 msgstr "Сброс видеоальбомов"
 
-#: controller/mainController.py:1018 presenters/main.py:219
+#: controller/mainController.py:1019 presenters/main.py:219
 msgid "menu unavailable for this buffer."
 msgstr "Меню недоступно для этого буфера."
 
-#: controller/mainController.py:1037 presenters/main.py:784
+#: controller/mainController.py:1038 presenters/main.py:784
 msgid "Audios"
 msgstr "Аудиозаписи"
 
-#: controller/mainController.py:1050 presenters/main.py:797
+#: controller/mainController.py:1051 presenters/main.py:797
 msgid "Videos"
 msgstr "Видеозаписи"
 
-#: controller/mainController.py:1063 presenters/main.py:810 wxUI/tabs/home.py:157
+#: controller/mainController.py:1064 presenters/main.py:810
+#: wxUI/tabs/home.py:157
 msgid "Topics"
 msgstr "Темы"
 
-#: extra/SpellChecker/spellchecker.py:43
+#: extra/SpellChecker/spellchecker.py:53
 #, python-format
 msgid "Misspelled word: %s"
 msgstr "Слово с орфографической ошибкой: %s"
 
 #: extra/SpellChecker/wx_ui.py:28
-msgid "&Misspelled word"
-msgstr "Слово с орфографической ошибкой"
+msgid "Misspelled word"
+msgstr ""
 
 #: extra/SpellChecker/wx_ui.py:33
-msgid "Con&text"
-msgstr "Кон&текст"
+msgid "Context"
+msgstr ""
 
 #: extra/SpellChecker/wx_ui.py:38
-msgid "&Suggestions"
-msgstr "&Рекомендованные"
+msgid "Suggestions"
+msgstr ""
 
 #: extra/SpellChecker/wx_ui.py:43
 msgid "&Ignore"
 msgstr "&Игнорировать"
 
 #: extra/SpellChecker/wx_ui.py:44
-msgid "Ignore &all"
-msgstr "Игнорировать &Все"
+msgid "I&gnore all"
+msgstr ""
 
 #: extra/SpellChecker/wx_ui.py:45
 msgid "&Replace"
 msgstr "&Заменить"
 
 #: extra/SpellChecker/wx_ui.py:46
-msgid "Replace a&ll"
-msgstr "Заменить Вс&ё"
+msgid "R&eplace all"
+msgstr ""
 
-#: extra/SpellChecker/wx_ui.py:77
+#: extra/SpellChecker/wx_ui.py:47
+msgid "&Add to personal dictionary"
+msgstr ""
+
+#: extra/SpellChecker/wx_ui.py:80
 #, python-brace-format
 msgid ""
-"An error has occurred. There are no dictionaries available for the selected "
-"language in {0}"
+"An error has occurred. There are no dictionaries available for the "
+"selected language in {0}"
 msgstr "Ошибка. Нет доступных словарей для выбранного языка в {0}."
 
-#: extra/SpellChecker/wx_ui.py:77 issueReporter/wx_ui.py:95
-#: issueReporter/wx_ui.py:98 views/dialogs/attach.py:68 wxUI/commonMessages.py:16
-#: wxUI/commonMessages.py:27 wxUI/commonMessages.py:33 wxUI/commonMessages.py:36
+#: extra/SpellChecker/wx_ui.py:80 issueReporter/wx_ui.py:95
+#: issueReporter/wx_ui.py:98 views/dialogs/attach.py:68
+#: wxUI/commonMessages.py:16 wxUI/commonMessages.py:27
+#: wxUI/commonMessages.py:33 wxUI/commonMessages.py:36
 #: wxUI/commonMessages.py:60 wxUI/commonMessages.py:66
 msgid "Error"
 msgstr "Ошибка"
 
-#: extra/SpellChecker/wx_ui.py:80
+#: extra/SpellChecker/wx_ui.py:83
 msgid "Spell check complete."
 msgstr "Проверка орфографии завершена."
 
@@ -1033,7 +1046,8 @@ msgstr "Сообщить об ошибке"
 
 #: issueReporter/wx_ui.py:31
 msgid ""
-"Briefly describe what happened. You will be able to thoroughly explain it later"
+"Briefly describe what happened. You will be able to thoroughly explain it"
+" later"
 msgstr "Кратко опишите, что произошло. Вы сможете описать это подробно позже."
 
 #: issueReporter/wx_ui.py:41
@@ -1055,11 +1069,11 @@ msgstr "Здесь вы можете подробно описать ошибк�
 #: issueReporter/wx_ui.py:81
 #, python-brace-format
 msgid ""
-"I know that the {0} bug system will get my email address to contact me and fix "
-"the bug quickly"
+"I know that the {0} bug system will get my email address to contact me "
+"and fix the bug quickly"
 msgstr ""
-"Я знаю, что служба поддержки {0} получит мой адрес электронной почты, чтобы "
-"связаться со мной и быстро исправить ошибку."
+"Я знаю, что служба поддержки {0} получит мой адрес электронной почты, "
+"чтобы связаться со мной и быстро исправить ошибку."
 
 #: issueReporter/wx_ui.py:84
 msgid "Send report"
@@ -1071,30 +1085,30 @@ msgstr "Отмена"
 
 #: issueReporter/wx_ui.py:95
 msgid ""
-"You must fill out the following fields: first name, last name, email address and "
-"issue information."
+"You must fill out the following fields: first name, last name, email "
+"address and issue information."
 msgstr ""
-"Вы должны заполнить следующие поля: имя, фамилия, адрес электронной почты и "
-"информация о выпуске."
+"Вы должны заполнить следующие поля: имя, фамилия, адрес электронной почты"
+" и информация о выпуске."
 
 #: issueReporter/wx_ui.py:98
 msgid ""
-"You need to mark the checkbox to provide us your email address to contact you if "
-"it is necessary."
+"You need to mark the checkbox to provide us your email address to contact"
+" you if it is necessary."
 msgstr ""
-"Вам необходимо установить флажок, чтобы предоставить нам свой адрес электронной "
-"почты, чтобы связаться с Вами, если это необходимо."
+"Вам необходимо установить флажок, чтобы предоставить нам свой адрес "
+"электронной почты, чтобы связаться с Вами, если это необходимо."
 
 #: issueReporter/wx_ui.py:101
 #, python-format
 msgid ""
-"Thanks for reporting this bug! In future versions, you may be able to find it in "
-"the changes list. You have received an email with more information regarding "
-"your report. You've reported the bug number %i"
+"Thanks for reporting this bug! In future versions, you may be able to "
+"find it in the changes list. You have received an email with more "
+"information regarding your report. You've reported the bug number %i"
 msgstr ""
-"Спасибо за сообщение об этой ошибке! В будущих версиях Вы сможете найти его в "
-"списке изменений. Вы получили письмо с дополнительной информацией о вашем "
-"отчете. Вы сообщили об ошибке номеr %i."
+"Спасибо за сообщение об этой ошибке! В будущих версиях Вы сможете найти "
+"его в списке изменений. Вы получили письмо с дополнительной информацией о"
+" вашем отчете. Вы сообщили об ошибке номеr %i."
 
 #: issueReporter/wx_ui.py:101
 msgid "reported"
@@ -1102,8 +1116,8 @@ msgstr "Сообщено"
 
 #: issueReporter/wx_ui.py:105
 msgid ""
-"Something unexpected occurred while trying to report the bug. Please, try again "
-"later"
+"Something unexpected occurred while trying to report the bug. Please, try"
+" again later"
 msgstr ""
 "При попытке сообщить об ошибке произошло нечто неожиданное. Пожалуйста, "
 "попробуйте позже."
@@ -1308,7 +1322,8 @@ msgstr "Профиль загружен"
 msgid "No URL addresses were detected."
 msgstr "URL-адреса не обнаружены."
 
-#: presenters/createPosts/basePost.py:47 presenters/displayPosts/basePost.py:309
+#: presenters/createPosts/basePost.py:47
+#: presenters/displayPosts/basePost.py:309
 msgid "Translated"
 msgstr "Переведено"
 
@@ -1341,16 +1356,18 @@ msgstr "Ссылка без названия"
 msgid "Loaded photo {0} of {1}"
 msgstr "Загруженное фото {0} из {1}"
 
-#: presenters/displayPosts/basePost.py:232 presenters/displayPosts/basePost.py:256
+#: presenters/displayPosts/basePost.py:232
+#: presenters/displayPosts/basePost.py:256
 #: presenters/displayPosts/comment.py:55 presenters/displayPosts/topic.py:96
-#: presenters/displayPosts/topic.py:106 presenters/displayPosts/topicComment.py:42
+#: presenters/displayPosts/topic.py:106
+#: presenters/displayPosts/topicComment.py:42
 msgid "&Dislike"
 msgstr "&Не нравится"
 
 #: presenters/displayPosts/basePost.py:252 presenters/displayPosts/topic.py:92
-#: presenters/displayPosts/topic.py:108 presenters/displayPosts/topicComment.py:38
-#: views/dialogs/postDisplay.py:90 views/dialogs/postDisplay.py:177
-#: views/dialogs/postDisplay.py:204
+#: presenters/displayPosts/topic.py:108
+#: presenters/displayPosts/topicComment.py:38 views/dialogs/postDisplay.py:90
+#: views/dialogs/postDisplay.py:177 views/dialogs/postDisplay.py:204
 msgid "&Like"
 msgstr "&Нравится"
 
@@ -1368,8 +1385,8 @@ msgstr "{0} отметок нравится"
 msgid "Shared {0} times"
 msgstr "Поделились {0} раз"
 
-#: presenters/displayPosts/basePost.py:290 presenters/displayPosts/comment.py:71
-#: presenters/displayPosts/topic.py:121
+#: presenters/displayPosts/basePost.py:290
+#: presenters/displayPosts/comment.py:71 presenters/displayPosts/topic.py:121
 #, python-brace-format
 msgid "Reply to {user1_nom}"
 msgstr "Ответить {user1_dat}"
@@ -1378,7 +1395,8 @@ msgstr "Ответить {user1_dat}"
 msgid "Opening Article in web browser..."
 msgstr "Открыть статью в браузере..."
 
-#: presenters/displayPosts/basePost.py:373 presenters/displayPosts/comment.py:85
+#: presenters/displayPosts/basePost.py:373
+#: presenters/displayPosts/comment.py:85
 #: presenters/displayPosts/topicComment.py:53
 msgid "people who liked this"
 msgstr "Люди, которым это понравилось."
@@ -1473,7 +1491,8 @@ msgstr "{user1_nom} добавил {total_audio_files} аудиозаписи: {
 #: sessionmanager/renderers.py:162
 #, python-brace-format
 msgid ""
-"{user1_nom} has added an audio album: {audio_album}, {audio_album_description}"
+"{user1_nom} has added an audio album: {audio_album}, "
+"{audio_album_description}"
 msgstr "{user1_nom} добавил аудиоальбом: {audio_album},  {audio_album_description}"
 
 #: sessionmanager/renderers.py:169
@@ -1605,11 +1624,11 @@ msgstr "Загрузка {0} ({1}%)"
 
 #: sessionmanager/wxUI.py:7
 msgid ""
-"In order to continue, you need to configure your VK account before. Would you "
-"like to autorhise a new account now?"
+"In order to continue, you need to configure your VK account before. Would"
+" you like to autorhise a new account now?"
 msgstr ""
-"Для входа в Ваш аккаунт \"ВКонтакте\" необходимо пройти авторизацию. Хотите "
-"продолжить?"
+"Для входа в Ваш аккаунт \"ВКонтакте\" необходимо пройти авторизацию. "
+"Хотите продолжить?"
 
 #: sessionmanager/wxUI.py:7
 msgid "Authorisation"
@@ -1650,7 +1669,8 @@ msgstr "Вы действительно хотите удалить эту уч�
 #: update/wxUpdater.py:11
 #, python-brace-format
 msgid ""
-"There's a new {app_name} version available. Would you like to download it now?\n"
+"There's a new {app_name} version available. Would you like to download it"
+" now?\n"
 "\n"
 " {app_name} version: {app_version}\n"
 "\n"
@@ -1684,9 +1704,11 @@ msgstr "Обновление... {total_transferred} of {total_size}"
 
 #: update/wxUpdater.py:34
 msgid ""
-"The update has been downloaded and installed successfully. Press OK to continue."
+"The update has been downloaded and installed successfully. Press OK to "
+"continue."
 msgstr ""
-"Обновление было успешно загружено и установлено. Нажмите \"OK\" для продолжения."
+"Обновление было успешно загружено и установлено. Нажмите \"OK\" для "
+"продолжения."
 
 #: update/wxUpdater.py:34
 msgid "Done!"
@@ -1696,19 +1718,20 @@ msgstr "Готово!"
 msgid "Add an attachment"
 msgstr "Добавить вложение"
 
-#: views/dialogs/attach.py:11 views/dialogs/postDisplay.py:53 wxUI/tabs/home.py:236
+#: views/dialogs/attach.py:11 views/dialogs/postDisplay.py:53
+#: wxUI/tabs/home.py:236
 msgid "Attachments"
 msgstr "Вложения"
 
-#: views/dialogs/attach.py:12 views/dialogs/postDisplay.py:54 wxUI/tabs/home.py:169
-#: wxUI/tabs/home.py:237
+#: views/dialogs/attach.py:12 views/dialogs/postDisplay.py:54
+#: wxUI/tabs/home.py:169 wxUI/tabs/home.py:237
 msgid "Type"
 msgstr "Тип"
 
 #: views/dialogs/attach.py:12 views/dialogs/postCreation.py:129
-#: views/dialogs/postDisplay.py:54 wxUI/dialogs/search.py:20 wxUI/tabs/home.py:67
-#: wxUI/tabs/home.py:158 wxUI/tabs/home.py:169 wxUI/tabs/home.py:237
-#: wxUI/tabs/home.py:286
+#: views/dialogs/postDisplay.py:54 wxUI/dialogs/search.py:20
+#: wxUI/tabs/home.py:67 wxUI/tabs/home.py:158 wxUI/tabs/home.py:169
+#: wxUI/tabs/home.py:237 wxUI/tabs/home.py:286
 msgid "Title"
 msgstr "Название"
 
@@ -1750,9 +1773,11 @@ msgstr "Аудио Файлы(*.mp3)|*.mp3"
 
 #: views/dialogs/attach.py:62
 msgid ""
-"Select the file to be uploaded. All extensions are allowed except .mp3 and .exe."
+"Select the file to be uploaded. All extensions are allowed except .mp3 "
+"and .exe."
 msgstr ""
-"Выберите файл для загрузки. Все расширения разрешены за исключением. mp3 и. exe."
+"Выберите файл для загрузки. Все расширения разрешены за исключением. mp3 "
+"и. exe."
 
 #: views/dialogs/attach.py:62 wxUI/tabs/home.py:179
 msgid "All files (*.*)|*.*"
@@ -1760,8 +1785,8 @@ msgstr "Все файлы (*. *) | *. *"
 
 #: views/dialogs/attach.py:68
 msgid ""
-"The file you are trying to upload contains an extension that is not allowed by "
-"VK."
+"The file you are trying to upload contains an extension that is not "
+"allowed by VK."
 msgstr ""
 "Файл, который Вы пытаетесь загрузить, имеет расширение, которое не "
 "поддерживается \"ВКонтакте\"."
@@ -1820,7 +1845,8 @@ msgstr "Канал обновления"
 #: views/dialogs/configuration.py:32
 msgid "Number of items to load for newsfeed and wall buffers (maximun 100)"
 msgstr ""
-"Количество элементов допустимое для загрузки в новостном буфере (максимум 100).."
+"Количество элементов допустимое для загрузки в новостном буфере (максимум"
+" 100).."
 
 #: views/dialogs/configuration.py:39
 msgid "Number of items to load in video buffers (maximun 200)"
@@ -1894,38 +1920,42 @@ msgstr "Закрыть"
 
 #: views/dialogs/configuration.py:177
 msgid ""
-"The alpha channel contains bleeding edge changes introduced to Socializer. A new "
-"alpha update is generated every time there are new changes in the project. Take "
-"into account that updates are generated automatically and may fail at any time "
-"due to errors in the build process. Use alpha channels when you are sure you "
-"want to try the latest changes and contribute with reports to fix bugs. Never "
-"use alpha channel updates for everyday use. Do you want to continue?"
+"The alpha channel contains bleeding edge changes introduced to "
+"Socializer. A new alpha update is generated every time there are new "
+"changes in the project. Take into account that updates are generated "
+"automatically and may fail at any time due to errors in the build "
+"process. Use alpha channels when you are sure you want to try the latest "
+"changes and contribute with reports to fix bugs. Never use alpha channel "
+"updates for everyday use. Do you want to continue?"
 msgstr ""
-"Альфа-канал содержит новейшие изменения, внесённые в Socializer. Новое альфа-"
-"обновление генерируется каждый раз, когда появляются новые изменения в проекте. "
-"Примите во внимание, что обновления генерируются автоматически и могут произойти "
-"сбой в любое время из-за ошибок в процессе сборки. Используйте альфа-каналы, "
-"когда вы уверены, что хотите попробовать последние изменения и предоставить "
-"отчеты для исправления ошибок. Никогда не используйте обновления альфа-канала "
-"для повседневного использования. Вы хотите продолжить?"
+"Альфа-канал содержит новейшие изменения, внесённые в Socializer. Новое "
+"альфа-обновление генерируется каждый раз, когда появляются новые "
+"изменения в проекте. Примите во внимание, что обновления генерируются "
+"автоматически и могут произойти сбой в любое время из-за ошибок в "
+"процессе сборки. Используйте альфа-каналы, когда вы уверены, что хотите "
+"попробовать последние изменения и предоставить отчеты для исправления "
+"ошибок. Никогда не используйте обновления альфа-канала для повседневного "
+"использования. Вы хотите продолжить?"
 
 #: views/dialogs/configuration.py:177 views/dialogs/configuration.py:180
-#: wxUI/commonMessages.py:13 wxUI/commonMessages.py:39 wxUI/commonMessages.py:45
-#: wxUI/commonMessages.py:48 wxUI/commonMessages.py:54 wxUI/commonMessages.py:57
-#: wxUI/commonMessages.py:63 wxUI/commonMessages.py:69 wxUI/commonMessages.py:72
-#: wxUI/commonMessages.py:75
+#: wxUI/commonMessages.py:13 wxUI/commonMessages.py:39
+#: wxUI/commonMessages.py:45 wxUI/commonMessages.py:48
+#: wxUI/commonMessages.py:54 wxUI/commonMessages.py:57
+#: wxUI/commonMessages.py:63 wxUI/commonMessages.py:69
+#: wxUI/commonMessages.py:72 wxUI/commonMessages.py:75
 msgid "Attention"
 msgstr "Внимание"
 
 #: views/dialogs/configuration.py:180
 msgid ""
-"The weekly channel generates an update automatically every week by building the "
-"source code present in the project. This version is used to test features added "
-"to the next stable version. Do you want to continue?"
+"The weekly channel generates an update automatically every week by "
+"building the source code present in the project. This version is used to "
+"test features added to the next stable version. Do you want to continue?"
 msgstr ""
-"Еженедельный канал генерирует обновление автоматически каждую неделю, создавая "
-"исходный код, представленный в проекте. Эта версия используется для тестирования "
-"функций, добавленных в следующую стабильную версию. Вы хотите продолжить?"
+"Еженедельный канал генерирует обновление автоматически каждую неделю, "
+"создавая исходный код, представленный в проекте. Эта версия используется "
+"для тестирования функций, добавленных в следующую стабильную версию. Вы "
+"хотите продолжить?"
 
 #: views/dialogs/postCreation.py:20
 msgid "&Privacy"
@@ -2175,29 +2205,30 @@ msgstr "Доступ к аудиозаписям данного пользова
 
 #: wxUI/commonMessages.py:27
 msgid ""
-"authorisation failed. Your configuration will be deleted. If you recently "
-"changed your password in VK, you need to reauthorize Socializer. The application "
-"will be restarted and prompt you again for your user and password. Press OK to "
-"continue."
+"authorisation failed. Your configuration will be deleted. If you recently"
+" changed your password in VK, you need to reauthorize Socializer. The "
+"application will be restarted and prompt you again for your user and "
+"password. Press OK to continue."
 msgstr ""
-"Авторизация не удалась. Ваша конфигурация будет удалена. Если Вы недавно сменили "
-"пароль \"ВКонтакте\", Вам необходимо заново авторизоваться. Приложение будет "
-"перезапущено и попросит Вас заново ввести имя пользователя и пароль. Нажмите \"OK"
-"\" для продолжения."
+"Авторизация не удалась. Ваша конфигурация будет удалена. Если Вы недавно "
+"сменили пароль \"ВКонтакте\", Вам необходимо заново авторизоваться. "
+"Приложение будет перезапущено и попросит Вас заново ввести имя "
+"пользователя и пароль. Нажмите \"OK\" для продолжения."
 
 #: wxUI/commonMessages.py:30
 msgid ""
-"Socializer could not connect to VK due to a connection issue. Be sure you have a "
-"working internet connection. The application will be closed when you press the "
-"OK button. If your internet connection is working correctly, please try to open "
-"socializer in a few minutes. If this problem persists, contact the developers to "
-"receive further assistance."
+"Socializer could not connect to VK due to a connection issue. Be sure you"
+" have a working internet connection. The application will be closed when "
+"you press the OK button. If your internet connection is working "
+"correctly, please try to open socializer in a few minutes. If this "
+"problem persists, contact the developers to receive further assistance."
 msgstr ""
-"Не удалось подключиться к \"ВКонтакте\" из-за проблем с соединением. Убедитесь, "
-"что у Вас есть рабочее подключение к интернету. Приложение будет закрыто после "
-"нажатия кнопки \"OK\". Если Ваше подключение к интернету работает правильно, "
-"пожалуйста, попробуйте открыть Socializer через несколько минут. Если проблема "
-"повторится, обратитесь к разработчику, чтобы получить дополнительную помощь."
+"Не удалось подключиться к \"ВКонтакте\" из-за проблем с соединением. "
+"Убедитесь, что у Вас есть рабочее подключение к интернету. Приложение "
+"будет закрыто после нажатия кнопки \"OK\". Если Ваше подключение к "
+"интернету работает правильно, пожалуйста, попробуйте открыть Socializer "
+"через несколько минут. Если проблема повторится, обратитесь к "
+"разработчику, чтобы получить дополнительную помощь."
 
 #: wxUI/commonMessages.py:30
 msgid "Connection Error"
@@ -2213,10 +2244,11 @@ msgstr "У Вас нет видеоальбомов."
 
 #: wxUI/commonMessages.py:39
 msgid ""
-"Do you really want to delete   this Album? this will be deleted from VK too."
+"Do you really want to delete   this Album? this will be deleted from VK "
+"too."
 msgstr ""
-"Вы действительно хотите удалить этот альбом? Он также будет удалён из \"ВКонтакте"
-"\".."
+"Вы действительно хотите удалить этот альбом? Он также будет удалён из "
+"\"ВКонтакте\".."
 
 #: wxUI/commonMessages.py:42
 msgid "Your status message has been successfully updated."
@@ -2232,15 +2264,15 @@ msgstr "Вы действительно хотите удалить эту за�
 
 #: wxUI/commonMessages.py:48
 msgid ""
-"If you like socializer, you can join or community from where you can ask for "
-"help, give us your feedback and help other users of the application. New "
-"releases are posted in the group too. Would you like to join the Socializer "
-"community?"
+"If you like socializer, you can join or community from where you can ask "
+"for help, give us your feedback and help other users of the application. "
+"New releases are posted in the group too. Would you like to join the "
+"Socializer community?"
 msgstr ""
-"Если Вам нравится Socializer, Вы можете вступить в нашу группу \"ВКонтакте\", "
-"где можете оставить свой отзыв, попросить о технической помощи, а также, помочь "
-"другим пользователям приложения. В группе регулярно публикуются новые версии. "
-"Хотите вступить в группу?"
+"Если Вам нравится Socializer, Вы можете вступить в нашу группу "
+"\"ВКонтакте\", где можете оставить свой отзыв, попросить о технической "
+"помощи, а также, помочь другим пользователям приложения. В группе "
+"регулярно публикуются новые версии. Хотите вступить в группу?"
 
 #: wxUI/commonMessages.py:51
 msgid "You have joined the Socializer community."
@@ -2248,14 +2280,15 @@ msgstr "Вы вступили в группу Socializer."
 
 #: wxUI/commonMessages.py:54
 msgid ""
-"If you live in a country where VK is blocked, you can use a proxy to bypass such "
-"restrictions. Socializer includes a working proxy to ensure all users can "
-"connect to VK. Do you want to use Socializer through the proxy?"
+"If you live in a country where VK is blocked, you can use a proxy to "
+"bypass such restrictions. Socializer includes a working proxy to ensure "
+"all users can connect to VK. Do you want to use Socializer through the "
+"proxy?"
 msgstr ""
 "Если Вы находитесь в стране, где \"ВКонтакте\" заблокирован, Вы можете "
-"использовать прокси для обхода блокировки. Socializer включает в себя рабочий "
-"прокси, чтобы все пользователи, независимо от региона, могли использовать "
-"\"ВКонтакте\". Хотите использовать Socializer через прокси?"
+"использовать прокси для обхода блокировки. Socializer включает в себя "
+"рабочий прокси, чтобы все пользователи, независимо от региона, могли "
+"использовать \"ВКонтакте\". Хотите использовать Socializer через прокси?"
 
 #: wxUI/commonMessages.py:57
 #, python-brace-format
@@ -2268,11 +2301,11 @@ msgstr "Эта запись была удалена."
 
 #: wxUI/commonMessages.py:63
 msgid ""
-"In order to apply the changes you requested, you must restart the program. Do "
-"you want to restart Socializer now?"
+"In order to apply the changes you requested, you must restart the "
+"program. Do you want to restart Socializer now?"
 msgstr ""
-"Чтобы изменения вступили в силу, Вы должны перезапустить программу. Хотите "
-"перезапустить Socializer прямо сейчас?"
+"Чтобы изменения вступили в силу, Вы должны перезапустить программу. "
+"Хотите перезапустить Socializer прямо сейчас?"
 
 #: wxUI/commonMessages.py:66
 msgid "There are 0 items for this community."
@@ -2281,13 +2314,15 @@ msgstr "0 элементов для этой группы."
 #: wxUI/commonMessages.py:69
 msgid "do you really want to delete all messages of this conversation in VK?"
 msgstr ""
-"Вы действительно хотите удалить все сообщения из этого диалога \"ВКонтакте\"?"
+"Вы действительно хотите удалить все сообщения из этого диалога "
+"\"ВКонтакте\"?"
 
 #: wxUI/commonMessages.py:72
 #, python-brace-format
 msgid "Are you really sure you want to block {user1_nom} from your VK account?"
 msgstr ""
-"Вы действительно уверены, что хотите заблокировать {user1_nom} во \"ВКонтакте\"?"
+"Вы действительно уверены, что хотите заблокировать {user1_nom} во "
+"\"ВКонтакте\"?"
 
 #: wxUI/commonMessages.py:75
 msgid "Are you sure you want to unblock this user?"
@@ -2295,11 +2330,11 @@ msgstr "Вы действительно уверены, что хотите ра
 
 #: wxUI/commonMessages.py:78
 msgid ""
-"Unfortunately, we could not send your last post or message to VK. Would you like "
-"to try again?"
+"Unfortunately, we could not send your last post or message to VK. Would "
+"you like to try again?"
 msgstr ""
-"К сожалению, не удалось опубликовать Вашу последнюю запись во \"ВКонтакте\". "
-"Хотите попробовать ещё раз?"
+"К сожалению, не удалось опубликовать Вашу последнюю запись во "
+"\"ВКонтакте\". Хотите попробовать ещё раз?"
 
 #: wxUI/commonMessages.py:78
 msgid "Post failed"
@@ -2320,10 +2355,11 @@ msgstr "Ошибка \"ВКонтакте\""
 #: wxUI/commonMessages.py:87
 msgid ""
 "You are not allowed to perform this action. Please be sure you are not "
-"attempting to post or send a message to a blocked or banned user. Error code 7."
+"attempting to post or send a message to a blocked or banned user. Error "
+"code 7."
 msgstr ""
-"Вы не можете выполнить это действие. Пожалуйста, убедитесь, что Вы не пытаетесь "
-"отправить сообщение заблокированному пользователю. Код ошибки 7"
+"Вы не можете выполнить это действие. Пожалуйста, убедитесь, что Вы не "
+"пытаетесь отправить сообщение заблокированному пользователю. Код ошибки 7"
 
 #: wxUI/commonMessages.py:89
 msgid "You cannot send messages to users in your blacklist."
@@ -2476,9 +2512,11 @@ msgstr "P"
 
 #: wxUI/mainWindow.py:99
 msgid ""
-"There is a connection error. Check your internet connection and try again later."
+"There is a connection error. Check your internet connection and try again"
+" later."
 msgstr ""
-"Ошибка соединения. Проверьте ваше подключение к интернету и попробуйте позже."
+"Ошибка соединения. Проверьте ваше подключение к интернету и попробуйте "
+"позже."
 
 #: wxUI/mainWindow.py:99
 msgid "Connection error"
@@ -2639,15 +2677,15 @@ msgstr "Создать новый альбом"
 msgid "Album title"
 msgstr "Название альбома"
 
-#: wxUI/dialogs/creation.py:18 wxUI/dialogs/search.py:29 wxUI/dialogs/search.py:73
-#: wxUI/dialogs/selector.py:62 wxUI/dialogs/selector.py:116
-#: wxUI/dialogs/timeline.py:30
+#: wxUI/dialogs/creation.py:18 wxUI/dialogs/search.py:29
+#: wxUI/dialogs/search.py:73 wxUI/dialogs/selector.py:62
+#: wxUI/dialogs/selector.py:116 wxUI/dialogs/timeline.py:30
 msgid "&OK"
 msgstr "&OK"
 
-#: wxUI/dialogs/creation.py:20 wxUI/dialogs/search.py:31 wxUI/dialogs/search.py:75
-#: wxUI/dialogs/selector.py:64 wxUI/dialogs/selector.py:118
-#: wxUI/dialogs/timeline.py:32
+#: wxUI/dialogs/creation.py:20 wxUI/dialogs/search.py:31
+#: wxUI/dialogs/search.py:75 wxUI/dialogs/selector.py:64
+#: wxUI/dialogs/selector.py:118 wxUI/dialogs/timeline.py:32
 msgid "&Close"
 msgstr "&Закрыть"
 
@@ -2842,10 +2880,13 @@ msgstr "Видеозапис&и"
 #~ msgstr "Ответить в теме"
 
 #~ msgid ""
-#~ "You have been sending a message that is already sent. Try to update the "
-#~ "buffer if you can't see the new message in the history."
+#~ "You have been sending a message "
+#~ "that is already sent. Try to "
+#~ "update the buffer if you can't see"
+#~ " the new message in the history."
 #~ msgstr ""
-#~ "Вы уже отправили сообщение. Попробуйте обновить буфер, если Вы не видите "
+#~ "Вы уже отправили сообщение. Попробуйте "
+#~ "обновить буфер, если Вы не видите "
 #~ "новое сообщение в истории."
 
 #~ msgid "replies"
@@ -2855,34 +2896,74 @@ msgstr "Видеозапис&и"
 #~ msgstr "{user1_nom} > {user2_nom}"
 
 #~ msgid ""
-#~ "In order to keep receiving updates, you are required to download the alpha "
-#~ "version of socializer from scratch from our website. Would you like to "
-#~ "download it now? If you press 'yes', you will be redirected automatically to "
-#~ "the direct download for the new alpha version, and socializer will be closed "
-#~ "automatically. If you do not wish to download the new alpha, take into "
-#~ "account that the current version will no longer receive updates"
+#~ "In order to keep receiving updates, "
+#~ "you are required to download the "
+#~ "alpha version of socializer from scratch"
+#~ " from our website. Would you like "
+#~ "to download it now? If you press"
+#~ " 'yes', you will be redirected "
+#~ "automatically to the direct download for"
+#~ " the new alpha version, and "
+#~ "socializer will be closed automatically. "
+#~ "If you do not wish to download "
+#~ "the new alpha, take into account "
+#~ "that the current version will no "
+#~ "longer receive updates"
 #~ msgstr ""
-#~ "Для того, чтобы продолжать получать обновления, Вам необходимо скачать альфа-"
-#~ "версию с нуля с нашего веб-сайта. Хотите загрузить сейчас? Если нажать \"да"
-#~ "\", Вы будете автоматически перенаправлены на прямую загрузку новой альфа-"
-#~ "версии и Socializer будет закрыт. Если Вы не хотите загружать новую альфа-"
-#~ "версию, примите во внимания, что текущая версия больше не будет получать "
-#~ "обновления."
+#~ "Для того, чтобы продолжать получать "
+#~ "обновления, Вам необходимо скачать "
+#~ "альфа-версию с нуля с нашего веб-сайта."
+#~ " Хотите загрузить сейчас? Если нажать "
+#~ "\"да\", Вы будете автоматически перенаправлены"
+#~ " на прямую загрузку новой альфа-версии "
+#~ "и Socializer будет закрыт. Если Вы "
+#~ "не хотите загружать новую альфа-версию, "
+#~ "примите во внимания, что текущая версия"
+#~ " больше не будет получать обновления."
 
 #~ msgid ""
-#~ "Please remember that from November 27, 2019, you will have to download the "
-#~ "alpha version from scratch from the Socializer website. The alpha version you "
-#~ "are currently running will no longer receive updates. The new alpha version, "
-#~ "which must be downloaded  from the project's page, should not be considered "
-#~ "suspicious by most antivirus vendors and all automatic updates will be sent "
-#~ "to the new generation of socializer alpha. Thank you for your patience."
+#~ "Please remember that from November 27,"
+#~ " 2019, you will have to download "
+#~ "the alpha version from scratch from "
+#~ "the Socializer website. The alpha "
+#~ "version you are currently running will"
+#~ " no longer receive updates. The new"
+#~ " alpha version, which must be "
+#~ "downloaded  from the project's page, "
+#~ "should not be considered suspicious by"
+#~ " most antivirus vendors and all "
+#~ "automatic updates will be sent to "
+#~ "the new generation of socializer alpha."
+#~ " Thank you for your patience."
 #~ msgstr ""
-#~ "Пожалуйста, помните, что начиная с 27-го ноября 2019-го года Вам будет "
-#~ "необходимо скачать с нуля альфа-версию Socializer с веб-сайта приложения. "
-#~ "Текущая альфа-версия больше не будет получать обновления. Новая альфа-версия, "
-#~ "которая будет загружена с веб-сайта Socializer будет считаться благонадёжной "
-#~ "для большинства антивирусов и все необходимые обновления будут отправлены на "
-#~ "новое поколение Socializer альфа. Большое спасибо за терпение и понимание!"
+#~ "Пожалуйста, помните, что начиная с 27-го"
+#~ " ноября 2019-го года Вам будет "
+#~ "необходимо скачать с нуля альфа-версию "
+#~ "Socializer с веб-сайта приложения. Текущая "
+#~ "альфа-версия больше не будет получать "
+#~ "обновления. Новая альфа-версия, которая будет"
+#~ " загружена с веб-сайта Socializer будет "
+#~ "считаться благонадёжной для большинства "
+#~ "антивирусов и все необходимые обновления "
+#~ "будут отправлены на новое поколение "
+#~ "Socializer альфа. Большое спасибо за "
+#~ "терпение и понимание!"
 
 #~ msgid "Important notice"
 #~ msgstr "важное уведомление"
+
+#~ msgid "&Misspelled word"
+#~ msgstr "Слово с орфографической ошибкой"
+
+#~ msgid "Con&text"
+#~ msgstr "Кон&текст"
+
+#~ msgid "&Suggestions"
+#~ msgstr "&Рекомендованные"
+
+#~ msgid "Ignore &all"
+#~ msgstr "Игнорировать &Все"
+
+#~ msgid "Replace a&ll"
+#~ msgstr "Заменить Вс&ё"
+
