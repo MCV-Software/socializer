@@ -64,8 +64,9 @@ update_catalogs:
     - 'git config user.name "Windows runner"'
     - 'git config  user.email "manuel@manuelcortez.net"'
     - 'git add .'
+    - 'git remote set-url --push origin git@code.manuelcortez.net:$env:CI_PROJECT_PATH'
     - 'git commit -m "Updated locales"'
-    - 'git push origin HEAD:master'
+    - 'git push origin HEAD:$env:CI_COMMIT_REF_NAME'
   only:
     - master
 
