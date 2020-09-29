@@ -3,8 +3,11 @@ import sys
 import application
 import platform
 import os
+import languageHandler
 from cx_Freeze import setup, Executable
 from babel.messages import frontend as babel
+
+languageHandler.setLanguage("en")
 
 def find_sound_lib_datafiles():
 	import os
