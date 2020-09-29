@@ -46,7 +46,8 @@ documentation:
     name: socializer_documentation
     expire_in: 30 days
 
-update_catalogs:
+### Updates all translation templates for weblate
+update_translation_templates:
   type: deploy
   tags:
     - windows10
@@ -67,7 +68,7 @@ update_catalogs:
     - 'git commit -m "Updated locales [skip ci]"'
     - 'git push origin HEAD:$env:CI_COMMIT_REF_NAME'
   only:
-    - master
+    - schedules
 
 alpha32:
   <<: *configure_environment
