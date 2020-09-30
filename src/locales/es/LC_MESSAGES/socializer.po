@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-29 11:28-0700\n"
-"PO-Revision-Date: 2020-09-30 22:10+0000\n"
+"PO-Revision-Date: 2020-10-01 23:10+0000\n"
 "Last-Translator: Manuel Cortez <manuel@manuelcortez.net>\n"
 "Language-Team: Spanish <http://translations.manuelcortez.net/projects/"
 "socializer/interface/es/>\n"
@@ -487,23 +487,23 @@ msgstr ""
 
 #: controller/mainController.py:581 presenters/main.py:462
 msgid "{user1_nom} is typing..."
-msgstr ""
+msgstr "{user1_nom} está escribiendo..."
 
 #: controller/mainController.py:634 presenters/main.py:393
 msgid "{user1_nom}'s audios"
-msgstr ""
+msgstr "Audios de {user1_nom}"
 
 #: controller/mainController.py:638 presenters/main.py:397
 msgid "{user1_nom}'s posts"
-msgstr ""
+msgstr "Publicaciones de {user1_nom}"
 
 #: controller/mainController.py:642
 msgid "{user1_nom}'s videos"
-msgstr ""
+msgstr "Videos de {user1_nom}"
 
 #: controller/mainController.py:646 presenters/main.py:401
 msgid "{user1_nom}'s friends"
-msgstr ""
+msgstr "Amigos de {user1_nom}"
 
 #: controller/mainController.py:730 controller/mainController.py:749
 #: presenters/main.py:320 presenters/main.py:339
@@ -522,27 +522,27 @@ msgstr "Selecciona el álbum que quieres eliminar"
 
 #: controller/mainController.py:933 presenters/main.py:730
 msgid "Write your status message"
-msgstr ""
+msgstr "Escribe tu mensaje de estado"
 
 #: controller/mainController.py:933 presenters/main.py:730
 msgid "Set status"
-msgstr ""
+msgstr "Establecer estado"
 
 #: controller/mainController.py:989 presenters/main.py:210
 msgid "Load groups"
-msgstr ""
+msgstr "Cargar grupos"
 
 #: controller/mainController.py:992 presenters/main.py:213
 msgid "Discard groups"
-msgstr ""
+msgstr "Descartar grupos"
 
 #: controller/mainController.py:998
 msgid "Load audio albums"
-msgstr ""
+msgstr "Cargar álbumes de audio"
 
 #: controller/mainController.py:1001
 msgid "Discard audio albums"
-msgstr ""
+msgstr "Descartar álbumes de audio"
 
 #: controller/mainController.py:1006
 msgid "Load video albums"
