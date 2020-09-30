@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-29 11:28-0700\n"
-"PO-Revision-Date: 2020-09-29 21:09+0000\n"
+"PO-Revision-Date: 2020-09-30 22:10+0000\n"
 "Last-Translator: Manuel Cortez <manuel@manuelcortez.net>\n"
 "Language-Team: Spanish <http://translations.manuelcortez.net/projects/"
 "socializer/interface/es/>\n"
@@ -22,12 +22,12 @@ msgstr ""
 #: languageHandler.py:61
 msgctxt "languageName"
 msgid "Amharic"
-msgstr ""
+msgstr "Amárico"
 
 #: languageHandler.py:62
 msgctxt "languageName"
 msgid "Aragonese"
-msgstr ""
+msgstr "Aragonés"
 
 #: languageHandler.py:63
 msgctxt "languageName"
@@ -67,7 +67,7 @@ msgstr "Catalán"
 #: languageHandler.py:70
 msgctxt "languageName"
 msgid "Vasque"
-msgstr ""
+msgstr "Vasco"
 
 #: languageHandler.py:71
 msgctxt "languageName"
@@ -101,20 +101,23 @@ msgstr "Predeterminado del usuario"
 #: authenticator/wxUI.py:9
 msgid "Please provide the authentication code you have received from VK."
 msgstr ""
+"Por favor, proporciona el código de verificación que has recibido de VK."
 
 #: authenticator/wxUI.py:9
 msgid "Two factor authentication code"
-msgstr ""
+msgstr "Código de verificación en dos pasos"
 
 #: authenticator/wxUI.py:17
 msgid ""
 "Your password or email address are incorrect. Please fix the mistakes and"
 " try it again."
 msgstr ""
+"correo o contraseña incorrectos, por favor, corrige cualquier posible error "
+"y vuelve a intentarlo."
 
 #: authenticator/wxUI.py:17
 msgid "Wrong data"
-msgstr ""
+msgstr "Información incorrecta"
 
 #: controller/buffers.py:128 controller/mainController.py:360
 msgid "Write your post"
@@ -143,7 +146,7 @@ msgstr "Has publicado un comentario"
 
 #: controller/buffers.py:304
 msgid "{user1_nom} added the following friends"
-msgstr ""
+msgstr "{user1_nom} ha añadido los siguientes amigos"
 
 #: controller/buffers.py:380 controller/buffers.py:704
 #: controller/buffers.py:969
@@ -153,32 +156,32 @@ msgstr "Este buffer no se puede eliminar"
 #: controller/buffers.py:415 controller/buffers.py:476
 #: controller/buffers.py:1336
 msgid "Post to {user1_nom}'s wall"
-msgstr ""
+msgstr "Publicar en el muro de {user1_nom}"
 
 #: controller/buffers.py:448
 msgid "Loading community..."
-msgstr ""
+msgstr "Cargando comunidad..."
 
 #: controller/buffers.py:467 controller/buffers.py:468
 #: controller/buffers.py:518 controller/buffers.py:519
 msgid "Post as {user1_nom}"
-msgstr ""
+msgstr "Publicar como {user1_nom}"
 
 #: controller/buffers.py:527
 msgid "Create topic in {user1_nom}"
-msgstr ""
+msgstr "Crear tema en {user1_nom}"
 
 #: controller/buffers.py:564
 msgid "Loading documents..."
-msgstr ""
+msgstr "Cargando documentos..."
 
 #: controller/buffers.py:590
 msgid "The document has been successfully deleted."
-msgstr ""
+msgstr "El documento ha sido eliminado con éxito."
 
 #: controller/buffers.py:595
 msgid "The document has been successfully added."
-msgstr ""
+msgstr "el documento se ha añadido con éxito."
 
 #: controller/buffers.py:719 controller/buffers.py:984
 #: controller/buffers.py:1086
@@ -191,31 +194,31 @@ msgstr "Audio añadido a tu biblioteca"
 
 #: controller/buffers.py:750
 msgid "{0} audios were added to your library."
-msgstr ""
+msgstr "{0} audios han sido añadidos a tu biblioteca."
 
 #: controller/buffers.py:752
 msgid "{audios} audios were added to your library."
-msgstr ""
+msgstr "{audios} audios han sido añadidos a tu biblioteca."
 
 #: controller/buffers.py:755
 msgid "{0} errors occurred while attempting to add {1} audios to your library."
-msgstr ""
+msgstr "Ocurrieron {0} errores al intentar añadir {1} audios a tu biblioteca."
 
 #: controller/buffers.py:780
 msgid "Audio removed."
-msgstr ""
+msgstr "Audio eliminadoAudio eliminado"
 
 #: controller/buffers.py:782
 msgid "{0} audios were removed."
-msgstr ""
+msgstr "{0} audios han sido eliminados{0} audios han sido eliminados"
 
 #: controller/buffers.py:784
 msgid "{audios} audios were removed."
-msgstr ""
+msgstr "{audios} audios han sido eliminados.{audios} audios han sido eliminados"
 
 #: controller/buffers.py:787
 msgid "{0} errors occurred while attempting to remove {1} audios."
-msgstr ""
+msgstr "han ocurrido {0} errores al intentar eliminar {1} audios."
 
 #: controller/buffers.py:792
 msgid "Select the album where you want to move this song"
@@ -223,35 +226,37 @@ msgstr "Selecciona el álbum a donde deseas mover esta canción"
 
 #: controller/buffers.py:811
 msgid "Audio added to playlist."
-msgstr ""
+msgstr "Audio añadido a la lista de reproducción."
 
 #: controller/buffers.py:813
 msgid "{0} audios were added to playlist."
-msgstr ""
+msgstr "{0} audios fueron añadidos a la lista de reproducción."
 
 #: controller/buffers.py:815
 msgid "{audios} audios were added to playlist."
-msgstr ""
+msgstr "{audios} audios añadidos a la lista de reproducción"
 
 #: controller/buffers.py:818
 msgid "{0} errors occurred while attempting to add {1} audios to your playlist."
 msgstr ""
+"han ocurrido {0} errores al intentar añadir {1} audios a la lista de "
+"reproducción."
 
 #: controller/buffers.py:833 controller/buffers.py:1037
 msgid "&Remove"
-msgstr ""
+msgstr "&Eliminar"
 
 #: controller/buffers.py:848 presenters/attach.py:56
 msgid "Untitled"
-msgstr ""
+msgstr "sin título"
 
 #: controller/buffers.py:852 presenters/attach.py:60 presenters/attach.py:62
 msgid "Unknown artist"
-msgstr ""
+msgstr "Artista desconocido"
 
 #: controller/buffers.py:866 interactors/postDisplayer.py:178
 msgid "P&ause"
-msgstr ""
+msgstr "&Pausa"
 
 #: controller/buffers.py:868 interactors/postDisplayer.py:180
 #: wxUI/tabs/home.py:78 wxUI/tabs/home.py:105 wxUI/tabs/home.py:296
@@ -265,19 +270,19 @@ msgstr "Cargando álbum..."
 
 #: controller/buffers.py:959
 msgid "Opening video in webbrowser..."
-msgstr ""
+msgstr "Abriendo video en navegador..."
 
 #: controller/buffers.py:1000
 msgid "Video added to your library"
-msgstr ""
+msgstr "Video añadido a la biblioteca."
 
 #: controller/buffers.py:1011
 msgid "Removed video from library"
-msgstr ""
+msgstr "Video eliminado de la biblioteca."
 
 #: controller/buffers.py:1020
 msgid "Select the album where you want to move this video"
-msgstr ""
+msgstr "Selecciona el álbum a donde quieres mover el video"
 
 #: controller/buffers.py:1026
 msgid "Moved"
@@ -285,11 +290,11 @@ msgstr "Movido"
 
 #: controller/buffers.py:1208
 msgid "Items loaded"
-msgstr ""
+msgstr "elementos cargados"
 
 #: controller/buffers.py:1215
 msgid "Getting more items..."
-msgstr ""
+msgstr "Cargando más elementos..."
 
 #: controller/buffers.py:1273 presenters/displayPosts/basePost.py:323
 #: presenters/profiles.py:167
@@ -311,35 +316,35 @@ msgstr "Abriendo foto en navegador..."
 #: controller/buffers.py:1377 controller/mainController.py:130
 #: sessionmanager/renderers.py:105
 msgid "Online"
-msgstr ""
+msgstr "En línea"
 
 #: controller/buffers.py:1380 sessionmanager/renderers.py:108
 msgid "Last seen {0}"
-msgstr ""
+msgstr "Última vez {0}"
 
 #: controller/buffers.py:1438
 msgid "You've removed {user1_nom} from your friends."
-msgstr ""
+msgstr "Has eliminado a {user1_nom} de tus amigos."
 
 #: controller/buffers.py:1453
 msgid "You've blocked {user1_nom} from your friends."
-msgstr ""
+msgstr "Has bloqueado a {user1_nom} de tus amigos."
 
 #: controller/buffers.py:1566
 msgid "{0} {1} now is your friend."
-msgstr ""
+msgstr "{0} {1} ahora es tu amigo"
 
 #: controller/buffers.py:1580
 msgid "You've deleted the friends request to {0} {1}."
-msgstr ""
+msgstr "Has eliminado la solicitud de amistad para {0} {1}"
 
 #: controller/buffers.py:1582
 msgid "You've declined the friend request of {0} {1}."
-msgstr ""
+msgstr "Has rechazado la solicitud de amistad de {0} {1}"
 
 #: controller/buffers.py:1596
 msgid "{0} {1} is following you."
-msgstr ""
+msgstr "{0} {1} te está siguiendo"
 
 #: controller/mainController.py:96 controller/mainController.py:244
 #: controller/mainController.py:250 presenters/main.py:227
@@ -389,7 +394,7 @@ msgstr "Video"
 
 #: controller/mainController.py:127 presenters/main.py:85
 msgid "My videos"
-msgstr ""
+msgstr "Mis videos"
 
 #: controller/mainController.py:129 presenters/main.py:87
 msgid "People"
@@ -397,32 +402,32 @@ msgstr "Gente"
 
 #: controller/mainController.py:131 wxUI/dialogs/selector.py:43
 msgid "All friends"
-msgstr ""
+msgstr "Todos los amigos"
 
 #: controller/mainController.py:132 presenters/main.py:89
 msgid "Friendship requests"
-msgstr ""
+msgstr "Solicitudes de amistad"
 
 #: controller/mainController.py:133 presenters/main.py:90
 msgid "Pending requests"
-msgstr ""
+msgstr "Solicitudes pendientes"
 
 #: controller/mainController.py:134 presenters/main.py:91
 msgid "I follow"
-msgstr ""
+msgstr "Siguiendo"
 
 #: controller/mainController.py:135 presenters/main.py:92
 msgid "Subscribers"
-msgstr ""
+msgstr "Subscriptores"
 
 #: controller/mainController.py:137 controller/mainController.py:1076
 #: presenters/main.py:93 presenters/main.py:822 wxUI/tabs/home.py:168
 msgid "Documents"
-msgstr ""
+msgstr "Documentos"
 
 #: controller/mainController.py:138
 msgid "Groups"
-msgstr ""
+msgstr "Grupos"
 
 #: controller/mainController.py:139 presenters/main.py:95
 msgid "Chats"
@@ -449,7 +454,7 @@ msgstr "Cargando elementos para {0}"
 
 #: controller/mainController.py:265 presenters/main.py:248
 msgid "Chat server reconnected"
-msgstr ""
+msgstr "Servidor de chat reconectado"
 
 #: controller/mainController.py:367 presenters/displayPosts/basePost.py:263
 #: views/dialogs/postDisplay.py:91
@@ -458,23 +463,23 @@ msgstr "Compartir"
 
 #: controller/mainController.py:382
 msgid "Create topic"
-msgstr ""
+msgstr "Crear tema"
 
 #: controller/mainController.py:389
 msgid "Add a comment to the topic"
-msgstr ""
+msgstr "Añadir comentario al tema"
 
 #: controller/mainController.py:495 presenters/main.py:446
 msgid "{user1_nom} is online."
-msgstr ""
+msgstr "{user1_nom} está en línea"
 
 #: controller/mainController.py:516 presenters/main.py:454
 msgid "{user1_nom} is offline."
-msgstr ""
+msgstr "{user1_nom} se ha desconectado."
 
 #: controller/mainController.py:530 presenters/main.py:714
 msgid "Socializer"
-msgstr ""
+msgstr "Socializer"
 
 #: controller/mainController.py:542 presenters/main.py:723
 msgid "Chat disconnected. Trying to connect in 60 seconds"
