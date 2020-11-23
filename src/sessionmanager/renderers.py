@@ -96,6 +96,9 @@ def render_person(status, session):
 	""" Render users in people buffers such as everything related to friendships or buffers created with only people.
 	Example result: ["John Doe", "An hour ago"]
 	Reference: https://vk.com/dev/fields"""
+	# In case the user decided to not show his/her last seen information we must provide a default.
+	# ToDo: Shall we indicate this with a message?
+	online_status = ""
 	if "last_seen" in status:
 		original_date = arrow.get(status["last_seen"]["time"])
 		now = arrow.now()
