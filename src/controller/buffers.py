@@ -82,9 +82,9 @@ class baseBuffer(object):
 		""" Add a new item to the list. Uses renderers.composefunc for parsing the dictionary and create a valid result for putting it in the list."""
 		try:
 			item_ = getattr(renderers, self.compose_function)(item, self.session)
+			wx.CallAfter(self.tab.list.insert_item, reversed, *item_)
 		except:
 			log.exception(item)
-		wx.CallAfter(self.tab.list.insert_item, reversed, *item_)
 
 	def get_items(self, show_nextpage=False):
 		""" Retrieve items from the VK API. This function is called repeatedly by the main controller and users could call it implicitly as well with the update buffer option.
