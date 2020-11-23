@@ -2,13 +2,14 @@
 
 ## News in this  version
 
-## new additions
+### new additions
 
 * the spelling correction module is able to add words to the dictionary so it will learn which words should start to ignore.
 
 ### bugfixes
 
 * Now it is possible to perform authentication in accounts using two factor verification again. This issue was caused due to a recent change in the VK workflow for two factor verification processes.
+* Users who have chosen to not show their online activity (specifically the last seen field in VK) will be added in people buffers. Before, those people were making socializer to raise an exception and the whole buffer was unable to be loaded.
 
 ### Changes
 
