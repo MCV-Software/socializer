@@ -4,19 +4,19 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version:  \n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: manuel@manuelcortez.net\n"
 "POT-Creation-Date: 2020-11-25 17:19-0800\n"
-"PO-Revision-Date: 2020-10-01 23:10+0000\n"
+"PO-Revision-Date: 2020-11-26 18:04+0000\n"
 "Last-Translator: Manuel Cortez <manuel@manuelcortez.net>\n"
+"Language-Team: Spanish <http://translations.manuelcortez.net/projects/"
+"socializer/application/es/>\n"
 "Language: es\n"
-"Language-Team: Spanish "
-"<http://translations.manuelcortez.net/projects/socializer/interface/es/>"
-"\n"
-"Plural-Forms: nplurals=2; plural=n != 1\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.2.2\n"
 "Generated-By: Babel 2.9.0\n"
 
 #: languageHandler.py:61
@@ -482,7 +482,7 @@ msgstr "Socializer"
 
 #: controller/mainController.py:542 presenters/main.py:723
 msgid "Chat disconnected. Trying to connect in 60 seconds"
-msgstr ""
+msgstr "El chat se ha desconectado. Intentando reconectar en 60 segundos"
 
 #: controller/mainController.py:581 presenters/main.py:462
 msgid "{user1_nom} is typing..."
@@ -545,7 +545,7 @@ msgstr "Descartar álbumes de audio"
 
 #: controller/mainController.py:1006
 msgid "Load video albums"
-msgstr ""
+msgstr "Cargar álbumes de video"
 
 #: controller/mainController.py:1009
 msgid "Discard video albums"
@@ -2904,4 +2904,3 @@ msgstr ""
 
 #~ msgid "post"
 #~ msgstr "Publicar"
-
