@@ -1,22 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) 2016 ORGANIZATION
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
-#
+# Manuel Cortez <manuel@manuelcortez.net>, 2020.
 msgid ""
 msgstr ""
-"Project-Id-Version:  \n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: manuel@manuelcortez.net\n"
 "POT-Creation-Date: 2020-11-25 17:19-0800\n"
-"PO-Revision-Date: 2020-11-26 18:26+0000\n"
+"PO-Revision-Date: 2020-11-26 20:24+0000\n"
 "Last-Translator: Manuel Cortez <manuel@manuelcortez.net>\n"
+"Language-Team: Spanish <http://translations.manuelcortez.net/projects/"
+"socializer/application/es/>\n"
 "Language: es\n"
-"Language-Team: Spanish "
-"<http://translations.manuelcortez.net/projects/socializer/application/es/>"
-"\n"
-"Plural-Forms: nplurals=2; plural=n != 1\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.2.2\n"
 "Generated-By: Babel 2.9.0\n"
 
 #: languageHandler.py:61
@@ -631,19 +631,19 @@ msgstr "Africano"
 
 #: extra/translator/translator.py:15
 msgid "Albanian"
-msgstr ""
+msgstr "albanés"
 
 #: extra/translator/translator.py:16
 msgid "Amharic"
-msgstr ""
+msgstr "amárico"
 
 #: extra/translator/translator.py:17
 msgid "Arabic"
-msgstr ""
+msgstr "Árabe"
 
 #: extra/translator/translator.py:18
 msgid "Armenian"
-msgstr ""
+msgstr "Armenio"
 
 #: extra/translator/translator.py:19
 msgid "Azerbaijani"
@@ -2904,4 +2904,3 @@ msgstr ""
 
 #~ msgid "post"
 #~ msgstr "Publicar"
-
