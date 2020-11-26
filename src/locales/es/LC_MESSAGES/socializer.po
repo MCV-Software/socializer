@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: manuel@manuelcortez.net\n"
-"POT-Creation-Date: 2020-11-26 10:05-0800\n"
-"PO-Revision-Date: 2020-11-26 18:04+0000\n"
+"POT-Creation-Date: 2020-11-25 17:19-0800\n"
+"PO-Revision-Date: 2020-11-26 18:26+0000\n"
 "Last-Translator: Manuel Cortez <manuel@manuelcortez.net>\n"
 "Language: es\n"
 "Language-Team: Spanish "
@@ -549,24 +549,24 @@ msgstr "Cargar álbumes de video"
 
 #: controller/mainController.py:1009
 msgid "Discard video albums"
-msgstr ""
+msgstr "Descartar álbumes de video"
 
 #: controller/mainController.py:1019 presenters/main.py:219
 msgid "menu unavailable for this buffer."
-msgstr ""
+msgstr "el menú no está disponible para este buffer."
 
 #: controller/mainController.py:1038 presenters/main.py:784
 msgid "Audios"
-msgstr ""
+msgstr "Audios"
 
 #: controller/mainController.py:1051 presenters/main.py:797
 msgid "Videos"
-msgstr ""
+msgstr "Videos"
 
 #: controller/mainController.py:1064 presenters/main.py:810
 #: wxUI/tabs/home.py:157
 msgid "Topics"
-msgstr ""
+msgstr "Temas"
 
 #: extra/SpellChecker/spellchecker.py:53
 #, python-format
@@ -575,15 +575,15 @@ msgstr "Mal escrito: %s"
 
 #: extra/SpellChecker/wx_ui.py:28
 msgid "Misspelled word"
-msgstr ""
+msgstr "palabra mal escrita"
 
 #: extra/SpellChecker/wx_ui.py:33
 msgid "Context"
-msgstr ""
+msgstr "Contexto"
 
 #: extra/SpellChecker/wx_ui.py:38
 msgid "Suggestions"
-msgstr ""
+msgstr "Sugerencias"
 
 #: extra/SpellChecker/wx_ui.py:43
 msgid "&Ignore"
@@ -591,7 +591,7 @@ msgstr "&Ignore"
 
 #: extra/SpellChecker/wx_ui.py:44
 msgid "I&gnore all"
-msgstr ""
+msgstr "I&gnorar todas"
 
 #: extra/SpellChecker/wx_ui.py:45
 msgid "&Replace"
@@ -599,11 +599,11 @@ msgstr "&Remplazar"
 
 #: extra/SpellChecker/wx_ui.py:46
 msgid "R&eplace all"
-msgstr ""
+msgstr "R&eemplazar todas"
 
 #: extra/SpellChecker/wx_ui.py:47
 msgid "&Add to personal dictionary"
-msgstr ""
+msgstr "&Agregar al diccionario personal"
 
 #: extra/SpellChecker/wx_ui.py:80
 msgid ""
@@ -627,7 +627,7 @@ msgstr "Corrección ortográfica finalizada"
 
 #: extra/translator/translator.py:14
 msgid "Afrikaans"
-msgstr ""
+msgstr "Africano"
 
 #: extra/translator/translator.py:15
 msgid "Albanian"
