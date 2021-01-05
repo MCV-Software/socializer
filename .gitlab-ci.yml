@@ -7,18 +7,18 @@ variables:
 # This configures the environment for both channels
 .configure_environment: &configure_environment
   tags:
-  - shared-windows
-  - windows
-  - windows-1809
+    - shared-windows
+    - windows
+    - windows-1809
   before_script:
-   - Set-Variable -Name "time" -Value (date -Format "%H:%m")
-   - echo ${time}
-   - echo "started by ${GITLAB_USER_NAME}"
-   - choco install python3 nsis -y  -ForceX86
-   - '&$env:PYTHON3_32 -V'
-   - '&$env:PYTHON3_32 -m pip install --upgrade pip'
-   - '&$env:PYTHON3_32 -m pip install --upgrade -r requirements.txt'
-   - '&$env:PYTHON3_32 -m pip uninstall enum34 -y'
+    - Set-Variable -Name "time" -Value (date -Format "%H:%m")
+    - echo ${time}
+    - echo "started by ${GITLAB_USER_NAME}"
+    - choco install python3 nsis -y  -ForceX86
+    - '&$env:PYTHON3_32 -V'
+    - '&$env:PYTHON3_32 -m pip install --upgrade pip'
+    - '&$env:PYTHON3_32 -m pip install --upgrade -r requirements.txt'
+    - '&$env:PYTHON3_32 -m pip uninstall enum34 -y'
 
 # Create documentation in all available languages so we'll have it at http://socializer.su/documentation
 # this job is triggered on every commit to master, so we always will display the latest available version of the documentation in the website.
@@ -30,11 +30,11 @@ documentation:
     - shared-windows
     - windows-1809
   script:
-   - Set-Variable -Name "time" -Value (date -Format "%H:%m")
-   - echo ${time}
-   - echo "started by ${GITLAB_USER_NAME}"
-   - choco install python3 -y  -ForceX86
-   - '&$env:PYTHON3_32 -V'
+    - Set-Variable -Name "time" -Value (date -Format "%H:%m")
+    - echo ${time}
+    - echo "started by ${GITLAB_USER_NAME}"
+    - choco install python3 -y  -ForceX86
+    - '&$env:PYTHON3_32 -V'
     ### Dependencies.
     - '&$env:PYTHON3_32 -m pip install --upgrade markdown'
     # generate all html documents.
