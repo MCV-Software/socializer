@@ -17,13 +17,12 @@ before_script:
  - Set-Variable -Name "time" -Value (date -Format "%H:%m")
  - echo ${time}
  - echo "started by ${GITLAB_USER_NAME}"
- - choco install python3 -y
+ - choco install python3-x86_32 nsis -y
  - refreshenv
  - '&$env:PYTHON3_32 -V'
  - '&$env:PYTHON3_32 -m pip install --upgrade pip'
  - '&$env:PYTHON3_32 -m pip install --upgrade -r requirements.txt'
  - '&$env:PYTHON3_32 -m pip uninstall enum34 -y'
- - python -V
 
 test:
   extends:
