@@ -2,13 +2,13 @@
 # Copyright (C) 2020 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
-#
+# Manuel Cortez <manuel@manuelcortez.net>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-09-29 11:28-0700\n"
-"PO-Revision-Date: 2020-09-30 22:10+0000\n"
+"PO-Revision-Date: 2020-11-26 20:24+0000\n"
 "Last-Translator: Manuel Cortez <manuel@manuelcortez.net>\n"
 "Language: es\n"
 "Language-Team: Spanish "
@@ -97,6 +97,8 @@ msgstr "### Nuevas características"
 #: changelog.py:24
 msgid "* Socializer will ask for confirmation before closing the application."
 msgstr ""
+"* socializer pedirá una confirmación antes de cerrar por completo la "
+"aplicación."
 
 #: changelog.py:25
 msgid ""
@@ -113,18 +115,25 @@ msgid ""
 "* In all audio buffers, there are two new menu items for selecting and "
 "deselecting all items in the buffer."
 msgstr ""
+"* en todos los buffers de audio, hay dos nuevas opciones de menú para "
+"seleccionar y des-seleccionar todos los elementos presentes en el buffer."
 
 #: changelog.py:27
 msgid ""
 "* Added displaying of articles as attachments in wall posts. When opened,"
 " Socializer will open the article in the web browser."
 msgstr ""
+"* Se muestran los artículos en la lista de archivos adjuntos en las "
+"publicaciones hechas en el muro."
 
 #: changelog.py:28
 msgid ""
 "* Starting from Version 0.24, there will be an installer for the Alpha "
 "version of socializer, always available from our downloads page."
 msgstr ""
+"* A partir de la versión 0.24, habrá disponible una versión instalable de"
+" la versión Alfa de la aplicación, siempre disponible desde nuestra "
+"página de descargas."
 
 #: changelog.py:32
 msgid ""

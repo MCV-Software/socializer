@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Socializer 0.23\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-22 17:19-0800\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2021-01-04 17:20-0800\n"
 "PO-Revision-Date: 2020-03-04 11:55-0600\n"
 "Last-Translator: Manuel Cortez <manuel@manuelcortez.net>\n"
 "Language: ru\n"
@@ -142,7 +142,6 @@ msgid "You've posted a comment"
 msgstr "Ваш комментарий добавлен."
 
 #: controller/buffers.py:304
-#, python-brace-format
 msgid "{user1_nom} added the following friends"
 msgstr "{user1_nom} добавил(а) друзей:"
 
@@ -153,7 +152,6 @@ msgstr "Этот буфер не может быть удалён."
 
 #: controller/buffers.py:415 controller/buffers.py:476
 #: controller/buffers.py:1336
-#, python-brace-format
 msgid "Post to {user1_nom}'s wall"
 msgstr "Разместить на стене {user1_nom}"
 
@@ -163,12 +161,10 @@ msgstr "Загрузка сообщества..."
 
 #: controller/buffers.py:467 controller/buffers.py:468
 #: controller/buffers.py:518 controller/buffers.py:519
-#, python-brace-format
 msgid "Post as {user1_nom}"
 msgstr "Опубликовать как {user1_nom}"
 
 #: controller/buffers.py:527
-#, python-brace-format
 msgid "Create topic in {user1_nom}"
 msgstr "Создать тему в {user1_nom}"
 
@@ -194,17 +190,14 @@ msgid "Audio added to your library"
 msgstr "Аудиозапись добавлена в библиотеку."
 
 #: controller/buffers.py:750
-#, python-brace-format
 msgid "{0} audios were added to your library."
 msgstr "{0} аудиозаписей были добавлены в библиотеку."
 
 #: controller/buffers.py:752
-#, python-brace-format
 msgid "{audios} audios were added to your library."
 msgstr "{audios} аудиозаписи были добавлены в библиотеку."
 
 #: controller/buffers.py:755
-#, python-brace-format
 msgid "{0} errors occurred while attempting to add {1} audios to your library."
 msgstr "{0} возникли ошибки при попытке добавить {1} аудиозаписи в библиотеку."
 
@@ -213,17 +206,14 @@ msgid "Audio removed."
 msgstr "Аудиозапись удалена."
 
 #: controller/buffers.py:782
-#, python-brace-format
 msgid "{0} audios were removed."
 msgstr "{0} аудиозаписей были удалены."
 
 #: controller/buffers.py:784
-#, python-brace-format
 msgid "{audios} audios were removed."
 msgstr "{audios}  аудиозаписи были удалены."
 
 #: controller/buffers.py:787
-#, python-brace-format
 msgid "{0} errors occurred while attempting to remove {1} audios."
 msgstr "{0} возникли ошибки при попытке удалить {1} аудиозаписи."
 
@@ -236,17 +226,14 @@ msgid "Audio added to playlist."
 msgstr "Аудиозапись добавлена в плейлист."
 
 #: controller/buffers.py:813
-#, python-brace-format
 msgid "{0} audios were added to playlist."
 msgstr "{0} аудиозаписей были добавлены в плейлист."
 
 #: controller/buffers.py:815
-#, python-brace-format
 msgid "{audios} audios were added to playlist."
 msgstr "{audios} аудиозаписей были добавлены в плейлист."
 
 #: controller/buffers.py:818
-#, python-brace-format
 msgid "{0} errors occurred while attempting to add {1} audios to your playlist."
 msgstr "{0} возникли ошибки при попытке добавить {1} аудиозаписи в плейлист."
 
@@ -327,39 +314,32 @@ msgid "Online"
 msgstr "В сети"
 
 #: controller/buffers.py:1380 sessionmanager/renderers.py:108
-#, python-brace-format
 msgid "Last seen {0}"
 msgstr "Последний раз в сети {0}."
 
 #: controller/buffers.py:1438
-#, python-brace-format
 msgid "You've removed {user1_nom} from your friends."
 msgstr "Вы удалили {user1_nom} из друзей."
 
 #: controller/buffers.py:1453
-#, python-brace-format
 msgid "You've blocked {user1_nom} from your friends."
 msgstr "Вы заблокировали {user1_nom}."
 
 #: controller/buffers.py:1566
-#, python-brace-format
 msgid "{0} {1} now is your friend."
 msgstr "{0} {1} теперь Ваш друг."
 
 #: controller/buffers.py:1580
-#, python-brace-format
 msgid "You've deleted the friends request to {0} {1}."
 msgstr ""
 "Вы отменили свою заявку на добавление в друзья и отписались от обновлений"
 " {0} {1}."
 
 #: controller/buffers.py:1582
-#, python-brace-format
 msgid "You've declined the friend request of {0} {1}."
 msgstr "Вы отклонили заявку на добавление в друзья от {0} {1}."
 
 #: controller/buffers.py:1596
-#, python-brace-format
 msgid "{0} {1} is following you."
 msgstr "{0} {1}подписан на Вас."
 
@@ -458,7 +438,6 @@ msgstr "Пользовательские ленты"
 #: controller/mainController.py:825 controller/mainController.py:857
 #: presenters/main.py:549 presenters/main.py:560 presenters/main.py:601
 #: presenters/main.py:633
-#, python-brace-format
 msgid "Album: {0}"
 msgstr "Альбом: {0}"
 
@@ -467,7 +446,6 @@ msgid "Logging in VK"
 msgstr "Вход..."
 
 #: controller/mainController.py:248 presenters/main.py:231
-#, python-brace-format
 msgid "Loading items for {0}"
 msgstr "Загрузка данных для {0}"
 
@@ -489,12 +467,10 @@ msgid "Add a comment to the topic"
 msgstr "Оставить комментарий в теме..."
 
 #: controller/mainController.py:495 presenters/main.py:446
-#, python-brace-format
 msgid "{user1_nom} is online."
 msgstr "{user1_nom} в сети."
 
 #: controller/mainController.py:516 presenters/main.py:454
-#, python-brace-format
 msgid "{user1_nom} is offline."
 msgstr "{user1_nom} не в сети."
 
@@ -507,33 +483,27 @@ msgid "Chat disconnected. Trying to connect in 60 seconds"
 msgstr "Чат отключился. Попытка повторного соединения в течении 60 секунд."
 
 #: controller/mainController.py:581 presenters/main.py:462
-#, python-brace-format
 msgid "{user1_nom} is typing..."
 msgstr "{user1_nom} печатает..."
 
 #: controller/mainController.py:634 presenters/main.py:393
-#, python-brace-format
 msgid "{user1_nom}'s audios"
 msgstr "Аудиозаписи {user1_gen}"
 
 #: controller/mainController.py:638 presenters/main.py:397
-#, python-brace-format
 msgid "{user1_nom}'s posts"
 msgstr "Записи {user1_gen}"
 
 #: controller/mainController.py:642
-#, python-brace-format
 msgid "{user1_nom}'s videos"
 msgstr "Видеозаписи {user1_nom}'s"
 
 #: controller/mainController.py:646 presenters/main.py:401
-#, python-brace-format
 msgid "{user1_nom}'s friends"
 msgstr "Друзья {user1_gen}"
 
 #: controller/mainController.py:730 controller/mainController.py:749
 #: presenters/main.py:320 presenters/main.py:339
-#, python-brace-format
 msgid "Search for {0}"
 msgstr "Поиск {0}"
 
@@ -634,7 +604,6 @@ msgid "&Add to personal dictionary"
 msgstr ""
 
 #: extra/SpellChecker/wx_ui.py:80
-#, python-brace-format
 msgid ""
 "An error has occurred. There are no dictionaries available for the "
 "selected language in {0}"
@@ -1067,7 +1036,6 @@ msgid "Here, you can describe the bug in detail"
 msgstr "Здесь вы можете подробно описать ошибку."
 
 #: issueReporter/wx_ui.py:81
-#, python-brace-format
 msgid ""
 "I know that the {0} bug system will get my email address to contact me "
 "and fix the bug quickly"
@@ -1188,7 +1156,6 @@ msgid "Recoding audio..."
 msgstr "Запись аудио..."
 
 #: presenters/blacklist.py:28
-#, python-brace-format
 msgid "You've unblocked {user1_nom} from your friends."
 msgstr "Вы разблокировали {user1_nom}."
 
@@ -1227,7 +1194,6 @@ msgid "This file could not be played because it is not allowed in your country"
 msgstr "Эта аудиозапись недоступна в Вашем регионе."
 
 #: presenters/player.py:106
-#, python-brace-format
 msgid "Playing {0} by {1}"
 msgstr "Воспроизводится {0} {1}"
 
@@ -1244,12 +1210,10 @@ msgid "MMMM D, YYYY"
 msgstr "MMMM D, YYYY"
 
 #: presenters/profiles.py:74
-#, python-brace-format
 msgid "{date} ({age} years)"
 msgstr "{date} ({age} лет)"
 
 #: presenters/profiles.py:94
-#, python-brace-format
 msgid "{user1_nom}'s profile"
 msgstr "{user1_gen} профиль"
 
@@ -1262,7 +1226,6 @@ msgid "Student "
 msgstr "Студент(ка)"
 
 #: presenters/profiles.py:111
-#, python-brace-format
 msgid "In {0}"
 msgstr "В {0}."
 
@@ -1271,7 +1234,6 @@ msgid "Single"
 msgstr "Холост/не замужем"
 
 #: presenters/profiles.py:123
-#, python-brace-format
 msgid "Dating with {0} {1}"
 msgstr "В отношениях с  {0} {1}"
 
@@ -1280,12 +1242,10 @@ msgid "Dating"
 msgstr "В отношениях"
 
 #: presenters/profiles.py:127
-#, python-brace-format
 msgid "Engaged with {0} {1}"
 msgstr "Помолвлен(на) с {0} {1}"
 
 #: presenters/profiles.py:130
-#, python-brace-format
 msgid "Married to {0} {1}"
 msgstr "В браке с {0} {1}"
 
@@ -1310,7 +1270,6 @@ msgid "Relationship: "
 msgstr "В отношениях"
 
 #: presenters/profiles.py:145
-#, python-brace-format
 msgid "{0}"
 msgstr "{0}"
 
@@ -1328,22 +1287,18 @@ msgid "Translated"
 msgstr "Переведено"
 
 #: presenters/displayPosts/basePost.py:93
-#, python-brace-format
 msgid "{0} > {1}"
 msgstr "{0} > {1}"
 
 #: presenters/displayPosts/basePost.py:109
-#, python-brace-format
 msgid "repost from {user1_nom}"
 msgstr "Репост от {user1_gen}"
 
 #: presenters/displayPosts/basePost.py:115
-#, python-brace-format
 msgid "Post from {user1_nom} in the {user2_nom}'s wall"
 msgstr "Запись от {user1_gen}на стене {user2_dat}"
 
 #: presenters/displayPosts/basePost.py:117
-#, python-brace-format
 msgid "Post from {user1_nom}"
 msgstr "Запись от {user1_gen}"
 
@@ -1352,7 +1307,6 @@ msgid "Untitled link"
 msgstr "Ссылка без названия"
 
 #: presenters/displayPosts/basePost.py:212
-#, python-brace-format
 msgid "Loaded photo {0} of {1}"
 msgstr "Загруженное фото {0} из {1}"
 
@@ -1376,18 +1330,15 @@ msgid "Add your comment here"
 msgstr "Комментировать..."
 
 #: presenters/displayPosts/basePost.py:272 views/dialogs/postDisplay.py:122
-#, python-brace-format
 msgid "{0} people like this"
 msgstr "{0} отметок нравится"
 
 #: presenters/displayPosts/basePost.py:275 views/dialogs/postDisplay.py:128
-#, python-brace-format
 msgid "Shared {0} times"
 msgstr "Поделились {0} раз"
 
 #: presenters/displayPosts/basePost.py:290
 #: presenters/displayPosts/comment.py:71 presenters/displayPosts/topic.py:121
-#, python-brace-format
 msgid "Reply to {user1_nom}"
 msgstr "Ответить {user1_dat}"
 
@@ -1406,12 +1357,10 @@ msgid "people who shared this"
 msgstr "Люди, которые этим поделились."
 
 #: presenters/displayPosts/comment.py:62
-#, python-brace-format
 msgid "Comment from {user1_nom} in the {user2_nom}'s post"
 msgstr "Комментарий от {user1_gen} к записи {user1_gen}"
 
 #: presenters/displayPosts/poll.py:25
-#, python-brace-format
 msgid "Poll from {user1_nom}"
 msgstr "Опрос от {user1_nom}"
 
@@ -1420,7 +1369,6 @@ msgid "Your vote has been added to this poll."
 msgstr "Вы проголосовали в опросе."
 
 #: presenters/displayPosts/topic.py:70 presenters/displayPosts/topic.py:165
-#, python-brace-format
 msgid "Load {comments} previous comments"
 msgstr "Загрузить {comments} предыдущие комментарии"
 
@@ -1429,7 +1377,6 @@ msgid "photo with no description available"
 msgstr "Нет описания фото."
 
 #: sessionmanager/renderers.py:27
-#, python-brace-format
 msgid "video: {0}"
 msgstr "Видео: {0}"
 
@@ -1447,7 +1394,6 @@ msgid "Audio"
 msgstr "Аудиозапись"
 
 #: sessionmanager/renderers.py:71
-#, python-brace-format
 msgid "{0} file"
 msgstr "{0} файл"
 
@@ -1460,7 +1406,6 @@ msgid "Post"
 msgstr "Запись"
 
 #: sessionmanager/renderers.py:85
-#, python-brace-format
 msgid "{user}: {post}"
 msgstr "{user}: {post}"
 
@@ -1474,44 +1419,36 @@ msgstr "Аккаунт деактивирован"
 
 #: sessionmanager/renderers.py:128 sessionmanager/renderers.py:226
 #: sessionmanager/renderers.py:233
-#, python-brace-format
 msgid "{user1_nom} has shared the {user2_nom}'s post"
 msgstr "{user1_nom} поделился записью {user2_gen}"
 
 #: sessionmanager/renderers.py:148
-#, python-brace-format
 msgid "{user1_nom} has added  an audio: {audio_file}"
 msgstr "{user1_nom} добавил(а) аудиозапись: {audio_file}"
 
 #: sessionmanager/renderers.py:156
-#, python-brace-format
 msgid "{user1_nom} has added  {total_audio_files} audios: {audio_files}"
 msgstr "{user1_nom} добавил {total_audio_files} аудиозаписи: {audio_files}"
 
 #: sessionmanager/renderers.py:162
-#, python-brace-format
 msgid ""
 "{user1_nom} has added an audio album: {audio_album}, "
 "{audio_album_description}"
 msgstr "{user1_nom} добавил аудиоальбом: {audio_album},  {audio_album_description}"
 
 #: sessionmanager/renderers.py:169
-#, python-brace-format
 msgid "{user1_nom} has added  {total_audio_albums} audio albums: {audio_albums}"
 msgstr "{user1_nom} добавил {total_audio_albums} аудио альбомы: {audio_albums}"
 
 #: sessionmanager/renderers.py:180
-#, python-brace-format
 msgid "{user1_nom} added friends: {friends}"
 msgstr "{user1_nom} добавил(а) друзей: {friends}"
 
 #: sessionmanager/renderers.py:185
-#, python-brace-format
 msgid "{user1_nom} has added  a video: {video}"
 msgstr "{user1_nom} добавил(а) видеозапись: {video}"
 
 #: sessionmanager/renderers.py:193
-#, python-brace-format
 msgid "{user1_nom} has added  {total_videos} videos: {videos}"
 msgstr "{user1_nom} добавил {total_videos} видеозаписи: {videos}"
 
@@ -1536,7 +1473,6 @@ msgid "Voice message not available"
 msgstr "Голосовое сообщение недоступно."
 
 #: sessionmanager/renderers.py:276
-#, python-brace-format
 msgid "Last post by {user1_nom} {date}"
 msgstr "Последняя запись {user1_nom} {date}"
 
@@ -1613,12 +1549,10 @@ msgid "%s seconds"
 msgstr "%s секунд"
 
 #: sessionmanager/utils.py:47
-#, python-brace-format
 msgid "Downloading {0}"
 msgstr "Загрузка {0}"
 
 #: sessionmanager/utils.py:57
-#, python-brace-format
 msgid "Downloading {0} ({1}%)"
 msgstr "Загрузка {0} ({1}%)"
 
@@ -1667,7 +1601,6 @@ msgid "Do you really want to delete this account?"
 msgstr "Вы действительно хотите удалить эту учётную запись?"
 
 #: update/wxUpdater.py:11
-#, python-brace-format
 msgid ""
 "There's a new {app_name} version available. Would you like to download it"
 " now?\n"
@@ -1698,7 +1631,6 @@ msgid "Downloading the new version..."
 msgstr "Загрузка новой версии..."
 
 #: update/wxUpdater.py:31
-#, python-brace-format
 msgid "Updating... {total_transferred} of {total_size}"
 msgstr "Обновление... {total_transferred} of {total_size}"
 
@@ -2108,7 +2040,6 @@ msgid "Poll results"
 msgstr "Результаты опроса"
 
 #: views/dialogs/postDisplay.py:339
-#, python-brace-format
 msgid "{votes} ({rate}%)"
 msgstr "{votes} ({rate}%)"
 
@@ -2178,7 +2109,6 @@ msgid "Information needed"
 msgstr "Необходимая информация"
 
 #: wxUI/commonMessages.py:10
-#, python-brace-format
 msgid "Your {0} version is up to date"
 msgstr "У вас установлена самая последняя версия {0}."
 
@@ -2199,7 +2129,6 @@ msgid "Restricted access"
 msgstr "Доступ ограничен"
 
 #: wxUI/commonMessages.py:23
-#, python-brace-format
 msgid "Access to user's audio is denied by the owner. Error code {0}"
 msgstr "Доступ к аудиозаписям данного пользователя закрыт. Код ошибки {0}."
 
@@ -2291,7 +2220,6 @@ msgstr ""
 "использовать \"ВКонтакте\". Хотите использовать Socializer через прокси?"
 
 #: wxUI/commonMessages.py:57
-#, python-brace-format
 msgid "Are you sure you want to remove {user1_nom} from your friends?"
 msgstr "Вы уверены, что хотите удалить {user1_nom} из друзей?"
 
@@ -2318,7 +2246,6 @@ msgstr ""
 "\"ВКонтакте\"?"
 
 #: wxUI/commonMessages.py:72
-#, python-brace-format
 msgid "Are you really sure you want to block {user1_nom} from your VK account?"
 msgstr ""
 "Вы действительно уверены, что хотите заблокировать {user1_nom} во "
@@ -2474,7 +2401,6 @@ msgid "Mute"
 msgstr "Выключить звук"
 
 #: wxUI/mainWindow.py:53
-#, python-brace-format
 msgid "About {0}"
 msgstr "О {0}"
 
@@ -2523,12 +2449,10 @@ msgid "Connection error"
 msgstr "Ошибка подключения"
 
 #: wxUI/mainWindow.py:142
-#, python-brace-format
 msgid "{version} (stable)"
 msgstr "{version} стабильная"
 
 #: wxUI/mainWindow.py:144
-#, python-brace-format
 msgid "{version} (alpha)"
 msgstr "{version} альфа"
 
@@ -2763,7 +2687,6 @@ msgid "Selected attachments"
 msgstr "Выбрать вложения"
 
 #: wxUI/dialogs/timeline.py:9
-#, python-brace-format
 msgid "New timeline for {0}"
 msgstr "Новая пользовательская лента для {0}"
 
