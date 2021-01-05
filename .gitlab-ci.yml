@@ -1,119 +1,30 @@
-# Jobs to build the two channels in Socializer.
-# Currently using python 3.7.7
-variables:
-  PYTHON3_32: "C:\\python37-32\\python.exe"
-  PYTHON3_64: "C:\\python37-64\\python.exe"
-  NSIS: "C:\\nsis\\makensis.exe"
-
-# This configures the environment for both channels
-.configure_environment: &configure_environment
+.shared_windows_runners:
   tags:
-    - windows10
-  before_script:
-    - '&$env:PYTHON3_32 -V'
-    - '&$env:PYTHON3_32 -m pip install --upgrade pip'
-    - '&$env:PYTHON3_32 -m pip install --upgrade -r requirements.txt'
-    - '&$env:PYTHON3_32 -m pip uninstall enum34 -y'
+  - shared-windows
+  - windows
+  - windows-1809
 
-# Create documentation in all available languages so we'll have it at http://socializer.su/documentation
-# this job is triggered on every commit to master, so we always will display the latest available version of the documentation in the website.
-documentation:
-  type: deploy
-  tags:
-    - windows10
-  script:
-    ### Dependencies.
-    - '&$env:PYTHON3_32 -m pip install --upgrade markdown'
-    # generate all html documents.
-    - copy changelog.md doc\changelog.md
-    - cd doc
-    - '&$env:PYTHON3_32 documentation_importer.py'
-    - cd ..\src
-    - '&$env:PYTHON3_32 ..\doc\generator.py'
-    - 'move documentation ..\'
-  only:
-    - master
-  artifacts:
-    paths:
-    - documentation
-    name: socializer_documentation
-    expire_in: 1 day
+stages:
+  - build
+  - test
 
-### Updates all translation templates for weblate
-# this is also executed on every commit to master.
-update_translation_templates:
-  type: deploy
-  tags:
-    - windows10
-  script:
-    - '&$env:PYTHON3_32 -m pip install --upgrade babel'
-    - copy changelog.md doc\changelog.md
-    - cd doc
-    - '&$env:PYTHON3_32 documentation_importer.py'
-    - cd ..\src
-    - '&$env:PYTHON3_32 setup.py extract_messages -F babel.cfg --input-dirs . --output-file ..\scripts\socializer.pot'
-    - '&$env:PYTHON3_32 setup.py update_catalog --no-fuzzy-matching --domain socializer --output-dir locales --input-file ..\scripts\socializer.pot'
-    - cd ..\doc
-    - '&$env:PYTHON3_32 translate.py'
-    - cd ..
-    # After generation, it's time to push all translation updates.
-    - 'git config user.name "Windows runner"'
-    - 'git config  user.email "manuel@manuelcortez.net"'
-    - 'git add scripts'
-    - 'git add src\locales'
-    - 'git remote set-url --push origin git@code.manuelcortez.net:$env:CI_PROJECT_PATH'
-    - 'git commit -m "Updated locales [skip ci]"'
-    - 'git push origin HEAD:$env:CI_COMMIT_REF_NAME'
-  only:
-    - master
+before_script:
+ - Set-Variable -Name "time" -Value (date -Format "%H:%m")
+ - echo ${time}
+ - echo "started by ${GITLAB_USER_NAME}"
+ - choco install python3 -y
 
-alpha32:
-  <<: *configure_environment
-  type: deploy
+build:
+  extends:
+  - .shared_windows_runners
+  stage: build
   script:
-    # Create html documentation firstly.
-    - copy changelog.md doc\changelog.md
-    - cd doc
-    - '&$env:PYTHON3_32 documentation_importer.py'
-    - cd ..\src
-    - '&$env:PYTHON3_32 ..\doc\generator.py'
-    # Writes version info useful for alphas.
-    - '&$env:PYTHON3_32 write_version_data.py'
-    # build it all.
-    - '&$env:PYTHON3_32 setup.py build'
-    # Once built, makes the installer for for alpha.
-    - '&$env:NSIS installer_alpha.nsi'
-    - cd ..
-    - move src\socializer* .
-    - cd scripts
-    # Zips the folder in order to create the portable socializer version.
-    - '&$env:PYTHON3_32 prepare_zipversion.py'
-    - cd ..
-    - move src\socializer.zip socializer_x86_alpha.zip
-    - '&$env:PYTHON3_32 scripts/generate_update_file.py'
-    - '&$env:PYTHON3_32 scripts/upload.py'
-  only:
-    - master
+  - echo "running scripts in the build job"
 
-# Generates a new stable version of the application every tag.
-stable:
-  <<: *configure_environment
-  type: deploy
+test:
+  extends:
+  - .shared_windows_runners
+  stage: test
   script:
-    - copy changelog.md doc\changelog.md
-    - cd doc
-    - '&$env:PYTHON3_32 documentation_importer.py'
-    - cd ..\src
-    - '&$env:PYTHON3_32 ..\doc\generator.py'
-    - '&$env:PYTHON3_32 write_version_data.py'
-    - '&$env:PYTHON3_32 setup.py build'
-    - '&$env:NSIS installer.nsi'
-    - cd ..
-    - move src\socializer* .
-    - cd scripts
-    - '&$env:PYTHON3_32 prepare_zipversion.py'
-    - cd ..
-    - move src\socializer.zip socializer_x86.zip
-    - '&$env:PYTHON3_32 scripts/upload.py'
-  only:
-    - tags
+  - echo "running scripts in the test job"
+  - python -V
