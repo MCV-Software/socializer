@@ -1,3 +1,8 @@
+variables:
+  PYTHON3_32: "C:\\python39\\python.exe"
+  #PYTHON3_64: "C:\\python37-64\\python.exe"
+  #NSIS: "C:\\nsis\\makensis.exe"
+
 .shared_windows_runners:
   tags:
   - shared-windows
@@ -13,13 +18,12 @@ before_script:
  - echo ${time}
  - echo "started by ${GITLAB_USER_NAME}"
  - choco install python3 -y
-
-build:
-  extends:
-  - .shared_windows_runners
-  stage: build
-  script:
-  - echo "running scripts in the build job"
+ - refreshenv
+ - '&$env:PYTHON3_32 -V'
+ - '&$env:PYTHON3_32 -m pip install --upgrade pip'
+ - '&$env:PYTHON3_32 -m pip install --upgrade -r requirements.txt'
+ - '&$env:PYTHON3_32 -m pip uninstall enum34 -y'
+ - python -V
 
 test:
   extends:
