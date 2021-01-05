@@ -2,7 +2,7 @@
 # the next variables are customized to the filepaths used when installing python and nsis with chocolatey.
 variables:
   PYTHON3_32: "C:\\python39\\python.exe"
-    NSIS: "C:\\program files (x86)\\nsis\\makensis.exe"
+  NSIS: "C:\\program files (x86)\\nsis\\makensis.exe"
 
 # This configures the environment for both channels
 .configure_environment: &configure_environment
