@@ -51,6 +51,7 @@ version = os.environ.get("CI_COMMIT_TAG") or "alpha"
 version = version.replace("v", "")
 
 print("Uploading files to the Socializer server...")
+print("Connecting to %s" % (ftp_server,))
 connection = MyFTP_TLS(ftp_server)
 print("Connected to FTP server {}".format(ftp_server,))
 connection.login(user=ftp_username, passwd=ftp_password)
