@@ -31,25 +31,19 @@ stages:
 # We are not using the configure_environment job cause it adds all the dependencies, which are not needed for this to work.
 documentation:
   stage: generate_docs
-  tags:
-    - windows
-    - shared-windows
-    - windows-1809
+  image: python
   script:
-    - Set-Variable -Name "time" -Value (date -Format "%H:%m")
-    - echo ${time}
     - echo "started by ${GITLAB_USER_NAME}"
-    - choco install python3 -y  -ForceX86
-    - '&$env:PYTHON3_32 -V'
+    - python -V
     ### Dependencies.
-    - '&$env:PYTHON3_32 -m pip install --upgrade markdown'
+    - python  -m pip install --upgrade markdown
     # generate all html documents.
-    - copy changelog.md doc\changelog.md
+    - cp changelog.md doc/changelog.md
     - cd doc
-    - '&$env:PYTHON3_32 documentation_importer.py'
-    - cd ..\src
-    - '&$env:PYTHON3_32 ..\doc\generator.py'
-    - 'move documentation ..\'
+    - python  documentation_importer.py
+    - cd ../src
+    - python ../doc/generator.py
+    - mv -f documentation ../
   only:
     - master
   artifacts:
