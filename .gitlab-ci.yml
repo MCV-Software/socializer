@@ -1,9 +1,14 @@
 # This CI configuration file assumes we are going to use gitlab Shared runners at gitlab.com
-# the next variables are customized to the filepaths used when installing python and nsis with chocolatey.
+# due to gitlab possibilities, we use a mix of Windows and docker containers (the python image) to build the project.
+# the next variables are customized to the filepaths used when installing python and nsis with chocolatey on the windows runners.
 variables:
   PYTHON3_32: "C:\\python38\\python.exe"
   NSIS: "C:\\program files (x86)\\nsis\\makensis.exe"
 
+# The project defines 3 stages:
+# 1. Generate_docs: generates the documentation and update translation files. This uses the python docker image.
+# 2. Build: Creates the executable file by using a windows runner.
+# 3. Upload: Puts everything in an ftp directory. I had to use a docker container here because the Windows runner has all ports blocked.
 stages:
   - generate_docs
   - build
@@ -114,7 +119,6 @@ alpha32:
       - artifacts
     expire_in: 1 day
 
-
 # Generates a new stable version of the application every tag.
 stable:
   <<: *configure_environment
@@ -129,12 +133,16 @@ stable:
     - '&$env:PYTHON3_32 setup.py build'
     - '&$env:NSIS installer.nsi'
     - cd ..
-    - move src\socializer* .
+    - mkdir artifacts
+    - move src\socializer* artifacts\
     - cd scripts
     - '&$env:PYTHON3_32 prepare_zipversion.py'
     - cd ..
-    - move src\socializer.zip socializer_x86.zip
-    - '&$env:PYTHON3_32 scripts/upload.py'
+    - move src\socializer.zip artifacts\socializer_x86.zip
+  artifacts:
+    paths:
+      - artifacts
+    expire_in: 1 day
   only:
     - tags
 
