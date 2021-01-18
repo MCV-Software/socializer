@@ -4,6 +4,11 @@ variables:
   PYTHON3_32: "C:\\python38\\python.exe"
   NSIS: "C:\\program files (x86)\\nsis\\makensis.exe"
 
+stages:
+  - generate_docs
+  - build
+  - upload
+
 # This configures the environment for both channels
 .configure_environment: &configure_environment
   tags:
@@ -25,7 +30,7 @@ variables:
 # this job is triggered on every commit to master, so we always will display the latest available version of the documentation in the website.
 # We are not using the configure_environment job cause it adds all the dependencies, which are not needed for this to work.
 documentation:
-  type: deploy
+  stage: generate_docs
   tags:
     - windows
     - shared-windows
@@ -57,7 +62,7 @@ documentation:
 # this is also executed on every commit to master.
 # commented out while we find a way to push to a git repository from a gitlab shared runner.
 .update_translation_templates:
-  type: deploy
+  stage: generate_docs
   tags:
     - windows10
   script:
@@ -84,7 +89,7 @@ documentation:
 
 alpha32:
   <<: *configure_environment
-  type: deploy
+  stage: build
   script:
     # Create html documentation firstly.
     - copy changelog.md doc\changelog.md
@@ -99,21 +104,27 @@ alpha32:
     # Once built, makes the installer for for alpha.
     - '&$env:NSIS installer_alpha.nsi'
     - cd ..
-    - move src\socializer* .
+    - mkdir artifacts
+    - move src\socializer* artifacts\
     - cd scripts
     # Zips the folder in order to create the portable socializer version.
     - '&$env:PYTHON3_32 prepare_zipversion.py'
     - cd ..
-    - move src\socializer.zip socializer_x86_alpha.zip
+    - move src\socializer.zip artifacts\socializer_x86_alpha.zip
     - '&$env:PYTHON3_32 scripts/generate_update_file.py'
-    - '&$env:PYTHON3_32 scripts/upload.py $FTP_SERVER $FTP_USERNAME $FTP_PASSWORD'
+    - move *.json artifacts
   only:
     - master
+  artifacts:
+    paths:
+      - artifacts
+    expire_in: 1 day
+
 
 # Generates a new stable version of the application every tag.
 stable:
   <<: *configure_environment
-  type: deploy
+  stage: build
   script:
     - copy changelog.md doc\changelog.md
     - cd doc
@@ -132,3 +143,16 @@ stable:
     - '&$env:PYTHON3_32 scripts/upload.py'
   only:
     - tags
+
+upload:
+  stage: upload
+  tags:
+    - linux
+  image: python
+  script:
+    - cd artifacts
+    - python ../scripts/upload.py
+  only:
+    - master
+    - tags
+    - schedules
