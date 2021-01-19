@@ -1,10 +1,7 @@
 ﻿wxpython
 pywin32
 markdown
-# For the moment we will use the modified vk_api version that does not try to include enum34 and
-# already fixed the caption for wall uploaded photos.
-# Hopefully I can uncomment this in the near future when my changes will get merged upstream.
-#vk_api
+vk_api
 bs4
 configobj
 pypubsub
@@ -13,6 +10,7 @@ future
 arrow
 backports.functools_lru_cache
 yandex.translate
+googletrans
 mutagen
 mock
 babel
@@ -23,5 +21,3 @@ git+https://gitlab.com/manuelcortez/libloader
 git+https://gitlab.com/manuelcortez/platform_utils
 git+https://github.com/Accessiware/sound_lib
 git+https://gitlab.com/manuelcortez/accessible_output2
-# Modified vk_api.
-git+https://github.com/manuelcortez/vk_api
