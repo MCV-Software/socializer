@@ -37,6 +37,7 @@ stages:
 documentation:
   stage: generate_docs
   image: python
+  interruptible: true
   script:
     - echo "started by ${GITLAB_USER_NAME}"
     - python -V
@@ -64,6 +65,7 @@ documentation:
   stage: generate_docs
   tags:
     - windows10
+  interruptible: true
   script:
     - '&$env:PYTHON3_32 -m pip install --upgrade babel'
     - copy changelog.md doc\changelog.md
@@ -89,6 +91,7 @@ documentation:
 alpha32:
   <<: *configure_environment
   stage: build
+  interruptible: true
   script:
     # Create html documentation firstly.
     - copy changelog.md doc\changelog.md
@@ -123,6 +126,7 @@ alpha32:
 stable:
   <<: *configure_environment
   stage: build
+  interruptible: true
   script:
     - copy changelog.md doc\changelog.md
     - cd doc
@@ -151,6 +155,7 @@ upload:
   tags:
     - linux
   image: python
+  interruptible: true
   script:
     - cd artifacts
     - python ../scripts/upload.py
