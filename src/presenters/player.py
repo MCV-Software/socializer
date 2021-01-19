@@ -93,9 +93,7 @@ class audioPlayer(object):
 		# Make sure that  there are no other sounds trying to be played.
 		if self.is_working == False:
 			self.is_working = True
-			# Let's encode the URL as bytes if on Python 3
 			url_ = utils.transform_audio_url(object["url"])
-			url_ = bytes(url_, "utf-8")
 			try:
 				self.stream = URLStream(url=url_)
 			except:
@@ -115,7 +113,6 @@ class audioPlayer(object):
 			return self.stop_message()
 		output.speak(_("Playing..."))
 		url_ = utils.transform_audio_url(message_url)
-		url_ = bytes(url_, "utf-8")
 		try:
 			self.message = URLStream(url=url_)
 		except:
