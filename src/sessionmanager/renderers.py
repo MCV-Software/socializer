@@ -9,7 +9,7 @@ from . utils import seconds_to_string, clean_text
 
 log = logging.getLogger(__file__)
 
-### Some util funtions
+### Some util functions
 
 def extract_attachment(attachment):
 	""" Adds information about attachment files in posts. It only adds the text, I mean, no attachment file is added here.
