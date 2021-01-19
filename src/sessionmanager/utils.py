@@ -87,7 +87,7 @@ def transform_audio_url(url):
 		30/04/2019: Re-enabled old methods as VK changed everything as how it was working on 16.04.2019.
 		17.04.2019: Updated function. Now it is not required to strip anything, just replacing /index.m3u8 with .mp3 should be enough.
 		16.04.2019: Implemented this function. For now it replaces /index.m3u8 by .mp3, also removes the path component before "/audios" if the URL contains the word /audios, or the last path component before the filename if doesn't.
-"""
+	"""
 	if "vkuseraudio.net" not in url and "index.m3u8" not in url:
 		return url
 	url = url.replace("/index.m3u8", ".mp3")
@@ -96,6 +96,7 @@ def transform_audio_url(url):
 		url = url.replace("/"+parts[-2], "")
 	else:
 		url = url.replace("/"+parts[-3], "")
+		url = url.split(".mp3?")[0]+".mp3"
 	return url
 
 def safe_filename(filename):
