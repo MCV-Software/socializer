@@ -10,11 +10,13 @@
 
 * Now it is possible to perform authentication in accounts using two factor verification again. This issue was caused due to a recent change in the VK workflow for two factor verification processes.
 * Users who have chosen to not show their online activity (specifically the last seen field in VK) will be added in people buffers. Before, those people were making socializer to raise an exception and the whole buffer was unable to be loaded.
+* It is possible to translate texts again, thanks to the Google Translate implementation added in the application.
 
 ### Changes
 
 * The spelling correction module has been rewritten to take advantage of the newest enchant Python module which is more stable and can be added properly to the distribution, as opposed to the first enchant module we have tried.
 * Better performance on Socializer should be noticed for users with many conversations opened. Before, socializer could freeze while loading all messages in conversations. Now that should work more efficiently and the application should not stop responding.
+* Socializer now uses Google Translate services instead of yandex.translate.
 
 ## News in Version 0.24
 

@@ -9,7 +9,6 @@ requests-oauthlib
 future
 arrow
 backports.functools_lru_cache
-yandex.translate
 googletrans
 mutagen
 mock

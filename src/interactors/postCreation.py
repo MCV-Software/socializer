@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 import widgetUtils
 from wxUI.dialogs import selector
 from pubsub import pub
@@ -59,8 +58,11 @@ class createPostInteractor(base.baseInteractor):
 		dlg = translator.gui.translateDialog()
 		if dlg.get_response() == widgetUtils.OK:
 			text_to_translate = self.view.get_text()
-			dest = [x[0] for x in translator.translator.available_languages()][dlg.get("dest_lang")]
-			self.presenter.translate(text_to_translate, dest)
+			language_dict = translator.translator.available_languages()
+			for k in language_dict:
+				if language_dict[k] == dlg.dest_lang.GetStringSelection():
+					dst = k
+			self.presenter.translate(text_to_translate, dst)
 		dlg.Destroy()
 
 	def on_spellcheck(self, event=None):
