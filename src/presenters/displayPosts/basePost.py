@@ -15,7 +15,7 @@ from extra import SpellChecker, translator
 from mysc.thread_utils import call_threaded
 from presenters import base
 from presenters.createPosts.basePost import createPostPresenter
-from . import audio, poll
+from . import audio, poll, article
 
 log = logging.getLogger(__file__)
 
@@ -351,10 +351,9 @@ class displayPostPresenter(base.basePresenter):
 		elif attachment["type"] == "poll":
 			a = poll.displayPollPresenter(session=self.session, poll=attachment, interactor=interactors.displayPollInteractor(), view=views.displayPoll())
 		elif attachment["type"] == "article":
-			output.speak(_("Opening Article in web browser..."), True)
-			webbrowser.open_new_tab(attachment["article"]["url"])
+			a = article.displayArticlePresenter(session=self.session, postObject=[attachment["article"]], interactor=interactors.displayArticleInteractor(), view=views.displayArticle())
 		else:
-			log.debug("Unhandled attachment: %r" % (attachment,))
+			log.error("Unhandled attachment: %r" % (attachment,))
 
 	def __del__(self):
 		if hasattr(self, "worker"):

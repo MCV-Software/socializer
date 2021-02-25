@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """ Session object for Socializer. A session is the only object to call VK API methods, save settings and access to the cache database and sound playback mechanisms. """
-from __future__ import unicode_literals
 import os
 import logging
 import warnings

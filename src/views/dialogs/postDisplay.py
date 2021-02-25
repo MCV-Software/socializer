@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 import wx
 import widgetUtils
 
@@ -282,6 +281,76 @@ class displayAudio(widgetUtils.BaseDialog):
 
 	def get_audio(self):
 		return self.list.GetSelection()
+
+class displayArticle(widgetUtils.BaseDialog):
+	def __init__(self, *args, **kwargs):
+		super(displayArticle, self).__init__(parent=None, *args, **kwargs)
+		self.panel = wx.Panel(self, -1)
+		self.sizer = wx.BoxSizer(wx.VERTICAL)
+		article_view_box = self.create_article_view()
+		self.sizer.Add(article_view_box, 0, wx.ALL, 5)
+		views_box = self.create_views_control()
+		self.sizer.Add(views_box, 0, wx.ALL, 5)
+		attachments_box = self.create_attachments()
+		self.sizer.Add(attachments_box, 0, wx.ALL, 5)
+		self.attachments.list.Enable(False)
+		self.create_tools_button()
+		self.sizer.Add(self.tools, 0, wx.ALL, 5)
+		self.sizer.Add(self.create_dialog_buttons())
+		self.done()
+
+	def done(self):
+		self.panel.SetSizer(self.sizer)
+		self.SetClientSize(self.sizer.CalcMin())
+
+	def create_article_view(self, label=_("Article")):
+		lbl = wx.StaticText(self.panel, -1, label)
+		self.article_view = wx.TextCtrl(self.panel, -1, size=(730, -1), style=wx.TE_READONLY|wx.TE_MULTILINE|wx.BORDER_SIMPLE)
+		selectId = wx.NewId()
+		self.Bind(wx.EVT_MENU, self.onSelect, id=selectId)
+		self.accel_tbl = wx.AcceleratorTable([
+			(wx.ACCEL_CTRL, ord('A'), selectId),])
+		self.SetAcceleratorTable(self.accel_tbl)
+		box = wx.BoxSizer(wx.HORIZONTAL)
+		box.Add(lbl, 0, wx.ALL, 5)
+		box.Add(self.article_view, 0, wx.ALL, 5)
+		return box
+
+	def onSelect(self, event):
+		self.article_view.SelectAll()
+
+	def create_views_control(self):
+		lbl = wx.StaticText(self.panel, -1, _("Views"))
+		self.views = wx.TextCtrl(self.panel, -1, style=wx.TE_READONLY|wx.TE_MULTILINE)
+		box = wx.BoxSizer(wx.HORIZONTAL)
+		box.Add(lbl, 0, wx.ALL, 5)
+		box.Add(self.views, 0, wx.ALL, 5)
+		return box
+
+	def create_tools_button(self):
+		self.tools = wx.Button(self.panel, -1, _("Actions"))
+
+	def create_dialog_buttons(self):
+		self.close = wx.Button(self.panel, wx.ID_CANCEL, _("Close"))
+		return self.close
+
+	def create_attachments(self):
+		lbl = wx.StaticText(self.panel, -1, _("Attachments"))
+		self.attachments = widgetUtils.list(self.panel, _("Type"), _("Title"), style=wx.LC_REPORT)
+		box = wx.BoxSizer(wx.HORIZONTAL)
+		box.Add(lbl, 0, wx.ALL, 5)
+		box.Add(self.attachments.list, 0, wx.ALL, 5)
+		return box
+
+	def set_article(self, text):
+		if hasattr(self, "article_view"):
+			self.article_view.ChangeValue(text)
+		else:
+			return False
+
+	def insert_attachments(self, attachments):
+		for i in attachments:
+			self.attachments.insert_item(False, *i)
 
 class displayFriendship(widgetUtils.BaseDialog):
 	def __init__(self):

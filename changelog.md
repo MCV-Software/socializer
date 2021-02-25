@@ -4,6 +4,7 @@
 
 ### new additions
 
+* It is now possible to read an article from a wall post. The article will be opened in a new dialog. This might work better in countries where VK is blocked as users no longer need to open the web browser. Unfortunately, as articles are mainly undocumented in the API, it is not possible to perform other actions besides reading them from Socializer.
 * the spelling correction module is able to add words to the dictionary so it will learn which words should start to ignore.
 
 ### bugfixes
