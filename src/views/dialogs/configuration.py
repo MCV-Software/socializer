@@ -16,6 +16,8 @@ class general(wx.Panel, widgetUtils.BaseDialog):
 		sizer.Add(self.load_images, 0, wx.ALL, 5)
 		self.use_proxy = wx.CheckBox(self, wx.NewId(), _("Use proxy"))
 		sizer.Add(self.use_proxy, 0, wx.ALL, 5)
+		self.debug_logging = wx.CheckBox(self, wx.NewId(), _("Enable debug logging (useful for reporting errors)"))
+		sizer.Add(self.debug_logging, 0, wx.ALL, 5)
 		lbl4 = wx.StaticText(self, wx.NewId(), _("Update channel"))
 		self.update_channel = wx.ComboBox(self, wx.NewId(), choices=[_("Stable"), _("Alpha")], value=_("Native"), style=wx.CB_READONLY)
 		box4 = wx.BoxSizer(wx.HORIZONTAL)

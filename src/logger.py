@@ -8,10 +8,11 @@ import sys
 APP_LOG_FILE = 'debug.log'
 ERROR_LOG_FILE = "error.log"
 MESSAGE_FORMAT = "%(asctime)s %(name)s %(levelname)s: %(message)s"
-DATE_FORMAT = "%d/%m/%Y %H:%M:%S"
+DATE_FORMAT = "%d-%m-%Y %H:%M:%S"
 
 formatter = logging.Formatter(MESSAGE_FORMAT, datefmt=DATE_FORMAT)
 
+# Let's mute some really verbose logs.
 requests_log = logging.getLogger("requests")
 requests_log.setLevel(logging.WARNING)
 urllib3 = logging.getLogger("urllib3")
@@ -24,7 +25,7 @@ logger.setLevel(logging.DEBUG)
 
 app_handler = RotatingFileHandler(os.path.join(paths.logs_path(), APP_LOG_FILE), mode="w", encoding="utf-8")
 app_handler.setFormatter(formatter)
-app_handler.setLevel(logging.DEBUG)
+app_handler.setLevel(logging.WARNING)
 logger.addHandler(app_handler)
 
 error_handler = logging.FileHandler(os.path.join(paths.logs_path(), ERROR_LOG_FILE), mode="w", encoding="utf-8")

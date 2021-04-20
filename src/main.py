@@ -27,6 +27,8 @@ def setup():
 	global orig_session_init
 	log.debug("Starting Socializer %s" % (application.version,))
 	config.setup()
+	if config.app["app-settings"]["debug_logging"] == True:
+		logger.app_handler.setLevel(logging.DEBUG)
 	log.debug("Using %s %s" % (platform.system(), platform.architecture()[0]))
 	log.debug("Application path is %s" % (paths.app_path(),))
 	log.debug("config path  is %s" % (paths.config_path(),))

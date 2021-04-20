@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 import widgetUtils
 from pubsub import pub
 from wxUI.commonMessages import restart_program as restart_program_dialog
@@ -68,5 +67,6 @@ class configurationInteractor(base.baseInteractor):
 		self.presenter.update_app_setting(section="sound", setting="input_device", value=self.view.get_value("sound", "input"))
 		self.presenter.update_app_setting(section="sound", setting="output_device", value=self.view.get_value("sound", "output"))
 		self.presenter.update_app_setting(section="app-settings", setting="use_proxy", value=self.view.get_value("general", "use_proxy"))
+		self.presenter.update_app_setting(section="app-settings", setting="debug_logging", value=self.view.get_value("general", "debug_logging"))
 		self.presenter.save_app_settings_file()
 		self.presenter.save_settings_file()

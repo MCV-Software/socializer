@@ -2,6 +2,7 @@
 language = string(default="system")
 use_proxy = boolean(default=False)
 first_start = boolean(default=True)
+debug_logging = boolean(default=False)
 
 [sound]
 volume = integer(default=100)
