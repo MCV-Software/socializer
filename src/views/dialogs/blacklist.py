@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 import wx
 import widgetUtils
 
@@ -14,7 +13,7 @@ class blacklistDialog(widgetUtils.BaseDialog):
 		sizer.Add(box1, 0, wx.ALL, 5)
 		self.unblock = wx.Button(panel, wx.NewId(), _("Unblock"))
 		sizer.Add(self.unblock, 0, wx.ALL, 5)
-		close = wx.Button(panel, wx.ID_CLOSE)
+		close = wx.Button(panel, wx.ID_CANCEL, _("Close"))
 		sizer.Add(close, 0, wx.ALL, 5)
 		panel.SetSizer(sizer)
 		self.SetClientSize(sizer.CalcMin())

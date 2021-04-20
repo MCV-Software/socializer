@@ -9,6 +9,7 @@
 
 ### bugfixes
 
+* Fixed a small issue that was making impossible to close the blacklist dialog by pressing escape.
 * Now it is possible to perform authentication in accounts using two factor verification again. This issue was caused due to a recent change in the VK workflow for two factor verification processes.
 * Users who have chosen to not show their online activity (specifically the last seen field in VK) will be added in people buffers. Before, those people were making socializer to raise an exception and the whole buffer was unable to be loaded.
 * It is possible to translate texts again, thanks to the Google Translate implementation added in the application.
