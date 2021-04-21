@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import
-from __future__ import unicode_literals
-from builtins import next
-from builtins import object
 import os
 import logging
 from . import wx_ui
@@ -30,7 +26,7 @@ class spellChecker(object):
     log.debug("Using language: %s" % (languageHandler.getLanguage(),))
     self.dict = enchant.DictWithPWL(languageHandler.getLanguage()[:2], os.path.join(paths.config_path(), "wordlist.dict"))
   except DictNotFoundError:
-   log.exception("Dictionary for language %s not found." % (dictionary,))
+   log.exception("Dictionary for language %s not found." % (languageHandler.getLanguage(),))
    wx_ui.dict_not_found_error()
    self.active = False
   self.checker = SpellChecker(self.dict, filters=[twitterFilter.TwitterFilter, tokenize.EmailFilter, tokenize.URLFilter])
