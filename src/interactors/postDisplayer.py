@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 import six
 import widgetUtils
 import wx
+from extra import translator
 from pubsub import pub
 from wxUI import menus
 from wxUI import commonMessages
@@ -119,9 +119,9 @@ class displayPostInteractor(base.baseInteractor):
 
 	def on_show_tools_menu(self, *args, **kwargs):
 		menu = menus.toolsMenu()
-		widgetUtils.connect_event(self.view, widgetUtils.MENU, self.on_open_url, menuitem=menu.url)
+#		widgetUtils.connect_event(self.view, widgetUtils.MENU, self.on_open_url, menuitem=menu.url)
 		widgetUtils.connect_event(self.view, widgetUtils.MENU, self.on_translate, menuitem=menu.translate)
-		widgetUtils.connect_event(self.view, widgetUtils.MENU, self.on_spellcheck, menuitem=menu.CheckSpelling)
+		widgetUtils.connect_event(self.view, widgetUtils.MENU, self.on_spellcheck, menuitem=menu.spellcheck)
 		self.view.PopupMenu(menu, self.view.tools.GetPosition())
 
 	def on_open_url(self, *args, **kwargs):
@@ -135,8 +135,11 @@ class displayPostInteractor(base.baseInteractor):
 		dlg = translator.gui.translateDialog()
 		if dlg.get_response() == widgetUtils.OK:
 			text_to_translate = self.view.get("post_view")
-			dest = [x[0] for x in translator.translator.available_languages()][dlg.get("dest_lang")]
-			self.presenter.translate(text_to_translate, dest)
+			language_dict = translator.translator.available_languages()
+			for k in language_dict:
+				if language_dict[k] == dlg.dest_lang.GetStringSelection():
+					dst = k
+			self.presenter.translate(text_to_translate, dst)
 		dlg.Destroy()
 
 	def on_spellcheck(self, event=None):

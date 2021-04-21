@@ -107,3 +107,9 @@ class conversationBufferMenu(wx.Menu):
 		super(conversationBufferMenu, self).__init__()
 		self.delete = self.Append(wx.NewId(), _("Delete conversation"))
 		self.open_in_browser = self.Append(wx.NewId(), _("Open in vk.com"))
+
+class toolsMenu(wx.Menu):
+	def __init__(self, *args, **kwargs):
+		super(toolsMenu, self).__init__(*args, **kwargs)
+		self.translate = self.Append(wx.NewId(), _("&Translate message"))
+		self.spellcheck = self.Append(wx.NewId(), _("Spelling &correction"))
