@@ -3,7 +3,7 @@
 ## VK features
 
 * messages:
-    - selecc/unselect
+    - select/unselect
     - mark as read/unread
     - reply
     - forward
@@ -31,7 +31,7 @@
 ## Application features
 
 * Spelling correction:
-    - Add words to dictionaries.
+    - (done) Add words to dictionaries.
     - allow users to set the spelling language
     - allow language switching within the spelling correction dialog
     - integrate this feature in chat messages.
