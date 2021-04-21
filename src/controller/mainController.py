@@ -975,8 +975,10 @@ class Controller(object):
 			elif "counters" in self.session.db["group_info"][current_buffer.group_id] and "docs" not in self.session.db["group_info"][current_buffer.group_id]["counters"]:
 				menu.load_documents.Enable(False)
 			# Connect the rest of the functions.
+			print(self.session.db["group_info"][current_buffer.group_id])
 			widgetUtils.connect_event(menu, widgetUtils.MENU, self.load_community_posts, menuitem=menu.load_posts)
 			widgetUtils.connect_event(menu, widgetUtils.MENU, self.load_community_topics, menuitem=menu.load_topics)
+			widgetUtils.connect_event(menu, widgetUtils.MENU, self.load_community_members, menuitem=menu.load_members)
 			widgetUtils.connect_event(menu, widgetUtils.MENU, self.load_community_audios, menuitem=menu.load_audios)
 			widgetUtils.connect_event(menu, widgetUtils.MENU, self.load_community_videos, menuitem=menu.load_videos)
 			widgetUtils.connect_event(menu, widgetUtils.MENU, self.load_community_documents, menuitem=menu.load_documents)
@@ -1062,6 +1064,27 @@ class Controller(object):
 			return
 		new_name = current_buffer.name+"_topics"
 		pub.sendMessage("create_buffer", buffer_type="topicBuffer", buffer_title=_("Topics"), parent_tab=current_buffer.tab.name, get_items=True, kwargs=dict(parent=self.window.tb, name=new_name, composefunc="render_topic", session=self.session, endpoint="getTopics", parent_endpoint="board", count=100, group_id=-1*current_buffer.kwargs["owner_id"], extended=1))
+
+	def load_community_members(self, *args, **kwargs):
+		""" Load community members. """
+		current_buffer = self.get_current_buffer()
+		# Get group_info if the community buffer does not have it already, so future menus will be able to use it.
+		if current_buffer.group_id not in self.session.db["group_info"]  or "counters" not in self.session.db["group_info"][current_buffer.group_id]:
+			group_info = self.session.vk.client.groups.getById(group_ids=-1*current_buffer.kwargs["owner_id"], fields="counters,can_create_topic,can_post")[0]
+			self.session.db["group_info"][current_buffer.kwargs["owner_id"]].update(group_info)
+		# Determine whether we can request ordering by time descending or not.
+		if (self.session.db["group_info"][current_buffer.group_id].get("is_admin") != None and self.session.db["group_info"][current_buffer.group_id].get("is_admin") == 1):
+			sorting = "time_desc"
+		else:
+			sorting = "id_desc"
+		# Apparently, only administrators in a community are able to see invited users on it, despite users can invite the amount of friends they want.
+		# ToDo: This needs testing in groups where the current user is not a full admin (such as moderator or editor).
+		if (self.session.db["group_info"][current_buffer.group_id].get("is_admin") != None and self.session.db["group_info"][current_buffer.group_id].get("is_admin") == 1):
+			pub.sendMessage("create_buffer", buffer_type="emptyBuffer", buffer_title=_("People"), parent_tab=current_buffer.tab.name, kwargs=dict(parent=self.window.tb, name=current_buffer.tab.name+"_people"))
+			pub.sendMessage("create_buffer", buffer_type="peopleBuffer", buffer_title=_("Members"), parent_tab=current_buffer.name+"_people", get_items=True, kwargs=dict(parent=self.window.tb, name=current_buffer.name+"_members", composefunc="render_person", session=self.session, endpoint="getMembers", parent_endpoint="groups", count=1000, order=sorting, fields="uid, first_name, last_name, last_seen, can_post", group_id=-1*current_buffer.kwargs["owner_id"]))
+			pub.sendMessage("create_buffer", buffer_type="peopleBuffer", buffer_title=_("Invited users"), parent_tab=current_buffer.name+"_people", get_items=True, kwargs=dict(parent=self.window.tb, name=current_buffer.name+"_invites", composefunc="render_person", session=self.session, endpoint="getInvitedUsers", parent_endpoint="groups", count=1000, fields="first_name, last_name, last_seen, can_post", group_id=-1*current_buffer.kwargs["owner_id"]))
+		else: # Create this for non administrators.
+			pub.sendMessage("create_buffer", buffer_type="peopleBuffer", buffer_title=_("Members"), parent_tab=current_buffer.tab.name, get_items=True, kwargs=dict(parent=self.window.tb, name=current_buffer.name+"_members", composefunc="render_person", session=self.session, endpoint="getMembers", parent_endpoint="groups", count=1000, order=sorting, fields="uid, first_name, last_name, last_seen, can_post", group_id=-1*current_buffer.kwargs["owner_id"]))
 
 	def load_community_documents(self, *args, **kwargs):
 		current_buffer = self.get_current_buffer()
