@@ -1100,17 +1100,19 @@ class chatBuffer(baseBuffer):
 
 	def get_focused_post(self):
 		""" Gets chat message currently in focus"""
-		# this function replaces self.get_post for normal buffers, as we rely in a TextCtrl control for getting chats.
+		# this function replaces self.get_post for this buffer, as we rely in a TextCtrl control for getting chats.
 		# Instead of the traditional method to do the trick.
 		# Get text position here.
 		position = self.tab.history.PositionToXY(self.tab.history.GetInsertionPoint())
 		id_ = None
-		for i in list(self.chats.keys()):
+		# The dictionary keys should be looked in reverse order as we are interested in the last result only.
+		for i in reversed(list(self.chats.keys())):
 			# Check if position[2] (line position) matches with something in self.chats
 			# (All messages, except the last one, should be able to be matched here).
-			# position[2]+1 is added because line may start with 0, while in wx.TextCtrl.GetNumberLines() that is not possible.
-			if position[2]+1 >= i[0] and position[2]+1 < i[1]:
+			# position[2]+1 is added because line may start with 0, while in wx.TextCtrl.GetNumberOfLines() it returns a value counting from 1.
+			if position[2]+1 >= i[0]:
 				id_ = self.chats[i]
+				# If we find our chat message, let's skip the rest of the loop.
 				break
 		# Retrieve here the object based in id_
 		if id_ != None:
