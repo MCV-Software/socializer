@@ -2,6 +2,7 @@
 pywin32
 markdown
 vk_api
+vkaudiotoken
 bs4
 configobj
 pypubsub
