@@ -2,8 +2,6 @@
 user = string(default="")
 password = string(default="")
 token = string(default="")
-secret = string(default="")
-device_id = string(default="")
 use_alternative_tokens = boolean(default=False)
 invited_to_group = boolean(default=False)
 
