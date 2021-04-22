@@ -7,7 +7,6 @@ import logging
 import vk_api
 import threading
 import requests
-from authenticator.official import get_sig
 from . import jconfig_patched as jconfig
 from vk_api.enums import VkUserPermissions
 from vk_api.exceptions import *
@@ -16,7 +15,7 @@ DEFAULT_USER_SCOPE = sum(VkUserPermissions)
 
 class VkApi(vk_api.VkApi):
 
-    def __init__(self, login=None, password=None, token=None, secret=None, device_id=None,
+    def __init__(self, login=None, password=None, token=None,
                  auth_handler=None, captcha_handler=None,
                  config=jconfig.Config, config_filename='vk_config.v2.json',
                  api_version='5.101', app_id=2685278, scope=DEFAULT_USER_SCOPE,
@@ -26,8 +25,6 @@ class VkApi(vk_api.VkApi):
         self.password = password
 
         self.token = {'access_token': token}
-        self.secret = secret
-        self.device_id = device_id
         self.api_version = api_version
         self.app_id = app_id
         self.scope = scope
@@ -93,9 +90,7 @@ class VkApi(vk_api.VkApi):
 
             if delay > 0:
                 time.sleep(delay)
-            values.update(https=1, device_id=self.device_id)
-            sig = get_sig(method, values, self.secret)
-            values.update(sig=sig)
+            values.update(https=1)
             response = self.http.post(
                 'https://api.vk.com/method/' + method,
                 values

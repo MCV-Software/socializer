@@ -12,7 +12,7 @@ class vkObject(object):
 	def __init__(self):
 		self.api_key = keys.keyring.get_api_key()
 
-	def login(self, user, password, token, secret, device_id, alt_token, filename):
+	def login(self, user, password, token, alt_token, filename):
 		if alt_token == False:
 			log.info("Using kate's token...")
 			# Let's import the patched vk_api module for using a different user agent
@@ -20,11 +20,9 @@ class vkObject(object):
 			if token == "" or token == None:
 				log.info("Token is not valid. Generating one...")
 				original_token = official.login(user, password)
-				token = original_token[0]
-				secret = original_token[1]
-				device_id = original_token[2]
+				token = original_token
 				log.info("Token validated...")
-			self.session_object = vk_api.VkApi(app_id=self.api_key, login=user, password=password, token=token, secret=secret, device_id=device_id, scope="offline, wall, notify, friends, photos, audio, video, docs, notes, pages, status, groups, messages, notifications, stats", config_filename=filename)
+			self.session_object = vk_api.VkApi(app_id=self.api_key, login=user, password=password, token=token, scope="all", config_filename=filename)
 		else:
 			import vk_api
 			self.session_object = vk_api.VkApi(app_id=self.api_key, login=user, password=password, scope="offline, wall, notify, friends, photos, audio, video, docs, notes, pages, status, groups, messages, notifications, stats", config_filename=filename, auth_handler=two_factor_auth)

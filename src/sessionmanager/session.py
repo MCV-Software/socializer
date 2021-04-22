@@ -135,13 +135,8 @@ class vkSession(object):
 			return
 		try:
 			config_filename = os.path.join(paths.config_path(), self.session_id, "vkconfig.json")
-			self.vk.login(self.settings["vk"]["user"], self.settings["vk"]["password"], token=self.settings["vk"]["token"], secret=self.settings["vk"]["secret"], device_id=self.settings["vk"]["device_id"], alt_token=self.settings["vk"]["use_alternative_tokens"], filename=config_filename)
+			self.vk.login(self.settings["vk"]["user"], self.settings["vk"]["password"], token=self.settings["vk"]["token"], alt_token=self.settings["vk"]["use_alternative_tokens"], filename=config_filename)
 			self.settings["vk"]["token"] = self.vk.session_object.token["access_token"]
-			try:
-				self.settings["vk"]["secret"] = self.vk.session_object.secret
-				self.settings["vk"]["device_id"] = self.vk.session_object.device_id
-			except AttributeError:
-				pass
 			self.settings.write()
 			self.logged = True
 			self.get_my_data()
@@ -151,8 +146,6 @@ class vkSession(object):
 				self.settings["vk"]["user"] = ""
 				self.settings["vk"]["password"] = ""
 				self.settings["vk"]["token"] = ""
-				self.settings["vk"]["secret"] = ""
-				self.settings["vk"]["device_id"] = ""
 				self.settings.write()
 				pub.sendMessage("authorisation-failed")
 			else: # print out error so we we will handle it in future versions.
