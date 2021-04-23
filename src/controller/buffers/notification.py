@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
-from wxUI.tabs import home
+from wxUI.tabs import notification
 from .wall import wallBuffer
 
 log = logging.getLogger("controller.buffers")
@@ -8,7 +8,7 @@ log = logging.getLogger("controller.buffers")
 class notificationBuffer(wallBuffer):
 
 	def create_tab(self, parent):
-		self.tab = home.notificationTab(parent)
+		self.tab = notification.notificationTab(parent)
 		self.connect_events()
 		self.tab.name = self.name
 

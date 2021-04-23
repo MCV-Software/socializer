@@ -4,7 +4,7 @@ import webbrowser
 import wx
 import widgetUtils
 import output
-from wxUI.tabs import home
+from wxUI.tabs import video
 from wxUI import commonMessages, menus
 from controller import selector
 from .wall import wallBuffer
@@ -15,7 +15,7 @@ class videoBuffer(wallBuffer):
 	""" This buffer represents video elements, and it can be used for showing videos for the logged user or someone else."""
 
 	def create_tab(self, parent):
-		self.tab = home.videoTab(parent)
+		self.tab = video.videoTab(parent)
 		self.connect_events()
 		self.tab.name = self.name
 		if hasattr(self, "can_post") and self.can_post == False and hasattr(self.tab, "post"):

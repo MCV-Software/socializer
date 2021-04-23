@@ -8,7 +8,7 @@ import views
 import interactors
 import widgetUtils
 from pubsub import pub
-from wxUI.tabs import home
+from wxUI.tabs import communityBoard
 from mysc.thread_utils import call_threaded
 from .wall import wallBuffer
 
@@ -17,7 +17,7 @@ log = logging.getLogger("controller.buffers.communityBoard")
 class communityBoardBuffer(wallBuffer):
 
 	def create_tab(self, parent):
-		self.tab = home.topicTab(parent)
+		self.tab = communityBoard.communityBoardTab(parent)
 		self.connect_events()
 		self.tab.name = self.name
 		if "can_create_topic" not in self.session.db["group_info"][self.kwargs["group_id"]*-1] or ("can_create_topic" in self.session.db["group_info"][self.kwargs["group_id"]*-1] and self.session.db["group_info"][self.kwargs["group_id"]*-1]["can_create_topic"] != True):

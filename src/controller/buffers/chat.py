@@ -11,7 +11,7 @@ import widgetUtils
 import output
 from pubsub import pub
 from vk_api.exceptions import VkApiError
-from wxUI.tabs import home
+from wxUI.tabs import chat
 from mysc.thread_utils import call_threaded
 from wxUI import commonMessages, menus
 from sessionmanager import renderers
@@ -76,7 +76,7 @@ class chatBuffer(homeBuffer):
 		event.Skip()
 
 	def create_tab(self, parent):
-		self.tab = home.chatTab(parent)
+		self.tab = chat.chatTab(parent)
 		self.attachments = list()
 		self.connect_events()
 		self.tab.name = self.name
@@ -187,7 +187,7 @@ class chatBuffer(homeBuffer):
 				if i["type"] == "photos_list":
 					continue
 				try:
-					rendered_object = add_attachment(i)
+					rendered_object = renderers.add_attachment(i)
 				except:
 					log.exception("Error parsing the following attachment on chat: %r" % (i,))
 				attachments.append(rendered_object)

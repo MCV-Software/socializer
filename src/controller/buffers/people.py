@@ -11,7 +11,7 @@ import interactors
 import languageHandler
 import widgetUtils
 from pubsub import pub
-from wxUI.tabs import home
+from wxUI.tabs import people
 from wxUI.dialogs import timeline
 from mysc.thread_utils import call_threaded
 from wxUI import commonMessages, menus
@@ -37,7 +37,7 @@ class peopleBuffer(wallBuffer):
 				call_threaded(pub.sendMessage, "post", parent_endpoint="wall", child_endpoint="post", from_buffer=self.name, attachments_list=attachments, post_arguments=post_arguments)
 
 	def create_tab(self, parent):
-		self.tab = home.peopleTab(parent)
+		self.tab = people.peopleTab(parent)
 		self.connect_events()
 		self.tab.name = self.name
 		if hasattr(self, "can_post") and self.can_post == False and hasattr(self.tab, "post"):

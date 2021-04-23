@@ -10,7 +10,6 @@ import widgetUtils
 import output
 from pubsub import pub
 from vk_api.exceptions import VkApiError
-from wxUI.tabs import home
 from mysc.thread_utils import call_threaded
 from wxUI import commonMessages
 from .home import homeBuffer

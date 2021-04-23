@@ -2,14 +2,14 @@
 """ A buffer is a (virtual) list of items. All items belong to a category (wall posts, messages, persons...)"""
 import logging
 import output
-from wxUI.tabs import home
+from wxUI.tabs import empty
 
 log = logging.getLogger("controller.buffers.empty")
 
 class emptyBuffer(object):
 
 	def __init__(self, name=None, parent=None, *args, **kwargs):
-		self.tab = home.empty(parent=parent, name=name)
+		self.tab = empty.emptyTab(parent=parent, name=name)
 		self.name = name
 
 	def get_items(self, *args, **kwargs):

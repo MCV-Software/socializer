@@ -8,7 +8,7 @@ import languageHandler
 import widgetUtils
 import output
 from pubsub import pub
-from wxUI.tabs import home
+from wxUI.tabs import documents
 from sessionmanager import utils
 from mysc.thread_utils import call_threaded
 from wxUI import menus
@@ -20,7 +20,7 @@ class documentsBuffer(wallBuffer):
 	can_get_items = False
 
 	def create_tab(self, parent):
-		self.tab = home.documentTab(parent)
+		self.tab = documents.documentsTab(parent)
 		self.connect_events()
 		self.tab.name = self.name
 		if hasattr(self, "can_post") and self.can_post == False and hasattr(self.tab, "post"):

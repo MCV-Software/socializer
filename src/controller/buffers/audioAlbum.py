@@ -3,7 +3,7 @@ import logging
 import wx
 import widgetUtils
 import output
-from wxUI.tabs import home
+from wxUI.tabs import audioAlbum
 from .audio import audioBuffer
 
 log = logging.getLogger("controller.buffers.audioPlaylist")
@@ -13,7 +13,7 @@ class audioAlbumBuffer(audioBuffer):
 	but is deprecated as VK removed its audio support for third party apps."""
 
 	def create_tab(self, parent):
-		self.tab = home.audioAlbumTab(parent)
+		self.tab = audioAlbum.audioAlbumTab(parent)
 		self.tab.play.Enable(False)
 		self.tab.play_all.Enable(False)
 		self.connect_events()

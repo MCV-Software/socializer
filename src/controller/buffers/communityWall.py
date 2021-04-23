@@ -8,7 +8,7 @@ import interactors
 import widgetUtils
 import output
 from pubsub import pub
-from wxUI.tabs import home
+from wxUI.tabs import communityWall
 from mysc.thread_utils import call_threaded
 from .wall import wallBuffer
 
@@ -21,7 +21,7 @@ class communityWallBuffer(wallBuffer):
 		self.group_id = self.kwargs["owner_id"]
 
 	def create_tab(self, parent):
-		self.tab = home.communityTab(parent)
+		self.tab = communityWall.communityWallTab(parent)
 		self.connect_events()
 		self.tab.name = self.name
 		self.tab.post.Enable(False)

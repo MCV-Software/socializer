@@ -11,7 +11,7 @@ from pubsub import pub
 from vk_api import upload
 from mutagen.id3 import ID3
 from presenters import player
-from wxUI.tabs import home
+from wxUI.tabs import audio
 from sessionmanager import utils
 from mysc.thread_utils import call_threaded
 from wxUI import commonMessages, menus
@@ -22,7 +22,7 @@ log = logging.getLogger("controller.buffers.audio")
 
 class audioBuffer(wallBuffer):
 	def create_tab(self, parent):
-		self.tab = home.audioTab(parent)
+		self.tab = audio.audioTab(parent)
 		self.tab.name = self.name
 		self.connect_events()
 		if self.name == "me_audio":

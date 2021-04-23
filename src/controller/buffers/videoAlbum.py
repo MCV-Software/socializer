@@ -3,7 +3,7 @@ import logging
 import wx
 import widgetUtils
 import output
-from wxUI.tabs import home
+from wxUI.tabs import videoAlbum
 from .video import videoBuffer
 
 log = logging.getLogger("controller.buffers")
@@ -11,7 +11,7 @@ log = logging.getLogger("controller.buffers")
 class videoAlbumBuffer(videoBuffer):
 
 	def create_tab(self, parent):
-		self.tab = home.videoAlbumTab(parent)
+		self.tab = video.videoAlbumTab(parent)
 		self.tab.play.Enable(False)
 		self.connect_events()
 		self.tab.name = self.name
