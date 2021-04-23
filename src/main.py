@@ -29,7 +29,7 @@ def setup():
 	config.setup()
 	if config.app["app-settings"]["debug_logging"] == True:
 		logger.app_handler.setLevel(logging.DEBUG)
-	log.debug("Using %s %s" % (platform.system(), platform.architecture()[0]))
+	log.info("Using %s %s" % (platform.system(), platform.architecture()[0]))
 	log.debug("Application path is %s" % (paths.app_path(),))
 	log.debug("config path  is %s" % (paths.config_path(),))
 	output.setup()
@@ -38,9 +38,11 @@ def setup():
 	keys.setup()
 	app = widgetUtils.mainLoopObject()
 	if config.app["app-settings"]["first_start"]:
+		log.debug("Detected first time execution.")
 		proxy_option = commonMessages.proxy_question()
 		if proxy_option == widgetUtils.YES:
 			config.app["app-settings"]["use_proxy"] = True
+			log.debug("User has requested to use proxy for connecting to VK.")
 	config.app["app-settings"]["first_start"] = False
 	config.app.write()
 	if config.app["app-settings"]["use_proxy"]:
