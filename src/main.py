@@ -58,8 +58,6 @@ def setup():
 	sm = sessionManager.sessionManagerController()
 	sm.show()
 	del sm
-	log.debug("Loading dictionaries for spelling correction...")
-	# Let's copy dictionary files for the selected language just in case it is not present already.
 	r = mainController.Controller()
 	call_threaded(r.login)
 	app.run()
