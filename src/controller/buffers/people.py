@@ -62,6 +62,12 @@ class peopleBuffer(wallBuffer):
 			self.tab.post.Enable(True)
 		else:
 			self.tab.post.Enable(False)
+		# Check if we are allowed to contact people. this might be false for communitiy members.
+		if post.get("can_write_private_message") == True:
+			self.tab.new_chat.Enable(True)
+		else:
+			self.tab.new_chat.Enable(False)
+		print(post)
 		if ("last_seen" in post) == False: return
 		original_date = arrow.get(post["last_seen"]["time"])
 		now = arrow.now()
