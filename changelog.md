@@ -4,6 +4,7 @@
 
 ### new additions
 
+* Now socializer can load the list of members for a community. You have to use the context menu in the community in order to load all members. For community administrators and moderators, it will display also a new buffer with invites that have been sent to the group. You can use the context menu in those buffers to perform common actions to those user. Take into account, though, that available actions from those buffers depend in the focused user's privacy settings.
 * Added an actions button that allows you to perform several tasks from the parts of the application where it appears. For now, the action button is shown in any displayed post or repost, and also in chat messages. When pressed, it opens a menu from where you can translate texts or do spelling correction on the message.
 * It is now possible to read an article from a wall post. The article will be opened in a new dialog. This might work better in countries where VK is blocked as users no longer need to open the web browser. Unfortunately, as articles are mainly undocumented in the API, it is not possible to perform other actions besides reading them from Socializer.
 * the spelling correction module is able to add words to the dictionary so it will learn which words should start to ignore.

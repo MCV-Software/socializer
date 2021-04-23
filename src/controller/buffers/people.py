@@ -67,7 +67,6 @@ class peopleBuffer(wallBuffer):
 			self.tab.new_chat.Enable(True)
 		else:
 			self.tab.new_chat.Enable(False)
-		print(post)
 		if ("last_seen" in post) == False: return
 		original_date = arrow.get(post["last_seen"]["time"])
 		now = arrow.now()

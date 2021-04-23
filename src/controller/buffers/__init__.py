@@ -12,3 +12,4 @@ from .videoAlbum import videoAlbumBuffer as videoAlbum
 from .chat import chatBuffer
 from .people import peopleBuffer
 from .friendRequests import friendRequestsBuffer as requestsBuffer
+from .communityPeople import communityPeopleBuffer
