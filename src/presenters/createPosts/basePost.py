@@ -51,7 +51,6 @@ class createPostPresenter(base.basePresenter):
 		if hasattr(checker, "fixed_text"):
 			self.send_message("set", control="text", value=checker.fixed_text)
 			self.send_message("focus_control", control="text")
-		checker.clean()
 
 	def add_attachments(self):
 		a = attach.attachPresenter(session=self.session, view=views.attachDialog(), interactor=interactors.attachInteractor())
