@@ -313,7 +313,6 @@ class displayPostPresenter(base.basePresenter):
 		if hasattr(checker, "fixed_text"):
 			self.send_message("set", control="post_view", value=checker.fixed_text)
 			self.send_message("focus_control", control="post_view")
-		checker.clean()
 
 	def open_attachment(self, index):
 		attachment = self.attachments[index]
