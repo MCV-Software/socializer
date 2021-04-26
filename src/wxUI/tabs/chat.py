@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+""" A chat GUI to be used in socializer. """
 import wx
 import widgetUtils
 from pubsub import pub
@@ -6,6 +7,9 @@ from pubsub import pub
 class chatTab(wx.Panel):
 
 	def insert_attachments(self, attachments):
+		""" Insert a list of previously rendered attachments in the tab's attachments list.
+		@ attachments list: A list of attachments already rendered.
+		"""
 		for i in attachments:
 			self.attachments.insert_item(False, *i)
 
@@ -16,7 +20,11 @@ class chatTab(wx.Panel):
 		sizer.Add(self.create_attachments(), 0, wx.ALL, 5)
 		sizer.Add(self.create_chat(), 0, wx.ALL, 5)
 		self.attachment = wx.Button(self, wx.NewId(), _("Add"))
-		sizer.Add(self.attachment, 0, wx.ALL, 5)
+		self.actions = wx.Button(self, wx.NewId(), _("Actions"))
+		buttonsBox = wx.BoxSizer(wx.HORIZONTAL)
+		buttonsBox.Add(self.attachment, 0, wx.ALL, 5)
+		buttonsBox.Add(self.actions, 0, wx.ALL, 5)
+		sizer.Add(buttonsBox, 0, wx.ALL, 5)
 		self.send = wx.Button(self, -1, _("Send"))
 		sizer.Add(self.send, 0, wx.ALL, 5)
 		self.SetSizer(sizer)
