@@ -12,6 +12,7 @@
 
 ### bugfixes
 
+* Now it is possible to select or unselect audios in a list by pressing space again. This was not possible earlier due to an unexpected issue when migrating to the latest version of socializer's components.
 * Fixed an issue when focusing chat messages. Sometimes, socializer was not precise enough to focus the right message. Now all messages should be getting the focus as expected.
 * Fixed a small issue that was making impossible to close the blacklist dialog by pressing escape.
 * Now it is possible to perform authentication in accounts using two factor verification again. This issue was caused due to a recent change in the VK workflow for two factor verification processes.

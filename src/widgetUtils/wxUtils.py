@@ -158,7 +158,14 @@ class multiselectionBaseList(wx.ListCtrl, listmix.CheckListCtrlMixin):
 
 	def on_keydown(self, event):
 		if event.GetKeyCode() == wx.WXK_SPACE:
-			self.ToggleItem(self.GetFocusedItem())
+			# In the example of wx multiselection list they call ToggleItem.
+			# however this didn't worked quite well. So let's implement it manually.
+			if self.IsChecked(self.GetFocusedItem()):
+				self.SetItemImage(self.GetFocusedItem(), 0)
+				self.OnCheckItem(self.GetFocusedItem(), False)
+			else:
+				self.SetItemImage(self.GetFocusedItem(), 1)
+				self.OnCheckItem(self.GetFocusedItem(), True)
 		event.Skip()
 
 class list(object):
