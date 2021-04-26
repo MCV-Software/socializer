@@ -11,6 +11,7 @@ import widgetUtils
 import output
 from pubsub import pub
 from vk_api.exceptions import VkApiError
+from extra import translator, SpellChecker
 from wxUI.tabs import chat
 from mysc.thread_utils import call_threaded
 from wxUI import commonMessages, menus
@@ -87,6 +88,7 @@ class chatBuffer(homeBuffer):
 		widgetUtils.connect_event(self.tab.send, widgetUtils.BUTTON_PRESSED, self.send_chat_to_user)
 		widgetUtils.connect_event(self.tab.attachment, widgetUtils.BUTTON_PRESSED, self.add_attachment)
 		widgetUtils.connect_event(self.tab.text, widgetUtils.KEYPRESS, self.catch_enter)
+		widgetUtils.connect_event(self.tab.actions, widgetUtils.BUTTON_PRESSED, self.actions)
 		self.tab.set_focus_function(self.onFocus)
 
 	def catch_enter(self, event, *args, **kwargs):
@@ -117,7 +119,6 @@ class chatBuffer(homeBuffer):
 			self.create_tab(self.parent)
 			# Add name to the new control so we could look for it when needed.
 			self.tab.name = self.name
-
 		if show_nextpage  == False:
 			if self.tab.history.GetValue() != "" and num > 0:
 				v = [i for i in self.session.db[self.name]["items"][:num]]
@@ -258,3 +259,49 @@ class chatBuffer(homeBuffer):
 		peer_id = self.kwargs["peer_id"]
 		url = "https://vk.com/im?sel={peer_id}".format(peer_id=peer_id)
 		webbrowser.open_new_tab(url)
+
+	def actions(self, *args, **kwargs):
+		menu = menus.toolsMenu()
+		widgetUtils.connect_event(menu, widgetUtils.MENU, self.translate_action, menuitem=menu.translate)
+		widgetUtils.connect_event(menu, widgetUtils.MENU, self.spellcheck_action, menuitem=menu.spellcheck)
+		self.tab.PopupMenu(menu, self.tab.actions.GetPosition())
+
+	def translate(self, text):
+		dlg = translator.gui.translateDialog()
+		if dlg.get_response() == widgetUtils.OK:
+			language_dict = translator.translator.available_languages()
+			for k in language_dict:
+				if language_dict[k] == dlg.dest_lang.GetStringSelection():
+					dst = k
+			msg = translator.translator.translate(text, dst)
+			dlg.Destroy()
+			return msg
+
+	def spellcheck(self, text):
+		checker = SpellChecker.spellchecker.spellChecker(text)
+		if hasattr(checker, "fixed_text"):
+			final_text = checker.fixed_text
+			return final_text
+
+	def translate_action(self, *args, **kwargs):
+		text = self.tab.text.GetValue()
+		if text == "":
+			wx.Bell()
+			return
+		translated = self.translate(text)
+		if translated != None:
+			self.tab.text.ChangeValue(translated)
+		self.tab.text.SetFocus()
+
+	def spellcheck_action(self, *args, **kwargs):
+		text = self.tab.text.GetValue()
+		fixed = self.spellcheck(text)
+		if fixed != None:
+			self.tab.text.ChangeValue(fixed)
+		self.tab.text.SetFocus()
+
+	def translate_message(self, *args, **kwargs):
+		pass
+
+	def spellcheck_message(self, *args, **kwargs):
+		pass
