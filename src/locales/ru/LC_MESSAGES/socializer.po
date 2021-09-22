@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Socializer 0.23\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-01-04 17:20-0800\n"
+"POT-Creation-Date: 2021-07-16 10:54-0500\n"
 "PO-Revision-Date: 2020-03-04 11:55-0600\n"
 "Last-Translator: Manuel Cortez <manuel@manuelcortez.net>\n"
 "Language: ru\n"
@@ -13,7 +13,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.0\n"
+"Generated-By: Babel 2.9.1\n"
 
 #: languageHandler.py:61
 msgctxt "languageName"
@@ -116,232 +116,15 @@ msgstr ""
 msgid "Wrong data"
 msgstr "Неверные данные"
 
-#: controller/buffers.py:128 controller/mainController.py:360
-msgid "Write your post"
-msgstr "Что у Вас нового?"
-
-#: controller/buffers.py:206 presenters/displayPosts/basePost.py:255
-#: presenters/displayPosts/topic.py:95
-#: presenters/displayPosts/topicComment.py:41
-msgid "You liked this"
-msgstr "Мне нравится"
-
-#: controller/buffers.py:223 presenters/displayPosts/basePost.py:248
-#: presenters/displayPosts/topic.py:89
-#: presenters/displayPosts/topicComment.py:35
-msgid "You don't like this"
-msgstr "Мне не нравится"
-
-#: controller/buffers.py:230 controller/mainController.py:374
-#: presenters/displayPosts/basePost.py:278 presenters/displayPosts/topic.py:111
-msgid "Add a comment"
-msgstr "Комментировать"
-
-#: controller/buffers.py:237
-msgid "You've posted a comment"
-msgstr "Ваш комментарий добавлен."
-
-#: controller/buffers.py:304
-msgid "{user1_nom} added the following friends"
-msgstr "{user1_nom} добавил(а) друзей:"
-
-#: controller/buffers.py:380 controller/buffers.py:704
-#: controller/buffers.py:969
-msgid "This buffer can't be deleted"
-msgstr "Этот буфер не может быть удалён."
-
-#: controller/buffers.py:415 controller/buffers.py:476
-#: controller/buffers.py:1336
-msgid "Post to {user1_nom}'s wall"
-msgstr "Разместить на стене {user1_nom}"
-
-#: controller/buffers.py:448
-msgid "Loading community..."
-msgstr "Загрузка сообщества..."
-
-#: controller/buffers.py:467 controller/buffers.py:468
-#: controller/buffers.py:518 controller/buffers.py:519
-msgid "Post as {user1_nom}"
-msgstr "Опубликовать как {user1_nom}"
-
-#: controller/buffers.py:527
-msgid "Create topic in {user1_nom}"
-msgstr "Создать тему в {user1_nom}"
-
-#: controller/buffers.py:564
-msgid "Loading documents..."
-msgstr "Загрузка документов..."
-
-#: controller/buffers.py:590
-msgid "The document has been successfully deleted."
-msgstr "Документ успешно удалён."
-
-#: controller/buffers.py:595
-msgid "The document has been successfully added."
-msgstr "Документ успешно добавлен."
-
-#: controller/buffers.py:719 controller/buffers.py:984
-#: controller/buffers.py:1086
-msgid "This buffer doesn't support getting more items."
-msgstr "Невозможно загрузить больше элементов в этот буфер"
-
-#: controller/buffers.py:748
-msgid "Audio added to your library"
-msgstr "Аудиозапись добавлена в библиотеку."
-
-#: controller/buffers.py:750
-msgid "{0} audios were added to your library."
-msgstr "{0} аудиозаписей были добавлены в библиотеку."
-
-#: controller/buffers.py:752
-msgid "{audios} audios were added to your library."
-msgstr "{audios} аудиозаписи были добавлены в библиотеку."
-
-#: controller/buffers.py:755
-msgid "{0} errors occurred while attempting to add {1} audios to your library."
-msgstr "{0} возникли ошибки при попытке добавить {1} аудиозаписи в библиотеку."
-
-#: controller/buffers.py:780
-msgid "Audio removed."
-msgstr "Аудиозапись удалена."
-
-#: controller/buffers.py:782
-msgid "{0} audios were removed."
-msgstr "{0} аудиозаписей были удалены."
-
-#: controller/buffers.py:784
-msgid "{audios} audios were removed."
-msgstr "{audios}  аудиозаписи были удалены."
-
-#: controller/buffers.py:787
-msgid "{0} errors occurred while attempting to remove {1} audios."
-msgstr "{0} возникли ошибки при попытке удалить {1} аудиозаписи."
-
-#: controller/buffers.py:792
-msgid "Select the album where you want to move this song"
-msgstr "Выберите альбом, в который будет загружена данная композиция."
-
-#: controller/buffers.py:811
-msgid "Audio added to playlist."
-msgstr "Аудиозапись добавлена в плейлист."
-
-#: controller/buffers.py:813
-msgid "{0} audios were added to playlist."
-msgstr "{0} аудиозаписей были добавлены в плейлист."
-
-#: controller/buffers.py:815
-msgid "{audios} audios were added to playlist."
-msgstr "{audios} аудиозаписей были добавлены в плейлист."
-
-#: controller/buffers.py:818
-msgid "{0} errors occurred while attempting to add {1} audios to your playlist."
-msgstr "{0} возникли ошибки при попытке добавить {1} аудиозаписи в плейлист."
-
-#: controller/buffers.py:833 controller/buffers.py:1037
-msgid "&Remove"
-msgstr "&Удалить"
-
-#: controller/buffers.py:848 presenters/attach.py:56
-msgid "Untitled"
-msgstr "Без названия"
-
-#: controller/buffers.py:852 presenters/attach.py:60 presenters/attach.py:62
-msgid "Unknown artist"
-msgstr "Неизвестный исполнитель"
-
-#: controller/buffers.py:866 interactors/postDisplayer.py:178
-msgid "P&ause"
-msgstr "Пауза"
-
-#: controller/buffers.py:868 interactors/postDisplayer.py:180
-#: wxUI/tabs/home.py:78 wxUI/tabs/home.py:105 wxUI/tabs/home.py:296
-#: wxUI/tabs/home.py:306
-msgid "P&lay"
-msgstr "В&оспроизвести"
-
-#: controller/buffers.py:930 controller/buffers.py:1065
-msgid "Loading album..."
-msgstr "Загрузка альбома..."
-
-#: controller/buffers.py:959
-msgid "Opening video in webbrowser..."
-msgstr "Открыть видео в браузере..."
-
-#: controller/buffers.py:1000
-msgid "Video added to your library"
-msgstr "Видео добавлено в библиотеку."
-
-#: controller/buffers.py:1011
-msgid "Removed video from library"
-msgstr "Видео удалено из библиотеки."
-
-#: controller/buffers.py:1020
-msgid "Select the album where you want to move this video"
-msgstr "Выберете альбом, в который хотите переместить это видео."
-
-#: controller/buffers.py:1026
-msgid "Moved"
-msgstr "Перемещено"
-
-#: controller/buffers.py:1208
-msgid "Items loaded"
-msgstr "Элементы загружены"
-
-#: controller/buffers.py:1215
-msgid "Getting more items..."
-msgstr "Загрузить больше элементов..."
-
-#: controller/buffers.py:1273 presenters/displayPosts/basePost.py:323
-#: presenters/profiles.py:167
-msgid "Opening URL..."
-msgstr "Открываем URL..."
-
-#: controller/buffers.py:1276 presenters/displayPosts/basePost.py:326
-msgid "Opening document in web browser..."
-msgstr "Открыть документ в браузере..."
-
-#: controller/buffers.py:1288 presenters/displayPosts/basePost.py:338
-msgid "Opening video in web browser..."
-msgstr "Открыть видео в браузере..."
-
-#: controller/buffers.py:1291 presenters/displayPosts/basePost.py:341
-msgid "Opening photo in web browser..."
-msgstr "Открыть фото в браузере..."
-
-#: controller/buffers.py:1377 controller/mainController.py:130
-#: sessionmanager/renderers.py:105
-msgid "Online"
-msgstr "В сети"
-
-#: controller/buffers.py:1380 sessionmanager/renderers.py:108
-msgid "Last seen {0}"
-msgstr "Последний раз в сети {0}."
-
-#: controller/buffers.py:1438
-msgid "You've removed {user1_nom} from your friends."
-msgstr "Вы удалили {user1_nom} из друзей."
-
-#: controller/buffers.py:1453
-msgid "You've blocked {user1_nom} from your friends."
-msgstr "Вы заблокировали {user1_nom}."
-
-#: controller/buffers.py:1566
-msgid "{0} {1} now is your friend."
-msgstr "{0} {1} теперь Ваш друг."
-
-#: controller/buffers.py:1580
-msgid "You've deleted the friends request to {0} {1}."
+#: authenticator/wxUI.py:20
+msgid ""
+"It seems you have reached the limits to request authorization via SMS. "
+"Please try it again in a couple of hours."
 msgstr ""
-"Вы отменили свою заявку на добавление в друзья и отписались от обновлений"
-" {0} {1}."
 
-#: controller/buffers.py:1582
-msgid "You've declined the friend request of {0} {1}."
-msgstr "Вы отклонили заявку на добавление в друзья от {0} {1}."
-
-#: controller/buffers.py:1596
-msgid "{0} {1} is following you."
-msgstr "{0} {1}подписан на Вас."
+#: authenticator/wxUI.py:20
+msgid "Error requiring sms verification"
+msgstr ""
 
 #: controller/mainController.py:96 controller/mainController.py:244
 #: controller/mainController.py:250 presenters/main.py:227
@@ -350,7 +133,8 @@ msgid "Ready"
 msgstr "Готово"
 
 #: controller/mainController.py:117 presenters/main.py:75
-#: views/dialogs/postDisplay.py:212 wxUI/tabs/home.py:11 wxUI/tabs/home.py:158
+#: views/dialogs/postDisplay.py:211 wxUI/tabs/communityBoard.py:9
+#: wxUI/tabs/home.py:10
 msgid "Posts"
 msgstr "Записи"
 
@@ -362,7 +146,7 @@ msgstr "Главное"
 msgid "My wall"
 msgstr "Стена"
 
-#: controller/mainController.py:120 presenters/main.py:78 wxUI/tabs/home.py:67
+#: controller/mainController.py:120 presenters/main.py:78 wxUI/tabs/audio.py:9
 msgid "Music"
 msgstr "Музыка"
 
@@ -384,7 +168,7 @@ msgid "Albums"
 msgstr "Альбомы"
 
 #: controller/mainController.py:126 presenters/main.py:84
-#: sessionmanager/renderers.py:65 sessionmanager/renderers.py:280
+#: sessionmanager/renderers.py:65 sessionmanager/renderers.py:283
 #: wxUI/dialogs/timeline.py:23 wxUI/mainWindow.py:32
 msgid "Video"
 msgstr "Видео"
@@ -393,9 +177,15 @@ msgstr "Видео"
 msgid "My videos"
 msgstr "Мои видеозаписи"
 
-#: controller/mainController.py:129 presenters/main.py:87
+#: controller/mainController.py:129 controller/mainController.py:1083
+#: presenters/main.py:87
 msgid "People"
 msgstr "Люди"
+
+#: controller/buffers/people.py:76 controller/mainController.py:130
+#: sessionmanager/renderers.py:108
+msgid "Online"
+msgstr "В сети"
 
 #: controller/mainController.py:131 wxUI/dialogs/selector.py:43
 msgid "All friends"
@@ -417,8 +207,9 @@ msgstr "Исходящие заявки"
 msgid "Subscribers"
 msgstr "Подписчики"
 
-#: controller/mainController.py:137 controller/mainController.py:1076
-#: presenters/main.py:93 presenters/main.py:822 wxUI/tabs/home.py:168
+#: controller/mainController.py:137 controller/mainController.py:1099
+#: presenters/main.py:93 presenters/main.py:822
+#: wxUI/tabs/communityDocuments.py:8
 msgid "Documents"
 msgstr "Документы"
 
@@ -453,10 +244,19 @@ msgstr "Загрузка данных для {0}"
 msgid "Chat server reconnected"
 msgstr "Повторное подключение сервера чата."
 
+#: controller/buffers/home.py:118 controller/mainController.py:360
+msgid "Write your post"
+msgstr "Что у Вас нового?"
+
 #: controller/mainController.py:367 presenters/displayPosts/basePost.py:263
-#: views/dialogs/postDisplay.py:91
+#: views/dialogs/postDisplay.py:90
 msgid "Repost"
 msgstr "Поделиться"
+
+#: controller/buffers/home.py:220 controller/mainController.py:374
+#: presenters/displayPosts/basePost.py:278 presenters/displayPosts/topic.py:111
+msgid "Add a comment"
+msgstr "Комментировать"
 
 #: controller/mainController.py:382
 msgid "Create topic"
@@ -525,48 +325,294 @@ msgstr "Написать статус..."
 msgid "Set status"
 msgstr "Установить статус..."
 
-#: controller/mainController.py:989 presenters/main.py:210
+#: controller/mainController.py:991 presenters/main.py:210
 msgid "Load groups"
 msgstr "Загрузить группы"
 
-#: controller/mainController.py:992 presenters/main.py:213
+#: controller/mainController.py:994 presenters/main.py:213
 msgid "Discard groups"
 msgstr "Сброс групп"
 
-#: controller/mainController.py:998
+#: controller/mainController.py:1000
 msgid "Load audio albums"
 msgstr "Загрузка аудиоальбомов"
 
-#: controller/mainController.py:1001
+#: controller/mainController.py:1003
 msgid "Discard audio albums"
 msgstr "Сброс аудиоальбомов"
 
-#: controller/mainController.py:1006
+#: controller/mainController.py:1008
 msgid "Load video albums"
 msgstr "Загрузка видеоальбомов"
 
-#: controller/mainController.py:1009
+#: controller/mainController.py:1011
 msgid "Discard video albums"
 msgstr "Сброс видеоальбомов"
 
-#: controller/mainController.py:1019 presenters/main.py:219
+#: controller/mainController.py:1021 presenters/main.py:219
 msgid "menu unavailable for this buffer."
 msgstr "Меню недоступно для этого буфера."
 
-#: controller/mainController.py:1038 presenters/main.py:784
+#: controller/mainController.py:1040 presenters/main.py:784
 msgid "Audios"
 msgstr "Аудиозаписи"
 
-#: controller/mainController.py:1051 presenters/main.py:797
+#: controller/mainController.py:1053 presenters/main.py:797
 msgid "Videos"
 msgstr "Видеозаписи"
 
-#: controller/mainController.py:1064 presenters/main.py:810
-#: wxUI/tabs/home.py:157
+#: controller/mainController.py:1066 presenters/main.py:810
+#: wxUI/tabs/communityBoard.py:8
 msgid "Topics"
 msgstr "Темы"
 
-#: extra/SpellChecker/spellchecker.py:53
+#: controller/mainController.py:1084 controller/mainController.py:1087
+msgid "Members"
+msgstr ""
+
+#: controller/mainController.py:1085
+msgid "Invited users"
+msgstr ""
+
+#: controller/buffers/audio.py:103 controller/buffers/video.py:46
+#: controller/buffers/wall.py:55
+msgid "This buffer can't be deleted"
+msgstr "Этот буфер не может быть удалён."
+
+#: controller/buffers/audio.py:118 controller/buffers/empty.py:24
+#: controller/buffers/video.py:61
+msgid "This buffer doesn't support getting more items."
+msgstr "Невозможно загрузить больше элементов в этот буфер"
+
+#: controller/buffers/audio.py:147
+msgid "Audio added to your library"
+msgstr "Аудиозапись добавлена в библиотеку."
+
+#: controller/buffers/audio.py:149
+msgid "{0} audios were added to your library."
+msgstr "{0} аудиозаписей были добавлены в библиотеку."
+
+#: controller/buffers/audio.py:151
+msgid "{audios} audios were added to your library."
+msgstr "{audios} аудиозаписи были добавлены в библиотеку."
+
+#: controller/buffers/audio.py:154
+msgid "{0} errors occurred while attempting to add {1} audios to your library."
+msgstr "{0} возникли ошибки при попытке добавить {1} аудиозаписи в библиотеку."
+
+#: controller/buffers/audio.py:179
+msgid "Audio removed."
+msgstr "Аудиозапись удалена."
+
+#: controller/buffers/audio.py:181
+msgid "{0} audios were removed."
+msgstr "{0} аудиозаписей были удалены."
+
+#: controller/buffers/audio.py:183
+msgid "{audios} audios were removed."
+msgstr "{audios}  аудиозаписи были удалены."
+
+#: controller/buffers/audio.py:186
+msgid "{0} errors occurred while attempting to remove {1} audios."
+msgstr "{0} возникли ошибки при попытке удалить {1} аудиозаписи."
+
+#: controller/buffers/audio.py:191
+msgid "Select the album where you want to move this song"
+msgstr "Выберите альбом, в который будет загружена данная композиция."
+
+#: controller/buffers/audio.py:210
+msgid "Audio added to playlist."
+msgstr "Аудиозапись добавлена в плейлист."
+
+#: controller/buffers/audio.py:212
+msgid "{0} audios were added to playlist."
+msgstr "{0} аудиозаписей были добавлены в плейлист."
+
+#: controller/buffers/audio.py:214
+msgid "{audios} audios were added to playlist."
+msgstr "{audios} аудиозаписей были добавлены в плейлист."
+
+#: controller/buffers/audio.py:217
+msgid "{0} errors occurred while attempting to add {1} audios to your playlist."
+msgstr "{0} возникли ошибки при попытке добавить {1} аудиозаписи в плейлист."
+
+#: controller/buffers/audio.py:232 controller/buffers/video.py:114
+msgid "&Remove"
+msgstr "&Удалить"
+
+#: controller/buffers/audio.py:247 presenters/attach.py:56
+msgid "Untitled"
+msgstr "Без названия"
+
+#: controller/buffers/audio.py:251 presenters/attach.py:60
+#: presenters/attach.py:62
+msgid "Unknown artist"
+msgstr "Неизвестный исполнитель"
+
+#: controller/buffers/audio.py:265 interactors/postDisplayer.py:181
+msgid "P&ause"
+msgstr "Пауза"
+
+#: controller/buffers/audio.py:267 interactors/postDisplayer.py:183
+#: wxUI/tabs/audio.py:20 wxUI/tabs/audioAlbum.py:11 wxUI/tabs/video.py:19
+#: wxUI/tabs/videoAlbum.py:11
+msgid "P&lay"
+msgstr "В&оспроизвести"
+
+#: controller/buffers/audioAlbum.py:29 controller/buffers/videoAlbum.py:26
+msgid "Loading album..."
+msgstr "Загрузка альбома..."
+
+#: controller/buffers/chat.py:143
+msgid "Items loaded"
+msgstr "Элементы загружены"
+
+#: controller/buffers/chat.py:150
+msgid "Getting more items..."
+msgstr "Загрузить больше элементов..."
+
+#: controller/buffers/chat.py:208 presenters/displayPosts/basePost.py:322
+#: presenters/profiles.py:167
+msgid "Opening URL..."
+msgstr "Открываем URL..."
+
+#: controller/buffers/chat.py:211 presenters/displayPosts/basePost.py:325
+msgid "Opening document in web browser..."
+msgstr "Открыть документ в браузере..."
+
+#: controller/buffers/chat.py:223 presenters/displayPosts/basePost.py:337
+msgid "Opening video in web browser..."
+msgstr "Открыть видео в браузере..."
+
+#: controller/buffers/chat.py:226 presenters/displayPosts/basePost.py:340
+msgid "Opening photo in web browser..."
+msgstr "Открыть фото в браузере..."
+
+#: controller/buffers/communityBoard.py:50
+#: controller/buffers/communityBoard.py:51
+#: controller/buffers/communityWall.py:53
+#: controller/buffers/communityWall.py:54
+msgid "Post as {user1_nom}"
+msgstr "Опубликовать как {user1_nom}"
+
+#: controller/buffers/communityBoard.py:59
+msgid "Create topic in {user1_nom}"
+msgstr "Создать тему в {user1_nom}"
+
+#: controller/buffers/communityPeople.py:15 wxUI/tabs/people.py:19
+msgid "&Post on user's wall"
+msgstr "Запись на стене user's"
+
+#: controller/buffers/communityPeople.py:18 wxUI/tabs/people.py:20
+msgid "Send message"
+msgstr "Отправить сообщение"
+
+#: controller/buffers/communityPeople.py:20 wxUI/mainWindow.py:24
+#: wxUI/menus.py:45
+msgid "View profile"
+msgstr "Посмотреть профиль"
+
+#: controller/buffers/communityPeople.py:22 wxUI/menus.py:47
+msgid "Open timeline"
+msgstr "Открыть пользовательскую ленту"
+
+#: controller/buffers/communityPeople.py:24 wxUI/menus.py:24 wxUI/menus.py:55
+#: wxUI/menus.py:75 wxUI/menus.py:85 wxUI/menus.py:104 wxUI/menus.py:110
+msgid "Open in vk.com"
+msgstr "Открыть во \"ВКонтакте\""
+
+#: controller/buffers/communityWall.py:34
+msgid "Loading community..."
+msgstr "Загрузка сообщества..."
+
+#: controller/buffers/communityWall.py:62 controller/buffers/people.py:30
+#: controller/buffers/wall.py:90
+msgid "Post to {user1_nom}'s wall"
+msgstr "Разместить на стене {user1_nom}"
+
+#: controller/buffers/documents.py:45
+msgid "Loading documents..."
+msgstr "Загрузка документов..."
+
+#: controller/buffers/documents.py:71
+msgid "The document has been successfully deleted."
+msgstr "Документ успешно удалён."
+
+#: controller/buffers/documents.py:76
+msgid "The document has been successfully added."
+msgstr "Документ успешно добавлен."
+
+#: controller/buffers/friendRequests.py:48
+msgid "{0} {1} now is your friend."
+msgstr "{0} {1} теперь Ваш друг."
+
+#: controller/buffers/friendRequests.py:62
+msgid "You've deleted the friends request to {0} {1}."
+msgstr ""
+"Вы отменили свою заявку на добавление в друзья и отписались от обновлений"
+" {0} {1}."
+
+#: controller/buffers/friendRequests.py:64
+msgid "You've declined the friend request of {0} {1}."
+msgstr "Вы отклонили заявку на добавление в друзья от {0} {1}."
+
+#: controller/buffers/friendRequests.py:78
+msgid "{0} {1} is following you."
+msgstr "{0} {1}подписан на Вас."
+
+#: controller/buffers/home.py:196 presenters/displayPosts/basePost.py:255
+#: presenters/displayPosts/topic.py:95
+#: presenters/displayPosts/topicComment.py:41
+msgid "You liked this"
+msgstr "Мне нравится"
+
+#: controller/buffers/home.py:213 presenters/displayPosts/basePost.py:248
+#: presenters/displayPosts/topic.py:89
+#: presenters/displayPosts/topicComment.py:35
+msgid "You don't like this"
+msgstr "Мне не нравится"
+
+#: controller/buffers/home.py:227
+msgid "You've posted a comment"
+msgstr "Ваш комментарий добавлен."
+
+#: controller/buffers/home.py:294
+msgid "{user1_nom} added the following friends"
+msgstr "{user1_nom} добавил(а) друзей:"
+
+#: controller/buffers/people.py:79 sessionmanager/renderers.py:111
+msgid "Last seen {0}"
+msgstr "Последний раз в сети {0}."
+
+#: controller/buffers/people.py:137
+msgid "You've removed {user1_nom} from your friends."
+msgstr "Вы удалили {user1_nom} из друзей."
+
+#: controller/buffers/people.py:152
+msgid "You've blocked {user1_nom} from your friends."
+msgstr "Вы заблокировали {user1_nom}."
+
+#: controller/buffers/video.py:36
+msgid "Opening video in webbrowser..."
+msgstr "Открыть видео в браузере..."
+
+#: controller/buffers/video.py:77
+msgid "Video added to your library"
+msgstr "Видео добавлено в библиотеку."
+
+#: controller/buffers/video.py:88
+msgid "Removed video from library"
+msgstr "Видео удалено из библиотеки."
+
+#: controller/buffers/video.py:97
+msgid "Select the album where you want to move this video"
+msgstr "Выберете альбом, в который хотите переместить это видео."
+
+#: controller/buffers/video.py:103
+msgid "Moved"
+msgstr "Перемещено"
+
+#: extra/SpellChecker/spellchecker.py:49
 #, python-format
 msgid "Misspelled word: %s"
 msgstr "Слово с орфографической ошибкой: %s"
@@ -621,15 +667,15 @@ msgstr "Ошибка"
 msgid "Spell check complete."
 msgstr "Проверка орфографии завершена."
 
-#: extra/translator/translator.py:14
+#: extra/translator/translator.py:22
 msgid "Afrikaans"
 msgstr "Африканский"
 
-#: extra/translator/translator.py:15
+#: extra/translator/translator.py:23
 msgid "Albanian"
 msgstr "Албанский"
 
-#: extra/translator/translator.py:16
+#: extra/translator/translator.py:24
 msgid "Amharic"
 msgstr ""
 "Амхарский\n"
@@ -637,363 +683,363 @@ msgstr ""
 "Nouns:\n"
 "    Амхарский (Amharic)"
 
-#: extra/translator/translator.py:17
+#: extra/translator/translator.py:25
 msgid "Arabic"
 msgstr "Арабский"
 
-#: extra/translator/translator.py:18
+#: extra/translator/translator.py:26
 msgid "Armenian"
 msgstr "Армянский"
 
-#: extra/translator/translator.py:19
+#: extra/translator/translator.py:27
 msgid "Azerbaijani"
 msgstr "Азербайджанский"
 
-#: extra/translator/translator.py:20
+#: extra/translator/translator.py:28
 msgid "Basque"
 msgstr "баскский"
 
-#: extra/translator/translator.py:21
+#: extra/translator/translator.py:29
 msgid "Belarusian"
 msgstr "Белорусский"
 
-#: extra/translator/translator.py:22
+#: extra/translator/translator.py:30
 msgid "Bengali"
 msgstr "Бенгальский"
 
-#: extra/translator/translator.py:23
+#: extra/translator/translator.py:31
 msgid "Bihari"
 msgstr "Бихари"
 
-#: extra/translator/translator.py:24
+#: extra/translator/translator.py:32
 msgid "Bulgarian"
 msgstr "Болгарский"
 
-#: extra/translator/translator.py:25
+#: extra/translator/translator.py:33
 msgid "Burmese"
 msgstr "Бирманский"
 
-#: extra/translator/translator.py:26
+#: extra/translator/translator.py:34
 msgid "Catalan"
 msgstr "Каталанский"
 
-#: extra/translator/translator.py:27
+#: extra/translator/translator.py:35
 msgid "Cherokee"
 msgstr "Чероки"
 
-#: extra/translator/translator.py:28
+#: extra/translator/translator.py:36
 msgid "Chinese"
 msgstr "Китайский"
 
-#: extra/translator/translator.py:29
+#: extra/translator/translator.py:37
 msgid "Chinese_simplified"
 msgstr "Китайский (упрощённое письмо)"
 
-#: extra/translator/translator.py:30
+#: extra/translator/translator.py:38
 msgid "Chinese_traditional"
 msgstr "Китайский (традиционный)"
 
-#: extra/translator/translator.py:31
+#: extra/translator/translator.py:39
 msgid "Croatian"
 msgstr "Хорватский"
 
-#: extra/translator/translator.py:32
+#: extra/translator/translator.py:40
 msgid "Czech"
 msgstr "Чешский"
 
-#: extra/translator/translator.py:33
+#: extra/translator/translator.py:41
 msgid "Danish"
 msgstr "Датский"
 
-#: extra/translator/translator.py:34
+#: extra/translator/translator.py:42
 msgid "Dhivehi"
 msgstr "Дивехи"
 
-#: extra/translator/translator.py:35
+#: extra/translator/translator.py:43
 msgid "Dutch"
 msgstr "Голландский"
 
-#: extra/translator/translator.py:36
+#: extra/translator/translator.py:44
 msgid "English"
 msgstr "Английский"
 
-#: extra/translator/translator.py:37
+#: extra/translator/translator.py:45
 msgid "Esperanto"
 msgstr "Эсперанто"
 
-#: extra/translator/translator.py:38
+#: extra/translator/translator.py:46
 msgid "Estonian"
 msgstr "Эстонский"
 
-#: extra/translator/translator.py:39
+#: extra/translator/translator.py:47
 msgid "Filipino"
 msgstr "Филиппинский"
 
-#: extra/translator/translator.py:40
+#: extra/translator/translator.py:48
 msgid "Finnish"
 msgstr "Финский"
 
-#: extra/translator/translator.py:41
+#: extra/translator/translator.py:49
 msgid "French"
 msgstr "Французский"
 
-#: extra/translator/translator.py:42
+#: extra/translator/translator.py:50
 msgid "Galician"
 msgstr "Галисийский"
 
-#: extra/translator/translator.py:43
+#: extra/translator/translator.py:51
 msgid "Georgian"
 msgstr "Грузинский"
 
-#: extra/translator/translator.py:44
+#: extra/translator/translator.py:52
 msgid "German"
 msgstr "Немецкий"
 
-#: extra/translator/translator.py:45
+#: extra/translator/translator.py:53
 msgid "Greek"
 msgstr "Греческий"
 
-#: extra/translator/translator.py:46
+#: extra/translator/translator.py:54
 msgid "Guarani"
 msgstr "Гуарани"
 
-#: extra/translator/translator.py:47
+#: extra/translator/translator.py:55
 msgid "Gujarati"
 msgstr "Гуджарати"
 
-#: extra/translator/translator.py:48
+#: extra/translator/translator.py:56
 msgid "Hebrew"
 msgstr "Еврейский"
 
-#: extra/translator/translator.py:49
+#: extra/translator/translator.py:57
 msgid "Hindi"
 msgstr "Хинди"
 
-#: extra/translator/translator.py:50
+#: extra/translator/translator.py:58
 msgid "Hungarian"
 msgstr "Венгерский"
 
-#: extra/translator/translator.py:51
+#: extra/translator/translator.py:59
 msgid "Icelandic"
 msgstr "Исландский"
 
-#: extra/translator/translator.py:52
+#: extra/translator/translator.py:60
 msgid "Indonesian"
 msgstr "Индонезийский"
 
-#: extra/translator/translator.py:53
+#: extra/translator/translator.py:61
 msgid "Inuktitut"
 msgstr "Инуктитут"
 
-#: extra/translator/translator.py:54
+#: extra/translator/translator.py:62
 msgid "Irish"
 msgstr "Ирландский"
 
-#: extra/translator/translator.py:55
+#: extra/translator/translator.py:63
 msgid "Italian"
 msgstr "Итальянский"
 
-#: extra/translator/translator.py:56
+#: extra/translator/translator.py:64
 msgid "Japanese"
 msgstr "Японский"
 
-#: extra/translator/translator.py:57
+#: extra/translator/translator.py:65
 msgid "Kannada"
 msgstr "Канада"
 
-#: extra/translator/translator.py:58
+#: extra/translator/translator.py:66
 msgid "Kazakh"
 msgstr "Казахский"
 
-#: extra/translator/translator.py:59
+#: extra/translator/translator.py:67
 msgid "Khmer"
 msgstr "Кхмерский"
 
-#: extra/translator/translator.py:60
+#: extra/translator/translator.py:68
 msgid "Korean"
 msgstr "Корейский"
 
-#: extra/translator/translator.py:61
+#: extra/translator/translator.py:69
 msgid "Kurdish"
 msgstr "Курдский"
 
-#: extra/translator/translator.py:62
+#: extra/translator/translator.py:70
 msgid "Kyrgyz"
 msgstr "Киргизский"
 
-#: extra/translator/translator.py:63
+#: extra/translator/translator.py:71
 msgid "Laothian"
 msgstr "Лаосский"
 
-#: extra/translator/translator.py:64
+#: extra/translator/translator.py:72
 msgid "Latvian"
 msgstr "Латышский"
 
-#: extra/translator/translator.py:65
+#: extra/translator/translator.py:73
 msgid "Lithuanian"
 msgstr "Литовский"
 
-#: extra/translator/translator.py:66
+#: extra/translator/translator.py:74
 msgid "Macedonian"
 msgstr "Македонский"
 
-#: extra/translator/translator.py:67
+#: extra/translator/translator.py:75
 msgid "Malay"
 msgstr "Малайский"
 
-#: extra/translator/translator.py:68
+#: extra/translator/translator.py:76
 msgid "Malayalam"
 msgstr "Малаялам"
 
-#: extra/translator/translator.py:69
+#: extra/translator/translator.py:77
 msgid "Maltese"
 msgstr "Мальтийский"
 
-#: extra/translator/translator.py:70
+#: extra/translator/translator.py:78
 msgid "Marathi"
 msgstr "Маратхи"
 
-#: extra/translator/translator.py:71
+#: extra/translator/translator.py:79
 msgid "Mongolian"
 msgstr "Монгольский"
 
-#: extra/translator/translator.py:72
+#: extra/translator/translator.py:80
 msgid "Nepali"
 msgstr "Непальский"
 
-#: extra/translator/translator.py:73
+#: extra/translator/translator.py:81
 msgid "Norwegian"
 msgstr "Норвежский"
 
-#: extra/translator/translator.py:74
+#: extra/translator/translator.py:82
 msgid "Oriya"
 msgstr "Ория"
 
-#: extra/translator/translator.py:75
+#: extra/translator/translator.py:83
 msgid "Pashto"
 msgstr "Пушту"
 
-#: extra/translator/translator.py:76
+#: extra/translator/translator.py:84
 msgid "Persian"
 msgstr "Персидский"
 
-#: extra/translator/translator.py:77
+#: extra/translator/translator.py:85
 msgid "Polish"
 msgstr "Польский"
 
-#: extra/translator/translator.py:78
+#: extra/translator/translator.py:86
 msgid "Portuguese"
 msgstr "Португальский"
 
-#: extra/translator/translator.py:79
+#: extra/translator/translator.py:87
 msgid "Punjabi"
 msgstr "Панджаби"
 
-#: extra/translator/translator.py:80
+#: extra/translator/translator.py:88
 msgid "Romanian"
 msgstr "Румынский"
 
-#: extra/translator/translator.py:81
+#: extra/translator/translator.py:89
 msgid "Russian"
 msgstr "Русский"
 
-#: extra/translator/translator.py:82
+#: extra/translator/translator.py:90
 msgid "Sanskrit"
 msgstr "Санскрит"
 
-#: extra/translator/translator.py:83
+#: extra/translator/translator.py:91
 msgid "Serbian"
 msgstr "Сербский"
 
-#: extra/translator/translator.py:84
+#: extra/translator/translator.py:92
 msgid "Sindhi"
 msgstr "Синдхи"
 
-#: extra/translator/translator.py:85
+#: extra/translator/translator.py:93
 msgid "Sinhalese"
 msgstr "Сингальский"
 
-#: extra/translator/translator.py:86
+#: extra/translator/translator.py:94
 msgid "Slovak"
 msgstr "Словацкий"
 
-#: extra/translator/translator.py:87
+#: extra/translator/translator.py:95
 msgid "Slovenian"
 msgstr "Словенский"
 
-#: extra/translator/translator.py:88
+#: extra/translator/translator.py:96
 msgid "Spanish"
 msgstr "Испанский"
 
-#: extra/translator/translator.py:89
+#: extra/translator/translator.py:97
 msgid "Swahili"
 msgstr "Swahili"
 
-#: extra/translator/translator.py:90
+#: extra/translator/translator.py:98
 msgid "Swedish"
 msgstr "Шведский"
 
-#: extra/translator/translator.py:91
+#: extra/translator/translator.py:99
 msgid "Tajik"
 msgstr "Таджикский"
 
-#: extra/translator/translator.py:92
+#: extra/translator/translator.py:100
 msgid "Tamil"
 msgstr "Тамильский"
 
-#: extra/translator/translator.py:93
+#: extra/translator/translator.py:101
 msgid "Tagalog"
 msgstr "Тагальский"
 
-#: extra/translator/translator.py:94
+#: extra/translator/translator.py:102
 msgid "Telugu"
 msgstr "Телугу"
 
-#: extra/translator/translator.py:95
+#: extra/translator/translator.py:103
 msgid "Thai"
 msgstr "тайский"
 
-#: extra/translator/translator.py:96
+#: extra/translator/translator.py:104
 msgid "Tibetan"
 msgstr "Тибетский"
 
-#: extra/translator/translator.py:97
+#: extra/translator/translator.py:105
 msgid "Turkish"
 msgstr "Турецкий"
 
-#: extra/translator/translator.py:98
+#: extra/translator/translator.py:106
 msgid "Ukrainian"
 msgstr "Украинский"
 
-#: extra/translator/translator.py:99
+#: extra/translator/translator.py:107
 msgid "Urdu"
 msgstr "Урду"
 
-#: extra/translator/translator.py:100
+#: extra/translator/translator.py:108
 msgid "Uzbek"
 msgstr "Узбекский"
 
-#: extra/translator/translator.py:101
+#: extra/translator/translator.py:109
 msgid "Uighur"
 msgstr "Уйгурский"
 
-#: extra/translator/translator.py:102
+#: extra/translator/translator.py:110
 msgid "Vietnamese"
 msgstr "Вьетнамский"
 
-#: extra/translator/translator.py:103
+#: extra/translator/translator.py:111
 msgid "Welsh"
 msgstr "Валлийский"
 
-#: extra/translator/translator.py:104
+#: extra/translator/translator.py:112
 msgid "Yiddish"
 msgstr "Идиш"
 
-#: extra/translator/wx_ui.py:25 views/dialogs/postCreation.py:100
+#: extra/translator/wx_ui.py:29 views/dialogs/postCreation.py:100
 msgid "Translate message"
 msgstr "Перевести сообщение"
 
-#: extra/translator/wx_ui.py:28
+#: extra/translator/wx_ui.py:32
 msgid "Target language"
 msgstr "Язык перевода"
 
@@ -1001,11 +1047,11 @@ msgstr "Язык перевода"
 msgid "Select the audio files you want to send"
 msgstr "Выберете аудиозаписи, которые выхотите отправить."
 
-#: interactors/postCreation.py:45 views/dialogs/postCreation.py:21
+#: interactors/postCreation.py:44 views/dialogs/postCreation.py:21
 msgid "Friends of friends"
 msgstr "Друзья друзей"
 
-#: interactors/postCreation.py:47 views/dialogs/postCreation.py:21
+#: interactors/postCreation.py:46 views/dialogs/postCreation.py:21
 msgid "All users"
 msgstr "Все пользователи"
 
@@ -1141,12 +1187,12 @@ msgstr "&Запись"
 msgid "Discarded"
 msgstr "Загрузка отменена"
 
-#: presenters/audioRecorder.py:71 presenters/player.py:116
+#: presenters/audioRecorder.py:71 presenters/player.py:114
 msgid "Playing..."
 msgstr "Воспроизведение"
 
 #: presenters/audioRecorder.py:79 presenters/audioRecorder.py:89
-#: views/dialogs/audioRecorder.py:11 views/dialogs/postDisplay.py:257
+#: views/dialogs/audioRecorder.py:11 views/dialogs/postDisplay.py:256
 #: wxUI/menus.py:31
 msgid "&Play"
 msgstr "Воспроизвести"
@@ -1160,16 +1206,16 @@ msgid "You've unblocked {user1_nom} from your friends."
 msgstr "Вы разблокировали {user1_nom}."
 
 #: presenters/configuration.py:21 presenters/configuration.py:34
-#: views/dialogs/configuration.py:20 views/dialogs/configuration.py:64
+#: views/dialogs/configuration.py:22 views/dialogs/configuration.py:66
 msgid "Native"
 msgstr "собственные"
 
-#: presenters/configuration.py:23 views/dialogs/configuration.py:64
+#: presenters/configuration.py:23 views/dialogs/configuration.py:66
 msgid "Custom"
 msgstr "Пользовательские"
 
 #: presenters/configuration.py:27 presenters/configuration.py:40
-#: views/dialogs/configuration.py:20
+#: views/dialogs/configuration.py:22
 msgid "Stable"
 msgstr "Стабильный"
 
@@ -1177,11 +1223,11 @@ msgstr "Стабильный"
 msgid "Weekly"
 msgstr "Еженедельно"
 
-#: presenters/configuration.py:31 views/dialogs/configuration.py:20
+#: presenters/configuration.py:31 views/dialogs/configuration.py:22
 msgid "Alpha"
 msgstr "Альфа"
 
-#: presenters/main.py:88 wxUI/dialogs/timeline.py:24 wxUI/tabs/home.py:269
+#: presenters/main.py:88 wxUI/dialogs/timeline.py:24 wxUI/tabs/people.py:10
 msgid "Friends"
 msgstr "Друзья"
 
@@ -1193,7 +1239,7 @@ msgstr "Группы"
 msgid "This file could not be played because it is not allowed in your country"
 msgstr "Эта аудиозапись недоступна в Вашем регионе."
 
-#: presenters/player.py:106
+#: presenters/player.py:104
 msgid "Playing {0} by {1}"
 msgstr "Воспроизводится {0} {1}"
 
@@ -1320,8 +1366,8 @@ msgstr "&Не нравится"
 
 #: presenters/displayPosts/basePost.py:252 presenters/displayPosts/topic.py:92
 #: presenters/displayPosts/topic.py:108
-#: presenters/displayPosts/topicComment.py:38 views/dialogs/postDisplay.py:90
-#: views/dialogs/postDisplay.py:177 views/dialogs/postDisplay.py:204
+#: presenters/displayPosts/topicComment.py:38 views/dialogs/postDisplay.py:89
+#: views/dialogs/postDisplay.py:176 views/dialogs/postDisplay.py:203
 msgid "&Like"
 msgstr "&Нравится"
 
@@ -1329,11 +1375,11 @@ msgstr "&Нравится"
 msgid "Add your comment here"
 msgstr "Комментировать..."
 
-#: presenters/displayPosts/basePost.py:272 views/dialogs/postDisplay.py:122
+#: presenters/displayPosts/basePost.py:272 views/dialogs/postDisplay.py:121
 msgid "{0} people like this"
 msgstr "{0} отметок нравится"
 
-#: presenters/displayPosts/basePost.py:275 views/dialogs/postDisplay.py:128
+#: presenters/displayPosts/basePost.py:275 views/dialogs/postDisplay.py:127
 msgid "Shared {0} times"
 msgstr "Поделились {0} раз"
 
@@ -1342,17 +1388,13 @@ msgstr "Поделились {0} раз"
 msgid "Reply to {user1_nom}"
 msgstr "Ответить {user1_dat}"
 
-#: presenters/displayPosts/basePost.py:354
-msgid "Opening Article in web browser..."
-msgstr "Открыть статью в браузере..."
-
-#: presenters/displayPosts/basePost.py:373
+#: presenters/displayPosts/basePost.py:371
 #: presenters/displayPosts/comment.py:85
 #: presenters/displayPosts/topicComment.py:53
 msgid "people who liked this"
 msgstr "Люди, которым это понравилось."
 
-#: presenters/displayPosts/basePost.py:380
+#: presenters/displayPosts/basePost.py:378
 msgid "people who shared this"
 msgstr "Люди, которые этим поделились."
 
@@ -1388,7 +1430,7 @@ msgstr "Ссылка"
 msgid "no description available"
 msgstr "Описание недоступно"
 
-#: sessionmanager/renderers.py:68 sessionmanager/renderers.py:280
+#: sessionmanager/renderers.py:68 sessionmanager/renderers.py:283
 #: wxUI/dialogs/timeline.py:22 wxUI/mainWindow.py:31
 msgid "Audio"
 msgstr "Аудиозапись"
@@ -1409,94 +1451,94 @@ msgstr "Запись"
 msgid "{user}: {post}"
 msgstr "{user}: {post}"
 
-#: sessionmanager/renderers.py:87
+#: sessionmanager/renderers.py:87 views/dialogs/postDisplay.py:306
 msgid "Article"
 msgstr "Статья"
 
-#: sessionmanager/renderers.py:111
+#: sessionmanager/renderers.py:114
 msgid "Account deactivated"
 msgstr "Аккаунт деактивирован"
 
-#: sessionmanager/renderers.py:128 sessionmanager/renderers.py:226
-#: sessionmanager/renderers.py:233
+#: sessionmanager/renderers.py:131 sessionmanager/renderers.py:229
+#: sessionmanager/renderers.py:236
 msgid "{user1_nom} has shared the {user2_nom}'s post"
 msgstr "{user1_nom} поделился записью {user2_gen}"
 
-#: sessionmanager/renderers.py:148
+#: sessionmanager/renderers.py:151
 msgid "{user1_nom} has added  an audio: {audio_file}"
 msgstr "{user1_nom} добавил(а) аудиозапись: {audio_file}"
 
-#: sessionmanager/renderers.py:156
+#: sessionmanager/renderers.py:159
 msgid "{user1_nom} has added  {total_audio_files} audios: {audio_files}"
 msgstr "{user1_nom} добавил {total_audio_files} аудиозаписи: {audio_files}"
 
-#: sessionmanager/renderers.py:162
+#: sessionmanager/renderers.py:165
 msgid ""
 "{user1_nom} has added an audio album: {audio_album}, "
 "{audio_album_description}"
 msgstr "{user1_nom} добавил аудиоальбом: {audio_album},  {audio_album_description}"
 
-#: sessionmanager/renderers.py:169
+#: sessionmanager/renderers.py:172
 msgid "{user1_nom} has added  {total_audio_albums} audio albums: {audio_albums}"
 msgstr "{user1_nom} добавил {total_audio_albums} аудио альбомы: {audio_albums}"
 
-#: sessionmanager/renderers.py:180
+#: sessionmanager/renderers.py:183
 msgid "{user1_nom} added friends: {friends}"
 msgstr "{user1_nom} добавил(а) друзей: {friends}"
 
-#: sessionmanager/renderers.py:185
+#: sessionmanager/renderers.py:188
 msgid "{user1_nom} has added  a video: {video}"
 msgstr "{user1_nom} добавил(а) видеозапись: {video}"
 
-#: sessionmanager/renderers.py:193
+#: sessionmanager/renderers.py:196
 msgid "{user1_nom} has added  {total_videos} videos: {videos}"
 msgstr "{user1_nom} добавил {total_videos} видеозаписи: {videos}"
 
-#: sessionmanager/renderers.py:207
+#: sessionmanager/renderers.py:210
 msgid "H:mm."
 msgstr "H:mm."
 
-#: sessionmanager/renderers.py:209
+#: sessionmanager/renderers.py:212
 msgid "H:mm. dddd, MMMM D, YYYY"
 msgstr "H:mm. dddd, MMMM D, YYYY"
 
-#: sessionmanager/renderers.py:247
+#: sessionmanager/renderers.py:250
 msgid "Audio removed from library"
 msgstr "Аудиозапись удалена из библиотеки."
 
-#: sessionmanager/renderers.py:256
+#: sessionmanager/renderers.py:259
 msgid "Video not available"
 msgstr "Видео недоступно"
 
-#: sessionmanager/renderers.py:264
+#: sessionmanager/renderers.py:267
 msgid "Voice message not available"
 msgstr "Голосовое сообщение недоступно."
 
-#: sessionmanager/renderers.py:276
+#: sessionmanager/renderers.py:279
 msgid "Last post by {user1_nom} {date}"
 msgstr "Последняя запись {user1_nom} {date}"
 
-#: sessionmanager/renderers.py:280
+#: sessionmanager/renderers.py:283
 msgid "Text document"
 msgstr "Текстовый документ"
 
-#: sessionmanager/renderers.py:280
+#: sessionmanager/renderers.py:283
 msgid "Archive"
 msgstr "Архив"
 
-#: sessionmanager/renderers.py:280
+#: sessionmanager/renderers.py:283
 msgid "Gif"
 msgstr "Гиф-анимация"
 
-#: sessionmanager/renderers.py:280
+#: sessionmanager/renderers.py:283
 msgid "Image"
 msgstr "Изображение"
 
-#: sessionmanager/renderers.py:280
+#: sessionmanager/renderers.py:283
 msgid "Ebook"
 msgstr "Книга"
 
-#: sessionmanager/renderers.py:280
+#: sessionmanager/renderers.py:283
 msgid "Unknown document"
 msgstr "Неизвестный документ"
 
@@ -1650,20 +1692,22 @@ msgstr "Готово!"
 msgid "Add an attachment"
 msgstr "Добавить вложение"
 
-#: views/dialogs/attach.py:11 views/dialogs/postDisplay.py:53
-#: wxUI/tabs/home.py:236
+#: views/dialogs/attach.py:11 views/dialogs/postDisplay.py:52
+#: views/dialogs/postDisplay.py:338 wxUI/tabs/chat.py:52
 msgid "Attachments"
 msgstr "Вложения"
 
-#: views/dialogs/attach.py:12 views/dialogs/postDisplay.py:54
-#: wxUI/tabs/home.py:169 wxUI/tabs/home.py:237
+#: views/dialogs/attach.py:12 views/dialogs/postDisplay.py:53
+#: views/dialogs/postDisplay.py:339 wxUI/tabs/chat.py:53
+#: wxUI/tabs/communityDocuments.py:9
 msgid "Type"
 msgstr "Тип"
 
 #: views/dialogs/attach.py:12 views/dialogs/postCreation.py:129
-#: views/dialogs/postDisplay.py:54 wxUI/dialogs/search.py:20
-#: wxUI/tabs/home.py:67 wxUI/tabs/home.py:158 wxUI/tabs/home.py:169
-#: wxUI/tabs/home.py:237 wxUI/tabs/home.py:286
+#: views/dialogs/postDisplay.py:53 views/dialogs/postDisplay.py:339
+#: wxUI/dialogs/search.py:20 wxUI/tabs/audio.py:9 wxUI/tabs/chat.py:53
+#: wxUI/tabs/communityBoard.py:9 wxUI/tabs/communityDocuments.py:9
+#: wxUI/tabs/video.py:9
 msgid "Title"
 msgstr "Название"
 
@@ -1691,15 +1735,15 @@ msgstr "Тип файлов (*.png, *.jpg, *.gif)|*.png; *.jpg; *.gif"
 msgid "please provide a description"
 msgstr "Пожалуйста добавьте описание."
 
-#: views/dialogs/attach.py:49 wxUI/tabs/home.py:137 wxUI/tabs/home.py:286
+#: views/dialogs/attach.py:49 wxUI/tabs/photoAlbum.py:17 wxUI/tabs/video.py:9
 msgid "Description"
 msgstr "Описание"
 
-#: views/dialogs/attach.py:56 wxUI/tabs/home.py:85
+#: views/dialogs/attach.py:56 wxUI/tabs/audio.py:27
 msgid "Select the audio file to be uploaded"
 msgstr "Выберите аудиозапись для загрузки."
 
-#: views/dialogs/attach.py:56 wxUI/tabs/home.py:85
+#: views/dialogs/attach.py:56 wxUI/tabs/audio.py:27
 msgid "Audio files (*.mp3)|*.mp3"
 msgstr "Аудио Файлы(*.mp3)|*.mp3"
 
@@ -1711,7 +1755,7 @@ msgstr ""
 "Выберите файл для загрузки. Все расширения разрешены за исключением. mp3 "
 "и. exe."
 
-#: views/dialogs/attach.py:62 wxUI/tabs/home.py:179
+#: views/dialogs/attach.py:62 wxUI/tabs/communityDocuments.py:19
 msgid "All files (*.*)|*.*"
 msgstr "Все файлы (*. *) | *. *"
 
@@ -1739,24 +1783,31 @@ msgstr "&добавить"
 msgid "&Cancel"
 msgstr "&Отмена"
 
-#: views/dialogs/blacklist.py:8
+#: views/dialogs/blacklist.py:7
 msgid "blacklist"
 msgstr "Чёрный список"
 
-#: views/dialogs/blacklist.py:11
+#: views/dialogs/blacklist.py:10
 msgid "blocked users"
 msgstr "Заблокированные пользователи"
 
-#: views/dialogs/blacklist.py:12 views/dialogs/postDisplay.py:43
-#: views/dialogs/postDisplay.py:213 wxUI/dialogs/timeline.py:13
-#: wxUI/tabs/home.py:11 wxUI/tabs/home.py:137 wxUI/tabs/home.py:158
-#: wxUI/tabs/home.py:169
+#: views/dialogs/blacklist.py:11 views/dialogs/postDisplay.py:42
+#: views/dialogs/postDisplay.py:212 wxUI/dialogs/timeline.py:13
+#: wxUI/tabs/communityBoard.py:9 wxUI/tabs/communityDocuments.py:9
+#: wxUI/tabs/home.py:10 wxUI/tabs/photoAlbum.py:17
 msgid "User"
 msgstr "Пользователь"
 
-#: views/dialogs/blacklist.py:15
+#: views/dialogs/blacklist.py:14
 msgid "Unblock"
 msgstr "Разблокировать"
+
+#: views/dialogs/blacklist.py:16 views/dialogs/configuration.py:161
+#: views/dialogs/postCreation.py:69 views/dialogs/postCreation.py:103
+#: views/dialogs/postCreation.py:154 views/dialogs/postDisplay.py:102
+#: views/dialogs/postDisplay.py:334
+msgid "Close"
+msgstr "Закрыть"
 
 #: views/dialogs/configuration.py:10
 msgid "Language"
@@ -1771,86 +1822,84 @@ msgid "Use proxy"
 msgstr "Использовать прокси"
 
 #: views/dialogs/configuration.py:19
+msgid "Enable debug logging (useful for reporting errors)"
+msgstr ""
+
+#: views/dialogs/configuration.py:21
 msgid "Update channel"
 msgstr "Канал обновления"
 
-#: views/dialogs/configuration.py:32
+#: views/dialogs/configuration.py:34
 msgid "Number of items to load for newsfeed and wall buffers (maximun 100)"
 msgstr ""
 "Количество элементов допустимое для загрузки в новостном буфере (максимум"
 " 100).."
 
-#: views/dialogs/configuration.py:39
+#: views/dialogs/configuration.py:41
 msgid "Number of items to load in video buffers (maximun 200)"
 msgstr "Количество элементов для загрузки в видеобуферы (максимум 200).."
 
-#: views/dialogs/configuration.py:46
+#: views/dialogs/configuration.py:48
 msgid "Number of items to load in conversation buffers (maximun 200)"
 msgstr "Количество элементов для загрузки в буферах разговора (максимум 200)"
 
-#: views/dialogs/configuration.py:59
+#: views/dialogs/configuration.py:61
 msgid "Show notifications when users are online"
 msgstr "Показывать уведомления, когда пользователи в сети."
 
-#: views/dialogs/configuration.py:61
+#: views/dialogs/configuration.py:63
 msgid "Show notifications when users are offline"
 msgstr "Показывать уведомления, когда пользователи не в сети."
 
-#: views/dialogs/configuration.py:63
+#: views/dialogs/configuration.py:65
 msgid "Notification type"
 msgstr "Тип уведомлений"
 
-#: views/dialogs/configuration.py:75
+#: views/dialogs/configuration.py:77
 msgid "Create buffers for audio albums at startup"
 msgstr "Создание буферов для аудиоальбомов при запуске."
 
-#: views/dialogs/configuration.py:77
+#: views/dialogs/configuration.py:79
 msgid "Create buffers for video albums at startup"
 msgstr "Создание буферов для видео альбомов при запуске."
 
-#: views/dialogs/configuration.py:79
+#: views/dialogs/configuration.py:81
 msgid "Create buffers for communities and public pages at startup"
 msgstr "Создание буферов для групп и публичных страниц при запуске."
 
-#: views/dialogs/configuration.py:87
+#: views/dialogs/configuration.py:89
 msgid "Output device"
 msgstr "Устройство вывода"
 
-#: views/dialogs/configuration.py:94
+#: views/dialogs/configuration.py:96
 msgid "Input device"
 msgstr "Устройства ввода"
 
-#: views/dialogs/configuration.py:135
+#: views/dialogs/configuration.py:137
 msgid "General"
 msgstr "Общие"
 
-#: views/dialogs/configuration.py:140
+#: views/dialogs/configuration.py:142
 msgid "Buffer settings"
 msgstr "Настройки буфера"
 
-#: views/dialogs/configuration.py:144
+#: views/dialogs/configuration.py:146
 msgid "Chat settings"
 msgstr "Настройки чата"
 
-#: views/dialogs/configuration.py:148
+#: views/dialogs/configuration.py:150
 msgid "Optional buffers"
 msgstr "Дополнительные буферы"
 
-#: views/dialogs/configuration.py:152
+#: views/dialogs/configuration.py:154
 msgid "Sound settings"
 msgstr "Настройки звука"
 
-#: views/dialogs/configuration.py:157
+#: views/dialogs/configuration.py:159
 msgid "Save"
 msgstr "Сохранить"
 
-#: views/dialogs/configuration.py:159 views/dialogs/postCreation.py:69
-#: views/dialogs/postCreation.py:103 views/dialogs/postCreation.py:154
-#: views/dialogs/postDisplay.py:103
-msgid "Close"
-msgstr "Закрыть"
-
-#: views/dialogs/configuration.py:177
+#: views/dialogs/configuration.py:179
 msgid ""
 "The alpha channel contains bleeding edge changes introduced to "
 "Socializer. A new alpha update is generated every time there are new "
@@ -1869,7 +1918,7 @@ msgstr ""
 "ошибок. Никогда не используйте обновления альфа-канала для повседневного "
 "использования. Вы хотите продолжить?"
 
-#: views/dialogs/configuration.py:177 views/dialogs/configuration.py:180
+#: views/dialogs/configuration.py:179 views/dialogs/configuration.py:182
 #: wxUI/commonMessages.py:13 wxUI/commonMessages.py:39
 #: wxUI/commonMessages.py:45 wxUI/commonMessages.py:48
 #: wxUI/commonMessages.py:54 wxUI/commonMessages.py:57
@@ -1878,7 +1927,7 @@ msgstr ""
 msgid "Attention"
 msgstr "Внимание"
 
-#: views/dialogs/configuration.py:180
+#: views/dialogs/configuration.py:182
 msgid ""
 "The weekly channel generates an update automatically every week by "
 "building the source code present in the project. This version is used to "
@@ -1903,15 +1952,17 @@ msgid "Tag a friend"
 msgstr "Отметить друга"
 
 #: views/dialogs/postCreation.py:65 views/dialogs/postCreation.py:150
+#: wxUI/menus.py:116
 msgid "Spelling &correction"
 msgstr "Исправление ошибок"
 
 #: views/dialogs/postCreation.py:66 views/dialogs/postCreation.py:151
+#: wxUI/menus.py:115
 msgid "&Translate message"
 msgstr "Перевести сообщение"
 
 #: views/dialogs/postCreation.py:67 views/dialogs/postCreation.py:101
-#: views/dialogs/postCreation.py:152 wxUI/tabs/home.py:212
+#: views/dialogs/postCreation.py:152 wxUI/tabs/chat.py:28
 msgid "Send"
 msgstr "Отправить"
 
@@ -1919,136 +1970,138 @@ msgstr "Отправить"
 msgid "Spelling correction"
 msgstr "Исправление ошибок"
 
-#: views/dialogs/postCreation.py:131 views/dialogs/postDisplay.py:16
+#: views/dialogs/postCreation.py:131 views/dialogs/postDisplay.py:15
 msgid "Message"
 msgstr "Сообщение"
 
-#: views/dialogs/postDisplay.py:33
+#: views/dialogs/postDisplay.py:32 views/dialogs/postDisplay.py:323
 msgid "Views"
 msgstr "Просмотры"
 
-#: views/dialogs/postDisplay.py:42
+#: views/dialogs/postDisplay.py:41
 msgid "Comments"
 msgstr "Комментарии"
 
-#: views/dialogs/postDisplay.py:43 views/dialogs/postDisplay.py:213
+#: views/dialogs/postDisplay.py:42 views/dialogs/postDisplay.py:212
 msgid "Comment"
 msgstr "Комментарий"
 
-#: views/dialogs/postDisplay.py:43 views/dialogs/postDisplay.py:213
-#: wxUI/tabs/home.py:11 wxUI/tabs/home.py:123 wxUI/tabs/home.py:169
+#: views/dialogs/postDisplay.py:42 views/dialogs/postDisplay.py:212
+#: wxUI/tabs/communityDocuments.py:9 wxUI/tabs/home.py:10
+#: wxUI/tabs/notification.py:14
 msgid "Date"
 msgstr "Дата"
 
-#: views/dialogs/postDisplay.py:43 views/dialogs/postDisplay.py:213
+#: views/dialogs/postDisplay.py:42 views/dialogs/postDisplay.py:212
 msgid "Likes"
 msgstr "Отметки нравится"
 
-#: views/dialogs/postDisplay.py:44
+#: views/dialogs/postDisplay.py:43
 msgid "Reply to comment"
 msgstr "Ответить на комментарий"
 
-#: views/dialogs/postDisplay.py:63
+#: views/dialogs/postDisplay.py:62
 msgid "Previous photo"
 msgstr "Предыдущая фотография"
 
-#: views/dialogs/postDisplay.py:64
+#: views/dialogs/postDisplay.py:63
 msgid "View in full screen"
 msgstr "Просмотр во весь экран"
 
-#: views/dialogs/postDisplay.py:65
+#: views/dialogs/postDisplay.py:64
 msgid "Next photo"
 msgstr "Следующее фото"
 
-#: views/dialogs/postDisplay.py:82 views/dialogs/postDisplay.py:86
+#: views/dialogs/postDisplay.py:81 views/dialogs/postDisplay.py:85
 msgid "Loading data..."
 msgstr "Загрузка данных..."
 
-#: views/dialogs/postDisplay.py:92 views/dialogs/postDisplay.py:179
-#: views/dialogs/postDisplay.py:205 wxUI/menus.py:15
+#: views/dialogs/postDisplay.py:91 views/dialogs/postDisplay.py:178
+#: views/dialogs/postDisplay.py:204 wxUI/menus.py:15
 msgid "Add comment"
 msgstr "Комментировать..."
 
-#: views/dialogs/postDisplay.py:100 wxUI/tabs/home.py:19 wxUI/tabs/home.py:58
-#: wxUI/tabs/home.py:75 wxUI/tabs/home.py:102 wxUI/tabs/home.py:185
-#: wxUI/tabs/home.py:277 wxUI/tabs/home.py:294 wxUI/tabs/home.py:303
+#: views/dialogs/postDisplay.py:99 views/dialogs/postDisplay.py:331
+#: wxUI/tabs/audio.py:17 wxUI/tabs/audioAlbum.py:8 wxUI/tabs/chat.py:23
+#: wxUI/tabs/communityWall.py:8 wxUI/tabs/documents.py:7 wxUI/tabs/home.py:18
+#: wxUI/tabs/people.py:18 wxUI/tabs/video.py:17 wxUI/tabs/videoAlbum.py:8
 msgid "Actions"
 msgstr "Активность"
 
-#: views/dialogs/postDisplay.py:178 views/dialogs/postDisplay.py:215
+#: views/dialogs/postDisplay.py:177 views/dialogs/postDisplay.py:214
 msgid "Reply"
 msgstr "Ответить"
 
-#: views/dialogs/postDisplay.py:214
+#: views/dialogs/postDisplay.py:213
 msgid "Load previous comments"
 msgstr "Загрузить предыдущие комментарии"
 
-#: views/dialogs/postDisplay.py:227
+#: views/dialogs/postDisplay.py:226
 msgid "Audio &files"
 msgstr "Аудио &записи"
 
-#: views/dialogs/postDisplay.py:233
+#: views/dialogs/postDisplay.py:232
 msgid "&Title"
 msgstr "&Название"
 
-#: views/dialogs/postDisplay.py:239
+#: views/dialogs/postDisplay.py:238
 msgid "&Artist"
 msgstr "&Исполнитель"
 
-#: views/dialogs/postDisplay.py:245
+#: views/dialogs/postDisplay.py:244
 msgid "&Duration"
 msgstr "&Продолжительность"
 
-#: views/dialogs/postDisplay.py:251
+#: views/dialogs/postDisplay.py:250
 msgid "&Lyric"
 msgstr "&Описание"
 
-#: views/dialogs/postDisplay.py:258
+#: views/dialogs/postDisplay.py:257
 msgid "&Download"
 msgstr "&Скачать"
 
-#: views/dialogs/postDisplay.py:259
+#: views/dialogs/postDisplay.py:258
 msgid "&Add to your library"
 msgstr "&Добавить в библиотеку."
 
-#: views/dialogs/postDisplay.py:260
+#: views/dialogs/postDisplay.py:259
 msgid "&Remove from your library"
 msgstr "&Удалить из библиотеки."
 
-#: views/dialogs/postDisplay.py:275 wxUI/tabs/home.py:92
+#: views/dialogs/postDisplay.py:274 wxUI/tabs/audio.py:34
 msgid "Save this file"
 msgstr "Сохранить файл"
 
-#: views/dialogs/postDisplay.py:275 wxUI/tabs/home.py:92
+#: views/dialogs/postDisplay.py:274 wxUI/tabs/audio.py:34
 msgid "Audio Files(*.mp3)|*.mp3"
 msgstr "Аудио записи(*.mp3)|*.mp3"
 
-#: views/dialogs/postDisplay.py:291
+#: views/dialogs/postDisplay.py:360
 msgid "Friend"
 msgstr "Друг"
 
-#: views/dialogs/postDisplay.py:306
+#: views/dialogs/postDisplay.py:375
 msgid "Question"
 msgstr "Вопрос"
 
-#: views/dialogs/postDisplay.py:315
+#: views/dialogs/postDisplay.py:384
 msgid "Options"
 msgstr "Опции"
 
-#: views/dialogs/postDisplay.py:335
+#: views/dialogs/postDisplay.py:404
 msgid "Poll results"
 msgstr "Результаты опроса"
 
-#: views/dialogs/postDisplay.py:339
+#: views/dialogs/postDisplay.py:408
 msgid "{votes} ({rate}%)"
 msgstr "{votes} ({rate}%)"
 
-#: views/dialogs/postDisplay.py:346
+#: views/dialogs/postDisplay.py:415
 msgid "Vote"
 msgstr "Проголосовать"
 
-#: views/dialogs/profiles.py:48 wxUI/tabs/home.py:137 wxUI/tabs/home.py:151
-#: wxUI/tabs/home.py:270
+#: views/dialogs/profiles.py:48 wxUI/tabs/people.py:11
+#: wxUI/tabs/photoAlbum.py:17
 msgid "Name"
 msgstr "Имя"
 
@@ -2056,7 +2109,7 @@ msgstr "Имя"
 msgid "Status"
 msgstr "Статус"
 
-#: views/dialogs/profiles.py:65 wxUI/tabs/home.py:270
+#: views/dialogs/profiles.py:65 wxUI/tabs/people.py:11
 msgid "Last seen"
 msgstr "Последний визит"
 
@@ -2312,10 +2365,6 @@ msgstr "Удалить"
 msgid "Blacklist"
 msgstr "Чёрный список"
 
-#: wxUI/mainWindow.py:24 wxUI/menus.py:45
-msgid "View profile"
-msgstr "Посмотреть профиль"
-
 #: wxUI/mainWindow.py:26
 msgid "Open in browser"
 msgstr "Открыть в браузере..."
@@ -2480,11 +2529,6 @@ msgstr "Опубликовать на этой странице."
 msgid "View user profile"
 msgstr "Посмотреть профиль пользователя."
 
-#: wxUI/menus.py:24 wxUI/menus.py:55 wxUI/menus.py:75 wxUI/menus.py:85
-#: wxUI/menus.py:103 wxUI/menus.py:109
-msgid "Open in vk.com"
-msgstr "Открыть во \"ВКонтакте\""
-
 #: wxUI/menus.py:30
 msgid "&Open"
 msgstr "&Открыть"
@@ -2512,10 +2556,6 @@ msgstr "Отменить выбор"
 #: wxUI/menus.py:46
 msgid "Send a message"
 msgstr "Отправить сообщение"
-
-#: wxUI/menus.py:47
-msgid "Open timeline"
-msgstr "Открыть пользовательскую ленту"
 
 #: wxUI/menus.py:51
 msgid "View friends in common"
@@ -2574,22 +2614,26 @@ msgid "Load topics"
 msgstr "Загрузка тем"
 
 #: wxUI/menus.py:99
+msgid "Load members"
+msgstr ""
+
+#: wxUI/menus.py:100
 msgid "Load audios"
 msgstr "Загрузка аудиозаписей"
 
-#: wxUI/menus.py:100
+#: wxUI/menus.py:101
 msgid "Load videos"
 msgstr "Загрузка видеозаписей"
 
-#: wxUI/menus.py:101
+#: wxUI/menus.py:102
 msgid "Load documents"
 msgstr "Загрузка документов"
 
-#: wxUI/menus.py:102
+#: wxUI/menus.py:103
 msgid "Load"
 msgstr "Загрузка"
 
-#: wxUI/menus.py:108
+#: wxUI/menus.py:109
 msgid "Delete conversation"
 msgstr "Удалить диалог"
 
@@ -2625,7 +2669,7 @@ msgstr "&Поиск"
 msgid "Search by"
 msgstr "Поиск по"
 
-#: wxUI/dialogs/search.py:21 wxUI/tabs/home.py:67
+#: wxUI/dialogs/search.py:21 wxUI/tabs/audio.py:9
 msgid "Artist"
 msgstr "Исполнитель"
 
@@ -2637,8 +2681,8 @@ msgstr "Сортировать по:"
 msgid "Date added"
 msgstr "Дата добавления"
 
-#: wxUI/dialogs/search.py:26 wxUI/dialogs/search.py:62 wxUI/tabs/home.py:67
-#: wxUI/tabs/home.py:286
+#: wxUI/dialogs/search.py:26 wxUI/dialogs/search.py:62 wxUI/tabs/audio.py:9
+#: wxUI/tabs/video.py:9
 msgid "Duration"
 msgstr "Продолжительность"
 
@@ -2698,89 +2742,81 @@ msgstr "Тип буфера"
 msgid "&Wall posts"
 msgstr "&Записи на стене"
 
-#: wxUI/tabs/home.py:10 wxUI/tabs/home.py:122
-msgid "Po&sts"
-msgstr "За&писи"
-
-#: wxUI/tabs/home.py:11
-msgid "Text"
-msgstr "Текст"
-
-#: wxUI/tabs/home.py:20 wxUI/tabs/home.py:104 wxUI/tabs/home.py:187
-#: wxUI/tabs/home.py:295 wxUI/tabs/home.py:305
-msgid "&Post"
-msgstr "&Запись"
-
-#: wxUI/tabs/home.py:59 wxUI/tabs/home.py:103 wxUI/tabs/home.py:186
-#: wxUI/tabs/home.py:304
-msgid "Load buffer"
-msgstr "Загрузка буфера"
-
-#: wxUI/tabs/home.py:60
-msgid "&Post in group"
-msgstr "& Опубликовать в группе"
-
-#: wxUI/tabs/home.py:66
+#: wxUI/tabs/audio.py:8
 msgid "Mu&sic"
 msgstr "Му&зыка"
 
-#: wxUI/tabs/home.py:76
+#: wxUI/tabs/audio.py:18
 msgid "&Upload audio"
 msgstr "&Загрузить аудио"
 
-#: wxUI/tabs/home.py:79 wxUI/tabs/home.py:106
+#: wxUI/tabs/audio.py:21 wxUI/tabs/audioAlbum.py:12
 msgid "Play &All"
 msgstr "Воспроизвести &все"
 
-#: wxUI/tabs/home.py:94
+#: wxUI/tabs/audio.py:36
 msgid "Select a folder to save all files"
 msgstr "Выберите папку для сохранения всех файлов"
 
-#: wxUI/tabs/home.py:123
-msgid "Notification"
-msgstr "Уведомление"
+#: wxUI/tabs/audioAlbum.py:9 wxUI/tabs/communityWall.py:9
+#: wxUI/tabs/documents.py:8 wxUI/tabs/videoAlbum.py:9
+msgid "Load buffer"
+msgstr "Загрузка буфера"
 
-#: wxUI/tabs/home.py:137
-msgid "Photos"
-msgstr "Фотографии"
+#: wxUI/tabs/audioAlbum.py:10 wxUI/tabs/documents.py:9 wxUI/tabs/home.py:19
+#: wxUI/tabs/video.py:18 wxUI/tabs/videoAlbum.py:10
+msgid "&Post"
+msgstr "&Запись"
 
-#: wxUI/tabs/home.py:137
-msgid "Created at"
-msgstr "Создано в"
-
-#: wxUI/tabs/home.py:158
-msgid "Last"
-msgstr "Последний"
-
-#: wxUI/tabs/home.py:169
-msgid "Size"
-msgstr "Размер"
-
-#: wxUI/tabs/home.py:179
-msgid "Save document as"
-msgstr "Сохранить документ как..."
-
-#: wxUI/tabs/home.py:210
+#: wxUI/tabs/chat.py:22
 msgid "Add"
 msgstr "Добавить"
 
-#: wxUI/tabs/home.py:217
+#: wxUI/tabs/chat.py:33
 msgid "History"
 msgstr "История"
 
-#: wxUI/tabs/home.py:245
+#: wxUI/tabs/chat.py:61
 msgid "Write a message"
 msgstr "Написать сообщение"
 
-#: wxUI/tabs/home.py:278
-msgid "&Post on user's wall"
-msgstr "Запись на стене user's"
+#: wxUI/tabs/communityBoard.py:9
+msgid "Last"
+msgstr "Последний"
 
-#: wxUI/tabs/home.py:279
-msgid "Send message"
-msgstr "Отправить сообщение"
+#: wxUI/tabs/communityDocuments.py:9
+msgid "Size"
+msgstr "Размер"
 
-#: wxUI/tabs/home.py:285
+#: wxUI/tabs/communityDocuments.py:19
+msgid "Save document as"
+msgstr "Сохранить документ как..."
+
+#: wxUI/tabs/communityWall.py:10
+msgid "&Post in group"
+msgstr "& Опубликовать в группе"
+
+#: wxUI/tabs/home.py:9 wxUI/tabs/notification.py:13
+msgid "Po&sts"
+msgstr "За&писи"
+
+#: wxUI/tabs/home.py:10
+msgid "Text"
+msgstr "Текст"
+
+#: wxUI/tabs/notification.py:14
+msgid "Notification"
+msgstr "Уведомление"
+
+#: wxUI/tabs/photoAlbum.py:17
+msgid "Photos"
+msgstr "Фотографии"
+
+#: wxUI/tabs/photoAlbum.py:17
+msgid "Created at"
+msgstr "Создано в"
+
+#: wxUI/tabs/video.py:8
 msgid "Video&s"
 msgstr "Видеозапис&и"
 
@@ -2889,4 +2925,7 @@ msgstr "Видеозапис&и"
 
 #~ msgid "Replace a&ll"
 #~ msgstr "Заменить Вс&ё"
+
+#~ msgid "Opening Article in web browser..."
+#~ msgstr "Открыть статью в браузере..."
 
