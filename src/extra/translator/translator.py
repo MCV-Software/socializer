@@ -9,12 +9,12 @@ log = logging.getLogger("extras.translator")
 t = None
 
 def translate(text="", target="en"):
-	global t
-	log.debug("Received translation request for language %s, text=%s" % (target, text))
-	if t == None:
-		t = Translator()
-	vars = dict(text=text, dest=target)
-	return t.translate(**vars).text
+    global t
+    log.debug("Received translation request for language %s, text=%s" % (target, text))
+    if t == None:
+        t = Translator()
+    vars = dict(text=text, dest=target)
+    return t.translate(**vars).text
 
 supported_langs = None
 
@@ -113,4 +113,4 @@ languages = {
 }
 
 def available_languages():
-	return dict(sorted(languages.items(), key=lambda x: x[1]))
+    return dict(sorted(languages.items(), key=lambda x: x[1]))

@@ -12,25 +12,25 @@ from libloader import com
 fixed=False
 
 def patched_getmodule(modname):
-	mod=__import__(modname)
-	return sys.modules[modname]
+    mod=__import__(modname)
+    return sys.modules[modname]
 
 def load_com(*names):
-	global fixed
-	if fixed==False:
-		gencache._GetModule=patched_getmodule
-		com.prepare_gencache()
-		fixed=True
-	result = None
-	for name in names:
-		try:
-			result = gencache.EnsureDispatch(name)
-			break
-		except com_error:
-			continue
-	if result is None:
-		raise com_error("Unable to load any of the provided com objects.")
-	return result
+    global fixed
+    if fixed==False:
+        gencache._GetModule=patched_getmodule
+        com.prepare_gencache()
+        fixed=True
+    result = None
+    for name in names:
+        try:
+            result = gencache.EnsureDispatch(name)
+            break
+        except com_error:
+            continue
+    if result is None:
+        raise com_error("Unable to load any of the provided com objects.")
+    return result
 
 def fix():
-	com.load_com = load_com
+    com.load_com = load_com

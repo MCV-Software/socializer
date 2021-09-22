@@ -8,7 +8,7 @@ from . import fix_win32com
 from . import fix_libloader
 
 def setup():
-	fix_requests.fix()
-#	if hasattr(sys, "frozen"):
-	fix_libloader.fix()
-	fix_win32com.fix()
+    fix_requests.fix()
+#       if hasattr(sys, "frozen"):
+    fix_libloader.fix()
+    fix_win32com.fix()

@@ -8,22 +8,22 @@ from logging import getLogger
 log = getLogger("controller.longpolThread")
 
 class worker(threading.Thread):
-	def __init__(self, session):
-		super(worker, self).__init__()
-		log.debug("Instantiating longPoll server")
-		self.session = session
-		self.longpoll = VkLongPoll(self.session.vk.session_object)
+    def __init__(self, session):
+        super(worker, self).__init__()
+        log.debug("Instantiating longPoll server")
+        self.session = session
+        self.longpoll = VkLongPoll(self.session.vk.session_object)
 
-	def run(self):
-		try:
-			for event in self.longpoll.listen():
-				if event.type == VkEventType.MESSAGE_NEW:
-					pub.sendMessage("order-sent-message", obj=event)
-				elif event.type == VkEventType.USER_ONLINE:
-					pub.sendMessage("user-online", event=event)
-				elif event.type == VkEventType.USER_OFFLINE:
-					pub.sendMessage("user-offline", event=event)
-				elif event.type == VkEventType.USER_TYPING:
-					pub.sendMessage("user-typing", obj=event)
-		except:
-			pub.sendMessage("longpoll-read-timeout")
+    def run(self):
+        try:
+            for event in self.longpoll.listen():
+                if event.type == VkEventType.MESSAGE_NEW:
+                    pub.sendMessage("order-sent-message", obj=event)
+                elif event.type == VkEventType.USER_ONLINE:
+                    pub.sendMessage("user-online", event=event)
+                elif event.type == VkEventType.USER_OFFLINE:
+                    pub.sendMessage("user-offline", event=event)
+                elif event.type == VkEventType.USER_TYPING:
+                    pub.sendMessage("user-typing", obj=event)
+        except:
+            pub.sendMessage("longpoll-read-timeout")

@@ -11,7 +11,6 @@ MAINSPEC = "app-configuration.defaults"
 
 app = None
 def setup ():
- global app
- log.debug("Loading global app settings...")
- app = config_utils.load_config(os.path.join(paths.config_path(), MAINFILE), os.path.join(paths.app_path(), MAINSPEC))
- 
+    global app
+    log.debug("Loading global app settings...")
+    app = config_utils.load_config(os.path.join(paths.config_path(), MAINFILE), os.path.join(paths.app_path(), MAINSPEC))
