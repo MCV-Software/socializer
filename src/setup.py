@@ -4,7 +4,7 @@ import application
 import platform
 import os
 import languageHandler
-from cx_Freeze import setup, Executable
+from cx_Freeze import setup, Executable, winmsvcr
 from babel.messages import frontend as babel
 
 languageHandler.setLanguage("en")
@@ -46,6 +46,10 @@ build_exe_options = dict(
 executables = [
     Executable('main.py', base=base, targetName="socializer")
 ]
+
+# Empty list of files to be copied, as this might cause conflicts with microsoft's redistributable packages we have already in the repo.
+winmsvcr.FILES = ()
+winmsvcr.FILES_TO_DUPLICATE = ()
 
 setup(name='Socializer',
       version=application.version,
