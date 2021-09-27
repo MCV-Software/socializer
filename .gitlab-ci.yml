@@ -88,7 +88,7 @@ documentation:
   only:
     - master
 
-alpha32:
+32bits:
   <<: *configure_environment
   stage: build
   interruptible: true
@@ -99,12 +99,12 @@ alpha32:
     - '&$env:PYTHON3_32 documentation_importer.py'
     - cd ..\src
     - '&$env:PYTHON3_32 ..\doc\generator.py'
-    # Writes version info useful for alphas.
+    # Write version info useful for updates.
     - '&$env:PYTHON3_32 write_version_data.py'
     # build it all.
     - '&$env:PYTHON3_32 setup.py build'
-    # Once built, makes the installer for for alpha.
-    - '&$env:NSIS installer_alpha.nsi'
+    # Once built, make the installer.
+    - '&$env:NSIS installer.nsi'
     - cd ..
     - mkdir artifacts
     - move src\socializer* artifacts\
@@ -112,7 +112,7 @@ alpha32:
     # Zips the folder in order to create the portable socializer version.
     - '&$env:PYTHON3_32 prepare_zipversion.py'
     - cd ..
-    - move src\socializer.zip artifacts\socializer_x86_alpha.zip
+    - move src\socializer.zip artifacts\socializer_x86.zip
     - '&$env:PYTHON3_32 scripts/generate_update_file.py'
     - move *.json artifacts
   only:
@@ -121,34 +121,6 @@ alpha32:
     paths:
       - artifacts
     expire_in: 1 day
-
-# Generates a new stable version of the application every tag.
-stable:
-  <<: *configure_environment
-  stage: build
-  interruptible: true
-  script:
-    - copy changelog.md doc\changelog.md
-    - cd doc
-    - '&$env:PYTHON3_32 documentation_importer.py'
-    - cd ..\src
-    - '&$env:PYTHON3_32 ..\doc\generator.py'
-    - '&$env:PYTHON3_32 write_version_data.py'
-    - '&$env:PYTHON3_32 setup.py build'
-    - '&$env:NSIS installer.nsi'
-    - cd ..
-    - mkdir artifacts
-    - move src\socializer* artifacts\
-    - cd scripts
-    - '&$env:PYTHON3_32 prepare_zipversion.py'
-    - cd ..
-    - move src\socializer.zip artifacts\socializer_x86.zip
-  artifacts:
-    paths:
-      - artifacts
-    expire_in: 1 day
-  only:
-    - tags
 
 upload:
   stage: upload
