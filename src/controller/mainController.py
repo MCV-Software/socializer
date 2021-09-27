@@ -712,8 +712,7 @@ class Controller(object):
             commonMessages.no_update_available()
 
     def on_about(self, *args, **kwargs):
-        channel = self.session.settings["general"]["update_channel"]
-        self.window.about_dialog(channel)
+        self.window.about_dialog()
 
     def search_audios(self, *args, **kwargs):
         dlg = searchDialogs.searchAudioDialog()

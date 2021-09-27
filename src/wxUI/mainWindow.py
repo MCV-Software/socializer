@@ -137,11 +137,8 @@ class mainWindow(wx.Frame):
     def advance_selection(self, forward):
         self.tb.AdvanceSelection(forward)
 
-    def about_dialog(self, channel="stable", *args, **kwargs):
-        if channel == "stable":
-            version = _("{version} (stable)").format(version=application.version)
-        else:
-            version = _("{version} (alpha)").format(version=application.update_next_version)
+    def about_dialog(self, *args, **kwargs):
+        version = application.version
         info = wx.adv.AboutDialogInfo()
         info.SetName(application.name)
         info.SetVersion(version)
