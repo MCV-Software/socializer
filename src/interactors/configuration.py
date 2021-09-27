@@ -45,18 +45,6 @@ class configurationInteractor(base.baseInteractor):
         self.presenter.update_setting(section="buffers", setting="count_for_video_buffers", value=self.view.get_value("buffers", "video_buffers_count"))
         self.presenter.update_setting(section="buffers", setting="count_for_chat_buffers", value=self.view.get_value("buffers", "chat_buffers_count"))
         self.presenter.update_setting(section="general", setting="load_images", value=self.view.get_value("general", "load_images"))
-        update_channel = self.presenter.get_update_channel_type(self.view.get_value("general", "update_channel"))
-        if update_channel != self.presenter.session.settings["general"]["update_channel"]:
-            if update_channel == "stable":
-                self.presenter.update_setting(section="general", setting="update_channel", value=update_channel)
-            elif update_channel == "weekly":
-                dialog = self.view.weekly_channel()
-                if dialog == widgetUtils.YES:
-                    self.presenter.update_setting(section="general", setting="update_channel", value=update_channel)
-            elif update_channel == "alpha":
-                dialog = self.view.alpha_channel()
-                if dialog == widgetUtils.YES:
-                    self.presenter.update_setting(section="general", setting="update_channel", value=update_channel)
         self.presenter.update_setting(section="chat", setting="notify_online", value=self.view.get_value("chat", "notify_online"))
         self.presenter.update_setting(section="chat", setting="notify_offline", value=self.view.get_value("chat", "notify_offline"))
         self.presenter.update_setting(section="chat", setting="notifications", value=self.presenter.get_notification_type(self.view.get_value("chat", "notifications")))

@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 import wx
 import widgetUtils
 
@@ -18,12 +17,6 @@ class general(wx.Panel, widgetUtils.BaseDialog):
         sizer.Add(self.use_proxy, 0, wx.ALL, 5)
         self.debug_logging = wx.CheckBox(self, wx.NewId(), _("Enable debug logging (useful for reporting errors)"))
         sizer.Add(self.debug_logging, 0, wx.ALL, 5)
-        lbl4 = wx.StaticText(self, wx.NewId(), _("Update channel"))
-        self.update_channel = wx.ComboBox(self, wx.NewId(), choices=[_("Stable"), _("Alpha")], value=_("Native"), style=wx.CB_READONLY)
-        box4 = wx.BoxSizer(wx.HORIZONTAL)
-        box4.Add(lbl4, 0, wx.ALL, 5)
-        box4.Add(self.update_channel, 0, wx.ALL, 5)
-        sizer.Add(box4, 0, wx.ALL, 5)
         self.SetSizer(sizer)
 
 class buffers(wx.Panel, widgetUtils.BaseDialog):

@@ -22,27 +22,11 @@ class configurationPresenter(base.basePresenter):
         else:
             return _("Custom")
 
-    def get_update_channel_label(self, value):
-        if value == "stable":
-            return _("Stable")
-        elif value == "weekly":
-            return _("Weekly")
-        else:
-            return _("Alpha")
-
     def get_notification_type(self, value):
         if value == _("Native"):
             return "native"
         else:
             return "custom"
-
-    def get_update_channel_type(self, value):
-        if value == _("Stable"):
-            return "stable"
-        elif value == _("Weekly"):
-            return "weekly"
-        else:
-            return "alpha"
 
     def create_config(self):
         self.langs = languageHandler.getAvailableLanguages()
@@ -54,7 +38,6 @@ class configurationPresenter(base.basePresenter):
         self.send_message("set", tab="general", setting="load_images", value=self.session.settings["general"]["load_images"])
         self.send_message("set", tab="general", setting="use_proxy", value=config.app["app-settings"]["use_proxy"])
         self.send_message("set", tab="general", setting="debug_logging", value=config.app["app-settings"]["debug_logging"])
-        self.send_message("set", tab="general", setting="update_channel", value=self.get_update_channel_label(self.session.settings["general"]["update_channel"]))
         self.send_message("create_tab", tab="buffers")
         self.send_message("set", tab="buffers", setting="wall_buffer_count", value=self.session.settings["buffers"]["count_for_wall_buffers"])
         self.send_message("set", tab="buffers", setting="video_buffers_count", value=self.session.settings["buffers"]["count_for_video_buffers"])

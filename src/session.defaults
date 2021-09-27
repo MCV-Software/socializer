@@ -8,7 +8,6 @@ invited_to_group = boolean(default=False)
 [general]
 reverse_timelines = boolean(default=False)
 load_images = boolean(default=True)
-update_channel = string(default="stable")
 
 [buffers]
 count_for_wall_buffers = integer(default=50)

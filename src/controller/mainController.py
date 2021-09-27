@@ -99,7 +99,7 @@ class Controller(object):
         self.connect_pubsub_events()
         self.connect_gui_events()
         self.create_controls()
-        call_threaded(updater.do_update, update_type=self.session.settings["general"]["update_channel"])
+        call_threaded(updater.do_update)
 
     def is_focused(self):
         """ Return True if the Socializer Window is Focused. """
@@ -707,7 +707,7 @@ class Controller(object):
         b.get_items()
 
     def check_for_updates(self, *args, **kwargs):
-        update = updater.do_update(update_type=self.session.settings["general"]["update_channel"])
+        update = updater.do_update()
         if update == False:
             commonMessages.no_update_available()
 

@@ -17,13 +17,13 @@ except ImportError:
 
 from platform_utils import paths
 
-def perform_update(endpoint, current_version, update_type="stable", app_name='', password=None, update_available_callback=None, progress_callback=None, update_complete_callback=None):
+def perform_update(endpoint, current_version, app_name='', password=None, update_available_callback=None, progress_callback=None, update_complete_callback=None):
     requests_session = create_requests_session(app_name=app_name, version=current_version)
     available_update = find_update(endpoint, requests_session=requests_session)
     if not available_update:
         logger.debug("No update available")
         return False
-    available_version, available_description, update_url = find_version_data(update_type, current_version, available_update)
+    available_version, available_description, update_url = find_version_data(current_version, available_update)
     if available_version == False:
         return False
     logger.info("A new update is available. Version %s" % available_version)
@@ -55,22 +55,13 @@ def find_update(endpoint, requests_session):
     content = response.json()
     return content
 
-def find_version_data(update_type, current_version, available_update):
-    if update_type == "stable":
-        available_version = float(available_update['current_version'])
-        if not float(available_version) > float(current_version) or platform.system()+platform.architecture()[0][:2] not in available_update['downloads']:
-            logger.debug("No update for this architecture")
-            return (False, False, False)
-        available_description = available_update.get('description', None)
-        update_url = available_update ['downloads'][platform.system()+platform.architecture()[0][:2]]
-        return (available_version, available_description, update_url)
-    else: # Unstable versions, based in commits instead of version numbers.
-        available_version = available_update["current_version"]
-        if available_version == current_version:
-            return (False, False, False)
-        available_description = available_update["description"]
-        update_url = available_update ['downloads'][platform.system()+platform.architecture()[0][:2]]
-        return (available_version, available_description, update_url)
+def find_version_data(current_version, available_update):
+    available_version = available_update["current_version"]
+    if available_version == current_version:
+        return (False, False, False)
+    available_description = available_update["description"]
+    update_url = available_update ['downloads'][platform.system()+platform.architecture()[0][:2]]
+    return (available_version, available_description, update_url)
 
 def download_update(update_url, update_destination, requests_session, progress_callback=None, chunk_size=io.DEFAULT_BUFFER_SIZE):
     total_downloaded = total_size = 0
