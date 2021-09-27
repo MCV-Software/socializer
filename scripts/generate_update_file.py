@@ -14,7 +14,7 @@ print("Version detected: %s" % (version_type,))
 # Read update description and URL'S
 if version_type == "alpha":
 	description = os.environ.get("CI_COMMIT_MESSAGE")
-	urls = dict(Windows32="https://files.manuelcortez.net/socializer/alpha/socializer_x86_alpha.zip", Windows64="https://files.manuelcortez.net/socializer/alpha/socializer_x64_alpha.zip")
+	urls = dict(Windows32="https://files.manuelcortez.net/socializer/alpha/socializer_x86.zip", Windows64="https://files.manuelcortez.net/socializer/alpha/socializer_x64.zip")
 else:
 	with open("update-description",'r') as f:
 		description = f.read()
