@@ -34,7 +34,7 @@ stages:
 # Create documentation in all available languages so we'll have it at http://socializer.su/documentation
 # this job is triggered on every commit to master, so we always will display the latest available version of the documentation in the website.
 # We are not using the configure_environment job cause it adds all the dependencies, which are not needed for this to work.
-documentation:
+pages:
   stage: generate_docs
   image: python
   interruptible: true
@@ -45,16 +45,17 @@ documentation:
     - python  -m pip install --upgrade markdown
     # generate all html documents.
     - cp changelog.md doc/changelog.md
+    - mkdir public
     - cd doc
     - python  documentation_importer.py
     - cd ../src
     - python ../doc/generator.py
-    - mv -f documentation ../
+    - mv -f documentation ../public
   only:
     - master
   artifacts:
     paths:
-    - documentation
+    - public
     name: socializer_documentation
     expire_in: 1 day
 
