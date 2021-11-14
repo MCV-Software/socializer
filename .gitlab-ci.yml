@@ -2,7 +2,7 @@
 # due to gitlab possibilities, we use a mix of Windows and docker containers (the python image) to build the project.
 # the next variables are customized to the filepaths used when installing python and nsis with chocolatey on the windows runners.
 variables:
-  PYTHON3_32: "C:\\python38\\python.exe"
+  PYTHON3_32: "C:\\python37\\python.exe"
   NSIS: "C:\\program files (x86)\\nsis\\makensis.exe"
 
 # The project defines 3 stages:
@@ -24,7 +24,7 @@ stages:
     - Set-Variable -Name "time" -Value (date -Format "%H:%m")
     - echo ${time}
     - echo "started by ${GITLAB_USER_NAME}"
-    - choco install python --version 3.8.7 -y -ForceX86
+    - choco install python --version 3.7.9 -y -ForceX86
     - choco install nsis -y -ForceX86
     - '&$env:PYTHON3_32 -V'
     - '&$env:PYTHON3_32 -m pip install --upgrade pip'
