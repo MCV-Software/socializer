@@ -36,7 +36,7 @@ if sys.platform == 'win32':
 build_exe_options = dict(
         build_exe="dist",
         optimize=1,
-        include_msvcr=True,
+        include_msvcr=False,
         zip_include_packages=["accessible_output2", "sound_lib", "arrow"],
         replace_paths = [("*", "")],
         include_files=["session.defaults", "cacert.pem", "app-configuration.defaults", "locales", "sounds", "documentation", "../windows-dependencies/x86/oggenc2.exe", "../windows-dependencies/x86/bootstrap.exe", find_sound_lib_datafiles(), find_accessible_output2_datafiles(), ("../windows-dependencies/dictionaries", "lib/enchant/data/mingw32/share/enchant/hunspell")],
