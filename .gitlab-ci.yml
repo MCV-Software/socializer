@@ -103,12 +103,13 @@ pages:
     # Write version info useful for updates.
     - '&$env:PYTHON3_32 write_version_data.py'
     # build it all.
-    - '&$env:PYTHON3_32 setup.py build'
+    - '&$env:PYTHON3_32 -m nuitka --mingw64 --standalone --enable-plugin=anti-bloat --noinclude-pytest-mode=nofollow --noinclude-setuptools-mode=nofollow --nofollow-import-to=numpy --nofollow-import-to=babel --nofollow-import-to=cx_freeze --nofollow-import-to=pil --include-package-data=enchant --include-data-file=../windows-dependencies/x86/oggenc2.exe=oggenc2.exe --include-data-file=../windows-dependencies/x86/bootstrap.exe=bootstrap.exe --include-data-file=app-configuration.defaults=app-configuration.defaults --include-data-dir=locales=locales --include-data-dir=documentation=documentation --include-data-dir=sounds=sounds --include-data-file=session.defaults=session.defaults --windows-disable-console --windows-file-description="Accessible VK Client for Windows" --windows-product-version=2021.12.14.0 --windows-file-version=2021.12.14.0 --windows-product-name="Socializer" --windows-company-name="MCV Software" --python-flag=no_site --assume-yes-for-downloads --remove-output "socializer.py"'
+    - '&$env:PYTHON3_32 ..\scripts\copy_missing_files.py'
     # Once built, make the installer.
     - '&$env:NSIS installer.nsi'
     - cd ..
     - mkdir artifacts
-    - move src\socializer* artifacts\
+
     - cd scripts
     # Zips the folder in order to create the portable socializer version.
     - '&$env:PYTHON3_32 prepare_zipversion.py'

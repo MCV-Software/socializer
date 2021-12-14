@@ -14,7 +14,7 @@ googletrans
 mutagen
 mock
 babel
-cx_freeze
+nuitka
 pyenchant
 git+https://github.com/accessibleapps/libloader
 git+https://github.com/accessibleapps/platform_utils

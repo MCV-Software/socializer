@@ -6,7 +6,7 @@ import sys
 def create_archive():
 	os.chdir("..\\src")
 	print("Creating zip archive...")
-	folder = "dist"
+	folder = "socializer.dist"
 	shutil.make_archive("socializer", "zip", folder)
 #	if os.path.exists("dist"):
 #		shutil.rmtree("dist")
