@@ -6,11 +6,6 @@ variables:
   NSIS: "C:\\program files (x86)\\nsis\\makensis.exe"
   PIP_CACHE_DIR: "$CI_PROJECT_DIR\\.cache\\pip"
 
-cache:
-  paths:
-    - ".cache"
-    - "C:\\python37-32\\lib\\site-packages"
-
 # The project defines 3 stages:
 # 1. Generate_docs: generates the documentation and update translation files. This uses the python docker image.
 # 2. Build: Creates the executable file by using a windows runner.
@@ -18,6 +13,7 @@ cache:
 stages:
   - generate_docs
   - build
+  - make_installer
   - upload
 
 # This configures the environment for both channels
@@ -31,7 +27,6 @@ stages:
     - echo ${time}
     - echo "started by ${GITLAB_USER_NAME}"
     - choco install python --version 3.7.9 -y -ForceX86
-    - choco install nsis -y -ForceX86
     - '&$env:PYTHON3_32 -V'
     - '&$env:PYTHON3_32 -m pip install --upgrade pip'
     - '&$env:PYTHON3_32 -m pip install --upgrade -r requirements.txt'
@@ -45,6 +40,7 @@ pages:
   image: python
   interruptible: true
   cache:
+    key: 32bits
     paths:
       - "C:\\Users\\gitlab_runner\\AppData\\Local\\Nuitka\\Nuitka\\Cache"
       - ".cache"
@@ -116,20 +112,42 @@ pages:
     # build it all.
     - '&$env:PYTHON3_32 -m nuitka --mingw64 --standalone --enable-plugin=anti-bloat --noinclude-pytest-mode=nofollow --noinclude-setuptools-mode=nofollow --nofollow-import-to=numpy --nofollow-import-to=babel --nofollow-import-to=cx_freeze --nofollow-import-to=pil --include-data-file=../windows-dependencies/x86/oggenc2.exe=oggenc2.exe --include-data-file=../windows-dependencies/x86/bootstrap.exe=bootstrap.exe --include-data-file=app-configuration.defaults=app-configuration.defaults --include-data-dir=locales=locales --include-data-dir=documentation=documentation --include-data-dir=sounds=sounds --include-data-file=session.defaults=session.defaults --windows-disable-console --windows-file-description="Accessible VK Client for Windows" --windows-product-version=2021.12.14.0 --windows-file-version=2021.12.14.0 --windows-product-name="Socializer" --windows-company-name="MCV Software" --python-flag=no_site --assume-yes-for-downloads --remove-output "socializer.py"'
     - '&$env:PYTHON3_32 ..\scripts\copy_missing_files.py'
-    # Once built, make the installer.
-    - '&$env:NSIS installer.nsi'
     - cd ..
     - mkdir artifacts
-
-    - cd scripts
     # Zips the folder in order to create the portable socializer version.
+    - cd scripts
     - '&$env:PYTHON3_32 prepare_zipversion.py'
     - cd ..
     - move src\socializer.zip artifacts\socializer_x86.zip
+    - mv src/socializer.dist artifacts/socializer
+    - move src/installer.nsi artifacts
     - '&$env:PYTHON3_32 scripts/generate_update_file.py'
     - move *.json artifacts
   only:
     - master
+  artifacts:
+    paths:
+      - artifacts
+    expire_in: 1 day
+
+generate_versions:
+  stage: make_installer
+  tags:
+    - shared-windows
+    - windows
+    - windows-1809
+  before_script:
+    - Set-Variable -Name "time" -Value (date -Format "%H:%m")
+    - echo ${time}
+    - echo "started by ${GITLAB_USER_NAME}"
+    - choco install nsis -y -ForceX86
+  script:
+    - cd artifacts
+    - '&$env:NSIS installer.nsi'
+  only:
+    - tags
+    - master
+    - schedules
   artifacts:
     paths:
       - artifacts
