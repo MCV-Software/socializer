@@ -4,6 +4,12 @@
 variables:
   PYTHON3_32: "C:\\python37\\python.exe"
   NSIS: "C:\\program files (x86)\\nsis\\makensis.exe"
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR\\.cache\\pip"
+
+cache:
+  paths:
+    - ".cache"
+    - "C:\\python37-32\\lib\\site-packages"
 
 # The project defines 3 stages:
 # 1. Generate_docs: generates the documentation and update translation files. This uses the python docker image.
@@ -38,6 +44,11 @@ pages:
   stage: generate_docs
   image: python
   interruptible: true
+  cache:
+    paths:
+      - "C:\\Users\\gitlab_runner\\AppData\\Local\\Nuitka\\Nuitka\\Cache"
+      - ".cache"
+      - "C:\\python37-32\\lib\\site-packages"
   script:
     - echo "started by ${GITLAB_USER_NAME}"
     - python -V
