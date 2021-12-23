@@ -12,7 +12,7 @@ steps:
   - 'type C:\ProgramData\Amazon\EC2-Windows\Launch\Log\UserdataExecution.log'
 
 - name: Generate doc
-  image: python
+  image: python:3.7.9
   commands:
   - 'pip install --upgrade pip'
   - 'pip install --upgrade markdown babel'
@@ -23,7 +23,7 @@ steps:
   - 'python ..\doc/generator.py'
 
 - name: Build app
-  image: python
+  image: python:3.7.9
   commands:
   - 'python -V'
   - 'python -m pip install --upgrade pip'
