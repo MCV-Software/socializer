@@ -11,6 +11,15 @@ steps:
   commands:
   - 'type C:\ProgramData\Amazon\EC2-Windows\Launch\Log\UserdataExecution.log'
 
+- name: Generate doc
+  image: python
+  commands:
+  - cp changelog.md doc/changelog.md
+  - cd doc
+  - python documentation_importer.py
+  - cd ../src
+  - python ../doc/generator.py
+
 - name: Upgrade chocolatey
   commands:
   - 'choco upgrade chocolatey -y'
@@ -21,3 +30,49 @@ steps:
   commands:
   - 'choco install python --version 3.7.9 -y -ForceX86'
   - '&$env:PYTHON3_32 -V'
+  - '&$env:PYTHON3_32 -m pip install --upgrade pip'
+  - '&$env:PYTHON3_32 -m pip install --upgrade -r requirements.txt'
+  - '&$env:PYTHON3_32 -m pip uninstall enum34 -y'
+  - '&$env:PYTHON3_32 -m pip install --upgrade markdown babel nuitka -y'
+
+- name: Build app
+  environment:
+    PYTHON3_32: C:\python37\python.exe
+  commands:
+  - cd src
+  # Write version info useful for updates.
+  - '&$env:PYTHON3_32 write_version_data.py'
+  # build it all.
+  - '&$env:PYTHON3_32 -m nuitka --mingw64 --standalone --enable-plugin=anti-bloat --noinclude-pytest-mode=nofollow --noinclude-setuptools-mode=nofollow --nofollow-import-to=numpy --nofollow-import-to=babel --nofollow-import-to=cx_freeze --nofollow-import-to=pil --include-data-file=../windows-dependencies/x86/oggenc2.exe=oggenc2.exe --include-data-file=../windows-dependencies/x86/bootstrap.exe=bootstrap.exe --include-data-file=app-configuration.defaults=app-configuration.defaults --include-data-dir=locales=locales --include-data-dir=documentation=documentation --include-data-dir=sounds=sounds --include-data-file=session.defaults=session.defaults --windows-disable-console --windows-file-description="Accessible VK Client for Windows" --windows-product-version=2021.12.14.0 --windows-file-version=2021.12.14.0 --windows-product-name="Socializer" --windows-company-name="MCV Software" --python-flag=no_site --assume-yes-for-downloads --remove-output "socializer.py"'
+  - '&$env:PYTHON3_32 ..\scripts\copy_missing_files.py'
+  - cd ..
+  - mkdir artifacts
+  # Zips the folder in order to create the portable socializer version.
+  - cd scripts
+  - '&$env:PYTHON3_32 prepare_zipversion.py'
+  - cd ..
+  - move src\socializer.zip artifacts\socializer_x86.zip
+  - mv src/socializer.dist artifacts/socializer
+  - move src/installer.nsi artifacts
+  - '&$env:PYTHON3_32 scripts/generate_update_file.py'
+  - move *.json artifacts
+
+- name: generate installer
+  environment:
+    NSIS: C:\program files (x86)\nsis\makensis.exe
+  commands:
+  - choco install nsis -y -ForceX86
+  - cd artifacts
+  - '&$env:NSIS installer.nsi'
+
+- name: upload
+  image: python
+  environment:
+    FTP_SERVER: de.manuelcortez.net
+    FTP_USERNAME:
+      from_secret: username
+    FTP_PASSWORD:
+      from_secret: password
+  commands:
+  - cd artifacts
+  - python ../scripts/upload.py
