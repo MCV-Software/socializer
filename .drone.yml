@@ -11,6 +11,6 @@ steps:
   commands:
   - 'type C:\ProgramData\Amazon\EC2-Windows\Launch\Log\UserdataExecution.log'
 
-- name: install choco
+- name: install chocolatey
   commands:
-  - 'powershell choco-install.ps1'
+  - 'Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString("https://community.chocolatey.org/install.ps1"))'
