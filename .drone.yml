@@ -17,7 +17,7 @@ steps:
 
 - name: Install Python
   environment:
-    PYTHON3_32: "C:\\python37\\python.exe"
+    PYTHON3_32: C:\\python37\\python.exe
   commands:
   - 'choco install python --version 3.7.9 -y -ForceX86'
   - '&$env:PYTHON3_32 -V'
