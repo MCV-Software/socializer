@@ -6,6 +6,7 @@ vkaudiotoken
 bs4
 configobj
 pypubsub
+requests
 requests-oauthlib
 future
 arrow
