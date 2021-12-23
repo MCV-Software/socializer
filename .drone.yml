@@ -11,6 +11,13 @@ steps:
   commands:
   - 'type C:\ProgramData\Amazon\EC2-Windows\Launch\Log\UserdataExecution.log'
 
-- name: install chocolatey
+- name: Upgrade chocolatey
   commands:
-  - 'Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString("https://community.chocolatey.org/install.ps1"))'
+  - 'choco upgrade chocolatey -y'
+
+- name: Install Python
+  environment:
+    PYTHON3_32: "C:\\python37\\python.exe"
+  commands:
+  - 'choco install python --version 3.7.9 -y -ForceX86'
+  - '&$env:PYTHON3_32 -V'
