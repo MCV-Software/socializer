@@ -11,15 +11,6 @@ steps:
   commands:
   - 'type C:\ProgramData\Amazon\EC2-Windows\Launch\Log\UserdataExecution.log'
 
-- name: Generate doc
-  image: python
-  commands:
-  - cp changelog.md doc/changelog.md
-  - cd doc
-  - python documentation_importer.py
-  - cd ../src
-  - python ../doc/generator.py
-
 - name: Upgrade chocolatey
   commands:
   - 'choco upgrade chocolatey -y'
@@ -34,6 +25,16 @@ steps:
   - '&$env:PYTHON3_32 -m pip install --upgrade -r requirements.txt'
   - '&$env:PYTHON3_32 -m pip uninstall enum34 -y'
   - '&$env:PYTHON3_32 -m pip install --upgrade markdown babel nuitka -y'
+
+- name: Generate doc
+  environment:
+    PYTHON3_32: C:\python37\python.exe
+  commands:
+  - cp changelog.md doc/changelog.md
+  - cd doc
+  - python documentation_importer.py
+  - cd ..\src
+  - '&$env:PYTHON3_32 ..\doc/generator.py'
 
 - name: Build app
   environment:
@@ -66,13 +67,14 @@ steps:
   - '&$env:NSIS installer.nsi'
 
 - name: upload
-  image: python
   environment:
     FTP_SERVER: de.manuelcortez.net
     FTP_USERNAME:
       from_secret: username
     FTP_PASSWORD:
       from_secret: password
+  environment:
+    PYTHON3_32: C:\python37\python.exe
   commands:
   - cd artifacts
-  - python ../scripts/upload.py
+  - '&$env:PYTHON3_32 ../scripts/upload.py'
