@@ -1,0 +1,65 @@
+variables:
+  PYTHON3_32: "C:\\python37-32\\python.exe"
+  NSIS: "C:\\program files (x86)\\nsis\\makensis.exe"
+
+stages:
+  - generate_doc
+  - build
+  - generate_versions
+  - upload
+
+documentation:
+  image: python:3.7.9
+  tags:
+    - docker
+  interruptible: true
+  only:
+    - master
+  stage: generate_doc
+  script:
+    - 'pip install --upgrade markdown babel'
+    - 'cp changelog.md doc/changelog.md'
+    - 'cd doc'
+    - 'python documentation_importer.py'
+    - 'cd ../src'
+    - 'python ../doc/generator.py'
+    - 'mv -f documentation ../documentation'
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - documentation
+
+socializer32:
+  stage: build
+  interruptible: true
+  variables:
+    PYTHON3_32: "C:\\python37-32\\python.exe"
+  tags:
+    - windows10
+  only:
+    - master
+  script:
+    - '&$env:PYTHON3_32 -V'
+    - '&$env:PYTHON3_32 -m venv env'
+    - 'env\Scripts\Activate.ps1'
+    - 'python -m pip install --upgrade pip'
+    - 'python -m pip install --upgrade -r requirements.txt'
+    - 'python -m pip uninstall enum34 -y'
+    - 'cd src'
+    - 'python write_version_data.py'
+    - 'python -m nuitka --mingw64 --standalone --enable-plugin=anti-bloat --noinclude-pytest-mode=nofollow --noinclude-setuptools-mode=nofollow --nofollow-import-to=numpy --nofollow-import-to=babel --nofollow-import-to=cx_freeze --nofollow-import-to=pil --include-data-file=../windows-dependencies/x86/oggenc2.exe=oggenc2.exe --include-data-file=../windows-dependencies/x86/bootstrap.exe=bootstrap.exe --include-data-file=app-configuration.defaults=app-configuration.defaults --include-data-dir=locales=locales --include-data-dir=documentation=documentation --include-data-dir=sounds=sounds --include-data-file=session.defaults=session.defaults --windows-disable-console --windows-file-description="Accessible VK Client for Windows" --windows-product-version=2021.12.14.0 --windows-file-version=2021.12.14.0 --windows-product-name="Socializer" --windows-company-name="MCV Software" --python-flag=no_site --assume-yes-for-downloads --remove-output "socializer.py"'
+    - 'python ..\scripts\copy_missing_files.py'
+    - 'cd ..'
+    - 'mkdir artifacts'
+    - 'cd scripts'
+    - 'python prepare_zipversion.py'
+    - 'cd ..'
+    - 'move src\socializer.zip artifacts\socializer_x86.zip'
+    - 'mv src/socializer.dist artifacts/socializer'
+    - 'move src/installer.nsi artifacts'
+    - 'python scripts/generate_update_file.py'
+    - 'move *.json artifacts'
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - artifacts
