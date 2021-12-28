@@ -1,7 +1,3 @@
-variables:
-  PYTHON3_32: "C:\\python37-32\\python.exe"
-  NSIS: "C:\\program files (x86)\\nsis\\makensis.exe"
-
 stages:
   - generate_doc
   - build
@@ -63,3 +59,38 @@ socializer32:
     expire_in: 1 day
     paths:
       - artifacts
+
+make_installer:
+  stage: generate_versions
+  interruptible: true
+  tags:
+    - windows10
+  only:
+    - master
+    - tags
+    - schedule
+  variables:
+    NSIS: "C:\\program files (x86)\\nsis\\makensis.exe"
+  before_script:
+    - 'choco upgrade all'
+  script:
+    - cd artifacts
+    - '&$env:NSIS installer.nsi'
+  artifacts:
+    paths:
+      - artifacts
+    expire_in: 1 day
+
+upload:
+  stage: upload
+  tags:
+    - docker
+  image: python
+  interruptible: true
+  script:
+    - cd artifacts
+    - python ../scripts/upload.py
+  only:
+    - master
+    - tags
+    - schedules
