@@ -17,8 +17,7 @@ pages:
     - 'cp changelog.md doc/changelog.md'
     - 'cd doc'
     - 'python documentation_importer.py'
-    - 'cd ../src'
-    - 'python ../doc/generator.py'
+    - 'python generator.py'
     - 'mv -f documentation ../public'
   artifacts:
     expire_in: 1 day
