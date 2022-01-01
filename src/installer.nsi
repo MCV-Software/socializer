@@ -1,11 +1,12 @@
 !include "MUI2.nsh"
 !include "LogicLib.nsh"
+!include "x64.nsh"
 Unicode true
 CRCCheck on
 ManifestSupportedOS all
 XPStyle on
 Name "Socializer"
-OutFile "socializer_0.24_setup.exe"
+OutFile "socializer_setup.exe"
 InstallDir "$PROGRAMFILES\socializer"
 InstallDirRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\socializer" "InstallLocation"
 RequestExecutionLevel admin
@@ -37,7 +38,11 @@ var StartMenuFolder
 Section
 SetShellVarContext All
 SetOutPath "$INSTDIR"
-File /r socializer\*
+${If} ${RunningX64}
+File /r program64\*
+${Else}
+File /r program32\*
+${EndIf}
 CreateShortCut "$DESKTOP\socializer.lnk" "$INSTDIR\socializer.exe"
 !insertmacro MUI_STARTMENU_WRITE_BEGIN startmenu
 CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
@@ -67,4 +72,7 @@ RMDir /r "$SMPROGRAMS\$StartMenuFolder"
 SectionEnd
 Function .onInit
 !insertmacro MUI_LANGDLL_DISPLAY
+${If} ${RunningX64}
+StrCpy $instdir "$programfiles64\socializer"
+${EndIf}
 FunctionEnd
