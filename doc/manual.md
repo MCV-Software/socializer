@@ -1,4 +1,4 @@
-# Socializer's manual 
+Socializer's manual 
 
 ## Introduction
 
