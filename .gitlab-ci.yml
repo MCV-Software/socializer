@@ -101,6 +101,7 @@ make_installer:
   only:
     - tags
     - schedule
+    - master
   variables:
     NSIS: "C:\\program files (x86)\\nsis\\makensis.exe"
   before_script:
@@ -125,3 +126,4 @@ upload:
   only:
     - tags
     - schedules
+    - master
