@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import platform
+arch = platform.architecture()[0]
 name = "Socializer"
 author = "MCV Software"
 authorEmail = "info@mcvsoftware.com"

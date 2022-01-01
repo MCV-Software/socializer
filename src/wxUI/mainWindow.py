@@ -76,7 +76,7 @@ class mainWindow(wx.Frame):
         self.SetAcceleratorTable(self.accel_tbl)
 
     def __init__(self):
-        super(mainWindow, self).__init__(parent=None, id=wx.NewId(), title=application.name)
+        super(mainWindow, self).__init__(parent=None, id=wx.NewId(), title="{} ({})".format(application.name, application.arch))
         self.Maximize()
         self.makeMenu()
         self.panel = wx.Panel(self)
@@ -138,7 +138,7 @@ class mainWindow(wx.Frame):
         self.tb.AdvanceSelection(forward)
 
     def about_dialog(self, *args, **kwargs):
-        version = application.version
+        version = "{} ({})".format(application.version, application.arch)
         info = wx.adv.AboutDialogInfo()
         info.SetName(application.name)
         info.SetVersion(version)
