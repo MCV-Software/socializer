@@ -2,13 +2,13 @@
 
 [![pipeline status](https://gitlab.com/socializer1/socializer/badges/master/pipeline.svg)](https://gitlab.com/socializer1/socializer/commits/master)
 
-> Note: this project has two different main repositories. [Here is the official repository, hosted in GitLab,](https://gitlab.com/socializer1/socializer) [Here is a mirror repository hosted in GitHub.](https://github.com/manuelcortez/socializer) Github repository will accept pull requests and issues reported by github users, while Gitlab's repository will provide the wiki, documentation, and support for user reported issues.
+> Note: this project has two different main repositories. [Here is the official repository, hosted in our GitLab instance,](https://gitlab.mcvsoftware.com/socializer/socializer) [Here is a mirror repository hosted in GitHub.](https://github.com/manuelcortez/socializer) Github repository will accept pull requests and issues reported by github users, while Gitlab's repository will provide the wiki, documentation, and support for user reported issues.
 
 A desktop application for handling [vk.com](https://vk.com) in an easy way.
 
-[See Socializer's website](http://socializer.su)
+[See Socializer's website](https://socializer.su)
 
-> Note: this is the developer oriented documentation. If you want to read the user manual of socializer, [read the manual in the project's website](http://socializer.su/documentation)
+> Note: this is the developer oriented documentation. If you want to read the user manual of socializer, [read the manual in the project's website](https://socializer.su/en/documentation)
 
 ## running
 
@@ -18,7 +18,7 @@ This document describes how to run Socializer from source and how to build a bin
 
 Although most dependencies (except Python) can be found in the windows-dependencies directory, we provide links to their official websites.
 
-* [Python,](http://python.org) version 3.7.7
+* [Python,](http://python.org) version 3.7.9
 
 #### Dependencies that must be installed using pip
 
