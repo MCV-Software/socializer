@@ -4,19 +4,19 @@
 # Manuel Cortez <manuel@manuelcortez.net>, 2020.
 msgid ""
 msgstr ""
-"Project-Id-Version:  \n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: manuel@manuelcortez.net\n"
 "POT-Creation-Date: 2021-07-16 10:54-0500\n"
-"PO-Revision-Date: 2020-11-26 20:24+0000\n"
+"PO-Revision-Date: 2022-01-12 18:51+0000\n"
 "Last-Translator: Manuel Cortez <manuel@manuelcortez.net>\n"
+"Language-Team: Spanish <https://weblate.mcvsoftware.com/projects/socializer/"
+"interface/es/>\n"
 "Language: es\n"
-"Language-Team: Spanish "
-"<http://translations.manuelcortez.net/projects/socializer/application/es/>"
-"\n"
-"Plural-Forms: nplurals=2; plural=n != 1\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.10.1\n"
 "Generated-By: Babel 2.9.1\n"
 
 #: languageHandler.py:61
@@ -123,10 +123,13 @@ msgid ""
 "It seems you have reached the limits to request authorization via SMS. "
 "Please try it again in a couple of hours."
 msgstr ""
+"Parece que has alcanzado el límite de solicitudes de código de autenticación "
+"de 2 factores vía SMS. Por favor, espera un par de horas e inténtalo de "
+"nuevo."
 
 #: authenticator/wxUI.py:20
 msgid "Error requiring sms verification"
-msgstr ""
+msgstr "Error solicitando verificación vía SMS"
 
 #: controller/mainController.py:96 controller/mainController.py:244
 #: controller/mainController.py:250 presenters/main.py:227
@@ -370,11 +373,11 @@ msgstr "Temas"
 
 #: controller/mainController.py:1084 controller/mainController.py:1087
 msgid "Members"
-msgstr ""
+msgstr "Miembros"
 
 #: controller/mainController.py:1085
 msgid "Invited users"
-msgstr ""
+msgstr "Usuarios invitados"
 
 #: controller/buffers/audio.py:103 controller/buffers/video.py:46
 #: controller/buffers/wall.py:55
@@ -505,7 +508,7 @@ msgstr "Crear tema en {user1_nom}"
 
 #: controller/buffers/communityPeople.py:15 wxUI/tabs/people.py:19
 msgid "&Post on user's wall"
-msgstr ""
+msgstr "Publicar en muro del usuario"
 
 #: controller/buffers/communityPeople.py:18 wxUI/tabs/people.py:20
 msgid "Send message"
@@ -523,7 +526,7 @@ msgstr "Abrir línea temporal"
 #: controller/buffers/communityPeople.py:24 wxUI/menus.py:24 wxUI/menus.py:55
 #: wxUI/menus.py:75 wxUI/menus.py:85 wxUI/menus.py:104 wxUI/menus.py:110
 msgid "Open in vk.com"
-msgstr ""
+msgstr "Abrir en vk.com"
 
 #: controller/buffers/communityWall.py:34
 msgid "Loading community..."
@@ -693,19 +696,19 @@ msgstr "Armenio"
 
 #: extra/translator/translator.py:27
 msgid "Azerbaijani"
-msgstr ""
+msgstr "Azerí"
 
 #: extra/translator/translator.py:28
 msgid "Basque"
-msgstr ""
+msgstr "Eusquera"
 
 #: extra/translator/translator.py:29
 msgid "Belarusian"
-msgstr ""
+msgstr "Bielorruso"
 
 #: extra/translator/translator.py:30
 msgid "Bengali"
-msgstr ""
+msgstr "Bengalí"
 
 #: extra/translator/translator.py:31
 msgid "Bihari"
@@ -713,7 +716,7 @@ msgstr ""
 
 #: extra/translator/translator.py:32
 msgid "Bulgarian"
-msgstr ""
+msgstr "Búlgaro"
 
 #: extra/translator/translator.py:33
 msgid "Burmese"
@@ -721,35 +724,35 @@ msgstr ""
 
 #: extra/translator/translator.py:34
 msgid "Catalan"
-msgstr ""
+msgstr "Catalán"
 
 #: extra/translator/translator.py:35
 msgid "Cherokee"
-msgstr ""
+msgstr "Cheroqui"
 
 #: extra/translator/translator.py:36
 msgid "Chinese"
-msgstr ""
+msgstr "Chino"
 
 #: extra/translator/translator.py:37
 msgid "Chinese_simplified"
-msgstr ""
+msgstr "Chino simplificado"
 
 #: extra/translator/translator.py:38
 msgid "Chinese_traditional"
-msgstr ""
+msgstr "Chino tradicional"
 
 #: extra/translator/translator.py:39
 msgid "Croatian"
-msgstr ""
+msgstr "Croata"
 
 #: extra/translator/translator.py:40
 msgid "Czech"
-msgstr ""
+msgstr "Checo"
 
 #: extra/translator/translator.py:41
 msgid "Danish"
-msgstr ""
+msgstr "Danés"
 
 #: extra/translator/translator.py:42
 msgid "Dhivehi"
@@ -757,67 +760,67 @@ msgstr ""
 
 #: extra/translator/translator.py:43
 msgid "Dutch"
-msgstr ""
+msgstr "Neerlandés"
 
 #: extra/translator/translator.py:44
 msgid "English"
-msgstr ""
+msgstr "Inglés"
 
 #: extra/translator/translator.py:45
 msgid "Esperanto"
-msgstr ""
+msgstr "Esperanto"
 
 #: extra/translator/translator.py:46
 msgid "Estonian"
-msgstr ""
+msgstr "Estonio"
 
 #: extra/translator/translator.py:47
 msgid "Filipino"
-msgstr ""
+msgstr "Filipino"
 
 #: extra/translator/translator.py:48
 msgid "Finnish"
-msgstr ""
+msgstr "Finés"
 
 #: extra/translator/translator.py:49
 msgid "French"
-msgstr ""
+msgstr "Francés"
 
 #: extra/translator/translator.py:50
 msgid "Galician"
-msgstr ""
+msgstr "Gallego"
 
 #: extra/translator/translator.py:51
 msgid "Georgian"
-msgstr ""
+msgstr "Georgiano"
 
 #: extra/translator/translator.py:52
 msgid "German"
-msgstr ""
+msgstr "Alemán"
 
 #: extra/translator/translator.py:53
 msgid "Greek"
-msgstr ""
+msgstr "Griego"
 
 #: extra/translator/translator.py:54
 msgid "Guarani"
-msgstr ""
+msgstr "Guaraní"
 
 #: extra/translator/translator.py:55
 msgid "Gujarati"
-msgstr ""
+msgstr "Guyaratí"
 
 #: extra/translator/translator.py:56
 msgid "Hebrew"
-msgstr ""
+msgstr "Hebreo"
 
 #: extra/translator/translator.py:57
 msgid "Hindi"
-msgstr ""
+msgstr "Indio"
 
 #: extra/translator/translator.py:58
 msgid "Hungarian"
-msgstr ""
+msgstr "Húngaro"
 
 #: extra/translator/translator.py:59
 msgid "Icelandic"
@@ -2943,4 +2946,3 @@ msgstr ""
 
 #~ msgid "Opening Article in web browser..."
 #~ msgstr ""
-
