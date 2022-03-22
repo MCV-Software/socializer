@@ -37,18 +37,18 @@ def setup():
     app = widgetUtils.mainLoopObject()
     if config.app["app-settings"]["first_start"]:
         log.debug("Detected first time execution.")
-        proxy_option = commonMessages.proxy_question()
-        if proxy_option == widgetUtils.YES:
-            config.app["app-settings"]["use_proxy"] = True
-            log.debug("User has requested to use proxy for connecting to VK.")
+#        proxy_option = commonMessages.proxy_question()
+#        if proxy_option == widgetUtils.YES:
+#            config.app["app-settings"]["use_proxy"] = True
+#            log.debug("User has requested to use proxy for connecting to VK.")
     config.app["app-settings"]["first_start"] = False
     config.app.write()
-    if config.app["app-settings"]["use_proxy"]:
-        log.debug("Enabling proxy support... ")
-        import requests
-        orig_session_init=requests.sessions.Session.__init__
-        requests.sessions.Session.__init__=patched_session_init
-        requests.Session.__init__=patched_session_init
+#    if config.app["app-settings"]["use_proxy"]:
+#        log.debug("Enabling proxy support... ")
+#        import requests
+#        orig_session_init=requests.sessions.Session.__init__
+#        requests.sessions.Session.__init__=patched_session_init
+#        requests.Session.__init__=patched_session_init
     from controller import mainController
     from sessionmanager import sessionManager
 
@@ -60,6 +60,7 @@ def setup():
     call_threaded(r.login)
     app.run()
 
+### ToDo: Use this when proxy is available again.
 def patched_session_init(self):
     global orig_session_init
     orig_session_init(self)

@@ -36,7 +36,7 @@ class configurationPresenter(base.basePresenter):
         self.send_message("create_tab", tab="general", arglist=dict(languages=langs))
         self.send_message("set_language", language=id)
         self.send_message("set", tab="general", setting="load_images", value=self.session.settings["general"]["load_images"])
-        self.send_message("set", tab="general", setting="use_proxy", value=config.app["app-settings"]["use_proxy"])
+#        self.send_message("set", tab="general", setting="use_proxy", value=config.app["app-settings"]["use_proxy"])
         self.send_message("set", tab="general", setting="debug_logging", value=config.app["app-settings"]["debug_logging"])
         self.send_message("create_tab", tab="buffers")
         self.send_message("set", tab="buffers", setting="wall_buffer_count", value=self.session.settings["buffers"]["count_for_wall_buffers"])
@@ -73,7 +73,7 @@ class configurationPresenter(base.basePresenter):
             raise AttributeError("The setting you specified is not present in the config file.")
         # check if certain settings have been changed so we'd restart the client.
         # List of app settings that require a restart after being changed.
-        settings_needing_restart = ["language", "use_proxy", "input_device", "output_device", "debug_logging"]
+        settings_needing_restart = ["language", "input_device", "output_device", "debug_logging"]
         if value != config.app[section][setting] and setting in settings_needing_restart:
             self.needs_restart = True
         config.app[section][setting] = value
